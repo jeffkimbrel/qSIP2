@@ -1,5 +1,5 @@
 test_that("valid isotopes pass", {
-  expect_true(isotope_validation(isotope = c("12C")))
+  expect_null(isotope_validation(isotope = c("12C")))
 })
 
 test_that("invalid isotopes fail and give message", {

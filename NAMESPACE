@@ -3,3 +3,4 @@
 export(gradient_pos_density_validation)
 export(gradient_position_validation)
 export(isotope_validation)
+export(qsip_sample_object)

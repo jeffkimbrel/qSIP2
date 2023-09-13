@@ -1,5 +1,5 @@
 test_that("valid positions pass", {
-  expect_true(gradient_position_validation(c(-1, 1, 3.000, 7, 11)))
+  expect_null(gradient_position_validation(c(-1, 1, 3.000, 7, 11)))
 })
 
 test_that("positions given as strings fail", {

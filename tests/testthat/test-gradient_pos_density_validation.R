@@ -1,5 +1,5 @@
 test_that("valid densities pass", {
-  expect_true(gradient_pos_density_validation(c(1.6, 1.7, 1.8), high = 1.8, low = 1.6))
+  expect_null(gradient_pos_density_validation(c(1.6, 1.7, 1.8), high = 1.8, low = 1.6))
 })
 
 test_that("densities given as strings fail", {
