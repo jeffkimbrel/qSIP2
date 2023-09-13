@@ -1,14 +1,12 @@
 #' Check the validity of a density values
 #'
-#' This is a helper function.
-#'
 #' @param gradient_pos_density A string or vector of density values
 #' @param high A high limit for valid density values
 #' @param low A low limit for valid density values
 #'
-#' @return A TRUE boolean if the density values are valid, or a printed error
+#' @return Returns `NULL` if the density values are valid, or a printed error
 #'
-#' keywords internal
+#' @export
 
 gradient_pos_density_validation = function(gradient_pos_density, low = 1.55, high = 1.8) {
 
@@ -18,7 +16,7 @@ gradient_pos_density_validation = function(gradient_pos_density, low = 1.55, hig
     } else if (any(gradient_pos_density < low)) {
       message(glue::glue(crayon::red("Some gradient_pos_density values are lower than {low}")))
     } else {
-      return(TRUE)
+      return(NULL)
     }
   } else {
     message(crayon::red("some gradient_pos_density values are non-numeric"))

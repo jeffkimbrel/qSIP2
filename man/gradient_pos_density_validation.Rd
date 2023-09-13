@@ -14,10 +14,8 @@ gradient_pos_density_validation(gradient_pos_density, low = 1.55, high = 1.8)
 \item{high}{A high limit for valid density values}
 }
 \value{
-A TRUE boolean if the density values are valid, or a printed error
-
-keywords internal
+Returns \code{NULL} if the density values are valid, or a printed error
 }
 \description{
-This is a helper function.
+Check the validity of a density values
 }

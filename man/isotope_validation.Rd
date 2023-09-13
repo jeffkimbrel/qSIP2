@@ -15,10 +15,8 @@ isotope_validation(
 \item{isotope_list}{A master list of isotopes to check against}
 }
 \value{
-A TRUE boolean if the isotope strings are valid, or a printed error
-
-keywords internal
+Returns \code{NULL} if the isotope strings are valid, or a printed error
 }
 \description{
-This is a helper function.
+Check the validity of an isotope string
 }

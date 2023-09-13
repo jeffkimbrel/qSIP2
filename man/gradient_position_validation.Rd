@@ -10,13 +10,8 @@ gradient_position_validation(gradient_position)
 \item{gradient_position}{A string or vector of gradient position values}
 }
 \value{
-A TRUE boolean if the gradient position values are valid, or a printed error
-
-keywords internal
+Returns \code{NULL} if the gradient position values are valid, or a printed error
 }
 \description{
 Valid gradient positions are integers. The value can be \code{-1} to represent "bulk" or non-qSIP samples.
-}
-\details{
-This is a helper function.
 }
