@@ -15,6 +15,8 @@ gradient_pos_density_validation(gradient_pos_density, low = 1.55, high = 1.8)
 }
 \value{
 A TRUE boolean if the density values are valid, or a printed error
+
+keywords internal
 }
 \description{
 This is a helper function.

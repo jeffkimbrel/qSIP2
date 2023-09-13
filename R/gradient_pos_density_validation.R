@@ -8,9 +8,9 @@
 #'
 #' @return A TRUE boolean if the density values are valid, or a printed error
 #'
+#' keywords internal
 
 gradient_pos_density_validation = function(gradient_pos_density, low = 1.55, high = 1.8) {
-  # returns TRUE is the densities are valid, and FALSE if there is a problem density
 
   if (is.numeric(gradient_pos_density)) {
     if (any(gradient_pos_density > high)) {

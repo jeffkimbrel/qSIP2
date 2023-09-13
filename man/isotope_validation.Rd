@@ -16,6 +16,8 @@ isotope_validation(
 }
 \value{
 A TRUE boolean if the isotope strings are valid, or a printed error
+
+keywords internal
 }
 \description{
 This is a helper function.
