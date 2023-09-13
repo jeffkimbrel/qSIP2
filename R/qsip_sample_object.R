@@ -8,9 +8,6 @@
 #'
 #' @export
 #'
-#'
-
-
 
 qsip_sample_object <- S7::new_class("qsip_sample_object",
                                 properties = list(
@@ -31,3 +28,18 @@ qsip_sample_object <- S7::new_class("qsip_sample_object",
                                   qSIP2::gradient_position_validation(self@data %>% pull(self@gradient_position))
                                 }
 )
+
+#' Get sample counts from qSIP sample data
+#'
+#' @param x An object of `qsip_sample_object` class
+#'
+#' @export
+#'
+
+get_sample_counts <- S7::new_generic("get_sample_counts", "x")
+
+S7::method(get_sample_counts, qsip_sample_object) <- function(x) {
+  x@data[x@source_mat_id] |>
+    dplyr::rename(source_mat_id = x@source_mat_id) |>
+    dplyr::count(source_mat_id)
+}
