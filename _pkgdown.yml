@@ -1,4 +1,5 @@
 url: https://jeffkimbrel.github.io/qSIP2/
 template:
   bootstrap: 5
+  bootswatch: lux
 
