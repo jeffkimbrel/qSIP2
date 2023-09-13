@@ -43,3 +43,33 @@ S7::method(get_sample_counts, qsip_sample_object) <- function(x) {
     dplyr::rename(source_mat_id = x@source_mat_id) |>
     dplyr::count(source_mat_id)
 }
+
+
+
+#' Plot qSIP sample data density curves
+#'
+#' @param x An object of `qsip_sample_object` class
+#'
+#' @export
+#'
+
+plot_sample_curves <- S7::new_generic("plot_sample_curves", "x")
+
+S7::method(plot_sample_curves, qsip_sample_object) <- function(x) {
+  facet_formula = paste0("~", x@source_mat_id)
+
+  x@data |>
+    dplyr::filter(!is.na(!!as.name(x@gradient_position))) |>
+    dplyr::filter(!!as.name(x@gradient_pos_density) > 1.5) |>
+    dplyr::group_by(!!as.name(x@source_mat_id)) |>
+    dplyr::mutate(j = !!as.name(x@gradient_pos_amt) / sum(!!as.name(x@gradient_pos_amt))) |>
+    ggplot2::ggplot(aes(x = !!as.name(x@gradient_pos_density), y = j)) +
+      ggplot2::geom_point(aes(color = !!as.name(x@isotope))) +
+      ggplot2::geom_line(aes(color = !!as.name(x@isotope)), linewidth = 1) +
+      ggplot2::scale_color_manual(values = c("16" = "lightblue", "18" = "blue", "16O" = "lightblue", "18O" = "blue", "15" = "yellow")) +
+      ggplot2::facet_wrap(facet_formula, scales = "free")
+
+}
+
+
+
