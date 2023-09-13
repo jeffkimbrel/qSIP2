@@ -7,9 +7,7 @@
 qsip_sample_object(
   data = class_missing,
   isotope = class_missing,
-  isotopolog = class_missing,
   isotopolog_label = class_missing,
-  isotopolog_approach = class_missing,
   gradient_position = class_missing,
   gradient_pos_density = class_missing,
   gradient_pos_amt = class_missing,

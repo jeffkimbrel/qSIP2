@@ -1,0 +1,37 @@
+---
+title: "sample_data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{sample_data}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(qSIP2)
+```
+
+# Sample Data 
+
+The `qSIP2` package comes with a basic example tibble called `sample_data_MISIP`, and some of the columns are already formatted with proper MISIP headers. 
+
+# Make a qSIP sample data object
+
+The `qsip_sample_object` constructor builds a sample data object from a dataframe. 
+
+```{r}
+qdf = qsip_sample_object(sample_data_MISIP)
+```
+
+And that's that, for now.
+
+

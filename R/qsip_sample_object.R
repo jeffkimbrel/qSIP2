@@ -15,10 +15,10 @@
 qsip_sample_object <- S7::new_class("qsip_sample_object",
                                 properties = list(
                                   data = S7::class_data.frame,
-                                  isotope = S7::class_character,
-                                  isotopolog = S7::class_character,
+                                  isotope = S7::new_property(S7::class_character, default = "isotope"),
+                                  #isotopolog = S7::class_character,
                                   isotopolog_label = S7::class_character,
-                                  isotopolog_approach = S7::class_character,
+                                  #isotopolog_approach = S7::class_character,
                                   gradient_position = S7::new_property(S7::class_character, default = "gradient_position"),
                                   gradient_pos_density = S7::new_property(S7::class_character, default = "gradient_pos_density"),
                                   gradient_pos_amt = S7::new_property(S7::class_character, default = "gradient_pos_amt"),
@@ -26,9 +26,9 @@ qsip_sample_object <- S7::new_class("qsip_sample_object",
                                   source_mat_id = S7::new_property(S7::class_character, default = "source_mat_id")
                                 ),
                                 validator = function(self) {
-                                  qSIP2::isotope_validation(self@data %>% pull(self@isotope))
-                                  qSIP2::gradient_pos_density_validation(self@data %>% pull(self@gradient_pos_density))
-                                  qSIP2::gradient_position_validation(self@data %>% pull(self@gradient_position))
+                                  qSIP2::isotope_validation(self@data |> dplyr::pull(self@isotope))
+                                  qSIP2::gradient_pos_density_validation(self@data |> dplyr::pull(self@gradient_pos_density))
+                                  qSIP2::gradient_position_validation(self@data |> dplyr::pull(self@gradient_position))
                                 }
 )
 
