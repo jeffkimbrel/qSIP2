@@ -19,3 +19,4 @@ Returns \code{NULL} if the density values are valid, or a printed error
 \description{
 Check the validity of a density values
 }
+\keyword{validation}

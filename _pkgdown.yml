@@ -4,6 +4,8 @@ template:
 
 reference:
 - title: Sample Data
-- subtitle: Objects and methods related to sample data
   contents:
   - has_keyword("sample_data")
+- title: Validation functions
+  contents:
+  - has_keyword("validation")

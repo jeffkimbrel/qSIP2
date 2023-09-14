@@ -15,3 +15,4 @@ Returns \code{NULL} if the gradient position values are valid, or a printed erro
 \description{
 Valid gradient positions are integers. The value can be \code{-1} to represent "bulk" or non-qSIP samples.
 }
+\keyword{validation}

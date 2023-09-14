@@ -7,6 +7,7 @@
 #' @return Returns `NULL` if the density values are valid, or a printed error
 #'
 #' @export
+#' @keywords validation
 
 gradient_pos_density_validation = function(gradient_pos_density, low = 1.55, high = 1.8) {
 

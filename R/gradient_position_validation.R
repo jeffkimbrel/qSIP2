@@ -7,6 +7,8 @@
 #' @return Returns `NULL` if the gradient position values are valid, or a printed error
 #'
 #' @export
+#'
+#' @keywords validation
 
 gradient_position_validation = function(gradient_position) {
   if (is.numeric(gradient_position)) {
