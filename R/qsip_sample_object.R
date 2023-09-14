@@ -8,7 +8,7 @@
 #'
 #' @export
 #'
-#'
+#' @keywords sample_data
 
 
 
@@ -43,6 +43,7 @@ qsip_sample_object <- S7::new_class("qsip_sample_object",
 #'
 #' @export
 #'
+#' @keywords sample_data
 
 plot_sample_curves <- S7::new_generic("plot_sample_curves", "x")
 
@@ -68,6 +69,7 @@ S7::method(plot_sample_curves, qsip_sample_object) <- function(x) {
 #'
 #' @export
 #'
+#' @keywords sample_data
 
 get_sample_counts <- S7::new_generic("get_sample_counts", "x")
 

@@ -4,7 +4,6 @@ template:
 
 reference:
 - title: Sample Data
+- subtitle: Objects and methods related to sample data
   contents:
-  - qsip_sample_object
-  - get_sample_counts
-  - plot_sample_curves
+  - has_keyword("sample_data")

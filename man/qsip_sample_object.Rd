@@ -28,3 +28,4 @@ A class to hold and validate sample data.
 \item{\code{isotopolog}}{Column name with the MISIP isotopolog data}
 }}
 
+\keyword{sample_data}

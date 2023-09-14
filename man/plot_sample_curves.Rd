@@ -12,3 +12,4 @@ plot_sample_curves(x, ...)
 \description{
 Plot qSIP sample data density curves
 }
+\keyword{sample_data}

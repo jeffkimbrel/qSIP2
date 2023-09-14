@@ -12,3 +12,4 @@ get_sample_counts(x, ...)
 \description{
 Get sample counts from qSIP sample data
 }
+\keyword{sample_data}
