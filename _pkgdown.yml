@@ -1,11 +1,10 @@
 url: https://jeffkimbrel.github.io/qSIP2/
 template:
   bootstrap: 5
-  bootswatch: lux
+
 reference:
 - title: Sample Data
-  desc:  Sample data object and related methods
-- contents:
+  contents:
   - qsip_sample_object
   - get_sample_counts
   - plot_sample_curves
