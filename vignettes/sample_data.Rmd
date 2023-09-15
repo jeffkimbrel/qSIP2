@@ -1,5 +1,5 @@
 ---
-title: "sample_data"
+title: "Adding and validating sample data"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{sample_data}
@@ -17,21 +17,67 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
+library(tidyverse)
 library(qSIP2)
 ```
 
-# Sample Data 
+# Background
 
-The `qSIP2` package comes with a basic example tibble called `sample_data_MISIP`, and some of the columns are already formatted with proper MISIP headers. 
+In `qSIP2`, "sample data" refers to any high level metadata associated with either an experiment or the individual fractions.
+
+## What is a sample?
+
+The word **sample** typically refers to the biological or environmental entity the DNA was isolated from as well as the single sequencing run tied to that **sample**. In qSIP, however, because there are multiple sequencing runs per biological subject, the term **sample** has historically been reserved for sequencing of each fraction. In practice, this means you will have many **samples** for each single biological subject.
+
+Traditionally, the original biological subject in qSIP has been simply called a **replicate** or "rep". In the proposed MISIP^[https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1] standards, the concept of a **rep** has been replaced with `source_mat_id`.
+
+For example, if you were identifying active community members from a pot of soil in triplicate, you may have 3 soil pot **reps** that were given <sup>16</sup>O (maybe named "A_16O", "B_16O" and "C_16O"), and then 3 **reps** with <sup>18</sup>O (maybe named "A_18O", "B_18O" and "C_18O"). In this experiment, you would have 6 totals **reps**. If each **rep** was separated into 20 fractions and sequenced, then you would have 120 (6x20) **samples**.
+
+If working with amplicon data, each fastq file would be a **sample**, or each column in an ASV/OTU table (when taxa are the rows).
+
+# Creating a standardized sample data tibble
+
+To standardize the qSIP workflow, column names should adhere as closely to MISIP standards where possible. Absolute requirements are slightly different than the official MISIP standards, and for the `qSIP2` package would be the `source_mat_id`, `isotope`, `gradient_position`, `gradient_pos_density` and `gradient_pos_rel_amt` fields.
+
+## Isotope and isotopolog_label fields
+
+In traditional qSIP the `isotope` field has been populated with either the light (e.g. 16O) or heavy (e.g. 18O) isotope depending on the substrate used in that rep or `source_mat_id`. In MISIP standards, only the heavy isotope is listed under the `isotope` field, and then a secondary field `isotopolog_label` is used to designate whether the replicate used a substrate with "natural abundance" (i.e. "light") or "isotopically labeled" (i.e. "heavy") isotopes.
+
+In the `qSIP2` package, either method can be used. If the `isotopolog_label` is missing from your dataset then it will assume both the light and heavy isotopes are present in the `isotope` field. But, if you do have an `isotopolog_label` field, then only the heavy isotope designation is allowed in the `isotope` field and the dataframe will not pass validation checks. 
+
+Conversion between these two objects can be done with the `add_isotopolog_label()` or `remove_isotopolog_label()` functions.
+
+```{r}
+# original data has a mixture of isotopes
+head(sample_data_nonMISIP)
+
+sample_data_nonMISIP %>%
+  count(isotope)
+
+# new data has only one isotope and a mixture of isotopolog_label 
+df_with_labels = add_isotopolog_label(sample_data_nonMISIP, isotope = "isotope") 
+
+df_with_labels %>%
+  count(isotope, isotopolog_label)
+
+# after converting back the isotope column is a mixture again
+remove_isotopolog_label(df_with_labels) %>%
+  count(isotope)
+```
+
+
 
 # Make a qSIP sample data object
 
-The `qsip_sample_object` constructor builds a sample data object from a dataframe. 
+The `qsip_sample_object` constructor builds a sample data object from a dataframe. The `qSIP2` package comes with a basic example tibble called `sample_data_MISIP`, and some of the columns are already formatted with proper MISIP headers.
 
 ```{r}
+
 qdf = qsip_sample_object(sample_data_MISIP)
 ```
 
 And that's that, for now.
+
+## Isotope Values
 
 

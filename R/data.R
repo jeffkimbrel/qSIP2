@@ -1,0 +1,14 @@
+#' Example qSIP Sample Data (MISIP)
+#'
+#' @format ## `sample_data_MISIP`
+#' A data frame with 72 rows and 7 columns:
+#' \describe{
+#'   \item{source_mat_id}{The unique name of the biological replicate}
+#'   \item{isotope}{The heavy isotope}
+#'   \item{isotopolog_label}{Whether the isotopolog has the labeled or unlabeled substrate}
+#'   \item{gradient_position}{The gradient position ranked from highest to lowest density}
+#'   \item{gradient_pos_density}{The density of the fraction}
+#'   \item{gradient_pos_dna}{The DNA concentration of the fraction}
+#'   \item{gradient_pos_rel_amt}{The relative amount in that fraction from either qPCR or DNA concentrations}
+#' }
+"sample_data_MISIP"

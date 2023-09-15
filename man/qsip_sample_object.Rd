@@ -6,6 +6,7 @@
 \usage{
 qsip_sample_object(
   data = class_missing,
+  original_props = class_missing,
   isotope = class_missing,
   isotopolog_label = class_missing,
   gradient_position = class_missing,
