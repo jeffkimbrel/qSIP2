@@ -25,4 +25,4 @@ sample_data_MISIP
 \description{
 Example qSIP Sample Data (MISIP)
 }
-\keyword{datasets}
+\keyword{data}

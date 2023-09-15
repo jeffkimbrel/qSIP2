@@ -11,4 +11,6 @@
 #'   \item{gradient_pos_dna}{The DNA concentration of the fraction}
 #'   \item{gradient_pos_rel_amt}{The relative amount in that fraction from either qPCR or DNA concentrations}
 #' }
+#'
+#' @keywords data
 "sample_data_MISIP"

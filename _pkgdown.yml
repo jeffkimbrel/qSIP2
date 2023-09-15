@@ -10,3 +10,6 @@ reference:
 - title: Validation functions
   contents:
   - has_keyword("validation")
+- title: Data
+  contents:
+  - has_keyword("data")
