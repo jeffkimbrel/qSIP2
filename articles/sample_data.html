@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9008</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,23 +77,17 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     filter, lag</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
 <p>In <code>qSIP2</code>, “sample data” refers to any high level
 metadata associated with either an experiment or the individual
-fractions.</p>
+fractions. This vignette will show available tools to format and
+validate your sample data for the <code>qsip_sample_object</code> class
+in the <code>qSIP2</code> package.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="what-is-a-sample">What is a sample?<a class="anchor" aria-label="anchor" href="#what-is-a-sample"></a>
 </h3>
@@ -149,7 +143,8 @@ assume both the light and heavy isotopes are present in the
 <code>isotope</code> field. But, if you do have an
 <code>isotopolog_label</code> field, then only the heavy isotope
 designation is allowed in the <code>isotope</code> field and the
-dataframe will not pass validation checks.</p>
+dataframe will not pass validation checks if there are light isotopes
+listed there.</p>
 <p>Conversion between these two objects can be done with the
 <code><a href="../reference/add_isotopolog_label.html">add_isotopolog_label()</a></code> or
 <code><a href="../reference/remove_isotopolog_label.html">remove_isotopolog_label()</a></code> functions.</p>
@@ -175,7 +170,8 @@ dataframe will not pass validation checks.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 18O        34</span></span>
 <span></span>
 <span><span class="co"># new data has only one isotope and a mixture of isotopolog_label </span></span>
-<span><span class="va">df_with_labels</span> <span class="op">=</span> <span class="fu"><a href="../reference/add_isotopolog_label.html">add_isotopolog_label</a></span><span class="op">(</span><span class="va">sample_data_nonMISIP</span>, isotope <span class="op">=</span> <span class="st">"isotope"</span><span class="op">)</span> </span>
+<span><span class="va">df_with_labels</span> <span class="op">=</span> <span class="fu"><a href="../reference/add_isotopolog_label.html">add_isotopolog_label</a></span><span class="op">(</span><span class="va">sample_data_nonMISIP</span>, </span>
+<span>                                      isotope <span class="op">=</span> <span class="st">"isotope"</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="va">df_with_labels</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">isotope</span>, <span class="va">isotopolog_label</span><span class="op">)</span></span>
@@ -193,6 +189,39 @@ dataframe will not pass validation checks.</p>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 16O        38</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 18O        34</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="fraction-relative-amounts">Fraction relative amounts<a class="anchor" aria-label="anchor" href="#fraction-relative-amounts"></a>
+</h3>
+<p>A requirement for qSIP is the <code>gradient_pos_rel_amt</code>
+field, which gives the percent amount that a fraction has of the whole.
+The preferred method is given in qPCR copy numbers, but DNA
+concentrations can be used as well.</p>
+<p>For example, if there are 100,000 total 16S copies in a replicate as
+determined by qPCR, and 15,000 copies in fraction 7, then the
+<code>gradient_pos_rel_amt</code> value for fraction 7 would be 0.15
+(15,000 / 100,000). Similarly, if you had 25ng total DNA used for
+density separation, and fraction 7 had 3.75 ng DNA recovered, then
+<code>gradient_pos_rel_amt</code> would also be 0.15 (3.75 / 25).</p>
+<p>Ideally, all of the <code>gradient_pos_rel_amt</code> for a given
+<code>source_mat_id</code> should add up to 1, but there are situation
+where it might be less than 1. For example, if you removed some
+fractions because they didn’t sequence well or there was some other
+reason to remove a fraction. If you have 16S or DNA concentrations for
+these removed samples they would be subtracted from the total. So, for
+our example above, if fraction 7 needed to be removed, then the total
+for all fractions of that <code>source_mat_id</code> would only be 0.85.
+The total fractions within a <code>source_mat_id</code> within should
+never be greater than 1.</p>
+<p>If your sample data tibble does not have the
+<code>gradient_pos_rel_amt</code> there is a function that can add it
+for you.</p>
+<p>The <code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code> can create this column
+from either a column of qPCR totals, or DNA concentrations. Because this
+function can not know if there are missing fractions, the totals per
+<code>source_mat_id</code> will be equal to 1. If you do have fractions
+that you want removed, keep them in the dataframe for this
+<code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code> and then remove them after.</p>
 </div>
 </div>
 <div class="section level2">
