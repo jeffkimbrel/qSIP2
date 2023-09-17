@@ -16,14 +16,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+# Background
+
+In `qSIP2`, "sample data" refers to any high level metadata associated with either an experiment or the individual fractions. This vignette will show available tools to format and validate your sample data for the `qsip_sample_object` class in the `qSIP2` package.
+
+```{r setup, message=FALSE}
 library(dplyr)
 library(qSIP2)
 ```
-
-# Background
-
-In `qSIP2`, "sample data" refers to any high level metadata associated with either an experiment or the individual fractions.
 
 ## What is a sample?
 
@@ -43,7 +43,7 @@ To standardize the qSIP workflow, column names should adhere as closely to MISIP
 
 In traditional qSIP the `isotope` field has been populated with either the light (e.g. 16O) or heavy (e.g. 18O) isotope depending on the substrate used in that rep or `source_mat_id`. In MISIP standards, only the heavy isotope is listed under the `isotope` field, and then a secondary field `isotopolog_label` is used to designate whether the replicate used a substrate with "natural abundance" (i.e. "light") or "isotopically labeled" (i.e. "heavy") isotopes.
 
-In the `qSIP2` package, either method can be used. If the `isotopolog_label` is missing from your dataset then it will assume both the light and heavy isotopes are present in the `isotope` field. But, if you do have an `isotopolog_label` field, then only the heavy isotope designation is allowed in the `isotope` field and the dataframe will not pass validation checks. 
+In the `qSIP2` package, either method can be used. If the `isotopolog_label` is missing from your dataset then it will assume both the light and heavy isotopes are present in the `isotope` field. But, if you do have an `isotopolog_label` field, then only the heavy isotope designation is allowed in the `isotope` field and the dataframe will not pass validation checks if there are light isotopes listed there. 
 
 Conversion between these two objects can be done with the `add_isotopolog_label()` or `remove_isotopolog_label()` functions.
 
@@ -55,7 +55,8 @@ sample_data_nonMISIP %>%
   count(isotope)
 
 # new data has only one isotope and a mixture of isotopolog_label 
-df_with_labels = add_isotopolog_label(sample_data_nonMISIP, isotope = "isotope") 
+df_with_labels = add_isotopolog_label(sample_data_nonMISIP, 
+                                      isotope = "isotope") 
 
 df_with_labels %>%
   count(isotope, isotopolog_label)
@@ -64,6 +65,26 @@ df_with_labels %>%
 remove_isotopolog_label(df_with_labels) %>%
   count(isotope)
 ```
+
+## Fraction relative amounts
+
+A requirement for qSIP is the `gradient_pos_rel_amt` field, which gives the percent amount that a fraction has of the whole. The preferred method is given in qPCR copy numbers, but DNA concentrations can be used as well. 
+
+For example, if there are 100,000 total 16S copies in a replicate as determined by qPCR, and 15,000 copies in fraction 7, then the `gradient_pos_rel_amt` value for fraction 7 would be 0.15 (15,000 / 100,000). Similarly, if you had 25ng total DNA used for density separation, and fraction 7 had 3.75 ng DNA recovered, then `gradient_pos_rel_amt` would also be 0.15 (3.75 / 25). 
+
+Ideally, all of the `gradient_pos_rel_amt` for a given `source_mat_id` should add up to 1, but there are situation where it might be less than 1. For example, if you removed some fractions because they didn't sequence well or there was some other reason to remove a fraction. If you have 16S or DNA concentrations for these removed samples they would be subtracted from the total. So, for our example above, if fraction 7 needed to be removed, then the total for all fractions of that `source_mat_id` would only be 0.85. The total fractions within a `source_mat_id` within should never be greater than 1.
+
+If your sample data tibble does not have the `gradient_pos_rel_amt` there is a function that can add it for you. 
+
+The `add_gradient_pos_rel_amt()` can create this column from either a column of qPCR totals, or DNA concentrations. Because this function can not know if there are missing fractions, the totals per `source_mat_id` will be equal to 1. If you do have fractions that you want removed, keep them in the dataframe for this `add_gradient_pos_rel_amt()` and then remove them after.
+
+
+
+
+
+
+
+
 
 
 
