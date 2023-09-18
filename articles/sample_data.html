@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,7 +127,7 @@ slightly different than the official MISIP standards, and for the
 <code>gradient_pos_density</code> and <code>gradient_pos_rel_amt</code>
 fields.</p>
 <div class="section level3">
-<h3 id="isotope-and-isotopolog_label-fields">Isotope and isotopolog_label fields<a class="anchor" aria-label="anchor" href="#isotope-and-isotopolog_label-fields"></a>
+<h3 id="isotope-and-isotopolog_label-fields">isotope and isotopolog_label fields<a class="anchor" aria-label="anchor" href="#isotope-and-isotopolog_label-fields"></a>
 </h3>
 <p>In traditional qSIP the <code>isotope</code> field has been populated
 with either the light (e.g. 16O) or heavy (e.g. 18O) isotope depending
@@ -152,14 +152,14 @@ listed there.</p>
 <code class="sourceCode R"><span><span class="co"># original data has a mixture of isotopes</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sample_data_nonMISIP</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   sample isotope fraction density dna_conc</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1_16O  16O            7    1.70    0.775</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1_16O  16O            8    1.69    1.89 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1_16O  16O            9    1.69    1.34 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 1_16O  16O           10    1.68    0.641</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 1_16O  16O           11    1.68    0.372</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 1_16O  16O           12    1.67    0.282</span></span>
+<span><span class="co">#&gt;   rep   isotope fraction density dna_conc</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1_16O 16O            7    1.70    0.775</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1_16O 16O            8    1.69    1.89 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1_16O 16O            9    1.69    1.34 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 1_16O 16O           10    1.68    0.641</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 1_16O 16O           11    1.68    0.372</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 1_16O 16O           12    1.67    0.282</span></span>
 <span></span>
 <span><span class="va">sample_data_nonMISIP</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">isotope</span><span class="op">)</span></span>
@@ -191,7 +191,7 @@ listed there.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 18O        34</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="fraction-relative-amounts">Fraction relative amounts<a class="anchor" aria-label="anchor" href="#fraction-relative-amounts"></a>
+<h3 id="gradient_pos_rel_amt-field">gradient_pos_rel_amt field<a class="anchor" aria-label="anchor" href="#gradient_pos_rel_amt-field"></a>
 </h3>
 <p>A requirement for qSIP is the <code>gradient_pos_rel_amt</code>
 field, which gives the percent amount that a fraction has of the whole.
@@ -204,15 +204,18 @@ determined by qPCR, and 15,000 copies in fraction 7, then the
 density separation, and fraction 7 had 3.75 ng DNA recovered, then
 <code>gradient_pos_rel_amt</code> would also be 0.15 (3.75 / 25).</p>
 <p>Ideally, all of the <code>gradient_pos_rel_amt</code> for a given
-<code>source_mat_id</code> should add up to 1, but there are situation
+<code>source_mat_id</code> should add up to 1, but there are situations
 where it might be less than 1. For example, if you removed some
 fractions because they didn’t sequence well or there was some other
 reason to remove a fraction. If you have 16S or DNA concentrations for
 these removed samples they would be subtracted from the total. So, for
 our example above, if fraction 7 needed to be removed, then the total
 for all fractions of that <code>source_mat_id</code> would only be 0.85.
-The total fractions within a <code>source_mat_id</code> within should
-never be greater than 1.</p>
+Another situation would be that although you added 25ng to a
+centrifugation, you only recovered 20ng and the rest was lost<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;&lt;a href=&quot;https://www.visitlex.com/guides/post/common-geeky-bourbon-terms-explained/#:~:text=Angel's%20Share&quot; class=&quot;external-link&quot;&gt;The
+angel’s share and devil’s cut&lt;/a&gt;&lt;/p&gt;"><sup>2</sup></a>. The total
+fractions within a <code>source_mat_id</code> within should never be
+greater than 1.</p>
 <p>If your sample data tibble does not have the
 <code>gradient_pos_rel_amt</code> there is a function that can add it
 for you.</p>
@@ -222,6 +225,44 @@ function can not know if there are missing fractions, the totals per
 <code>source_mat_id</code> will be equal to 1. If you do have fractions
 that you want removed, keep them in the dataframe for this
 <code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code> and then remove them after.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># gradient_pos_rel_amt to a dataframe without this column </span></span>
+<span><span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span><span class="va">sample_data_nonMISIP</span>,</span>
+<span>                         source_mat_id <span class="op">=</span> <span class="st">"rep"</span>, <span class="co"># the source_mat_id or per-tube grouping</span></span>
+<span>                         amt <span class="op">=</span> <span class="st">"dna_conc"</span> <span class="co"># the column with total amounts</span></span>
+<span>                         <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 6</span></span></span>
+<span><span class="co">#&gt;   rep   isotope fraction density dna_conc gradient_pos_rel_amt</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1_16O 16O            7    1.70    0.775               0.146 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1_16O 16O            8    1.69    1.89                0.357 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1_16O 16O            9    1.69    1.34                0.253 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 1_16O 16O           10    1.68    0.641               0.121 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 1_16O 16O           11    1.68    0.372               0.070<span style="text-decoration: underline;">2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 1_16O 16O           12    1.67    0.282               0.053<span style="text-decoration: underline;">2</span></span></span>
+<span></span>
+<span><span class="co"># adding to a dataframe with an existing gradient_pos_rel_amt will give an error</span></span>
+<span><span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span><span class="va">sample_data_MISIP</span>,</span>
+<span>                         amt <span class="op">=</span> <span class="st">"gradient_pos_dna"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Error in add_gradient_pos_rel_amt(sample_data_MISIP, amt = "gradient_pos_dna"): gradient_pos_rel_amt already exists! Set overwrite = TRUE if you want to overwrite</span></span>
+<span></span>
+<span><span class="co"># adding overwrite = T removes the error</span></span>
+<span><span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span><span class="va">sample_data_MISIP</span>,</span>
+<span>                         amt <span class="op">=</span> <span class="st">"gradient_pos_dna"</span>,</span>
+<span>                         overwrite <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; gradient_pos_rel_amt already exists and will be overwritten</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
+<span><span class="co">#&gt;   source_mat_id isotope isotopolog_label  gradient_position gradient_pos_density</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1_16O         18O     natural abundance                 7                 1.70</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1_16O         18O     natural abundance                 8                 1.69</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1_16O         18O     natural abundance                 9                 1.69</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 1_16O         18O     natural abundance                10                 1.68</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 1_16O         18O     natural abundance                11                 1.68</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 1_16O         18O     natural abundance                12                 1.67</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: gradient_pos_dna &lt;dbl&gt;, gradient_pos_rel_amt &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -231,7 +272,7 @@ that you want removed, keep them in the dataframe for this
 object from a dataframe. The <code>qSIP2</code> package comes with a
 basic example tibble called <code>sample_data_MISIP</code>, and some of
 the columns are already formatted with proper MISIP headers.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">qdf</span> <span class="op">=</span> <span class="fu"><a href="../reference/qsip_sample_object.html">qsip_sample_object</a></span><span class="op">(</span><span class="va">sample_data_MISIP</span><span class="op">)</span></span></code></pre></div>
 <p>And that’s that, for now.</p>
