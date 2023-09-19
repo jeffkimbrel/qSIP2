@@ -6,9 +6,10 @@
 \usage{
 qsip_sample_object(
   data = class_missing,
-  original_props = class_missing,
   isotope = class_missing,
+  isotopolog = class_missing,
   isotopolog_label = class_missing,
+  isotopolog_approach = class_missing,
   gradient_position = class_missing,
   gradient_pos_density = class_missing,
   gradient_pos_amt = class_missing,
@@ -24,9 +25,23 @@ A class to hold and validate sample data.
 \describe{
 \item{\code{data}}{A dataframe or tibble}
 
-\item{\code{isotope}}{Column name with the MISIP isotope data}
+\item{\code{isotope}}{Column name with the isotope name}
 
 \item{\code{isotopolog}}{Column name with the MISIP isotopolog data}
+
+\item{\code{isotopolog_label}}{Column name with the MISIP isotopolog_label data}
+
+\item{\code{isotopolog_approach}}{Column name with the MISIP isotopolog_approach data}
+
+\item{\code{gradient_position}}{Column name with the fraction position}
+
+\item{\code{gradient_pos_density}}{Column name with the gradient density}
+
+\item{\code{gradient_pos_amt}}{Column name with a total amount per fraction, either qPCR copies or DNA}
+
+\item{\code{gradient_pos_rel_amt}}{Column name with the relative fraction abundance compared to the total}
+
+\item{\code{source_mat_id}}{The unique ID for the biological subject or replicate}
 }}
 
 \keyword{sample_data}

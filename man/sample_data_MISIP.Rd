@@ -23,6 +23,6 @@ A data frame with 72 rows and 7 columns:
 sample_data_MISIP
 }
 \description{
-Example qSIP Sample Data (MISIP)
+An example sample data tibble that (mostly) matches the MISIP standards.
 }
 \keyword{data}

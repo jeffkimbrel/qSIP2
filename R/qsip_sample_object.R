@@ -3,8 +3,15 @@
 #' A class to hold and validate sample data.
 #'
 #' @slot data A dataframe or tibble
-#' @slot isotope Column name with the MISIP isotope data
+#' @slot isotope Column name with the isotope name
 #' @slot isotopolog Column name with the MISIP isotopolog data
+#' @slot isotopolog_label Column name with the MISIP isotopolog_label data
+#' @slot isotopolog_approach Column name with the MISIP isotopolog_approach data
+#' @slot gradient_position Column name with the fraction position
+#' @slot gradient_pos_density Column name with the gradient density
+#' @slot gradient_pos_amt Column name with a total amount per fraction, either qPCR copies or DNA
+#' @slot gradient_pos_rel_amt Column name with the relative fraction abundance compared to the total
+#' @slot source_mat_id The unique ID for the biological subject or replicate
 #'
 #' @export
 #'
@@ -14,11 +21,10 @@ qsip_sample_object <- S7::new_class(
   "qsip_sample_object",
   properties = list(
     data = S7::class_data.frame,
-    original_props = S7::class_list,
     isotope = S7::new_property(S7::class_character, default = "isotope"),
-    #isotopolog = S7::class_character,
+    isotopolog = S7::class_character,
     isotopolog_label = S7::class_character,
-    #isotopolog_approach = S7::class_character,
+    isotopolog_approach = S7::class_character,
     gradient_position = S7::new_property(S7::class_character, default = "gradient_position"),
     gradient_pos_density = S7::new_property(S7::class_character, default = "gradient_pos_density"),
     gradient_pos_amt = S7::new_property(S7::class_character, default = "gradient_pos_amt"),
@@ -49,12 +55,14 @@ S7::method(plot_sample_curves, qsip_sample_object) <- function(x) {
     dplyr::filter(!is.na(!!as.name(x@gradient_position))) |>
     dplyr::filter(!!as.name(x@gradient_pos_density) > 1.5) |>
     dplyr::group_by(!!as.name(x@source_mat_id)) |>
-    dplyr::mutate(j = !!as.name(x@gradient_pos_amt) / sum(!!as.name(x@gradient_pos_amt))) |>
-    ggplot2::ggplot(aes(x = !!as.name(x@gradient_pos_density), y = j)) +
-      ggplot2::geom_point(aes(color = !!as.name(x@isotope))) +
-      ggplot2::geom_line(aes(color = !!as.name(x@isotope)), linewidth = 1) +
-      ggplot2::scale_color_manual(values = c("16" = "lightblue", "18" = "blue", "16O" = "lightblue", "18O" = "blue", "15" = "yellow")) +
-      ggplot2::facet_wrap(facet_formula, scales = "free")
+    #dplyr::mutate(j = !!as.name(x@gradient_pos_amt) / sum(!!as.name(x@gradient_pos_amt))) |>
+    ggplot2::ggplot(ggplot2::aes(x = !!as.name(x@gradient_pos_density),
+                                 y = !!as.name(x@gradient_pos_rel_amt),
+                                 color = !!as.name(x@isotope))) +
+    ggplot2::geom_point() +
+    ggplot2::geom_line(linewidth = 1) +
+    ggplot2::scale_color_manual(values = c("16" = "lightblue", "18" = "blue", "16O" = "lightblue", "18O" = "blue", "15" = "yellow")) +
+    ggplot2::facet_wrap(facet_formula, scales = "free")
 }
 
 #' Get sample counts from qSIP sample data

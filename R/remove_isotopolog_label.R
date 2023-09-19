@@ -7,6 +7,12 @@
 #' @export
 #'
 #' @keywords sample_data
+#'
+#' @examples
+#' \dontrun{
+#' add_isotopolog_label(sample_data_nonMISIP, isotope = "isotope")
+#' remove_isotopolog_label(sample_data_MISIP)
+#' }
 
 remove_isotopolog_label = function(data) {
 
@@ -26,3 +32,5 @@ remove_isotopolog_label = function(data) {
       dplyr::select(-isotopolog_label)
   }
 }
+
+utils::globalVariables(c("isotopolog_label", "isotope", "y"))

@@ -19,7 +19,7 @@ add_gradient_pos_rel_amt = function(data,
 
   if ("gradient_pos_rel_amt" %in% colnames(data)) {
     if (overwrite == FALSE) {
-      stop("gradient_pos_rel_amt already exists! Set overwrite = TRUE if you want to overwrite")
+      stop(crayon::red("gradient_pos_rel_amt already exists! Set overwrite = TRUE if you want to overwrite"))
     } else if (overwrite == TRUE) {
       message("gradient_pos_rel_amt already exists and will be overwritten")
     }
