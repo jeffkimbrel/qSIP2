@@ -4,15 +4,12 @@
 #'
 #' @param data A dataframe or tibble
 #'
-#' @export
-#'
 #' @keywords sample_data
 #'
 #' @examples
-#' \dontrun{
-#' add_isotopolog_label(sample_data_nonMISIP, isotope = "isotope")
 #' remove_isotopolog_label(sample_data_MISIP)
-#' }
+#'
+#' @export
 
 remove_isotopolog_label = function(data) {
 
