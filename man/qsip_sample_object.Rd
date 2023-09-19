@@ -44,4 +44,4 @@ A class to hold and validate sample data.
 \item{\code{source_mat_id}}{The unique ID for the biological subject or replicate}
 }}
 
-\keyword{sample_data}
+\keyword{object}

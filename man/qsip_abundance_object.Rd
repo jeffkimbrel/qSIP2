@@ -17,4 +17,4 @@ A class to hold and validate an abundance table
 \item{\code{id}}{Column name with unique taxa IDs}
 }}
 
-\keyword{sample_data}
+\keyword{object}
