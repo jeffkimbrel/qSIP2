@@ -15,7 +15,7 @@
 #'
 #' @export
 #'
-#' @keywords sample_data
+#' @keywords object
 
 qsip_sample_object <- S7::new_class(
   "qsip_sample_object",

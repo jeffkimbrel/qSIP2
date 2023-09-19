@@ -4,6 +4,9 @@ template:
   bootswatch: sandstone
 
 reference:
+- title: qSIP Objects
+  contents:
+  - has_keyword("object")
 - title: Sample Data
   contents:
   - has_keyword("sample_data")

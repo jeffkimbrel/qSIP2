@@ -7,7 +7,7 @@
 #'
 #' @export
 #'
-#' @keywords sample_data
+#' @keywords object
 
 qsip_abundance_object <- S7::new_class(
   "qsip_abundance_object",
