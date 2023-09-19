@@ -49,6 +49,9 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_sample_object.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_taxa_object.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/remove_isotopolog_label.html</loc>
   </url>
   <url>
@@ -56,5 +59,8 @@
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/sample_data_nonMISIP.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/taxa_abundance_validation.html</loc>
   </url>
 </urlset>
