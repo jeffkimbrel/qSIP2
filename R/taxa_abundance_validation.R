@@ -1,6 +1,6 @@
-#' Check the validity of a taxa abundance table
+#' Check the validity of an abundance table
 #'
-#' This validation function will check the validity of a taxa abundance table.
+#' This validation function will check the validity of an abundance table.
 #'
 #' Rows should contain the unique taxa ids with a column designated with the id
 #' argument. Each other column should be a unique sample name.
@@ -17,7 +17,7 @@
 #' @keywords validation
 
 
-taxa_abundance_validation = function(data, id) {
+abundance_validation = function(data, id) {
   data = data |>
     dplyr::select(-id)
 
