@@ -3,6 +3,7 @@
 export(abundance_validation)
 export(add_gradient_pos_rel_amt)
 export(add_isotopolog_label)
+export(add_taxonomy)
 export(get_sample_counts)
 export(gradient_pos_density_validation)
 export(gradient_position_validation)

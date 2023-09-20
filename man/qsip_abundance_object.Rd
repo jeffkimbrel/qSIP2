@@ -4,7 +4,11 @@
 \alias{qsip_abundance_object}
 \title{qSIP abundance table class}
 \usage{
-qsip_abundance_object(data = class_missing, id = class_missing)
+qsip_abundance_object(
+  data = class_missing,
+  id = class_missing,
+  taxonomy = class_missing
+)
 }
 \description{
 A class to hold and validate an abundance table
