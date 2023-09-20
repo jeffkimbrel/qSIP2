@@ -16,4 +16,4 @@ add_taxonomy(x, ...)
 \description{
 Add a taxonomy table to qSIP abundance data
 }
-\keyword{taxonomy}
+\keyword{abundance}

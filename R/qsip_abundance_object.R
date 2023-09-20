@@ -36,7 +36,7 @@ qsip_abundance_object <- S7::new_class(
 #'
 #' @export
 #'
-#' @keywords taxonomy
+#' @keywords abundance
 
 add_taxonomy <- S7::new_generic("add_taxonomy", "x")
 

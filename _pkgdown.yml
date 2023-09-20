@@ -10,6 +10,9 @@ reference:
 - title: Sample Data
   contents:
   - has_keyword("sample_data")
+- title: Abundance Data
+  contents:
+  - has_keyword("abundance")
 - title: Validation functions
   contents:
   - has_keyword("validation")
