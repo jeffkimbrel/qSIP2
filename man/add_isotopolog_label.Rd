@@ -12,9 +12,11 @@ add_isotopolog_label(data, isotope)
 \item{isotope}{Column name isotope data}
 }
 \description{
-To convert from an isotope only dataframe to one with both isotope and isotopolog_label to satisfy MISIP requirements
+To convert from an isotope only dataframe to one with both isotope and
+isotopolog_label to satisfy MISIP requirements
 }
-\details{
-Note, this function also renames your isotope column to "isotope", if it isn't already.
+\note{
+This function also renames your isotope column to "isotope", if it
+isn't already.
 }
 \keyword{sample_data}

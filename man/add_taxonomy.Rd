@@ -11,7 +11,8 @@ add_taxonomy(x, ...)
 
 \item{taxa}{A taxa table}
 
-\item{id}{The column name for the taxa ids that match the ids in the abundance table}
+\item{id}{The column name for the taxa ids that match the ids in the
+abundance table}
 }
 \description{
 Add a taxonomy table to qSIP abundance data

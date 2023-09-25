@@ -15,11 +15,14 @@ abundance_validation(data, id)
 Returns \code{NULL} if the values are valid, or a printed error
 }
 \description{
-This validation function will check the validity of an abundance table.
+This validation function will check the validity of an abundance table. It
+can run standalone, but was written to be run when creating a qSIP2 abundance
+table object. Therefore, a valid run of this function will return NULL rather
+than a value.
 }
 \details{
 Rows should contain the unique taxa ids with a column designated with the id
-argument. Each other column should be a unique sample name.
+argument. Each other column name should be a unique sample name.
 
 Validity checking includes making sure all data is numeric (except for the
 taxa IDs), all numbers are integers, and no numbers are negative.

@@ -21,7 +21,7 @@ add_gradient_pos_rel_amt(
 \item{overwrite}{Determines whether or not to overwrite an existing gradient_pos_rel_amt column}
 }
 \description{
-This function will calculate the relative amt of a fraction compared to the
-whole replicate using either qPCR copies or DNA concentrations.
+This function will calculate the relative amount of a fraction compared to
+the whole replicate using either qPCR copies or DNA concentrations.
 }
 \keyword{sample_data}

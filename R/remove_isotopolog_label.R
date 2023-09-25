@@ -1,6 +1,7 @@
 #' Remove isotopolog_label from data
 #'
-#' To convert from data with both isotope and isotopolog_label to one with isotope only
+#' To convert from data with both isotope and isotopolog_label to one with
+#' isotope only
 #'
 #' @param data A dataframe or tibble
 #'

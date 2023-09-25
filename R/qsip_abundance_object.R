@@ -32,7 +32,8 @@ qsip_abundance_object <- S7::new_class(
 #'
 #' @param x An object of `qsip_abundance_object` class
 #' @param taxa A taxa table
-#' @param id The column name for the taxa ids that match the ids in the abundance table
+#' @param id The column name for the taxa ids that match the ids in the
+#' abundance table
 #'
 #' @export
 #'

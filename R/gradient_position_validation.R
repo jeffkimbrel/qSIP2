@@ -1,10 +1,12 @@
 #' Check the validity of gradient position values
 #'
-#' Valid gradient positions are integers. The value can be `-1` to represent "bulk" or non-qSIP samples.
+#' Valid gradient positions are integers. The value can be `-1` to represent
+#' "bulk" or non-qSIP samples.
 #'
 #' @param gradient_position A string or vector of gradient position values
 #'
-#' @return Returns `NULL` if the gradient position values are valid, or a printed error
+#' @return Returns `NULL` if the gradient position values are valid, or a
+#' printed error
 #'
 #' @export
 #'

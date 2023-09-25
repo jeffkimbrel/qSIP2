@@ -1,8 +1,7 @@
 #' Add isotopolog_label to data
 #'
-#' To convert from an isotope only dataframe to one with both isotope and isotopolog_label to satisfy MISIP requirements
-#'
-#' Note, this function also renames your isotope column to "isotope", if it isn't already.
+#' To convert from an isotope only dataframe to one with both isotope and
+#' isotopolog_label to satisfy MISIP requirements
 #'
 #' @param data A dataframe or tibble
 #' @param isotope Column name isotope data
@@ -10,6 +9,9 @@
 #' @export
 #'
 #' @keywords sample_data
+#'
+#' @note This function also renames your isotope column to "isotope", if it
+#' isn't already.
 
 add_isotopolog_label = function(data, isotope) {
 

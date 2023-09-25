@@ -9,8 +9,10 @@
 #' @slot isotopolog_approach Column name with the MISIP isotopolog_approach data
 #' @slot gradient_position Column name with the fraction position
 #' @slot gradient_pos_density Column name with the gradient density
-#' @slot gradient_pos_amt Column name with a total amount per fraction, either qPCR copies or DNA
-#' @slot gradient_pos_rel_amt Column name with the relative fraction abundance compared to the total
+#' @slot gradient_pos_amt Column name with a total amount per fraction, either
+#' qPCR copies or DNA
+#' @slot gradient_pos_rel_amt Column name with the relative fraction abundance
+#'  compared to the total
 #' @slot source_mat_id The unique ID for the biological subject or replicate
 #'
 #' @export

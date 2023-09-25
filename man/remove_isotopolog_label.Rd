@@ -10,7 +10,8 @@ remove_isotopolog_label(data)
 \item{data}{A dataframe or tibble}
 }
 \description{
-To convert from data with both isotope and isotopolog_label to one with isotope only
+To convert from data with both isotope and isotopolog_label to one with
+isotope only
 }
 \examples{
 remove_isotopolog_label(sample_data_MISIP)

@@ -1,7 +1,7 @@
 #' Add gradient_pos_rel_amt to data
 #'
-#' This function will calculate the relative amt of a fraction compared to the
-#' whole replicate using either qPCR copies or DNA concentrations.
+#' This function will calculate the relative amount of a fraction compared to
+#' the whole replicate using either qPCR copies or DNA concentrations.
 #'
 #' @param data A dataframe or tibble
 #' @param source_mat_id Grouping variable for a replicate

@@ -37,9 +37,11 @@ A class to hold and validate sample data.
 
 \item{\code{gradient_pos_density}}{Column name with the gradient density}
 
-\item{\code{gradient_pos_amt}}{Column name with a total amount per fraction, either qPCR copies or DNA}
+\item{\code{gradient_pos_amt}}{Column name with a total amount per fraction, either
+qPCR copies or DNA}
 
-\item{\code{gradient_pos_rel_amt}}{Column name with the relative fraction abundance compared to the total}
+\item{\code{gradient_pos_rel_amt}}{Column name with the relative fraction abundance
+compared to the total}
 
 \item{\code{source_mat_id}}{The unique ID for the biological subject or replicate}
 }}

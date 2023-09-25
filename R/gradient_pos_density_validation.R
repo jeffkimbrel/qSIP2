@@ -1,4 +1,4 @@
-#' Check the validity of a density values
+#' Check the validity of density values
 #'
 #' @param gradient_pos_density A string or vector of density values
 #' @param high A high limit for valid density values
