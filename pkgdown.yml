@@ -2,8 +2,9 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
+  abundance_data: abundance_data.html
   sample_data: sample_data.html
-last_built: 2023-09-25T03:06Z
+last_built: 2023-09-25T14:38Z
 urls:
   reference: https://jeffkimbrel.github.io/qSIP2/reference
   article: https://jeffkimbrel.github.io/qSIP2/articles
