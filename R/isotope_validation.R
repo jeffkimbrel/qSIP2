@@ -1,7 +1,7 @@
 #' Check the validity of an isotope string
 #'
-#' @param isotope A string or vector of isotope strings
-#' @param isotope_list A master list of isotopes to check against
+#' @param isotope Isotope value or values (string(s))
+#' @param isotope_list Isotopes to check against (strings, default: c("12C", "13C", "14N", "15N", "16O", "18O"))
 #'
 #' @return Returns `NULL` if the isotope strings are valid, or a printed error
 #'

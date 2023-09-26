@@ -7,7 +7,11 @@
 remove_isotopolog_label(data)
 }
 \arguments{
-\item{data}{A dataframe or tibble}
+\item{data}{Sample metadata (dataframe)}
+}
+\value{
+A dataframe with \code{isotopolog_label} column removed and \code{isotope}
+column modified
 }
 \description{
 To convert from data with both isotope and isotopolog_label to one with

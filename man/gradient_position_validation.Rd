@@ -7,7 +7,7 @@
 gradient_position_validation(gradient_position)
 }
 \arguments{
-\item{gradient_position}{A string or vector of gradient position values}
+\item{gradient_position}{Gradient position value or values (string(s))}
 }
 \value{
 Returns \code{NULL} if the gradient position values are valid, or a

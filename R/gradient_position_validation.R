@@ -3,7 +3,7 @@
 #' Valid gradient positions are integers. The value can be `-1` to represent
 #' "bulk" or non-qSIP samples.
 #'
-#' @param gradient_position A string or vector of gradient position values
+#' @param gradient_position Gradient position value or values (string(s))
 #'
 #' @return Returns `NULL` if the gradient position values are valid, or a
 #' printed error

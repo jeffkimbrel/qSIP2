@@ -11,8 +11,8 @@
 #' Validity checking includes making sure all data is numeric (except for the
 #' taxa IDs), all numbers are integers, and no numbers are negative.
 #'
-#' @param data ASV/OTU table
-#' @param id column name with taxa IDs
+#' @param data ASV/OTU table (dataframe)
+#' @param id Column name with taxa IDs (string)
 #'
 #' @return Returns `NULL` if the values are valid, or a printed error
 #'

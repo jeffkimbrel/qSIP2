@@ -54,11 +54,11 @@ S7::method(plot_sample_curves, qsip_sample_object) <- function(x, colors = NULL)
 
   if (is.null(colors)) {
     colors = c("12C" = "lightblue",
-      "13C" = "blue",
-      "14N" = "lightblue",
-      "15N" = "blue",
-      "16O" = "lightblue",
-      "18O" = "blue")
+               "13C" = "blue",
+               "14N" = "lightblue",
+               "15N" = "blue",
+               "16O" = "lightblue",
+               "18O" = "blue")
   }
 
   facet_formula = paste0("~", x@source_mat_id)

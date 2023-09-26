@@ -7,9 +7,9 @@
 abundance_validation(data, id)
 }
 \arguments{
-\item{data}{ASV/OTU table}
+\item{data}{ASV/OTU table (dataframe)}
 
-\item{id}{column name with taxa IDs}
+\item{id}{Column name with taxa IDs (string)}
 }
 \value{
 Returns \code{NULL} if the values are valid, or a printed error

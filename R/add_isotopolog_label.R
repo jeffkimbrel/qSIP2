@@ -3,8 +3,8 @@
 #' To convert from an isotope only dataframe to one with both isotope and
 #' isotopolog_label to satisfy MISIP requirements
 #'
-#' @param data A dataframe or tibble
-#' @param isotope Column name isotope data
+#' @param data Sample metadata (dataframe)
+#' @param isotope Column name with isotope data (string, default: "isotope")
 #'
 #' @export
 #'
@@ -12,8 +12,11 @@
 #'
 #' @note This function also renames your isotope column to "isotope", if it
 #' isn't already.
+#'
+#' @return A dataframe with `isotopolog_label` column added and `isotope` column
+#' modified
 
-add_isotopolog_label = function(data, isotope) {
+add_isotopolog_label = function(data, isotope = "isotope") {
 
   # verify isotope column is found in data
   if (!isotope %in% colnames(data)) {

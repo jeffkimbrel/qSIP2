@@ -3,12 +3,15 @@
 #' To convert from data with both isotope and isotopolog_label to one with
 #' isotope only
 #'
-#' @param data A dataframe or tibble
+#' @param data Sample metadata (dataframe)
 #'
 #' @keywords sample_data
 #'
 #' @examples
 #' remove_isotopolog_label(sample_data_MISIP)
+#'
+#' @return A dataframe with `isotopolog_label` column removed and `isotope`
+#' column modified
 #'
 #' @export
 

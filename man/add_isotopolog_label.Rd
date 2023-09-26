@@ -4,12 +4,16 @@
 \alias{add_isotopolog_label}
 \title{Add isotopolog_label to data}
 \usage{
-add_isotopolog_label(data, isotope)
+add_isotopolog_label(data, isotope = "isotope")
 }
 \arguments{
-\item{data}{A dataframe or tibble}
+\item{data}{Sample metadata (dataframe)}
 
-\item{isotope}{Column name isotope data}
+\item{isotope}{Column name with isotope data (string, default: "isotope")}
+}
+\value{
+A dataframe with \code{isotopolog_label} column added and \code{isotope} column
+modified
 }
 \description{
 To convert from an isotope only dataframe to one with both isotope and
