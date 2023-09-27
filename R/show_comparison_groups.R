@@ -19,10 +19,10 @@ show_comparison_groups = function(data,
                                   isotope = "isotope",
                                   source_mat_id = "source_mat_id") {
   data |>
-    dplyr::select(!!as.name(source_mat_id), isotope, dplyr::all_of(tmt)) |>
+    dplyr::select(!!as.name(source_mat_id), !!as.name(isotope), dplyr::all_of(tmt)) |>
     dplyr::rename(SAMPLES = !!as.name(source_mat_id)) |>
     unique() |>
-    tidyr::pivot_wider(names_from = isotope,
+    tidyr::pivot_wider(names_from = !!as.name(isotope),
                 values_from = SAMPLES,
                 values_fn = list(SAMPLES = ~paste(., collapse = ", ")))
 }
