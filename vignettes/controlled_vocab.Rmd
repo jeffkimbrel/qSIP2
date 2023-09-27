@@ -18,8 +18,8 @@ knitr::opts_chunk$set(
 
 Below are a list of terms and variables used throughout the `qSIP2` that will retain a specific meaning and will remain unchanged (without adequate notice).
 
-<div class="alert alert-info">
-  <strong>NOTE!</strong> This is currently a draft contract and will be finalized soon. (last modified: `r format(Sys.time())`)
+<div class="alert alert-warning">
+  <strong>NOTE!</strong> This is currently a draft contract and will be finalized soon. (last modified: `r format(Sys.Date())`)
 </div>
 
 
