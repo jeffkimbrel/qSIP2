@@ -22,6 +22,11 @@ reference:
 
 articles:
 - title: Learn qSIP
+  navbar: ~
   contents:
   - sample_data
   - abundance_data
+
+- title: Other
+  contents:
+  - controlled_vocab

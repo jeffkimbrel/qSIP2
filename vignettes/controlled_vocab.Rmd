@@ -1,0 +1,29 @@
+---
+title: "Controlled vocabulary for qSIP data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{controlled_vocab}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+last-modified: today
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+Below are a list of terms and variables used throughout the `qSIP2` that will retain a specific meaning and will remain unchanged (without adequate notice).
+
+<div class="alert alert-info">
+  <strong>NOTE!</strong> This is currently a draft contract and will be finalized soon. (last modified: `r format(Sys.time())`)
+</div>
+
+
+
+
+
+
