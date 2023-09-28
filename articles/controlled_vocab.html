@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.5.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.5.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,27 +87,39 @@ unchanged (without adequate notice).</p>
 <p><strong>NOTE!</strong> This is a draft contract and is undergoing
 modifications. last modified: 2023-09-28</p>
 </div>
+<div class="section level2">
+<h2 id="terminology">Terminology<a class="anchor" aria-label="anchor" href="#terminology"></a>
+</h2>
 <ul>
 <li>
 <code>source_mat_id</code>: Unique name for the experimental source
 material prior to DNA extraction, etc
 <ul>
-<li>asdf</li>
+<li>The <code>source_mat_id</code> is also used as the link between
+sample metadata and source metadata</li>
+<li>This term is derived from the MISIP standards. Previous synonyms in
+qSIP include “rep” and “tube”</li>
 </ul>
 </li>
 <li>
-<code>isotope</code>: The isotope used.
+<code>isotope</code>: The isotope used
 <ul>
-<li>Needs to be one of 12C, 13C, 14N, 15N, 16O or 18O</li>
+<li>For qSIP, the choices are limited to one of 12C, 13C, 14N, 15N, 16O
+or 18O</li>
+<li>This term is also a required MISIP field</li>
 </ul>
 </li>
 <li>
-<code>isotopolog</code>
+<code>isotopolog</code>: The name or ID of the labeled substrate
 <ul>
-<li>The name or ID of the substrate used.</li>
+<li>This term is also a required MISIP field</li>
+<li>For qSIP it doesn’t have to strictly adhere to MISIP standards, and
+a string such as “glucose” will suffice</li>
 </ul>
 </li>
-</ul></main>
+</ul>
+</div>
+  </main>
 </div>
 
 
