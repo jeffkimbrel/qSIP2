@@ -23,13 +23,17 @@ Below are a list of terms and variables used throughout the `qSIP2` that will re
   last modified: `r format(Sys.Date())`
 </div>
 
+# Terminology
 
 - `source_mat_id`: Unique name for the experimental source material prior to DNA extraction, etc
-  - asdf
-- `isotope`: The isotope used.
-  - Needs to be one of 12C, 13C, 14N, 15N, 16O or 18O
-- `isotopolog`
-  - The name or ID of the substrate used. 
+  - The `source_mat_id` is also used as the link between sample metadata and source metadata
+  - This term is derived from the MISIP standards. Previous synonyms in qSIP include "rep" and "tube"
+- `isotope`: The isotope used
+  - For qSIP, the choices are limited to one of 12C, 13C, 14N, 15N, 16O or 18O
+  - This term is also a required MISIP field
+- `isotopolog`: The name or ID of the labeled substrate
+  - This term is also a required MISIP field
+  - For qSIP it doesn't have to strictly adhere to MISIP standards, and a string such as "glucose" will suffice
 
 
 
