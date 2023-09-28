@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 # Background
 
-In `qSIP2`, "sample data" refers to any high level metadata associated with either an experiment or the individual fractions. This vignette will show available tools to format and validate your sample data for the `qsip_sample_object` class in the `qSIP2` package.
+In `qSIP2`, "sample data" refers to any high level metadata associated with either an experiment or the individual fractions. This vignette will show available tools to format and validate your sample data for the `qsip_sample_data` class in the `qSIP2` package.
 
 ```{r setup, message=FALSE}
 library(dplyr)
@@ -107,11 +107,10 @@ add_gradient_pos_rel_amt(sample_data_MISIP,
 
 # Make a qSIP sample data object
 
-The `qsip_sample_object` constructor builds a sample data object from a dataframe. The `qSIP2` package comes with a basic example tibble called `sample_data_MISIP`, and some of the columns are already formatted with proper MISIP headers.
+The `qsip_sample_data` constructor builds a sample data object from a dataframe. The `qSIP2` package comes with a basic example tibble called `sample_data_MISIP`, and some of the columns are already formatted with proper MISIP headers.
 
 ```{r}
-
-qdf = qsip_sample_object(sample_data_MISIP)
+#qdf = qsip_sample_data(sample_data_MISIP)
 ```
 
 And that's that, for now.
