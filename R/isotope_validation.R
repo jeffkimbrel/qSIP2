@@ -5,8 +5,7 @@
 #'
 #' @return Returns `NULL` if the isotope strings are valid, or a printed error
 #'
-#' @export
-#' @keywords validation
+#' @keywords internal
 #'
 #' @note The isotope_list may change if isotopolog_label stays a thing. Only the "heavy" isotopes will be allowed.
 
@@ -19,6 +18,7 @@ isotope_validation = function(isotope, isotope_list = c("12C", "13C", "14N", "15
     for (error in setdiff(isotope, isotope_list)) {
       message(glue::glue(crayon::red("Invalid isotope found: {error}")))
 
-      }
+    }
+    return("Please fix the isotope names and try again")
   }
 }

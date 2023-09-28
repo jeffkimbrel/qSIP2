@@ -23,4 +23,4 @@ Check the validity of an isotope string
 \note{
 The isotope_list may change if isotopolog_label stays a thing. Only the "heavy" isotopes will be allowed.
 }
-\keyword{validation}
+\keyword{internal}
