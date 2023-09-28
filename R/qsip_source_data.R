@@ -57,12 +57,12 @@ qsip_source_data <- S7::new_class(
 
 
 
-qsip_source_data_growth <- S7::new_class("qsip_source_data_growth",
-                                               parent = qsip_source_data,
-                                               properties = list(
-                                                 source_dna_ng = S7::class_character,
-                                                 source_mat_g = S7::new_property(S7::class_character, default = NULL),
-                                                 source_qpcr_copies = S7::new_property(S7::class_character, default = NULL),
-                                                 tube_load_ng = S7::new_property(S7::class_character, default = NULL))
-)
+# qsip_source_data_growth <- S7::new_class("qsip_source_data_growth",
+#                                                parent = qsip_source_data,
+#                                                properties = list(
+#                                                  source_dna_ng = S7::class_character,
+#                                                  source_mat_g = S7::new_property(S7::class_character, default = NULL),
+#                                                  source_qpcr_copies = S7::new_property(S7::class_character, default = NULL),
+#                                                  tube_load_ng = S7::new_property(S7::class_character, default = NULL))
+# )
 
