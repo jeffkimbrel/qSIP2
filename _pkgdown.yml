@@ -19,6 +19,9 @@ reference:
 - title: Data
   contents:
   - has_keyword("data")
+- title: internal
+  contents:
+  - has_keyword("internal")
 
 articles:
 - title: Learn qSIP
@@ -30,3 +33,4 @@ articles:
 - title: Other
   contents:
   - controlled_vocab
+

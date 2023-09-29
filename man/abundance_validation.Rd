@@ -27,4 +27,4 @@ argument. Each other column name should be a unique sample name.
 Validity checking includes making sure all data is numeric (except for the
 taxa IDs), all numbers are integers, and no numbers are negative.
 }
-\keyword{validation}
+\keyword{internal}
