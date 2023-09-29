@@ -14,6 +14,7 @@
 #' @export
 #'
 #' @keywords object
+#' @family "qSIP classes"
 #'
 #' @return A `qsip_source_data` object
 

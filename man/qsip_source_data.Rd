@@ -29,4 +29,10 @@ object.
 \item{\code{source_mat_id}}{The unique ID for the biological subject or source (string)}
 }}
 
+\seealso{
+Other "qSIP classes": 
+\code{\link{qsip_feature_data}()},
+\code{\link{qsip_sample_data}()}
+}
+\concept{"qSIP classes"}
 \keyword{object}

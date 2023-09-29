@@ -39,4 +39,10 @@ compared to the total}
 \item{\code{fraction_volume}}{The volume loaded onto the column. Required if the \code{gradient_pos_amt} is reported as a concentration}
 }}
 
+\seealso{
+Other "qSIP classes": 
+\code{\link{qsip_feature_data}()},
+\code{\link{qsip_source_data}()}
+}
+\concept{"qSIP classes"}
 \keyword{object}

@@ -14,6 +14,7 @@
 #' @slot fraction_volume The volume loaded onto the column. Required if the `gradient_pos_amt` is reported as a concentration
 #'
 #' @export
+#' @family "qSIP classes"
 #'
 #' @keywords object
 
