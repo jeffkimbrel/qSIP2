@@ -12,8 +12,8 @@ reference:
 
 - title: Source Data
   contents:
-  - add_isotopolog_data
-  - remove_isotopolog_data
+  - add_isotopolog_label
+  - remove_isotopolog_label
   - show_comparison_groups
 
 - title: Sample Data
