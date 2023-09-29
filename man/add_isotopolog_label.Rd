@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_isotopolog_label.R
 \name{add_isotopolog_label}
 \alias{add_isotopolog_label}
-\title{Add isotopolog_label to data}
+\title{Add isotopolog_label to source data}
 \usage{
 add_isotopolog_label(data, isotope = "isotope")
 }
@@ -19,8 +19,4 @@ modified
 To convert from an isotope only dataframe to one with both isotope and
 isotopolog_label to satisfy MISIP requirements
 }
-\note{
-This function also renames your isotope column to "isotope", if it
-isn't already.
-}
-\keyword{sample_data}
+\concept{"Source Data"}

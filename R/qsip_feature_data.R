@@ -2,14 +2,14 @@
 #'
 #' A class to hold and validate a feature abundance table
 #'
-#' @slot data A dataframe or tibble
-#' @slot feature_id Column name with unique taxa IDs
+#' @slot data (*dataframe*) ASV/OTU table or equivalent
+#' @slot feature_id (*string*) Column name with unique taxa IDs
 #'
 #' @export
 #' @family "qSIP classes"
 #'
 #' @keywords object
-#' @returns A `qsip_feature_data` that holds a validated feature abundance table.
+#' @returns A validated object of the `qsip_feature_data` type
 
 qsip_feature_data <- S7::new_class(
   "qsip_feature_data",

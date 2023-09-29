@@ -1,14 +1,13 @@
 #' Check the validity of an isotope string
 #'
-#' @param isotope Isotope value or values (string(s))
-#' @param isotope_list Isotopes to check against (strings, default: c("12C", "13C", "14N", "15N", "16O", "18O"))
+#' @param isotope (*string or strings* Isotope value or values
+#' @param isotope_list (*strings, default: c("12C", "13C", "14N", "15N", "16O", "18O")*) Isotopes to check against
 #'
-#' @return Returns `NULL` if the isotope strings are valid, or a printed error
+#' @returns Returns `NULL` if the isotope strings are valid, or a printed error
 #'
 #' @export
 #'
 #' @note The isotope_list may change if isotopolog_label stays a thing. Only the "heavy" isotopes will be allowed.
-
 
 isotope_validation = function(isotope, isotope_list = c("12C", "13C", "14N", "15N", "16O", "18O")) {
 
@@ -17,7 +16,6 @@ isotope_validation = function(isotope, isotope_list = c("12C", "13C", "14N", "15
   } else {
     for (error in setdiff(isotope, isotope_list)) {
       message(glue::glue(crayon::red("Invalid isotope found: {error}")))
-
     }
     return("Please fix the isotope names and try again")
   }

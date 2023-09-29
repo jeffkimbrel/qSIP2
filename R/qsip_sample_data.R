@@ -2,21 +2,21 @@
 #'
 #' A class to hold and validate sample data.
 #'
-#' @slot data A dataframe or tibble
-#' @slot sample_id The unique ID for the sample/fraction
-#' @slot source_mat_id The unique ID for the biological subject or replicate
-#' @slot gradient_position Column name with the fraction position
-#' @slot gradient_pos_density Column name with the gradient density
-#' @slot gradient_pos_amt Column name with a total amount per fraction, either
+#' @slot data (*dataframe*) Metadata for samples/fractions
+#' @slot sample_id (*string*) The unique sample ID
+#' @slot source_mat_id (*string*) The unique ID for the biological subject or replicate
+#' @slot gradient_position (*string*) Column name with the fraction position
+#' @slot gradient_pos_density (*string*) Column name with the gradient density
+#' @slot gradient_pos_amt (*string*) Column name with a total amount per fraction, either
 #' qPCR copies or DNA
-#' @slot gradient_pos_rel_amt Column name with the relative fraction abundance
+#' @slot gradient_pos_rel_amt (*string*) Column name with the relative fraction abundance
 #'  compared to the total
-#' @slot fraction_volume The volume loaded onto the column. Required if the `gradient_pos_amt` is reported as a concentration
+#' @slot fraction_volume (*string*) The volume loaded onto the column. Required if the `gradient_pos_amt` is reported as a concentration
 #'
 #' @export
 #' @family "qSIP classes"
 #'
-#' @keywords object
+#' @returns A validated object of the `qsip_sample_data` type
 
 qsip_sample_data <- S7::new_class(
   "qsip_sample_data",

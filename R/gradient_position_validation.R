@@ -3,13 +3,13 @@
 #' Valid gradient positions are integers. The value can be `-1` to represent
 #' "bulk" or non-qSIP samples.
 #'
-#' @param gradient_position Gradient position value or values (string(s))
+#' @param gradient_position (*string or strings*) Gradient position value or values
 #'
-#' @return Returns `NULL` if the gradient position values are valid, or a
+#' @returns `NULL` if the gradient position values are valid, or a
 #' printed error
 #'
 #' @export
-#'
+
 
 gradient_position_validation = function(gradient_position) {
   if (is.numeric(gradient_position)) {

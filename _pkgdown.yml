@@ -9,16 +9,25 @@ reference:
   - qsip_source_data
   - qsip_sample_data
   - qsip_feature_data
+
+- title: Source Data
+  contents:
+  - add_isotopolog_data
+  - remove_isotopolog_data
+  - show_comparison_groups
+
 - title: Sample Data
   contents:
-  - has_keyword("sample_data")
   - add_gradient_pos_rel_amt
-- title: Abundance Data
+
+- title: Feature Data
   contents:
-  - has_keyword("abundance")
+  - add_taxonomy
+
 - title: Data
   contents:
   - has_keyword("data")
+
 - title: internal
   contents:
   - abundance_validation

@@ -6,17 +6,16 @@
 #' to also calculate growth then you should use the `qsip_source_data_growth`
 #' object.
 #'
-#' @slot data Source metadata (dataframe)
-#' @slot isotope Isotope name (string)
-#' @slot isotopolog Isotopolog data (string)
-#' @slot source_mat_id The unique ID for the biological subject or source (string)
+#' @slot data (*dataframe*) Source metadata
+#' @slot isotope (*string*) Isotope name
+#' @slot isotopolog (*string*)  Isotopolog data
+#' @slot source_mat_id (*string*) The unique ID for the biological subject or source
 #'
 #' @export
 #'
-#' @keywords object
 #' @family "qSIP classes"
 #'
-#' @return A `qsip_source_data` object
+#' @return A validated `qsip_source_data` object
 
 qsip_source_data <- S7::new_class(
   "qsip_source_data",
