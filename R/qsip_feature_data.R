@@ -16,7 +16,9 @@ qsip_feature_data <- S7::new_class(
     feature_id = S7::class_character,
     taxonomy = S7::class_data.frame
     ),
-  constructor = function(data, feature_id, taxonomy = data.frame()) {
+  constructor = function(data,
+                         feature_id,
+                         taxonomy = data.frame()) {
 
     # rename columns to standardized names
     data = data |>
@@ -41,35 +43,4 @@ qsip_feature_data <- S7::new_class(
 
 
 
-#' Add a taxonomy table to qSIP abundance data
-#'
-#' @param x An object of `qsip_feature_data` class
-#' @param taxa A taxa table
-#' @param id The column name for the taxa ids that match the ids in the
-#' abundance table
-#'
-#' @export
-#'
-#' @keywords abundance
 
-add_taxonomy <- S7::new_generic("add_taxonomy", "x")
-
-S7::method(add_taxonomy, qsip_feature_data) <- function(x, taxa, feature_id) {
-
-  x_ids = x@data |> dplyr::pull(feature_id)
-  taxa_ids = taxa |> dplyr::pull(feature_id)
-
-  if (length(setdiff(x_ids, taxa_ids)) > 0) {
-    stop("some ids found in the abundance object are not found in the taxa table")
-  } else if (length(setdiff(taxa_ids, x_ids)) > 0) {
-    setdiff(taxa_ids, x_ids)
-    stop("some ids found in the taxa table are not found in the abundance object")
-  } else {
-
-    # rename taxa id column to the object level ID
-    x@taxonomy = taxa |>
-      dplyr::rename("feature_id" := feature_id)
-
-    x
-  }
-}
