@@ -6,16 +6,15 @@ template:
 reference:
 - title: qSIP Objects
   contents:
-  - has_keyword("object")
+  - qsip_source_data
+  - qsip_sample_data
+  - qsip_feature_data
 - title: Sample Data
   contents:
   - has_keyword("sample_data")
 - title: Abundance Data
   contents:
   - has_keyword("abundance")
-- title: Validation functions
-  contents:
-  - has_keyword("validation")
 - title: Data
   contents:
   - has_keyword("data")

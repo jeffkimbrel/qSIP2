@@ -10,7 +10,7 @@
 #'
 #' @export
 #'
-#' @keywords validation
+#' @keywords internal
 
 gradient_position_validation = function(gradient_position) {
   if (is.numeric(gradient_position)) {

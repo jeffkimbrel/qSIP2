@@ -5,7 +5,7 @@
 #'
 #' @return Returns `NULL` if the isotope strings are valid, or a printed error
 #'
-#' @keywords validation
+#' @keywords internal
 #'
 #' @export
 #'
