@@ -28,6 +28,9 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/index.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/abundance_validation.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/add_gradient_pos_rel_amt.html</loc>
   </url>
   <url>
@@ -40,7 +43,16 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_sample_counts.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/gradient_pos_density_validation.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/gradient_position_validation.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/isotope_validation.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_sample_curves.html</loc>
