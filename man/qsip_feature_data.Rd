@@ -4,7 +4,10 @@
 \alias{qsip_feature_data}
 \title{qSIP feature table class}
 \usage{
-qsip_feature_data(data, feature_id, taxonomy = data.frame())
+qsip_feature_data(data, feature_id)
+}
+\value{
+A \code{qsip_feature_data} that holds a validated feature abundance table.
 }
 \description{
 A class to hold and validate a feature abundance table
@@ -17,4 +20,10 @@ A class to hold and validate a feature abundance table
 \item{\code{feature_id}}{Column name with unique taxa IDs}
 }}
 
+\seealso{
+Other "qSIP classes": 
+\code{\link{qsip_sample_data}()},
+\code{\link{qsip_source_data}()}
+}
+\concept{"qSIP classes"}
 \keyword{object}

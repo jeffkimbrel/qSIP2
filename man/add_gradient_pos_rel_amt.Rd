@@ -12,13 +12,13 @@ add_gradient_pos_rel_amt(
 )
 }
 \arguments{
-\item{data}{Sample metadata (dataframe)}
+\item{data}{(\emph{dataframe}) Sample metadata}
 
-\item{amt}{Column name that has the qPCR or DNA amounts per fraction (string)}
+\item{amt}{(\emph{string}) Column name that has the qPCR or DNA amounts per fraction}
 
-\item{source_mat_id}{Grouping variable for a replicate (string, default: "source_mat_id")}
+\item{source_mat_id}{(\emph{string, default: "source_mat_id"}) Grouping variable for a replicate}
 
-\item{overwrite}{Determines whether or not to overwrite an existing gradient_pos_rel_amt column (bool, default: FALSE)}
+\item{overwrite}{(\emph{bool, default: FALSE}) Determines whether or not to overwrite an existing gradient_pos_rel_amt column}
 }
 \value{
 A dataframe with a \code{gradient_pos_rel_amt} column
@@ -27,4 +27,4 @@ A dataframe with a \code{gradient_pos_rel_amt} column
 This function will calculate the relative amount of a fraction compared to
 the whole replicate using either qPCR copies or DNA concentrations.
 }
-\keyword{sample_data}
+\concept{"Sample Data"}

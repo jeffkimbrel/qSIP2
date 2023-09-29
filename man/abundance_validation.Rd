@@ -2,28 +2,26 @@
 % Please edit documentation in R/abundance_validation.R
 \name{abundance_validation}
 \alias{abundance_validation}
-\title{Check the validity of an abundance table}
+\title{Check the validity of a feature abundance table}
 \usage{
-abundance_validation(data, id)
+abundance_validation(data, feature_id)
 }
 \arguments{
-\item{data}{ASV/OTU table (dataframe)}
+\item{data}{(\emph{dataframe}) ASV/OTU table}
 
-\item{id}{Column name with taxa IDs (string)}
+\item{feature_id}{(\emph{string}) Column name with feature IDs}
 }
 \value{
 Returns \code{NULL} if the values are valid, or a printed error
 }
 \description{
-This validation function will check the validity of an abundance table. It
-can run standalone, but was written to be run when creating a qSIP2 abundance
-table object. Therefore, a valid run of this function will return NULL rather
-than a value.
+This validation function is an internal function will check the validity of a
+feature abundance table.
 }
 \details{
 Rows should contain the unique taxa ids with a column designated with the id
 argument. Each other column name should be a unique sample name.
 
 Validity checking includes making sure all data is numeric (except for the
-taxa IDs), all numbers are integers, and no numbers are negative.
+feature IDs), all numbers are integers, and no numbers are negative.
 }
