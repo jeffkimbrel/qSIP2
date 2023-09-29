@@ -12,6 +12,7 @@ reference:
 - title: Sample Data
   contents:
   - has_keyword("sample_data")
+  - add_gradient_pos_rel_amt
 - title: Abundance Data
   contents:
   - has_keyword("abundance")
