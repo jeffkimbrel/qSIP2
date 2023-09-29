@@ -19,6 +19,8 @@ reference:
 - title: Sample Data
   contents:
   - add_gradient_pos_rel_amt
+  - plot_sample_curves
+  - get_sample_counts
 
 - title: Feature Data
   contents:
