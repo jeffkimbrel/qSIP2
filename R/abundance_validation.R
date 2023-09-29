@@ -17,7 +17,6 @@
 #' @return Returns `NULL` if the values are valid, or a printed error
 #'
 #' @export
-#' @keywords internal
 
 
 abundance_validation = function(data, id) {

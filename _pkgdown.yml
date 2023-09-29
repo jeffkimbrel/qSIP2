@@ -20,7 +20,10 @@ reference:
   - has_keyword("data")
 - title: internal
   contents:
-  - has_keyword("internal")
+  - abundance_validation
+  - gradient_pos_density_validation
+  - gradient_position_validation
+  - isotope_validation
 
 articles:
 - title: Learn qSIP
