@@ -7,7 +7,7 @@
 qsip_source_data(data, isotope, isotopolog, source_mat_id)
 }
 \value{
-A \code{qsip_source_data} object
+A validated \code{qsip_source_data} object
 }
 \description{
 A class to hold and validate qSIP source data.
@@ -20,19 +20,19 @@ object.
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{Source metadata (dataframe)}
+\item{\code{data}}{(\emph{dataframe}) Source metadata}
 
-\item{\code{isotope}}{Isotope name (string)}
+\item{\code{isotope}}{(\emph{string}) Isotope name}
 
-\item{\code{isotopolog}}{Isotopolog data (string)}
+\item{\code{isotopolog}}{(\emph{string})  Isotopolog data}
 
-\item{\code{source_mat_id}}{The unique ID for the biological subject or source (string)}
+\item{\code{source_mat_id}}{(\emph{string}) The unique ID for the biological subject or source}
 }}
 
 \seealso{
 Other "qSIP classes": 
+\code{\link{qsip_data}()},
 \code{\link{qsip_feature_data}()},
 \code{\link{qsip_sample_data}()}
 }
 \concept{"qSIP classes"}
-\keyword{object}

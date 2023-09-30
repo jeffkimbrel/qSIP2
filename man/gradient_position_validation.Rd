@@ -7,10 +7,10 @@
 gradient_position_validation(gradient_position)
 }
 \arguments{
-\item{gradient_position}{Gradient position value or values (string(s))}
+\item{gradient_position}{(\emph{string or strings}) Gradient position value or values}
 }
 \value{
-Returns \code{NULL} if the gradient position values are valid, or a
+\code{NULL} if the gradient position values are valid, or a
 printed error
 }
 \description{

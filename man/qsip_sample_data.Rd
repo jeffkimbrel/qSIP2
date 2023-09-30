@@ -14,35 +14,38 @@ qsip_sample_data(
   gradient_pos_rel_amt
 )
 }
+\value{
+A validated object of the \code{qsip_sample_data} type
+}
 \description{
 A class to hold and validate sample data.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{A dataframe or tibble}
+\item{\code{data}}{(\emph{dataframe}) Metadata for samples/fractions}
 
-\item{\code{sample_id}}{The unique ID for the sample/fraction}
+\item{\code{sample_id}}{(\emph{string}) The unique sample ID}
 
-\item{\code{source_mat_id}}{The unique ID for the biological subject or replicate}
+\item{\code{source_mat_id}}{(\emph{string}) The unique ID for the biological subject or replicate}
 
-\item{\code{gradient_position}}{Column name with the fraction position}
+\item{\code{gradient_position}}{(\emph{string}) Column name with the fraction position}
 
-\item{\code{gradient_pos_density}}{Column name with the gradient density}
+\item{\code{gradient_pos_density}}{(\emph{string}) Column name with the gradient density}
 
-\item{\code{gradient_pos_amt}}{Column name with a total amount per fraction, either
+\item{\code{gradient_pos_amt}}{(\emph{string}) Column name with a total amount per fraction, either
 qPCR copies or DNA}
 
-\item{\code{gradient_pos_rel_amt}}{Column name with the relative fraction abundance
+\item{\code{gradient_pos_rel_amt}}{(\emph{string}) Column name with the relative fraction abundance
 compared to the total}
 
-\item{\code{fraction_volume}}{The volume loaded onto the column. Required if the \code{gradient_pos_amt} is reported as a concentration}
+\item{\code{fraction_volume}}{(\emph{string}) The volume loaded onto the column. Required if the \code{gradient_pos_amt} is reported as a concentration}
 }}
 
 \seealso{
 Other "qSIP classes": 
+\code{\link{qsip_data}()},
 \code{\link{qsip_feature_data}()},
 \code{\link{qsip_source_data}()}
 }
 \concept{"qSIP classes"}
-\keyword{object}

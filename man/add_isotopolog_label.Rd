@@ -7,9 +7,9 @@
 add_isotopolog_label(data, isotope = "isotope")
 }
 \arguments{
-\item{data}{Sample metadata (dataframe)}
+\item{data}{(\emph{dataframe}) Sample metadata}
 
-\item{isotope}{Column name with isotope data (string, default: "isotope")}
+\item{isotope}{(\emph{string, default: "isotope"}) Column name with isotope data}
 }
 \value{
 A dataframe with \code{isotopolog_label} column added and \code{isotope} column

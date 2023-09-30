@@ -7,11 +7,11 @@
 gradient_pos_density_validation(gradient_pos_density, low = 1.55, high = 1.8)
 }
 \arguments{
-\item{gradient_pos_density}{Density value or values (string(s))}
+\item{gradient_pos_density}{(\emph{string or strings}) Density value or values}
 
-\item{low}{A low limit for valid density values (numeric, default: 1.55)}
+\item{low}{(\emph{numeric, default: 1.55}) A low limit for valid density values}
 
-\item{high}{A high limit for valid density values (numeric, default: 1.8)}
+\item{high}{(\emph{numeric, default: 1.8}) A high limit for valid density values}
 }
 \value{
 Returns \code{NULL} if the density values are valid, or a printed error

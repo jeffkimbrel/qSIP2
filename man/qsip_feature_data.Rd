@@ -7,7 +7,7 @@
 qsip_feature_data(data, feature_id)
 }
 \value{
-A \code{qsip_feature_data} that holds a validated feature abundance table.
+A validated object of the \code{qsip_feature_data} type
 }
 \description{
 A class to hold and validate a feature abundance table
@@ -15,13 +15,14 @@ A class to hold and validate a feature abundance table
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{A dataframe or tibble}
+\item{\code{data}}{(\emph{dataframe}) ASV/OTU table or equivalent}
 
-\item{\code{feature_id}}{Column name with unique taxa IDs}
+\item{\code{feature_id}}{(\emph{string}) Column name with unique taxa IDs}
 }}
 
 \seealso{
 Other "qSIP classes": 
+\code{\link{qsip_data}()},
 \code{\link{qsip_sample_data}()},
 \code{\link{qsip_source_data}()}
 }

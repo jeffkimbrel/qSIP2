@@ -7,14 +7,17 @@
 add_taxonomy(feature_object, taxa, feature_id)
 }
 \arguments{
-\item{feature_object}{An object of \code{qsip_feature_data} class}
+\item{feature_object}{(\emph{qsip_feature_object}) An object of \code{qsip_feature_data} class}
 
-\item{taxa}{A taxa table}
+\item{taxa}{(\emph{dataframe}) A taxa table}
 
-\item{id}{The column name for the taxa ids that match the ids in the
+\item{id}{(\emph{string}) The column name for the taxa ids that match the ids in the
 abundance table}
+}
+\value{
+An updated \code{qsip_feature_object} with the taxonomy slot populated with a taxonomy dataframe.
 }
 \description{
 Add a taxonomy table to qSIP abundance data
 }
-\keyword{abundance}
+\concept{"Feature Data"}

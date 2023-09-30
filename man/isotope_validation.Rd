@@ -10,9 +10,9 @@ isotope_validation(
 )
 }
 \arguments{
-\item{isotope}{Isotope value or values (string(s))}
+\item{isotope}{(\emph{string or strings} Isotope value or values}
 
-\item{isotope_list}{Isotopes to check against (strings, default: c("12C", "13C", "14N", "15N", "16O", "18O"))}
+\item{isotope_list}{(\emph{strings, default: c("12C", "13C", "14N", "15N", "16O", "18O")}) Isotopes to check against}
 }
 \value{
 Returns \code{NULL} if the isotope strings are valid, or a printed error
