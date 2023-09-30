@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.5.9010</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,47 +69,54 @@
     </div>
 
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    
+
+<p>A validated object of the <code>qsip_sample_data</code> type</p>
+    </div>
+    <div class="section level2">
     <h2 id="slots">Slots<a class="anchor" aria-label="anchor" href="#slots"></a></h2>
     
 
 <dl><dt><code>data</code></dt>
-<dd><p>A dataframe or tibble</p></dd>
+<dd><p>(<em>dataframe</em>) Metadata for samples/fractions</p></dd>
 
 
 <dt><code>sample_id</code></dt>
-<dd><p>The unique ID for the sample/fraction</p></dd>
+<dd><p>(<em>string</em>) The unique sample ID</p></dd>
 
 
 <dt><code>source_mat_id</code></dt>
-<dd><p>The unique ID for the biological subject or replicate</p></dd>
+<dd><p>(<em>string</em>) The unique ID for the biological subject or replicate</p></dd>
 
 
 <dt><code>gradient_position</code></dt>
-<dd><p>Column name with the fraction position</p></dd>
+<dd><p>(<em>string</em>) Column name with the fraction position</p></dd>
 
 
 <dt><code>gradient_pos_density</code></dt>
-<dd><p>Column name with the gradient density</p></dd>
+<dd><p>(<em>string</em>) Column name with the gradient density</p></dd>
 
 
 <dt><code>gradient_pos_amt</code></dt>
-<dd><p>Column name with a total amount per fraction, either
+<dd><p>(<em>string</em>) Column name with a total amount per fraction, either
 qPCR copies or DNA</p></dd>
 
 
 <dt><code>gradient_pos_rel_amt</code></dt>
-<dd><p>Column name with the relative fraction abundance
+<dd><p>(<em>string</em>) Column name with the relative fraction abundance
 compared to the total</p></dd>
 
 
 <dt><code>fraction_volume</code></dt>
-<dd><p>The volume loaded onto the column. Required if the <code>gradient_pos_amt</code> is reported as a concentration</p></dd>
+<dd><p>(<em>string</em>) The volume loaded onto the column. Required if the <code>gradient_pos_amt</code> is reported as a concentration</p></dd>
 
 
 </dl></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other "qSIP classes": 
+<code><a href="qsip_data.html">qsip_data</a>()</code>,
 <code><a href="qsip_feature_data.html">qsip_feature_data</a>()</code>,
 <code><a href="qsip_source_data.html">qsip_source_data</a>()</code></p></div>
     </div>
