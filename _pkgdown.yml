@@ -6,6 +6,7 @@ template:
 reference:
 - title: qSIP Objects
   contents:
+  - qsip_data
   - qsip_source_data
   - qsip_sample_data
   - qsip_feature_data
