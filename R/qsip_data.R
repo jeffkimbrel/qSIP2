@@ -24,6 +24,7 @@ qsip_data <- S7::new_class(
     feature_data = S7::class_any,
     tube_rel_abundance = S7::class_data.frame,
     filtered_feature_data = S7::class_data.frame,
+    filter_results = S7::class_list,
     wads = S7::class_data.frame,
     boots = S7::class_data.frame,
     results = S7::class_data.frame
@@ -57,6 +58,7 @@ qsip_data <- S7::new_class(
                    feature_data = feature_data,
                    tube_rel_abundance = tube_rel_abundance,
                    filtered_feature_data = data.frame(),
+                   filter_results = list(),
                    wads = data.frame(),
                    boots = data.frame(),
                    results = data.frame())
