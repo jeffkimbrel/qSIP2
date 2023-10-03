@@ -4,11 +4,7 @@
 \alias{qsip_data}
 \title{qSIP master data class}
 \usage{
-qsip_data(
-  source_data = class_missing,
-  sample_data = class_missing,
-  feature_data = class_missing
-)
+qsip_data(source_data, sample_data, feature_data)
 }
 \value{
 A validated \code{qsip_data} object

@@ -21,8 +21,25 @@ qsip_data <- S7::new_class(
   properties = list(
     source_data = S7::class_any,
     sample_data = S7::class_any,
-    feature_data = S7::class_any
+    feature_data = S7::class_any,
+    filtered_feature_data = S7::class_data.frame,
+    wads = S7::class_data.frame,
+    boots = S7::class_data.frame,
+    results = S7::class_data.frame
   ),
+  constructor = function(source_data,
+                         sample_data,
+                         feature_data) {
+
+    S7::new_object(S7::S7_object(),
+                   source_data = source_data,
+                   sample_data = sample_data,
+                   feature_data = feature_data,
+                   filtered_feature_data = data.frame(),
+                   wads = data.frame(),
+                   boots = data.frame(),
+                   results = data.frame())
+    },
   validator = function(self) {
 
     # make sure all are valid objects
