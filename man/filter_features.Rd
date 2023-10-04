@@ -26,14 +26,17 @@ An updated \code{qsip_data} with a filtered feature dataframe in the
 slot for plotting.
 }
 \description{
+Filters a feature in a feature table in a \code{qsip_data} object by presence in
+a minimum number of fractions and source_mat_ids.
+}
+\details{
 Filtering is first done on the fractions, and then on the source_mat_ids. For
 example, take a feature that is found in three source_mat_ids in 3, 5 and 9
 fractions. If you set \code{fraction_counts = 5} and \code{source_counts = 3} then this
 feature will not survive the filtering because although it is found in three
 source_mat_ids, one of them is less then the minimum fraction count and would
 therefore be considered not found in that source_mat_id.
-}
-\details{
+
 The feature table is filtered to retain only the feature_ids passing the
 filter, and to keep only the sample_ids that correspond to the given
 source_mat_ids. This filtered table is stored in the \verb{@filtered_feature_data}

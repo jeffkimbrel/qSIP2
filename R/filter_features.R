@@ -1,5 +1,8 @@
 #' Filter features in a qSIP data object
 #'
+#' Filters a feature in a feature table in a `qsip_data` object by presence in
+#' a minimum number of fractions and source_mat_ids.
+#'
 #' Filtering is first done on the fractions, and then on the source_mat_ids. For
 #' example, take a feature that is found in three source_mat_ids in 3, 5 and 9
 #' fractions. If you set `fraction_counts = 5` and `source_counts = 3` then this
