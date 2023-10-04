@@ -39,6 +39,7 @@ reference:
   - gradient_position_validation
   - isotope_validation
   - calculate_tube_rel_abundance
+  - calculate_wads
 
 articles:
 - title: Learn qSIP
