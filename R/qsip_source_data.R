@@ -13,7 +13,7 @@
 #'
 #' @export
 #'
-#' @family "qSIP classes"
+#' @family "qSIP Objects"
 #'
 #' @return A validated `qsip_source_data` object
 

@@ -21,10 +21,10 @@ A class to hold and validate a feature abundance table
 }}
 
 \seealso{
-Other "qSIP classes": 
+Other "qSIP Objects": 
 \code{\link{qsip_data}()},
 \code{\link{qsip_sample_data}()},
 \code{\link{qsip_source_data}()}
 }
-\concept{"qSIP classes"}
+\concept{"qSIP Objects"}
 \keyword{object}

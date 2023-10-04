@@ -30,9 +30,9 @@ object.
 }}
 
 \seealso{
-Other "qSIP classes": 
+Other "qSIP Objects": 
 \code{\link{qsip_data}()},
 \code{\link{qsip_feature_data}()},
 \code{\link{qsip_sample_data}()}
 }
-\concept{"qSIP classes"}
+\concept{"qSIP Objects"}

@@ -12,7 +12,7 @@
 #'
 #' @export
 #'
-#' @family "qSIP Workflow"
+#' @family "qSIP Objects"
 #'
 #' @return A validated `qsip_data` object
 

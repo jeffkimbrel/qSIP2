@@ -6,7 +6,7 @@
 #' @slot feature_id (*string*) Column name with unique taxa IDs
 #'
 #' @export
-#' @family "qSIP classes"
+#' @family "qSIP Objects"
 #'
 #' @keywords object
 #' @returns A validated object of the `qsip_feature_data` type
