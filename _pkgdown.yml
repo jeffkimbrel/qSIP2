@@ -26,6 +26,7 @@ reference:
 - title: Feature Data
   contents:
   - add_taxonomy
+  - filter_features
 
 - title: Datasets
   contents:
