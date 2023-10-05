@@ -12,7 +12,7 @@ a minimum number of fractions and source_mat_ids."><!-- mathjax --><script src="
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,16 +61,16 @@ a minimum number of fractions and source_mat_ids.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">filter_features</span><span class="op">(</span></span>
-<span>  <span class="va">qsip_data</span>,</span>
+<span>  <span class="va">qsip_data_object</span>,</span>
 <span>  <span class="va">source_mat_ids</span>,</span>
-<span>  source_counts <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  fraction_counts <span class="op">=</span> <span class="fl">1</span></span>
+<span>  min_sources <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  min_fractions <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>qsip_data</dt>
+    <dl><dt>qsip_data_object</dt>
 <dd><p>(<em>qsip_data</em>) An object of <code>qsip_data</code> class</p></dd>
 
 
@@ -78,11 +78,11 @@ a minimum number of fractions and source_mat_ids.</p>
 <dd><p>(<em>string or strings(s)</em>) A list of the light and heavy source_mat_ids to filter on</p></dd>
 
 
-<dt>source_counts</dt>
+<dt>min_sources</dt>
 <dd><p>(<em>integer</em>) Minimum number of source_mat_ids a feature must be found in.</p></dd>
 
 
-<dt>fraction_counts</dt>
+<dt>min_fractions</dt>
 <dd><p>(<em>integer</em>) Minimum number of fractions a feature must be found in to be present in that source_mat_id</p></dd>
 
 </dl></div>
@@ -90,7 +90,7 @@ a minimum number of fractions and source_mat_ids.</p>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>An updated <code>qsip_data</code> with a filtered feature dataframe in the
+<p>An updated <code>qsip_data</code> object with a filtered feature dataframe in the
 <code>@filtered_feature_data</code> slot and intermediate data in the <code>@filter_results</code></p>
 
 
@@ -100,7 +100,7 @@ a minimum number of fractions and source_mat_ids.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Filtering is first done on the fractions, and then on the source_mat_ids. For
 example, take a feature that is found in three source_mat_ids in 3, 5 and 9
-fractions. If you set <code>fraction_counts = 5</code> and <code>source_counts = 3</code> then this
+fractions. If you set <code>min_fractions = 5</code> and <code>min_sources = 3</code> then this
 feature will not survive the filtering because although it is found in three
 source_mat_ids, one of them is less then the minimum fraction count and would
 therefore be considered not found in that source_mat_id.</p>
