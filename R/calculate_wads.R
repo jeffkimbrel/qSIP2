@@ -4,7 +4,7 @@
 #'
 #' @export
 #'
-#' @returns An list with two objects, 1) a dataframe with WAD info for the feature_ids
+#' @returns A list with two objects, 1) a dataframe with WAD info for the feature_ids
 #' found in at least one sample, and 2) the fraction counts for all feature_ids,
 #' including those not found at all in some samples. It also prints a message to
 #' the screen with a count of feature_ids that are entirely missing from at least
@@ -41,5 +41,24 @@ calculate_wads = function(tube_rel_abundance) {
 
   return(list("wads" = wads,
               "fraction_counts" = fraction_counts))
+
+}
+
+
+#' Calculate global weighted average density (WAD) value for a source_mat_id
+#'
+#' @param sample_data (*qsip_sample_data*) Sample data object
+#'
+#' @export
+#'
+#' @returns A dataframe with two columns, 1) the source_mat_id and 2) the global
+#' WAD value for that source_mat_id
+
+calculate_source_wads = function(sample_data) {
+
+  sample_data@data |>
+    dplyr::group_by(source_mat_id) |>
+    dplyr::summarize(WAD = weighted.mean(gradient_pos_density, gradient_pos_rel_amt),
+                     .groups = "drop")
 
 }

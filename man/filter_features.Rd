@@ -5,23 +5,23 @@
 \title{Filter features in a qSIP data object}
 \usage{
 filter_features(
-  qsip_data,
+  qsip_data_object,
   source_mat_ids,
-  source_counts = 1,
-  fraction_counts = 1
+  min_sources = 1,
+  min_fractions = 1
 )
 }
 \arguments{
-\item{qsip_data}{(\emph{qsip_data}) An object of \code{qsip_data} class}
+\item{qsip_data_object}{(\emph{qsip_data}) An object of \code{qsip_data} class}
 
 \item{source_mat_ids}{(\emph{string or strings(s)}) A list of the light and heavy source_mat_ids to filter on}
 
-\item{source_counts}{(\emph{integer}) Minimum number of source_mat_ids a feature must be found in.}
+\item{min_sources}{(\emph{integer}) Minimum number of source_mat_ids a feature must be found in.}
 
-\item{fraction_counts}{(\emph{integer}) Minimum number of fractions a feature must be found in to be present in that source_mat_id}
+\item{min_fractions}{(\emph{integer}) Minimum number of fractions a feature must be found in to be present in that source_mat_id}
 }
 \value{
-An updated \code{qsip_data} with a filtered feature dataframe in the
+An updated \code{qsip_data} object with a filtered feature dataframe in the
 \verb{@filtered_feature_data} slot and intermediate data in the \verb{@filter_results}
 slot for plotting.
 }
@@ -32,7 +32,7 @@ a minimum number of fractions and source_mat_ids.
 \details{
 Filtering is first done on the fractions, and then on the source_mat_ids. For
 example, take a feature that is found in three source_mat_ids in 3, 5 and 9
-fractions. If you set \code{fraction_counts = 5} and \code{source_counts = 3} then this
+fractions. If you set \code{min_fractions = 5} and \code{min_sources = 3} then this
 feature will not survive the filtering because although it is found in three
 source_mat_ids, one of them is less then the minimum fraction count and would
 therefore be considered not found in that source_mat_id.

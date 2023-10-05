@@ -24,6 +24,7 @@ qsip_data <- S7::new_class(
     feature_data = S7::class_any,
     tube_rel_abundance = S7::class_data.frame,
     wads = S7::class_data.frame,
+    source_wads = S7::class_data.frame,
     fraction_counts = S7::class_data.frame,
     filtered_feature_data = S7::class_data.frame,
     filter_results = S7::class_list,
@@ -37,6 +38,7 @@ qsip_data <- S7::new_class(
     # calculate tube level relative abundances
     tube_rel_abundance = calculate_tube_rel_abundance(source_data, sample_data, feature_data)
     wad_data = calculate_wads(tube_rel_abundance)
+    source_wad = calculate_source_wads(j@sample_data)
 
     S7::new_object(S7::S7_object(),
                    source_data = source_data,
@@ -44,6 +46,7 @@ qsip_data <- S7::new_class(
                    feature_data = feature_data,
                    tube_rel_abundance = tube_rel_abundance,
                    wads = wad_data$wads,
+                   source_wads = source_wad,
                    fraction_counts = wad_data$fraction_counts,
                    filtered_feature_data = data.frame(),
                    filter_results = list(),

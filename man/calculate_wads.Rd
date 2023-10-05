@@ -10,7 +10,7 @@ calculate_wads(tube_rel_abundance)
 \item{tube_rel_abundance}{(\emph{dataframe}) Output from \code{calculate_tube_rel_abundance()}}
 }
 \value{
-An list with two objects, 1) a dataframe with WAD info for the feature_ids
+A list with two objects, 1) a dataframe with WAD info for the feature_ids
 found in at least one sample, and 2) the fraction counts for all feature_ids,
 including those not found at all in some samples. It also prints a message to
 the screen with a count of feature_ids that are entirely missing from at least
