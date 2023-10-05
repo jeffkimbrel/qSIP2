@@ -93,6 +93,13 @@ filter_features = function(qsip_data_object,
                        values_from = tube_rel_abundance,
                        values_fill = 0)
 
+  qsip_data_object@filtered_wad_data = qsip_data_object@wads |>
+    dplyr::filter(feature_id %in% retained_features) |>
+    dplyr::filter(source_mat_id %in% source_mat_ids) |>
+    dplyr::select(feature_id, source_mat_id, WAD) |>
+    tidyr::pivot_wider(names_from = source_mat_id,
+                       values_from = WAD)
+
   return(qsip_data_object)
 
 }
