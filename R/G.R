@@ -38,6 +38,11 @@ calculate_gc_from_density = function(density,
 #' @export
 
 
-calculate_gc_from_string = function(sequence) {
-  (stringr::str_count(sequence, "g|G") + stringr::str_count(sequence, "c|G")) / stringr::str_length(sequence) * 100
+calculate_gc_from_sequence = function(sequence) {
+
+  if (is.character(sequence)) {
+    (stringr::str_count(sequence, "g|G") + stringr::str_count(sequence, "c|C")) / stringr::str_length(sequence)
+  } else {
+    stop("ERROR: Please provide a string sequence to calculate GC%")
+  }
 }
