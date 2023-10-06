@@ -43,6 +43,8 @@ reference:
   - calculate_source_wads
   - calculate_gc_from_density
   - calculate_gc_from_string
+  - fraction_results_message
+  - source_results_message
 
 articles:
 - title: Learn qSIP
