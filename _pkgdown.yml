@@ -16,6 +16,7 @@ reference:
   - add_isotopolog_label
   - remove_isotopolog_label
   - show_comparison_groups
+  - get_all_by_isotope
 
 - title: Sample Data
   contents:
