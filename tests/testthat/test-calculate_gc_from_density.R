@@ -19,3 +19,8 @@ test_that("different methods work", {
 test_that("wrong method fails", {
   expect_error(calculate_gc_from_density(1.66, method = "no_method_exists"))
 })
+
+test_that("default is MM", {
+  expect_equal(calculate_gc_from_density(1.7, method = "MM"),
+               calculate_gc_from_density(1.7))
+})

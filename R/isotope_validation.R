@@ -15,8 +15,8 @@ isotope_validation = function(isotope, isotope_list = c("12C", "13C", "14N", "15
     return(NULL)
   } else {
     for (error in setdiff(isotope, isotope_list)) {
-      stop(glue::glue(crayon::red("ERROR: Invalid isotope found: {error}")))
+      message(glue::glue(crayon::red("ERROR: Invalid isotope found: {error}")))
     }
-    return("ERROR: Please fix the isotope names and try again")
+    stop("ERROR: Please fix the isotope names and try again")
   }
 }
