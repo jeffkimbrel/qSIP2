@@ -42,7 +42,7 @@ reference:
   - calculate_wads
   - calculate_source_wads
   - calculate_gc_from_density
-  - calculate_gc_from_string
+  - calculate_gc_from_sequence
   - fraction_results_message
   - source_results_message
 
