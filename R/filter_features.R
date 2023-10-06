@@ -21,10 +21,10 @@
 #' @param qsip_data_object (*qsip_data*) An object of `qsip_data` class
 #' @param unlabeled_source_mat_ids (*string or strings(s)*) A list of the unlabeled source_mat_ids to filter on
 #' @param labeled_source_mat_ids (*string or strings(s)*) A list of the labeled source_mat_ids to filter on
-#' @param min_unlabeled_sources (*integer*) Minimum number of unlabeled source_mat_ids a feature must be found in.
-#' @param min_labeled_sources (*integer*) Minimum number of labeled source_mat_ids a feature must be found in.
-#' @param min_unlabeled_fractions (*integer*) Minimum number of fractions a feature must be found in to be present in an unlabeled source_mat_id
-#' @param min_labeled_fractions (*integer*) Minimum number of fractions a feature must be found in to be present in an labeled source_mat_id
+#' @param min_unlabeled_sources (*integer, default: 2*) Minimum number of unlabeled source_mat_ids a feature must be found in.
+#' @param min_labeled_sources (*integer, default: 2*) Minimum number of labeled source_mat_ids a feature must be found in.
+#' @param min_unlabeled_fractions (*integer, default: 2*) Minimum number of fractions a feature must be found in to be present in an unlabeled source_mat_id
+#' @param min_labeled_fractions (*integer, default: 2*) Minimum number of fractions a feature must be found in to be present in an labeled source_mat_id
 #'
 #' @export
 #'
@@ -35,12 +35,12 @@
 #' slot for plotting.
 
 filter_features = function(qsip_data_object,
-                           unlabeled_source_mat_ids = c("S147", "S148", "S145", "S146"),
-                           labeled_source_mat_ids = c("S171", "S173", "S169", "S170"),
-                           min_unlabeled_sources = 3,
-                           min_labeled_sources = 3,
-                           min_unlabeled_fractions = 3,
-                           min_labeled_fractions = 3) {
+                           unlabeled_source_mat_ids,
+                           labeled_source_mat_ids,
+                           min_unlabeled_sources = 2,
+                           min_labeled_sources = 2,
+                           min_unlabeled_fractions = 2,
+                           min_labeled_fractions = 2) {
 
   source_mat_ids = c(unlabeled_source_mat_ids, labeled_source_mat_ids)
 

@@ -6,12 +6,12 @@
 \usage{
 filter_features(
   qsip_data_object,
-  unlabeled_source_mat_ids = c("S147", "S148", "S145", "S146"),
-  labeled_source_mat_ids = c("S171", "S173", "S169", "S170"),
-  min_unlabeled_sources = 3,
-  min_labeled_sources = 3,
-  min_unlabeled_fractions = 3,
-  min_labeled_fractions = 3
+  unlabeled_source_mat_ids,
+  labeled_source_mat_ids,
+  min_unlabeled_sources = 2,
+  min_labeled_sources = 2,
+  min_unlabeled_fractions = 2,
+  min_labeled_fractions = 2
 )
 }
 \arguments{
@@ -21,13 +21,13 @@ filter_features(
 
 \item{labeled_source_mat_ids}{(\emph{string or strings(s)}) A list of the labeled source_mat_ids to filter on}
 
-\item{min_unlabeled_sources}{(\emph{integer}) Minimum number of unlabeled source_mat_ids a feature must be found in.}
+\item{min_unlabeled_sources}{(\emph{integer, default: 2}) Minimum number of unlabeled source_mat_ids a feature must be found in.}
 
-\item{min_labeled_sources}{(\emph{integer}) Minimum number of labeled source_mat_ids a feature must be found in.}
+\item{min_labeled_sources}{(\emph{integer, default: 2}) Minimum number of labeled source_mat_ids a feature must be found in.}
 
-\item{min_unlabeled_fractions}{(\emph{integer}) Minimum number of fractions a feature must be found in to be present in an unlabeled source_mat_id}
+\item{min_unlabeled_fractions}{(\emph{integer, default: 2}) Minimum number of fractions a feature must be found in to be present in an unlabeled source_mat_id}
 
-\item{min_labeled_fractions}{(\emph{integer}) Minimum number of fractions a feature must be found in to be present in an labeled source_mat_id}
+\item{min_labeled_fractions}{(\emph{integer, default: 2}) Minimum number of fractions a feature must be found in to be present in an labeled source_mat_id}
 }
 \value{
 An updated \code{qsip_data} object with a filtered feature dataframe in the
