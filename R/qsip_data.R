@@ -29,7 +29,7 @@ qsip_data <- S7::new_class(
     filtered_feature_data = S7::class_data.frame,
     filtered_wad_data = S7::class_data.frame,
     filter_results = S7::class_list,
-    boots = S7::class_list,
+    resamples = S7::class_list,
     results = S7::class_data.frame
   ),
   constructor = function(source_data,
@@ -52,7 +52,7 @@ qsip_data <- S7::new_class(
                    filtered_feature_data = data.frame(),
                    filtered_wad_data = data.frame(),
                    filter_results = list(),
-                   boots = list(),
+                   resamples = list(),
                    results = data.frame())
     },
   validator = function(self) {

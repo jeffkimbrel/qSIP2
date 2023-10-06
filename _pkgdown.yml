@@ -41,6 +41,8 @@ reference:
   - calculate_tube_rel_abundance
   - calculate_wads
   - calculate_source_wads
+  - calculate_gc_from_density
+  - calculate_gc_from_string
 
 articles:
 - title: Learn qSIP
