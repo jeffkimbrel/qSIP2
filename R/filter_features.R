@@ -116,11 +116,11 @@ filter_features = function(qsip_data_object,
   qsip_data_object@filter_results = list("source_filtered" = by_source,
                                          "fraction_filtered" = by_fraction,
                                          "retained_features" = retained_features,
+                                         "labeled_source_mat_ids" = labeled_source_mat_ids,
                                          "unlabeled_source_mat_ids" = unlabeled_source_mat_ids,
+                                         "min_labeled_sources" = min_labeled_sources,
                                          "min_unlabeled_sources" = min_unlabeled_sources,
-                                         "min_unlabeled_fractions" = min_unlabeled_fractions,
-                                         "unlabeled_source_mat_ids" = unlabeled_source_mat_ids,
-                                         "min_unlabeled_sources" = min_unlabeled_sources,
+                                         "min_labeled_fractions" = min_labeled_fractions,
                                          "min_unlabeled_fractions" = min_unlabeled_fractions
   )
 

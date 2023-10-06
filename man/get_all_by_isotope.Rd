@@ -9,7 +9,7 @@ get_all_by_isotope(qsip_data_object, isotopes)
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data or qsip_source_data}) A qsip object with source data}
 
-\item{isotopes}{(\emph{string(s)}) Isotopes used to pull source_mat_ids. Can be a standard isotope name (i.e. "12C") or "labeled"/"unlabeled"}
+\item{isotopes}{(\emph{string(s)}) Isotopes used to pull source_mat_ids. Can be a standard isotope name (e.g. \verb{12C}) or special terms \code{labeled} or \code{unlabeled}}
 }
 \value{
 A vector of source_mat_ids. It may also print some messages.
