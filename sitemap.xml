@@ -43,7 +43,7 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_gc_from_density.html</loc>
   </url>
   <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_gc_from_string.html</loc>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_gc_from_sequence.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_source_wads.html</loc>
@@ -56,6 +56,9 @@
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/filter_features.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/fraction_results_message.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_sample_counts.html</loc>
@@ -98,5 +101,8 @@
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/show_comparison_groups.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/source_results_message.html</loc>
   </url>
 </urlset>
