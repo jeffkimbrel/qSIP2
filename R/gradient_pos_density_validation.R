@@ -12,13 +12,13 @@ gradient_pos_density_validation = function(gradient_pos_density, low = 1.55, hig
 
   if (is.numeric(gradient_pos_density)) {
     if (any(gradient_pos_density > high)) {
-      message(glue::glue(crayon::red("Some gradient_pos_density values are higher than {high}")))
+      stop(glue::glue(crayon::red("ERROR: Some gradient_pos_density values are higher than {high}")))
     } else if (any(gradient_pos_density < low)) {
-      message(glue::glue(crayon::red("Some gradient_pos_density values are lower than {low}")))
+      stop(glue::glue(crayon::red("ERROR: Some gradient_pos_density values are lower than {low}")))
     } else {
       return(NULL)
     }
   } else {
-    message(crayon::red("some gradient_pos_density values are non-numeric"))
+    stop(crayon::red("ERROR: some gradient_pos_density values are non-numeric"))
   }
 }

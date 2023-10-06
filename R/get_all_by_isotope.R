@@ -14,7 +14,7 @@ get_all_by_isotope = function(qsip_data_object, isotopes) {
   } else if ("qsip_source_data" %in% class(qsip_data_object)) {
     source_data = qsip_data_object@data
   } else {
-    stop("qsip_data_object must be of type qsip_data or qsip_source_data")
+    stop("ERROR: qsip_data_object must be of type qsip_data or qsip_source_data")
   }
 
   if ("labeled" %in% isotopes) {

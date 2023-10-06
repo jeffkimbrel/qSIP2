@@ -64,11 +64,11 @@ qsip_data <- S7::new_class(
 
     # make sure the objects are of the right type
     if (!"qsip_source_data" %in% class(self@source_data)) {
-      stop("source_data must be of type qsip_source_data")
+      stop("ERROR: source_data must be of type qsip_source_data")
     } else if (!"qsip_sample_data" %in% class(self@sample_data)) {
-      stop("sample_data must be of type qsip_sample_data")
+      stop("ERROR: sample_data must be of type qsip_sample_data")
     } else if (!"qsip_feature_data" %in% class(self@feature_data)) {
-      stop("feature_data must be of type qsip_feature_data")
+      stop("ERROR: feature_data must be of type qsip_feature_data")
     }
 
     # # make sure source_mat_ids are shared

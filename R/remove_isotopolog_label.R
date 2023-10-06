@@ -19,9 +19,9 @@ remove_isotopolog_label = function(data) {
 
   # verify isotope and isotopolog_label columns are found in data
   if (!"isotope" %in% colnames(data)) {
-    stop("This dataframe doesn't appear to have isotope data")
+    stop("ERROR: This dataframe doesn't appear to have isotope data")
   } else if (!"isotopolog_label" %in% colnames(data)) {
-    stop("This dataframe doesn't appear to have isotopolog_label data")
+    stop("ERROR: This dataframe doesn't appear to have isotopolog_label data")
   } else {
     data |>
       dplyr::mutate(isotope = dplyr::case_when(

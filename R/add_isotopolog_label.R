@@ -17,7 +17,7 @@ add_isotopolog_label = function(data, isotope = "isotope") {
 
   # verify isotope column is found in data
   if (!isotope %in% colnames(data)) {
-    stop("Please provide a valid column name for the isotope data")
+    stop("ERROR: Please provide a valid column name for the isotope data")
   } else {
     data |>
       dplyr::rename("isotope" = isotope) |>

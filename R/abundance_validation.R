@@ -22,11 +22,11 @@ abundance_validation = function(data, feature_id) {
     dplyr::select(-feature_id)
 
   if (length(data) - length(dplyr::select_if(data, is.numeric)) > 0) {
-    stop("Some data is not numeric")
+    stop("ERROR: Some data is not numeric")
   } else if (!all(data-floor(data)==0)) {
-    stop("Some data are not integers")
+    stop("ERROR: Some data are not integers")
   } else if (any(data < 0)) {
-    stop("Some numbers are negative")
+    stop("ERROR: Some numbers are negative")
   } else {
     return(NULL)
   }

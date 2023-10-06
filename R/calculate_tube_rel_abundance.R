@@ -27,11 +27,11 @@ calculate_tube_rel_abundance = function(source_data, sample_data, feature_data) 
 
   # make sure the objects are of the right type
   if (!"qsip_source_data" %in% class(source_data)) {
-    stop("source_data must be of type qsip_source_data")
+    stop("ERROR: source_data must be of type qsip_source_data")
   } else if (!"qsip_sample_data" %in% class(sample_data)) {
-    stop("sample_data must be of type qsip_sample_data")
+    stop("ERROR: sample_data must be of type qsip_sample_data")
   } else if (!"qsip_feature_data" %in% class(feature_data)) {
-    stop("feature_data must be of type qsip_feature_data")
+    stop("ERROR: feature_data must be of type qsip_feature_data")
   }
 
   feature_data@data |> # start with raw feature data

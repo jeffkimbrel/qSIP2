@@ -21,10 +21,10 @@ add_taxonomy <- function(feature_object, taxa, feature_id) {
   taxa_ids = taxa['feature_id']
 
   if (length(setdiff(feature_object_ids, taxa_ids)) > 0) {
-    stop("Some ids found in the abundance object are not found in the taxa table")
+    stop("ERROR: Some ids found in the abundance object are not found in the taxa table")
   } else if (length(setdiff(taxa_ids, feature_object_ids)) > 0) {
     setdiff(taxa_ids, feature_object_ids)
-    stop("Some ids found in the taxa table are not found in the abundance object")
+    stop("ERROR: Some ids found in the taxa table are not found in the abundance object")
   } else {
 
     feature_object@taxonomy = taxa

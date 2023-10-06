@@ -45,8 +45,23 @@ filter_features = function(qsip_data_object,
   source_mat_ids = c(unlabeled_source_mat_ids, labeled_source_mat_ids)
 
   # extract tables
+
+  initial_feature_id_count = qsip_data_object@tube_rel_abundance |>
+    dplyr::pull(feature_id) |>
+    unique() |>
+    length()
+
+  message(glue::glue("There are initially {initial_feature_id_count} unique feature_ids"))
+
   data = qsip_data_object@tube_rel_abundance |>
     dplyr::filter(source_mat_id %in% source_mat_ids)
+
+  secondary_feature_id_count = data |>
+    dplyr::pull(feature_id) |>
+    unique() |>
+    length()
+
+  message(glue::glue("{secondary_feature_id_count} of these have abundance in at least one fraction of one source_mat_id"))
 
   # make sure all given source_mat_ids are found in sample_data
   if (length(setdiff(unlabeled_source_mat_ids, qsip_data_object@sample_data@data$source_mat_id) > 0)) {
@@ -83,7 +98,7 @@ filter_features = function(qsip_data_object,
 
 
   message(rep("=+", 25))
-  message("Filtering feature_ids by source")
+  message("Filtering feature_ids by source...")
 
   by_source = by_fraction |>
     dplyr::filter(fraction_call == "Fraction Passed") |>
@@ -149,18 +164,18 @@ filter_features = function(qsip_data_object,
 
 fraction_results_message = function(by_fraction) {
   fraction_results = by_fraction |>
-    dplyr::select(feature_id, type, fraction_call) |>
-    unique() |>
+    dplyr::count(feature_id, type, fraction_call) |>
+    #unique() |>
     dplyr::count(type, fraction_call) |>
     tidyr::pivot_wider(names_from = type, values_from = n, values_fill = 0) |>
     tibble::column_to_rownames("fraction_call")
 
   if (!is.na(fraction_results["Zero Fractions","unlabeled"])) {
-    message(glue::glue_col('{red {fraction_results["Zero Fractions","unlabeled"]}} unlabeled and {red {fraction_results["Zero Fractions","labeled"]}} labeled feature_ids {red failed} the fraction filter because they were found in zero fractions'))
+    message(glue::glue_col('{red {fraction_results["Zero Fractions","unlabeled"]}} unlabeled and {red {fraction_results["Zero Fractions","labeled"]}} labeled feature_ids were found in {red zero fractions} in at least one source_mat_id'))
   }
 
   if (!is.na(fraction_results["Fraction Filtered","unlabeled"])) {
-    message(glue::glue_col('{red {fraction_results["Fraction Filtered","unlabeled"]}} unlabeled and {red {fraction_results["Fraction Filtered","labeled"]}} labeled feature_ids {red failed} the fraction filter because they were found in too few fractions'))
+    message(glue::glue_col('{red {fraction_results["Fraction Filtered","unlabeled"]}} unlabeled and {red {fraction_results["Fraction Filtered","labeled"]}} labeled feature_ids were found in {red too few fractions} in at least one source_mat_id'))
   }
 
   if (!is.na(fraction_results["Fraction Passed","unlabeled"])) {
@@ -171,7 +186,7 @@ fraction_results_message = function(by_fraction) {
     dplyr::filter(fraction_call == "Fraction Passed") |>
     dplyr::pull(feature_id) |> unique() |> length()
 
-  message(glue::glue_col("In total, {green {fraction_passed}} feature_ids {green passed} the fraction filtering requirements..."))
+  message(glue::glue_col("In total, {green {fraction_passed}} unique feature_ids {green passed} the fraction filtering requirements..."))
 }
 
 #' Filter features by source message formatting
@@ -190,11 +205,11 @@ source_results_message = function(by_source) {
     tibble::column_to_rownames("source_call")
 
   if (!is.na(source_results["Zero Sources","unlabeled"])) {
-    message(glue::glue_col('{red {source_results["Zero Sources","unlabeled"]}} unlabeled and {red {source_results["Zero Sources","labeled"]}} labeled feature_ids {red failed} the source filter because they were found in zero sources'))
+    message(glue::glue_col('{red {source_results["Zero Sources","unlabeled"]}} unlabeled and {red {source_results["Zero Sources","labeled"]}} labeled feature_ids failed the source filter because they were found in {red zero sources}'))
   }
 
   if (!is.na(source_results["Source Filtered","unlabeled"])) {
-    message(glue::glue_col('{red {source_results["Source Filtered","unlabeled"]}} unlabeled and {red {source_results["Source Filtered","labeled"]}} labeled feature_ids {red failed} the source filter because they were found in too few sources'))
+    message(glue::glue_col('{red {source_results["Source Filtered","unlabeled"]}} unlabeled and {red {source_results["Source Filtered","labeled"]}} labeled feature_ids failed the source filter because they were found in {red too few sources}'))
   }
 
   if (!is.na(source_results["Source Passed","unlabeled"])) {
@@ -210,7 +225,7 @@ source_results_message = function(by_source) {
 
   message(rep("=+", 25))
 
-  message(glue::glue_col("In total, {green {total_passed}} feature_ids {green passed} all filtering requirements"))
+  message(glue::glue_col("In total, {green {total_passed}} unique feature_ids {green passed} all fraction and source filtering requirements"))
 }
 
 

@@ -17,9 +17,9 @@ gradient_position_validation = function(gradient_position) {
     if (all(gradient_position-floor(gradient_position)==0)) {
       return(NULL)
     } else {
-      message(crayon::red("some gradient_position values are not integers"))
+      stop(crayon::red("ERROR: some gradient_position values are not integers"))
     }
   } else {
-    message(crayon::red("some gradient_position values are non-numeric"))
+    stop(crayon::red("ERROR: some gradient_position values are non-numeric"))
   }
 }

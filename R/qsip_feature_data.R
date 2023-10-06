@@ -34,7 +34,7 @@ qsip_feature_data <- S7::new_class(
   },
   validator = function(self) {
       if (any(duplicated(self@data['feature_id']))) {
-        message(glue::glue("There appear to be duplicate ids in the {self@id} column"))
+        message(glue::glue("ERROR: There appear to be duplicate ids in the {self@id} column"))
       }
 
       qSIP2::abundance_validation(self@data, 'feature_id')
