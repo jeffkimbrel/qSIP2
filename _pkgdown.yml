@@ -28,6 +28,7 @@ reference:
   contents:
   - add_taxonomy
   - filter_features
+  - run_resampling
 
 - title: Datasets
   contents:
@@ -46,6 +47,7 @@ reference:
   - calculate_gc_from_sequence
   - fraction_results_message
   - source_results_message
+  - resample_wads
 
 articles:
 - title: Learn qSIP
