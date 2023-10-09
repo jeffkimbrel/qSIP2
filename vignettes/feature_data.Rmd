@@ -1,5 +1,5 @@
 ---
-title: "Working with and validating abundance data"
+title: "Working with Feature Data"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{abundance_data}
@@ -19,7 +19,6 @@ knitr::opts_chunk$set(
 An abundance table is a required file for the qSIP pipeline. It is a typical ASV/OTU table where individual taxa are in rows, and sample names are in columns. The table is populated with raw sequencing counts from an amplicon workflow, or some other proxy for abundance (like mean/median depth of coverage) if working with MAGs or other data types.  
 
 ```{r setup, message=FALSE}
-library(dplyr)
 library(qSIP2)
 ```
 

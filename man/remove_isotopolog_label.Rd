@@ -17,8 +17,4 @@ column modified
 To convert from data with both isotope and isotopolog_label to one with
 isotope only
 }
-\examples{
-remove_isotopolog_label(sample_data_MISIP)
-
-}
 \keyword{sample_data}

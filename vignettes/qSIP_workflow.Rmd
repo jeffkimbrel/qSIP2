@@ -1,0 +1,31 @@
+---
+title: "Standard qSIP Workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{qSIP_workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(qSIP2)
+```
+
+# Background
+
+A complete quantitative stable isotope probing (qSIP) workflow using the `qSIP2` package starts with three input files and ends with calculated excess atom fraction (EAF) values along with a ton of intermediate data. This vignette will be a high-level walk through of the major steps with links to more specific vignettes where more detail is appropriate. 
+
+# The Input Files
+
+Preparing and formatting the input files is often the most tedious part of any analysis. Our goal with the rigid (and opinionated) requirements imposed by `qSIP2` will hopefully streamline the creation of these files, and automated validation checks can remove many of the common sources of error or confusion.
+
+
+
+

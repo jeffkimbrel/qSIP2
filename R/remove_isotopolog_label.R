@@ -7,9 +7,6 @@
 #'
 #' @keywords sample_data
 #'
-#' @examples
-#' remove_isotopolog_label(sample_data_MISIP)
-#'
 #' @return A dataframe with `isotopolog_label` column removed and `isotope`
 #' column modified
 #'

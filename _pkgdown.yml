@@ -33,7 +33,9 @@ reference:
 
 - title: Datasets
   contents:
-  - has_keyword("data")
+  - example_qsip_source_data
+  - example_qsip_sample_data
+  - example_qsip_feature_data
 
 - title: internal
   contents:
@@ -62,8 +64,10 @@ articles:
 - title: Learn qSIP
   navbar: ~
   contents:
+  - qSIP_workflow
+  - source_data
   - sample_data
-  - abundance_data
+  - feature_data
 
 - title: Other
   contents:
