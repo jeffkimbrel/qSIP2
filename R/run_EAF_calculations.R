@@ -1,5 +1,15 @@
-
-
+#' Calculate EAF values
+#'
+#' This is the last main workhorse function in qSIP analysis and generates the important
+#' values (Z, G, M, M_labeledmax, M_labeled and EAF) for the observed data as well
+#' as for all of the resampled data.
+#'
+#' @param qsip_data_object (*qsip_data*) A qsip_data_object with resample information
+#'
+#' @export
+#'
+#' @returns Returns an updated `qsip_data_object` with final EAF and other values
+#' in the `@EAF` slot.
 
 run_EAF_calculations = function(qsip_data_object) {
 

@@ -25,9 +25,9 @@ example_qsip_sample_data
 An example sample data table with fraction-related metadata
 }
 \seealso{
-Other "Example datasets": 
+Other "example datasets": 
 \code{\link{example_qsip_feature_data}},
 \code{\link{example_qsip_source_data}}
 }
-\concept{"Example datasets"}
+\concept{"example datasets"}
 \keyword{datasets}

@@ -4,32 +4,33 @@ template:
   bootswatch: sandstone
 
 reference:
-- title: qSIP Objects
+- title: qSIP Data Objects
   contents:
   - qsip_data
   - qsip_source_data
   - qsip_sample_data
   - qsip_feature_data
 
-- title: Source Data
+- title: Main qSIP2 Workflow
+  contents:
+  - show_comparison_groups
+  - run_feature_filter
+  - run_resampling
+  - run_EAF_calculations
+  - summarize_EAF_values
+
+- title: Helper Functions
   contents:
   - add_isotopolog_label
   - remove_isotopolog_label
-  - show_comparison_groups
   - get_all_by_isotope
-
-- title: Sample Data
-  contents:
   - add_gradient_pos_rel_amt
-  - plot_sample_curves
   - get_sample_counts
-
-- title: Feature Data
-  contents:
   - add_taxonomy
-  - run_feature_filter
-  - run_resampling
-  - summarize_EAF_values
+
+- title: Plots and Visualizations
+  contents:
+  - plot_sample_curves
 
 - title: Datasets
   contents:

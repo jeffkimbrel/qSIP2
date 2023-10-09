@@ -12,7 +12,7 @@
 #'   \item{Moisture}{An example of a relevant treatment}
 #' }
 #'
-#' @family "Example datasets"
+#' @family "example datasets"
 "example_qsip_source_data"
 
 
@@ -31,7 +31,7 @@
 #'   \item{avg_16S_g_soil}{qPCR amplicon count}
 #' }
 #'
-#' @family "Example datasets"
+#' @family "example datasets"
 "example_qsip_sample_data"
 
 
@@ -46,5 +46,5 @@
 #'   \item{Columns 2-285}{IDs for all samples}
 #' }
 #'
-#' @family "Example datasets"
+#' @family "example datasets"
 "example_qsip_feature_data"

@@ -94,7 +94,7 @@ run_feature_filter = function(qsip_data_object,
     dplyr::mutate(type = dplyr::case_when(
       source_mat_id %in% unlabeled_source_mat_ids ~ "unlabeled",
       source_mat_id %in% labeled_source_mat_ids ~ "labeled")
-    ) |> print(n = 30)
+    ) |>
     dplyr::mutate(fraction_call = dplyr::case_when(
       n_fractions == 0 ~ "Zero Fractions",
       type == "unlabeled" & n_fractions < min_unlabeled_fractions ~ "Fraction Filtered",

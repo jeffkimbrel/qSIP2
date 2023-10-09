@@ -24,9 +24,9 @@ example_qsip_source_data
 An example source data table with top-level (pre-fractionation) metadata
 }
 \seealso{
-Other "Example datasets": 
+Other "example datasets": 
 \code{\link{example_qsip_feature_data}},
 \code{\link{example_qsip_sample_data}}
 }
-\concept{"Example datasets"}
+\concept{"example datasets"}
 \keyword{datasets}

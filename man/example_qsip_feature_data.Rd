@@ -21,9 +21,9 @@ example_qsip_feature_data
 An example feature table with abundances
 }
 \seealso{
-Other "Example datasets": 
+Other "example datasets": 
 \code{\link{example_qsip_sample_data}},
 \code{\link{example_qsip_source_data}}
 }
-\concept{"Example datasets"}
+\concept{"example datasets"}
 \keyword{datasets}
