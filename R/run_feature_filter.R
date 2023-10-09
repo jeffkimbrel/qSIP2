@@ -42,6 +42,15 @@ run_feature_filter = function(qsip_data_object,
                            min_unlabeled_fractions = 2,
                            min_labeled_fractions = 2) {
 
+  if (min_labeled_sources > length(labeled_source_mat_ids)) {
+    stop(glue::glue("ERROR: min_labeled_sources is set to {min_labeled_sources} but labeled_source_mat_ids only has {length(labeled_source_mat_ids)}"))
+  }
+
+  if (min_unlabeled_sources > length(unlabeled_source_mat_ids)) {
+    stop(glue::glue("ERROR: min_unlabeled_sources is set to {min_unlabeled_sources} but unlabeled_source_mat_ids only has {length(unlabeled_source_mat_ids)}"))
+  }
+
+
   source_mat_ids = c(unlabeled_source_mat_ids, labeled_source_mat_ids)
 
   # extract tables
