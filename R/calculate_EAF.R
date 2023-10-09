@@ -8,7 +8,7 @@
 
 calculate_EAF = function(M_labeled, M, M_labeledmax, isotope) {
 
-  isotope_validation(isotope, isotope_list = c("13C", "15N", "18O"))
+  validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
 
   EAF <- (M_labeled - M) / (M_labeledmax - M) * completely_labeled_values(isotope)
 

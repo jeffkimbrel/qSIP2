@@ -34,7 +34,7 @@
 #' `@filtered_feature_data` slot and intermediate data in the `@filter_results`
 #' slot for plotting.
 
-filter_features = function(qsip_data_object,
+fun_feature_filter = function(qsip_data_object,
                            unlabeled_source_mat_ids,
                            labeled_source_mat_ids,
                            min_unlabeled_sources = 2,
@@ -158,7 +158,7 @@ filter_features = function(qsip_data_object,
 }
 
 #' Filter features by fraction message formatting
-#' @param by_fraction by_fraction dataframe from filter_features
+#' @param by_fraction by_fraction dataframe from fun_feature_filter
 #'
 #' @export
 
@@ -190,7 +190,7 @@ fraction_results_message = function(by_fraction) {
 }
 
 #' Filter features by source message formatting
-#' @param by_source by_source dataframe from filter_features
+#' @param by_source by_source dataframe from fun_feature_filter
 #'
 #' @export
 

@@ -11,7 +11,7 @@
 #' @export
 
 
-gradient_position_validation = function(gradient_position) {
+validate_gradient_position = function(gradient_position) {
   if (is.numeric(gradient_position)) {
   # https://www.tutorialspoint.com/how-to-check-if-all-values-in-a-vector-are-integer-or-not-in-r
     if (all(gradient_position-floor(gradient_position)==0)) {

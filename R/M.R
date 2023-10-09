@@ -33,7 +33,7 @@ calculate_M = function(G) {
 calculate_M_labeledmax = function(M, atom_count, isotope) {
   # M_labeledmax = M + 12.07747
 
-  isotope_validation(isotope, isotope_list = c("13C", "15N", "18O"))
+  validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
 
   if (isotope == "13C") {
     # assumes unlabeled DNA already contains a minute amount of 13C (at the

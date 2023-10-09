@@ -17,7 +17,7 @@
 #' @export
 
 
-abundance_validation = function(data, feature_id) {
+validate_abundances = function(data, feature_id) {
   data = data |>
     dplyr::select(-feature_id)
 

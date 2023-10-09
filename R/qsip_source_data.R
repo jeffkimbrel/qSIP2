@@ -51,6 +51,6 @@ qsip_source_data <- S7::new_class(
       stop("ERROR: some source_mat_ids are duplicated")
     }
 
-    qSIP2::isotope_validation(self@data |> dplyr::pull(isotope))
+    qSIP2::validate_isotopes(self@data |> dplyr::pull(isotope))
   }
 )

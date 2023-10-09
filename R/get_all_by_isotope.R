@@ -24,7 +24,7 @@ get_all_by_isotope = function(qsip_data_object, isotopes) {
   }
 
   # verify given isotopes are valid
-  qSIP2::isotope_validation(isotopes)
+  validate_isotopes(isotopes)
 
   # filter for isotopes
   source_mat_ids = source_data |>

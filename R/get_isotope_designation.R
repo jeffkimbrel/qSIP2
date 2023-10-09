@@ -21,7 +21,7 @@ get_isotope_designation = function(qsip_data_object) {
     unique()
 
   # make sure isotopes contains only valid options
-  isotope_validation(isotopes)
+  validate_isotopes(isotopes)
 
   if (length(setdiff(isotopes, c("12C", "13C"))) == 0) {
     return("13C")

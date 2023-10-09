@@ -10,7 +10,7 @@
 #'
 #' @export
 
-resample_wads = function(i, wad_data, type) {
+calculate_resampled_wads = function(i, wad_data, type) {
 
   # make a new names vector to abstract away the real names into a numbered list of names
   new_names = c('feature_id', paste(type, seq(1:(ncol(wad_data))), sep = "_"))

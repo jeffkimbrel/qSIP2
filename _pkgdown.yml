@@ -27,7 +27,7 @@ reference:
 - title: Feature Data
   contents:
   - add_taxonomy
-  - filter_features
+  - fun_feature_filter
   - run_resampling
 
 - title: Datasets
@@ -36,18 +36,25 @@ reference:
 
 - title: internal
   contents:
-  - abundance_validation
-  - gradient_pos_density_validation
-  - gradient_position_validation
-  - isotope_validation
+  - validate_abundances
+  - validate_gradient_pos_density
+  - validate_gradient_position
+  - validate_isotopes
+  - completely_labeled_values
+  - get_isotope_designation
   - calculate_tube_rel_abundance
   - calculate_wads
   - calculate_source_wads
   - calculate_gc_from_density
   - calculate_gc_from_sequence
+  - calculate_EAF
+  - calculate_M
+  - calculate_M_labeled
+  - calculate_M_labeledmax
+  - calculate_atoms
   - fraction_results_message
   - source_results_message
-  - resample_wads
+  - calculate_resampled_wads
   - calculate_Z
 
 articles:

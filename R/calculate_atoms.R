@@ -8,7 +8,7 @@
 
 calculate_atoms = function(G, isotope) {
 
-  isotope_validation(isotope, isotope_list = c("13C", "15N", "18O"))
+  validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
 
   if (isotope == "13C") {
     C_atoms <- (-0.5 * G) + 10

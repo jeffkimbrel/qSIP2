@@ -6,7 +6,7 @@
 
 completely_labeled_values <- function(isotope) {
 
-  isotope_validation(isotope, isotope_list = c("13C", "15N", "18O"))
+  validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
 
   if (isotope == "13C") {
     return(1-(11237.2/(1000000+11237.2)))

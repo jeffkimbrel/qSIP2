@@ -18,7 +18,7 @@ run_resampling = function(qsip_data_object,
                          with_seed = NULL) {
 
   if (length(qsip_data_object@filtered_wad_data) == 0) {
-    stop("ERROR: this function requires a qsip object that has been run through filter_features() ")
+    stop("ERROR: this function requires a qsip object that has been run through fun_feature_filter() ")
   }
 
 
@@ -43,9 +43,9 @@ run_resampling = function(qsip_data_object,
   # remove NAs?
 
   # run resampling. This will return a list of x size with resampling results
-  labeled_resamples = purrr::map(1:resamples, \(i) resample_wads(i, labeled_wads,
+  labeled_resamples = purrr::map(1:resamples, \(i) calculate_resampled_wads(i, labeled_wads,
                                                                    "labeled"), .progress = "labeled resamples...")
-  unlabeled_resamples = purrr::map(1:resamples, \(i) resample_wads(i, unlabeled_wads,
+  unlabeled_resamples = purrr::map(1:resamples, \(i) calculate_resampled_wads(i, unlabeled_wads,
                                                                      "unlabeled"), .progress = "unlabeled resamples...")
 
   # merge two lists into a list of lists in the @resamples slot

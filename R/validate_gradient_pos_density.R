@@ -8,7 +8,7 @@
 #'
 #' @export
 
-gradient_pos_density_validation = function(gradient_pos_density, low = 1.55, high = 1.8) {
+validate_gradient_pos_density = function(gradient_pos_density, low = 1.55, high = 1.8) {
 
   if (is.numeric(gradient_pos_density)) {
     if (any(gradient_pos_density > high)) {
