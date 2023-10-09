@@ -7,7 +7,7 @@
 #'
 #' @export
 #'
-#' @note The isotope_list may change if isotopolog_label stays a thing. Only the "heavy" isotopes will be allowed.
+#' @note The isotope_list may change if isotopolog_label stays a thing. Only the "labeled" isotopes will be allowed.
 
 isotope_validation = function(isotope, isotope_list = c("12C", "13C", "14N", "15N", "16O", "18O")) {
 

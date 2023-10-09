@@ -21,4 +21,6 @@ predicted GC\% content of a DNA sequence with that density.
 \details{
 The \code{method} parameter changes the formula from that provided by McHugh &
 Morrissey (\code{MM}, unpublished) or Schildkraut (\code{S}, 1962).
+
+This function corresponds to equation 5 from Hungate, 2015
 }

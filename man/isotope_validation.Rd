@@ -21,5 +21,5 @@ Returns \code{NULL} if the isotope strings are valid, or a printed error
 Check the validity of an isotope string
 }
 \note{
-The isotope_list may change if isotopolog_label stays a thing. Only the "heavy" isotopes will be allowed.
+The isotope_list may change if isotopolog_label stays a thing. Only the "labeled" isotopes will be allowed.
 }

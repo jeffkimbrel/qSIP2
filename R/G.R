@@ -6,6 +6,8 @@
 #' The `method` parameter changes the formula from that provided by McHugh &
 #' Morrissey (`MM`, unpublished) or Schildkraut (`S`, 1962).
 #'
+#' This function corresponds to equation 5 from Hungate, 2015
+#'
 #' @param density (*numeric*) Density or WAD values
 #' @param method (*string, default: MM*) The GC% calculation method
 #'
@@ -17,9 +19,11 @@ calculate_gc_from_density = function(density,
                                      method = "MM") {
 
   if (method == "MM") {
-    (1 / 0.0835059954345993) * (density - 1.64605745338531)
+    G = (1 / 0.0835059954345993) * (density - 1.64605745338531)
+    return(G)
   } else if (method == "S") {
-    (1 / 0.098) * (density - 1.66)
+    G = (1 / 0.098) * (density - 1.66)
+    return(G)
   } else {
     stop(glue::glue("ERROR: {method} is not a valid method for GC% calculation. Options are MM (default) or S."))
   }

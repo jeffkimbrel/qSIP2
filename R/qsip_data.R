@@ -30,7 +30,7 @@ qsip_data <- S7::new_class(
     filtered_wad_data = S7::class_data.frame,
     filter_results = S7::class_list,
     resamples = S7::class_list,
-    results = S7::class_data.frame
+    EAF = S7::class_data.frame
   ),
   constructor = function(source_data,
                          sample_data,
@@ -53,7 +53,7 @@ qsip_data <- S7::new_class(
                    filtered_wad_data = data.frame(),
                    filter_results = list(),
                    resamples = list(),
-                   results = data.frame())
+                   EAF = data.frame())
     },
   validator = function(self) {
 

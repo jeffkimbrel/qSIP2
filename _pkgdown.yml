@@ -48,6 +48,7 @@ reference:
   - fraction_results_message
   - source_results_message
   - resample_wads
+  - calculate_Z
 
 articles:
 - title: Learn qSIP

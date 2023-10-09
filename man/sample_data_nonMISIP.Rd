@@ -10,7 +10,7 @@
 A data frame with 72 rows and 5 columns:
 \describe{
 \item{rep}{The unique name of the biological replicate}
-\item{isotope}{The heavy isotope}
+\item{isotope}{The labeled isotope}
 \item{fraction}{The gradient position ranked from highest to lowest density}
 \item{density}{The density of the fraction}
 \item{dna_conc}{The DNA concentration of the fraction}

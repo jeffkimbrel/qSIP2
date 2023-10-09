@@ -10,7 +10,7 @@
 A data frame with 72 rows and 7 columns:
 \describe{
 \item{source_mat_id}{The unique name of the biological replicate}
-\item{isotope}{The heavy isotope}
+\item{isotope}{The labeled isotope}
 \item{isotopolog_label}{Whether the isotopolog has the labeled or unlabeled substrate}
 \item{gradient_position}{The gradient position ranked from highest to lowest density}
 \item{gradient_pos_density}{The density of the fraction}
