@@ -29,6 +29,7 @@ reference:
   - add_taxonomy
   - run_feature_filter
   - run_resampling
+  - summarize_EAF_values
 
 - title: Datasets
   contents:
