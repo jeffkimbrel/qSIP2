@@ -18,7 +18,7 @@ run_resampling = function(qsip_data_object,
                          with_seed = NULL) {
 
   if (length(qsip_data_object@filtered_wad_data) == 0) {
-    stop("ERROR: this function requires a qsip object that has been run through fun_feature_filter() ")
+    stop("ERROR: this function requires a qsip object that has been run through run_feature_filter() ")
   }
 
 

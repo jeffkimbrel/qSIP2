@@ -27,7 +27,7 @@ reference:
 - title: Feature Data
   contents:
   - add_taxonomy
-  - fun_feature_filter
+  - run_feature_filter
   - run_resampling
 
 - title: Datasets
