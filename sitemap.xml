@@ -28,9 +28,6 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/index.html</loc>
   </url>
   <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/abundance_validation.html</loc>
-  </url>
-  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/add_gradient_pos_rel_amt.html</loc>
   </url>
   <url>
@@ -40,10 +37,31 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/add_taxonomy.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_EAF.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M_labeled.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M_labeledmax.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_Z.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_atoms.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_gc_from_density.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_gc_from_sequence.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_resampled_wads.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_source_wads.html</loc>
@@ -55,28 +73,25 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_wads.html</loc>
   </url>
   <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/filter_features.html</loc>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/completely_labeled_values.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/fraction_results_message.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/fun_feature_filter.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_all_by_isotope.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_isotope_designation.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_sample_counts.html</loc>
   </url>
   <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/gradient_pos_density_validation.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/gradient_position_validation.html</loc>
-  </url>
-  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/isotope_validation.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_sample_curves.html</loc>
@@ -97,9 +112,6 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/remove_isotopolog_label.html</loc>
   </url>
   <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/resample_wads.html</loc>
-  </url>
-  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/run_resampling.html</loc>
   </url>
   <url>
@@ -113,5 +125,17 @@
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/source_results_message.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_abundances.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_gradient_pos_density.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_gradient_position.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_isotopes.html</loc>
   </url>
 </urlset>
