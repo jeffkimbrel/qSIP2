@@ -5,20 +5,20 @@
 \title{Show comparison groups}
 \usage{
 show_comparison_groups(
-  data,
+  source_data,
   tmt,
   isotope = "isotope",
   source_mat_id = "source_mat_id"
 )
 }
 \arguments{
-\item{data}{Sample metadata (dataframe)}
+\item{source_data}{(\emph{dataframe, qsip_source_data or qsip_data}) Sample metadata}
 
-\item{tmt}{Treatment value or values (string(s))}
+\item{tmt}{(\emph{string}) Treatment value or values}
 
-\item{isotope}{Column name with isotope data (string, default: "isotope")}
+\item{isotope}{(\emph{string, default: isotope}) Column name with isotope data}
 
-\item{source_mat_id}{Column name with source_mat_id (string, default: "source_mat_id")}
+\item{source_mat_id}{(\emph{string, default: source_mat_id}) Column name with source_mat_id}
 }
 \value{
 A dataframe with id grouped by different \code{tmt} treatments and isotopes
@@ -27,4 +27,3 @@ A dataframe with id grouped by different \code{tmt} treatments and isotopes
 Generates a table of ids grouped in columns by isotope, and in rows by the
 given treatments.
 }
-\keyword{sample_data}
