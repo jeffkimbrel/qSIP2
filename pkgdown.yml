@@ -2,10 +2,12 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  abundance_data: abundance_data.html
   controlled_vocab: controlled_vocab.html
+  feature_data: feature_data.html
+  qSIP_workflow: qSIP_workflow.html
   sample_data: sample_data.html
-last_built: 2023-10-09T19:17Z
+  source_data: source_data.html
+last_built: 2023-10-09T22:05Z
 urls:
   reference: https://jeffkimbrel.github.io/qSIP2/reference
   article: https://jeffkimbrel.github.io/qSIP2/articles

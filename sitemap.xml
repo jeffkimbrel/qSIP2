@@ -10,16 +10,22 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/articles/abundance_data.html</loc>
+    <loc>https://jeffkimbrel.github.io/qSIP2/articles/controlled_vocab.html</loc>
   </url>
   <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/articles/controlled_vocab.html</loc>
+    <loc>https://jeffkimbrel.github.io/qSIP2/articles/feature_data.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/articles/qSIP_workflow.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/articles/sample_data.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/articles/source_data.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/authors.html</loc>
@@ -76,6 +82,15 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/completely_labeled_values.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/example_qsip_feature_data.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/example_qsip_sample_data.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/example_qsip_source_data.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/fraction_results_message.html</loc>
   </url>
   <url>
@@ -113,12 +128,6 @@
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/run_resampling.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/sample_data_MISIP.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/sample_data_nonMISIP.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/show_comparison_groups.html</loc>
