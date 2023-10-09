@@ -79,9 +79,6 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/fraction_results_message.html</loc>
   </url>
   <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/fun_feature_filter.html</loc>
-  </url>
-  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_all_by_isotope.html</loc>
   </url>
   <url>
@@ -110,6 +107,9 @@
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/remove_isotopolog_label.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/run_feature_filter.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/run_resampling.html</loc>
