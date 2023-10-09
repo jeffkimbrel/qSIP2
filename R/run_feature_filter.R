@@ -158,6 +158,7 @@ run_feature_filter = function(qsip_data_object,
 }
 
 #' Filter features by fraction message formatting
+#'
 #' @param by_fraction by_fraction dataframe from run_feature_filter
 #'
 #' @export
@@ -190,6 +191,7 @@ fraction_results_message = function(by_fraction) {
 }
 
 #' Filter features by source message formatting
+#'
 #' @param by_source by_source dataframe from run_feature_filter
 #'
 #' @export
