@@ -1,9 +1,10 @@
 url: https://jeffkimbrel.github.io/qSIP2/
 template:
-  package: preferably
   bootstrap: 5
-  params:
-    toggle: manual
+  bslib:
+    bg: "#202123"
+    fg: "#B8BCC2"
+    primary: "#037bcf"
 
 reference:
 - title: qSIP Data Objects
