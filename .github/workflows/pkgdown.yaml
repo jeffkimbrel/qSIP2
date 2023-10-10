@@ -46,3 +46,10 @@ jobs:
           clean: false
           branch: gh-pages
           folder: docs
+      - name: Install dependencies
+        run: |
+          # ⚠️ leave other commands intact, 
+          # and add the following command to the end of the list 👇🏼
+          remotes::install_deps(dependencies = TRUE)
+          install.packages("pkgdown", type = "binary")
+          install.packages("preferably")
