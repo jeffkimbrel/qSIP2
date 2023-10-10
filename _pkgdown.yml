@@ -76,3 +76,13 @@ articles:
   contents:
   - controlled_vocab
 
+
+
+
+- name: Install dependencies
+  run: |
+    # ⚠️ leave other commands intact,
+    # and add the following command to the end of the list 👇🏼
+    remotes::install_deps(dependencies = TRUE)
+    install.packages("pkgdown", type = "binary")
+    install.packages("preferably")
