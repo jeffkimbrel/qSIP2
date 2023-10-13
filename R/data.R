@@ -1,8 +1,8 @@
-#' Example qSIP Source Data
+#' Example Source Dataframe
 #'
 #' An example source data table with top-level (pre-fractionation) metadata
 #'
-#' @format ## `example_qsip_source_data`
+#' @format ## `example_source_df`
 #' A data frame with 15 rows and 5 columns:
 #' \describe{
 #'   \item{source}{The unique name of the biological replicate or source_mat_id}
@@ -13,14 +13,14 @@
 #' }
 #'
 #' @family "example datasets"
-"example_qsip_source_data"
+"example_source_df"
 
 
-#' Example qSIP Sample Data
+#' Example Sample Dataframe
 #'
 #' An example sample data table with fraction-related metadata
 #'
-#' @format ## `example_qsip_sample_data`
+#' @format ## `example_sample_df`
 #' A data frame with 284 rows and 6 columns:
 #' \describe{
 #'   \item{sample}{The unique sample id of the fraction}
@@ -32,14 +32,14 @@
 #' }
 #'
 #' @family "example datasets"
-"example_qsip_sample_data"
+"example_sample_df"
 
 
-#' Example qSIP Feature Abundance Data
+#' Example Feature Abundance Dataframe
 #'
 #' An example feature table with abundances
 #'
-#' @format ## `example_qsip_feature_data`
+#' @format ## `example_feature_df`
 #' A data frame with 2,030 rows and 285 columns:
 #' \describe{
 #'   \item{ASV}{The unique feature ID}
@@ -47,4 +47,43 @@
 #' }
 #'
 #' @family "example datasets"
-"example_qsip_feature_data"
+"example_feature_df"
+
+
+
+#' Example qSIP Source Object
+#'
+#' An example qsip_source_data object
+#'
+#' @format ## `example_source_object`
+#'
+#' @family "example datasets"
+"example_source_object"
+
+#' Example qSIP Sample Object
+#'
+#' An example qsip_sample_data object
+#'
+#' @format ## `example_sample_object`
+#'
+#' @family "example datasets"
+"example_sample_object"
+
+#' Example qSIP Feature Object
+#'
+#' An example qsip_feature_data object
+#'
+#' @format ## `example_feature_object`
+#'
+#' @family "example datasets"
+"example_feature_object"
+
+
+#' Example qSIP Object
+#'
+#' An example qsip_data object
+#'
+#' @format ## `example_qsip_object`
+#'
+#' @family "example datasets"
+"example_qsip_object"
