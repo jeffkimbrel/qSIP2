@@ -9,8 +9,16 @@ plot_sample_curves(sample_data, source_data = NULL, colors = NULL)
 \arguments{
 \item{sample_data}{(\emph{qsip_sample_data or qsip_data}) Sample data that holds density and abundance values}
 
-\item{source_data}{(\emph{sqsip_source_data}) Optional data required if \code{sample_data} is a \code{qsip_sample_data} object}
+\item{source_data}{(\emph{qsip_source_data}) Optional data required if \code{sample_data} is a \code{qsip_sample_data} object}
+}
+\value{
+A ggplot object
 }
 \description{
 Plot qSIP sample data density curves
 }
+\seealso{
+Other "Visualizations": 
+\code{\link{plot_feature_curves}()}
+}
+\concept{"Visualizations"}

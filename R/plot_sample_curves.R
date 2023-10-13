@@ -1,10 +1,13 @@
 #' Plot qSIP sample data density curves
 #'
 #' @param sample_data (*qsip_sample_data or qsip_data*) Sample data that holds density and abundance values
-#' @param source_data (*sqsip_source_data*) Optional data required if `sample_data` is a `qsip_sample_data` object
+#' @param source_data (*qsip_source_data*) Optional data required if `sample_data` is a `qsip_sample_data` object
 #'
 #' @export
 #'
+#' @returns A ggplot object
+#'
+#' @family "Visualizations"
 
 plot_sample_curves <- function(sample_data,
                                source_data = NULL,
@@ -25,12 +28,12 @@ plot_sample_curves <- function(sample_data,
   }
 
   if (is.null(colors)) {
-    colors = c("12C" = "lightblue",
-               "13C" = "blue",
-               "14N" = "lightblue",
-               "15N" = "blue",
-               "16O" = "lightblue",
-               "18O" = "blue")
+    colors = c("12C" = "cornflowerblue",
+               "13C" = "firebrick",
+               "14N" = "cornflowerblue",
+               "15N" = "firebrick",
+               "16O" = "cornflowerblue",
+               "18O" = "firebrick")
   }
 
   WAD = df %>%
