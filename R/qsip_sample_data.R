@@ -64,48 +64,7 @@ qsip_sample_data <- S7::new_class(
   }
 )
 
-#' Plot qSIP sample data density curves
-#'
-#' @param x An object of `qsip_sample_data` class
-#'
-#' @export
-#'
-#' @keywords sample_data
 
-plot_sample_curves <- S7::new_generic("plot_sample_curves", "x")
-
-S7::method(plot_sample_curves, qsip_sample_data) <- function(x, colors = NULL) {
-
-  if (is.null(colors)) {
-    colors = c("12C" = "lightblue",
-               "13C" = "blue",
-               "14N" = "lightblue",
-               "15N" = "blue",
-               "16O" = "lightblue",
-               "18O" = "blue")
-  }
-
-  facet_formula = paste0("~", x@source_mat_id)
-
-  WAD = x@data %>%
-    dplyr::group_by(source_mat_id) %>%
-    dplyr::summarise(WAD = weighted.mean(density_g_ml, gradient_pos_rel_amt))
-
-  p = x@data |>
-    dplyr::filter(!is.na(!!as.name(x@gradient_position))) |>
-    dplyr::filter(!!as.name(x@gradient_pos_density) > 1.5) |>
-    dplyr::group_by(!!as.name(x@source_mat_id)) |>
-    ggplot2::ggplot(ggplot2::aes(x = !!as.name(x@gradient_pos_density),
-                                 y = !!as.name(x@gradient_pos_rel_amt),
-                                 color = !!as.name(x@isotope))) +
-    ggplot2::geom_point() +
-    ggplot2::geom_line(linewidth = 1) +
-    ggplot2::scale_color_manual(values = colors) |>
-    ggplot2::facet_wrap(facet_formula) +
-    ggplot2::geom_vline(data = WAD, linetype = 3, ggplot2::aes(xintercept = WAD))
-
-  list("plot" = p, "data" = WAD)
-}
 
 #' Get sample counts from qSIP sample data
 #'

@@ -37,9 +37,13 @@ reference:
 
 - title: Datasets
   contents:
-  - example_qsip_source_data
-  - example_qsip_sample_data
-  - example_qsip_feature_data
+  - example_source_df
+  - example_sample_df
+  - example_feature_df
+  - example_source_object
+  - example_sample_object
+  - example_feature_object
+  - example_qsip_object
 
 - title: internal
   contents:

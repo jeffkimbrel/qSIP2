@@ -4,16 +4,16 @@
 #' given treatments.
 #'
 #' @param source_data (*dataframe, qsip_source_data or qsip_data*) Sample metadata
-#' @param tmt (*string*) Treatment value or values
+#' @param group (*string*) Treatment value or values
 #' @param isotope (*string, default: isotope*) Column name with isotope data
 #' @param source_mat_id (*string, default: source_mat_id*) Column name with source_mat_id
 #'
 #' @export
 #'
-#' @return A dataframe with id grouped by different `tmt` treatments and isotopes
+#' @return A dataframe with id grouped by different `group` treatments and isotopes
 
 show_comparison_groups = function(source_data,
-                                  tmt,
+                                  group,
                                   isotope = "isotope",
                                   source_mat_id = "source_mat_id") {
 
@@ -30,7 +30,7 @@ show_comparison_groups = function(source_data,
 
 
   df |>
-    dplyr::select(!!as.name(source_mat_id), !!as.name(isotope), dplyr::all_of(tmt)) |>
+    dplyr::select(!!as.name(source_mat_id), !!as.name(isotope), dplyr::all_of(group)) |>
     dplyr::rename(SAMPLES = !!as.name(source_mat_id)) |>
     unique() |>
     tidyr::pivot_wider(names_from = !!as.name(isotope),
