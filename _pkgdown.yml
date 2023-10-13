@@ -34,6 +34,7 @@ reference:
 - title: Plots and Visualizations
   contents:
   - plot_sample_curves
+  - plot_feature_curves
 
 - title: Datasets
   contents:
