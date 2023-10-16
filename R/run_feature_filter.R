@@ -40,7 +40,8 @@ run_feature_filter = function(qsip_data_object,
                            min_unlabeled_sources = 2,
                            min_labeled_sources = 2,
                            min_unlabeled_fractions = 2,
-                           min_labeled_fractions = 2) {
+                           min_labeled_fractions = 2,
+                           quiet = FALSE) {
 
   if (min_labeled_sources > length(labeled_source_mat_ids)) {
     stop(glue::glue("ERROR: min_labeled_sources is set to {min_labeled_sources} but labeled_source_mat_ids only has {length(labeled_source_mat_ids)}"))
@@ -60,7 +61,9 @@ run_feature_filter = function(qsip_data_object,
     unique() |>
     length()
 
-  message(glue::glue("There are initially {initial_feature_id_count} unique feature_ids"))
+  if (isFALSE(quiet)) {
+    message(glue::glue("There are initially {initial_feature_id_count} unique feature_ids"))
+  }
 
   data = qsip_data_object@tube_rel_abundance |>
     dplyr::filter(source_mat_id %in% source_mat_ids)
@@ -69,8 +72,9 @@ run_feature_filter = function(qsip_data_object,
     dplyr::pull(feature_id) |>
     unique() |>
     length()
-
-  message(glue::glue("{secondary_feature_id_count} of these have abundance in at least one fraction of one source_mat_id"))
+  if (isFALSE(quiet)) {
+    message(glue::glue("{secondary_feature_id_count} of these have abundance in at least one fraction of one source_mat_id"))
+  }
 
   # make sure all given source_mat_ids are found in sample_data
   if (length(setdiff(unlabeled_source_mat_ids, qsip_data_object@sample_data@data$source_mat_id) > 0)) {
@@ -79,8 +83,10 @@ run_feature_filter = function(qsip_data_object,
     stop("ERROR: Some given labeled_source_mat_ids are not found")
   }
 
-  message(rep("=+", 25))
-  message("Filtering feature_ids by fraction...")
+  if (isFALSE(quiet)) {
+    message(rep("=+", 25))
+    message("Filtering feature_ids by fraction...")
+  }
 
   by_fraction = data |>
     dplyr::group_by(feature_id, source_mat_id) |>
@@ -103,11 +109,14 @@ run_feature_filter = function(qsip_data_object,
       type == "labeled" & n_fractions >= min_labeled_fractions ~ "Fraction Passed"
     ))
 
-  fraction_results_message(by_fraction)
+  if (isFALSE(quiet)) {
+    fraction_results_message(by_fraction)
+  }
 
-
-  message(rep("=+", 25))
-  message("Filtering feature_ids by source...")
+  if (isFALSE(quiet)) {
+    message(rep("=+", 25))
+    message("Filtering feature_ids by source...")
+  }
 
   by_source = by_fraction |>
     dplyr::filter(fraction_call == "Fraction Passed") |>
@@ -128,8 +137,9 @@ run_feature_filter = function(qsip_data_object,
       type == "labeled" & n_sources >= min_labeled_sources ~ "Source Passed"
     ))
 
-  source_results_message(by_source)
-
+  if (isFALSE(quiet)) {
+    source_results_message(by_source)
+  }
 
   retained_features = by_source |>
     dplyr::select(feature_id, type, source_call) |>

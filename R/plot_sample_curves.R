@@ -7,7 +7,7 @@
 #'
 #' @returns A ggplot object
 #'
-#' @family "Visualizations"
+#' @family "visualizations"
 
 plot_sample_curves <- function(sample_data,
                                source_data = NULL,

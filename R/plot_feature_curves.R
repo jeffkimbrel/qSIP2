@@ -8,7 +8,7 @@
 #'
 #' @returns A ggplot object
 #'
-#' @family "Visualizations"
+#' @family "visualizations"
 
 plot_feature_curves = function(qsip_data_object,
                                feature_ids,

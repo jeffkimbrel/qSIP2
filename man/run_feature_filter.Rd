@@ -11,7 +11,8 @@ run_feature_filter(
   min_unlabeled_sources = 2,
   min_labeled_sources = 2,
   min_unlabeled_fractions = 2,
-  min_labeled_fractions = 2
+  min_labeled_fractions = 2,
+  quiet = FALSE
 )
 }
 \arguments{
