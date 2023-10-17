@@ -27,7 +27,7 @@ plot_filter_gradient_position = function(qsip_data_object,
     stop(glue::glue("ERROR: return_type is an unknown type ({return_type})"))
   }
 
-  if (length(j_qsip@filter_results) == 0) {
+  if (length(qsip_data_object@filter_results) == 0) {
     stop(glue::glue("ERROR: please run run_filter_feature() on qsip_data_object before plotting results"))
   }
 

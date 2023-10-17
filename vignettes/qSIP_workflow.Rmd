@@ -3,8 +3,10 @@ title: "Standard qSIP Workflow"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{qSIP_workflow}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -14,8 +16,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
 library(qSIP2)
+packageVersion("qSIP2")
 ```
 
 # Background
@@ -26,6 +30,300 @@ A complete quantitative stable isotope probing (qSIP) workflow using the `qSIP2`
 
 Preparing and formatting the input files is often the most tedious part of any analysis. Our goal with the rigid (and opinionated) requirements imposed by `qSIP2` will hopefully streamline the creation of these files, and automated validation checks can remove many of the common sources of error or confusion.
 
+## Source Data
+
+The source data is the highest level of metadata with a row corresponding to each original experimental or source material object. An example source dataframe is included in the `qSIP2` package called `example_source_df`. 
+
+```{r}
+example_source_df |>
+  head() |> knitr::kable()
+```
+
+There are a few required columns for valid source data including a unique ID, some measure of quantitative abundance for the source material (either total DNA or qPCR copies), and an isotope and isotopolog designation. 
+
+The `isotopolog` column is missing from the example dataframe, so let's add it now.
+
+```{r}
+source_df = example_source_df |>
+  dplyr::mutate(isotopolog = "glucose")
+```
+
+```{r}
+#| echo: false
+source_df |>
+  head() |> knitr::kable()
+```
+
+Once the dataframe is ready, the next step is to convert it to a `qsip_source_data` object. This is one of the main `qSIP2` objects to hold and validate the data. 
+
+```{r}
+source_object = qsip_source_data(source_df,
+                            isotope = "Isotope",
+                            isotopolog = "isotopolog",
+                            source_mat_id = "source")
+
+class(source_object)
+```
+
+This object modifies some of the column names to standard names as supplied in the above function. 
+
+```{r}
+colnames(source_df)
+colnames(source_object@data)
+```
+
+See `vignette("source_data")` for more details.
+
+## Sample Data
+
+The sample metadata is the next level of detail with one row for each fraction, or one row for each set of fastq files that were sequenced. 
+
+```{r}
+example_sample_df |>
+  head() |> knitr::kable()
+```
+
+Again, there are several necessary columns for valid sample data, including a unique sample ID, the source they came from, the fraction ID, the fraction density and a measure of abundance in that fraction (total DNA or qPCR copy number). An additional column that can be derived is the percent abundance of your total sample that is found in each of the fractions. The `add_gradient_pos_rel_amt()` function can help calculate that by dividing each fraction abundance by the total abundance for each source and putting in a `gradient_pos_rel_amt` column.
+
+```{r}
+sample_df = example_sample_df |>
+  add_gradient_pos_rel_amt(source_mat_id = "source", amt = "avg_16S_g_soil")
+
+sample_df |> 
+  group_by(source) |> 
+  summarize(qPCR_copies = sum(avg_16S_g_soil),
+            Relative = sum(gradient_pos_rel_amt)) |>
+  head() |> knitr::kable()
+```
+
+Again, we make a `qSIP2` object for this data, this time as a `qsip_sample_data` object. In making these objects, we get some built-in validation, and example of which is displayed if we try to make an object with the current `sample_df`. 
+
+```{r, eval=FALSE}
+sample_object = qsip_sample_data(sample_df,
+                            sample_id = "sample",
+                            source_mat_id = "source",
+                            gradient_position = "Fraction",
+                            gradient_pos_density = "density_g_ml",
+                            gradient_pos_amt = "avg_16S_g_soil",
+                            gradient_pos_rel_amt = "gradient_pos_rel_amt")
+
+# ERROR: some gradient_position values are non-numeric
+```
+
+This error tells us that the `gradient_position` column ("Fraction") contains non-numeric data, and indeed we can see they are stored as strings. 
+
+```{r}
+class(sample_df$Fraction)
+```
+
+So, let's fix that and try creating the `qsip_sample_data` object again. 
+
+```{r}
+sample_df = sample_df |>
+  dplyr::mutate(Fraction = as.integer(Fraction))
+
+sample_object = qsip_sample_data(sample_df,
+                            sample_id = "sample",
+                            source_mat_id = "source",
+                            gradient_position = "Fraction",
+                            gradient_pos_density = "density_g_ml",
+                            gradient_pos_amt = "avg_16S_g_soil",
+                            gradient_pos_rel_amt = "gradient_pos_rel_amt")
+
+class(sample_object)
+```
+
+OK, it worked this time and gave us a valid object. See `vignette("sample_data")` for more details and relevant visualizations.
 
 
 
+## Feature Data
+
+Finally, the last of the three necessary input files is a feature abundance table, aka "OTU table" or "ASV table". The format of this dataframe has the unique feature IDs in the first column, and an additional column for each sample. Each row then contains the whole number (non-normalized) counts of each feature in each sample. 
+
+For now, the validation step requires all values be positive integers, but in the future an option will be added to accept other numeric values, e.g. coverages when working with MAGs or metagenomes. 
+
+```{r}
+example_feature_df[1:6] |> 
+  head() |> knitr::kable()
+
+feature_object = qsip_feature_data(example_feature_df,
+                              feature_id = "ASV")
+class(feature_object)
+```
+
+See `vignette("feature_data")` for more details and relevant visualizations.
+
+# The `qsip_data` Object
+
+The `qsip_data` class is the main workhorse object in the `qSIP2` package. It is built from validated versions of the three previous objects, and is meant to be a self-contained object with all of the necessary information for analysis. 
+
+The design of it is that it is both input for workflow functions, as well as output. For this reason, you can feel safe overwriting the object with new analysis as you work, or you can create a new object each step if you prefer.
+
+```{r}
+qsip_object = qsip_data(source_data = source_object,
+                        sample_data = sample_object,
+                        feature_data = feature_object)
+class(qsip_object)
+```
+
+Behind the scenes, creation of this object also runs some other calculations, particularly getting the weighted-average density (WAD) for each feature in each source, and also the tube relative abundance of each feature. With these, certain visualizations can be made.
+
+```{r, fig.height=2, fig.width=6}
+plot_source_wads(qsip_object, group = "Moisture")
+```
+
+
+```{r, fig.height=4, fig.width=6}
+plot_sample_curves(qsip_object)
+```
+
+# Main Workflow
+
+Now that we have a validated `qsip_data` object, we can start the main workflow consisting of comparison grouping, filtering, resampling and finally calculating EAF values.
+
+## Comparison Grouping
+
+Your `qsip_data` object likely contains all of your data, but you may only want to run comparisons on certain subsets. The `show_comparison_groups()` function attempts to identify and suggest the sources you may want to compare.
+
+```{r}
+show_comparison_groups(qsip_object,
+                       group = "Moisture",
+                       isotope = "isotope",
+                       source_mat_id = "source_mat_id") |> knitr::kable()
+```
+
+The `group` argument here is the most important as it will define the rows that it thinks constitute a comparison. The `isotope` argument is what defines the labeled and unlabeled values for the comparisons. This can be more complex, particularly if you have more than one isotopolog, and details will be made available in the future in another vignette.
+
+So if we work with the "Normal" moisture groups we likely want to use S149, S150, S151 and S152 for the unlabeled and compare to S178, S179 and S180 for the labeled. 
+
+Sometimes you may also want to compare the specific labeled samples in a group to *all* unlabeled. The `qSIP2` package has a convenient way to get those by using the `get_all_by_isotope()` function. 
+
+```{r}
+get_all_by_isotope(qsip_object, "12C")
+```
+
+
+## Filter Features
+
+Rather than filter up front, it might make the most sense to run comparison specific filtering with presence requirements for just the sources you are comparing. 
+
+The `run_feature_filter()` function takes a different set of fraction and source requirements for the labeled and unlabeled data, allowing you to precisely tailor your filtering results.
+
+<div class="alert alert-primary">
+  Note, although I said earlier you can overwrite your `qsip_data` objects as you go, it might make sense to create two versions here, one for the Normal and one for the Drought moisture treatments.
+</div>
+
+
+
+```{r}
+qsip_normal = run_feature_filter(qsip_object,
+                             unlabeled_source_mat_ids = get_all_by_isotope(qsip_object, "12C"),
+                             labeled_source_mat_ids = c("S178", "S179", "S180"),
+                             min_unlabeled_sources = 6,
+                             min_labeled_sources = 3,
+                             min_unlabeled_fractions = 6,
+                             min_labeled_fractions = 6)
+```
+
+Here, we can see our rather strict filtering removed all but 64 features from the dataset. We can visualize the filtering results on a per-source basis.
+
+```{r, fig.height=4, fig.width=8}
+plot_filter_gradient_position(qsip_normal)
+```
+
+Although a large number of features were removed, we can tell that the 64 that remained actually still make up a large proportion of the total abundance in each sample. In **A** above, the retained features (in blue) make up ~80-85% of the total data, while the removed data (orange) is the reamining ~15-20%. 
+
+In **B**, we can see that a surprisingly large number of features are found 0 times in many sources (gray) and will therefore never be present regardless of our filtering choices. And although there are are ~100-200 features that passed the filtering requirements (blue), our requirement that `min_unlabeled_sources = 6` and `min_labeled_sources = 3` means that only the features present in many of the blue slices will be retained, leaving only 64 total. 
+
+Let's do the same comparison with the drought samples. 
+
+```{r}
+qsip_drought = run_feature_filter(qsip_object,
+                             unlabeled_source_mat_ids = get_all_by_isotope(qsip_object, "12C"),
+                             labeled_source_mat_ids = c("S200", "S201", "S202", "S203"),
+                             min_unlabeled_sources = 6,
+                             min_labeled_sources = 3,
+                             min_unlabeled_fractions = 6,
+                             min_labeled_fractions = 6)
+```
+
+Here, we can see our rather strict filtering removed all but 64 features from the dataset. We can visualize the filtering results on a per-source basis.
+
+```{r, fig.height=4, fig.width=8}
+plot_filter_gradient_position(qsip_drought)
+```
+
+
+## Resampling
+
+In order to calculate the confidence interval for the EAF values, we first need to run a resampling/bootstrapping procedure on the WAD values.
+
+```{r qsip_normal_resampling}
+qsip_normal = run_resampling(qsip_normal, 
+                           resamples = 1000,
+                           with_seed = 17)
+```
+
+As this step requires some random sampling it is good practice to set the "seed". Rather than doing this outside of the function, you can pass the seed as an argument. If you leave blank, it will generate a random seed. The seed will generate the same results each time you run the resampling process. 
+
+```{r qsip_normal_resampling_again}
+qsip_normal_17_again = run_resampling(qsip_normal, 
+                           resamples = 1000,
+                           with_seed = 17)
+
+# two runs are identical
+identical(qsip_normal, qsip_normal_17_again)
+identical(qsip_normal@resamples$l[[334]], qsip_normal_17_again@resamples$l[[334]])
+
+# but individual resamplings within are different
+identical(qsip_normal@resamples$l[[1]], qsip_normal@resamples$l[[2]])
+```
+
+```{r qsip_drought_resampling}
+qsip_drought = run_resampling(qsip_drought, 
+                           resamples = 1000,
+                           with_seed = 17)
+```
+
+# EAF Calculations
+
+And we are finally at the last main step, calculating and summarizing the excess atom fraction (EAF) values. There are two functions to run, the first (`run_EAF_calculations()`) that calculate EAF for the experimental data and all resamplings, and the second (`summarize_EAF_values()`) that summarizes that data at a chosen confidence interval.
+
+We'll also `mutate()` to add the original Moisture condition to each dataframe before we combine them.
+
+```{r eaf1}
+qsip_normal = run_EAF_calculations(qsip_normal)
+qsip_drought = run_EAF_calculations(qsip_drought)
+
+normal = summarize_EAF_values(qsip_normal, confidence = 0.9) |>
+  mutate(Moisture = "Normal")
+
+drought = summarize_EAF_values(qsip_drought, confidence = 0.9) |>
+  mutate(Moisture = "Drought")
+
+eaf = rbind(normal, drought)
+```
+
+We can plot the top 25 by each moisture condition.
+
+```{r, fig.height=6, fig.width=4}
+eaf |>
+  group_by(Moisture) |>
+  slice_max(observed_EAF, n = 25) |>
+  ggplot(aes(y = reorder(feature_id, observed_EAF), x = mean_resampled_EAF)) +
+    geom_errorbar(aes(xmin = lower, xmax = upper,
+                      color = ifelse(lower > 0, "cornflowerblue", "gray10"))) +
+    geom_point(color = "gray30")+
+    geom_vline(xintercept = 0) +
+    scale_color_identity() +
+    theme(legend.position = "none") +
+    facet_wrap(~Moisture, ncol = 2)
+```
+
+The `plot_feature_curves()` function allows us to plot the tube relative abundances for specific feature IDs. Let's look at the top few.
+
+```{r, fig.height=4, fig.width=5}
+plot_feature_curves(qsip_normal,
+                    feature_ids = c("ASV_55", "ASV_20", "ASV_93", "ASV_41", "ASV_2", "ASV_5"))
+```

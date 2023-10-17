@@ -19,8 +19,6 @@ calculate_atoms = function(G, isotope) {
   } else if (isotope == "18O") {
     O_atoms <- 6
     return(O_atoms)
-  } else {
-    stop("ERROR: can not determine isotope atom count")
   }
 
 }
