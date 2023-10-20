@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.3.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -167,9 +167,10 @@ listed there.</p>
 <span><span class="va">sample_data_nonMISIP</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">isotope</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># new data has only one isotope and a mixture of isotopolog_label </span></span>
-<span><span class="va">df_with_labels</span> <span class="op">=</span> <span class="fu"><a href="../reference/add_isotopolog_label.html">add_isotopolog_label</a></span><span class="op">(</span><span class="va">sample_data_nonMISIP</span>, </span>
-<span>                                      isotope <span class="op">=</span> <span class="st">"isotope"</span><span class="op">)</span> </span>
+<span><span class="co"># new data has only one isotope and a mixture of isotopolog_label</span></span>
+<span><span class="va">df_with_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_isotopolog_label.html">add_isotopolog_label</a></span><span class="op">(</span><span class="va">sample_data_nonMISIP</span>,</span>
+<span>  isotope <span class="op">=</span> <span class="st">"isotope"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df_with_labels</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">isotope</span>, <span class="va">isotopolog_label</span><span class="op">)</span></span>
@@ -214,21 +215,23 @@ function can not know if there are missing fractions, the totals per
 that you want removed, keep them in the dataframe for this
 <code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code> and then remove them after.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># gradient_pos_rel_amt to a dataframe without this column </span></span>
+<code class="sourceCode R"><span><span class="co"># gradient_pos_rel_amt to a dataframe without this column</span></span>
 <span><span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span><span class="va">sample_data_nonMISIP</span>,</span>
-<span>                         source_mat_id <span class="op">=</span> <span class="st">"rep"</span>, <span class="co"># the source_mat_id or per-tube grouping</span></span>
-<span>                         amt <span class="op">=</span> <span class="st">"dna_conc"</span> <span class="co"># the column with total amounts</span></span>
-<span>                         <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  source_mat_id <span class="op">=</span> <span class="st">"rep"</span>, <span class="co"># the source_mat_id or per-tube grouping</span></span>
+<span>  amt <span class="op">=</span> <span class="st">"dna_conc"</span> <span class="co"># the column with total amounts</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># adding to a dataframe with an existing gradient_pos_rel_amt will give an error</span></span>
 <span><span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span><span class="va">sample_data_MISIP</span>,</span>
-<span>                         amt <span class="op">=</span> <span class="st">"gradient_pos_dna"</span><span class="op">)</span></span>
+<span>  amt <span class="op">=</span> <span class="st">"gradient_pos_dna"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># adding overwrite = T removes the error</span></span>
 <span><span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span><span class="va">sample_data_MISIP</span>,</span>
-<span>                         amt <span class="op">=</span> <span class="st">"gradient_pos_dna"</span>,</span>
-<span>                         overwrite <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  amt <span class="op">=</span> <span class="st">"gradient_pos_dna"</span>,</span>
+<span>  overwrite <span class="op">=</span> <span class="cn">T</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -240,7 +243,7 @@ object from a dataframe. The <code>qSIP2</code> package comes with a
 basic example tibble called <code>sample_data_MISIP</code>, and some of
 the columns are already formatted with proper MISIP headers.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#qdf = qsip_sample_data(sample_data_MISIP)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># qdf = qsip_sample_data(sample_data_MISIP)</span></span></code></pre></div>
 <p>And that’s that, for now.</p>
 <div class="section level3">
 <h3 id="isotope-values">Isotope Values<a class="anchor" aria-label="anchor" href="#isotope-values"></a>
