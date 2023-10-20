@@ -9,8 +9,7 @@
 #'
 #' @note The isotope_list may change if isotopolog_label stays a thing. Only the "labeled" isotopes will be allowed.
 
-validate_isotopes = function(isotope, isotope_list = c("12C", "13C", "14N", "15N", "16O", "18O")) {
-
+validate_isotopes <- function(isotope, isotope_list = c("12C", "13C", "14N", "15N", "16O", "18O")) {
   if (length(setdiff(isotope, isotope_list)) == 0) {
     return(NULL)
   } else {

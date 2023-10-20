@@ -14,11 +14,10 @@
 #'
 #' @returns A dataframe with a `gradient_pos_rel_amt` column
 
-add_gradient_pos_rel_amt = function(data,
-                                    amt,
-                                    source_mat_id = "source_mat_id",
-                                    overwrite = FALSE) {
-
+add_gradient_pos_rel_amt <- function(data,
+                                     amt,
+                                     source_mat_id = "source_mat_id",
+                                     overwrite = FALSE) {
   if ("gradient_pos_rel_amt" %in% colnames(data)) {
     if (overwrite == FALSE) {
       stop(crayon::red("ERROR: gradient_pos_rel_amt already exists! Set overwrite = TRUE if you want to overwrite"))
@@ -28,6 +27,8 @@ add_gradient_pos_rel_amt = function(data,
   }
 
   data |>
-    dplyr::mutate(gradient_pos_rel_amt = !!as.name(amt) / sum(!!as.name(amt)),
-                  .by = !!as.name(source_mat_id))
+    dplyr::mutate(
+      gradient_pos_rel_amt = !!as.name(amt) / sum(!!as.name(amt)),
+      .by = !!as.name(source_mat_id)
+    )
 }

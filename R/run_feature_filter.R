@@ -34,15 +34,14 @@
 #' `@filtered_feature_data` slot and intermediate data in the `@filter_results`
 #' slot for plotting.
 
-run_feature_filter = function(qsip_data_object,
-                           unlabeled_source_mat_ids,
-                           labeled_source_mat_ids,
-                           min_unlabeled_sources = 2,
-                           min_labeled_sources = 2,
-                           min_unlabeled_fractions = 2,
-                           min_labeled_fractions = 2,
-                           quiet = FALSE) {
-
+run_feature_filter <- function(qsip_data_object,
+                               unlabeled_source_mat_ids,
+                               labeled_source_mat_ids,
+                               min_unlabeled_sources = 2,
+                               min_labeled_sources = 2,
+                               min_unlabeled_fractions = 2,
+                               min_labeled_fractions = 2,
+                               quiet = FALSE) {
   if (min_labeled_sources > length(labeled_source_mat_ids)) {
     stop(glue::glue("ERROR: min_labeled_sources is set to {min_labeled_sources} but labeled_source_mat_ids only has {length(labeled_source_mat_ids)}"))
   }
@@ -52,11 +51,11 @@ run_feature_filter = function(qsip_data_object,
   }
 
 
-  source_mat_ids = c(unlabeled_source_mat_ids, labeled_source_mat_ids)
+  source_mat_ids <- c(unlabeled_source_mat_ids, labeled_source_mat_ids)
 
   # extract tables
 
-  initial_feature_id_count = qsip_data_object@tube_rel_abundance |>
+  initial_feature_id_count <- qsip_data_object@tube_rel_abundance |>
     dplyr::pull(feature_id) |>
     unique() |>
     length()
@@ -65,10 +64,10 @@ run_feature_filter = function(qsip_data_object,
     message(glue::glue("There are initially {initial_feature_id_count} unique feature_ids"))
   }
 
-  data = qsip_data_object@tube_rel_abundance |>
+  data <- qsip_data_object@tube_rel_abundance |>
     dplyr::filter(source_mat_id %in% source_mat_ids)
 
-  secondary_feature_id_count = data |>
+  secondary_feature_id_count <- data |>
     dplyr::pull(feature_id) |>
     unique() |>
     length()
@@ -88,19 +87,24 @@ run_feature_filter = function(qsip_data_object,
     message("Filtering feature_ids by fraction...")
   }
 
-  by_fraction = data |>
+  by_fraction <- data |>
     dplyr::group_by(feature_id, source_mat_id) |>
-    dplyr::summarize(n_fractions = dplyr::n(),
-                     tube_rel_abundance = sum(tube_rel_abundance),
-                     .groups = "drop") |>
+    dplyr::summarize(
+      n_fractions = dplyr::n(),
+      tube_rel_abundance = sum(tube_rel_abundance),
+      .groups = "drop"
+    ) |>
     tidyr::complete(feature_id,
-                    source_mat_id,
-                    fill = list(n_fractions = 0,
-                                tube_rel_abundance = 0)) |> # fill in missing fractions with 0
+      source_mat_id,
+      fill = list(
+        n_fractions = 0,
+        tube_rel_abundance = 0
+      )
+    ) |> # fill in missing fractions with 0
     dplyr::mutate(type = dplyr::case_when(
       source_mat_id %in% unlabeled_source_mat_ids ~ "unlabeled",
-      source_mat_id %in% labeled_source_mat_ids ~ "labeled")
-    ) |>
+      source_mat_id %in% labeled_source_mat_ids ~ "labeled"
+    )) |>
     dplyr::mutate(fraction_call = dplyr::case_when(
       n_fractions == 0 ~ "Zero Fractions",
       type == "unlabeled" & n_fractions < min_unlabeled_fractions ~ "Fraction Filtered",
@@ -118,17 +122,22 @@ run_feature_filter = function(qsip_data_object,
     message("Filtering feature_ids by source...")
   }
 
-  by_source = by_fraction |>
+  by_source <- by_fraction |>
     dplyr::filter(fraction_call == "Fraction Passed") |>
     dplyr::group_by(feature_id, type) |>
     dplyr::filter(tube_rel_abundance > 0) |>
-    dplyr::summarize(n_sources = dplyr::n(),
-                     tube_rel_abundance = sum(tube_rel_abundance),
-                     .groups = "drop") |>
+    dplyr::summarize(
+      n_sources = dplyr::n(),
+      tube_rel_abundance = sum(tube_rel_abundance),
+      .groups = "drop"
+    ) |>
     tidyr::complete(feature_id,
-                    type,
-                    fill = list(n_sources = 0,
-                                tube_rel_abundance = 0)) |>
+      type,
+      fill = list(
+        n_sources = 0,
+        tube_rel_abundance = 0
+      )
+    ) |>
     dplyr::mutate(source_call = dplyr::case_when(
       n_sources == 0 ~ "Zero Sources",
       type == "unlabeled" & n_sources < min_unlabeled_sources ~ "Source Filtered",
@@ -141,39 +150,43 @@ run_feature_filter = function(qsip_data_object,
     source_results_message(by_source)
   }
 
-  retained_features = by_source |>
+  retained_features <- by_source |>
     dplyr::select(feature_id, type, source_call) |>
     tidyr::pivot_wider(names_from = type, values_from = source_call) |>
     dplyr::filter(labeled == "Source Passed" & unlabeled == "Source Passed") |>
     dplyr::pull(feature_id)
 
-  qsip_data_object@filter_results = list("source_filtered" = by_source,
-                                         "fraction_filtered" = by_fraction,
-                                         "retained_features" = retained_features,
-                                         "labeled_source_mat_ids" = labeled_source_mat_ids,
-                                         "unlabeled_source_mat_ids" = unlabeled_source_mat_ids,
-                                         "min_labeled_sources" = min_labeled_sources,
-                                         "min_unlabeled_sources" = min_unlabeled_sources,
-                                         "min_labeled_fractions" = min_labeled_fractions,
-                                         "min_unlabeled_fractions" = min_unlabeled_fractions
+  qsip_data_object@filter_results <- list(
+    "source_filtered" = by_source,
+    "fraction_filtered" = by_fraction,
+    "retained_features" = retained_features,
+    "labeled_source_mat_ids" = labeled_source_mat_ids,
+    "unlabeled_source_mat_ids" = unlabeled_source_mat_ids,
+    "min_labeled_sources" = min_labeled_sources,
+    "min_unlabeled_sources" = min_unlabeled_sources,
+    "min_labeled_fractions" = min_labeled_fractions,
+    "min_unlabeled_fractions" = min_unlabeled_fractions
   )
 
-  qsip_data_object@filtered_feature_data = data |>
+  qsip_data_object@filtered_feature_data <- data |>
     dplyr::filter(feature_id %in% retained_features) |>
     dplyr::select(feature_id, sample_id, tube_rel_abundance) |>
-    tidyr::pivot_wider(names_from = sample_id,
-                       values_from = tube_rel_abundance,
-                       values_fill = 0)
+    tidyr::pivot_wider(
+      names_from = sample_id,
+      values_from = tube_rel_abundance,
+      values_fill = 0
+    )
 
-  qsip_data_object@filtered_wad_data = qsip_data_object@wads |>
+  qsip_data_object@filtered_wad_data <- qsip_data_object@wads |>
     dplyr::filter(feature_id %in% retained_features) |>
     dplyr::filter(source_mat_id %in% source_mat_ids) |>
     dplyr::select(feature_id, source_mat_id, WAD) |>
-    tidyr::pivot_wider(names_from = source_mat_id,
-                       values_from = WAD)
+    tidyr::pivot_wider(
+      names_from = source_mat_id,
+      values_from = WAD
+    )
 
   return(qsip_data_object)
-
 }
 
 #' Filter features by fraction message formatting
@@ -182,29 +195,31 @@ run_feature_filter = function(qsip_data_object,
 #'
 #' @export
 
-fraction_results_message = function(by_fraction) {
-  fraction_results = by_fraction |>
+fraction_results_message <- function(by_fraction) {
+  fraction_results <- by_fraction |>
     dplyr::count(feature_id, type, fraction_call) |>
-    #unique() |>
+    # unique() |>
     dplyr::count(type, fraction_call) |>
     tidyr::pivot_wider(names_from = type, values_from = n, values_fill = 0) |>
     tibble::column_to_rownames("fraction_call")
 
-  if (!is.na(fraction_results["Zero Fractions","unlabeled"])) {
+  if (!is.na(fraction_results["Zero Fractions", "unlabeled"])) {
     message(glue::glue_col('{red {fraction_results["Zero Fractions","unlabeled"]}} unlabeled and {red {fraction_results["Zero Fractions","labeled"]}} labeled feature_ids were found in {red zero fractions} in at least one source_mat_id'))
   }
 
-  if (!is.na(fraction_results["Fraction Filtered","unlabeled"])) {
+  if (!is.na(fraction_results["Fraction Filtered", "unlabeled"])) {
     message(glue::glue_col('{red {fraction_results["Fraction Filtered","unlabeled"]}} unlabeled and {red {fraction_results["Fraction Filtered","labeled"]}} labeled feature_ids were found in {red too few fractions} in at least one source_mat_id'))
   }
 
-  if (!is.na(fraction_results["Fraction Passed","unlabeled"])) {
+  if (!is.na(fraction_results["Fraction Passed", "unlabeled"])) {
     message(glue::glue_col('{green {fraction_results["Fraction Passed","unlabeled"]}} unlabeled and {green {fraction_results["Fraction Passed","labeled"]}} labeled feature_ids {green passed} the fraction filter'))
   }
 
-  fraction_passed = by_fraction |>
+  fraction_passed <- by_fraction |>
     dplyr::filter(fraction_call == "Fraction Passed") |>
-    dplyr::pull(feature_id) |> unique() |> length()
+    dplyr::pull(feature_id) |>
+    unique() |>
+    length()
 
   message(glue::glue_col("In total, {green {fraction_passed}} unique feature_ids {green passed} the fraction filtering requirements..."))
 }
@@ -215,40 +230,37 @@ fraction_results_message = function(by_fraction) {
 #'
 #' @export
 
-source_results_message = function(by_source) {
-  #fraction_results =
+source_results_message <- function(by_source) {
+  # fraction_results =
 
-  source_results = by_source |>
+  source_results <- by_source |>
     dplyr::select(feature_id, type, source_call) |>
     unique() |>
     dplyr::count(type, source_call) |>
     tidyr::pivot_wider(names_from = type, values_from = n, values_fill = 0) |>
     tibble::column_to_rownames("source_call")
 
-  if (!is.na(source_results["Zero Sources","unlabeled"])) {
+  if (!is.na(source_results["Zero Sources", "unlabeled"])) {
     message(glue::glue_col('{red {source_results["Zero Sources","unlabeled"]}} unlabeled and {red {source_results["Zero Sources","labeled"]}} labeled feature_ids failed the source filter because they were found in {red zero sources}'))
   }
 
-  if (!is.na(source_results["Source Filtered","unlabeled"])) {
+  if (!is.na(source_results["Source Filtered", "unlabeled"])) {
     message(glue::glue_col('{red {source_results["Source Filtered","unlabeled"]}} unlabeled and {red {source_results["Source Filtered","labeled"]}} labeled feature_ids failed the source filter because they were found in {red too few sources}'))
   }
 
-  if (!is.na(source_results["Source Passed","unlabeled"])) {
+  if (!is.na(source_results["Source Passed", "unlabeled"])) {
     message(glue::glue_col('{green {source_results["Source Passed","unlabeled"]}} unlabeled and {green {source_results["Source Passed","labeled"]}} labeled feature_ids {green passed} the source filter'))
   }
 
-  total_passed = by_source |>
+  total_passed <- by_source |>
     dplyr::select(feature_id, type, source_call) |>
     tidyr::pivot_wider(names_from = type, values_from = source_call) |>
     dplyr::filter(labeled == "Source Passed" & unlabeled == "Source Passed") |>
     dplyr::pull(feature_id) |>
-    unique() |> length()
+    unique() |>
+    length()
 
   message(rep("=+", 25))
 
   message(glue::glue_col("In total, {green {total_passed}} unique feature_ids {green passed} all fraction and source filtering requirements"))
 }
-
-
-
-

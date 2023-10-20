@@ -5,14 +5,13 @@
 #' @export
 
 completely_labeled_values <- function(isotope) {
-
   validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
 
   if (isotope == "13C") {
-    return(1-(11237.2/(1000000+11237.2)))
+    return(1 - (11237.2 / (1000000 + 11237.2)))
   } else if (isotope == "15N") {
-    return(1-((1000000/272)/(1000000+(1000000/272))))
+    return(1 - ((1000000 / 272) / (1000000 + (1000000 / 272))))
   } else if (isotope == "18O") {
-    return(fully_labeled = 1-(2005.20/(1000000+379.9+2005.20)))
+    return(1 - (2005.20 / (1000000 + 379.9 + 2005.20)))
   }
 }

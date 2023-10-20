@@ -3,8 +3,10 @@ test_that("works as intended", {
 })
 
 test_that("multiple values work", {
-  expect_equal(calculate_gc_from_sequence(c("GGCAG", "CAAGC")),
-               c(0.8, 0.6))
+  expect_equal(
+    calculate_gc_from_sequence(c("GGCAG", "CAAGC")),
+    c(0.8, 0.6)
+  )
 })
 
 test_that("non-strings fail", {

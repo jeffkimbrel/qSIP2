@@ -10,12 +10,11 @@
 #'
 #' @export
 
-calculate_resampled_wads = function(i, wad_data, type) {
-
+calculate_resampled_wads <- function(i, wad_data, type) {
   # make a new names vector to abstract away the real names into a numbered list of names
-  new_names = c('feature_id', paste(type, seq(1:(ncol(wad_data))), sep = "_"))
+  new_names <- c("feature_id", paste(type, seq(1:(ncol(wad_data))), sep = "_"))
 
-  wad_data_resampled = wad_data[,sample(ncol(wad_data), replace = T, size = ncol(wad_data)), drop = FALSE]
+  wad_data_resampled <- wad_data[, sample(ncol(wad_data), replace = T, size = ncol(wad_data)), drop = FALSE]
 
   # double check the dimensions remain the same
   if (identical(dim(wad_data), dim(wad_data_resampled)) == FALSE) {
@@ -23,12 +22,12 @@ calculate_resampled_wads = function(i, wad_data, type) {
   }
 
   # save the original names, in case they are needed later
-  wad_data_resampled_names = colnames(wad_data_resampled)
+  wad_data_resampled_names <- colnames(wad_data_resampled)
 
   # bring the feature id from the rownames back to a column, repair the names,
   # add the resample # and the type, and arrange just for fun
-  wad_data_resampled = wad_data_resampled |>
-    tibble::rownames_to_column('feature_id') |>
+  wad_data_resampled <- wad_data_resampled |>
+    tibble::rownames_to_column("feature_id") |>
     tibble::as_tibble(.name_repair = ~new_names) |>
     dplyr::mutate(resample = i, .after = feature_id) |>
     dplyr::mutate(type = type, .after = "feature_id") |>

@@ -36,27 +36,28 @@ qsip_sample_data <- S7::new_class(
                          gradient_pos_density,
                          gradient_pos_amt,
                          gradient_pos_rel_amt) {
-
-
     # rename columns to standardized names
-    data = data |>
-      dplyr::select(sample_id = sample_id,
-                    source_mat_id = source_mat_id,
-                    gradient_position = gradient_position,
-                    gradient_pos_density = gradient_pos_density,
-                    gradient_pos_amt = gradient_pos_amt,
-                    gradient_pos_rel_amt = gradient_pos_rel_amt,
-                    dplyr::everything()) |>
+    data <- data |>
+      dplyr::select(
+        sample_id = sample_id,
+        source_mat_id = source_mat_id,
+        gradient_position = gradient_position,
+        gradient_pos_density = gradient_pos_density,
+        gradient_pos_amt = gradient_pos_amt,
+        gradient_pos_rel_amt = gradient_pos_rel_amt,
+        dplyr::everything()
+      ) |>
       dplyr::ungroup()
 
     S7::new_object(S7::S7_object(),
-                   data = data,
-                   sample_id = sample_id,
-                   source_mat_id = source_mat_id,
-                   gradient_position = gradient_position,
-                   gradient_pos_density = gradient_pos_density,
-                   gradient_pos_amt = gradient_pos_amt,
-                   gradient_pos_rel_amt = gradient_pos_rel_amt)
+      data = data,
+      sample_id = sample_id,
+      source_mat_id = source_mat_id,
+      gradient_position = gradient_position,
+      gradient_pos_density = gradient_pos_density,
+      gradient_pos_amt = gradient_pos_amt,
+      gradient_pos_rel_amt = gradient_pos_rel_amt
+    )
   },
   validator = function(self) {
     qSIP2::validate_gradient_pos_density(self@data |> dplyr::pull(gradient_pos_density))

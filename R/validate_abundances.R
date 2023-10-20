@@ -17,18 +17,17 @@
 #' @export
 
 
-validate_abundances = function(data, feature_id) {
-  data = data |>
+validate_abundances <- function(data, feature_id) {
+  data <- data |>
     dplyr::select(-feature_id)
 
   if (length(data) - length(dplyr::select_if(data, is.numeric)) > 0) {
     stop("ERROR: Some data is not numeric")
-  } else if (!all(data-floor(data)==0)) {
+  } else if (!all(data - floor(data) == 0)) {
     stop("ERROR: Some data are not integers")
   } else if (any(data < 0)) {
     stop("ERROR: Some numbers are negative")
   } else {
     return(NULL)
   }
-
 }

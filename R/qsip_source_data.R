@@ -29,24 +29,24 @@ qsip_source_data <- S7::new_class(
                          isotope,
                          isotopolog,
                          source_mat_id) {
-
-
     # rename columns to standardized names
-    data = data |>
-      dplyr::select(isotope = isotope,
-                  isotopolog = isotopolog,
-                  source_mat_id = source_mat_id,
-                  dplyr::everything()) |>
+    data <- data |>
+      dplyr::select(
+        isotope = isotope,
+        isotopolog = isotopolog,
+        source_mat_id = source_mat_id,
+        dplyr::everything()
+      ) |>
       dplyr::ungroup()
 
     S7::new_object(S7::S7_object(),
-                   data = data,
-                   isotope = isotope,
-                   isotopolog = isotopolog,
-                   source_mat_id = source_mat_id)
+      data = data,
+      isotope = isotope,
+      isotopolog = isotopolog,
+      source_mat_id = source_mat_id
+    )
   },
   validator = function(self) {
-
     if (any(duplicated(self@data["source_mat_id"]))) {
       stop("ERROR: some source_mat_ids are duplicated")
     }

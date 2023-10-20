@@ -11,10 +11,10 @@
 #' @export
 
 
-validate_gradient_position = function(gradient_position) {
+validate_gradient_position <- function(gradient_position) {
   if (is.numeric(gradient_position)) {
-  # https://www.tutorialspoint.com/how-to-check-if-all-values-in-a-vector-are-integer-or-not-in-r
-    if (all(gradient_position-floor(gradient_position)==0)) {
+    # https://www.tutorialspoint.com/how-to-check-if-all-values-in-a-vector-are-integer-or-not-in-r
+    if (all(gradient_position - floor(gradient_position) == 0)) {
       return(NULL)
     } else {
       stop(crayon::red("ERROR: some gradient_position values are not integers"))

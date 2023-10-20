@@ -16,23 +16,24 @@
 #'
 #' @returns A `dataframe` with summarized observed and resampled EAF values
 
-summarize_EAF_values = function(qsip_data_object, confidence = 0.9) {
-
+summarize_EAF_values <- function(qsip_data_object, confidence = 0.9) {
   if (confidence >= 1 | confidence <= 0) {
     stop("ERROR: confidence level should be between 0 and 1")
   }
 
   message(glue::glue("Confidence level = {confidence}"))
 
-  resamples = qsip_data_object@EAF %>%
+  resamples <- qsip_data_object@EAF %>%
     dplyr::filter(observed == FALSE) |>
     dplyr::group_by(feature_id) |>
-    dplyr::summarize(mean_resampled_EAF = mean(EAF),
-                     lower = quantile(EAF, (1-confidence)/2, na.rm = T),
-                     upper = quantile(EAF, 1-(1-confidence)/2, na.rm = T),
-                     .groups = "drop")
+    dplyr::summarize(
+      mean_resampled_EAF = mean(EAF),
+      lower = quantile(EAF, (1 - confidence) / 2, na.rm = T),
+      upper = quantile(EAF, 1 - (1 - confidence) / 2, na.rm = T),
+      .groups = "drop"
+    )
 
-  observed = qsip_data_object@EAF %>%
+  observed <- qsip_data_object@EAF %>%
     dplyr::filter(observed == TRUE) |>
     dplyr::select(feature_id, observed_EAF = EAF)
 

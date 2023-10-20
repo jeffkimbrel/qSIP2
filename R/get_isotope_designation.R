@@ -11,11 +11,13 @@
 #' error if an inference cannot be made.
 
 
-get_isotope_designation = function(qsip_data_object) {
-  source_mat_ids_to_verify = c(qsip_data_object@filter_results$labeled_source_mat_ids,
-                               qsip_data_object@filter_results$unlabeled_source_mat_ids)
+get_isotope_designation <- function(qsip_data_object) {
+  source_mat_ids_to_verify <- c(
+    qsip_data_object@filter_results$labeled_source_mat_ids,
+    qsip_data_object@filter_results$unlabeled_source_mat_ids
+  )
 
-  isotopes = qsip_data_object@source_data@data |>
+  isotopes <- qsip_data_object@source_data@data |>
     dplyr::filter(source_mat_id %in% source_mat_ids_to_verify) |>
     dplyr::pull(isotope) |>
     unique()
@@ -32,5 +34,4 @@ get_isotope_designation = function(qsip_data_object) {
   } else {
     stop("ERROR: something went wrong with inferring which isotope calculation to use")
   }
-
 }

@@ -3,8 +3,10 @@ test_that("works as intended", {
 })
 
 test_that("multiple values work", {
-  expect_equal(calculate_gc_from_density(c(1.6, 1.65)),
-               c(-0.55154666614784, 0.0472127371713998))
+  expect_equal(
+    calculate_gc_from_density(c(1.6, 1.65)),
+    c(-0.55154666614784, 0.0472127371713998)
+  )
 })
 
 test_that("densities given as strings fail", {
@@ -21,6 +23,8 @@ test_that("wrong method fails", {
 })
 
 test_that("default is MM", {
-  expect_equal(calculate_gc_from_density(1.7, method = "MM"),
-               calculate_gc_from_density(1.7))
+  expect_equal(
+    calculate_gc_from_density(1.7, method = "MM"),
+    calculate_gc_from_density(1.7)
+  )
 })

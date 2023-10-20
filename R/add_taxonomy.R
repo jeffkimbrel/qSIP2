@@ -12,13 +12,11 @@
 #' @returns An updated `qsip_feature_data` with the taxonomy slot populated with a taxonomy dataframe.
 
 add_taxonomy <- function(feature_object, taxa, feature_id) {
-
-  taxa = taxa |>
+  taxa <- taxa |>
     dplyr::rename("feature_id" := feature_id)
 
-
-  feature_object_ids = feature_object@data['feature_id']
-  taxa_ids = taxa['feature_id']
+  feature_object_ids <- feature_object@data["feature_id"]
+  taxa_ids <- taxa["feature_id"]
 
   if (length(setdiff(feature_object_ids, taxa_ids)) > 0) {
     stop("ERROR: Some ids found in the abundance object are not found in the taxa table")
@@ -26,8 +24,7 @@ add_taxonomy <- function(feature_object, taxa, feature_id) {
     setdiff(taxa_ids, feature_object_ids)
     stop("ERROR: Some ids found in the taxa table are not found in the abundance object")
   } else {
-
-    feature_object@taxonomy = taxa
+    feature_object@taxonomy <- taxa
     feature_object
   }
 }

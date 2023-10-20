@@ -35,28 +35,27 @@ qsip_data <- S7::new_class(
   constructor = function(source_data,
                          sample_data,
                          feature_data) {
-
     # calculate tube level relative abundances
-    tube_rel_abundance = calculate_tube_rel_abundance(source_data, sample_data, feature_data)
-    wad_data = calculate_wads(tube_rel_abundance)
-    source_wad = calculate_source_wads(sample_data)
+    tube_rel_abundance <- calculate_tube_rel_abundance(source_data, sample_data, feature_data)
+    wad_data <- calculate_wads(tube_rel_abundance)
+    source_wad <- calculate_source_wads(sample_data)
 
     S7::new_object(S7::S7_object(),
-                   source_data = source_data,
-                   sample_data = sample_data,
-                   feature_data = feature_data,
-                   tube_rel_abundance = tube_rel_abundance,
-                   wads = wad_data$wads,
-                   source_wads = source_wad,
-                   fraction_counts = wad_data$fraction_counts,
-                   filtered_feature_data = data.frame(),
-                   filtered_wad_data = data.frame(),
-                   filter_results = list(),
-                   resamples = list(),
-                   EAF = data.frame())
-    },
+      source_data = source_data,
+      sample_data = sample_data,
+      feature_data = feature_data,
+      tube_rel_abundance = tube_rel_abundance,
+      wads = wad_data$wads,
+      source_wads = source_wad,
+      fraction_counts = wad_data$fraction_counts,
+      filtered_feature_data = data.frame(),
+      filtered_wad_data = data.frame(),
+      filter_results = list(),
+      resamples = list(),
+      EAF = data.frame()
+    )
+  },
   validator = function(self) {
-
     # make sure all are valid objects
     S7::validate(self@source_data)
     S7::validate(self@sample_data)
@@ -94,4 +93,3 @@ qsip_data <- S7::new_class(
     # }
   }
 )
-

@@ -11,25 +11,30 @@
 #' one sample.
 #'
 
-calculate_wads = function(tube_rel_abundance) {
-
-  wads = tube_rel_abundance |>
+calculate_wads <- function(tube_rel_abundance) {
+  wads <- tube_rel_abundance |>
     dplyr::group_by(feature_id, source_mat_id) |>
-    dplyr::summarize(WAD = weighted.mean(gradient_pos_density, tube_rel_abundance),
-                     n_fractions = dplyr::n(),
-                     .groups = "drop") |>
+    dplyr::summarize(
+      WAD = weighted.mean(gradient_pos_density, tube_rel_abundance),
+      n_fractions = dplyr::n(),
+      .groups = "drop"
+    ) |>
     dplyr::arrange(n_fractions)
 
-  fraction_counts = wads |>
+  fraction_counts <- wads |>
     dplyr::select(-WAD) |>
-    tidyr::pivot_wider(names_from = source_mat_id,
-                       values_from = n_fractions) |>
-    tidyr::pivot_longer(cols = c(everything(), -feature_id),
-                        names_to = "source_mat_id",
-                        values_to = "n_fractions") |>
+    tidyr::pivot_wider(
+      names_from = source_mat_id,
+      values_from = n_fractions
+    ) |>
+    tidyr::pivot_longer(
+      cols = c(everything(), -feature_id),
+      names_to = "source_mat_id",
+      values_to = "n_fractions"
+    ) |>
     dplyr::arrange(feature_id)
 
-  missing_feature_ids = fraction_counts |>
+  missing_feature_ids <- fraction_counts |>
     dplyr::filter(is.na(n_fractions)) |>
     dplyr::count(feature_id) |>
     dplyr::arrange(n) |>
@@ -39,8 +44,10 @@ calculate_wads = function(tube_rel_abundance) {
 
   message(glue::glue_col("WARNING: {red {missing_feature_ids}} feature_ids have no counts in one or more source_mat_ids"))
 
-  return(list("wads" = wads,
-              "fraction_counts" = fraction_counts))
+  return(list(
+    "wads" = wads,
+    "fraction_counts" = fraction_counts
+  ))
 }
 
 
@@ -53,11 +60,11 @@ calculate_wads = function(tube_rel_abundance) {
 #' @returns A dataframe with two columns, 1) the source_mat_id and 2) the global
 #' WAD value for that source_mat_id
 
-calculate_source_wads = function(sample_data) {
-
+calculate_source_wads <- function(sample_data) {
   sample_data@data |>
     dplyr::group_by(source_mat_id) |>
-    dplyr::summarize(WAD = weighted.mean(gradient_pos_density, gradient_pos_rel_amt),
-                     .groups = "drop")
-
+    dplyr::summarize(
+      WAD = weighted.mean(gradient_pos_density, gradient_pos_rel_amt),
+      .groups = "drop"
+    )
 }

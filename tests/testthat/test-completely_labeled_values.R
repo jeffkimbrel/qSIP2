@@ -3,7 +3,3 @@ test_that("Return values are expected", {
   expect_equal(completely_labeled_values("15N"), 0.996337)
   expect_equal(completely_labeled_values("18O"), 0.99799957)
 })
-
-
-
-

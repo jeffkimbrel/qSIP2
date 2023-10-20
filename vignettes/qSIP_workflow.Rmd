@@ -37,7 +37,8 @@ The source data is the highest level of metadata with a row corresponding to eac
 
 ```{r}
 example_source_df |>
-  head() |> knitr::kable()
+  head() |>
+  knitr::kable()
 ```
 
 There are a few required columns for valid source data including a unique ID, some measure of quantitative abundance for the source material (either total DNA or qPCR copies), and an isotope and isotopolog designation. 
@@ -45,23 +46,25 @@ There are a few required columns for valid source data including a unique ID, so
 The `isotopolog` column is missing from the example dataframe, so let's add it now.
 
 ```{r}
-source_df = example_source_df |>
+source_df <- example_source_df |>
   dplyr::mutate(isotopolog = "glucose")
 ```
 
 ```{r}
 #| echo: false
 source_df |>
-  head() |> knitr::kable()
+  head() |>
+  knitr::kable()
 ```
 
 Once the dataframe is ready, the next step is to convert it to a `qsip_source_data` object. This is one of the main `qSIP2` objects to hold and validate the data. 
 
 ```{r}
-source_object = qsip_source_data(source_df,
-                            isotope = "Isotope",
-                            isotopolog = "isotopolog",
-                            source_mat_id = "source")
+source_object <- qsip_source_data(source_df,
+  isotope = "Isotope",
+  isotopolog = "isotopolog",
+  source_mat_id = "source"
+)
 
 class(source_object)
 ```
@@ -81,32 +84,37 @@ The sample metadata is the next level of detail with one row for each fraction, 
 
 ```{r}
 example_sample_df |>
-  head() |> knitr::kable()
+  head() |>
+  knitr::kable()
 ```
 
 Again, there are several necessary columns for valid sample data, including a unique sample ID, the source they came from, the fraction ID, the fraction density and a measure of abundance in that fraction (total DNA or qPCR copy number). An additional column that can be derived is the percent abundance of your total sample that is found in each of the fractions. The `add_gradient_pos_rel_amt()` function can help calculate that by dividing each fraction abundance by the total abundance for each source and putting in a `gradient_pos_rel_amt` column.
 
 ```{r}
-sample_df = example_sample_df |>
+sample_df <- example_sample_df |>
   add_gradient_pos_rel_amt(source_mat_id = "source", amt = "avg_16S_g_soil")
 
-sample_df |> 
-  group_by(source) |> 
-  summarize(qPCR_copies = sum(avg_16S_g_soil),
-            Relative = sum(gradient_pos_rel_amt)) |>
-  head() |> knitr::kable()
+sample_df |>
+  group_by(source) |>
+  summarize(
+    qPCR_copies = sum(avg_16S_g_soil),
+    Relative = sum(gradient_pos_rel_amt)
+  ) |>
+  head() |>
+  knitr::kable()
 ```
 
 Again, we make a `qSIP2` object for this data, this time as a `qsip_sample_data` object. In making these objects, we get some built-in validation, and example of which is displayed if we try to make an object with the current `sample_df`. 
 
 ```{r, eval=FALSE}
-sample_object = qsip_sample_data(sample_df,
-                            sample_id = "sample",
-                            source_mat_id = "source",
-                            gradient_position = "Fraction",
-                            gradient_pos_density = "density_g_ml",
-                            gradient_pos_amt = "avg_16S_g_soil",
-                            gradient_pos_rel_amt = "gradient_pos_rel_amt")
+sample_object <- qsip_sample_data(sample_df,
+  sample_id = "sample",
+  source_mat_id = "source",
+  gradient_position = "Fraction",
+  gradient_pos_density = "density_g_ml",
+  gradient_pos_amt = "avg_16S_g_soil",
+  gradient_pos_rel_amt = "gradient_pos_rel_amt"
+)
 
 # ERROR: some gradient_position values are non-numeric
 ```
@@ -120,16 +128,17 @@ class(sample_df$Fraction)
 So, let's fix that and try creating the `qsip_sample_data` object again. 
 
 ```{r}
-sample_df = sample_df |>
+sample_df <- sample_df |>
   dplyr::mutate(Fraction = as.integer(Fraction))
 
-sample_object = qsip_sample_data(sample_df,
-                            sample_id = "sample",
-                            source_mat_id = "source",
-                            gradient_position = "Fraction",
-                            gradient_pos_density = "density_g_ml",
-                            gradient_pos_amt = "avg_16S_g_soil",
-                            gradient_pos_rel_amt = "gradient_pos_rel_amt")
+sample_object <- qsip_sample_data(sample_df,
+  sample_id = "sample",
+  source_mat_id = "source",
+  gradient_position = "Fraction",
+  gradient_pos_density = "density_g_ml",
+  gradient_pos_amt = "avg_16S_g_soil",
+  gradient_pos_rel_amt = "gradient_pos_rel_amt"
+)
 
 class(sample_object)
 ```
@@ -145,11 +154,13 @@ Finally, the last of the three necessary input files is a feature abundance tabl
 For now, the validation step requires all values be positive integers, but in the future an option will be added to accept other numeric values, e.g. coverages when working with MAGs or metagenomes. 
 
 ```{r}
-example_feature_df[1:6] |> 
-  head() |> knitr::kable()
+example_feature_df[1:6] |>
+  head() |>
+  knitr::kable()
 
-feature_object = qsip_feature_data(example_feature_df,
-                              feature_id = "ASV")
+feature_object <- qsip_feature_data(example_feature_df,
+  feature_id = "ASV"
+)
 class(feature_object)
 ```
 
@@ -162,9 +173,11 @@ The `qsip_data` class is the main workhorse object in the `qSIP2` package. It is
 The design of it is that it is both input for workflow functions, as well as output. For this reason, you can feel safe overwriting the object with new analysis as you work, or you can create a new object each step if you prefer.
 
 ```{r}
-qsip_object = qsip_data(source_data = source_object,
-                        sample_data = sample_object,
-                        feature_data = feature_object)
+qsip_object <- qsip_data(
+  source_data = source_object,
+  sample_data = sample_object,
+  feature_data = feature_object
+)
 class(qsip_object)
 ```
 
@@ -189,9 +202,10 @@ Your `qsip_data` object likely contains all of your data, but you may only want 
 
 ```{r}
 show_comparison_groups(qsip_object,
-                       group = "Moisture",
-                       isotope = "isotope",
-                       source_mat_id = "source_mat_id") |> knitr::kable()
+  group = "Moisture",
+  isotope = "isotope",
+  source_mat_id = "source_mat_id"
+) |> knitr::kable()
 ```
 
 The `group` argument here is the most important as it will define the rows that it thinks constitute a comparison. The `isotope` argument is what defines the labeled and unlabeled values for the comparisons. This can be more complex, particularly if you have more than one isotopolog, and details will be made available in the future in another vignette.
@@ -211,20 +225,19 @@ Rather than filter up front, it might make the most sense to run comparison spec
 
 The `run_feature_filter()` function takes a different set of fraction and source requirements for the labeled and unlabeled data, allowing you to precisely tailor your filtering results.
 
-<div class="alert alert-primary">
-  Note, although I said earlier you can overwrite your `qsip_data` objects as you go, it might make sense to create two versions here, one for the Normal and one for the Drought moisture treatments.
-</div>
+<div class="alert alert-primary">Note, although I said earlier you can overwrite your `qsip_data` objects as you go, it might make sense to create two versions here, one for the Normal and one for the Drought moisture treatments.</div>
 
 
 
 ```{r}
-qsip_normal = run_feature_filter(qsip_object,
-                             unlabeled_source_mat_ids = get_all_by_isotope(qsip_object, "12C"),
-                             labeled_source_mat_ids = c("S178", "S179", "S180"),
-                             min_unlabeled_sources = 6,
-                             min_labeled_sources = 3,
-                             min_unlabeled_fractions = 6,
-                             min_labeled_fractions = 6)
+qsip_normal <- run_feature_filter(qsip_object,
+  unlabeled_source_mat_ids = get_all_by_isotope(qsip_object, "12C"),
+  labeled_source_mat_ids = c("S178", "S179", "S180"),
+  min_unlabeled_sources = 6,
+  min_labeled_sources = 3,
+  min_unlabeled_fractions = 6,
+  min_labeled_fractions = 6
+)
 ```
 
 Here, we can see our rather strict filtering removed all but 64 features from the dataset. We can visualize the filtering results on a per-source basis.
@@ -240,13 +253,14 @@ In **B**, we can see that a surprisingly large number of features are found 0 ti
 Let's do the same comparison with the drought samples. 
 
 ```{r}
-qsip_drought = run_feature_filter(qsip_object,
-                             unlabeled_source_mat_ids = get_all_by_isotope(qsip_object, "12C"),
-                             labeled_source_mat_ids = c("S200", "S201", "S202", "S203"),
-                             min_unlabeled_sources = 6,
-                             min_labeled_sources = 3,
-                             min_unlabeled_fractions = 6,
-                             min_labeled_fractions = 6)
+qsip_drought <- run_feature_filter(qsip_object,
+  unlabeled_source_mat_ids = get_all_by_isotope(qsip_object, "12C"),
+  labeled_source_mat_ids = c("S200", "S201", "S202", "S203"),
+  min_unlabeled_sources = 6,
+  min_labeled_sources = 3,
+  min_unlabeled_fractions = 6,
+  min_labeled_fractions = 6
+)
 ```
 
 Here, we can see our rather strict filtering removed all but 64 features from the dataset. We can visualize the filtering results on a per-source basis.
@@ -261,17 +275,19 @@ plot_filter_gradient_position(qsip_drought)
 In order to calculate the confidence interval for the EAF values, we first need to run a resampling/bootstrapping procedure on the WAD values.
 
 ```{r qsip_normal_resampling}
-qsip_normal = run_resampling(qsip_normal, 
-                           resamples = 1000,
-                           with_seed = 17)
+qsip_normal <- run_resampling(qsip_normal,
+  resamples = 1000,
+  with_seed = 17
+)
 ```
 
 As this step requires some random sampling it is good practice to set the "seed". Rather than doing this outside of the function, you can pass the seed as an argument. If you leave blank, it will generate a random seed. The seed will generate the same results each time you run the resampling process. 
 
 ```{r qsip_normal_resampling_again}
-qsip_normal_17_again = run_resampling(qsip_normal, 
-                           resamples = 1000,
-                           with_seed = 17)
+qsip_normal_17_again <- run_resampling(qsip_normal,
+  resamples = 1000,
+  with_seed = 17
+)
 
 # two runs are identical
 identical(qsip_normal, qsip_normal_17_again)
@@ -282,28 +298,29 @@ identical(qsip_normal@resamples$l[[1]], qsip_normal@resamples$l[[2]])
 ```
 
 ```{r qsip_drought_resampling}
-qsip_drought = run_resampling(qsip_drought, 
-                           resamples = 1000,
-                           with_seed = 17)
+qsip_drought <- run_resampling(qsip_drought,
+  resamples = 1000,
+  with_seed = 17
+)
 ```
 
 # EAF Calculations
 
-And we are finally at the last main step, calculating and summarizing the excess atom fraction (EAF) values. There are two functions to run, the first (`run_EAF_calculations()`) that calculate EAF for the experimental data and all resamplings, and the second (`summarize_EAF_values()`) that summarizes that data at a chosen confidence interval.
+And we are finally at the last main step, calculating and summarizing the excess atom fraction (EAF) values. There are two functions to run, the first (`run_EAF_calculations()`) that calculate EAF for the observed data and all resamplings, and the second (`summarize_EAF_values()`) that summarizes that data at a chosen confidence interval.
 
 We'll also `mutate()` to add the original Moisture condition to each dataframe before we combine them.
 
 ```{r eaf1}
-qsip_normal = run_EAF_calculations(qsip_normal)
-qsip_drought = run_EAF_calculations(qsip_drought)
+qsip_normal <- run_EAF_calculations(qsip_normal)
+qsip_drought <- run_EAF_calculations(qsip_drought)
 
-normal = summarize_EAF_values(qsip_normal, confidence = 0.9) |>
+normal <- summarize_EAF_values(qsip_normal, confidence = 0.9) |>
   mutate(Moisture = "Normal")
 
-drought = summarize_EAF_values(qsip_drought, confidence = 0.9) |>
+drought <- summarize_EAF_values(qsip_drought, confidence = 0.9) |>
   mutate(Moisture = "Drought")
 
-eaf = rbind(normal, drought)
+eaf <- rbind(normal, drought)
 ```
 
 We can plot the top 25 by each moisture condition.
@@ -313,18 +330,21 @@ eaf |>
   group_by(Moisture) |>
   slice_max(observed_EAF, n = 25) |>
   ggplot(aes(y = reorder(feature_id, observed_EAF), x = mean_resampled_EAF)) +
-    geom_errorbar(aes(xmin = lower, xmax = upper,
-                      color = ifelse(lower > 0, "cornflowerblue", "gray10"))) +
-    geom_point(color = "gray30")+
-    geom_vline(xintercept = 0) +
-    scale_color_identity() +
-    theme(legend.position = "none") +
-    facet_wrap(~Moisture, ncol = 2)
+  geom_errorbar(aes(
+    xmin = lower, xmax = upper,
+    color = ifelse(lower > 0, "cornflowerblue", "gray10")
+  )) +
+  geom_point(color = "gray30") +
+  geom_vline(xintercept = 0) +
+  scale_color_identity() +
+  theme(legend.position = "none") +
+  facet_wrap(~Moisture, ncol = 2)
 ```
 
 The `plot_feature_curves()` function allows us to plot the tube relative abundances for specific feature IDs. Let's look at the top few.
 
 ```{r, fig.height=4, fig.width=5}
 plot_feature_curves(qsip_normal,
-                    feature_ids = c("ASV_55", "ASV_20", "ASV_93", "ASV_41", "ASV_2", "ASV_5"))
+  feature_ids = c("ASV_55", "ASV_20", "ASV_93", "ASV_41", "ASV_2", "ASV_5")
+)
 ```

@@ -18,8 +18,7 @@
 #'
 #' @return A long format dataframe with one row per `feature_id` per `sample_id`
 
-calculate_tube_rel_abundance = function(source_data, sample_data, feature_data) {
-
+calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data) {
   # make sure all are valid objects
   S7::validate(source_data)
   S7::validate(sample_data)
@@ -35,9 +34,11 @@ calculate_tube_rel_abundance = function(source_data, sample_data, feature_data) 
   }
 
   feature_data@data |> # start with raw feature data
-    tidyr::pivot_longer(cols = c(everything(), -feature_id), # pivot longer
-                        names_to = "sample_id",
-                        values_to = "raw_abundance") |>
+    tidyr::pivot_longer(
+      cols = c(everything(), -feature_id), # pivot longer
+      names_to = "sample_id",
+      values_to = "raw_abundance"
+    ) |>
     dplyr::filter(raw_abundance > 0) |> # remove features with no abundance
     dplyr::group_by(sample_id) |> # group to calculate per-sample relative abundance
     dplyr::mutate(rel_abundance = raw_abundance / sum(raw_abundance)) |> # do the calculation
@@ -50,5 +51,4 @@ calculate_tube_rel_abundance = function(source_data, sample_data, feature_data) 
     dplyr::mutate(tube_rel_abundance = rel_abundance * gradient_pos_rel_amt) |> # takes the sample-adjusted abundances and gets the source-adjusted abundances
     dplyr::ungroup() |>
     dplyr::select(feature_id, sample_id, source_mat_id, tube_rel_abundance, gradient_pos_density, gradient_pos_rel_amt)
-
 }

@@ -11,19 +11,17 @@
 #'
 #' @family "visualizations"
 
-plot_source_wads = function(sample_data, source_data = NULL, group = NULL, colors = NULL) {
-
+plot_source_wads <- function(sample_data, source_data = NULL, group = NULL, colors = NULL) {
   if ("qsip_data" %in% class(sample_data)) {
     # if given a qsip_data object then get both the sample_data and source_data out
-    source_data = sample_data@source_data
-    sample_data = sample_data@sample_data
-
+    source_data <- sample_data@source_data
+    sample_data <- sample_data@sample_data
   } else if ("qsip_sample_data" %in% class(sample_data)) {
     # if given a sample_data object, then make sure the source_data is also given and is of the right class
 
     if (is.null(source_data)) {
       stop("ERROR: If providing a qsip_sample_data object, you must also give a qsip_source_data object to the 'source_data' argument")
-    } else if (!"qsip_source_data" %in% class(source_data))  {
+    } else if (!"qsip_source_data" %in% class(source_data)) {
       stop(glue::glue("ERROR: source_data is an unexpected type ({class(source_data)[1]})... it must be class qsip_source_data"))
     }
   } else {
@@ -32,12 +30,14 @@ plot_source_wads = function(sample_data, source_data = NULL, group = NULL, color
 
 
   if (is.null(colors)) {
-    colors = c("12C" = "cornflowerblue", "13C" = "firebrick",
+    colors <- c(
+      "12C" = "cornflowerblue", "13C" = "firebrick",
       "14N" = "cornflowerblue", "15N" = "firebrick",
-      "16O" = "cornflowerblue", "18O" = "firebrick")
+      "16O" = "cornflowerblue", "18O" = "firebrick"
+    )
   }
 
-  w = calculate_source_wads(sample_data)
+  w <- calculate_source_wads(sample_data)
 
   w |>
     dplyr::left_join(source_data@data, by = "source_mat_id") |>
@@ -46,12 +46,4 @@ plot_source_wads = function(sample_data, source_data = NULL, group = NULL, color
     ggplot2::facet_grid(paste(group, " ~ .", sep = "")) +
     ggplot2::scale_color_manual(values = colors) +
     ggplot2::labs(x = "Weighted Average Density")
-
-
 }
-
-
-
-
-
-

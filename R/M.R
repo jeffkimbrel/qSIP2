@@ -11,8 +11,8 @@
 #'
 #' @export
 
-calculate_M = function(G) {
-  M = (G*0.496) + 307.691
+calculate_M <- function(G) {
+  M <- (G * 0.496) + 307.691
   M
 }
 
@@ -30,7 +30,7 @@ calculate_M = function(G) {
 #'
 #' @export
 
-calculate_M_labeledmax = function(M, atom_count, isotope) {
+calculate_M_labeledmax <- function(M, atom_count, isotope) {
   # M_labeledmax = M + 12.07747
 
   validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
@@ -39,23 +39,20 @@ calculate_M_labeledmax = function(M, atom_count, isotope) {
     # assumes unlabeled DNA already contains a minute amount of 13C (at the
     # natural abundance level of VPDB)
 
-    M_labeledmax = M + (atom_count * (1.008665 * (1000000/(1000000+11237.2))))
+    M_labeledmax <- M + (atom_count * (1.008665 * (1000000 / (1000000 + 11237.2))))
     return(M_labeledmax)
-
   } else if (isotope == "15N") {
     # assumes unlabeled DNA already contains minute amounts of 15N (at the
     # natural abundance level of AIR-N2)
 
-    M_labeledmax <- M + (atom_count * (1.008665 * (1000000/(1000000+(1000000/272)))))
+    M_labeledmax <- M + (atom_count * (1.008665 * (1000000 / (1000000 + (1000000 / 272)))))
     return(M_labeledmax)
-
   } else if (isotope == "18O") {
     # assumes unlabeled DNA already contains minute amounts of 18O and 17O
     # (at the natural abundance levels of those isotopes in VSMOW)
 
-    M_labeledmax <- M + (atom_count * ((1.008665 * 2 * (1000000/(1000000+379.9+2005.20))) + (1.008665 * 1 * (379.9/(1000000+379.9+2005.20)))))
+    M_labeledmax <- M + (atom_count * ((1.008665 * 2 * (1000000 / (1000000 + 379.9 + 2005.20))) + (1.008665 * 1 * (379.9 / (1000000 + 379.9 + 2005.20)))))
     return(M_labeledmax)
-
   }
 }
 
@@ -72,11 +69,7 @@ calculate_M_labeledmax = function(M, atom_count, isotope) {
 #'
 #' @export
 
-calculate_M_labeled = function(M, W_lab_mean, W_unlab_mean) {
-  M_labeled = M * (W_lab_mean / W_unlab_mean)
+calculate_M_labeled <- function(M, W_lab_mean, W_unlab_mean) {
+  M_labeled <- M * (W_lab_mean / W_unlab_mean)
   return(M_labeled)
 }
-
-
-
-

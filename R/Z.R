@@ -11,7 +11,7 @@
 #'
 #' @export
 
-calculate_Z = function(labeled, unlabeled) {
-  Z = labeled - unlabeled
+calculate_Z <- function(labeled, unlabeled) {
+  Z <- labeled - unlabeled
   return(Z)
 }

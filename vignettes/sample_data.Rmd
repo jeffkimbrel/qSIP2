@@ -54,9 +54,10 @@ head(sample_data_nonMISIP)
 sample_data_nonMISIP %>%
   count(isotope)
 
-# new data has only one isotope and a mixture of isotopolog_label 
-df_with_labels = add_isotopolog_label(sample_data_nonMISIP, 
-                                      isotope = "isotope") 
+# new data has only one isotope and a mixture of isotopolog_label
+df_with_labels <- add_isotopolog_label(sample_data_nonMISIP,
+  isotope = "isotope"
+)
 
 df_with_labels %>%
   count(isotope, isotopolog_label)
@@ -81,21 +82,23 @@ If your sample data tibble does not have the `gradient_pos_rel_amt` there is a f
 The `add_gradient_pos_rel_amt()` can create this column from either a column of qPCR totals, or DNA concentrations. Because this function can not know if there are missing fractions, the totals per `source_mat_id` will be equal to 1. If you do have fractions that you want removed, keep them in the dataframe for this `add_gradient_pos_rel_amt()` and then remove them after.
 
 ```{r, error = TRUE, eval=F}
-# gradient_pos_rel_amt to a dataframe without this column 
+# gradient_pos_rel_amt to a dataframe without this column
 add_gradient_pos_rel_amt(sample_data_nonMISIP,
-                         source_mat_id = "rep", # the source_mat_id or per-tube grouping
-                         amt = "dna_conc" # the column with total amounts
-                         ) %>%
+  source_mat_id = "rep", # the source_mat_id or per-tube grouping
+  amt = "dna_conc" # the column with total amounts
+) %>%
   head()
 
 # adding to a dataframe with an existing gradient_pos_rel_amt will give an error
 add_gradient_pos_rel_amt(sample_data_MISIP,
-                         amt = "gradient_pos_dna")
+  amt = "gradient_pos_dna"
+)
 
 # adding overwrite = T removes the error
 add_gradient_pos_rel_amt(sample_data_MISIP,
-                         amt = "gradient_pos_dna",
-                         overwrite = T) %>%
+  amt = "gradient_pos_dna",
+  overwrite = T
+) %>%
   head()
 ```
 
@@ -110,7 +113,7 @@ add_gradient_pos_rel_amt(sample_data_MISIP,
 The `qsip_sample_data` constructor builds a sample data object from a dataframe. The `qSIP2` package comes with a basic example tibble called `sample_data_MISIP`, and some of the columns are already formatted with proper MISIP headers.
 
 ```{r eval=F}
-#qdf = qsip_sample_data(sample_data_MISIP)
+# qdf = qsip_sample_data(sample_data_MISIP)
 ```
 
 And that's that, for now.

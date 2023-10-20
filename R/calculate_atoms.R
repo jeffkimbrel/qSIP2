@@ -6,8 +6,7 @@
 #' @param G (*numeric*) GC percentage
 #' @param isotope (*string*) The isotope to use for calculations... either 13C, 15N or 18O
 
-calculate_atoms = function(G, isotope) {
-
+calculate_atoms <- function(G, isotope) {
   validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
 
   if (isotope == "13C") {
@@ -20,5 +19,4 @@ calculate_atoms = function(G, isotope) {
     O_atoms <- 6
     return(O_atoms)
   }
-
 }

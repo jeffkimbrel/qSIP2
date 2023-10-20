@@ -12,8 +12,7 @@
 #'
 #' @export
 
-remove_isotopolog_label = function(data) {
-
+remove_isotopolog_label <- function(data) {
   # verify isotope and isotopolog_label columns are found in data
   if (!"isotope" %in% colnames(data)) {
     stop("ERROR: This dataframe doesn't appear to have isotope data")
@@ -25,8 +24,8 @@ remove_isotopolog_label = function(data) {
         isotopolog_label == "natural abundance" & isotope == "13C" ~ "12C",
         isotopolog_label == "natural abundance" & isotope == "15N" ~ "14N",
         isotopolog_label == "natural abundance" & isotope == "18O" ~ "16O",
-        .default = isotope)
-      ) |>
+        .default = isotope
+      )) |>
       dplyr::select(-isotopolog_label)
   }
 }

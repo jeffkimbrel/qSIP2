@@ -12,17 +12,16 @@
 #'
 #' @return A dataframe with id grouped by different `group` treatments and isotopes
 
-show_comparison_groups = function(source_data,
-                                  group,
-                                  isotope = "isotope",
-                                  source_mat_id = "source_mat_id") {
-
+show_comparison_groups <- function(source_data,
+                                   group,
+                                   isotope = "isotope",
+                                   source_mat_id = "source_mat_id") {
   if ("qsip_data" %in% class(source_data)) {
-    df = source_data@source_data@data
+    df <- source_data@source_data@data
   } else if ("qsip_source_data" %in% class(source_data)) {
-    df = source_data@data
+    df <- source_data@data
   } else if ("data.frame" %in% class(source_data)) {
-    df = source_data
+    df <- source_data
   } else {
     class(source_data)
     stop(glue::glue("ERROR: source_data is an unexpected type ({class(source_data)[1]})... it must be class data.frame, qsip_source_data or qsip_data"))
@@ -33,7 +32,9 @@ show_comparison_groups = function(source_data,
     dplyr::select(!!as.name(source_mat_id), !!as.name(isotope), dplyr::all_of(group)) |>
     dplyr::rename(SAMPLES = !!as.name(source_mat_id)) |>
     unique() |>
-    tidyr::pivot_wider(names_from = !!as.name(isotope),
-                values_from = SAMPLES,
-                values_fn = list(SAMPLES = ~paste(., collapse = ", ")))
+    tidyr::pivot_wider(
+      names_from = !!as.name(isotope),
+      values_from = SAMPLES,
+      values_fn = list(SAMPLES = ~ paste(., collapse = ", "))
+    )
 }

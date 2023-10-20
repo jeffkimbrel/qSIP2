@@ -15,14 +15,13 @@
 #'
 #' @export
 
-calculate_gc_from_density = function(density,
-                                     method = "MM") {
-
+calculate_gc_from_density <- function(density,
+                                      method = "MM") {
   if (method == "MM") {
-    G = (1 / 0.0835059954345993) * (density - 1.64605745338531)
+    G <- (1 / 0.0835059954345993) * (density - 1.64605745338531)
     return(G)
   } else if (method == "S") {
-    G = (1 / 0.098) * (density - 1.66)
+    G <- (1 / 0.098) * (density - 1.66)
     return(G)
   } else {
     stop(glue::glue("ERROR: {method} is not a valid method for GC% calculation. Options are MM (default) or S."))
@@ -42,8 +41,7 @@ calculate_gc_from_density = function(density,
 #' @export
 
 
-calculate_gc_from_sequence = function(sequence) {
-
+calculate_gc_from_sequence <- function(sequence) {
   if (is.character(sequence)) {
     (stringr::str_count(sequence, "g|G") + stringr::str_count(sequence, "c|C")) / stringr::str_length(sequence)
   } else {
