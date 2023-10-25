@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,7 +94,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.9.4'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.9.4.9000'</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -715,16 +715,14 @@ values.</p>
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  with_seed <span class="op">=</span> <span class="fl">17</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■                           </span>  14% |  ETA: 13s</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  34% |  ETA: 10s</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  54% |  ETA:  7s</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  73% |  ETA:  4s</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   </span>  93% |  ETA:  1s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■                           </span>  13% |  ETA: 13s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  34% |  ETA: 10s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  53% |  ETA:  7s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  73% |  ETA:  4s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   </span>  93% |  ETA:  1s</span></span></code></pre></div>
+<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■                          </span>  18% |  ETA: 12s</span></span>
+<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■                   </span>  40% |  ETA:  8s</span></span>
+<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  61% |  ETA:  5s</span></span>
+<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  83% |  ETA:  2s</span></span>
+<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■                       </span>  26% |  ETA: 11s</span></span>
+<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  47% |  ETA:  7s</span></span>
+<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  69% |  ETA:  4s</span></span>
+<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  91% |  ETA:  1s</span></span></code></pre></div>
 <p>As this step requires some random sampling it is good practice to set
 the “seed”. Rather than doing this outside of the function, you can pass
 the seed as an argument. If you leave blank, it will generate a random
@@ -735,16 +733,15 @@ resampling process.</p>
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  with_seed <span class="op">=</span> <span class="fl">17</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■                            </span>  10% |  ETA: 13s</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■                      </span>  31% |  ETA: 10s</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  51% |  ETA:  7s</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  71% |  ETA:  4s</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  92% |  ETA:  1s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■                            </span>  12% |  ETA: 13s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■                      </span>  29% |  ETA: 12s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% |  ETA:  8s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  69% |  ETA:  5s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  89% |  ETA:  2s</span></span>
+<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■                            </span>   9% |  ETA: 12s</span></span>
+<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  32% |  ETA:  9s</span></span>
+<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  54% |  ETA:  6s</span></span>
+<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■        </span>  76% |  ETA:  3s</span></span>
+<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span>  98% |  ETA:  0s</span></span>
+<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■                         </span>  20% |  ETA: 11s</span></span>
+<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■                  </span>  42% |  ETA:  8s</span></span>
+<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■            </span>  64% |  ETA:  5s</span></span>
+<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■     </span>  86% |  ETA:  2s</span></span>
 <span></span>
 <span><span class="co"># two runs are identical</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">qsip_normal</span>, <span class="va">qsip_normal_17_again</span><span class="op">)</span></span>
@@ -760,15 +757,15 @@ resampling process.</p>
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  with_seed <span class="op">=</span> <span class="fl">17</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■                       </span>  28% |  ETA: 10s</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  49% |  ETA:  7s</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  70% |  ETA:  4s</span></span>
-<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  90% |  ETA:  1s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■                            </span>  11% |  ETA: 13s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■                      </span>  30% |  ETA: 11s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% |  ETA:  7s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■          </span>  70% |  ETA:  4s</span></span>
-<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  91% |  ETA:  1s</span></span></code></pre></div>
+<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■                       </span>  25% |  ETA: 10s</span></span>
+<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  46% |  ETA:  7s</span></span>
+<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  68% |  ETA:  5s</span></span>
+<span><span class="co">#&gt; labeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■    </span>  89% |  ETA:  2s</span></span>
+<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■                            </span>   9% |  ETA: 13s</span></span>
+<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■                      </span>  31% |  ETA: 10s</span></span>
+<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  52% |  ETA:  7s</span></span>
+<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  74% |  ETA:  4s</span></span>
+<span><span class="co">#&gt; unlabeled resamples... <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  </span>  95% |  ETA:  1s</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
