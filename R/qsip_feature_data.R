@@ -20,6 +20,15 @@ qsip_feature_data <- S7::new_class(
   ),
   constructor = function(data,
                          feature_id) {
+
+    if (!"data.frame" %in% class(data)) {
+      stop(glue::glue("ERROR: data must be dataframe, not {class(data)[1]}"))
+    }
+
+    if (!feature_id %in% colnames(data)) {
+      stop(glue::glue("ERROR: {feature_id} not found in dataframe"))
+    }
+
     # rename columns to standardized names
     data <- data |>
       dplyr::select(
@@ -36,7 +45,7 @@ qsip_feature_data <- S7::new_class(
   },
   validator = function(self) {
     if (any(duplicated(self@data["feature_id"]))) {
-      message(glue::glue("ERROR: There appear to be duplicate ids in the {self@id} column"))
+      stop(glue::glue("ERROR: There appear to be duplicate ids in the {self@feature_id} column"))
     }
 
     qSIP2::validate_abundances(self@data, "feature_id")

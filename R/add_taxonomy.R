@@ -12,16 +12,27 @@
 #' @returns An updated `qsip_feature_data` with the taxonomy slot populated with a taxonomy dataframe.
 
 add_taxonomy <- function(feature_object, taxa, feature_id) {
-  taxa <- taxa |>
-    dplyr::rename("feature_id" := feature_id)
+
+  # check that feature_id column exists
+  if (feature_id %in% colnames(taxa)) {
+    taxa <- taxa |>
+      dplyr::rename("feature_id" := feature_id)
+  } else {
+    stop(glue::glue("ERROR: {feature_id} column not found in taxonomy dataframe"))
+  }
 
   feature_object_ids <- feature_object@data["feature_id"]
   taxa_ids <- taxa["feature_id"]
 
+  # check that feature ids are not duplicated
+  if (any(duplicated(taxa_ids))) {
+    stop("ERROR: some feature_ids in the taxonomy dataframe are duplicated")
+  }
+
+
   if (length(setdiff(feature_object_ids, taxa_ids)) > 0) {
     stop("ERROR: Some ids found in the abundance object are not found in the taxa table")
   } else if (length(setdiff(taxa_ids, feature_object_ids)) > 0) {
-    setdiff(taxa_ids, feature_object_ids)
     stop("ERROR: Some ids found in the taxa table are not found in the abundance object")
   } else {
     feature_object@taxonomy <- taxa

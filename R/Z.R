@@ -12,6 +12,13 @@
 #' @export
 
 calculate_Z <- function(labeled, unlabeled) {
+  if (any(is.na(c(
+    labeled,
+    unlabeled
+  )))) {
+    stop("ERROR: some of the WAD values are <NA>")
+  }
+
   Z <- labeled - unlabeled
   return(Z)
 }

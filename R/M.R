@@ -12,6 +12,11 @@
 #' @export
 
 calculate_M <- function(G) {
+
+  if (!is.numeric(G)) {
+    stop(glue::glue("ERROR: G should be numeric and not {class(G)}"))
+  }
+
   M <- (G * 0.496) + 307.691
   M
 }
@@ -80,6 +85,11 @@ calculate_M_labeledmax <- function(M,
 #' @export
 
 calculate_M_labeled <- function(M, W_lab_mean, W_unlab_mean) {
+
+  if (any(!is.numeric(c(M, W_lab_mean, W_unlab_mean)))) {
+    stop("ERROR: some values are non-numeric")
+  }
+
   M_labeled <- M * (W_lab_mean / W_unlab_mean)
   return(M_labeled)
 }
