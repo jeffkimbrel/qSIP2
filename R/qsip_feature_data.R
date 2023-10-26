@@ -14,7 +14,7 @@
 #'
 #' @slot data (*dataframe*) ASV/OTU table or equivalent
 #' @slot feature_id (*string*) Column name with unique taxa IDs
-#' @slot type (*string, default: abundance*) The type of numerical data, either *counts*, *coverage* or *relative*
+#' @slot type (*string, default: counts*) The type of numerical data, either *counts*, *coverage* or *relative*
 #'
 #' @export
 #' @family "qSIP Objects"

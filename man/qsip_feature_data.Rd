@@ -30,7 +30,7 @@ the values be integers, but this requirement is relaxed if setting \code{type = 
 
 \item{\code{feature_id}}{(\emph{string}) Column name with unique taxa IDs}
 
-\item{\code{type}}{(\emph{string, default: abundance}) The type of numerical data, either \emph{counts}, \emph{coverage} or \emph{relative}}
+\item{\code{type}}{(\emph{string, default: counts}) The type of numerical data, either \emph{counts}, \emph{coverage} or \emph{relative}}
 }}
 
 \seealso{
