@@ -29,11 +29,11 @@ validate_abundances <- function(data,
 
   if (type == "relative") {
     totals <- data |>
-      pivot_longer(cols = where(is.numeric)) |>
-      group_by(name) |>
-      summarise(S = sum(value)) |>
-      filter(S > 1.001) |>
-      pull(name) |>
+      tidyr::pivot_longer(cols = dplyr::where(is.numeric)) |>
+      dplyr::group_by(name) |>
+      dplyr::summarise(S = sum(value)) |>
+      dplyr::filter(S > 1.001) |>
+      dplyr::pull(name) |>
       length()
 
     if (totals > 0) {
@@ -46,16 +46,16 @@ validate_abundances <- function(data,
 
   if (length(values) - length(dplyr::select_if(values, is.numeric)) > 0) {
     stop("ERROR: Some data is not numeric")
+
   } else if (!all(values - floor(values) == 0)) {
     if (type == "counts") {
       stop("ERROR: Some data are not integers")
     }
+
   } else if (any(values < 0)) {
     stop("ERROR: Some numbers are negative")
+
   } else {
     return(NULL)
   }
-
-
-
 }

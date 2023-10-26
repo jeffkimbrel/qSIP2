@@ -8,15 +8,17 @@ test_that("Non-numeric data throws error", {
     dplyr::mutate(STRING = "string")
   expect_error(validate_abundances(testdf1, "ASV", type = "counts"))
   expect_error(validate_abundances(testdf1, "ASV", type = "coverage"))
+
+  # currently throwing a different error, but still passes checks here
   expect_error(validate_abundances(testdf1, "ASV", type = "relative"))
 })
 
 test_that("Non-integer data throws error, but not if type = coverage or relative", {
   testdf2 = example_feature_df |>
-    pivot_longer(cols = where(is.numeric)) |>
-    group_by(name) |>
-    mutate(value = (.5*value) / sum(value)) |>
-    pivot_wider()
+    tidyr::pivot_longer(cols = dplyr::where(is.numeric)) |>
+    dplyr::group_by(name) |>
+    dplyr::mutate(value = (.5*value) / sum(value)) |>
+    tidyr::pivot_wider()
   expect_error(validate_abundances(testdf2, "ASV", type = "counts"))
   expect_null(validate_abundances(testdf2, "ASV", type = "coverage"))
   expect_null(validate_abundances(testdf2, "ASV", type = "relative"))
@@ -33,10 +35,10 @@ test_that("Negative value throws error", {
 
 test_that("Relative abundance sums are equal to or less than 1", {
   testdf4 = example_feature_df |>
-    pivot_longer(cols = where(is.numeric)) |>
-    group_by(name) |>
-    mutate(value = (2*value) / sum(value)) |>
-    pivot_wider()
+    tidyr::pivot_longer(cols = dplyr::where(is.numeric)) |>
+    dplyr::group_by(name) |>
+    dplyr::mutate(value = (2*value) / sum(value)) |>
+    tidyr::pivot_wider()
 
   expect_error(validate_abundances(testdf4, "ASV", type = "relative"))
 

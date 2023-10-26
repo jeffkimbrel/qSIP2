@@ -52,7 +52,8 @@ example_sample_object <- qsip_sample_data(df,
 
 
 example_feature_object <- qsip_feature_data(example_feature_df,
-  feature_id = "ASV"
+  feature_id = "ASV",
+  type = "counts"
 )
 
 
