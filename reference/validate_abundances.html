@@ -12,7 +12,7 @@ feature abundance table."><meta property="og:image" content="https://jeffkimbrel
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,7 @@ feature abundance table.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">validate_abundances</span><span class="op">(</span><span class="va">data</span>, <span class="va">feature_id</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">validate_abundances</span><span class="op">(</span><span class="va">data</span>, <span class="va">feature_id</span>, <span class="va">type</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -73,6 +73,10 @@ feature abundance table.</p>
 
 <dt>feature_id</dt>
 <dd><p>(<em>string</em>) Column name with feature IDs</p></dd>
+
+
+<dt>type</dt>
+<dd><p>(<em>string</em>) <em>counts</em> requires integers, <em>coverage</em> and <em>relative</em> can take any positive numeric</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -86,7 +90,8 @@ feature abundance table.</p>
     <p>Rows should contain the unique taxa ids with a column designated with the id
 argument. Each other column name should be a unique sample name.</p>
 <p>Validity checking includes making sure all data is numeric (except for the
-feature IDs), all numbers are integers, and no numbers are negative.</p>
+feature IDs), all numbers are integers (if <code>type = "counts"</code>), and no numbers are
+negative.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
