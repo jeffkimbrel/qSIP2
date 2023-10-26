@@ -4,13 +4,24 @@
 \alias{qsip_feature_data}
 \title{qSIP feature table class}
 \usage{
-qsip_feature_data(data, feature_id)
+qsip_feature_data(data, feature_id, type = "counts")
 }
 \value{
 A validated object of the \code{qsip_feature_data} type
 }
 \description{
-A class to hold and validate a feature abundance table
+A class to hold and validate a feature abundance table.
+}
+\details{
+This is a constructor function that makes the qSIP2 \code{qsip_feature_data} object.
+It requires a dataframe/tibble (the \code{data} argument) that has the feature IDs as
+a column designated with the \code{feature_id} argument. Each row corresponds to a unique
+feature (amplicon, MAG, etc) and each subsequent row corresponds to a unique sample.
+
+There are several validation checks run on the data in the dataframe. The values must
+be non-negative numerics. By default, the \code{type = abundance} argument strictly requires
+the values be integers, but this requirement is relaxed if setting \code{type = coverage} or
+\code{type = relative}.
 }
 \section{Slots}{
 
@@ -18,6 +29,8 @@ A class to hold and validate a feature abundance table
 \item{\code{data}}{(\emph{dataframe}) ASV/OTU table or equivalent}
 
 \item{\code{feature_id}}{(\emph{string}) Column name with unique taxa IDs}
+
+\item{\code{type}}{(\emph{string, default: abundance}) The type of numerical data, either \emph{counts}, \emph{coverage} or \emph{relative}}
 }}
 
 \seealso{
@@ -27,4 +40,3 @@ Other "qSIP Objects":
 \code{\link{qsip_source_data}()}
 }
 \concept{"qSIP Objects"}
-\keyword{object}

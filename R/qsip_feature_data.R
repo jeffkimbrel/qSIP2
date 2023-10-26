@@ -1,14 +1,24 @@
 #' qSIP feature table class
 #'
-#' A class to hold and validate a feature abundance table
+#' A class to hold and validate a feature abundance table.
+#'
+#' This is a constructor function that makes the qSIP2 `qsip_feature_data` object.
+#' It requires a dataframe/tibble (the `data` argument) that has the feature IDs as
+#' a column designated with the `feature_id` argument. Each row corresponds to a unique
+#' feature (amplicon, MAG, etc) and each subsequent row corresponds to a unique sample.
+#'
+#' There are several validation checks run on the data in the dataframe. The values must
+#' be non-negative numerics. By default, the `type = abundance` argument strictly requires
+#' the values be integers, but this requirement is relaxed if setting `type = coverage` or
+#' `type = relative`.
 #'
 #' @slot data (*dataframe*) ASV/OTU table or equivalent
 #' @slot feature_id (*string*) Column name with unique taxa IDs
+#' @slot type (*string, default: abundance*) The type of numerical data, either *counts*, *coverage* or *relative*
 #'
 #' @export
 #' @family "qSIP Objects"
 #'
-#' @keywords object
 #' @returns A validated object of the `qsip_feature_data` type
 
 qsip_feature_data <- S7::new_class(
@@ -16,10 +26,12 @@ qsip_feature_data <- S7::new_class(
   properties = list(
     data = S7::class_data.frame,
     feature_id = S7::class_character,
-    taxonomy = S7::class_data.frame
+    taxonomy = S7::class_data.frame,
+    type = S7::class_character
   ),
   constructor = function(data,
-                         feature_id) {
+                         feature_id,
+                         type = "counts") {
 
     if (!"data.frame" %in% class(data)) {
       stop(glue::glue("ERROR: data must be dataframe, not {class(data)[1]}"))
@@ -32,7 +44,7 @@ qsip_feature_data <- S7::new_class(
     # rename columns to standardized names
     data <- data |>
       dplyr::select(
-        feature_id = feature_id,
+        feature_id = all_of(feature_id),
         dplyr::everything()
       ) |>
       dplyr::ungroup()
@@ -40,7 +52,8 @@ qsip_feature_data <- S7::new_class(
     S7::new_object(S7::S7_object(),
       data = data,
       feature_id = feature_id,
-      taxonomy = data.frame()
+      taxonomy = data.frame(),
+      type = type
     )
   },
   validator = function(self) {
@@ -48,6 +61,10 @@ qsip_feature_data <- S7::new_class(
       stop(glue::glue("ERROR: There appear to be duplicate ids in the {self@feature_id} column"))
     }
 
-    qSIP2::validate_abundances(self@data, "feature_id")
+    if (!self@type %in% c("counts", "coverage", "relative")) {
+      stop(glue::glue("ERROR: feature data type should be 'counts', 'coverage' or 'relative', not '{self@type}'"))
+    }
+
+    qSIP2::validate_abundances(self@data, "feature_id", type = self@type)
   }
 )

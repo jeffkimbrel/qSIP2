@@ -1,6 +1,7 @@
 test_that("incorrect input types give errors", {
   expect_error(qsip_feature_data(example_feature_object, feature_id = "ASV"))
   expect_error(qsip_feature_data(example_feature_df, feature_id = "not_found"))
+  expect_error(qsip_feature_data(example_feature_df, feature_id = "ASV", type = "not_a_valid_type"))
 })
 
 test_that("Returns an S4 type", {

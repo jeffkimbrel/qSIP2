@@ -4,12 +4,14 @@
 \alias{validate_abundances}
 \title{Check the validity of a feature abundance table}
 \usage{
-validate_abundances(data, feature_id)
+validate_abundances(data, feature_id, type)
 }
 \arguments{
 \item{data}{(\emph{dataframe}) ASV/OTU table}
 
 \item{feature_id}{(\emph{string}) Column name with feature IDs}
+
+\item{type}{(\emph{string}) \emph{counts} requires integers, \emph{coverage} and \emph{relative} can take any positive numeric}
 }
 \value{
 Returns \code{NULL} if the values are valid, or a printed error
@@ -23,5 +25,6 @@ Rows should contain the unique taxa ids with a column designated with the id
 argument. Each other column name should be a unique sample name.
 
 Validity checking includes making sure all data is numeric (except for the
-feature IDs), all numbers are integers, and no numbers are negative.
+feature IDs), all numbers are integers (if \code{type = "counts"}), and no numbers are
+negative.
 }
