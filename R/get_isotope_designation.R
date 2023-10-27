@@ -12,6 +12,9 @@
 
 
 get_isotope_designation <- function(qsip_data_object) {
+
+  stopifnot("ERROR: qsip_data_object must be of class qsip_data" = "qsip_data" %in% class(qsip_data_object))
+
   source_mat_ids_to_verify <- c(
     qsip_data_object@filter_results$labeled_source_mat_ids,
     qsip_data_object@filter_results$unlabeled_source_mat_ids
@@ -22,7 +25,7 @@ get_isotope_designation <- function(qsip_data_object) {
     dplyr::pull(isotope) |>
     unique()
 
-  # make sure isotopes contains only valid options
+  # make sure isotopes contains only valid options (15N and 18O are not covered with testthat)
   validate_isotopes(isotopes)
 
   if (length(setdiff(isotopes, c("12C", "13C"))) == 0) {

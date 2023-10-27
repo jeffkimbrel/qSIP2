@@ -11,14 +11,18 @@
 #' @export
 
 calculate_resampled_wads <- function(i, wad_data, type) {
+
+  # make sure all data is numeric or NA
+  stopifnot("ERROR: wad dataframe to resample from contains non-numeric data" = all(sapply(wad_data, is.numeric)))
+
   # make a new names vector to abstract away the real names into a numbered list of names
   new_names <- c("feature_id", paste(type, seq(1:(ncol(wad_data))), sep = "_"))
 
   wad_data_resampled <- wad_data[, sample(ncol(wad_data), replace = T, size = ncol(wad_data)), drop = FALSE]
 
-  # double check the dimensions remain the same
+  # double check the dimensions remain the same. Not covered by testthat
   if (identical(dim(wad_data), dim(wad_data_resampled)) == FALSE) {
-    stop("something went wrong with resampling...")
+    stop("ERROR: something went wrong with resampling...")
   }
 
   # save the original names, in case they are needed later

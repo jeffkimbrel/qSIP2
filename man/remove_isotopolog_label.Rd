@@ -2,12 +2,12 @@
 % Please edit documentation in R/remove_isotopolog_label.R
 \name{remove_isotopolog_label}
 \alias{remove_isotopolog_label}
-\title{Remove isotopolog_label from data}
+\title{Remove isotopolog_label from "MISIPified" data}
 \usage{
 remove_isotopolog_label(data)
 }
 \arguments{
-\item{data}{Sample metadata (dataframe)}
+\item{data}{(\emph{dataframe}) Sample metadata}
 }
 \value{
 A dataframe with \code{isotopolog_label} column removed and \code{isotope}
@@ -15,6 +15,10 @@ column modified
 }
 \description{
 To convert from data with both isotope and isotopolog_label to one with
-isotope only
+isotope only.
 }
-\keyword{sample_data}
+\seealso{
+Other "MISIP": 
+\code{\link{add_isotopolog_label}()}
+}
+\concept{"MISIP"}
