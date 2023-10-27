@@ -17,6 +17,9 @@
 
 calculate_gc_from_density <- function(density,
                                       method = "MM") {
+
+  stopifnot("ERROR: density argument should be numeric" = is.numeric(density))
+
   if (method == "MM") {
     G <- (1 / 0.0835059954345993) * (density - 1.64605745338531)
     return(G)

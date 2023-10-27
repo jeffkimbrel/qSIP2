@@ -41,5 +41,10 @@ test_that("Relative abundance sums are equal to or less than 1", {
     tidyr::pivot_wider()
 
   expect_error(validate_abundances(testdf4, "ASV", type = "relative"))
-
 })
+
+test_that("Type is not known", {
+  expect_error(validate_abundances(example_feature_df, "ASV", type = "not_a_type"),
+  "ERROR: feature data type should be 'counts', 'coverage' or 'relative'")
+})
+

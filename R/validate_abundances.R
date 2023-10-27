@@ -22,10 +22,7 @@
 validate_abundances <- function(data,
                                 feature_id,
                                 type) {
-  if (!type %in% c("counts", "coverage", "relative")) {
-    stop(glue::glue("ERROR: feature data type should be 'counts', 'coverage' or 'relative', not '{type}'"))
-  }
-
+  stopifnot("ERROR: feature data type should be 'counts', 'coverage' or 'relative'" =  type %in% c("counts", "coverage", "relative"))
 
   if (type == "relative") {
     totals <- data |>

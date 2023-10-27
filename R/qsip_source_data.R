@@ -29,12 +29,24 @@ qsip_source_data <- S7::new_class(
                          isotope,
                          isotopolog,
                          source_mat_id) {
+
+    stopifnot("ERROR: data should be of class data.frame" = "data.frame" %in% class(data) )
+
+    # verify column names exist
+    if (!isotope %in% colnames(data)) {
+      stop(glue::glue("ERROR: isotope column '{isotope}' is not found in dataframe"))
+    } else if (!isotopolog %in% colnames(data)) {
+      stop(glue::glue("ERROR: isotopolog column '{isotopolog}' is not found in dataframe"))
+    } else if (!source_mat_id %in% colnames(data)) {
+      stop(glue::glue("ERROR: source_mat_id column '{source_mat_id}' is not found in dataframe"))
+    }
+
     # rename columns to standardized names
     data <- data |>
       dplyr::select(
-        isotope = isotope,
-        isotopolog = isotopolog,
-        source_mat_id = source_mat_id,
+        isotope = dplyr::all_of(isotope),
+        isotopolog = dplyr::all_of(isotopolog),
+        source_mat_id = dplyr::all_of(source_mat_id),
         dplyr::everything()
       ) |>
       dplyr::ungroup()
