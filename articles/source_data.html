@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.6.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,8 +90,476 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span></code></pre></div>
-  </main>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] '0.9.6.9000'</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="source-material-and-metadata">Source Material and Metadata<a class="anchor" aria-label="anchor" href="#source-material-and-metadata"></a>
+</h2>
+<p>In a SIP experiment, the “source material” are the subjects that you
+are running experiments with (e.g. a culture tube or a plant root). For
+qSIP the source material would then be each DNA extraction that is
+loaded into its own column for isopycnic centrifugation.</p>
+<p>The “source data”, therefore, is the highest level of metadata with a
+row corresponding to each original experimental or source material
+object. There are a few required columns for valid source data including
+a unique ID (the MISIP <code>source_mat_id</code>), some measure of
+quantitative abundance for the source material (either total DNA or qPCR
+copies), and an isotope and substrate designation (the MISIP
+<code>isotope</code> and <code>isotopolog</code>, respectively).</p>
+<p>An example source dataframe is included in the <code>qSIP2</code>
+package called <code>example_source_df</code> (the first few rows are
+shown below). In addition to the required columns, the source data can
+contain as many other ancillary columns as necessary. These additional
+columns might contain important experiment-specific metadata that you
+will use to group and subset your source material in the qSIP workflow.
+But, they can also be further details that you might not need for qSIP,
+but it may make sense to just keep everything included if they’re
+already in your <code>.txt.</code> or excel file.</p>
+<table class="table">
+<caption>The first few rows of <code>example_source_df</code>
+</caption>
+<thead><tr class="header">
+<th align="left">source</th>
+<th align="right">total_copies_per_g</th>
+<th align="right">total_dna</th>
+<th align="left">Isotope</th>
+<th align="left">Moisture</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">S149</td>
+<td align="right">34838665</td>
+<td align="right">74.46539</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+</tr>
+<tr class="even">
+<td align="left">S150</td>
+<td align="right">53528072</td>
+<td align="right">109.01522</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+</tr>
+<tr class="odd">
+<td align="left">S151</td>
+<td align="right">95774992</td>
+<td align="right">182.16852</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+</tr>
+<tr class="even">
+<td align="left">S152</td>
+<td align="right">9126192</td>
+<td align="right">23.68963</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+</tr>
+<tr class="odd">
+<td align="left">S161</td>
+<td align="right">41744046</td>
+<td align="right">67.62552</td>
+<td align="left">12C</td>
+<td align="left">Drought</td>
+</tr>
+<tr class="even">
+<td align="left">S162</td>
+<td align="right">49402713</td>
+<td align="right">94.21217</td>
+<td align="left">12C</td>
+<td align="left">Drought</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="preparing-the-source-data">Preparing the source data<a class="anchor" aria-label="anchor" href="#preparing-the-source-data"></a>
+</h2>
+<p>The requirements for source data are minimal, but still strict. Only
+three columns are necessary - the unique source ID, the isotope
+designation and the substrate/isotopolog information.</p>
+<p>Two of these are already present in <code>example_source_df</code>
+(the <code>source</code> and <code>Isotope</code> columns). However, the
+<code>isotopolog</code> column is missing and will need to be added. In
+a simple experiment, this can easily be done by calling
+<code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate</a></code>. Here, we can designate our substrate as
+“glucose” and save it to a new dataframe <code>source_df</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">source_df</span> <span class="op">&lt;-</span> <span class="va">example_source_df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>substrate <span class="op">=</span> <span class="st">"glucose"</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<caption>The first few rows of <code>source_df</code>
+</caption>
+<thead><tr class="header">
+<th align="left">source</th>
+<th align="right">total_copies_per_g</th>
+<th align="right">total_dna</th>
+<th align="left">Isotope</th>
+<th align="left">Moisture</th>
+<th align="left">substrate</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">S149</td>
+<td align="right">34838665</td>
+<td align="right">74.46539</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="even">
+<td align="left">S150</td>
+<td align="right">53528072</td>
+<td align="right">109.01522</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="odd">
+<td align="left">S151</td>
+<td align="right">95774992</td>
+<td align="right">182.16852</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="even">
+<td align="left">S152</td>
+<td align="right">9126192</td>
+<td align="right">23.68963</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="odd">
+<td align="left">S161</td>
+<td align="right">41744046</td>
+<td align="right">67.62552</td>
+<td align="left">12C</td>
+<td align="left">Drought</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="even">
+<td align="left">S162</td>
+<td align="right">49402713</td>
+<td align="right">94.21217</td>
+<td align="left">12C</td>
+<td align="left">Drought</td>
+<td align="left">glucose</td>
+</tr>
+</tbody>
+</table>
+<p>Now the dataframe looks good with all of the necessary fields.</p>
+</div>
+<div class="section level2">
+<h2 id="qsip2-source-data-object">qSIP2 Source Data Object<a class="anchor" aria-label="anchor" href="#qsip2-source-data-object"></a>
+</h2>
+<p>Once the dataframe is ready, the next step is to convert it to a
+<code>qsip_source_data</code> object. This is one of the main
+<code>qSIP2</code> objects to hold and validate the data.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">source_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_source_data.html">qsip_source_data</a></span><span class="op">(</span><span class="va">source_df</span>,</span>
+<span>  isotope <span class="op">=</span> <span class="st">"Isotope"</span>,</span>
+<span>  isotopolog <span class="op">=</span> <span class="st">"substrate"</span>,</span>
+<span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">source_object</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "qsip_source_data" "S7_object"</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="structure-of-qsip_source_data">Structure of <code>qsip_source_data</code><a class="anchor" aria-label="anchor" href="#structure-of-qsip_source_data"></a>
+</h3>
+<p>While this object is not meant to be inspected or worked with outside
+of <code>qSIP2</code> functions, a quick <code><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse()</a></code> can show
+the structure of it.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">source_object</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;qsip_source_data&gt;</span></span>
+<span><span class="co">#&gt;  @ data         : tibble [15 × 6] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;  $ isotope           : chr [1:15] "12C" "12C" "12C" "12C" ...</span></span>
+<span><span class="co">#&gt;  $ isotopolog        : chr [1:15] "glucose" "glucose" "glucose" "glucose" ...</span></span>
+<span><span class="co">#&gt;  $ source_mat_id     : chr [1:15] "S149" "S150" "S151" "S152" ...</span></span>
+<span><span class="co">#&gt;  $ total_copies_per_g: num [1:15] 34838665 53528072 95774992 9126192 41744046 ...</span></span>
+<span><span class="co">#&gt;  $ total_dna         : num [1:15] 74.5 109 182.2 23.7 67.6 ...</span></span>
+<span><span class="co">#&gt;  $ Moisture          : chr [1:15] "Normal" "Normal" "Normal" "Normal" ...</span></span>
+<span><span class="co">#&gt;  @ isotope      : chr "Isotope"</span></span>
+<span><span class="co">#&gt;  @ isotopolog   : chr "substrate"</span></span>
+<span><span class="co">#&gt;  @ source_mat_id: chr "source"</span></span></code></pre></div>
+<p>The original dataframe is contained in the <code>@data</code> slot,
+however, some column names have been modified to the standard MISIP
+names, while keeping a record of the original names in the corresponding
+slots</p>
+<table class="table">
+<thead><tr class="header">
+<th align="left">Original Names</th>
+<th align="left">MISIP Names</th>
+<th align="left">Original Name Slot</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">source</td>
+<td align="left">source_mat_id</td>
+<td align="left"><span class="citation">@source_mat_id</span></td>
+</tr>
+<tr class="even">
+<td align="left">Isotope</td>
+<td align="left">isotope</td>
+<td align="left"><span class="citation">@isotope</span></td>
+</tr>
+<tr class="odd">
+<td align="left">substrate</td>
+<td align="left">isotopolog</td>
+<td align="left"><span class="citation">@isotopolog</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="validation-of-qsip_source_data">Validation of <code>qsip_source_data</code><a class="anchor" aria-label="anchor" href="#validation-of-qsip_source_data"></a>
+</h3>
+<p>While constructing a <code>qsip_source_data</code> object there are a
+few validation checks that are performed. For now, the only checks are
+that the <code>source_mat_id</code> is unique for each row, and that the
+<code>isotope</code> field is an appropriate value. This doesn’t just
+mean it is a value that makes sense, but also that it is one of the
+isotopes that <code>qSIP2</code> knows how to calculate atom fraction
+values from. This is currently limited to 12C/13C, 14N/15N and
+16O/18O.</p>
+<p>One benefit of the validation steps being embedded in the object
+itself is that these validations are automatically run when the object
+is modified. For example, this makes it impossible to modify the data
+later to an invalid object.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for example, trying to modify the isotope will lead to an error</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> source_object<span class="sc">@</span>data<span class="sc">$</span>isotope <span class="ot">=</span> <span class="st">"13G"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ERROR<span class="sc">:</span> Invalid isotope found<span class="sc">:</span> 13G</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">in</span> qSIP2<span class="sc">::</span><span class="fu">validate_isotopes</span>(dplyr<span class="sc">::</span><span class="fu">pull</span>(self<span class="sc">@</span>data, isotope)) <span class="sc">:</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  ERROR<span class="sc">:</span> Please fix the isotope names and try again</span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="misip">MISIP<a class="anchor" aria-label="anchor" href="#misip"></a>
+</h2>
+<p>While qSIP standards are part of the MISIP standards, the
+<code>qSIP2</code> package is a little less stringent. This means your
+valid <code>qSIP2</code> object might not be valid for a MISIP
+submission. At the source data level this is primarily through the
+difference between how the <code>isotope</code> data is coded, plus the
+addition of another <code>isotopolog_label</code> column.</p>
+<p><code>qSIP2</code> has functions to convert between these two types.
+<code>add_isotoplog_label()</code> makes a MISIP version of the source
+data, and <code><a href="../reference/remove_isotopolog_label.html">remove_isotopolog_label()</a></code> converts it back to a
+<code>qSIP2</code> compatible version. Two things are changed when
+running <code>add_isotoplog_label()</code> - 1) the
+<code>isotopolog_label</code> column is added and is populated with
+either “isotopically labeled” or “natural abundance” for heavy and light
+isotopes, respectively, and 2) the <code>isotope</code> column gets
+modified to be only the heavy isotope (e.g. all “12C” entries become
+“13C”).</p>
+<div class="alert alert-primary">
+Note, these functions are run on the source dataframe rather than on the
+<code>qsip_source_data</code> object.
+</div>
+<div class="section level3">
+<h3 id="adding-the-isotopolog_label-column">Adding the <code>isotopolog_label</code> column<a class="anchor" aria-label="anchor" href="#adding-the-isotopolog_label-column"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">source_df_MISIP</span> <span class="op">=</span> <span class="va">source_df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_isotopolog_label.html">add_isotopolog_label</a></span><span class="op">(</span>isotope <span class="op">=</span> <span class="st">"Isotope"</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<caption>A ’MISIPified version of <code>source_df</code>
+</caption>
+<colgroup>
+<col width="8%">
+<col width="22%">
+<col width="11%">
+<col width="9%">
+<col width="25%">
+<col width="10%">
+<col width="11%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">source</th>
+<th align="right">total_copies_per_g</th>
+<th align="right">total_dna</th>
+<th align="left">isotope</th>
+<th align="left">isotopolog_label</th>
+<th align="left">Moisture</th>
+<th align="left">substrate</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">S151</td>
+<td align="right">95774992</td>
+<td align="right">182.16852</td>
+<td align="left">13C</td>
+<td align="left">natural abundance</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="even">
+<td align="left">S178</td>
+<td align="right">62964478</td>
+<td align="right">73.89526</td>
+<td align="left">13C</td>
+<td align="left">isotopically labeled</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="odd">
+<td align="left">S200</td>
+<td align="right">59426155</td>
+<td align="right">71.19377</td>
+<td align="left">13C</td>
+<td align="left">isotopically labeled</td>
+<td align="left">Drought</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="even">
+<td align="left">S201</td>
+<td align="right">56379702</td>
+<td align="right">73.78225</td>
+<td align="left">13C</td>
+<td align="left">isotopically labeled</td>
+<td align="left">Drought</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="odd">
+<td align="left">S150</td>
+<td align="right">53528072</td>
+<td align="right">109.01522</td>
+<td align="left">13C</td>
+<td align="left">natural abundance</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="even">
+<td align="left">S180</td>
+<td align="right">51720787</td>
+<td align="right">81.36874</td>
+<td align="left">13C</td>
+<td align="left">isotopically labeled</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+</tbody>
+</table>
+<p>Now, the <code>Isotope</code> column has been renamed to
+<code>isotope</code> to satisfy MISIP standards, and all values have
+been replaced with the heavy isotope.</p>
+<table class="table">
+<caption>Count of <code>isotope</code> types in
+<code>source_df_MISIP</code>
+</caption>
+<thead><tr class="header">
+<th align="left">isotope</th>
+<th align="right">n</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="left">13C</td>
+<td align="right">15</td>
+</tr></tbody>
+</table>
+<p>And the designation for whether the source material was the “light”
+or “heavy” version of the isotope has now been transferred to the
+<code>isotopolog_label</code> column.</p>
+<table class="table">
+<caption>Count of <code>isotopolog_label</code> types in
+<code>source_df_MISIP</code>
+</caption>
+<thead><tr class="header">
+<th align="left">isotopolog_label</th>
+<th align="right">n</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">isotopically labeled</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
+<td align="left">natural abundance</td>
+<td align="right">8</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="removing-the-isotopolog_label-column">Removing the <code>isotopolog_label</code> column<a class="anchor" aria-label="anchor" href="#removing-the-isotopolog_label-column"></a>
+</h3>
+<p>This change can be reverted with the
+<code><a href="../reference/remove_isotopolog_label.html">remove_isotopolog_label()</a></code> function.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">source_df_ORIGINAL</span> <span class="op">=</span> <span class="fu"><a href="../reference/remove_isotopolog_label.html">remove_isotopolog_label</a></span><span class="op">(</span><span class="va">source_df_MISIP</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<caption>
+<code>source_df_MISIP</code> converted back</caption>
+<thead><tr class="header">
+<th align="left">source</th>
+<th align="right">total_copies_per_g</th>
+<th align="right">total_dna</th>
+<th align="left">isotope</th>
+<th align="left">Moisture</th>
+<th align="left">substrate</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">S151</td>
+<td align="right">95774992</td>
+<td align="right">182.16852</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="even">
+<td align="left">S178</td>
+<td align="right">62964478</td>
+<td align="right">73.89526</td>
+<td align="left">13C</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="odd">
+<td align="left">S200</td>
+<td align="right">59426155</td>
+<td align="right">71.19377</td>
+<td align="left">13C</td>
+<td align="left">Drought</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="even">
+<td align="left">S201</td>
+<td align="right">56379702</td>
+<td align="right">73.78225</td>
+<td align="left">13C</td>
+<td align="left">Drought</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="odd">
+<td align="left">S150</td>
+<td align="right">53528072</td>
+<td align="right">109.01522</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="even">
+<td align="left">S180</td>
+<td align="right">51720787</td>
+<td align="right">81.36874</td>
+<td align="left">13C</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+</tbody>
+</table>
+<p>Note, the original is not <em>exactly</em> preserved as the original
+<code>Isotope</code> column has the MISIP standard <code>isotope</code>
+name retained.</p>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
