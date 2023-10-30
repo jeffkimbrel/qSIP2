@@ -3,8 +3,10 @@ title: "Working with Source Data"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{source_data}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -14,6 +16,156 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
 library(qSIP2)
+packageVersion("qSIP2")
 ```
+
+# Source Material and Metadata
+
+In a SIP experiment, the "source material" are the subjects that you are running experiments with (e.g. a culture tube or a plant root). For qSIP the source material would then be each DNA extraction that is loaded into its own column for isopycnic centrifugation. 
+
+The "source data", therefore, is the highest level of metadata with a row corresponding to each original experimental or source material object. There are a few required columns for valid source data including a unique ID (the MISIP `source_mat_id`), some measure of quantitative abundance for the source material (either total DNA or qPCR copies), and an isotope and substrate designation (the MISIP `isotope` and `isotopolog`, respectively). 
+
+An example source dataframe is included in the `qSIP2` package called `example_source_df` (the first few rows are shown below). In addition to the required columns, the source data can contain as many other ancillary columns as necessary. These additional columns might contain important experiment-specific metadata that you will use to group and subset your source material in the qSIP workflow. But, they can also be further details that you might not need for qSIP, but it may make sense to just keep everything included if they're already in your `.txt.` or excel file.
+
+```{r, echo=FALSE}
+example_source_df |>
+  head() |>
+  knitr::kable(caption = "The first few rows of `example_source_df`")
+```
+
+# Preparing the source data
+
+The requirements for source data are minimal, but still strict. Only three columns are necessary - the unique source ID, the isotope designation and the substrate/isotopolog information. 
+
+Two of these are already present in `example_source_df` (the `source` and `Isotope` columns). However, the `isotopolog` column is missing and will need to be added. In a simple experiment, this can easily be done by calling `dplyr::mutate`. Here, we can designate our substrate as "glucose" and save it to a new dataframe `source_df`. 
+
+```{r}
+source_df <- example_source_df |>
+  dplyr::mutate(substrate = "glucose")
+```
+
+```{r}
+#| echo: false
+
+source_df |>
+  head() |>
+  knitr::kable(caption = "The first few rows of `source_df`")
+```
+
+Now the dataframe looks good with all of the necessary fields.
+
+# qSIP2 Source Data Object
+
+Once the dataframe is ready, the next step is to convert it to a `qsip_source_data` object. This is one of the main `qSIP2` objects to hold and validate the data. 
+
+```{r}
+source_object <- qsip_source_data(source_df,
+  isotope = "Isotope",
+  isotopolog = "substrate",
+  source_mat_id = "source"
+)
+
+class(source_object)
+```
+
+## Structure of `qsip_source_data` 
+
+While this object is not meant to be inspected or worked with outside of `qSIP2` functions, a quick `glimpse()` can show the structure of it.
+
+```{r}
+glimpse(source_object)
+```
+
+The original dataframe is contained in the `@data` slot, however, some column names have been modified to the standard MISIP names, while keeping a record of the original names in the corresponding slots
+
+```{r}
+#| echo: false
+
+tibble(
+  "Original Names" = c("source", "Isotope", "substrate"),
+  "MISIP Names" = c("source_mat_id", "isotope", "isotopolog"),
+  "Original Name Slot" = c("@source_mat_id", "@isotope", "@isotopolog")
+) |>
+  knitr::kable()
+```
+
+## Validation of `qsip_source_data`
+
+While constructing a `qsip_source_data` object there are a few validation checks that are performed. For now, the only checks are that the `source_mat_id` is unique for each row, and that the `isotope` field is an appropriate value. This doesn't just mean it is a value that makes sense, but also that it is one of the isotopes that `qSIP2` knows how to calculate atom fraction values from. This is currently limited to 12C/13C, 14N/15N and 16O/18O.
+
+One benefit of the validation steps being embedded in the object itself is that these validations are automatically run when the object is modified. For example, this makes it impossible to modify the data later to an invalid object.
+
+```{r}
+#| eval: false
+
+# for example, trying to modify the isotope will lead to an error
+> source_object@data$isotope = "13G"
+
+ERROR: Invalid isotope found: 13G
+Error in qSIP2::validate_isotopes(dplyr::pull(self@data, isotope)) : 
+  ERROR: Please fix the isotope names and try again
+```
+
+# MISIP
+
+While qSIP standards are part of the MISIP standards, the `qSIP2` package is a little less stringent. This means your valid `qSIP2` object might not be valid for a MISIP submission. At the source data level this is primarily through the difference between how the `isotope` data is coded, plus the addition of another `isotopolog_label` column. 
+
+`qSIP2` has functions to convert between these two types. `add_isotoplog_label()` makes a MISIP version of the source data, and `remove_isotopolog_label()` converts it back to a `qSIP2` compatible version. Two things are changed when running `add_isotoplog_label()` - 1) the `isotopolog_label` column is added and is populated with either "isotopically labeled" or "natural abundance" for heavy and light isotopes, respectively, and 2) the `isotope` column gets modified to be only the heavy isotope (e.g. all "12C" entries become "13C"). 
+
+<div class="alert alert-primary">Note, these functions are run on the source dataframe rather than on the `qsip_source_data` object.</div>
+
+## Adding the `isotopolog_label` column
+
+```{r}
+source_df_MISIP = source_df |>
+  add_isotopolog_label(isotope = "Isotope")
+```
+
+```{r}
+#| echo: false
+
+source_df_MISIP |>
+  arrange(desc(total_copies_per_g)) |>
+  head() |>
+  knitr::kable(caption = "A 'MISIPified version of `source_df`")
+```
+
+Now, the `Isotope` column has been renamed to `isotope` to satisfy MISIP standards, and all values have been replaced with the heavy isotope.
+
+```{r}
+#| echo: false
+
+source_df_MISIP |> count(isotope) |> knitr::kable(caption = "Count of `isotope` types in `source_df_MISIP`")
+```
+
+And the designation for whether the source material was the "light" or "heavy" version of the isotope has now been transferred to the `isotopolog_label` column.
+
+```{r}
+#| echo: false
+
+source_df_MISIP |> count(isotopolog_label) |> knitr::kable(caption = "Count of `isotopolog_label` types in `source_df_MISIP`")
+```
+
+## Removing the `isotopolog_label` column
+
+This change can be reverted with the `remove_isotopolog_label()` function.
+
+```{r}
+source_df_ORIGINAL = remove_isotopolog_label(source_df_MISIP)
+```
+
+```{r}
+#| echo: false
+
+source_df_ORIGINAL |>
+  arrange(desc(total_copies_per_g)) |>
+  head() |>
+  knitr::kable(caption = "`source_df_MISIP` converted back")
+```
+
+Note, the original is not *exactly* preserved as the original `Isotope` column has the MISIP standard `isotope` name retained.
+
+
