@@ -12,6 +12,14 @@
 #'
 
 calculate_wads <- function(tube_rel_abundance) {
+
+  stopifnot("ERROR: data is not class data.frame" = "data.frame" %in% class(tube_rel_abundance))
+
+  stopifnot("ERROR: feature_id column missing" = "feature_id" %in% colnames(tube_rel_abundance))
+  stopifnot("ERROR: source_mat_id column missing" = "source_mat_id" %in% colnames(tube_rel_abundance))
+  stopifnot("ERROR: tube_rel_abundance column missing" ="tube_rel_abundance" %in% colnames(tube_rel_abundance))
+  stopifnot("ERROR: gradient_pos_density column missing" ="gradient_pos_density" %in% colnames(tube_rel_abundance))
+
   wads <- tube_rel_abundance |>
     dplyr::group_by(feature_id, source_mat_id) |>
     dplyr::summarize(

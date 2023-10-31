@@ -28,7 +28,6 @@ reference:
   - remove_isotopolog_label
   - get_all_by_isotope
   - add_gradient_pos_rel_amt
-  - get_sample_counts
   - add_taxonomy
   - show_unshared_ids
 

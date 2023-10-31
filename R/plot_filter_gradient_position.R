@@ -22,6 +22,9 @@
 plot_filter_gradient_position <- function(qsip_data_object,
                                           return_type = "combined",
                                           colors = NULL) {
+
+  stopifnot("ERROR: qsip_data_object should be of class qsip_data" = "qsip_data" %in% class(qsip_data_object))
+
   if (!return_type %in% c("combined", "individual", "dataframe")) {
     stop(glue::glue("ERROR: return_type is an unknown type ({return_type})"))
   }
@@ -68,7 +71,7 @@ plot_filter_gradient_position <- function(qsip_data_object,
       labels = scales::percent,
       breaks = c(0, .25, .50, .75, 1.00)
     ) +
-    ggplot2::theme(axis.text.x = element_text(
+    ggplot2::theme(axis.text.x = ggplot2::element_text(
       angle = 90, hjust = 1,
       vjust = 0.5
     ))
@@ -96,7 +99,7 @@ plot_filter_gradient_position <- function(qsip_data_object,
       fill = "Filtering Results"
     ) +
     ggplot2::scale_fill_manual(values = colors) +
-    ggplot2::theme(axis.text.x = element_text(
+    ggplot2::theme(axis.text.x = ggplot2::element_text(
       angle = 90, hjust = 1,
       vjust = 0.5
     ))

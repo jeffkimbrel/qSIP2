@@ -42,6 +42,8 @@ run_feature_filter <- function(qsip_data_object,
                                min_unlabeled_fractions = 2,
                                min_labeled_fractions = 2,
                                quiet = FALSE) {
+
+  # make sure minimums are not bigger than possible
   if (min_labeled_sources > length(labeled_source_mat_ids)) {
     stop(glue::glue("ERROR: min_labeled_sources is set to {min_labeled_sources} but labeled_source_mat_ids only has {length(labeled_source_mat_ids)}"))
   }
@@ -49,6 +51,24 @@ run_feature_filter <- function(qsip_data_object,
   if (min_unlabeled_sources > length(unlabeled_source_mat_ids)) {
     stop(glue::glue("ERROR: min_unlabeled_sources is set to {min_unlabeled_sources} but unlabeled_source_mat_ids only has {length(unlabeled_source_mat_ids)}"))
   }
+
+  # make sure source_mat_ids match expected isotope types
+  unlabeled_isotopes = qsip_data_object@source_data@data |>
+    dplyr::filter(source_mat_id %in% unlabeled_source_mat_ids) |>
+    dplyr::pull(isotope) |>
+    unique()
+  if (length(setdiff(unlabeled_isotopes, c("12C", "14N", "16O"))) > 0) {
+    stop("ERROR: some of the unlabeled_source_mat_ids have a heavy isotope designation")
+  }
+
+  labeled_isotopes = qsip_data_object@source_data@data |>
+    dplyr::filter(source_mat_id %in% labeled_source_mat_ids) |>
+    dplyr::pull(isotope) |>
+    unique()
+  if (length(setdiff(labeled_isotopes, c("13C", "15N", "18O"))) > 0) {
+    stop("ERROR: some of the labeled_source_mat_ids have a light isotope designation")
+  }
+
 
 
   source_mat_ids <- c(unlabeled_source_mat_ids, labeled_source_mat_ids)

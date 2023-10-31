@@ -17,9 +17,18 @@
 #' @returns A `dataframe` with summarized observed and resampled EAF values
 
 summarize_EAF_values <- function(qsip_data_object, confidence = 0.9) {
+
+  # confirm the data is the correct type
+  stopifnot("ERROR: qsip_data_object must be of type qsip_data" = "qsip_data" %in% class(qsip_data_object))
+
+  # confirm the confidence value is numeric and between 0-1
+  stopifnot("ERROR: confidence should be numeric" = is.numeric(confidence))
   if (confidence >= 1 | confidence <= 0) {
     stop("ERROR: confidence level should be between 0 and 1")
   }
+
+  # confirm the qsip object has @EAF values
+  stopifnot("ERROR: @EAF slot is empty, have you run run_EAF_calculations()?" = dim(qsip_data_object@EAF)[1] > 0)
 
   message(glue::glue("Confidence level = {confidence}"))
 

@@ -19,10 +19,6 @@
 #' @return A long format dataframe with one row per `feature_id` per `sample_id`
 
 calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data) {
-  # make sure all are valid objects
-  S7::validate(source_data)
-  S7::validate(sample_data)
-  S7::validate(feature_data)
 
   # make sure the objects are of the right type
   if (!"qsip_source_data" %in% class(source_data)) {

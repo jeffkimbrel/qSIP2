@@ -36,6 +36,19 @@ qsip_sample_data <- S7::new_class(
                          gradient_pos_density,
                          gradient_pos_amt,
                          gradient_pos_rel_amt) {
+
+
+    # make sure data is correct
+    stopifnot("ERROR: data should be of class data.frame" = "data.frame" %in% class(data))
+
+    # make sure columns are found
+    stopifnot("ERROR: sample_id column missing" = sample_id %in% colnames(data))
+    stopifnot("ERROR: source_mat_id column missing" = source_mat_id %in% colnames(data))
+    stopifnot("ERROR: gradient_position column missing" = gradient_position %in% colnames(data))
+    stopifnot("ERROR: gradient_pos_density column missing" = gradient_pos_density %in% colnames(data))
+    stopifnot("ERROR: gradient_pos_amt column missing" = gradient_pos_amt %in% colnames(data))
+    stopifnot("ERROR: gradient_pos_rel_amt column missing" = gradient_pos_rel_amt  %in% colnames(data))
+
     # rename columns to standardized names
     data <- data |>
       dplyr::select(
@@ -66,19 +79,3 @@ qsip_sample_data <- S7::new_class(
 )
 
 
-
-#' Get sample counts from qSIP sample data
-#'
-#' @param x An object of `qsip_sample_data` class
-#'
-#' @export
-#'
-#' @keywords sample_data
-
-get_sample_counts <- S7::new_generic("get_sample_counts", "x")
-
-S7::method(get_sample_counts, qsip_sample_data) <- function(x) {
-  x@data[x@source_mat_id] |>
-    dplyr::rename(source_mat_id = x@source_mat_id) |>
-    dplyr::count(source_mat_id)
-}

@@ -5,6 +5,7 @@
 #' @export
 
 completely_labeled_values <- function(isotope) {
+
   validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
 
   if (isotope == "13C") {
