@@ -103,6 +103,9 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/example_source_object.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/find_shared_ids.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/fraction_results_message.html</loc>
   </url>
   <url>
@@ -158,6 +161,9 @@
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/show_comparison_groups.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/show_unshared_ids.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/source_results_message.html</loc>
