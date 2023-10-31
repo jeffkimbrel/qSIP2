@@ -30,6 +30,7 @@ reference:
   - add_gradient_pos_rel_amt
   - get_sample_counts
   - add_taxonomy
+  - show_unshared_ids
 
 - title: Plots and Visualizations
   contents:
@@ -71,6 +72,7 @@ reference:
   - source_results_message
   - calculate_resampled_wads
   - calculate_Z
+  - find_shared_ids
 
 articles:
 - title: Learn qSIP

@@ -26,7 +26,7 @@ packageVersion("qSIP2")
 
 In a SIP experiment, the "source material" are the subjects that you are running experiments with (e.g. a culture tube or a plant root). For qSIP the source material would then be each DNA extraction that is loaded into its own column for isopycnic centrifugation. 
 
-The "source data", therefore, is the highest level of metadata with a row corresponding to each original experimental or source material object. There are a few required columns for valid source data including a unique ID (the MISIP `source_mat_id`), some measure of quantitative abundance for the source material (either total DNA or qPCR copies), and an isotope and substrate designation (the MISIP `isotope` and `isotopolog`, respectively). 
+The "source data" is the highest level of metadata with a row corresponding to each original experimental or source material object. There are a few required columns for valid source data including a unique ID (the MISIP `source_mat_id`), some measure of quantitative abundance for the source material (either total DNA or qPCR copies), and an isotope and substrate designation (the MISIP `isotope` and `isotopolog`, respectively). 
 
 An example source dataframe is included in the `qSIP2` package called `example_source_df` (the first few rows are shown below). In addition to the required columns, the source data can contain as many other ancillary columns as necessary. These additional columns might contain important experiment-specific metadata that you will use to group and subset your source material in the qSIP workflow. But, they can also be further details that you might not need for qSIP, but it may make sense to just keep everything included if they're already in your `.txt.` or excel file.
 

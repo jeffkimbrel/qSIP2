@@ -12,10 +12,19 @@
 #'
 #' @return A dataframe with id grouped by different `group` treatments and isotopes
 
-show_comparison_groups <- function(source_data,
-                                   group,
+show_comparison_groups <- function(source_data = NULL,
+                                   group = NULL,
                                    isotope = "isotope",
                                    source_mat_id = "source_mat_id") {
+
+  if (is.null(source_data)) {
+    stop("ERROR: Please provide source data with the 'source_data' argument.")
+  }
+
+  if (is.null(group)) {
+    stop("ERROR: Please provide a grouping variable with the 'group' argument")
+  }
+
   if ("qsip_data" %in% class(source_data)) {
     df <- source_data@source_data@data
   } else if ("qsip_source_data" %in% class(source_data)) {
@@ -27,6 +36,14 @@ show_comparison_groups <- function(source_data,
     stop(glue::glue("ERROR: source_data is an unexpected type ({class(source_data)[1]})... it must be class data.frame, qsip_source_data or qsip_data"))
   }
 
+  stopifnot("ERROR: Please provide the column name with the source_mat_id" = source_mat_id %in% colnames(df))
+  stopifnot("ERROR: Please provide the column name with isotope data" = isotope %in% colnames(df))
+
+  for (g in group) {
+    if (!g %in% colnames(df)) {
+      stop(glue::glue("ERROR: grouping column '{g}' not found"))
+    }
+  }
 
   df |>
     dplyr::select(!!as.name(source_mat_id), !!as.name(isotope), dplyr::all_of(group)) |>

@@ -42,7 +42,7 @@ calculate_wads <- function(tube_rel_abundance) {
     dplyr::summarize(S = sum(counts)) |>
     dplyr::pull(S)
 
-  message(glue::glue_col("WARNING: {red {missing_feature_ids}} feature_ids have no counts in one or more source_mat_ids"))
+  #message(glue::glue_col("WARNING: {red {missing_feature_ids}} feature_ids have no counts in one or more source_mat_ids"))
 
   return(list(
     "wads" = wads,

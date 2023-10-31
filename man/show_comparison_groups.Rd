@@ -5,8 +5,8 @@
 \title{Show comparison groups}
 \usage{
 show_comparison_groups(
-  source_data,
-  group,
+  source_data = NULL,
+  group = NULL,
   isotope = "isotope",
   source_mat_id = "source_mat_id"
 )
