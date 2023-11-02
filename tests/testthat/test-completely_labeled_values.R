@@ -5,5 +5,5 @@ test_that("Return values are expected", {
 })
 
 test_that("Unknown isotopes give error", {
-  expect_error(completely_labeled_values("not_an_isotope"), "ERROR: Please fix the isotope names and try again")
+  expect_error(completely_labeled_values("not_an_isotope"), "Please fix the isotope names and try again")
 })

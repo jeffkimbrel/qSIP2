@@ -23,6 +23,8 @@ packageVersion("qSIP2")
 ```
 
 ```{r, echo=FALSE}
+ggplot2::theme_set(ggplot2::theme_bw())
+
 gt_func = function(df, title) {
   df |>
     gt::gt() |> 
@@ -39,6 +41,7 @@ gt_func = function(df, title) {
     )
 }
 ```
+
 # Sample Metadata
 
 In `qSIP2`, "sample data" refers to any metadata associated with the individual fractions or their sequencing data. This is the second level of metadata - more granular than "source data", but at a higher-level than the "feature data".
@@ -55,14 +58,11 @@ The sample data has the most requirements to pass validation of the three qSIP i
 
 One column of the metadata should contain a unique `sample_id` that is associated with a `source_mat_id`. The format of the `sample_id` doesn't matter, as long as it is unique. A popular choice might be the `source_mat_id` appended with the gradient position.
 
-source_mat_id | sample_id
---- | ---
-A | A_1
-A | A_2
-A | A_3
-B | B_1
-B | B_2
-B | B_3
+```{r, echo=FALSE}
+data.frame("source_mat_id" = c(rep("A", 3), rep("B", 3)),
+           "sample_id" = c(paste(rep("A", 3,), 1:3, sep = "_"), paste(rep("B", 3), 1:3, sep = "_"))) |>
+  gt_func("Sample `source_mat_id` and `sample_id` pairs")
+```
 
 Each `source_mat_id` should match to one row on the `qsip_source_data` dataframe. And although the `sample_id` should be unique for each row, it is expected that the `source_mat_id` will be duplicated. 
 
@@ -180,8 +180,7 @@ The `sample_object` created above is ready for the next step in the main workflo
 Sometimes there might be errors in the density values in a spreadsheet, particularly if they are entered by hand. The `plot_density_outliers()` can help identify these outliers using Cook's distance and a specified `sensitivity` value. The lower the `sensitivity` parameter, the more sensitive the algorithm is to calling a point an outlier.
 
 ```{r, fig.width=8, fig.height=6}
-plot_density_outliers(sample_object) +
-  ggplot2::theme_bw()
+plot_density_outliers(sample_object)
 ```
 
 Here we see some values at the ends of the density ranges are slightly lower than their gradient position would suggest, and are therefore considered possible outliers and colored red. The ends of the density ranges, however, are expected to fall off of the main line, and so these results are not too concerning here. 
@@ -197,8 +196,7 @@ plot_sample_curves(
   sample_data = sample_object,
   source_data = example_source_object,
   colors = c("12C" = "cornflowerblue", "13C" = "red")
-) +
-  ggplot2::theme_bw()
+)
 ```
 
 The WAD values can be pulled out for each source and plotted together, for better  comparison.
@@ -208,8 +206,7 @@ plot_source_wads(
   sample_data = sample_object,
   source_data = example_source_object,
   colors = c("12C" = "cornflowerblue", "13C" = "red")
-) +
-  ggplot2::theme_bw()
+)
 ```
 
 These can be further grouped according to other columns in the `source_data`.
@@ -220,6 +217,5 @@ plot_source_wads(
   source_data = example_source_object,
   group = "Moisture",
   colors = c("12C" = "cornflowerblue", "13C" = "red")
-) +
-  ggplot2::theme_bw()
+)
 ```

@@ -4,7 +4,12 @@
 \alias{run_resampling}
 \title{Resample WAD values}
 \usage{
-run_resampling(qsip_data_object, resamples = 1000, with_seed = NULL)
+run_resampling(
+  qsip_data_object,
+  resamples = 1000,
+  with_seed = NULL,
+  progress = TRUE
+)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) A qsip data object that has been filtered}
@@ -12,6 +17,8 @@ run_resampling(qsip_data_object, resamples = 1000, with_seed = NULL)
 \item{resamples}{(\emph{integer}) The number of resamples/bootstraps to run}
 
 \item{with_seed}{(\emph{integer}) An optional seed for reproducibility}
+
+\item{progress}{(\emph{boolean}) Option to show a progress bar for the resampling step}
 }
 \value{
 A new \code{qsip_data} object with the \verb{@resamples} slot populated with resamples wad values

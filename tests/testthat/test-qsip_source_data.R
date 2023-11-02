@@ -48,6 +48,6 @@ test_that("Invalid isotopes give error", {
         isotope = "Isotope",
         isotopolog = "isotopolog",
         source_mat_id = "source"
-      ), "ERROR: Please fix the isotope names and try again"
+      ), "Please fix the isotope names and try again"
   )
 })

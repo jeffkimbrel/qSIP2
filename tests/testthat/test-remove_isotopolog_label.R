@@ -28,5 +28,5 @@ test_that("Unexpected isotopes produce error", {
     "isotope" = rep("13", 12),
     "isotopolog_label" = c(rep("natural abundance", 6), rep("isotopically labeled", 6))
   )
-  expect_error(remove_isotopolog_label(testdf4), "ERROR: Please fix the isotope names and try again")
+  expect_error(remove_isotopolog_label(testdf4), "Please fix the isotope names and try again")
 })

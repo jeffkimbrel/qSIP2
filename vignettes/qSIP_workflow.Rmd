@@ -23,6 +23,26 @@ library(qSIP2)
 packageVersion("qSIP2")
 ```
 
+```{r, echo=FALSE}
+ggplot2::theme_set(ggplot2::theme_bw())
+
+gt_func <- function(df, title) {
+  df |>
+    gt::gt() |>
+    gt::tab_header(
+      title = title,
+    ) |>
+    gt::opt_stylize(style = 2, color = "gray") |>
+    gt::tab_options(
+      table.font.size = 12
+    ) |>
+    gt::tab_style(
+      style = gt::cell_text(font = gt::system_fonts(name = "monospace-code")),
+      locations = gt::cells_body()
+    )
+}
+```
+
 # Background
 
 A complete quantitative stable isotope probing (qSIP) workflow using the `qSIP2` package starts with three input files and ends with calculated excess atom fraction (EAF) values along with a ton of intermediate data. This vignette will be a high-level walk through of the major steps with links to more specific vignettes where more detail is appropriate. 
@@ -35,10 +55,10 @@ Preparing and formatting the input files is often the most tedious part of any a
 
 The source data is the highest level of metadata with a row corresponding to each original experimental or source material object. An example source dataframe is included in the `qSIP2` package called `example_source_df`. 
 
-```{r}
+```{r, echo=FALSE}
 example_source_df |>
   head() |>
-  knitr::kable()
+  gt_func(title = "The first few rows of `example_source_df`")
 ```
 
 There are a few required columns for valid source data including a unique ID, some measure of quantitative abundance for the source material (either total DNA or qPCR copies), and an isotope and isotopolog designation. 
@@ -54,7 +74,7 @@ source_df <- example_source_df |>
 #| echo: false
 source_df |>
   head() |>
-  knitr::kable()
+  gt_func(title = "`source_df`")
 ```
 
 Once the dataframe is ready, the next step is to convert it to a `qsip_source_data` object. This is one of the main `qSIP2` objects to hold and validate the data. 
@@ -82,10 +102,10 @@ See `vignette("source_data")` for more details.
 
 The sample metadata is the next level of detail with one row for each fraction, or one row for each set of fastq files that were sequenced. 
 
-```{r}
+```{r, echo=FALSE}
 example_sample_df |>
   head() |>
-  knitr::kable()
+  gt_func("`example_sample_df`")
 ```
 
 Again, there are several necessary columns for valid sample data, including a unique sample ID, the source they came from, the fraction ID, the fraction density and a measure of abundance in that fraction (total DNA or qPCR copy number). An additional column that can be derived is the percent abundance of your total sample that is found in each of the fractions. The `add_gradient_pos_rel_amt()` function can help calculate that by dividing each fraction abundance by the total abundance for each source and putting in a `gradient_pos_rel_amt` column.
@@ -93,20 +113,22 @@ Again, there are several necessary columns for valid sample data, including a un
 ```{r}
 sample_df <- example_sample_df |>
   add_gradient_pos_rel_amt(source_mat_id = "source", amt = "avg_16S_g_soil")
+```
 
+```{r, echo=FALSE}
 sample_df |>
   group_by(source) |>
   summarize(
     qPCR_copies = sum(avg_16S_g_soil),
-    Relative = sum(gradient_pos_rel_amt)
+    "Sum Relative Abundance" = sum(gradient_pos_rel_amt)
   ) |>
   head() |>
-  knitr::kable()
+  gt_func(title = "Sums of relative abundance equal 1")
 ```
 
 Again, we make a `qSIP2` object for this data, this time as a `qsip_sample_data` object. In making these objects, we get some built-in validation, and example of which is displayed if we try to make an object with the current `sample_df`. 
 
-```{r, eval=FALSE}
+```{r, error=TRUE}
 sample_object <- qsip_sample_data(sample_df,
   sample_id = "sample",
   source_mat_id = "source",
@@ -115,8 +137,6 @@ sample_object <- qsip_sample_data(sample_df,
   gradient_pos_amt = "avg_16S_g_soil",
   gradient_pos_rel_amt = "gradient_pos_rel_amt"
 )
-
-# ERROR: some gradient_position values are non-numeric
 ```
 
 This error tells us that the `gradient_position` column ("Fraction") contains non-numeric data, and indeed we can see they are stored as strings. 
@@ -151,16 +171,19 @@ OK, it worked this time and gave us a valid object. See `vignette("sample_data")
 
 Finally, the last of the three necessary input files is a feature abundance table, aka "OTU table" or "ASV table". The format of this dataframe has the unique feature IDs in the first column, and an additional column for each sample. Each row then contains the whole number (non-normalized) counts of each feature in each sample. 
 
-For now, the validation step requires all values be positive integers, but in the future an option will be added to accept other numeric values, e.g. coverages when working with MAGs or metagenomes. 
+For now, the validation step defaults to requiring all values be positive integers, but other `type` options include `coverage` (for working with MAGs or metagenomes) or `relative` if you already have relative abundances. 
 
 ```{r}
 example_feature_df[1:6] |>
   head() |>
-  knitr::kable()
+  gt_func(title = "First bit of `example_feature_df`")
+```
 
+```{r}
 feature_object <- qsip_feature_data(example_feature_df,
   feature_id = "ASV"
 )
+
 class(feature_object)
 ```
 
@@ -181,6 +204,8 @@ qsip_object <- qsip_data(
 class(qsip_object)
 ```
 
+This function will report if all `source_mat_id`s are shared between the source and sample data, and if all `sample_id`s are shared between the sample and feature data. If it reports there are some unshared ids, you can access them with `show_unshared_ids(qsip_object)`, but note that it is just a warning and does not stop the creation of the qSIP object.
+
 Behind the scenes, creation of this object also runs some other calculations, particularly getting the weighted-average density (WAD) for each feature in each source, and also the tube relative abundance of each feature. With these, certain visualizations can be made.
 
 ```{r, fig.height=2, fig.width=6}
@@ -200,12 +225,21 @@ Now that we have a validated `qsip_data` object, we can start the main workflow 
 
 Your `qsip_data` object likely contains all of your data, but you may only want to run comparisons on certain subsets. The `show_comparison_groups()` function attempts to identify and suggest the sources you may want to compare.
 
-```{r}
+```{r, eval=FALSE}
 show_comparison_groups(qsip_object,
   group = "Moisture",
   isotope = "isotope",
   source_mat_id = "source_mat_id"
-) |> knitr::kable()
+)
+```
+
+```{r, echo=FALSE}
+show_comparison_groups(qsip_object,
+  group = "Moisture",
+  isotope = "isotope",
+  source_mat_id = "source_mat_id"
+) |>
+  gt_func(title = "Output of `show_comparison_groups()`")
 ```
 
 The `group` argument here is the most important as it will define the rows that it thinks constitute a comparison. The `isotope` argument is what defines the labeled and unlabeled values for the comparisons. This can be more complex, particularly if you have more than one isotopolog, and details will be made available in the future in another vignette.
@@ -277,7 +311,8 @@ In order to calculate the confidence interval for the EAF values, we first need 
 ```{r qsip_normal_resampling}
 qsip_normal <- run_resampling(qsip_normal,
   resamples = 1000,
-  with_seed = 17
+  with_seed = 17,
+  progress = FALSE
 )
 ```
 
@@ -286,7 +321,8 @@ As this step requires some random sampling it is good practice to set the "seed"
 ```{r qsip_normal_resampling_again}
 qsip_normal_17_again <- run_resampling(qsip_normal,
   resamples = 1000,
-  with_seed = 17
+  with_seed = 17,
+  progress = FALSE
 )
 
 # two runs are identical
@@ -300,7 +336,8 @@ identical(qsip_normal@resamples$l[[1]], qsip_normal@resamples$l[[2]])
 ```{r qsip_drought_resampling}
 qsip_drought <- run_resampling(qsip_drought,
   resamples = 1000,
-  with_seed = 17
+  with_seed = 17,
+  progress = FALSE
 )
 ```
 
