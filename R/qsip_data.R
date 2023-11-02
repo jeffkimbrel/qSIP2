@@ -38,9 +38,9 @@ qsip_data <- S7::new_class(
                          feature_data) {
 
     # make sure data is correct
-    stopifnot("ERROR: source_data should be of class qsip_source_data" = "qsip_source_data" %in% class(source_data))
-    stopifnot("ERROR: sample_data should be of class qsip_sample_data" = "qsip_sample_data" %in% class(sample_data))
-    stopifnot("ERROR: feature_data should be of class qsip_feature_data" = "qsip_feature_data" %in% class(feature_data))
+    stopifnot("source_data should be of class <qsip_source_data>" = "qsip_source_data" %in% class(source_data))
+    stopifnot("sample_data should be of class <qsip_sample_data>" = "qsip_sample_data" %in% class(sample_data))
+    stopifnot("feature_data should be of class <qsip_feature_data>" = "qsip_feature_data" %in% class(feature_data))
 
     # calculate tube level relative abundances
     tube_rel_abundance <- calculate_tube_rel_abundance(source_data, sample_data, feature_data)
@@ -67,19 +67,11 @@ qsip_data <- S7::new_class(
     )
   },
   validator = function(self) {
-    # make sure all are valid objects
-    S7::validate(self@source_data)
-    S7::validate(self@sample_data)
-    S7::validate(self@feature_data)
+    # # make sure all are valid objects
+    # S7::validate(self@source_data)
+    # S7::validate(self@sample_data)
+    # S7::validate(self@feature_data)
 
-    # make sure the objects are of the right type
-    if (!"qsip_source_data" %in% class(self@source_data)) {
-      stop("ERROR: source_data must be of type qsip_source_data")
-    } else if (!"qsip_sample_data" %in% class(self@sample_data)) {
-      stop("ERROR: sample_data must be of type qsip_sample_data")
-    } else if (!"qsip_feature_data" %in% class(self@feature_data)) {
-      stop("ERROR: feature_data must be of type qsip_feature_data")
-    }
   }
 )
 

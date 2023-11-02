@@ -21,24 +21,20 @@ add_gradient_pos_rel_amt <- function(data,
 
   # make sure column names exist
   if (!amt %in% colnames(data)) {
-    stop(glue::glue("ERROR: {amt} not found in dataframe"))
+    stop(glue::glue("{amt} not found in dataframe"), call. = FALSE)
   }
   if (!source_mat_id %in% colnames(data)) {
-    stop(glue::glue("ERROR: {source_mat_id} not found in dataframe"))
+    stop(glue::glue("{source_mat_id} not found in dataframe"), call. = FALSE)
   }
 
 
   if ("gradient_pos_rel_amt" %in% colnames(data)) {
     if (overwrite == FALSE) {
-      stop(crayon::red("ERROR: gradient_pos_rel_amt already exists! Set overwrite = TRUE if you want to overwrite"))
+      stop("gradient_pos_rel_amt already exists! Set overwrite = TRUE if you want to overwrite", call. = FALSE)
     } else if (overwrite == TRUE) {
       message("WARNING: gradient_pos_rel_amt already exists and will be overwritten")
     }
   }
-
-
-
-
 
   data |>
     dplyr::mutate(

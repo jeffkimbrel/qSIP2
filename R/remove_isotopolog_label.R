@@ -13,10 +13,13 @@
 #' @family "MISIP"
 
 remove_isotopolog_label <- function(data) {
-  # verify isotope and isotopolog_label columns are found in data
 
-  stopifnot("ERROR: This dataframe doesn't appear to have isotope data" = "isotope" %in% colnames(data))
-  stopifnot("ERROR: This dataframe doesn't appear to have isotopolog_label data" = "isotopolog_label" %in% colnames(data))
+  # verify data is the right type
+  stopifnot("data should be class <data.frame>" = "data.frame" %in% class(data))
+
+  # verify isotope and isotopolog_label columns are found in data
+  stopifnot("isotope column not found" = "isotope" %in% colnames(data))
+  stopifnot("isotopolog_label column not found" = "isotopolog_label" %in% colnames(data))
 
   # must be a heavy isotope
   qSIP2::validate_isotopes(data$isotope, isotope_list = c("13C", "15N", "18O"))

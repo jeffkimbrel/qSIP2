@@ -20,12 +20,12 @@ plot_source_wads <- function(sample_data, source_data = NULL, group = NULL, colo
     # if given a sample_data object, then make sure the source_data is also given and is of the right class
 
     if (is.null(source_data)) {
-      stop("ERROR: If providing a qsip_sample_data object, you must also give a qsip_source_data object to the 'source_data' argument")
+      stop("If providing a qsip_sample_data object, you must also give a qsip_source_data object to the 'source_data' argument")
     } else if (!"qsip_source_data" %in% class(source_data)) {
-      stop(glue::glue("ERROR: source_data is an unexpected type ({class(source_data)[1]})... it must be class qsip_source_data"))
+      stop(glue::glue("source_data should be class <qsip_source_data>, not {class(source_data)[1]}"))
     }
   } else {
-    stop(glue::glue("ERROR: sample_data is an unexpected type ({class(sample_data)[1]})... it must be class qsip_sample_data or qsip_data"))
+    stop(glue::glue("sample_data should be class <qsip_sample_data> or <qsip_data>, not {class(sample_data)[1]}"))
   }
 
 

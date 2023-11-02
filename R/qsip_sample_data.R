@@ -39,15 +39,15 @@ qsip_sample_data <- S7::new_class(
 
 
     # make sure data is correct
-    stopifnot("ERROR: data should be of class data.frame" = "data.frame" %in% class(data))
+    stopifnot("data should be class <data.frame>" = "data.frame" %in% class(data))
 
     # make sure columns are found
-    stopifnot("ERROR: sample_id column missing" = sample_id %in% colnames(data))
-    stopifnot("ERROR: source_mat_id column missing" = source_mat_id %in% colnames(data))
-    stopifnot("ERROR: gradient_position column missing" = gradient_position %in% colnames(data))
-    stopifnot("ERROR: gradient_pos_density column missing" = gradient_pos_density %in% colnames(data))
-    stopifnot("ERROR: gradient_pos_amt column missing" = gradient_pos_amt %in% colnames(data))
-    stopifnot("ERROR: gradient_pos_rel_amt column missing" = gradient_pos_rel_amt  %in% colnames(data))
+    stopifnot("sample_id column not found" = sample_id %in% colnames(data))
+    stopifnot("source_mat_id column not found" = source_mat_id %in% colnames(data))
+    stopifnot("gradient_position column not found" = gradient_position %in% colnames(data))
+    stopifnot("gradient_pos_density column not found" = gradient_pos_density %in% colnames(data))
+    stopifnot("gradient_pos_amt column not found" = gradient_pos_amt %in% colnames(data))
+    stopifnot("gradient_pos_rel_amt column not found" = gradient_pos_rel_amt  %in% colnames(data))
 
     # rename columns to standardized names
     data <- data |>

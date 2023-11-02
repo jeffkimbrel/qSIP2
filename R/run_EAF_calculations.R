@@ -12,6 +12,14 @@
 #' in the `@EAF` slot.
 
 run_EAF_calculations <- function(qsip_data_object) {
+
+  # make sure the right data type and has been filtered and resampled
+  if (!"qsip_data" %in% class(qsip_data_object)) {
+    stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
+  } else if (length(qsip_data_object@resamples) == 0) {
+    stop("qsip_data_object should be run through run_feature_filter() and run_resampling() functions first", call. = FALSE)
+  }
+
   isotope <- get_isotope_designation(qsip_data_object)
 
   # work with observed data

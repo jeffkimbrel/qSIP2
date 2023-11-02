@@ -13,12 +13,12 @@
 
 calculate_wads <- function(tube_rel_abundance) {
 
-  stopifnot("ERROR: data is not class data.frame" = "data.frame" %in% class(tube_rel_abundance))
+  stopifnot("data is not class data.frame" = "data.frame" %in% class(tube_rel_abundance))
 
-  stopifnot("ERROR: feature_id column missing" = "feature_id" %in% colnames(tube_rel_abundance))
-  stopifnot("ERROR: source_mat_id column missing" = "source_mat_id" %in% colnames(tube_rel_abundance))
-  stopifnot("ERROR: tube_rel_abundance column missing" ="tube_rel_abundance" %in% colnames(tube_rel_abundance))
-  stopifnot("ERROR: gradient_pos_density column missing" ="gradient_pos_density" %in% colnames(tube_rel_abundance))
+  stopifnot("feature_id column missing" = "feature_id" %in% colnames(tube_rel_abundance))
+  stopifnot("source_mat_id column missing" = "source_mat_id" %in% colnames(tube_rel_abundance))
+  stopifnot("tube_rel_abundance column missing" ="tube_rel_abundance" %in% colnames(tube_rel_abundance))
+  stopifnot("gradient_pos_density column missing" ="gradient_pos_density" %in% colnames(tube_rel_abundance))
 
   wads <- tube_rel_abundance |>
     dplyr::group_by(feature_id, source_mat_id) |>
@@ -69,6 +69,11 @@ calculate_wads <- function(tube_rel_abundance) {
 #' WAD value for that source_mat_id
 
 calculate_source_wads <- function(sample_data) {
+
+  if (!"qsip_sample_data" %in% class(sample_data)) {
+    stop(glue::glue("sample_data must be of class <qsip_sample_data>, not {class(sample_data)[1]}"), call. = FALSE)
+  }
+
   sample_data@data |>
     dplyr::group_by(source_mat_id) |>
     dplyr::summarize(

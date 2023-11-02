@@ -24,7 +24,7 @@ plot_sample_curves <- function(sample_data,
       df <- dplyr::left_join(sample_data@data, source_data@data, by = "source_mat_id")
     }
   } else {
-    stop(glue::glue("ERROR: sample_data is an unexpected type ({class(sample_data)[1]})... it must be class qsip_sample_data or qsip_data"))
+    stop(glue::glue("sample_data should be class <qsip_sample_data> or <qsip_data>, not {class(sample_data)[1]}"))
   }
 
   if (is.null(colors)) {

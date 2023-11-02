@@ -14,8 +14,11 @@
 #' modified
 
 add_isotopolog_label <- function(data, isotope = "isotope") {
+
   # verify isotope column is found in data
-  stopifnot("ERROR: Please provide a valid column name for the isotope data" = isotope %in% colnames(data))
+  if (!isotope %in% colnames(data)) {
+    stop(glue::glue("{isotope} column not found"), call. = FALSE)
+  }
 
   data |>
     dplyr::rename("isotope" = isotope) |>

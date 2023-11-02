@@ -21,7 +21,7 @@ test_that("missing columns give errors", {
     gradient_pos_density = "density_g_ml",
     gradient_pos_amt = "avg_16S_g_soil",
     gradient_pos_rel_amt = "gradient_pos_rel_amt"
-  ), "ERROR: sample_id column missing")
+  ), "sample_id column not found")
   expect_error(qsip_sample_data(qsip_sample_data_test_df,
     sample_id = "sample",
     source_mat_id = "not_found",
@@ -29,7 +29,7 @@ test_that("missing columns give errors", {
     gradient_pos_density = "density_g_ml",
     gradient_pos_amt = "avg_16S_g_soil",
     gradient_pos_rel_amt = "gradient_pos_rel_amt"
-  ), "ERROR: source_mat_id column missing")
+  ), "source_mat_id column not found")
   expect_error(qsip_sample_data(qsip_sample_data_test_df,
     sample_id = "sample",
     source_mat_id = "source",
@@ -37,7 +37,7 @@ test_that("missing columns give errors", {
     gradient_pos_density = "density_g_ml",
     gradient_pos_amt = "avg_16S_g_soil",
     gradient_pos_rel_amt = "gradient_pos_rel_amt"
-  ), "ERROR: gradient_position column missing")
+  ), "gradient_position column not found")
   expect_error(qsip_sample_data(qsip_sample_data_test_df,
     sample_id = "sample",
     source_mat_id = "source",
@@ -45,7 +45,7 @@ test_that("missing columns give errors", {
     gradient_pos_density = "not_found",
     gradient_pos_amt = "avg_16S_g_soil",
     gradient_pos_rel_amt = "gradient_pos_rel_amt"
-  ), "ERROR: gradient_pos_density column missing")
+  ), "gradient_pos_density column not found")
   expect_error(qsip_sample_data(qsip_sample_data_test_df,
     sample_id = "sample",
     source_mat_id = "source",
@@ -53,7 +53,7 @@ test_that("missing columns give errors", {
     gradient_pos_density = "density_g_ml",
     gradient_pos_amt = "not_found",
     gradient_pos_rel_amt = "gradient_pos_rel_amt"
-  ), "ERROR: gradient_pos_amt column missing")
+  ), "gradient_pos_amt column not found")
   expect_error(qsip_sample_data(qsip_sample_data_test_df,
     sample_id = "sample",
     source_mat_id = "source",
@@ -61,5 +61,5 @@ test_that("missing columns give errors", {
     gradient_pos_density = "density_g_ml",
     gradient_pos_amt = "avg_16S_g_soil",
     gradient_pos_rel_amt = "not_found"
-  ), "ERROR: gradient_pos_rel_amt column missing")
+  ), "gradient_pos_rel_amt column not found")
 })

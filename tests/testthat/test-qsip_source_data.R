@@ -1,7 +1,7 @@
 test_that("data not a dataframe throws error", {
   expect_error(
     qsip_source_data(example_source_object),
-    "ERROR: data should be of class data.frame"
+    "data should be class <data.frame>"
   )
 })
 
@@ -11,17 +11,17 @@ test_that("Missing columns throw errors", {
 
   expect_error(
     qsip_source_data(df, isotope = "not_found", isotopolog = "isotopolog", source_mat_id = "source"),
-    "ERROR: isotope column 'not_found' is not found in dataframe"
+    "isotope column 'not_found' is not found"
   )
 
   expect_error(
     qsip_source_data(df, isotope = "Isotope", isotopolog = "not_found", source_mat_id = "source"),
-    "ERROR: isotopolog column 'not_found' is not found in dataframe"
+    "isotopolog column 'not_found' is not found"
   )
 
   expect_error(
     qsip_source_data(df, isotope = "Isotope", isotopolog = "isotopolog", source_mat_id = "not_found"),
-    "ERROR: source_mat_id column 'not_found' is not found in dataframe"
+    "source_mat_id column 'not_found' is not found"
   )
 })
 
@@ -34,7 +34,7 @@ test_that("Duplicate source ids give error", {
         isotope = "Isotope",
         isotopolog = "isotopolog",
         source_mat_id = "source"
-      ), "ERROR: some source_mat_ids are duplicated"
+      ), "some source_mat_ids are duplicated"
   )
 })
 

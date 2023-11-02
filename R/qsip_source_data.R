@@ -30,15 +30,15 @@ qsip_source_data <- S7::new_class(
                          isotopolog,
                          source_mat_id) {
 
-    stopifnot("ERROR: data should be of class data.frame" = "data.frame" %in% class(data) )
+    stopifnot("data should be class <data.frame>" = "data.frame" %in% class(data) )
 
     # verify column names exist
     if (!isotope %in% colnames(data)) {
-      stop(glue::glue("ERROR: isotope column '{isotope}' is not found in dataframe"))
+      stop(glue::glue("isotope column '{isotope}' is not found"), call. = FALSE)
     } else if (!isotopolog %in% colnames(data)) {
-      stop(glue::glue("ERROR: isotopolog column '{isotopolog}' is not found in dataframe"))
+      stop(glue::glue("isotopolog column '{isotopolog}' is not found"), call. = FALSE)
     } else if (!source_mat_id %in% colnames(data)) {
-      stop(glue::glue("ERROR: source_mat_id column '{source_mat_id}' is not found in dataframe"))
+      stop(glue::glue("source_mat_id column '{source_mat_id}' is not found"), call. = FALSE)
     }
 
     # rename columns to standardized names
@@ -60,7 +60,7 @@ qsip_source_data <- S7::new_class(
   },
   validator = function(self) {
     if (any(duplicated(self@data["source_mat_id"]))) {
-      stop("ERROR: some source_mat_ids are duplicated")
+      stop("some source_mat_ids are duplicated", call. = FALSE)
     }
 
     qSIP2::validate_isotopes(self@data |> dplyr::pull(isotope))

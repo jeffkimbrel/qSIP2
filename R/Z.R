@@ -16,8 +16,10 @@ calculate_Z <- function(labeled, unlabeled) {
     labeled,
     unlabeled
   )))) {
-    stop("ERROR: some of the WAD values are <NA>")
+    stop("Can't calculate Z - some WAD values are <NA>")
   }
+
+  stopifnot("Can't calculate Z - some WAD values are not numeric" = is.numeric(c(labeled, unlabeled)))
 
   Z <- labeled - unlabeled
   return(Z)

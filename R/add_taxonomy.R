@@ -13,12 +13,18 @@
 
 add_taxonomy <- function(feature_object, taxa, feature_id) {
 
+  # make sure feature_object is the right type
+  if (!"qsip_feature_data" %in% class(feature_object)) {
+    stop(glue::glue("feature_object should be class <qsip_feature_data>, not {class(feature_object)[1]})"), call. = FALSE)
+  }
+
+
   # check that feature_id column exists
   if (feature_id %in% colnames(taxa)) {
     taxa <- taxa |>
       dplyr::rename("feature_id" := feature_id)
   } else {
-    stop(glue::glue("ERROR: {feature_id} column not found in taxonomy dataframe"))
+    stop(glue::glue("{feature_id} column not found in taxonomy dataframe"), call. = FALSE)
   }
 
   feature_object_ids <- feature_object@data["feature_id"]
@@ -26,14 +32,14 @@ add_taxonomy <- function(feature_object, taxa, feature_id) {
 
   # check that feature ids are not duplicated
   if (any(duplicated(taxa_ids))) {
-    stop("ERROR: some feature_ids in the taxonomy dataframe are duplicated")
+    stop("some feature_ids in the taxonomy dataframe are duplicated", call. = FALSE)
   }
 
 
   if (length(setdiff(feature_object_ids, taxa_ids)) > 0) {
-    stop("ERROR: Some ids found in the abundance object are not found in the taxa table")
+    stop("Some ids found in the abundance object are not found in the taxa table", call. = FALSE)
   } else if (length(setdiff(taxa_ids, feature_object_ids)) > 0) {
-    stop("ERROR: Some ids found in the taxa table are not found in the abundance object")
+    stop("Some ids found in the taxa table are not found in the abundance object", call. = FALSE)
   } else {
     feature_object@taxonomy <- taxa
     feature_object

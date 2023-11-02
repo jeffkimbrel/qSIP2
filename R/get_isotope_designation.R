@@ -13,7 +13,7 @@
 
 get_isotope_designation <- function(qsip_data_object) {
 
-  stopifnot("ERROR: qsip_data_object must be of class qsip_data" = "qsip_data" %in% class(qsip_data_object))
+  stopifnot("ERROR: qsip_data_object must be of class <qsip_data>" = "qsip_data" %in% class(qsip_data_object))
 
   source_mat_ids_to_verify <- c(
     qsip_data_object@filter_results$labeled_source_mat_ids,
@@ -35,6 +35,6 @@ get_isotope_designation <- function(qsip_data_object) {
   } else if (length(setdiff(isotopes, c("16O", "18O"))) == 0) {
     return("18O")
   } else {
-    stop("ERROR: something went wrong with inferring which isotope calculation to use")
+    stop("something went wrong with inferring which isotope calculation to use")
   }
 }

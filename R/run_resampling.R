@@ -19,11 +19,16 @@ run_resampling <- function(qsip_data_object,
                            with_seed = NULL,
                            progress = TRUE) {
 
-  if (length(qsip_data_object@filtered_wad_data) == 0) {
+  if (!"qsip_data" %in% class(qsip_data_object)) {
+    stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
+  } else if (length(qsip_data_object@filtered_wad_data) == 0) {
     stop("ERROR: this function requires a qsip object that has been run through run_feature_filter()")
   }
 
   stopifnot("progress must be either TRUE of FALSE" = progress %in% c(TRUE, FALSE))
+  stopifnot("resamples should be class <numeric>" = is.numeric(resamples))
+  stopifnot("resamples should be positive" = resamples > 0)
+
 
   unlabeled <- qsip_data_object@filter_results$unlabeled_source_mat_ids
   labeled <- qsip_data_object@filter_results$labeled_source_mat_ids
@@ -32,6 +37,8 @@ run_resampling <- function(qsip_data_object,
   # set seed if given
   if (!is.null(with_seed)) {
     set.seed(with_seed)
+  } else {
+    message("Using random seed. For consistency, you can use the with_seed argument")
   }
 
   # create individual dataframes for resampling

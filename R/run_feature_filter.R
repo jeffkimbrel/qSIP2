@@ -45,11 +45,11 @@ run_feature_filter <- function(qsip_data_object,
 
   # make sure minimums are not bigger than possible
   if (min_labeled_sources > length(labeled_source_mat_ids)) {
-    stop(glue::glue("ERROR: min_labeled_sources is set to {min_labeled_sources} but labeled_source_mat_ids only has {length(labeled_source_mat_ids)}"))
+    stop(glue::glue("min_labeled_sources is set to {min_labeled_sources} but labeled_source_mat_ids only has {length(labeled_source_mat_ids)}"))
   }
 
   if (min_unlabeled_sources > length(unlabeled_source_mat_ids)) {
-    stop(glue::glue("ERROR: min_unlabeled_sources is set to {min_unlabeled_sources} but unlabeled_source_mat_ids only has {length(unlabeled_source_mat_ids)}"))
+    stop(glue::glue("min_unlabeled_sources is set to {min_unlabeled_sources} but unlabeled_source_mat_ids only has {length(unlabeled_source_mat_ids)}"))
   }
 
   # make sure source_mat_ids match expected isotope types
@@ -58,7 +58,7 @@ run_feature_filter <- function(qsip_data_object,
     dplyr::pull(isotope) |>
     unique()
   if (length(setdiff(unlabeled_isotopes, c("12C", "14N", "16O"))) > 0) {
-    stop("ERROR: some of the unlabeled_source_mat_ids have a heavy isotope designation")
+    stop("some of the unlabeled_source_mat_ids have a heavy isotope designation")
   }
 
   labeled_isotopes = qsip_data_object@source_data@data |>
@@ -66,7 +66,7 @@ run_feature_filter <- function(qsip_data_object,
     dplyr::pull(isotope) |>
     unique()
   if (length(setdiff(labeled_isotopes, c("13C", "15N", "18O"))) > 0) {
-    stop("ERROR: some of the labeled_source_mat_ids have a light isotope designation")
+    stop("some of the labeled_source_mat_ids have a light isotope designation")
   }
 
 
@@ -97,9 +97,9 @@ run_feature_filter <- function(qsip_data_object,
 
   # make sure all given source_mat_ids are found in sample_data
   if (length(setdiff(unlabeled_source_mat_ids, qsip_data_object@sample_data@data$source_mat_id) > 0)) {
-    stop("ERROR: Some given unlabeled_source_mat_ids are not found")
+    stop("Some given unlabeled_source_mat_ids are not found")
   } else if (length(setdiff(labeled_source_mat_ids, qsip_data_object@sample_data@data$source_mat_id) > 0)) {
-    stop("ERROR: Some given labeled_source_mat_ids are not found")
+    stop("Some given labeled_source_mat_ids are not found")
   }
 
   if (isFALSE(quiet)) {

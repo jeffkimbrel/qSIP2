@@ -7,7 +7,12 @@
 #' @param isotope (*string*) The isotope to use for calculations... either 13C, 15N or 18O
 
 calculate_atoms <- function(G, isotope) {
+
   validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
+
+  if (!is.numeric(G)) {
+    stop(glue::glue("G should be class <numeric>, not {class(G)[1]}"), call. = FALSE)
+  }
 
   if (isotope == "13C") {
     C_atoms <- (-0.5 * G) + 10

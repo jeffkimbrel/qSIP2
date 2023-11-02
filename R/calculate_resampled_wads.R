@@ -13,16 +13,16 @@
 calculate_resampled_wads <- function(i, wad_data, type) {
 
   # make sure all data is numeric or NA
-  stopifnot("ERROR: wad dataframe to resample from contains non-numeric data" = all(sapply(wad_data, is.numeric)))
+  stopifnot("wad dataframe to resample from contains non-numeric data" = all(sapply(wad_data, is.numeric)))
 
   # make a new names vector to abstract away the real names into a numbered list of names
   new_names <- c("feature_id", paste(type, seq(1:(ncol(wad_data))), sep = "_"))
 
   wad_data_resampled <- wad_data[, sample(ncol(wad_data), replace = T, size = ncol(wad_data)), drop = FALSE]
 
-  # double check the dimensions remain the same. Not covered by testthat
-  if (identical(dim(wad_data), dim(wad_data_resampled)) == FALSE) {
-    stop("ERROR: something went wrong with resampling...")
+  # double check the dimensions remain the same after removing all rows with NA.
+  if (identical(nrow(wad_data), nrow(wad_data_resampled[rowSums(is.na(wad_data_resampled)) != ncol(wad_data_resampled), ])) == FALSE) {
+    stop(("Something went wrong with resampling...\nIt is possible that some resampled features contained only <NA> WAD values leading to a failure in calculate_Z().\nTry increasing your filtering stringency to remove features not found in most sources"), call. = FALSE)
   }
 
   # save the original names, in case they are needed later

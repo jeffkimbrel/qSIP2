@@ -14,7 +14,7 @@
 calculate_M <- function(G) {
 
   if (!is.numeric(G)) {
-    stop(glue::glue("ERROR: G should be numeric and not {class(G)}"))
+    stop(glue::glue("G should be class <numeric>, not {class(G)}"), call. = FALSE)
   }
 
   M <- (G * 0.496) + 307.691
@@ -44,11 +44,11 @@ calculate_M_labeledmax <- function(M,
   validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
 
   if (propO > 1 | propO < 0) {
-    stop("ERROR: prop0 should be between 0 and 1")
+    stop("prop0 should be between 0 and 1", call. = FALSE)
   }
 
   if (!is.numeric(M)) {
-    stop(glue::glue("ERROR: M should be numeric, not {class(M)}"))
+    stop(glue::glue("M should be <numeric>, not {class(M)}"), call. = FALSE)
   }
 
   if (isotope == "13C") {
@@ -87,7 +87,7 @@ calculate_M_labeledmax <- function(M,
 calculate_M_labeled <- function(M, W_lab_mean, W_unlab_mean) {
 
   if (any(!is.numeric(c(M, W_lab_mean, W_unlab_mean)))) {
-    stop("ERROR: some values are non-numeric")
+    stop("some input values not class <numeric>")
   }
 
   M_labeled <- M * (W_lab_mean / W_unlab_mean)

@@ -10,6 +10,8 @@ test_that("basic function works", {
   )
 })
 
-test_that("WAD values with <NA> return error", {
-  expect_error(calculate_Z(c(NA, 1, 2), calculate_Z_testdf$unlabeled))
+test_that("unexpected WAD values fail", {
+  expect_error(calculate_Z(c(NA, 1, 2), calculate_Z_testdf$unlabeled), "Can't calculate Z - some WAD values are <NA>")
+  expect_error(calculate_Z(c("not_a_number", 1, 2), calculate_Z_testdf$unlabeled), "Can't calculate Z - some WAD values are not numeric")
+  expect_error(calculate_Z(calculate_Z_testdf$labeled, c("not_a_number", 1, 2)), "Can't calculate Z - some WAD values are not numeric")
 })

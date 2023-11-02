@@ -16,13 +16,16 @@
 
 plot_density_outliers <- function(sample_data,
                                   sensitivity = 4) {
+
   if ("qsip_data" %in% class(sample_data)) {
     df <- sample_data@sample_data@data
   } else if ("qsip_sample_data" %in% class(sample_data)) {
     df <- sample_data@data
   } else {
-    stop(glue::glue("ERROR: sample_data is an unexpected type ({class(sample_data)[1]})... it must be class qsip_sample_data or qsip_data"))
+    stop(glue::glue("sample_data should be class <qsip_sample_data> or <qsip_data>, not {class(sample_data)[1]}"), call. = FALSE)
   }
+
+  stopifnot("sensitivity should be a <numeric>" = is.numeric(sensitivity))
 
   S <- df |>
     dplyr::group_by(source_mat_id) %>%

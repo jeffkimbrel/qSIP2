@@ -5,7 +5,7 @@ test_that("Works as expected", {
 })
 
 test_that("Non-numeric values produce error", {
-  expect_error(calculate_M_labeled("308", 1.7, 1.6))
-  expect_error(calculate_M_labeled(308, "1.7", 1.6))
-  expect_error(calculate_M_labeled(308, 1.7, "1.6"))
+  expect_error(calculate_M_labeled("308", 1.7, 1.6), "some input values not class <numeric>")
+  expect_error(calculate_M_labeled(308, "1.7", 1.6), "some input values not class <numeric>")
+  expect_error(calculate_M_labeled(308, 1.7, "1.6"), "some input values not class <numeric>")
 })

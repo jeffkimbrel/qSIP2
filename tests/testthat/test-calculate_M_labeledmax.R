@@ -15,14 +15,14 @@ test_that("prop0 should only affect 18O 68% GC", {
 })
 
 test_that("M is formatted correctly", {
-  expect_error(calculate_M_labeledmax("310", 6, "18O"))
+  expect_error(calculate_M_labeledmax("310", 6, "18O"), "M should be <numeric>, not character")
 })
 
 test_that("isotope is formatted correctly", {
-  expect_error(calculate_M_labeledmax(310, 6, "O"))
+  expect_error(calculate_M_labeledmax(310, 6, "O"), "Please fix the isotope names and try again")
 })
 
 test_that("propO is formatted correctly", {
-  expect_error(calculate_M_labeledmax(310, 6, "18O", propO = -1))
-  expect_error(calculate_M_labeledmax(310, 6, "18O", propO = 2))
+  expect_error(calculate_M_labeledmax(310, 6, "18O", propO = -1), "prop0 should be between 0 and 1")
+  expect_error(calculate_M_labeledmax(310, 6, "18O", propO = 2), "prop0 should be between 0 and 1")
 })

@@ -5,11 +5,11 @@ test_that("Values for all three isotopes work", {
 })
 
 test_that("Invalid isotopes give error", {
-  expect_error(calculate_atoms(.5, "12C"))
-  expect_error(calculate_atoms(.5, "14N"))
-  expect_error(calculate_atoms(.5, "16O"))
+  expect_error(calculate_atoms(.5, "12C"), "Please fix the isotope names and try again")
+  expect_error(calculate_atoms(.5, "14N"), "Please fix the isotope names and try again")
+  expect_error(calculate_atoms(.5, "16O"), "Please fix the isotope names and try again")
 })
 
 test_that("GC given as string fails", {
-  expect_error(calculate_atoms("0.5", "13C"))
+  expect_error(calculate_atoms("0.5", "13C"), "G should be class <numeric>, not character")
 })

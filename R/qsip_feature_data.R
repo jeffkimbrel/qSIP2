@@ -34,11 +34,11 @@ qsip_feature_data <- S7::new_class(
                          type = "counts") {
 
     if (!"data.frame" %in% class(data)) {
-      stop(glue::glue("ERROR: data must be dataframe, not {class(data)[1]}"))
+      stop(glue::glue("data must be class <dataframe>, not {class(data)[1]}"), call. = FALSE)
     }
 
     if (!feature_id %in% colnames(data)) {
-      stop(glue::glue("ERROR: {feature_id} not found in dataframe"))
+      stop(glue::glue("{feature_id} not found in dataframe"), call. = FALSE)
     }
 
     # rename columns to standardized names
@@ -58,11 +58,11 @@ qsip_feature_data <- S7::new_class(
   },
   validator = function(self) {
     if (any(duplicated(self@data["feature_id"]))) {
-      stop(glue::glue("ERROR: There appear to be duplicate ids in the {self@feature_id} column"))
+      stop(glue::glue("There appear to be duplicate ids in the {self@feature_id} column"), call. = FALSE)
     }
 
     if (!self@type %in% c("counts", "coverage", "relative")) {
-      stop(glue::glue("ERROR: feature data type should be 'counts', 'coverage' or 'relative', not '{self@type}'"))
+      stop(glue::glue("feature data type should be 'counts', 'coverage' or 'relative', not '{self@type}'"), call. = FALSE)
     }
 
     qSIP2::validate_abundances(self@data, "feature_id", type = self@type)

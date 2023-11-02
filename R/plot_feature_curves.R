@@ -14,7 +14,7 @@ plot_feature_curves <- function(qsip_data_object,
                                 feature_ids,
                                 source_mat_ids = NULL) {
   if (!"qsip_data" %in% class(qsip_data_object)) {
-    stop(glue::glue("ERROR: sample_data is an unexpected type ({class(sample_data)[1]})... it must be class qsip_data"))
+    stop(glue::glue("qsip_data_object should be class <qsip_data>, not {class(qsip_data_object)[1]}"))
   }
 
   # get all source_mat_ids if NULL

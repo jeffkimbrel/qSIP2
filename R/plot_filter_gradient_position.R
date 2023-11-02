@@ -22,15 +22,14 @@
 plot_filter_gradient_position <- function(qsip_data_object,
                                           return_type = "combined",
                                           colors = NULL) {
-
-  stopifnot("ERROR: qsip_data_object should be of class qsip_data" = "qsip_data" %in% class(qsip_data_object))
+  stopifnot("qsip_data_object should be class <qsip_data>" = "qsip_data" %in% class(qsip_data_object))
 
   if (!return_type %in% c("combined", "individual", "dataframe")) {
-    stop(glue::glue("ERROR: return_type is an unknown type ({return_type})"))
+    stop(glue::glue("return_type should be either one of 'combined', 'individual' or 'dataframe'"))
   }
 
   if (length(qsip_data_object@filter_results) == 0) {
-    stop(glue::glue("ERROR: please run run_filter_feature() on qsip_data_object before plotting results"))
+    stop(glue::glue("please run run_filter_feature() on qsip_data_object before plotting results"))
   }
 
   if (is.null(colors)) {

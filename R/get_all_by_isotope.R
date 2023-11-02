@@ -13,7 +13,7 @@ get_all_by_isotope <- function(qsip_data_object, isotopes) {
   } else if ("qsip_source_data" %in% class(qsip_data_object)) {
     source_data <- qsip_data_object@data
   } else {
-    stop("ERROR: qsip_data_object must be of type qsip_data or qsip_source_data")
+    stop("qsip_data_object must be class <qsip_data> or <qsip_source_data>")
   }
 
   if ("labeled" %in% isotopes) {
@@ -33,7 +33,7 @@ get_all_by_isotope <- function(qsip_data_object, isotopes) {
   # error if no source_mat_ids are found that match the criteria
   if (nrow(source_mat_ids) == 0) {
     i <- paste(isotopes, collapse = ", ")
-    stop(glue::glue_col("ERROR: No source_mat_ids found with isotopes {red {i}}"))
+    stop(glue::glue_col("No source_mat_ids found with isotopes {red {i}}"))
   }
 
   # print a message for each isotope that didn't have any hits. This is FYI and doesn't stop the function
