@@ -72,6 +72,7 @@ reference:
   - calculate_resampled_wads
   - calculate_Z
   - find_shared_ids
+  - validate_source_isotope
 
 articles:
 - title: Learn qSIP

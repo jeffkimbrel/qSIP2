@@ -42,7 +42,6 @@ run_feature_filter <- function(qsip_data_object,
                                min_unlabeled_fractions = 2,
                                min_labeled_fractions = 2,
                                quiet = FALSE) {
-
   # make sure minimums are not bigger than possible
   if (min_labeled_sources > length(labeled_source_mat_ids)) {
     stop(glue::glue("min_labeled_sources is set to {min_labeled_sources} but labeled_source_mat_ids only has {length(labeled_source_mat_ids)}"))
@@ -52,29 +51,32 @@ run_feature_filter <- function(qsip_data_object,
     stop(glue::glue("min_unlabeled_sources is set to {min_unlabeled_sources} but unlabeled_source_mat_ids only has {length(unlabeled_source_mat_ids)}"))
   }
 
+  # make sure all given source_mat_ids are found in sample_data
+  if (length(setdiff(unlabeled_source_mat_ids, qsip_data_object@sample_data@data$source_mat_id) > 0)) {
+    stop("Some given unlabeled_source_mat_ids are not found", call. = FALSE)
+  } else if (length(setdiff(labeled_source_mat_ids, qsip_data_object@sample_data@data$source_mat_id) > 0)) {
+    stop("Some given labeled_source_mat_ids are not found", call. = FALSE)
+  }
+
   # make sure source_mat_ids match expected isotope types
-  unlabeled_isotopes = qsip_data_object@source_data@data |>
-    dplyr::filter(source_mat_id %in% unlabeled_source_mat_ids) |>
-    dplyr::pull(isotope) |>
-    unique()
-  if (length(setdiff(unlabeled_isotopes, c("12C", "14N", "16O"))) > 0) {
-    stop("some of the unlabeled_source_mat_ids have a heavy isotope designation")
+  if (isFALSE(validate_source_isotope(
+    qsip_data_object,
+    unlabeled_source_mat_ids,
+    c("12C", "14N", "16O")
+  ))) {
+    stop("some of the unlabeled_source_mat_ids have a heavy isotope designation", call. = FALSE)
   }
-
-  labeled_isotopes = qsip_data_object@source_data@data |>
-    dplyr::filter(source_mat_id %in% labeled_source_mat_ids) |>
-    dplyr::pull(isotope) |>
-    unique()
-  if (length(setdiff(labeled_isotopes, c("13C", "15N", "18O"))) > 0) {
-    stop("some of the labeled_source_mat_ids have a light isotope designation")
+  if (isFALSE(validate_source_isotope(
+    qsip_data_object,
+    labeled_source_mat_ids,
+    c("13C", "15N", "18O")
+  ))) {
+    stop("some of the labeled_source_mat_ids have a light isotope designation", call. = FALSE)
   }
-
-
 
   source_mat_ids <- c(unlabeled_source_mat_ids, labeled_source_mat_ids)
 
   # extract tables
-
   initial_feature_id_count <- qsip_data_object@tube_rel_abundance |>
     dplyr::pull(feature_id) |>
     unique() |>
@@ -84,6 +86,7 @@ run_feature_filter <- function(qsip_data_object,
     message(glue::glue("There are initially {initial_feature_id_count} unique feature_ids"))
   }
 
+  # get long table and subset to only included source_mat_ids
   data <- qsip_data_object@tube_rel_abundance |>
     dplyr::filter(source_mat_id %in% source_mat_ids)
 
@@ -91,21 +94,18 @@ run_feature_filter <- function(qsip_data_object,
     dplyr::pull(feature_id) |>
     unique() |>
     length()
+
   if (isFALSE(quiet)) {
     message(glue::glue("{secondary_feature_id_count} of these have abundance in at least one fraction of one source_mat_id"))
-  }
-
-  # make sure all given source_mat_ids are found in sample_data
-  if (length(setdiff(unlabeled_source_mat_ids, qsip_data_object@sample_data@data$source_mat_id) > 0)) {
-    stop("Some given unlabeled_source_mat_ids are not found")
-  } else if (length(setdiff(labeled_source_mat_ids, qsip_data_object@sample_data@data$source_mat_id) > 0)) {
-    stop("Some given labeled_source_mat_ids are not found")
   }
 
   if (isFALSE(quiet)) {
     message(rep("=+", 25))
     message("Filtering feature_ids by fraction...")
   }
+
+
+
 
   by_fraction <- data |>
     dplyr::group_by(feature_id, source_mat_id) |>
@@ -114,13 +114,13 @@ run_feature_filter <- function(qsip_data_object,
       tube_rel_abundance = sum(tube_rel_abundance),
       .groups = "drop"
     ) |>
-    tidyr::complete(feature_id,
+    tidyr::complete(feature_id, # fill in missing fractions with 0
       source_mat_id,
       fill = list(
         n_fractions = 0,
         tube_rel_abundance = 0
       )
-    ) |> # fill in missing fractions with 0
+    ) |>
     dplyr::mutate(type = dplyr::case_when(
       source_mat_id %in% unlabeled_source_mat_ids ~ "unlabeled",
       source_mat_id %in% labeled_source_mat_ids ~ "labeled"
