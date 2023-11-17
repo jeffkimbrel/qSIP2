@@ -24,6 +24,9 @@ reference:
 
 - title: Helper Functions
   contents:
+  - get_source_data
+  - get_sample_data
+  - get_feature_data
   - add_isotopolog_label
   - remove_isotopolog_label
   - get_all_by_isotope

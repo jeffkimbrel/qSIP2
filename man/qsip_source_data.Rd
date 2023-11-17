@@ -4,7 +4,12 @@
 \alias{qsip_source_data}
 \title{qSIP source data class}
 \usage{
-qsip_source_data(data, isotope, isotopolog, source_mat_id)
+qsip_source_data(
+  data,
+  isotope = "isotope",
+  isotopolog = "isotopolog",
+  source_mat_id = "source_mat_id"
+)
 }
 \value{
 A validated \code{qsip_source_data} object

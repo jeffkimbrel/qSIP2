@@ -6,12 +6,12 @@
 \usage{
 qsip_sample_data(
   data,
-  sample_id,
-  source_mat_id,
-  gradient_position,
-  gradient_pos_density,
-  gradient_pos_amt,
-  gradient_pos_rel_amt
+  sample_id = "sample_id",
+  source_mat_id = "source_mat_id",
+  gradient_position = "gradient_position",
+  gradient_pos_density = "gradient_pos_density",
+  gradient_pos_amt = "gradient_pos_amt",
+  gradient_pos_rel_amt = "gradient_pos_rel_amt"
 )
 }
 \value{

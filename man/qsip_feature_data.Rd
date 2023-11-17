@@ -4,7 +4,7 @@
 \alias{qsip_feature_data}
 \title{qSIP feature table class}
 \usage{
-qsip_feature_data(data, feature_id, type = "counts")
+qsip_feature_data(data, feature_id = "feature_id", type = "counts")
 }
 \value{
 A validated object of the \code{qsip_feature_data} type

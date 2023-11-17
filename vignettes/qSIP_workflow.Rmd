@@ -280,7 +280,7 @@ Here, we can see our rather strict filtering removed all but 64 features from th
 plot_filter_gradient_position(qsip_normal)
 ```
 
-Although a large number of features were removed, we can tell that the 64 that remained actually still make up a large proportion of the total abundance in each sample. In **A** above, the retained features (in blue) make up ~80-85% of the total data, while the removed data (orange) is the reamining ~15-20%. 
+Although a large number of features were removed, we can tell that the 64 that remained actually still make up a large proportion of the total abundance in each sample. In **A** above, the retained features (in blue) make up ~80-85% of the total data, while the removed data (orange) is the remaining ~15-20%. 
 
 In **B**, we can see that a surprisingly large number of features are found 0 times in many sources (gray) and will therefore never be present regardless of our filtering choices. And although there are are ~100-200 features that passed the filtering requirements (blue), our requirement that `min_unlabeled_sources = 6` and `min_labeled_sources = 3` means that only the features present in many of the blue slices will be retained, leaving only 64 total. 
 

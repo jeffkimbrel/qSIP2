@@ -30,7 +30,7 @@ qsip_feature_data <- S7::new_class(
     type = S7::class_character
   ),
   constructor = function(data,
-                         feature_id,
+                         feature_id = "feature_id",
                          type = "counts") {
 
     if (!"data.frame" %in% class(data)) {

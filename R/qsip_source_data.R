@@ -26,9 +26,9 @@ qsip_source_data <- S7::new_class(
     source_mat_id = S7::class_character
   ),
   constructor = function(data,
-                         isotope,
-                         isotopolog,
-                         source_mat_id) {
+                         isotope = "isotope",
+                         isotopolog = "isotopolog",
+                         source_mat_id = "source_mat_id") {
 
     stopifnot("data should be class <data.frame>" = "data.frame" %in% class(data) )
 

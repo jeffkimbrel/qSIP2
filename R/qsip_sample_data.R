@@ -30,12 +30,12 @@ qsip_sample_data <- S7::new_class(
     gradient_pos_rel_amt = S7::class_character
   ),
   constructor = function(data,
-                         sample_id,
-                         source_mat_id,
-                         gradient_position,
-                         gradient_pos_density,
-                         gradient_pos_amt,
-                         gradient_pos_rel_amt) {
+                         sample_id = "sample_id",
+                         source_mat_id = "source_mat_id",
+                         gradient_position = "gradient_position",
+                         gradient_pos_density = "gradient_pos_density",
+                         gradient_pos_amt = "gradient_pos_amt",
+                         gradient_pos_rel_amt = "gradient_pos_rel_amt") {
 
 
     # make sure data is correct
