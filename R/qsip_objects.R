@@ -8,6 +8,11 @@
 #' instantiates a new `qsip_source_data` object. The constructor takes a `data.frame` as
 #' input and returns a validated `qsip_source_data` object.
 #'
+#' In qSIP and MISIP, "source material" is your original biological specimen that DNA
+#' was extracted from. This could be a soil sample, a plant, a mouse, etc. This is the
+#' pre-fractionated metadata, and post-fractionation metadata goes in the `qsip_sample_data`
+#' object.
+#'
 #' Several validation checks are run on the input data:
 #' * The `data` argument must be a `data.frame`, including a tibble
 #' * The `isotope`, `isotopolog`, and `source_mat_id` arguments must be column names in
@@ -16,9 +21,10 @@
 #' * The `isotope` column must contain valid isotope names. "Valid" means they must be
 #'   one of the types that the `qSIP2` package has equations for, namely 12C/13C, 14N/15N and 16O/18O.
 #'
-#' Internally, the `qsip_source_data` renames the metadata columns to be standardized
-#' to MISIP terminology. A `data.frame` can be extracted back out of the object using
-#' the `data()` method
+#' Internally, `qsip_source_data` renames the metadata columns to be standardized
+#' to MISIP terminology. A `data.frame` with the standardized names can be extracted
+#' back out of the object using the `data()` method, and the optional `original_headers`
+#' argument can be set to `TRUE` to return the original column names.
 #'
 #' One column of metadata that is required although not used by `qSIP2` is the
 #' `isotopolog` column. This column is required to capture complete metadata that
@@ -94,23 +100,53 @@ qsip_source_data <- S7::new_class(
 
 #' qSIP feature table class
 #'
-#' A class to hold and validate a feature abundance table.
+#' @description
+#' The `qsip_feature_data` object holds validated feature metadata.
 #'
-#' This is a constructor function that makes the qSIP2 `qsip_feature_data` object.
-#' It requires a dataframe/tibble (the `data` argument) that has the feature IDs as
+#' @details
+#' `qsip_feature_data()` is not a typical function, but rather a class constructor that
+#' instantiates a new `qsip_feature_data` object. The constructor takes a `data.frame` as
+#' input and returns a validated `qsip_feature_data` object.
+#'
+#' The `qsip_feature_data` object is used to hold feature metadata, such as amplicon
+#' sequence variants (ASVs), operational taxonomic units (OTUs), metagenome-assembled
+#' genomes (MAGs), etc.
+#'
+#' The `data` argument takes a `data.frame` that has the feature IDs as
 #' a column designated with the `feature_id` argument. Each row corresponds to a unique
 #' feature (amplicon, MAG, etc) and each subsequent row corresponds to a unique sample.
 #'
-#' There are several validation checks run on the data in the dataframe. The values must
-#' be non-negative numerics. By default, the `type = abundance` argument strictly requires
-#' the values be integers, but this requirement is relaxed if setting `type = coverage` or
-#' `type = relative`.
+#' The `type` argument is used to designate the type of data in the `data` argument. It
+#' should most likely be *counts* for amplicon data, and *coverage* for metagenome data
+#' (including normalizations like TPM). If the data is relative abundances, the `type`
+#' argument should be set to *relative*. Overall, the choice won't much affect the
+#' results from the qSIP analysis, but choosing an accurate type will help with the
+#' validation checks.
 #'
-#' @slot data (*dataframe*) ASV/OTU table or equivalent
-#' @slot feature_id (*string*) Column name with unique taxa IDs
-#' @slot type (*string, default: counts*) The type of numerical data, either *counts*, *coverage* or *relative*
+#' Internally, `qsip_feature_data` renames the metadata columns to be standardized
+#' to MISIP terminology. A `data.frame` with the standardized names can be extracted
+#' back out of the object using the `data()` method, and the optional `original_headers`
+#' argument can be set to `TRUE` to return the original column names.
+#'
+#' There are several validation checks run on the data on the `data.frame`:
+#' * The `data` argument must contain a `data.frame`, including a tibble
+#' * The `feature_id` argument must be a column name in the `data.frame`
+#' * The `feature_id` column must contain unique values per row
+#' * The `type` argument must be one of *counts*, *coverage* or *relative*
+#'     * The `type` argument is *counts* by default, and in this case the values in the
+#'  `data` argument must be integers
+#'     * If `type` is set to *relative* the values in the `data` argument must be numeric
+#'       and the values must sum to 1 for each row
+#'     * If `type` is set to *coverage*, the values in the `data` argument must be
+#'       numeric
+#' * All values in the `data` argument must be non-negative
+#'
+#' @param data (*dataframe*) ASV/OTU table or equivalent
+#' @param feature_id (*string*) Column name with unique taxa IDs
+#' @param type (*string, default: counts*) The type of numerical data, either *counts*, *coverage* or *relative*
 #'
 #' @export
+#'
 #' @family "qSIP Objects"
 #'
 #' @returns A validated object of the `qsip_feature_data` type
@@ -167,18 +203,47 @@ qsip_feature_data <- S7::new_class(
 
 #' qSIP sample data class
 #'
-#' A class to hold and validate sample data.
+#' @description
+#' The `qsip_sample_data` object holds validated sample metadata.
 #'
-#' @slot data (*dataframe*) Metadata for samples/fractions
-#' @slot sample_id (*string*) The unique sample ID
-#' @slot source_mat_id (*string*) The unique ID for the biological subject or replicate
-#' @slot gradient_position (*string*) Column name with the fraction position
-#' @slot gradient_pos_density (*string*) Column name with the gradient density
-#' @slot gradient_pos_amt (*string*) Column name with a total amount per fraction, either
+#' @details
+#' `qsip_sample_data()` is not a typical function, but rather a class constructor that
+#' instantiates a new `qsip_sample_data` object. The constructor takes a `data.frame` as
+#' input and returns a validated `qsip_sample_data` object.
+#'
+#' In qSIP and MISIP, a "sample" is the post-fractionated material with metadata
+#' pertaining to the fractionation process. Sample metadata contains information
+#' about the sample and fractionation, such as the sample ID, the source material
+#' ID, the gradient position, the density, the amount recovered (e.g. DNA concentration
+#' or 16S copies), and the relative abundance of the fraction compared to the total.
+#'
+#' Ideally, `gradient_pos_amt` should be reported as a mass value of DNA rather than
+#' a concentration. However, if the concentration is reported, the `fraction_volume`
+#' argument can be used to convert the `gradient_pos_amt` concentration to a mass value.
+#' For example, if the `gradient_pos_amt` is reported as ng/ul, and the `fraction_volume`
+#' is reported as 100 ul, then the `gradient_pos_amt` will be converted to ng.
+#'
+#' Internally, `qsip_sample_data` renames the metadata columns to be standardized
+#' to MISIP terminology. A `data.frame` with the standardized names can be extracted
+#' back out of the object using the `data()` method, and the optional `original_headers`
+#' argument can be set to `TRUE` to return the original column names.
+#'
+#' There are several validation checks done on the `data.frame`:
+#' * The `data` argument must contain a `data.frame`, including a tibble
+#' * The `sample_id` column must contain unique values per row
+#' * The `gradient_position` must container positive integers, or `-1` is allowed to
+#'   designate the sample as "bulk" or unfractionated
+#'
+#' @param data (*dataframe*) Metadata for samples/fractions
+#' @param sample_id (*string*) The unique sample ID
+#' @param source_mat_id (*string*) The unique ID for the biological subject or replicate
+#' @param gradient_position (*string*) Column name with the fraction position
+#' @param gradient_pos_density (*string*) Column name with the gradient density
+#' @param gradient_pos_amt (*string*) Column name with a total amount per fraction, either
 #' qPCR copies or DNA
-#' @slot gradient_pos_rel_amt (*string*) Column name with the relative fraction abundance
+#' @param gradient_pos_rel_amt (*string*) Column name with the relative fraction abundance
 #'  compared to the total
-#' @slot fraction_volume (*string*) The volume loaded onto the column. Required if the `gradient_pos_amt` is reported as a concentration
+#' @param fraction_volume (*string*) The volume loaded onto the column. Required if the `gradient_pos_amt` is reported as a concentration
 #'
 #' @export
 #' @family "qSIP Objects"
@@ -248,15 +313,33 @@ qsip_sample_data <- S7::new_class(
 
 #' qSIP master data class
 #'
-#' A class to hold and validate qSIP data.
+#' @description
+#' The `qsip_data` object holds validated qSIP source, sample and feature metadata,
+#' and has slots to store all of the subsequence `qSIP2` analysis.
 #'
-#' This `qSIP2` object holds the source, sample and feature data, and does some
-#' validation that the necessary source_mat_ids and sample_ids are correctly
-#' shared.
+#' @details
+#' `qsip_data()` is not a typical function, but rather a class constructor that
+#' instantiates a new `qsip_data` object. The constructor takes a `qsip_source_data`,
+#' `qsip_sample_data` and `qsip_feature_data` as input and returns a validated `qsip_data`
+#' object.
 #'
-#' @slot source_data (*qsip_source_data*) A qSIP source data object
-#' @slot sample_data (*qsip_sample_data*) A qSIP sample data object
-#' @slot feature_data (*qsip_feature_data*) A qSIP feature data object
+#' This `qsip_data` object holds the source, sample and feature data. It also creates empty
+#' slots to hold the filtering results, the resampling and the EAF values from their
+#' associated functions. For this reason, the `qsip_data` object is intended to be
+#' progressively overwritten with new analysis results, but new objects can be created
+#' at any point in the analysis, if necessary. For example, a study with multiple comparison
+#' groups might be combined into one large `qSIP_data` object, and then split into separate
+#' objects at the `run_feature_filtering()` step.
+#'
+#' Internally, creating the original qSIP objects renamed the metadata columns to be standardized
+#' to MISIP terminology. A `data.frame` with the standardized names can be extracted
+#' back out of the `qSIP_data` using the `data()` method and a required `type` argument
+#' of "source", "sample" or "feature". The optional `original_headers`
+#' argument can be set to `TRUE` to return the original column names.
+#'
+#' @param source_data (*qsip_source_data*) A qSIP source data object
+#' @param sample_data (*qsip_sample_data*) A qSIP sample data object
+#' @param feature_data (*qsip_feature_data*) A qSIP feature data object
 #'
 #' @export
 #'
@@ -386,7 +469,7 @@ S7::method(data, qsip_feature_data) <- function(x, original_headers = FALSE) {
 }
 
 ## qsip data
-S7::method(data, qsip_data) <- function(x, type = "source", original_headers = FALSE) {
+S7::method(data, qsip_data) <- function(x, type, original_headers = FALSE) {
   if (type == "source") {
     d <- x@source_data
   } else if (type == "sample") {

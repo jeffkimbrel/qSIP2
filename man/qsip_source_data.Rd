@@ -31,6 +31,11 @@ The \code{qsip_source_data} object holds validated source material metadata.
 instantiates a new \code{qsip_source_data} object. The constructor takes a \code{data.frame} as
 input and returns a validated \code{qsip_source_data} object.
 
+In qSIP and MISIP, "source material" is your original biological specimen that DNA
+was extracted from. This could be a soil sample, a plant, a mouse, etc. This is the
+pre-fractionated metadata, and post-fractionation metadata goes in the \code{qsip_sample_data}
+object.
+
 Several validation checks are run on the input data:
 \itemize{
 \item The \code{data} argument must be a \code{data.frame}, including a tibble
@@ -41,9 +46,10 @@ the \code{data.frame}
 one of the types that the \code{qSIP2} package has equations for, namely 12C/13C, 14N/15N and 16O/18O.
 }
 
-Internally, the \code{qsip_source_data} renames the metadata columns to be standardized
-to MISIP terminology. A \code{data.frame} can be extracted back out of the object using
-the \code{data()} method
+Internally, \code{qsip_source_data} renames the metadata columns to be standardized
+to MISIP terminology. A \code{data.frame} with the standardized names can be extracted
+back out of the object using the \code{data()} method, and the optional \code{original_headers}
+argument can be set to \code{TRUE} to return the original column names.
 
 One column of metadata that is required although not used by \code{qSIP2} is the
 \code{isotopolog} column. This column is required to capture complete metadata that

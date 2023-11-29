@@ -6,33 +6,61 @@
 \usage{
 qsip_feature_data(data, feature_id = "feature_id", type = "counts")
 }
+\arguments{
+\item{data}{(\emph{dataframe}) ASV/OTU table or equivalent}
+
+\item{feature_id}{(\emph{string}) Column name with unique taxa IDs}
+
+\item{type}{(\emph{string, default: counts}) The type of numerical data, either \emph{counts}, \emph{coverage} or \emph{relative}}
+}
 \value{
 A validated object of the \code{qsip_feature_data} type
 }
 \description{
-A class to hold and validate a feature abundance table.
+The \code{qsip_feature_data} object holds validated feature metadata.
 }
 \details{
-This is a constructor function that makes the qSIP2 \code{qsip_feature_data} object.
-It requires a dataframe/tibble (the \code{data} argument) that has the feature IDs as
+\code{qsip_feature_data()} is not a typical function, but rather a class constructor that
+instantiates a new \code{qsip_feature_data} object. The constructor takes a \code{data.frame} as
+input and returns a validated \code{qsip_feature_data} object.
+
+The \code{qsip_feature_data} object is used to hold feature metadata, such as amplicon
+sequence variants (ASVs), operational taxonomic units (OTUs), metagenome-assembled
+genomes (MAGs), etc.
+
+The \code{data} argument takes a \code{data.frame} that has the feature IDs as
 a column designated with the \code{feature_id} argument. Each row corresponds to a unique
 feature (amplicon, MAG, etc) and each subsequent row corresponds to a unique sample.
 
-There are several validation checks run on the data in the dataframe. The values must
-be non-negative numerics. By default, the \code{type = abundance} argument strictly requires
-the values be integers, but this requirement is relaxed if setting \code{type = coverage} or
-\code{type = relative}.
+The \code{type} argument is used to designate the type of data in the \code{data} argument. It
+should most likely be \emph{counts} for amplicon data, and \emph{coverage} for metagenome data
+(including normalizations like TPM). If the data is relative abundances, the \code{type}
+argument should be set to \emph{relative}. Overall, the choice won't much affect the
+results from the qSIP analysis, but choosing an accurate type will help with the
+validation checks.
+
+Internally, \code{qsip_feature_data} renames the metadata columns to be standardized
+to MISIP terminology. A \code{data.frame} with the standardized names can be extracted
+back out of the object using the \code{data()} method, and the optional \code{original_headers}
+argument can be set to \code{TRUE} to return the original column names.
+
+There are several validation checks run on the data on the \code{data.frame}:
+\itemize{
+\item The \code{data} argument must contain a \code{data.frame}, including a tibble
+\item The \code{feature_id} argument must be a column name in the \code{data.frame}
+\item The \code{feature_id} column must contain unique values per row
+\item The \code{type} argument must be one of \emph{counts}, \emph{coverage} or \emph{relative}
+\itemize{
+\item The \code{type} argument is \emph{counts} by default, and in this case the values in the
+\code{data} argument must be integers
+\item If \code{type} is set to \emph{relative} the values in the \code{data} argument must be numeric
+and the values must sum to 1 for each row
+\item If \code{type} is set to \emph{coverage}, the values in the \code{data} argument must be
+numeric
 }
-\section{Slots}{
-
-\describe{
-\item{\code{data}}{(\emph{dataframe}) ASV/OTU table or equivalent}
-
-\item{\code{feature_id}}{(\emph{string}) Column name with unique taxa IDs}
-
-\item{\code{type}}{(\emph{string, default: counts}) The type of numerical data, either \emph{counts}, \emph{coverage} or \emph{relative}}
-}}
-
+\item All values in the \code{data} argument must be non-negative
+}
+}
 \seealso{
 Other "qSIP Objects": 
 \code{\link{qsip_data}()},
