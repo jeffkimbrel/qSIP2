@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.1.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,15 +96,20 @@
     <p><code>qsip_source_data()</code> is not a typical function, but rather a class constructor that
 instantiates a new <code>qsip_source_data</code> object. The constructor takes a <code>data.frame</code> as
 input and returns a validated <code>qsip_source_data</code> object.</p>
+<p>In qSIP and MISIP, "source material" is your original biological specimen that DNA
+was extracted from. This could be a soil sample, a plant, a mouse, etc. This is the
+pre-fractionated metadata, and post-fractionation metadata goes in the <code>qsip_sample_data</code>
+object.</p>
 <p>Several validation checks are run on the input data:</p><ul><li><p>The <code>data</code> argument must be a <code>data.frame</code>, including a tibble</p></li>
 <li><p>The <code>isotope</code>, <code>isotopolog</code>, and <code>source_mat_id</code> arguments must be column names in
 the <code>data.frame</code></p></li>
 <li><p>The <code>source_mat_id</code> column must be unique</p></li>
 <li><p>The <code>isotope</code> column must contain valid isotope names. "Valid" means they must be
 one of the types that the <code>qSIP2</code> package has equations for, namely 12C/13C, 14N/15N and 16O/18O.</p></li>
-</ul><p>Internally, the <code>qsip_source_data</code> renames the metadata columns to be standardized
-to MISIP terminology. A <code>data.frame</code> can be extracted back out of the object using
-the <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code> method</p>
+</ul><p>Internally, <code>qsip_source_data</code> renames the metadata columns to be standardized
+to MISIP terminology. A <code>data.frame</code> with the standardized names can be extracted
+back out of the object using the <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code> method, and the optional <code>original_headers</code>
+argument can be set to <code>TRUE</code> to return the original column names.</p>
 <p>One column of metadata that is required although not used by <code>qSIP2</code> is the
 <code>isotopolog</code> column. This column is required to capture complete metadata that
 is compliant with the MISIP standards. However, when running experiments with multiple
