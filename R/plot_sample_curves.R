@@ -14,7 +14,7 @@ plot_sample_curves <- function(sample_data,
                                colors = NULL) {
   if ("qsip_data" %in% class(sample_data)) {
     df <- sample_data@sample_data@data |>
-      dplyr::select(-one_of("isotope")) |> # remove isotope column if it exists (addresses issue #4)
+      dplyr::select(-any_of("isotope")) |> # remove isotope column if it exists (addresses issue #4)
       dplyr::left_join(
         sample_data@source_data@data,
         by = "source_mat_id"
@@ -24,7 +24,7 @@ plot_sample_curves <- function(sample_data,
       stop("If providing a qsip_sample_data object, you must also give a qsip_source_data object to the 'source_data' argument")
     } else {
       df <- sample_data@data |>
-        dplyr::select(-one_of("isotope")) |> # remove isotope column if it exists (addresses issue #4)
+        dplyr::select(-any_of("isotope")) |> # remove isotope column if it exists (addresses issue #4)
         dplyr::left_join(
           source_data@data,
           by = "source_mat_id"
