@@ -2,17 +2,30 @@
 % Please edit documentation in R/find_shared_ids.R
 \name{find_shared_ids}
 \alias{find_shared_ids}
-\title{Find shared sources and samples in qSIP objects}
+\title{Find shared source_mat_ids and sample_ids in qSIP objects}
 \usage{
-find_shared_ids(source_data, sample_data, feature_data)
+find_shared_ids(source_data, sample_data = NULL, feature_data = NULL)
 }
 \arguments{
-\item{source_data}{qsip source_data object}
+\item{source_data}{(\emph{qsip_source_data or qsip_data}) A qSIP object with source data object}
 
-\item{sample_data}{qsip sample_data object}
+\item{sample_data}{(\emph{qsip_sample_data}) A qSIP sample data object}
 
-\item{feature_data}{qsip feature_data object}
+\item{feature_data}{(\emph{qsip_feature_data}) A qSIP feature data object}
+}
+\value{
+A list with two lists, one for source_mat_ids and one for sample_ids.
 }
 \description{
-Find shared sources and samples in qSIP objects
+This function finds the shared source_mat_ids between the \code{source_data} and
+\code{sample_data}, and sample_ids between the \code{sample_data} and \code{feature_data} objects.
+It also reports any ids that are unique to each object.
+
+If passing a \code{qsip_data} object as the first argument, no other arguments are
+necessary. If a \code{qsip_source_data} is given, then the \code{sample_data} and \code{feature_data}
+objects must be given as well.
+
+Additionally, the results of \code{find_share_ids()} might be obtained from the \verb{@shared}
+slot of a \code{qsip_data} object. This data can also be "pretty printed" using the
+\verb{show_unshared_ids(<qsip_data>)} function.
 }

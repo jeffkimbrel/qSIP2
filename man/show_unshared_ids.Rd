@@ -2,10 +2,17 @@
 % Please edit documentation in R/show_unshared_ids.R
 \name{show_unshared_ids}
 \alias{show_unshared_ids}
-\title{Show source and sample ID overlaps}
+\title{Show missing source_mat_ids and sample_ids}
 \usage{
 show_unshared_ids(qsip_data_object)
 }
+\arguments{
+\item{qsip_data_object}{(\emph{qsip_data}) A qSIP data object}
+}
+\value{
+A message with unique IDs per category
+}
 \description{
-Show source and sample ID overlaps
+This function identifies missing source_mat_ids and sample_ids between the source,
+sample, and feature data objects.
 }
