@@ -4,7 +4,7 @@
       run_feature_filter(example_qsip_object, unlabeled_source_mat_ids = get_all_by_isotope(
         example_qsip_object, "12C"), labeled_source_mat_ids = c("S178", "S179",
         "S180"))
-    Message
+    Message <simpleMessage>
       There are initially 2030 unique feature_ids
       1705 of these have abundance in at least one fraction of one source_mat_id
       =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
@@ -153,6 +153,15 @@
        .. @ feature_id: chr "ASV"
        .. @ taxonomy  :'data.frame':	0 obs. of  0 variables
        .. @ type      : chr "counts"
+       @ shared               :List of 2
+       .. $ source_mat_ids:List of 3
+       ..  ..$ shared     : chr [1:15] "S149" "S150" "S151" "S152" ...
+       ..  ..$ source_data: NULL
+       ..  ..$ sample_data: NULL
+       .. $ sample_ids    :List of 3
+       ..  ..$ shared      : chr [1:284] "149_F1" "149_F2" "149_F3" "149_F4" ...
+       ..  ..$ sample_data : NULL
+       ..  ..$ feature_data: NULL
        @ tube_rel_abundance   : tibble [39,183 x 6] (S3: tbl_df/tbl/data.frame)
        $ feature_id          : chr [1:39183] "ASV_1" "ASV_1" "ASV_1" "ASV_1" ...
        $ sample_id           : chr [1:39183] "149_F1" "149_F2" "149_F3" "149_F4" ...

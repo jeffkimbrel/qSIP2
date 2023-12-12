@@ -22,7 +22,7 @@
 validate_abundances <- function(data,
                                 feature_id,
                                 type) {
-  stopifnot("ERROR: feature data type should be 'counts', 'coverage' or 'relative'" =  type %in% c("counts", "coverage", "relative"))
+  stopifnot("ERROR: feature data type should be 'counts', 'coverage', 'normalized' or 'relative'" =  type %in% c("counts", "coverage", "normalized", "relative"))
 
   if (type == "relative") {
     totals <- data |>
@@ -41,16 +41,16 @@ validate_abundances <- function(data,
   values <- data |>
     dplyr::select(-all_of(feature_id))
 
-  if (length(values) - length(dplyr::select_if(values, is.numeric)) > 0) {
-    stop("ERROR: Some data is not numeric")
+  if (any(values < 0)) {
+    stop("ERROR: Some numbers are negative")
 
   } else if (!all(values - floor(values) == 0)) {
     if (type == "counts") {
       stop("ERROR: Some data are not integers")
     }
 
-  } else if (any(values < 0)) {
-    stop("ERROR: Some numbers are negative")
+  } else if (length(values) - length(dplyr::select_if(values, is.numeric)) > 0) {
+    stop("ERROR: Some data is not numeric")
 
   } else {
     return(NULL)

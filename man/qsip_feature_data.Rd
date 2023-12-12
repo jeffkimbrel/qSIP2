@@ -11,7 +11,7 @@ qsip_feature_data(data, feature_id = "feature_id", type = "counts")
 
 \item{feature_id}{(\emph{string}) Column name with unique taxa IDs}
 
-\item{type}{(\emph{string, default: counts}) The type of numerical data, either \emph{counts}, \emph{coverage} or \emph{relative}}
+\item{type}{(\emph{string, default: counts}) The type of numerical data, either \emph{counts}, \emph{coverage}, \emph{normalized} or \emph{relative}}
 }
 \value{
 A validated object of the \code{qsip_feature_data} type
@@ -57,6 +57,8 @@ There are several validation checks run on the data on the \code{data.frame}:
 and the values must sum to 1 for each row
 \item If \code{type} is set to \emph{coverage}, the values in the \code{data} argument must be
 numeric
+\item If the \code{type} is set to \emph{normalized} then the values are assumed to be pre-normalized and additional
+transformations will not be done.
 }
 \item All values in the \code{data} argument must be non-negative
 }

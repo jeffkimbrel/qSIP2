@@ -2,9 +2,9 @@
 
     Code
       qsip_data(example_source_object, example_sample_object, example_feature_object)
-    Message
+    Message <simpleMessage>
       There are 15 source_mat_ids, and they are all shared between the source and sample objects
-      There are 284 feature_ids, and they are all shared between the sample and feature objects
+      There are 284 sample_ids, and they are all shared between the sample and feature objects
     Output
       <qsip_data>
        @ source_data          : <qsip_source_data>
@@ -139,14 +139,14 @@
        .. @ taxonomy  :'data.frame':	0 obs. of  0 variables
        .. @ type      : chr "counts"
        @ shared               :List of 2
-       .. $ sources:List of 3
+       .. $ source_mat_ids:List of 3
        ..  ..$ shared     : chr [1:15] "S149" "S150" "S151" "S152" ...
        ..  ..$ source_data: NULL
        ..  ..$ sample_data: NULL
-       .. $ samples:List of 3
-       ..  ..$ shared     : chr [1:284] "149_F1" "149_F2" "149_F3" "149_F4" ...
-       ..  ..$ sample_data: NULL
-       ..  ..$ feature_id : NULL
+       .. $ sample_ids    :List of 3
+       ..  ..$ shared      : chr [1:284] "149_F1" "149_F2" "149_F3" "149_F4" ...
+       ..  ..$ sample_data : NULL
+       ..  ..$ feature_data: NULL
        @ tube_rel_abundance   : tibble [39,183 x 6] (S3: tbl_df/tbl/data.frame)
        $ feature_id          : chr [1:39183] "ASV_1" "ASV_1" "ASV_1" "ASV_1" ...
        $ sample_id           : chr [1:39183] "149_F1" "149_F2" "149_F3" "149_F4" ...

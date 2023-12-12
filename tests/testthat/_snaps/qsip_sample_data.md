@@ -4,8 +4,7 @@
       qsip_sample_data(qsip_sample_data_test_df, sample_id = "sample", source_mat_id = "source",
         gradient_position = "Fraction", gradient_pos_density = "density_g_ml",
         gradient_pos_amt = "avg_16S_g_soil", gradient_pos_rel_amt = "gradient_pos_rel_amt")
-    Condition
-      Warning:
+    Warning <lifecycle_warning_deprecated>
       Using an external vector in selections was deprecated in tidyselect 1.1.0.
       i Please use `all_of()` or `any_of()` instead.
         # Was:
@@ -15,7 +14,6 @@
         data %>% select(all_of(sample_id))
       
       See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
-      Warning:
       Using an external vector in selections was deprecated in tidyselect 1.1.0.
       i Please use `all_of()` or `any_of()` instead.
         # Was:
@@ -25,7 +23,6 @@
         data %>% select(all_of(source_mat_id))
       
       See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
-      Warning:
       Using an external vector in selections was deprecated in tidyselect 1.1.0.
       i Please use `all_of()` or `any_of()` instead.
         # Was:
@@ -35,7 +32,6 @@
         data %>% select(all_of(gradient_position))
       
       See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
-      Warning:
       Using an external vector in selections was deprecated in tidyselect 1.1.0.
       i Please use `all_of()` or `any_of()` instead.
         # Was:
@@ -45,7 +41,6 @@
         data %>% select(all_of(gradient_pos_density))
       
       See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
-      Warning:
       Using an external vector in selections was deprecated in tidyselect 1.1.0.
       i Please use `all_of()` or `any_of()` instead.
         # Was:

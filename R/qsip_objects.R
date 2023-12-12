@@ -139,11 +139,13 @@ qsip_source_data <- S7::new_class(
 #'       and the values must sum to 1 for each row
 #'     * If `type` is set to *coverage*, the values in the `data` argument must be
 #'       numeric
+#'     * If the `type` is set to *normalized* then the values are assumed to be pre-normalized and additional
+#'       transformations will not be done.
 #' * All values in the `data` argument must be non-negative
 #'
 #' @param data (*dataframe*) ASV/OTU table or equivalent
 #' @param feature_id (*string*) Column name with unique taxa IDs
-#' @param type (*string, default: counts*) The type of numerical data, either *counts*, *coverage* or *relative*
+#' @param type (*string, default: counts*) The type of numerical data, either *counts*, *coverage*, *normalized* or *relative*
 #'
 #' @export
 #'
@@ -191,8 +193,8 @@ qsip_feature_data <- S7::new_class(
       stop(glue::glue("There appear to be duplicate ids in the {self@feature_id} column"), call. = FALSE)
     }
 
-    if (!self@type %in% c("counts", "coverage", "relative")) {
-      stop(glue::glue("feature data type should be 'counts', 'coverage' or 'relative', not '{self@type}'"), call. = FALSE)
+    if (!self@type %in% c("counts", "coverage", "normalized", "relative")) {
+      stop(glue::glue("feature data type should be 'counts', 'coverage', 'normalized' or 'relative', not '{self@type}'"), call. = FALSE)
     }
 
     qSIP2::validate_abundances(self@data, "feature_id", type = self@type)
@@ -374,7 +376,9 @@ qsip_data <- S7::new_class(
     stopifnot("feature_data should be of class <qsip_feature_data>" = "qsip_feature_data" %in% class(feature_data))
 
     # calculate tube level relative abundances
-    tube_rel_abundance <- calculate_tube_rel_abundance(source_data, sample_data, feature_data)
+    tube_rel_abundance <- calculate_tube_rel_abundance(source_data,
+                                                       sample_data,
+                                                       feature_data)
     wad_data <- calculate_wads(tube_rel_abundance)
     source_wad <- calculate_source_wads(sample_data)
     shared <- find_shared_ids(source_data, sample_data, feature_data)

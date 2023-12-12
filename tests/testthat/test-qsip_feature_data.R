@@ -9,7 +9,7 @@ test_that("incorrect input types give errors", {
   )
   expect_error(
     qsip_feature_data(example_feature_df, feature_id = "ASV", type = "not_a_valid_type"),
-    "feature data type should be 'counts', 'coverage' or 'relative', not 'not_a_valid_type'"
+    "feature data type should be 'counts', 'coverage', 'normalized' or 'relative', not 'not_a_valid_type'"
   )
 })
 

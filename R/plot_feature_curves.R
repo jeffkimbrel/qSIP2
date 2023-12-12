@@ -45,5 +45,7 @@ plot_feature_curves <- function(qsip_data_object,
     ggplot2::geom_line(ggplot2::aes(group = source_mat_id)) +
     ggplot2::geom_point() +
     ggplot2::facet_wrap(~feature_id, scales = "free_y") +
-    ggplot2::scale_color_manual(values = c("12C" = "cornflowerblue", "13C" = "firebrick"))
+    ggplot2::scale_color_manual(values = c("12C" = "cornflowerblue", "13C" = "firebrick",
+                                           "14C" = "cornflowerblue", "15N" = "firebrick",
+                                           "16O" = "cornflowerblue", "18O" = "firebrick"))
 }

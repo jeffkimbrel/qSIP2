@@ -8,7 +8,7 @@ test_qsip <- qsip_data(example_source_object, example_sample_object, example_fea
     min_unlabeled_fractions = 6,
     min_labeled_fractions = 6
   ) |>
-  run_resampling(resamples = 1000) |>
+  run_resampling(resamples = 1000, with_seed = 43) |>
   run_EAF_calculations()
 
 test_that("snapshots look as expected", {

@@ -3,24 +3,24 @@
     Code
       find_shared_ids(example_source_object, example_sample_object,
         example_feature_object)
-    Message
+    Message <simpleMessage>
       There are 15 source_mat_ids, and they are all shared between the source and sample objects
-      There are 284 feature_ids, and they are all shared between the sample and feature objects
+      There are 284 sample_ids, and they are all shared between the sample and feature objects
     Output
-      $sources
-      $sources$shared
+      $source_mat_ids
+      $source_mat_ids$shared
        [1] "S149" "S150" "S151" "S152" "S161" "S162" "S163" "S164" "S178" "S179"
       [11] "S180" "S200" "S201" "S202" "S203"
       
-      $sources$source_data
+      $source_mat_ids$source_data
       NULL
       
-      $sources$sample_data
+      $source_mat_ids$sample_data
       NULL
       
       
-      $samples
-      $samples$shared
+      $sample_ids
+      $sample_ids$shared
         [1] "149_F1"  "149_F2"  "149_F3"  "149_F4"  "149_F5"  "149_F6"  "149_F7" 
         [8] "149_F8"  "149_F9"  "149_F10" "149_F11" "149_F12" "149_F13" "149_F14"
        [15] "149_F15" "149_F16" "149_F17" "149_F18" "149_F19" "150_F1"  "150_F2" 
@@ -63,10 +63,10 @@
       [274] "203_F9"  "203_F10" "203_F11" "203_F12" "203_F13" "203_F14" "203_F15"
       [281] "203_F16" "203_F17" "203_F18" "203_F19"
       
-      $samples$sample_data
+      $sample_ids$sample_data
       NULL
       
-      $samples$feature_id
+      $sample_ids$feature_data
       NULL
       
       
