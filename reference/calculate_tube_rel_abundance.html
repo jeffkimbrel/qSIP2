@@ -20,7 +20,7 @@ the tube_rel_abundance column.'><meta property="og:image" content="https://jeffk
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.3.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,6 +103,9 @@ the <code>tube_rel_abundance</code> column.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>To speed up the calculations, this function removes <code>feature_ids</code> in a sample
 if the abundance is zero.</p>
+<p>v0.10.3 updated this function to have different behavior for feature type 'normalized'.
+This type should use the raw data in the feature table, putting those values into the
+<code>tube_rel_abundance</code> column.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
