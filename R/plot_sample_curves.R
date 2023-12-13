@@ -10,15 +10,18 @@
 
 plot_sample_curves <- function(qsip_data,
                                colors = NULL) {
-
   if ("qsip_data" %in% class(qsip_data)) {
     df <- qsip_data@tube_rel_abundance |>
-      dplyr::left_join(qsip_data@sample_data@data |>
-                         dplyr::select(sample_id, gradient_position),
-                       by = "sample_id") |>
-      dplyr::left_join(qsip_data@source_data@data |>
-                         dplyr::select(source_mat_id, isotope),
-                       by = "source_mat_id")
+      dplyr::left_join(
+        qsip_data@sample_data@data |>
+          dplyr::select(sample_id, gradient_position),
+        by = "sample_id"
+      ) |>
+      dplyr::left_join(
+        qsip_data@source_data@data |>
+          dplyr::select(source_mat_id, isotope),
+        by = "source_mat_id"
+      )
   } else {
     stop(glue::glue("sample_data should be class <qsip_data>, not {class(qsip_data)[1]}"))
   }
@@ -34,14 +37,14 @@ plot_sample_curves <- function(qsip_data,
     )
   }
 
-  WAD <- df %>%
-    dplyr::group_by(source_mat_id) %>%
+  WAD <- df |>
+    dplyr::group_by(source_mat_id) |>
     dplyr::summarise(WAD = weighted.mean(gradient_pos_density, gradient_pos_rel_amt))
 
   p <- df |>
     dplyr::filter(!is.na(gradient_position)) |>
     dplyr::filter(gradient_pos_density > 1.5) |>
-    #dplyr::group_by(source_mat_id) |>
+    # dplyr::group_by(source_mat_id) |>
     ggplot2::ggplot(ggplot2::aes(
       x = gradient_pos_density,
       y = gradient_pos_rel_amt,

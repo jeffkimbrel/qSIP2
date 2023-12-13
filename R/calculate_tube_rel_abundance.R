@@ -23,7 +23,6 @@
 #' @return A long format dataframe with one row per `feature_id` per `sample_id`
 
 calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data) {
-
   # make sure the objects are of the right type
   if (!"qsip_source_data" %in% class(source_data)) {
     stop("source_data must be of class <qsip_source_data>")
@@ -35,15 +34,15 @@ calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data)
 
 
   # extract dataframes
-  feature_df = feature_data@data
-  sample_df = sample_data@data |>
+  feature_df <- feature_data@data
+  sample_df <- sample_data@data |>
     dplyr::select(-any_of("isotope")) # remove isotope column if it exists (addresses issue #5)
-  source_df = source_data@data
+  source_df <- source_data@data
 
   # make sure feature data type has compatible value
-  stopifnot("feature <type> is unknown" = feature_data@type %in% c('counts', 'coverage', 'normalized', 'relative'))
+  stopifnot("feature <type> is unknown" = feature_data@type %in% c("counts", "coverage", "normalized", "relative"))
 
-  if (feature_data@type %in% c('counts', 'coverage', 'relative')) {
+  if (feature_data@type %in% c("counts", "coverage", "relative")) {
     feature_df |> # start with raw feature data
       tidyr::pivot_longer(
         cols = c(everything(), -feature_id), # pivot longer
@@ -54,15 +53,15 @@ calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data)
       dplyr::group_by(sample_id) |> # group to calculate per-sample relative abundance
       dplyr::mutate(rel_abundance = raw_abundance / sum(raw_abundance)) |> # do the calculation
       dplyr::ungroup() |>
-      dplyr::left_join(sample_df, by = "sample_id") %>% # add sample data to get the source_mat_id
+      dplyr::left_join(sample_df, by = "sample_id") |> # add sample data to get the source_mat_id
       dplyr::filter(!is.na(source_mat_id)) |> # remove features that do not have a source id (this removes features found in the feature table but not the metadata)
       dplyr::left_join(source_df, by = "source_mat_id") |> # combine
-      dplyr::select(feature_id, sample_id, rel_abundance, source_mat_id, gradient_pos_density, gradient_pos_rel_amt, isotope) %>%
+      dplyr::select(feature_id, sample_id, rel_abundance, source_mat_id, gradient_pos_density, gradient_pos_rel_amt, isotope) |>
       dplyr::group_by(feature_id, source_mat_id, isotope) |>
       dplyr::mutate(tube_rel_abundance = rel_abundance * gradient_pos_rel_amt) |> # takes the sample-adjusted abundances and gets the source-adjusted abundances
       dplyr::ungroup() |>
       dplyr::select(feature_id, sample_id, source_mat_id, tube_rel_abundance, gradient_pos_density, gradient_pos_rel_amt)
-  } else if (feature_data@type == 'normalized') {
+  } else if (feature_data@type == "normalized") {
     message("normalized")
     feature_df |> # start with raw feature data
       tidyr::pivot_longer(
@@ -71,7 +70,7 @@ calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data)
         values_to = "raw_abundance"
       ) |>
       dplyr::filter(raw_abundance > 0) |> # remove features with no abundance
-      dplyr::left_join(sample_df, by = "sample_id") %>% # add sample data to get the source_mat_id
+      dplyr::left_join(sample_df, by = "sample_id") |> # add sample data to get the source_mat_id
       dplyr::filter(!is.na(source_mat_id)) |> # remove features that do not have a source id (this removes features found in the feature table but not the metadata)
       dplyr::left_join(source_df, by = "source_mat_id") |>
       dplyr::group_by(sample_id) |>
@@ -79,5 +78,4 @@ calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data)
       dplyr::ungroup() |>
       dplyr::select(feature_id, sample_id, source_mat_id, tube_rel_abundance = raw_abundance, gradient_pos_density, gradient_pos_rel_amt)
   }
-
 }
