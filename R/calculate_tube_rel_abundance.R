@@ -63,6 +63,7 @@ calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data)
       dplyr::ungroup() |>
       dplyr::select(feature_id, sample_id, source_mat_id, tube_rel_abundance, gradient_pos_density, gradient_pos_rel_amt)
   } else if (feature_data@type == 'normalized') {
+    message("normalized")
     feature_df |> # start with raw feature data
       tidyr::pivot_longer(
         cols = c(everything(), -feature_id), # pivot longer
@@ -73,6 +74,9 @@ calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data)
       dplyr::left_join(sample_df, by = "sample_id") %>% # add sample data to get the source_mat_id
       dplyr::filter(!is.na(source_mat_id)) |> # remove features that do not have a source id (this removes features found in the feature table but not the metadata)
       dplyr::left_join(source_df, by = "source_mat_id") |>
+      dplyr::group_by(sample_id) |>
+      dplyr::mutate(gradient_pos_rel_amt = sum(raw_abundance)) |>
+      dplyr::ungroup() |>
       dplyr::select(feature_id, sample_id, source_mat_id, tube_rel_abundance = raw_abundance, gradient_pos_density, gradient_pos_rel_amt)
   }
 

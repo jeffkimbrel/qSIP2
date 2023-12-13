@@ -1,7 +1,6 @@
 #' Plot qSIP sample data density curves
 #'
-#' @param sample_data (*qsip_sample_data or qsip_data*) Sample data that holds density and abundance values
-#' @param source_data (*qsip_source_data*) Optional data required if `sample_data` is a `qsip_sample_data` object
+#' @param sample_data (*qsip_data*) qSIP object
 #'
 #' @export
 #'
@@ -9,29 +8,17 @@
 #'
 #' @family "visualizations"
 
-plot_sample_curves <- function(sample_data,
-                               source_data = NULL,
+plot_sample_curves <- function(qsip_data,
                                colors = NULL) {
-  if ("qsip_data" %in% class(sample_data)) {
-    df <- sample_data@sample_data@data |>
-      dplyr::select(-any_of("isotope")) |> # remove isotope column if it exists (addresses issue #4)
-      dplyr::left_join(
-        sample_data@source_data@data,
-        by = "source_mat_id"
-      )
-  } else if ("qsip_sample_data" %in% class(sample_data)) {
-    if (is.null(source_data)) {
-      stop("If providing a qsip_sample_data object, you must also give a qsip_source_data object to the 'source_data' argument")
-    } else {
-      df <- sample_data@data |>
-        dplyr::select(-any_of("isotope")) |> # remove isotope column if it exists (addresses issue #4)
-        dplyr::left_join(
-          source_data@data,
-          by = "source_mat_id"
-        )
-    }
+
+  if ("qsip_data" %in% class(qsip_data)) {
+    df <- qsip_data@tube_rel_abundance |>
+      dplyr::left_join(qsip_data@sample_data@data |>
+                         dplyr::select(sample_id, gradient_position), by = "sample_id") |>
+      dplyr::left_join(qsip_data@source_data@data |>
+                         dplyr::select(source_mat_id, isotope))
   } else {
-    stop(glue::glue("sample_data should be class <qsip_sample_data> or <qsip_data>, not {class(sample_data)[1]}"))
+    stop(glue::glue("sample_data should be class <qsip_data>, not {class(qsip_data)[1]}"))
   }
 
   if (is.null(colors)) {
@@ -52,7 +39,7 @@ plot_sample_curves <- function(sample_data,
   p <- df |>
     dplyr::filter(!is.na(gradient_position)) |>
     dplyr::filter(gradient_pos_density > 1.5) |>
-    dplyr::group_by(source_mat_id) |>
+    #dplyr::group_by(source_mat_id) |>
     ggplot2::ggplot(ggplot2::aes(
       x = gradient_pos_density,
       y = gradient_pos_rel_amt,
