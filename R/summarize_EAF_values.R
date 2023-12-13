@@ -32,7 +32,7 @@ summarize_EAF_values <- function(qsip_data_object, confidence = 0.9) {
 
   message(glue::glue("Confidence level = {confidence}"))
 
-  resamples <- qsip_data_object@EAF %>%
+  resamples <- qsip_data_object@EAF |>
     dplyr::filter(observed == FALSE) |>
     dplyr::group_by(feature_id) |>
     dplyr::summarize(
@@ -42,7 +42,7 @@ summarize_EAF_values <- function(qsip_data_object, confidence = 0.9) {
       .groups = "drop"
     )
 
-  observed <- qsip_data_object@EAF %>%
+  observed <- qsip_data_object@EAF |>
     dplyr::filter(observed == TRUE) |>
     dplyr::select(feature_id, observed_EAF = EAF)
 

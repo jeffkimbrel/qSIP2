@@ -28,10 +28,10 @@ plot_density_outliers <- function(sample_data,
   stopifnot("sensitivity should be a <numeric>" = is.numeric(sensitivity))
 
   S <- df |>
-    dplyr::group_by(source_mat_id) %>%
-    dplyr::do(broom::augment(lm(gradient_pos_density ~ gradient_position, data = .))) %>%
-    dplyr::mutate(S = paste(source_mat_id, gradient_position, sep = "_"), COOKS_CUTOFF = sensitivity / dplyr::n()) %>%
-    dplyr::ungroup() %>%
+    dplyr::group_by(source_mat_id) |>
+    dplyr::do(broom::augment(lm(gradient_pos_density ~ gradient_position, data = .))) |>
+    dplyr::mutate(S = paste(source_mat_id, gradient_position, sep = "_"), COOKS_CUTOFF = sensitivity / dplyr::n()) |>
+    dplyr::ungroup() |>
     dplyr::select(S, .cooksd, COOKS_CUTOFF)
 
   potential_outliers <- S |>

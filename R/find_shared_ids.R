@@ -85,7 +85,7 @@ find_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL
     unique()
 
   feature_sample_id <- feature_data@data |>
-    dplyr::select(-feature_id) %>%
+    dplyr::select(-feature_id) |>
     colnames()
 
   shared$sample_ids$shared <- intersect(sample_sample_id, feature_sample_id)
