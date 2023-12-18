@@ -4,12 +4,10 @@
 \alias{plot_source_wads}
 \title{Plot the source WADs by isotope}
 \usage{
-plot_source_wads(sample_data, source_data = NULL, group = NULL, colors = NULL)
+plot_source_wads(qsip_data, group = NULL, colors = NULL)
 }
 \arguments{
-\item{sample_data}{(\emph{qsip_data or qsip_sample_data}) A qsip object with sample data and optional source data}
-
-\item{source_data}{(\emph{qsip_source_data, optional}) An optional qsip_source_data object. Required if \code{sample_data} does not contain the source_data}
+\item{qsip_data}{(\emph{qsip_data}) qSIP object}
 
 \item{group}{(\emph{string}) An optional grouping parameter to facet the y or x,y axes}
 

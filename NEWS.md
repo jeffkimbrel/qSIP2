@@ -2,4 +2,4 @@
 
 * Started a NEWS.md file to keep track of changes
 * Updated `plot_sample_curves()` and `plot_source_wads()` to use existing WAD values that were pre-calculated when making the `qsip_data` object. This means they now require a `qsip_data` object as input and no longer accept a sample or source object. 
-* The main workflow vignette was updated to reflect these changes
+* The main workflow vignette was updated to reflect these changes.

@@ -4,12 +4,10 @@
 \alias{plot_sample_curves}
 \title{Plot qSIP sample data density curves}
 \usage{
-plot_sample_curves(sample_data, source_data = NULL, colors = NULL)
+plot_sample_curves(qsip_data, colors = NULL)
 }
 \arguments{
-\item{sample_data}{(\emph{qsip_sample_data or qsip_data}) Sample data that holds density and abundance values}
-
-\item{source_data}{(\emph{qsip_source_data}) Optional data required if \code{sample_data} is a \code{qsip_sample_data} object}
+\item{qsip_data}{(\emph{qsip_data}) qSIP object}
 }
 \value{
 A ggplot object
