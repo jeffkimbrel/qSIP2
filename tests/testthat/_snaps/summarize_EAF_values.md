@@ -2,7 +2,7 @@
 
     Code
       summarize_EAF_values(test_qsip)
-    Message <simpleMessage>
+    Message
       Confidence level = 0.9
     Output
       # A tibble: 74 x 5
@@ -24,7 +24,7 @@
 
     Code
       summarize_EAF_values(test_qsip, confidence = 0.95)
-    Message <simpleMessage>
+    Message
       Confidence level = 0.95
     Output
       # A tibble: 74 x 5

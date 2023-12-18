@@ -1,6 +1,6 @@
 #' Plot qSIP sample data density curves
 #'
-#' @param sample_data (*qsip_data*) qSIP object
+#' @param qsip_data (*qsip_data*) qSIP object
 #'
 #' @export
 #'
@@ -37,10 +37,6 @@ plot_sample_curves <- function(qsip_data,
     )
   }
 
-  WAD <- df |>
-    dplyr::group_by(source_mat_id) |>
-    dplyr::summarise(WAD = weighted.mean(gradient_pos_density, gradient_pos_rel_amt))
-
   p <- df |>
     dplyr::filter(!is.na(gradient_position)) |>
     dplyr::filter(gradient_pos_density > 1.5) |>
@@ -54,7 +50,7 @@ plot_sample_curves <- function(qsip_data,
     ggplot2::geom_line(linewidth = 1) +
     ggplot2::scale_color_manual(values = colors) +
     ggplot2::facet_wrap(~source_mat_id) +
-    ggplot2::geom_vline(data = WAD, linetype = 3, ggplot2::aes(xintercept = WAD))
+    ggplot2::geom_vline(data = qsip_data@source_wads, linetype = 3, ggplot2::aes(xintercept = WAD))
 
   p
 }

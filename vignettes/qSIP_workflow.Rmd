@@ -165,8 +165,6 @@ class(sample_object)
 
 OK, it worked this time and gave us a valid object. See `vignette("sample_data")` for more details and relevant visualizations.
 
-
-
 ## Feature Data
 
 Finally, the last of the three necessary input files is a feature abundance table, aka "OTU table" or "ASV table". The format of this dataframe has the unique feature IDs in the first column, and an additional column for each sample. Each row then contains the whole number (non-normalized) counts of each feature in each sample. 
@@ -211,7 +209,6 @@ Behind the scenes, creation of this object also runs some other calculations, pa
 ```{r, fig.height=2, fig.width=6}
 plot_source_wads(qsip_object, group = "Moisture")
 ```
-
 
 ```{r, fig.height=4, fig.width=6}
 plot_sample_curves(qsip_object)

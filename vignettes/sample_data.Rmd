@@ -184,38 +184,3 @@ plot_density_outliers(sample_object)
 ```
 
 Here we see some values at the ends of the density ranges are slightly lower than their gradient position would suggest, and are therefore considered possible outliers and colored red. The ends of the density ranges, however, are expected to fall off of the main line, and so these results are not too concerning here. 
-
-## Plotting density data
-
-There are two functions to visualize the density values in the sample data, but they also require a `qsip_source_data` object. The `qSIP2` package includes an example version called `example_source_object`.
-
-The first is to plot the sample curves according to their gradient density and tube relative abundance. The vertical dotted lines are the average weighted density (WAD) for that source.
-
-```{r, fig.width=8, fig.height=4}
-plot_sample_curves(
-  sample_data = sample_object,
-  source_data = example_source_object,
-  colors = c("12C" = "cornflowerblue", "13C" = "red")
-)
-```
-
-The WAD values can be pulled out for each source and plotted together, for better  comparison.
-
-```{r, fig.width=4, fig.height=1}
-plot_source_wads(
-  sample_data = sample_object,
-  source_data = example_source_object,
-  colors = c("12C" = "cornflowerblue", "13C" = "red")
-)
-```
-
-These can be further grouped according to other columns in the `source_data`.
-
-```{r, fig.width=4, fig.height=2}
-plot_source_wads(
-  sample_data = sample_object,
-  source_data = example_source_object,
-  group = "Moisture",
-  colors = c("12C" = "cornflowerblue", "13C" = "red")
-)
-```
