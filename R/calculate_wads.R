@@ -1,4 +1,4 @@
-#' Calculate weighted average density (WAD) values
+#' Calculate weighted average density (WAD) values (internal)
 #'
 #' @param tube_rel_abundance (*dataframe*) Output from `calculate_tube_rel_abundance()`
 #'
@@ -59,7 +59,7 @@ calculate_wads <- function(tube_rel_abundance) {
 }
 
 
-#' Calculate global weighted average density (WAD) value for a source_mat_id
+#' Calculate global weighted average density (WAD) value for a source_mat_id (internal)
 #'
 #' @param sample_data (*qsip_sample_data*) Sample data object
 #'

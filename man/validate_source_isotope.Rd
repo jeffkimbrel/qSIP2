@@ -2,7 +2,7 @@
 % Please edit documentation in R/validate_source_isotope.R
 \name{validate_source_isotope}
 \alias{validate_source_isotope}
-\title{Validate the given source mat ids have the expected labeled/unlabeled designation}
+\title{Validate the given source mat ids have the expected labeled/unlabeled designation (internal)}
 \usage{
 validate_source_isotope(qsip_data_object, source_mat_ids, isotope_list)
 }

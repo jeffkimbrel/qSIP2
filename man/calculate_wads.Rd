@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_wads.R
 \name{calculate_wads}
 \alias{calculate_wads}
-\title{Calculate weighted average density (WAD) values}
+\title{Calculate weighted average density (WAD) values (internal)}
 \usage{
 calculate_wads(tube_rel_abundance)
 }
@@ -17,5 +17,5 @@ the screen with a count of feature_ids that are entirely missing from at least
 one sample.
 }
 \description{
-Calculate weighted average density (WAD) values
+Calculate weighted average density (WAD) values (internal)
 }

@@ -1,10 +1,10 @@
-#' Check the validity of density values
+#' Check the validity of density values (internal)
 #'
 #' @param gradient_pos_density (*string or strings*) Density value or values
 #' @param high (*numeric, default: 1.8*) A high limit for valid density values
 #' @param low (*numeric, default: 1.55*) A low limit for valid density values
 #'
-#' @return Returns `NULL` if the density values are valid, or a printed error
+#' @returns Returns `NULL` if the density values are valid, or a printed error
 #'
 #' @export
 

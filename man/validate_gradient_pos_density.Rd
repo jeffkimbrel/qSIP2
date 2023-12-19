@@ -2,7 +2,7 @@
 % Please edit documentation in R/validate_gradient_pos_density.R
 \name{validate_gradient_pos_density}
 \alias{validate_gradient_pos_density}
-\title{Check the validity of density values}
+\title{Check the validity of density values (internal)}
 \usage{
 validate_gradient_pos_density(gradient_pos_density, low = 1.55, high = 1.8)
 }
@@ -17,5 +17,5 @@ validate_gradient_pos_density(gradient_pos_density, low = 1.55, high = 1.8)
 Returns \code{NULL} if the density values are valid, or a printed error
 }
 \description{
-Check the validity of density values
+Check the validity of density values (internal)
 }

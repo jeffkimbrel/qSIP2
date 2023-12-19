@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_tube_rel_abundance.R
 \name{calculate_tube_rel_abundance}
 \alias{calculate_tube_rel_abundance}
-\title{Calculate tube relative abundance}
+\title{Calculate tube relative abundance (internal)}
 \usage{
 calculate_tube_rel_abundance(source_data, sample_data, feature_data)
 }

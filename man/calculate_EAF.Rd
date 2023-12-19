@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_EAF.R
 \name{calculate_EAF}
 \alias{calculate_EAF}
-\title{Calculate EAF value}
+\title{Calculate EAF value (internal)}
 \usage{
 calculate_EAF(M_labeled, M, M_labeledmax, isotope)
 }
@@ -15,6 +15,9 @@ calculate_EAF(M_labeled, M, M_labeledmax, isotope)
 
 \item{isotope}{The isotope to determine which calculation to run}
 }
+\value{
+EAF value
+}
 \description{
-Calculate EAF value
+Calculate EAF value (internal)
 }

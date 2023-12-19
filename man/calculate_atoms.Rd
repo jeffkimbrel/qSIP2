@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_atoms.R
 \name{calculate_atoms}
 \alias{calculate_atoms}
-\title{Get the number of relevant atoms per nucleotide}
+\title{Get the number of relevant atoms per nucleotide (internal)}
 \usage{
 calculate_atoms(G, isotope)
 }
@@ -10,6 +10,9 @@ calculate_atoms(G, isotope)
 \item{G}{(\emph{numeric}) GC percentage}
 
 \item{isotope}{(\emph{string}) The isotope to use for calculations... either 13C, 15N or 18O}
+}
+\value{
+(\emph{numeric}) The number of atoms per nucleotide
 }
 \description{
 Carbon and nitrogen atoms varies with GC content, but oxygen content is

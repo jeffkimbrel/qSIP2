@@ -1,4 +1,4 @@
-#' Calculate tube relative abundance
+#' Calculate tube relative abundance (internal)
 #'
 #' The "tube level relative abundance" has two layers of relative abundance. It first
 #' takes the `raw_abundance` counts per sample, and divides by the total to get
@@ -20,7 +20,7 @@
 #'
 #' @export
 #'
-#' @return A long format dataframe with one row per `feature_id` per `sample_id`
+#' @returns A long format dataframe with one row per `feature_id` per `sample_id`
 
 calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data) {
   # make sure the objects are of the right type

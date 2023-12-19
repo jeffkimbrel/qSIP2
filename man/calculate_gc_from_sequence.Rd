@@ -2,7 +2,7 @@
 % Please edit documentation in R/G.R
 \name{calculate_gc_from_sequence}
 \alias{calculate_gc_from_sequence}
-\title{Calculate GC\% from a sequence}
+\title{Calculate GC\% from a sequence (internal)}
 \usage{
 calculate_gc_from_sequence(sequence)
 }

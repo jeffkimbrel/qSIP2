@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_isotope_designation.R
 \name{get_isotope_designation}
 \alias{get_isotope_designation}
-\title{Infer which isotope calculations to use}
+\title{Infer which isotope calculations to use (internal)}
 \usage{
 get_isotope_designation(qsip_data_object)
 }

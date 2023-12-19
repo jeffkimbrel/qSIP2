@@ -24,6 +24,7 @@ reference:
 
 - title: Helper Functions
   contents:
+  - infer_source_data
   - add_isotopolog_label
   - remove_isotopolog_label
   - get_all_by_isotope
@@ -55,6 +56,7 @@ reference:
   - validate_gradient_pos_density
   - validate_gradient_position
   - validate_isotopes
+  - validate_source_isotope
   - completely_labeled_values
   - get_isotope_designation
   - calculate_tube_rel_abundance
@@ -72,7 +74,6 @@ reference:
   - calculate_resampled_wads
   - calculate_Z
   - find_shared_ids
-  - validate_source_isotope
 
 articles:
 - title: Learn qSIP

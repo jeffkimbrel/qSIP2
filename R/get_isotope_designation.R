@@ -1,4 +1,4 @@
-#' Infer which isotope calculations to use
+#' Infer which isotope calculations to use (internal)
 #'
 #' This uses the list of the source_mat_ids in a filtered qsip_data object to get
 #' their isotope designation for two reasons, 1) to make sure they are comparable

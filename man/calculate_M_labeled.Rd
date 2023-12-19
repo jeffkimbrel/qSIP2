@@ -2,7 +2,7 @@
 % Please edit documentation in R/M.R
 \name{calculate_M_labeled}
 \alias{calculate_M_labeled}
-\title{Calculate molecular weight of the labeled feature}
+\title{Calculate molecular weight of the labeled feature (internal)}
 \usage{
 calculate_M_labeled(M, W_lab_mean, W_unlab_mean)
 }
@@ -17,5 +17,5 @@ calculate_M_labeled(M, W_lab_mean, W_unlab_mean)
 \code{M_labeled} is the molecular weight of the labeled feature
 }
 \description{
-Calculate molecular weight of the labeled feature
+Calculate molecular weight of the labeled feature (internal)
 }

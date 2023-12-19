@@ -2,7 +2,7 @@
 % Please edit documentation in R/Z.R
 \name{calculate_Z}
 \alias{calculate_Z}
-\title{Calculate the WAD difference Z}
+\title{Calculate the WAD difference Z (internal)}
 \usage{
 calculate_Z(labeled, unlabeled)
 }

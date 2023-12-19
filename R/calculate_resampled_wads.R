@@ -1,4 +1,4 @@
-#' Internal function for resampling WAD values
+#' Internal function for resampling WAD values (internal)
 #'
 #' Designed as a purrr::map() function called by run_resampling.R
 #'

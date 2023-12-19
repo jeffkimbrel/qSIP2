@@ -1,9 +1,11 @@
-#' Calculate EAF value
+#' Calculate EAF value (internal)
 #'
 #' @param M_labeled Molecular weight of the labeled feature
 #' @param M Molecular weight of the unlabeled feature
 #' @param M_labeledmax Theoretical molecular weight of a completely labeled feature
 #' @param isotope The isotope to determine which calculation to run
+#'
+#' @returns EAF value
 
 calculate_EAF <- function(M_labeled, M, M_labeledmax, isotope) {
 

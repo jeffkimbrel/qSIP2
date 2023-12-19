@@ -1,4 +1,4 @@
-#' Validate the given source mat ids have the expected labeled/unlabeled designation
+#' Validate the given source mat ids have the expected labeled/unlabeled designation (internal)
 #'
 #' Currently used by run_feature_filter() to make sure user given labeled or unlabeled
 #' source_mat_ids are not incorrect with respective to their source_data.

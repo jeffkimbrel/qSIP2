@@ -1,4 +1,4 @@
-#' Calculate molecular weight of the labeled feature
+#' Calculate molecular weight of the labeled feature (internal)
 #'
 #' The GC value given to this equation is usually calculated from the density
 #' value, not derived from the sequence itself.
@@ -23,7 +23,7 @@ calculate_M <- function(G) {
 
 
 
-#' Calculate molecular weight of the labeled feature
+#' Calculate molecular weight of the labeled feature (internal)
 #'
 #' This function corresponds to equation 7 from Hungate, 2015
 #'
@@ -74,7 +74,7 @@ calculate_M_labeledmax <- function(M,
 
 
 
-#' Calculate molecular weight of the labeled feature
+#' Calculate molecular weight of the labeled feature (internal)
 #'
 #' @param M (*numeric*) Molecular weight of the unlabeled feature
 #' @param W_lab_mean (*numeric*) WAD (or mean WAD) value of the labeled feature

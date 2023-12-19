@@ -1,4 +1,4 @@
-#' Calculate GC% from density/WAD
+#' Calculate GC% from density/WAD (internal)
 #'
 #' This function takes a `density` value and an optional `method` and returns the
 #' predicted GC% content of a DNA sequence with that density.
@@ -32,7 +32,7 @@ calculate_gc_from_density <- function(density,
 }
 
 
-#' Calculate GC% from a sequence
+#' Calculate GC% from a sequence (internal)
 #'
 #' This function takes a sequence and counts the number of G and C bases, and divides
 #' by the total sequence length.

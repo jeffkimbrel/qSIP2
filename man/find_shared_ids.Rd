@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_shared_ids.R
 \name{find_shared_ids}
 \alias{find_shared_ids}
-\title{Find shared source_mat_ids and sample_ids in qSIP objects}
+\title{Find shared source_mat_ids and sample_ids in qSIP objects (internal)}
 \usage{
 find_shared_ids(source_data, sample_data = NULL, feature_data = NULL)
 }

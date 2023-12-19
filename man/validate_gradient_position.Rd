@@ -2,7 +2,7 @@
 % Please edit documentation in R/validate_gradient_position.R
 \name{validate_gradient_position}
 \alias{validate_gradient_position}
-\title{Check the validity of gradient position values}
+\title{Check the validity of gradient position values (internal)}
 \usage{
 validate_gradient_position(gradient_position)
 }

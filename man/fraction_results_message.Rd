@@ -2,7 +2,7 @@
 % Please edit documentation in R/run_feature_filter.R
 \name{fraction_results_message}
 \alias{fraction_results_message}
-\title{Filter features by fraction message formatting}
+\title{Filter features by fraction message formatting (internal)}
 \usage{
 fraction_results_message(by_fraction)
 }
@@ -10,5 +10,5 @@ fraction_results_message(by_fraction)
 \item{by_fraction}{by_fraction dataframe from run_feature_filter}
 }
 \description{
-Filter features by fraction message formatting
+Filter features by fraction message formatting (internal)
 }

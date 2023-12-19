@@ -1,4 +1,4 @@
-#' Check the validity of a feature abundance table
+#' Check the validity of a feature abundance table (internal)
 #'
 #' This validation function is an internal function will check the validity of a
 #' feature abundance table.

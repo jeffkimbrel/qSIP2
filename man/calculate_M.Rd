@@ -2,7 +2,7 @@
 % Please edit documentation in R/M.R
 \name{calculate_M}
 \alias{calculate_M}
-\title{Calculate molecular weight of the labeled feature}
+\title{Calculate molecular weight of the labeled feature (internal)}
 \usage{
 calculate_M(G)
 }

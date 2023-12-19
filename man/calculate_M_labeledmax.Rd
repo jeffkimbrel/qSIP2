@@ -2,7 +2,7 @@
 % Please edit documentation in R/M.R
 \name{calculate_M_labeledmax}
 \alias{calculate_M_labeledmax}
-\title{Calculate molecular weight of the labeled feature}
+\title{Calculate molecular weight of the labeled feature (internal)}
 \usage{
 calculate_M_labeledmax(M, atom_count, isotope, propO = 1)
 }

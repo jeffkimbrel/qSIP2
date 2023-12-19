@@ -2,7 +2,7 @@
 % Please edit documentation in R/validate_isotopes.R
 \name{validate_isotopes}
 \alias{validate_isotopes}
-\title{Check the validity of an isotope string}
+\title{Check the validity of an isotope string (internal)}
 \usage{
 validate_isotopes(
   isotope,
@@ -18,7 +18,7 @@ validate_isotopes(
 Returns \code{NULL} if the isotope strings are valid, or a printed error
 }
 \description{
-Check the validity of an isotope string
+Check the validity of an isotope string (internal)
 }
 \note{
 The isotope_list may change if isotopolog_label stays a thing. Only the "labeled" isotopes will be allowed.

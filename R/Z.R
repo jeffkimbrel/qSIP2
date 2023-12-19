@@ -1,4 +1,4 @@
-#' Calculate the WAD difference Z
+#' Calculate the WAD difference Z (internal)
 #'
 #' This is just basic subtraction, so probably overkill to make a function!
 #'

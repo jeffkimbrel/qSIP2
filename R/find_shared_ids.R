@@ -1,4 +1,4 @@
-#' Find shared source_mat_ids and sample_ids in qSIP objects
+#' Find shared source_mat_ids and sample_ids in qSIP objects (internal)
 #'
 #' @description
 #' This function finds the shared source_mat_ids between the `source_data` and

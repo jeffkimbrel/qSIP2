@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_wads.R
 \name{calculate_source_wads}
 \alias{calculate_source_wads}
-\title{Calculate global weighted average density (WAD) value for a source_mat_id}
+\title{Calculate global weighted average density (WAD) value for a source_mat_id (internal)}
 \usage{
 calculate_source_wads(sample_data)
 }
@@ -14,5 +14,5 @@ A dataframe with two columns, 1) the source_mat_id and 2) the global
 WAD value for that source_mat_id
 }
 \description{
-Calculate global weighted average density (WAD) value for a source_mat_id
+Calculate global weighted average density (WAD) value for a source_mat_id (internal)
 }

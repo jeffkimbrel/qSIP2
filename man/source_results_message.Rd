@@ -2,7 +2,7 @@
 % Please edit documentation in R/run_feature_filter.R
 \name{source_results_message}
 \alias{source_results_message}
-\title{Filter features by source message formatting}
+\title{Filter features by source message formatting (internal)}
 \usage{
 source_results_message(by_source)
 }
@@ -10,5 +10,5 @@ source_results_message(by_source)
 \item{by_source}{by_source dataframe from run_feature_filter}
 }
 \description{
-Filter features by source message formatting
+Filter features by source message formatting (internal)
 }

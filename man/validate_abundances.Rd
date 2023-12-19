@@ -2,7 +2,7 @@
 % Please edit documentation in R/validate_abundances.R
 \name{validate_abundances}
 \alias{validate_abundances}
-\title{Check the validity of a feature abundance table}
+\title{Check the validity of a feature abundance table (internal)}
 \usage{
 validate_abundances(data, feature_id, type)
 }

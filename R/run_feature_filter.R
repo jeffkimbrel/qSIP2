@@ -209,7 +209,7 @@ run_feature_filter <- function(qsip_data_object,
   return(qsip_data_object)
 }
 
-#' Filter features by fraction message formatting
+#' Filter features by fraction message formatting (internal)
 #'
 #' @param by_fraction by_fraction dataframe from run_feature_filter
 #'
@@ -244,7 +244,7 @@ fraction_results_message <- function(by_fraction) {
   message(glue::glue_col("In total, {green {fraction_passed}} unique feature_ids {green passed} the fraction filtering requirements..."))
 }
 
-#' Filter features by source message formatting
+#' Filter features by source message formatting (internal)
 #'
 #' @param by_source by_source dataframe from run_feature_filter
 #'

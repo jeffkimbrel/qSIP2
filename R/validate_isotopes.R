@@ -1,4 +1,4 @@
-#' Check the validity of an isotope string
+#' Check the validity of an isotope string (internal)
 #'
 #' @param isotope (*string(s)*) Isotope value or values
 #' @param isotope_list (*strings, default: c("12C", "13C", "14N", "15N", "16O", "18O")*) Isotopes to check against

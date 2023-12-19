@@ -1,4 +1,4 @@
-#' Check the validity of gradient position values
+#' Check the validity of gradient position values (internal)
 #'
 #' Valid gradient positions are integers. The value can be `-1` to represent
 #' "bulk" or non-qSIP samples.
