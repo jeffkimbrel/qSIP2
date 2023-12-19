@@ -307,7 +307,7 @@ qsip_sample_data <- S7::new_class(
     )
   },
   validator = function(self) {
-    qSIP2::validate_gradient_pos_density(self@data |> dplyr::pull(gradient_pos_density))
+    qSIP2::validate_gradient_pos_density(self@data |> dplyr::select(gradient_position, gradient_pos_density))
     qSIP2::validate_gradient_position(self@data |> dplyr::pull(gradient_position))
   }
 )
