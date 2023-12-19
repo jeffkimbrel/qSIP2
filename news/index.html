@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.5.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.5.9002</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,7 +59,8 @@
 <h2 class="pkg-version" data-toc-text="development version" id="qsip2-development-version">qSIP2 (development version)<a class="anchor" aria-label="anchor" href="#qsip2-development-version"></a></h2>
 <ul><li>Added <code><a href="../reference/infer_source_data.html">infer_source_data()</a></code> function to infer source data from a sample data data frame</li>
 <li>Update documentation of internal functions</li>
-<li>Fixed validate_gradient_pos_density() (and tests) to not fail with bulk data that has a gradient_pos_density of <na>. Fixes <a href="https://github.com/jeffkimbrel/qSIP2/issues/8" class="external-link">#8</a>.</na></li>
+<li>Fixed <code><a href="../reference/validate_gradient_pos_density.html">validate_gradient_pos_density()</a></code> (and tests) to not fail with bulk data that has a gradient_position of `-1 (<a href="https://github.com/jeffkimbrel/qSIP2/issues/8" class="external-link">#8</a>).</li>
+<li>Fixed <code><a href="../reference/validate_isotopes.html">validate_isotopes()</a></code> to accept standard unfractionated terms like “bulk” or “time0” so they bypass isotope validation.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.10.5" id="qsip2-0105">qSIP2 0.10.5<a class="anchor" aria-label="anchor" href="#qsip2-0105"></a></h2>
