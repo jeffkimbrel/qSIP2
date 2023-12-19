@@ -6,19 +6,23 @@
 \usage{
 validate_isotopes(
   isotope,
-  isotope_list = c("12C", "13C", "14N", "15N", "16O", "18O")
+  isotope_list = c("12C", "13C", "14N", "15N", "16O", "18O"),
+  unfractionated_terms = c("bulk", "unfractionated", "T0", "time0", "Time0")
 )
 }
 \arguments{
 \item{isotope}{(\emph{string(s)}) Isotope value or values}
 
 \item{isotope_list}{(\emph{strings, default: c("12C", "13C", "14N", "15N", "16O", "18O")}) Isotopes to check against}
+
+\item{unfractionated_terms}{(\emph{strings}) Terms to ignore when checking isotope values}
 }
 \value{
 Returns \code{NULL} if the isotope strings are valid, or a printed error
 }
 \description{
-Check the validity of an isotope string (internal)
+Often the "bulk" designation is found in this column, so those can optionally
+be removed from validation checks
 }
 \note{
 The isotope_list may change if isotopolog_label stays a thing. Only the "labeled" isotopes will be allowed.

@@ -4,10 +4,10 @@
 \alias{validate_gradient_pos_density}
 \title{Check the validity of density values (internal)}
 \usage{
-validate_gradient_pos_density(gradient_pos_density, low = 1.55, high = 1.8)
+validate_gradient_pos_density(df, low = 1.55, high = 1.8)
 }
 \arguments{
-\item{gradient_pos_density}{(\emph{string or strings}) Density value or values}
+\item{df}{(\emph{dataframe}) A two-column dataframe with density positions and density values}
 
 \item{low}{(\emph{numeric, default: 1.55}) A low limit for valid density values}
 
