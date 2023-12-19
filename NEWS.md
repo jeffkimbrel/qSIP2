@@ -2,7 +2,8 @@
 
 * Added `infer_source_data()` function to infer source data from a sample data data frame
 * Update documentation of internal functions
-* Fixed validate_gradient_pos_density() (and tests) to not fail with bulk data that has a gradient_pos_density of <NA>. Fixes #8.
+* Fixed `validate_gradient_pos_density()` (and tests) to not fail with bulk data that has a gradient_position of `-1 (#8).
+* Fixed `validate_isotopes()` to accept standard unfractionated terms like "bulk" or "time0" so they bypass isotope validation.
 
 # qSIP2 0.10.5
 
