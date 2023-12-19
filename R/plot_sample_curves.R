@@ -10,21 +10,29 @@
 
 plot_sample_curves <- function(qsip_data,
                                colors = NULL) {
-  if ("qsip_data" %in% class(qsip_data)) {
-    df <- qsip_data@tube_rel_abundance |>
-      dplyr::left_join(
-        qsip_data@sample_data@data |>
-          dplyr::select(sample_id, gradient_position),
-        by = "sample_id"
-      ) |>
-      dplyr::left_join(
-        qsip_data@source_data@data |>
-          dplyr::select(source_mat_id, isotope),
-        by = "source_mat_id"
-      )
-  } else {
-    stop(glue::glue("sample_data should be class <qsip_data>, not {class(qsip_data)[1]}"))
+  stopifnot("sample_data should be class <qsip_data>" = "qsip_data" %in% class(qsip_data))
+
+  df <- qsip_data@tube_rel_abundance |>
+    dplyr::left_join(
+      qsip_data@sample_data@data |>
+        dplyr::select(sample_id, gradient_position),
+      by = "sample_id"
+    ) |>
+    dplyr::left_join(
+      qsip_data@source_data@data |>
+        dplyr::select(source_mat_id, isotope),
+      by = "source_mat_id"
+    )
+
+  if (any(df$gradient_position == -1)) {
+    message("some unfractionated samples have been filtered from this plot")
   }
+
+  df <- df |>
+    dplyr::filter(gradient_position > 0)
+
+  source_wads <- qsip_data@source_wads |>
+    dplyr::filter(!is.na(WAD))
 
   if (is.null(colors)) {
     colors <- c(
@@ -50,7 +58,8 @@ plot_sample_curves <- function(qsip_data,
     ggplot2::geom_line(linewidth = 1) +
     ggplot2::scale_color_manual(values = colors) +
     ggplot2::facet_wrap(~source_mat_id) +
-    ggplot2::geom_vline(data = qsip_data@source_wads, linetype = 3, ggplot2::aes(xintercept = WAD))
+    ggplot2::geom_vline(data = source_wads,
+                        linetype = 3, ggplot2::aes(xintercept = WAD))
 
   p
 }

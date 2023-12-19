@@ -4,6 +4,7 @@
 * Update documentation of internal functions
 * Fixed `validate_gradient_pos_density()` (and tests) to not fail with bulk data that has a gradient_position of `-1 (#8).
 * Fixed `validate_isotopes()` to accept standard unfractionated terms like "bulk" or "time0" so they bypass isotope validation.
+* `plot_sample_curves()` and `plot_source_wads()` have been updated to ignore unfractionated samples/sources
 
 # qSIP2 0.10.5
 

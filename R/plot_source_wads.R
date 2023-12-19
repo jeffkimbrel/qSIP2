@@ -28,6 +28,7 @@ plot_source_wads <- function(qsip_data, group = NULL, colors = NULL) {
   }
 
   qsip_data@source_wads |>
+    dplyr::filter(!is.na(WAD)) |> # filter unfractionated
     dplyr::left_join(source_data@data, by = "source_mat_id") |>
     ggplot2::ggplot(ggplot2::aes(color = isotope)) +
     ggplot2::geom_segment(y = 0, yend = 1, ggplot2::aes(x = WAD, xend = WAD), linewidth = 1) +
