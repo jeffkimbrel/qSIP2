@@ -55,8 +55,7 @@ qsip_source_data <- S7::new_class(
                          isotope = "isotope",
                          isotopolog = "isotopolog",
                          source_mat_id = "source_mat_id") {
-
-    stopifnot("data should be class <data.frame>" = "data.frame" %in% class(data) )
+    stopifnot("data should be class <data.frame>" = "data.frame" %in% class(data))
 
     # verify column names exist
     if (!isotope %in% colnames(data)) {
@@ -78,10 +77,10 @@ qsip_source_data <- S7::new_class(
       dplyr::ungroup()
 
     S7::new_object(S7::S7_object(),
-                   data = data,
-                   isotope = isotope,
-                   isotopolog = isotopolog,
-                   source_mat_id = source_mat_id
+      data = data,
+      isotope = isotope,
+      isotopolog = isotopolog,
+      source_mat_id = source_mat_id
     )
   },
   validator = function(self) {
@@ -164,7 +163,6 @@ qsip_feature_data <- S7::new_class(
   constructor = function(data,
                          feature_id = "feature_id",
                          type = "counts") {
-
     if (!"data.frame" %in% class(data)) {
       stop(glue::glue("data must be class <dataframe>, not {class(data)[1]}"), call. = FALSE)
     }
@@ -182,10 +180,10 @@ qsip_feature_data <- S7::new_class(
       dplyr::ungroup()
 
     S7::new_object(S7::S7_object(),
-                   data = data,
-                   feature_id = feature_id,
-                   taxonomy = data.frame(),
-                   type = type
+      data = data,
+      feature_id = feature_id,
+      taxonomy = data.frame(),
+      type = type
     )
   },
   validator = function(self) {
@@ -261,7 +259,7 @@ qsip_sample_data <- S7::new_class(
     gradient_position = S7::class_character,
     gradient_pos_density = S7::class_character,
     gradient_pos_amt = S7::class_character,
-    gradient_pos_rel_amt = S7::class_character
+    gradient_pos_rel_amt = S7::new_property(S7::class_character, default = "")
   ),
   constructor = function(data,
                          sample_id = "sample_id",
@@ -269,11 +267,20 @@ qsip_sample_data <- S7::new_class(
                          gradient_position = "gradient_position",
                          gradient_pos_density = "gradient_pos_density",
                          gradient_pos_amt = "gradient_pos_amt",
-                         gradient_pos_rel_amt = "gradient_pos_rel_amt") {
-
-
+                         gradient_pos_rel_amt = "") {
     # make sure data is correct
     stopifnot("data should be class <data.frame>" = "data.frame" %in% class(data))
+
+    # automagically make gradient_pos_rel_amt from gradient_pos_amt, if not specified
+    if (gradient_pos_rel_amt == "") {
+      message(glue::glue("<gradient_pos_rel_amt> not specified. Calculating using {gradient_pos_amt} column"))
+      data = data |>
+        add_gradient_pos_rel_amt(source_mat_id = source_mat_id, amt = gradient_pos_amt)
+      gradient_pos_rel_amt = "gradient_pos_rel_amt"
+    }
+
+
+
 
     # make sure columns are found
     stopifnot("sample_id column not found" = sample_id %in% colnames(data))
@@ -281,29 +288,29 @@ qsip_sample_data <- S7::new_class(
     stopifnot("gradient_position column not found" = gradient_position %in% colnames(data))
     stopifnot("gradient_pos_density column not found" = gradient_pos_density %in% colnames(data))
     stopifnot("gradient_pos_amt column not found" = gradient_pos_amt %in% colnames(data))
-    stopifnot("gradient_pos_rel_amt column not found" = gradient_pos_rel_amt  %in% colnames(data))
+    stopifnot("gradient_pos_rel_amt column not found" = gradient_pos_rel_amt %in% colnames(data))
 
     # rename columns to standardized names
     data <- data |>
       dplyr::select(
-        sample_id = sample_id,
-        source_mat_id = source_mat_id,
-        gradient_position = gradient_position,
-        gradient_pos_density = gradient_pos_density,
-        gradient_pos_amt = gradient_pos_amt,
-        gradient_pos_rel_amt = gradient_pos_rel_amt,
+        sample_id = all_of(sample_id),
+        source_mat_id = all_of(source_mat_id),
+        gradient_position = all_of(gradient_position),
+        gradient_pos_density = all_of(gradient_pos_density),
+        gradient_pos_amt = all_of(gradient_pos_amt),
+        gradient_pos_rel_amt = all_of(gradient_pos_rel_amt),
         dplyr::everything()
       ) |>
       dplyr::ungroup()
 
     S7::new_object(S7::S7_object(),
-                   data = data,
-                   sample_id = sample_id,
-                   source_mat_id = source_mat_id,
-                   gradient_position = gradient_position,
-                   gradient_pos_density = gradient_pos_density,
-                   gradient_pos_amt = gradient_pos_amt,
-                   gradient_pos_rel_amt = gradient_pos_rel_amt
+      data = data,
+      sample_id = sample_id,
+      source_mat_id = source_mat_id,
+      gradient_position = gradient_position,
+      gradient_pos_density = gradient_pos_density,
+      gradient_pos_amt = gradient_pos_amt,
+      gradient_pos_rel_amt = gradient_pos_rel_amt
     )
   },
   validator = function(self) {
@@ -369,34 +376,35 @@ qsip_data <- S7::new_class(
   constructor = function(source_data,
                          sample_data,
                          feature_data) {
-
     # make sure data is correct
     stopifnot("source_data should be of class <qsip_source_data>" = "qsip_source_data" %in% class(source_data))
     stopifnot("sample_data should be of class <qsip_sample_data>" = "qsip_sample_data" %in% class(sample_data))
     stopifnot("feature_data should be of class <qsip_feature_data>" = "qsip_feature_data" %in% class(feature_data))
 
     # calculate tube level relative abundances
-    tube_rel_abundance <- calculate_tube_rel_abundance(source_data,
-                                                       sample_data,
-                                                       feature_data)
+    tube_rel_abundance <- calculate_tube_rel_abundance(
+      source_data,
+      sample_data,
+      feature_data
+    )
     wad_data <- calculate_wads(tube_rel_abundance)
     source_wad <- calculate_source_wads(sample_data)
     shared <- find_shared_ids(source_data, sample_data, feature_data)
 
     S7::new_object(S7::S7_object(),
-                   source_data = source_data,
-                   sample_data = sample_data,
-                   feature_data = feature_data,
-                   shared = shared,
-                   tube_rel_abundance = tube_rel_abundance,
-                   wads = wad_data$wads,
-                   source_wads = source_wad,
-                   fraction_counts = wad_data$fraction_counts,
-                   filtered_feature_data = data.frame(),
-                   filtered_wad_data = data.frame(),
-                   filter_results = list(),
-                   resamples = list(),
-                   EAF = data.frame()
+      source_data = source_data,
+      sample_data = sample_data,
+      feature_data = feature_data,
+      shared = shared,
+      tube_rel_abundance = tube_rel_abundance,
+      wads = wad_data$wads,
+      source_wads = source_wad,
+      fraction_counts = wad_data$fraction_counts,
+      filtered_feature_data = data.frame(),
+      filtered_wad_data = data.frame(),
+      filter_results = list(),
+      resamples = list(),
+      EAF = data.frame()
     )
   },
   validator = function(self) {
@@ -404,7 +412,6 @@ qsip_data <- S7::new_class(
     # S7::validate(self@source_data)
     # S7::validate(self@sample_data)
     # S7::validate(self@feature_data)
-
   }
 )
 
@@ -414,7 +421,6 @@ get_dataframe <- S7::new_generic("get_dataframe", "x")
 
 ## source data
 S7::method(get_dataframe, qsip_source_data) <- function(x, original_headers = FALSE) {
-
   # if is not boolean
   if (!is.logical(original_headers)) {
     stop(glue::glue("original_headers should be TRUE/FALSE, not {class(original_headers)[1]}"))
@@ -434,7 +440,6 @@ S7::method(get_dataframe, qsip_source_data) <- function(x, original_headers = FA
 
 ## sample data
 S7::method(get_dataframe, qsip_sample_data) <- function(x, original_headers = FALSE) {
-
   # if is not boolean
   if (!is.logical(original_headers)) {
     stop(glue::glue("original_headers should be TRUE/FALSE, not {class(original_headers)[1]}"))
@@ -458,7 +463,6 @@ S7::method(get_dataframe, qsip_sample_data) <- function(x, original_headers = FA
 
 ## feature data
 S7::method(get_dataframe, qsip_feature_data) <- function(x, original_headers = FALSE) {
-
   # if is not boolean
   if (!is.logical(original_headers)) {
     stop(glue::glue("original_headers should be TRUE/FALSE, not {class(original_headers)[1]}"))
@@ -483,8 +487,6 @@ S7::method(get_dataframe, qsip_data) <- function(x, type, original_headers = FAL
   } else {
     stop(glue::glue("<type> should be 'source', 'sample' or 'feature', not {type}"), call. = FALSE)
   }
-  #print(d)
+  # print(d)
   get_dataframe(d, original_headers = original_headers)
 }
-
-
