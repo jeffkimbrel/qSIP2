@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.5.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.5.9005</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,6 +63,7 @@
 <li>Fixed <code><a href="../reference/validate_isotopes.html">validate_isotopes()</a></code> to accept standard unfractionated terms like “bulk” or “time0” so they bypass isotope validation.</li>
 <li>
 <code><a href="../reference/plot_sample_curves.html">plot_sample_curves()</a></code> and <code><a href="../reference/plot_source_wads.html">plot_source_wads()</a></code> have been updated to ignore unfractionated samples/sources</li>
+<li>Removed requirement for <code>gradient_pos_rel_amt</code> column in the imported sample dataframe. If you have one you can still pass the column name. If you don’t, it will run the <code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code> silently using the <code>gradient_pos_amt</code> column, and provide a message that it is doing so.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.10.5" id="qsip2-0105">qSIP2 0.10.5<a class="anchor" aria-label="anchor" href="#qsip2-0105"></a></h2>
