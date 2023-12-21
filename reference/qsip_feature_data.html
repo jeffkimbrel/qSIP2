@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.5.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.5.9004</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,7 +104,7 @@ results from the qSIP analysis, but choosing an accurate type will help with the
 validation checks.</p>
 <p>Internally, <code>qsip_feature_data</code> renames the metadata columns to be standardized
 to MISIP terminology. A <code>data.frame</code> with the standardized names can be extracted
-back out of the object using the <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code> method, and the optional <code>original_headers</code>
+back out of the object using the <code>get_dataframe()</code> method, and the optional <code>original_headers</code>
 argument can be set to <code>TRUE</code> to return the original column names.</p>
 <p>There are several validation checks run on the data on the <code>data.frame</code>:</p><ul><li><p>The <code>data</code> argument must contain a <code>data.frame</code>, including a tibble</p></li>
 <li><p>The <code>feature_id</code> argument must be a column name in the <code>data.frame</code></p></li>
