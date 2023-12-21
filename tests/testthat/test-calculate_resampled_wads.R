@@ -34,3 +34,6 @@ test_that("check weird edge case where if a row is entirely <NA> it should break
   expect_error(calculate_resampled_wads(1, data.frame("A" = c(NA, 2.0, 1.7), "B" = c(NA, 2.2, 2.3)), type = "labeled"))
 })
 
+test_that("dataframes with only one column still complete", {
+  expect_snapshot(calculate_resampled_wads(1, data.frame("A" = c(1, 2.0, 1.7)), type = "labeled"))
+})

@@ -48,7 +48,7 @@ one of the types that the \code{qSIP2} package has equations for, namely 12C/13C
 
 Internally, \code{qsip_source_data} renames the metadata columns to be standardized
 to MISIP terminology. A \code{data.frame} with the standardized names can be extracted
-back out of the object using the \code{data()} method, and the optional \code{original_headers}
+back out of the object using the \code{get_dataframe()} method, and the optional \code{original_headers}
 argument can be set to \code{TRUE} to return the original column names.
 
 One column of metadata that is required although not used by \code{qSIP2} is the

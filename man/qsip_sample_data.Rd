@@ -58,7 +58,7 @@ is reported as 100 ul, then the \code{gradient_pos_amt} will be converted to ng.
 
 Internally, \code{qsip_sample_data} renames the metadata columns to be standardized
 to MISIP terminology. A \code{data.frame} with the standardized names can be extracted
-back out of the object using the \code{data()} method, and the optional \code{original_headers}
+back out of the object using the \code{get_dataframe()} method, and the optional \code{original_headers}
 argument can be set to \code{TRUE} to return the original column names.
 
 There are several validation checks done on the \code{data.frame}:

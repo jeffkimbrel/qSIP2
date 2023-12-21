@@ -41,7 +41,7 @@ validation checks.
 
 Internally, \code{qsip_feature_data} renames the metadata columns to be standardized
 to MISIP terminology. A \code{data.frame} with the standardized names can be extracted
-back out of the object using the \code{data()} method, and the optional \code{original_headers}
+back out of the object using the \code{get_dataframe()} method, and the optional \code{original_headers}
 argument can be set to \code{TRUE} to return the original column names.
 
 There are several validation checks run on the data on the \code{data.frame}:

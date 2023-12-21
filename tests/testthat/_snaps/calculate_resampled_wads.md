@@ -13,3 +13,15 @@
       5 5          labeled        1      1.71      1.72      1.72
       6 6          labeled        1      1.73      1.73      1.73
 
+# dataframes with only one column still complete
+
+    Code
+      calculate_resampled_wads(1, data.frame(A = c(1, 2, 1.7)), type = "labeled")
+    Output
+      # A tibble: 3 x 4
+        feature_id type    resample labeled_1
+        <chr>      <chr>      <dbl>     <dbl>
+      1 1          labeled        1       1  
+      2 2          labeled        1       2  
+      3 3          labeled        1       1.7
+

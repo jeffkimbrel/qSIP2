@@ -23,7 +23,7 @@
 #'
 #' Internally, `qsip_source_data` renames the metadata columns to be standardized
 #' to MISIP terminology. A `data.frame` with the standardized names can be extracted
-#' back out of the object using the `data()` method, and the optional `original_headers`
+#' back out of the object using the `get_dataframe()` method, and the optional `original_headers`
 #' argument can be set to `TRUE` to return the original column names.
 #'
 #' One column of metadata that is required although not used by `qSIP2` is the
@@ -125,7 +125,7 @@ qsip_source_data <- S7::new_class(
 #'
 #' Internally, `qsip_feature_data` renames the metadata columns to be standardized
 #' to MISIP terminology. A `data.frame` with the standardized names can be extracted
-#' back out of the object using the `data()` method, and the optional `original_headers`
+#' back out of the object using the `get_dataframe()` method, and the optional `original_headers`
 #' argument can be set to `TRUE` to return the original column names.
 #'
 #' There are several validation checks run on the data on the `data.frame`:
@@ -227,7 +227,7 @@ qsip_feature_data <- S7::new_class(
 #'
 #' Internally, `qsip_sample_data` renames the metadata columns to be standardized
 #' to MISIP terminology. A `data.frame` with the standardized names can be extracted
-#' back out of the object using the `data()` method, and the optional `original_headers`
+#' back out of the object using the `get_dataframe()` method, and the optional `original_headers`
 #' argument can be set to `TRUE` to return the original column names.
 #'
 #' There are several validation checks done on the `data.frame`:
@@ -335,7 +335,7 @@ qsip_sample_data <- S7::new_class(
 #'
 #' Internally, creating the original qSIP objects renamed the metadata columns to be standardized
 #' to MISIP terminology. A `data.frame` with the standardized names can be extracted
-#' back out of the `qSIP_data` using the `data()` method and a required `type` argument
+#' back out of the `qSIP_data` using the `get_dataframe()` method and a required `type` argument
 #' of "source", "sample" or "feature". The optional `original_headers`
 #' argument can be set to `TRUE` to return the original column names.
 #'
@@ -410,10 +410,10 @@ qsip_data <- S7::new_class(
 
 
 # methods
-data <- S7::new_generic("data", "x")
+get_dataframe <- S7::new_generic("get_dataframe", "x")
 
 ## source data
-S7::method(data, qsip_source_data) <- function(x, original_headers = FALSE) {
+S7::method(get_dataframe, qsip_source_data) <- function(x, original_headers = FALSE) {
 
   # if is not boolean
   if (!is.logical(original_headers)) {
@@ -433,7 +433,7 @@ S7::method(data, qsip_source_data) <- function(x, original_headers = FALSE) {
 }
 
 ## sample data
-S7::method(data, qsip_sample_data) <- function(x, original_headers = FALSE) {
+S7::method(get_dataframe, qsip_sample_data) <- function(x, original_headers = FALSE) {
 
   # if is not boolean
   if (!is.logical(original_headers)) {
@@ -457,7 +457,7 @@ S7::method(data, qsip_sample_data) <- function(x, original_headers = FALSE) {
 
 
 ## feature data
-S7::method(data, qsip_feature_data) <- function(x, original_headers = FALSE) {
+S7::method(get_dataframe, qsip_feature_data) <- function(x, original_headers = FALSE) {
 
   # if is not boolean
   if (!is.logical(original_headers)) {
@@ -473,7 +473,7 @@ S7::method(data, qsip_feature_data) <- function(x, original_headers = FALSE) {
 }
 
 ## qsip data
-S7::method(data, qsip_data) <- function(x, type, original_headers = FALSE) {
+S7::method(get_dataframe, qsip_data) <- function(x, type, original_headers = FALSE) {
   if (type == "source") {
     d <- x@source_data
   } else if (type == "sample") {
@@ -481,10 +481,10 @@ S7::method(data, qsip_data) <- function(x, type, original_headers = FALSE) {
   } else if (type == "feature") {
     d <- x@feature_data
   } else {
-    stop(glue::glue("type should be 'source', 'sample' or 'feature', not {type}"))
+    stop(glue::glue("<type> should be 'source', 'sample' or 'feature', not {type}"), call. = FALSE)
   }
-
-  data(d, original_headers = original_headers)
+  #print(d)
+  get_dataframe(d, original_headers = original_headers)
 }
 
 
