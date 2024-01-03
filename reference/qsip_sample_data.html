@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.6.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.6.9002</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,7 +132,7 @@ For example, if the <code>gradient_pos_amt</code> is reported as ng/ul, and the 
 is reported as 100 ul, then the <code>gradient_pos_amt</code> will be converted to ng.</p>
 <p>Internally, <code>qsip_sample_data</code> renames the metadata columns to be standardized
 to MISIP terminology. A <code>data.frame</code> with the standardized names can be extracted
-back out of the object using the <code>get_dataframe()</code> method, and the optional <code>original_headers</code>
+back out of the object using the <code><a href="get_dataframe.html">get_dataframe()</a></code> method, and the optional <code>original_headers</code>
 argument can be set to <code>TRUE</code> to return the original column names.</p>
 <p>There are several validation checks done on the <code>data.frame</code>:</p><ul><li><p>The <code>data</code> argument must contain a <code>data.frame</code>, including a tibble</p></li>
 <li><p>The <code>sample_id</code> column must contain unique values per row</p></li>
