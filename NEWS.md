@@ -1,5 +1,7 @@
 # qSIP2 (development version)
 
+* Documentation for `get_dataframe()`
+
 # qSIP2 0.10.6
 
 * Added `infer_source_data()` function to infer source data from a sample data data frame
