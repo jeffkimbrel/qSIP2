@@ -34,16 +34,18 @@ A feature table is a required file for the qSIP2 pipeline. It is a typical ASV/O
 A "feature" refers to the names of your individual sequenced units (amplicons, taxa, vOTUs, MAGs, etc.) The feature data should be in a dataframe with a column designated for the feature ids. If you have a dataframe with `rownames` you can convert that to a column using the `tibble::rownames_to_column()` function. For example:
 
 ```{r}
-df_with_rownames = data.frame(row.names = c("feature1", "feature2", "feature3"),
-                             sample1 = c(1, 2, 3),
-                             sample2 = c(4, 5, 6))
+df_with_rownames <- data.frame(
+  row.names = c("feature1", "feature2", "feature3"),
+  sample1 = c(1, 2, 3),
+  sample2 = c(4, 5, 6)
+)
 
 # data has rownames
 rownames(df_with_rownames)
 df_with_rownames
 
 # convert rownames to a column
-df_without_rownames = df_with_rownames |>
+df_without_rownames <- df_with_rownames |>
   tibble::rownames_to_column(var = "feature_id")
 
 # now the features are in their own column
@@ -61,30 +63,38 @@ Each row corresponds to a feature, and the abundance of that feature in a certai
 
 # Making a `qSIP_feature_data` object
 
-A `qSIP_feature_data` object holds validated abundance data for your features. It can be made by giving an already made dataframe, or by modifying a dataframe and piping directly into the function.
+The `qsip_feature_data()` function creates the `qsip_feature_data` object. A `qSIP_feature_data` object holds validated abundance data for your features. It can be made by giving an already made dataframe, or by modifying a dataframe and piping directly into the function.
+
 
 ```{r}
 # option 1
-df = data.frame(feature_id = c("feature1", "feature2", "feature3"),
-                          sample1 = c(1, 2, 3),
-                          sample2 = c(4, 5, 6))
-qf1 = qsip_feature_data(df)
+df <- data.frame(
+  feature_id = c("feature1", "feature2", "feature3"),
+  sample1 = c(1, 2, 3),
+  sample2 = c(4, 5, 6)
+)
+qf1 <- qsip_feature_data(df)
 
 # option 2
-qf2 = data.frame(feature_id = c("feature1", "feature2", "feature3"),
-                          sample1 = c(1, 2, 3),
-                          sample2 = c(4, 5, 6)) |>
+qf2 <- data.frame(
+  feature_id = c("feature1", "feature2", "feature3"),
+  sample1 = c(1, 2, 3),
+  sample2 = c(4, 5, 6)
+) |>
   qsip_feature_data()
 ```
 
 You can also create and pass a tibble instead of a data.frame.
 
 ```{r, eval=FALSE}
-tibble(feature_id = c("feature1", "feature2", "feature3"),
-                          sample1 = c(1, 2, 3),
-                          sample2 = c(4, 5, 6)) |>
+tibble(
+  feature_id = c("feature1", "feature2", "feature3"),
+  sample1 = c(1, 2, 3),
+  sample2 = c(4, 5, 6)
+) |>
   qsip_feature_data()
 ```
+
 
 ## Specifying Parameters
 
@@ -93,9 +103,11 @@ The functions worked above without any parameters because the created data.frame
 ### `feature_id`
 
 ```{r}
-qf3 = tibble(ASV = c("ASV1", "ASV2", "ASV3"),
-                          sample1 = c(1, 2, 3),
-                          sample2 = c(4, 5, 6)) |>
+qf3 <- tibble(
+  ASV = c("ASV1", "ASV2", "ASV3"),
+  sample1 = c(1, 2, 3),
+  sample2 = c(4, 5, 6)
+) |>
   qsip_feature_data(feature_id = "ASV")
 ```
 
@@ -104,21 +116,48 @@ qf3 = tibble(ASV = c("ASV1", "ASV2", "ASV3"),
 Most of the validation checks depend on the chosen `type` (as explained above). If you try to pass values that don't match the type you specified, you will get an error. For example, fractional values are not allowed when the type is the default `counts`.
 
 ```{r, error=TRUE}
-tibble(feature_id = c("feature1", "feature2", "feature3"),
-                          sample1 = c(0.1, 0.2, 0.3),
-                          sample2 = c(0.4, 0.5, 0.6)) |>
+tibble(
+  feature_id = c("feature1", "feature2", "feature3"),
+  sample1 = c(0.1, 0.2, 0.3),
+  sample2 = c(0.4, 0.5, 0.6)
+) |>
   qsip_feature_data()
 ```
 
 But it is allowed with `type = "coverage"`.
 
 ```{r, error=TRUE}
-qf4 = tibble(feature_id = c("feature1", "feature2", "feature3"),
-                          sample1 = c(0.1, 0.2, 0.3),
-                          sample2 = c(0.4, 0.5, 0.6)) |>
+qf4 <- tibble(
+  feature_id = c("feature1", "feature2", "feature3"),
+  sample1 = c(0.1, 0.2, 0.3),
+  sample2 = c(0.4, 0.5, 0.6)
+) |>
   qsip_feature_data(type = "coverage")
 ```
 
+
+## Object Structure
+
+Interacting with a `qsip_feature_object` is meant to be done with `qSIP2` functions rather than working with the object directly. However, it might be useful to know the structure of the object. Data is stored in `slots` accessible with the `@` operator. 
+
+For example, to see arguments given during creation of the object:
+
+```{r}
+qf1@type
+```
+
+There is a special method to return the original dataframe.
+
+```{r}
+get_dataframe(qf1)
+```
+
+In theory, these parameters can be overwritten, but this is not recommended. If you do, they will undergo the same validations and may fail.
+
+
+```{r, error = TRUE}
+qf1@type <- "relative"
+```
 
 # Special Considerations
 
@@ -127,11 +166,13 @@ qf4 = tibble(feature_id = c("feature1", "feature2", "feature3"),
 If you have `NA` values in your abundance table, you will get an error when trying to make the feature object. In most cases a value of `NA` probably means an abundance of 0, and so the best practice would be to convert prior to creating the object with a `mutate` call and the `across` function from the `tidyr` package.
 
 ```{r}
-data.frame(feature_id = c("feature1", "feature2", "feature3"),
-                          sample1 = c(1, 2, NA),
-                          sample2 = c(4, 5, 6)) |>
-  mutate(across(everything(), ~replace_na(.x, 0))) |> 
-  qSIP2::qsip_feature_data()
+qf5 <- data.frame(
+  feature_id = c("feature1", "feature2", "feature3"),
+  sample1 = c(1, 2, NA),
+  sample2 = c(4, 5, 6)
+) |>
+  mutate(across(everything(), ~ replace_na(.x, 0))) |>
+  qsip_feature_data()
 ```
 
 ## Taxonomy or other metadata
@@ -139,11 +180,13 @@ data.frame(feature_id = c("feature1", "feature2", "feature3"),
 If you have further metadata for your features, such as a taxonomy table, you can add it with the `add_taxa()` function. 
 
 ```{r}
-taxonomy = data.frame(feature_id = c("feature1", "feature2", "feature3"),
-                          genus = c("Marinobacter", "Devosia", "Pseudomonas"),
-                          species = c("adhaerens", "insulae", "syringae"))
+taxonomy <- data.frame(
+  feature_id = c("feature1", "feature2", "feature3"),
+  genus = c("Marinobacter", "Devosia", "Pseudomonas"),
+  species = c("adhaerens", "insulae", "syringae")
+)
 
-qf1_with_taxonomy = add_taxonomy(qf1, taxonomy, feature_id = "feature_id")
+qf1_with_taxonomy <- add_taxonomy(qf1, taxonomy, feature_id = "feature_id")
 ```
 
 Right now this function is still in development with few requirements on what metadata can be included. 

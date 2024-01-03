@@ -11,13 +11,17 @@ add_taxonomy(feature_object, taxa, feature_id)
 
 \item{taxa}{(\emph{dataframe}) A taxa table}
 
-\item{id}{(\emph{string}) The column name for the taxa ids that match the ids in the
+\item{id}{(\emph{string}) The column name for the feature ids that match the ids in the
 abundance table}
 }
 \value{
 An updated \code{qsip_feature_data} with the taxonomy slot populated with a taxonomy dataframe.
 }
 \description{
-Add a taxonomy table to qSIP abundance data
+This function is designed to add taxonomy data to a feature table, but in reality
+it can hold any metadata that you want to associate with your features. The only
+requirement is that the metadata table must have a feature id column with values
+that match the feature ids in the \code{qsip_feature_data} object, and these ids must
+not be duplicated.
 }
 \concept{"Feature Data"}

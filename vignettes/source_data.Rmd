@@ -25,13 +25,13 @@ packageVersion("qSIP2")
 ```{r, echo=FALSE}
 ggplot2::theme_set(ggplot2::theme_bw())
 
-gt_func = function(df, title) {
+gt_func <- function(df, title) {
   df |>
-    gt::gt() |> 
+    gt::gt() |>
     gt::tab_header(
       title = title,
-    )|> 
-    gt::opt_stylize(style = 2, color = 'gray') |>
+    ) |>
+    gt::opt_stylize(style = 2, color = "gray") |>
     gt::tab_options(
       table.font.size = 12
     ) |>
@@ -119,7 +119,7 @@ While constructing a `qsip_source_data` object there are a few validation checks
 One benefit of the validation steps being embedded in the object itself is that these validations are automatically run when the object is modified. This makes it impossible to modify the data later to an invalid object, e.g. changing an isotope to an invalid choice.
 
 ```{r, error = TRUE}
-source_object@data$isotope = "13G"
+source_object@data$isotope <- "13G"
 ```
 
 # MISIP
@@ -133,7 +133,7 @@ While qSIP standards are part of the MISIP standards, the `qSIP2` package is a l
 ## Adding the `isotopolog_label` column
 
 ```{r}
-source_df_MISIP = source_df |>
+source_df_MISIP <- source_df |>
   add_isotopolog_label(isotope = "Isotope")
 ```
 
@@ -151,7 +151,8 @@ Now, the `Isotope` column has been renamed to `isotope` to satisfy MISIP standar
 ```{r}
 #| echo: false
 
-source_df_MISIP |> count(isotope) |> 
+source_df_MISIP |>
+  count(isotope) |>
   gt_func(title = "Count of `isotope` types in `source_df_MISIP`")
 ```
 
@@ -160,7 +161,8 @@ And the designation for whether the source material was the "light" or "heavy" v
 ```{r}
 #| echo: false
 
-source_df_MISIP |> count(isotopolog_label) |> 
+source_df_MISIP |>
+  count(isotopolog_label) |>
   gt_func(title = "Count of `isotopolog_label` types in `source_df_MISIP`")
 ```
 
@@ -169,7 +171,7 @@ source_df_MISIP |> count(isotopolog_label) |>
 This change can be reverted with the `remove_isotopolog_label()` function.
 
 ```{r}
-source_df_ORIGINAL = remove_isotopolog_label(source_df_MISIP)
+source_df_ORIGINAL <- remove_isotopolog_label(source_df_MISIP)
 ```
 
 ```{r}
@@ -182,5 +184,3 @@ source_df_ORIGINAL |>
 ```
 
 Note, the original is not *exactly* preserved as the original `Isotope` column has the MISIP standard `isotope` name retained.
-
-

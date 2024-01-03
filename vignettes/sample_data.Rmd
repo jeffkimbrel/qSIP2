@@ -25,13 +25,13 @@ packageVersion("qSIP2")
 ```{r, echo=FALSE}
 ggplot2::theme_set(ggplot2::theme_bw())
 
-gt_func = function(df, title) {
+gt_func <- function(df, title) {
   df |>
-    gt::gt() |> 
+    gt::gt() |>
     gt::tab_header(
       title = title,
-    )|> 
-    gt::opt_stylize(style = 2, color = 'gray') |>
+    ) |>
+    gt::opt_stylize(style = 2, color = "gray") |>
     gt::tab_options(
       table.font.size = 12
     ) |>
@@ -59,8 +59,10 @@ The sample data has the most requirements to pass validation of the three qSIP i
 One column of the metadata should contain a unique `sample_id` that is associated with a `source_mat_id`. The format of the `sample_id` doesn't matter, as long as it is unique. A popular choice might be the `source_mat_id` appended with the gradient position.
 
 ```{r, echo=FALSE}
-data.frame("source_mat_id" = c(rep("A", 3), rep("B", 3)),
-           "sample_id" = c(paste(rep("A", 3,), 1:3, sep = "_"), paste(rep("B", 3), 1:3, sep = "_"))) |>
+data.frame(
+  "source_mat_id" = c(rep("A", 3), rep("B", 3)),
+  "sample_id" = c(paste(rep("A", 3, ), 1:3, sep = "_"), paste(rep("B", 3), 1:3, sep = "_"))
+) |>
   gt_func("Sample `source_mat_id` and `sample_id` pairs")
 ```
 

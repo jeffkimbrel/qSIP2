@@ -1,8 +1,16 @@
 #' Add a taxonomy table to qSIP abundance data
 #'
+#' @description
+#'
+#' This function is designed to add taxonomy data to a feature table, but in reality
+#' it can hold any metadata that you want to associate with your features. The only
+#' requirement is that the metadata table must have a feature id column with values
+#' that match the feature ids in the `qsip_feature_data` object, and these ids must
+#' not be duplicated.
+#'
 #' @param feature_object (*qsip_feature_data*) An object of `qsip_feature_data` class
 #' @param taxa (*dataframe*) A taxa table
-#' @param id (*string*) The column name for the taxa ids that match the ids in the
+#' @param id (*string*) The column name for the feature ids that match the ids in the
 #' abundance table
 #'
 #' @export

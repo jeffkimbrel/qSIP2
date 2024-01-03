@@ -461,7 +461,15 @@ S7::method(get_dataframe, qsip_sample_data) <- function(x, original_headers = FA
 }
 
 
-## feature data
+#' Return the original dataframe from a qsip_feature_data object
+#'
+#' @param x (*qsip_feature_data*) A qSIP feature data object
+#' @param original_headers (*logical*) Return the original column names
+#'
+#' @name get_dataframe
+#' @export
+
+
 S7::method(get_dataframe, qsip_feature_data) <- function(x, original_headers = FALSE) {
   # if is not boolean
   if (!is.logical(original_headers)) {
@@ -475,6 +483,9 @@ S7::method(get_dataframe, qsip_feature_data) <- function(x, original_headers = F
     x@data
   }
 }
+
+
+
 
 ## qsip data
 S7::method(get_dataframe, qsip_data) <- function(x, type, original_headers = FALSE) {
