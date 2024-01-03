@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.5.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.6.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,19 +92,200 @@
 
     
     
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] '0.10.6.9000'</span></span></code></pre></div>
 <div class="section level2">
-<h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
+<h2 id="feature-counts-and-metadata">Feature Counts and Metadata<a class="anchor" aria-label="anchor" href="#feature-counts-and-metadata"></a>
 </h2>
-<p>An abundance table is a required file for the qSIP pipeline. It is a
+<p>A feature table is a required file for the qSIP2 pipeline. It is a
 typical ASV/OTU table where individual taxa are in rows, and sample
 names are in columns. The table is populated with raw sequencing counts
 from an amplicon workflow, or some other proxy for abundance (like
 mean/median depth of coverage) if working with MAGs or other data
 types.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-  </main>
+<div class="section level2">
+<h2 id="preparing-the-feature-data">Preparing the Feature Data<a class="anchor" aria-label="anchor" href="#preparing-the-feature-data"></a>
+</h2>
+<div class="section level3">
+<h3 id="feature-ids-as-a-column">Feature ids as a column<a class="anchor" aria-label="anchor" href="#feature-ids-as-a-column"></a>
+</h3>
+<p>A “feature” refers to the names of your individual sequenced units
+(amplicons, taxa, vOTUs, MAGs, etc.) The feature data should be in a
+dataframe with a column designated for the feature ids. If you have a
+dataframe with <code>rownames</code> you can convert that to a column
+using the <code><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">tibble::rownames_to_column()</a></code> function. For
+example:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_with_rownames</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"feature1"</span>, <span class="st">"feature2"</span>, <span class="st">"feature3"</span><span class="op">)</span>,</span>
+<span>                             sample1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>                             sample2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># data has rownames</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">df_with_rownames</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "feature1" "feature2" "feature3"</span></span>
+<span><span class="va">df_with_rownames</span></span>
+<span><span class="co">#&gt;          sample1 sample2</span></span>
+<span><span class="co">#&gt; feature1       1       4</span></span>
+<span><span class="co">#&gt; feature2       2       5</span></span>
+<span><span class="co">#&gt; feature3       3       6</span></span>
+<span></span>
+<span><span class="co"># convert rownames to a column</span></span>
+<span><span class="va">df_without_rownames</span> <span class="op">=</span> <span class="va">df_with_rownames</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rownames_to_column</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"feature_id"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># now the features are in their own column</span></span>
+<span><span class="va">df_without_rownames</span></span>
+<span><span class="co">#&gt;   feature_id sample1 sample2</span></span>
+<span><span class="co">#&gt; 1   feature1       1       4</span></span>
+<span><span class="co">#&gt; 2   feature2       2       5</span></span>
+<span><span class="co">#&gt; 3   feature3       3       6</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="abundance-information">Abundance Information<a class="anchor" aria-label="anchor" href="#abundance-information"></a>
+</h3>
+<p>Each row corresponds to a feature, and the abundance of that feature
+in a certain sample lives in a column with that sample name as the
+column header. The abundance values themselves can be one of several
+types, and the data itself is subject to different validation
+requirements based on the type of the data. There are currently the
+accepted types are <code>counts</code>, <code>coverage</code>,
+<code>normalized</code>, and <code>relative</code>.</p>
+<ul>
+<li>
+<code>counts</code> is the default and it what should be used in
+most cases where you are giving raw sequencing counts. Here, the data is
+expected to be integers equal to or greater than 0</li>
+<li>
+<code>coverage</code> is designed for use with MAGs or other data
+types where you are using a proxy for abundance like mean/median depth
+of coverage. Here, the data is expected to be numeric values equal to or
+greater than 0.</li>
+<li>
+<code>normalized</code> is a special case where you have already
+pre-normalized your counts using an internal spike-in or similar.</li>
+<li>
+<code>relative</code> is for situations where you might have lost
+the original integer count data and only have relative abundance. If
+using this option your columns it expects fractional abundances (rather
+than percentages) so each column must sum to 1 or less.</li>
+</ul>
+</div>
+</div>
+<div class="section level2">
+<h2 id="making-a-qsip_feature_data-object">Making a <code>qSIP_feature_data</code> object<a class="anchor" aria-label="anchor" href="#making-a-qsip_feature_data-object"></a>
+</h2>
+<p>A <code>qSIP_feature_data</code> object holds validated abundance
+data for your features. It can be made by giving an already made
+dataframe, or by modifying a dataframe and piping directly into the
+function.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># option 1</span></span>
+<span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"feature1"</span>, <span class="st">"feature2"</span>, <span class="st">"feature3"</span><span class="op">)</span>,</span>
+<span>                          sample1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>                          sample2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">qf1</span> <span class="op">=</span> <span class="fu"><a href="../reference/qsip_feature_data.html">qsip_feature_data</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># option 2</span></span>
+<span><span class="va">qf2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"feature1"</span>, <span class="st">"feature2"</span>, <span class="st">"feature3"</span><span class="op">)</span>,</span>
+<span>                          sample1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>                          sample2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/qsip_feature_data.html">qsip_feature_data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>You can also create and pass a tibble instead of a data.frame.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"feature1"</span>, <span class="st">"feature2"</span>, <span class="st">"feature3"</span><span class="op">)</span>,</span>
+<span>                          sample1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>                          sample2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/qsip_feature_data.html">qsip_feature_data</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="specifying-parameters">Specifying Parameters<a class="anchor" aria-label="anchor" href="#specifying-parameters"></a>
+</h3>
+<p>The functions worked above without any parameters because the created
+data.frame matched the defaults. If you feature ids are in a column with
+a different name, then you must pass that column name using the
+<code>feature_id</code> argument.</p>
+<div class="section level4">
+<h4 id="feature_id">
+<code>feature_id</code><a class="anchor" aria-label="anchor" href="#feature_id"></a>
+</h4>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">qf3</span> <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>ASV <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ASV1"</span>, <span class="st">"ASV2"</span>, <span class="st">"ASV3"</span><span class="op">)</span>,</span>
+<span>                          sample1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>                          sample2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/qsip_feature_data.html">qsip_feature_data</a></span><span class="op">(</span>feature_id <span class="op">=</span> <span class="st">"ASV"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="type">
+<code>type</code><a class="anchor" aria-label="anchor" href="#type"></a>
+</h4>
+<p>Most of the validation checks depend on the chosen <code>type</code>
+(as explained above). If you try to pass values that don’t match the
+type you specified, you will get an error. For example, fractional
+values are not allowed when the type is the default
+<code>counts</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"feature1"</span>, <span class="st">"feature2"</span>, <span class="st">"feature3"</span><span class="op">)</span>,</span>
+<span>                          sample1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span>,</span>
+<span>                          sample2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/qsip_feature_data.html">qsip_feature_data</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Error: Some data are not integers</span></span></code></pre></div>
+<p>But it is allowed with <code>type = "coverage"</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">qf4</span> <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"feature1"</span>, <span class="st">"feature2"</span>, <span class="st">"feature3"</span><span class="op">)</span>,</span>
+<span>                          sample1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span>,</span>
+<span>                          sample2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/qsip_feature_data.html">qsip_feature_data</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"coverage"</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="special-considerations">Special Considerations<a class="anchor" aria-label="anchor" href="#special-considerations"></a>
+</h2>
+<div class="section level3">
+<h3 id="na-values">NA Values<a class="anchor" aria-label="anchor" href="#na-values"></a>
+</h3>
+<p>If you have <code>NA</code> values in your abundance table, you will
+get an error when trying to make the feature object. In most cases a
+value of <code>NA</code> probably means an abundance of 0, and so the
+best practice would be to convert prior to creating the object with a
+<code>mutate</code> call and the <code>across</code> function from the
+<code>tidyr</code> package.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"feature1"</span>, <span class="st">"feature2"</span>, <span class="st">"feature3"</span><span class="op">)</span>,</span>
+<span>                          sample1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>                          sample2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html" class="external-link">replace_na</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">qSIP2</span><span class="fu">::</span><span class="fu"><a href="../reference/qsip_feature_data.html">qsip_feature_data</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;qsip_feature_data&gt;</span></span>
+<span><span class="co">#&gt;  @ data      :'data.frame':  3 obs. of  3 variables:</span></span>
+<span><span class="co">#&gt;  .. $ feature_id: chr  "feature1" "feature2" "feature3"</span></span>
+<span><span class="co">#&gt;  .. $ sample1   : num  1 2 0</span></span>
+<span><span class="co">#&gt;  .. $ sample2   : num  4 5 6</span></span>
+<span><span class="co">#&gt;  @ feature_id: chr "feature_id"</span></span>
+<span><span class="co">#&gt;  @ taxonomy  :'data.frame':  0 obs. of  0 variables</span></span>
+<span><span class="co">#&gt;  @ type      : chr "counts"</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="taxonomy-or-other-metadata">Taxonomy or other metadata<a class="anchor" aria-label="anchor" href="#taxonomy-or-other-metadata"></a>
+</h3>
+<p>If you have further metadata for your features, such as a taxonomy
+table, you can add it with the <code>add_taxa()</code> function.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">taxonomy</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"feature1"</span>, <span class="st">"feature2"</span>, <span class="st">"feature3"</span><span class="op">)</span>,</span>
+<span>                          genus <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Marinobacter"</span>, <span class="st">"Devosia"</span>, <span class="st">"Pseudomonas"</span><span class="op">)</span>,</span>
+<span>                          species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"adhaerens"</span>, <span class="st">"insulae"</span>, <span class="st">"syringae"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">qf1_with_taxonomy</span> <span class="op">=</span> <span class="fu"><a href="../reference/add_taxonomy.html">add_taxonomy</a></span><span class="op">(</span><span class="va">qf1</span>, <span class="va">taxonomy</span>, feature_id <span class="op">=</span> <span class="st">"feature_id"</span><span class="op">)</span></span></code></pre></div>
+<p>Right now this function is still in development with few requirements
+on what metadata can be included.</p>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
