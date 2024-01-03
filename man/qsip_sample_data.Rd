@@ -11,7 +11,7 @@ qsip_sample_data(
   gradient_position = "gradient_position",
   gradient_pos_density = "gradient_pos_density",
   gradient_pos_amt = "gradient_pos_amt",
-  gradient_pos_rel_amt = "gradient_pos_rel_amt"
+  gradient_pos_rel_amt = ""
 )
 }
 \arguments{

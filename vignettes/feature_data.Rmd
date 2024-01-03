@@ -3,8 +3,10 @@ title: "Working with Feature Data"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{abundance_data}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -14,14 +16,134 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Background
-
-An abundance table is a required file for the qSIP pipeline. It is a typical ASV/OTU table where individual taxa are in rows, and sample names are in columns. The table is populated with raw sequencing counts from an amplicon workflow, or some other proxy for abundance (like mean/median depth of coverage) if working with MAGs or other data types.  
-
-```{r setup, message=FALSE}
+```{r setup, message=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
 library(qSIP2)
+packageVersion("qSIP2")
+```
+
+# Feature Counts and Metadata
+
+A feature table is a required file for the qSIP2 pipeline. It is a typical ASV/OTU table where individual taxa are in rows, and sample names are in columns. The table is populated with raw sequencing counts from an amplicon workflow, or some other proxy for abundance (like mean/median depth of coverage) if working with MAGs or other data types. 
+
+# Preparing the Feature Data
+
+## Feature ids as a column
+
+A "feature" refers to the names of your individual sequenced units (amplicons, taxa, vOTUs, MAGs, etc.) The feature data should be in a dataframe with a column designated for the feature ids. If you have a dataframe with `rownames` you can convert that to a column using the `tibble::rownames_to_column()` function. For example:
+
+```{r}
+df_with_rownames = data.frame(row.names = c("feature1", "feature2", "feature3"),
+                             sample1 = c(1, 2, 3),
+                             sample2 = c(4, 5, 6))
+
+# data has rownames
+rownames(df_with_rownames)
+df_with_rownames
+
+# convert rownames to a column
+df_without_rownames = df_with_rownames |>
+  tibble::rownames_to_column(var = "feature_id")
+
+# now the features are in their own column
+df_without_rownames
+```
+
+## Abundance Information
+
+Each row corresponds to a feature, and the abundance of that feature in a certain sample lives in a column with that sample name as the column header. The abundance values themselves can be one of several types, and the data itself is subject to different validation requirements based on the type of the data. There are currently the accepted types are `counts`, `coverage`, `normalized`, and `relative`. 
+
+- `counts` is the default and it what should be used in most cases where you are giving raw sequencing counts. Here, the data is expected to be integers equal to or greater than 0
+- `coverage` is designed for use with MAGs or other data types where you are using a proxy for abundance like mean/median depth of coverage. Here, the data is expected to be numeric values equal to or greater than 0.
+- `normalized` is a special case where you have already pre-normalized your counts using an internal spike-in or similar. 
+- `relative` is for situations where you might have lost the original integer count data and only have relative abundance. If using this option your columns it expects fractional abundances (rather than percentages) so each column must sum to 1 or less. 
+
+# Making a `qSIP_feature_data` object
+
+A `qSIP_feature_data` object holds validated abundance data for your features. It can be made by giving an already made dataframe, or by modifying a dataframe and piping directly into the function.
+
+```{r}
+# option 1
+df = data.frame(feature_id = c("feature1", "feature2", "feature3"),
+                          sample1 = c(1, 2, 3),
+                          sample2 = c(4, 5, 6))
+qf1 = qsip_feature_data(df)
+
+# option 2
+qf2 = data.frame(feature_id = c("feature1", "feature2", "feature3"),
+                          sample1 = c(1, 2, 3),
+                          sample2 = c(4, 5, 6)) |>
+  qsip_feature_data()
+```
+
+You can also create and pass a tibble instead of a data.frame.
+
+```{r, eval=FALSE}
+tibble(feature_id = c("feature1", "feature2", "feature3"),
+                          sample1 = c(1, 2, 3),
+                          sample2 = c(4, 5, 6)) |>
+  qsip_feature_data()
+```
+
+## Specifying Parameters
+
+The functions worked above without any parameters because the created data.frame matched the defaults. If you feature ids are in a column with a different name, then you must pass that column name using the `feature_id` argument.
+
+### `feature_id`
+
+```{r}
+qf3 = tibble(ASV = c("ASV1", "ASV2", "ASV3"),
+                          sample1 = c(1, 2, 3),
+                          sample2 = c(4, 5, 6)) |>
+  qsip_feature_data(feature_id = "ASV")
+```
+
+### `type`
+
+Most of the validation checks depend on the chosen `type` (as explained above). If you try to pass values that don't match the type you specified, you will get an error. For example, fractional values are not allowed when the type is the default `counts`.
+
+```{r, error=TRUE}
+tibble(feature_id = c("feature1", "feature2", "feature3"),
+                          sample1 = c(0.1, 0.2, 0.3),
+                          sample2 = c(0.4, 0.5, 0.6)) |>
+  qsip_feature_data()
+```
+
+But it is allowed with `type = "coverage"`.
+
+```{r, error=TRUE}
+qf4 = tibble(feature_id = c("feature1", "feature2", "feature3"),
+                          sample1 = c(0.1, 0.2, 0.3),
+                          sample2 = c(0.4, 0.5, 0.6)) |>
+  qsip_feature_data(type = "coverage")
 ```
 
 
+# Special Considerations
 
+## NA Values
 
+If you have `NA` values in your abundance table, you will get an error when trying to make the feature object. In most cases a value of `NA` probably means an abundance of 0, and so the best practice would be to convert prior to creating the object with a `mutate` call and the `across` function from the `tidyr` package.
+
+```{r}
+data.frame(feature_id = c("feature1", "feature2", "feature3"),
+                          sample1 = c(1, 2, NA),
+                          sample2 = c(4, 5, 6)) |>
+  mutate(across(everything(), ~replace_na(.x, 0))) |> 
+  qSIP2::qsip_feature_data()
+```
+
+## Taxonomy or other metadata
+
+If you have further metadata for your features, such as a taxonomy table, you can add it with the `add_taxa()` function. 
+
+```{r}
+taxonomy = data.frame(feature_id = c("feature1", "feature2", "feature3"),
+                          genus = c("Marinobacter", "Devosia", "Pseudomonas"),
+                          species = c("adhaerens", "insulae", "syringae"))
+
+qf1_with_taxonomy = add_taxonomy(qf1, taxonomy, feature_id = "feature_id")
+```
+
+Right now this function is still in development with few requirements on what metadata can be included. 
