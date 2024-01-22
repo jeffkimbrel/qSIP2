@@ -1,6 +1,8 @@
 # qSIP2 (development version)
 
-* Documentation for `get_dataframe()`
+# qSIP2 0.11.0
+
+* Introduced ability to keep only successful resampling attempts, and discard failures. This keeps `run_resampling()` from failing if the sample count is low, but could result in feature_ids with less than the expected number of resamples. This is controlled by the `keep_failures` argument in `run_resampling()`. Two functions have been added to inspect the results of resampling: `get_resample_counts()` and `plot_successful_resamples()`.
 
 # qSIP2 0.10.6
 
@@ -11,6 +13,7 @@
 * `plot_sample_curves()` and `plot_source_wads()` have been updated to ignore unfractionated samples/sources
 * Removed requirement for `gradient_pos_rel_amt` column in the imported sample dataframe. If you have one you can still pass the column name. If you don't, it will run the `add_gradient_pos_rel_amt()` silently using the `gradient_pos_amt` column, and provide a message that it is doing so.
 * Updated `vignette("feature_data")`
+* Documentation for `get_dataframe()`
 
 # qSIP2 0.10.5
 

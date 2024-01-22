@@ -298,8 +298,8 @@
        .. $ min_unlabeled_sources   : num 6
        .. $ min_labeled_fractions   : num 6
        .. $ min_unlabeled_fractions : num 6
-       @ resamples            :List of 2
-       .. $ l:List of 100
+       @ resamples            :List of 5
+       .. $ l             :List of 100
        ..  ..$ : tibble [64 x 6] (S3: tbl_df/tbl/data.frame)
        ..  .. ..$ feature_id: chr [1:64] "ASV_1" "ASV_10" "ASV_11" "ASV_114" ...
        ..  .. ..$ type      : chr [1:64] "labeled" "labeled" "labeled" "labeled" ...
@@ -994,7 +994,7 @@
        ..  .. ..$ labeled_2 : num [1:64] 1.7 1.72 1.73 1.72 1.72 ...
        ..  .. ..$ labeled_3 : num [1:64] 1.7 1.72 1.74 1.73 1.72 ...
        ..  .. [list output truncated]
-       .. $ u:List of 100
+       .. $ u             :List of 100
        ..  ..$ : tibble [64 x 11] (S3: tbl_df/tbl/data.frame)
        ..  .. ..$ feature_id : chr [1:64] "ASV_1" "ASV_10" "ASV_11" "ASV_114" ...
        ..  .. ..$ type       : chr [1:64] "unlabeled" "unlabeled" "unlabeled" "unlabeled" ...
@@ -2184,5 +2184,8 @@
        ..  .. ..$ unlabeled_7: num [1:64] 1.7 1.71 1.72 1.71 1.72 ...
        ..  .. ..$ unlabeled_8: num [1:64] 1.7 1.71 1.71 1.71 1.71 ...
        ..  .. [list output truncated]
+       .. $ n             : num 100
+       .. $ seed          : num 21
+       .. $ allow_failures: logi FALSE
        @ EAF                  :'data.frame':	0 obs. of  0 variables
 

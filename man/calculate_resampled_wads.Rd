@@ -4,7 +4,7 @@
 \alias{calculate_resampled_wads}
 \title{Internal function for resampling WAD values (internal)}
 \usage{
-calculate_resampled_wads(i, wad_data, type)
+calculate_resampled_wads(i, wad_data, type, allow_failures = FALSE)
 }
 \arguments{
 \item{i}{(\emph{integer}) The specific iteration of the resampling}

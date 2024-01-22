@@ -25,7 +25,7 @@ test_that("same seed gives same result", {
                    run_resampling(test_qsip, resamples = 10, with_seed = 22))
 })
 
-test_that("reample number is correct", {
+test_that("resample number is correct", {
   expect_equal(length(run_resampling(test_qsip, resamples = 10, with_seed = 22)@resamples$u), 10)
   expect_equal(length(run_resampling(test_qsip, resamples = 10, with_seed = 22)@resamples$l), 10)})
 

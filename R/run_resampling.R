@@ -17,8 +17,8 @@
 run_resampling <- function(qsip_data_object,
                            resamples = 1000,
                            with_seed = NULL,
+                           allow_failures = FALSE,
                            progress = TRUE) {
-
   if (!"qsip_data" %in% class(qsip_data_object)) {
     stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
   } else if (length(qsip_data_object@filtered_wad_data) == 0) {
@@ -54,28 +54,49 @@ run_resampling <- function(qsip_data_object,
 
   # run resampling. This will return a list of x size with resampling results
   if (isTRUE(progress)) {
-    progress_bar_l = "labeled resamples..."
-    progress_bar_u = "unlabeled resamples..."
+    progress_bar_l <- "labeled resamples..."
+    progress_bar_u <- "unlabeled resamples..."
   } else {
-    progress_bar_l = FALSE
-    progress_bar_u = FALSE
+    progress_bar_l <- FALSE
+    progress_bar_u <- FALSE
   }
 
   labeled_resamples <- purrr::map(1:resamples, \(i) calculate_resampled_wads(
     i, labeled_wads,
-    "labeled"
+    "labeled",
+    allow_failures = allow_failures
   ), .progress = progress_bar_l)
 
   unlabeled_resamples <- purrr::map(1:resamples, \(i) calculate_resampled_wads(
     i, unlabeled_wads,
-    "unlabeled"
+    "unlabeled",
+    allow_failures = allow_failures
   ), .progress = progress_bar_u)
 
   # merge two lists into a list of lists in the @resamples slot
   qsip_data_object@resamples <- list(
     "l" = labeled_resamples,
-    "u" = unlabeled_resamples
+    "u" = unlabeled_resamples,
+    "n" = resamples,
+    "seed" = with_seed,
+    "allow_failures" = allow_failures
   )
+
+  if (isTRUE(allow_failures)) {
+    failures <- get_resample_counts(qsip_data_object) |>
+      dplyr::filter(n < 1000) |>
+      dplyr::group_by(type) |>
+      dplyr::count() |>
+      tibble::deframe()
+
+    if (sum(failures > 0)) {
+      warning(glue::glue("{failures['unlabeled']} unlabeled and {failures['labeled']} labeled feature_ids had resampling failures. Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect."),
+              call. = FALSE)
+    }
+  }
+
+
+
 
   # return the complete qsip_data object
   qsip_data_object

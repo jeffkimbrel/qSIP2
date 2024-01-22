@@ -8,6 +8,7 @@ run_resampling(
   qsip_data_object,
   resamples = 1000,
   with_seed = NULL,
+  allow_failures = FALSE,
   progress = TRUE
 )
 }
