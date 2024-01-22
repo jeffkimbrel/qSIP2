@@ -59,8 +59,17 @@ run_EAF_calculations <- function(qsip_data_object) {
   ) |>
     dplyr::select(feature_id, resample, W_unlab_mean)
 
-  EAF <- p |>
-    dplyr::left_join(p2, by = c("feature_id", "resample")) |>
+  p3 = p |>
+    dplyr::left_join(p2, by = c("feature_id", "resample"))
+
+  # remove bad values if allow resampling failures is true
+  if (isTRUE(qsip_data_object@resamples$allow_failures)) {
+    p3 = p3 |>
+      dplyr::filter(!is.na(W_unlab_mean)) |>
+      dplyr::filter(!is.na(W_lab_mean))
+  }
+
+  EAF <- p3 |>
     dplyr::mutate(observed = F) |>
     rbind(observed) |>
     dplyr::mutate(Z = calculate_Z(W_lab_mean, W_unlab_mean)) |> # hungate equation 4
