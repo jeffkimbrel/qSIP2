@@ -121,6 +121,9 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_isotope_designation.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/index.html</loc>
   </url>
   <url>
@@ -140,6 +143,9 @@
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_source_wads.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_successful_resamples.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_data.html</loc>
