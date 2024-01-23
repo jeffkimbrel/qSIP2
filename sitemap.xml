@@ -22,6 +22,9 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/articles/qSIP_workflow.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/articles/resampling.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/articles/sample_data.html</loc>
   </url>
   <url>
@@ -118,16 +121,28 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_dataframe.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_feature_ids.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_isotope_designation.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_data.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_source_mat_ids.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/index.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/infer_source_data.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/n_resamples.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_density_outliers.html</loc>
@@ -167,6 +182,9 @@
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/remove_isotopolog_label.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/resample_seed.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/run_EAF_calculations.html</loc>

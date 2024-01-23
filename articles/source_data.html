@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.1.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.2.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +52,7 @@
     <a class="dropdown-item" href="../articles/source_data.html">Working with Source Data</a>
     <a class="dropdown-item" href="../articles/sample_data.html">Working with Sample Data</a>
     <a class="dropdown-item" href="../articles/feature_data.html">Working with Feature Data</a>
+    <a class="dropdown-item" href="../articles/resampling.html">Resampling</a>
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="../articles/index.html">More articles...</a>
   </div>
@@ -96,7 +97,7 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.11.1.9001'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.11.2.9001'</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="source-material-and-metadata">Source Material and Metadata<a class="anchor" aria-label="anchor" href="#source-material-and-metadata"></a>
 </h2>
@@ -120,23 +121,23 @@ will use to group and subset your source material in the qSIP workflow.
 But, they can also be further details that you might not need for qSIP,
 but it may make sense to just keep everything included if they’re
 already in your <code>.txt.</code> or excel file.</p>
-<div id="awbxnxbzgo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#awbxnxbzgo table {
+<div id="fingfjmlou" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fingfjmlou table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#awbxnxbzgo thead, #awbxnxbzgo tbody, #awbxnxbzgo tfoot, #awbxnxbzgo tr, #awbxnxbzgo td, #awbxnxbzgo th {
+#fingfjmlou thead, #fingfjmlou tbody, #fingfjmlou tfoot, #fingfjmlou tr, #fingfjmlou td, #fingfjmlou th {
   border-style: none;
 }
 
-#awbxnxbzgo p {
+#fingfjmlou p {
   margin: 0;
   padding: 0;
 }
 
-#awbxnxbzgo .gt_table {
+#fingfjmlou .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -162,12 +163,12 @@ already in your <code>.txt.</code> or excel file.</p>
   border-left-color: #D5D5D5;
 }
 
-#awbxnxbzgo .gt_caption {
+#fingfjmlou .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#awbxnxbzgo .gt_title {
+#fingfjmlou .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -179,7 +180,7 @@ already in your <code>.txt.</code> or excel file.</p>
   border-bottom-width: 0;
 }
 
-#awbxnxbzgo .gt_subtitle {
+#fingfjmlou .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -191,7 +192,7 @@ already in your <code>.txt.</code> or excel file.</p>
   border-top-width: 0;
 }
 
-#awbxnxbzgo .gt_heading {
+#fingfjmlou .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -203,13 +204,13 @@ already in your <code>.txt.</code> or excel file.</p>
   border-right-color: #D3D3D3;
 }
 
-#awbxnxbzgo .gt_bottom_border {
+#fingfjmlou .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
 }
 
-#awbxnxbzgo .gt_col_headings {
+#fingfjmlou .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -224,7 +225,7 @@ already in your <code>.txt.</code> or excel file.</p>
   border-right-color: #D3D3D3;
 }
 
-#awbxnxbzgo .gt_col_heading {
+#fingfjmlou .gt_col_heading {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -244,7 +245,7 @@ already in your <code>.txt.</code> or excel file.</p>
   overflow-x: hidden;
 }
 
-#awbxnxbzgo .gt_column_spanner_outer {
+#fingfjmlou .gt_column_spanner_outer {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -256,15 +257,15 @@ already in your <code>.txt.</code> or excel file.</p>
   padding-right: 4px;
 }
 
-#awbxnxbzgo .gt_column_spanner_outer:first-child {
+#fingfjmlou .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#awbxnxbzgo .gt_column_spanner_outer:last-child {
+#fingfjmlou .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#awbxnxbzgo .gt_column_spanner {
+#fingfjmlou .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
@@ -276,11 +277,11 @@ already in your <code>.txt.</code> or excel file.</p>
   width: 100%;
 }
 
-#awbxnxbzgo .gt_spanner_row {
+#fingfjmlou .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#awbxnxbzgo .gt_group_heading {
+#fingfjmlou .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -306,7 +307,7 @@ already in your <code>.txt.</code> or excel file.</p>
   text-align: left;
 }
 
-#awbxnxbzgo .gt_empty_group_heading {
+#fingfjmlou .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -321,15 +322,15 @@ already in your <code>.txt.</code> or excel file.</p>
   vertical-align: middle;
 }
 
-#awbxnxbzgo .gt_from_md > :first-child {
+#fingfjmlou .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#awbxnxbzgo .gt_from_md > :last-child {
+#fingfjmlou .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#awbxnxbzgo .gt_row {
+#fingfjmlou .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -348,7 +349,7 @@ already in your <code>.txt.</code> or excel file.</p>
   overflow-x: hidden;
 }
 
-#awbxnxbzgo .gt_stub {
+#fingfjmlou .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -361,7 +362,7 @@ already in your <code>.txt.</code> or excel file.</p>
   padding-right: 5px;
 }
 
-#awbxnxbzgo .gt_stub_row_group {
+#fingfjmlou .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -375,15 +376,15 @@ already in your <code>.txt.</code> or excel file.</p>
   vertical-align: top;
 }
 
-#awbxnxbzgo .gt_row_group_first td {
+#fingfjmlou .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#awbxnxbzgo .gt_row_group_first th {
+#fingfjmlou .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#awbxnxbzgo .gt_summary_row {
+#fingfjmlou .gt_summary_row {
   color: #333333;
   background-color: #D5D5D5;
   text-transform: inherit;
@@ -393,16 +394,16 @@ already in your <code>.txt.</code> or excel file.</p>
   padding-right: 5px;
 }
 
-#awbxnxbzgo .gt_first_summary_row {
+#fingfjmlou .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D5D5D5;
 }
 
-#awbxnxbzgo .gt_first_summary_row.thick {
+#fingfjmlou .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#awbxnxbzgo .gt_last_summary_row {
+#fingfjmlou .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -412,7 +413,7 @@ already in your <code>.txt.</code> or excel file.</p>
   border-bottom-color: #D5D5D5;
 }
 
-#awbxnxbzgo .gt_grand_summary_row {
+#fingfjmlou .gt_grand_summary_row {
   color: #FFFFFF;
   background-color: #929292;
   text-transform: inherit;
@@ -422,7 +423,7 @@ already in your <code>.txt.</code> or excel file.</p>
   padding-right: 5px;
 }
 
-#awbxnxbzgo .gt_first_grand_summary_row {
+#fingfjmlou .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -432,7 +433,7 @@ already in your <code>.txt.</code> or excel file.</p>
   border-top-color: #D5D5D5;
 }
 
-#awbxnxbzgo .gt_last_grand_summary_row_top {
+#fingfjmlou .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -442,11 +443,11 @@ already in your <code>.txt.</code> or excel file.</p>
   border-bottom-color: #D5D5D5;
 }
 
-#awbxnxbzgo .gt_striped {
+#fingfjmlou .gt_striped {
   background-color: #F4F4F4;
 }
 
-#awbxnxbzgo .gt_table_body {
+#fingfjmlou .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -455,7 +456,7 @@ already in your <code>.txt.</code> or excel file.</p>
   border-bottom-color: #D5D5D5;
 }
 
-#awbxnxbzgo .gt_footnotes {
+#fingfjmlou .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -469,7 +470,7 @@ already in your <code>.txt.</code> or excel file.</p>
   border-right-color: #D3D3D3;
 }
 
-#awbxnxbzgo .gt_footnote {
+#fingfjmlou .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -478,7 +479,7 @@ already in your <code>.txt.</code> or excel file.</p>
   padding-right: 5px;
 }
 
-#awbxnxbzgo .gt_sourcenotes {
+#fingfjmlou .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -492,7 +493,7 @@ already in your <code>.txt.</code> or excel file.</p>
   border-right-color: #D3D3D3;
 }
 
-#awbxnxbzgo .gt_sourcenote {
+#fingfjmlou .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -500,63 +501,63 @@ already in your <code>.txt.</code> or excel file.</p>
   padding-right: 5px;
 }
 
-#awbxnxbzgo .gt_left {
+#fingfjmlou .gt_left {
   text-align: left;
 }
 
-#awbxnxbzgo .gt_center {
+#fingfjmlou .gt_center {
   text-align: center;
 }
 
-#awbxnxbzgo .gt_right {
+#fingfjmlou .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#awbxnxbzgo .gt_font_normal {
+#fingfjmlou .gt_font_normal {
   font-weight: normal;
 }
 
-#awbxnxbzgo .gt_font_bold {
+#fingfjmlou .gt_font_bold {
   font-weight: bold;
 }
 
-#awbxnxbzgo .gt_font_italic {
+#fingfjmlou .gt_font_italic {
   font-style: italic;
 }
 
-#awbxnxbzgo .gt_super {
+#fingfjmlou .gt_super {
   font-size: 65%;
 }
 
-#awbxnxbzgo .gt_footnote_marks {
+#fingfjmlou .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#awbxnxbzgo .gt_asterisk {
+#fingfjmlou .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#awbxnxbzgo .gt_indent_1 {
+#fingfjmlou .gt_indent_1 {
   text-indent: 5px;
 }
 
-#awbxnxbzgo .gt_indent_2 {
+#fingfjmlou .gt_indent_2 {
   text-indent: 10px;
 }
 
-#awbxnxbzgo .gt_indent_3 {
+#fingfjmlou .gt_indent_3 {
   text-indent: 15px;
 }
 
-#awbxnxbzgo .gt_indent_4 {
+#fingfjmlou .gt_indent_4 {
   text-indent: 20px;
 }
 
-#awbxnxbzgo .gt_indent_5 {
+#fingfjmlou .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -635,23 +636,23 @@ a simple experiment, this can easily be done by calling
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">source_df</span> <span class="op">&lt;-</span> <span class="va">example_source_df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>substrate <span class="op">=</span> <span class="st">"glucose"</span><span class="op">)</span></span></code></pre></div>
-<div id="mlkemqcxpp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mlkemqcxpp table {
+<div id="tkpzjjbjfg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tkpzjjbjfg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#mlkemqcxpp thead, #mlkemqcxpp tbody, #mlkemqcxpp tfoot, #mlkemqcxpp tr, #mlkemqcxpp td, #mlkemqcxpp th {
+#tkpzjjbjfg thead, #tkpzjjbjfg tbody, #tkpzjjbjfg tfoot, #tkpzjjbjfg tr, #tkpzjjbjfg td, #tkpzjjbjfg th {
   border-style: none;
 }
 
-#mlkemqcxpp p {
+#tkpzjjbjfg p {
   margin: 0;
   padding: 0;
 }
 
-#mlkemqcxpp .gt_table {
+#tkpzjjbjfg .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -677,12 +678,12 @@ a simple experiment, this can easily be done by calling
   border-left-color: #D5D5D5;
 }
 
-#mlkemqcxpp .gt_caption {
+#tkpzjjbjfg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#mlkemqcxpp .gt_title {
+#tkpzjjbjfg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -694,7 +695,7 @@ a simple experiment, this can easily be done by calling
   border-bottom-width: 0;
 }
 
-#mlkemqcxpp .gt_subtitle {
+#tkpzjjbjfg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -706,7 +707,7 @@ a simple experiment, this can easily be done by calling
   border-top-width: 0;
 }
 
-#mlkemqcxpp .gt_heading {
+#tkpzjjbjfg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -718,13 +719,13 @@ a simple experiment, this can easily be done by calling
   border-right-color: #D3D3D3;
 }
 
-#mlkemqcxpp .gt_bottom_border {
+#tkpzjjbjfg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
 }
 
-#mlkemqcxpp .gt_col_headings {
+#tkpzjjbjfg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -739,7 +740,7 @@ a simple experiment, this can easily be done by calling
   border-right-color: #D3D3D3;
 }
 
-#mlkemqcxpp .gt_col_heading {
+#tkpzjjbjfg .gt_col_heading {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -759,7 +760,7 @@ a simple experiment, this can easily be done by calling
   overflow-x: hidden;
 }
 
-#mlkemqcxpp .gt_column_spanner_outer {
+#tkpzjjbjfg .gt_column_spanner_outer {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -771,15 +772,15 @@ a simple experiment, this can easily be done by calling
   padding-right: 4px;
 }
 
-#mlkemqcxpp .gt_column_spanner_outer:first-child {
+#tkpzjjbjfg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#mlkemqcxpp .gt_column_spanner_outer:last-child {
+#tkpzjjbjfg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#mlkemqcxpp .gt_column_spanner {
+#tkpzjjbjfg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
@@ -791,11 +792,11 @@ a simple experiment, this can easily be done by calling
   width: 100%;
 }
 
-#mlkemqcxpp .gt_spanner_row {
+#tkpzjjbjfg .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#mlkemqcxpp .gt_group_heading {
+#tkpzjjbjfg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -821,7 +822,7 @@ a simple experiment, this can easily be done by calling
   text-align: left;
 }
 
-#mlkemqcxpp .gt_empty_group_heading {
+#tkpzjjbjfg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -836,15 +837,15 @@ a simple experiment, this can easily be done by calling
   vertical-align: middle;
 }
 
-#mlkemqcxpp .gt_from_md > :first-child {
+#tkpzjjbjfg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#mlkemqcxpp .gt_from_md > :last-child {
+#tkpzjjbjfg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#mlkemqcxpp .gt_row {
+#tkpzjjbjfg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -863,7 +864,7 @@ a simple experiment, this can easily be done by calling
   overflow-x: hidden;
 }
 
-#mlkemqcxpp .gt_stub {
+#tkpzjjbjfg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -876,7 +877,7 @@ a simple experiment, this can easily be done by calling
   padding-right: 5px;
 }
 
-#mlkemqcxpp .gt_stub_row_group {
+#tkpzjjbjfg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -890,15 +891,15 @@ a simple experiment, this can easily be done by calling
   vertical-align: top;
 }
 
-#mlkemqcxpp .gt_row_group_first td {
+#tkpzjjbjfg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#mlkemqcxpp .gt_row_group_first th {
+#tkpzjjbjfg .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#mlkemqcxpp .gt_summary_row {
+#tkpzjjbjfg .gt_summary_row {
   color: #333333;
   background-color: #D5D5D5;
   text-transform: inherit;
@@ -908,16 +909,16 @@ a simple experiment, this can easily be done by calling
   padding-right: 5px;
 }
 
-#mlkemqcxpp .gt_first_summary_row {
+#tkpzjjbjfg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D5D5D5;
 }
 
-#mlkemqcxpp .gt_first_summary_row.thick {
+#tkpzjjbjfg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#mlkemqcxpp .gt_last_summary_row {
+#tkpzjjbjfg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -927,7 +928,7 @@ a simple experiment, this can easily be done by calling
   border-bottom-color: #D5D5D5;
 }
 
-#mlkemqcxpp .gt_grand_summary_row {
+#tkpzjjbjfg .gt_grand_summary_row {
   color: #FFFFFF;
   background-color: #929292;
   text-transform: inherit;
@@ -937,7 +938,7 @@ a simple experiment, this can easily be done by calling
   padding-right: 5px;
 }
 
-#mlkemqcxpp .gt_first_grand_summary_row {
+#tkpzjjbjfg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -947,7 +948,7 @@ a simple experiment, this can easily be done by calling
   border-top-color: #D5D5D5;
 }
 
-#mlkemqcxpp .gt_last_grand_summary_row_top {
+#tkpzjjbjfg .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -957,11 +958,11 @@ a simple experiment, this can easily be done by calling
   border-bottom-color: #D5D5D5;
 }
 
-#mlkemqcxpp .gt_striped {
+#tkpzjjbjfg .gt_striped {
   background-color: #F4F4F4;
 }
 
-#mlkemqcxpp .gt_table_body {
+#tkpzjjbjfg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -970,7 +971,7 @@ a simple experiment, this can easily be done by calling
   border-bottom-color: #D5D5D5;
 }
 
-#mlkemqcxpp .gt_footnotes {
+#tkpzjjbjfg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -984,7 +985,7 @@ a simple experiment, this can easily be done by calling
   border-right-color: #D3D3D3;
 }
 
-#mlkemqcxpp .gt_footnote {
+#tkpzjjbjfg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -993,7 +994,7 @@ a simple experiment, this can easily be done by calling
   padding-right: 5px;
 }
 
-#mlkemqcxpp .gt_sourcenotes {
+#tkpzjjbjfg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1007,7 +1008,7 @@ a simple experiment, this can easily be done by calling
   border-right-color: #D3D3D3;
 }
 
-#mlkemqcxpp .gt_sourcenote {
+#tkpzjjbjfg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1015,63 +1016,63 @@ a simple experiment, this can easily be done by calling
   padding-right: 5px;
 }
 
-#mlkemqcxpp .gt_left {
+#tkpzjjbjfg .gt_left {
   text-align: left;
 }
 
-#mlkemqcxpp .gt_center {
+#tkpzjjbjfg .gt_center {
   text-align: center;
 }
 
-#mlkemqcxpp .gt_right {
+#tkpzjjbjfg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#mlkemqcxpp .gt_font_normal {
+#tkpzjjbjfg .gt_font_normal {
   font-weight: normal;
 }
 
-#mlkemqcxpp .gt_font_bold {
+#tkpzjjbjfg .gt_font_bold {
   font-weight: bold;
 }
 
-#mlkemqcxpp .gt_font_italic {
+#tkpzjjbjfg .gt_font_italic {
   font-style: italic;
 }
 
-#mlkemqcxpp .gt_super {
+#tkpzjjbjfg .gt_super {
   font-size: 65%;
 }
 
-#mlkemqcxpp .gt_footnote_marks {
+#tkpzjjbjfg .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#mlkemqcxpp .gt_asterisk {
+#tkpzjjbjfg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#mlkemqcxpp .gt_indent_1 {
+#tkpzjjbjfg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#mlkemqcxpp .gt_indent_2 {
+#tkpzjjbjfg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#mlkemqcxpp .gt_indent_3 {
+#tkpzjjbjfg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#mlkemqcxpp .gt_indent_4 {
+#tkpzjjbjfg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#mlkemqcxpp .gt_indent_5 {
+#tkpzjjbjfg .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1181,23 +1182,23 @@ the structure of it.</p>
 however, some column names have been modified to the standard MISIP
 names, while keeping a record of the original names in the corresponding
 slots</p>
-<div id="bdugsmbeqe" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bdugsmbeqe table {
+<div id="tmqdnwjqou" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tmqdnwjqou table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bdugsmbeqe thead, #bdugsmbeqe tbody, #bdugsmbeqe tfoot, #bdugsmbeqe tr, #bdugsmbeqe td, #bdugsmbeqe th {
+#tmqdnwjqou thead, #tmqdnwjqou tbody, #tmqdnwjqou tfoot, #tmqdnwjqou tr, #tmqdnwjqou td, #tmqdnwjqou th {
   border-style: none;
 }
 
-#bdugsmbeqe p {
+#tmqdnwjqou p {
   margin: 0;
   padding: 0;
 }
 
-#bdugsmbeqe .gt_table {
+#tmqdnwjqou .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1223,12 +1224,12 @@ slots</p>
   border-left-color: #D5D5D5;
 }
 
-#bdugsmbeqe .gt_caption {
+#tmqdnwjqou .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bdugsmbeqe .gt_title {
+#tmqdnwjqou .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1240,7 +1241,7 @@ slots</p>
   border-bottom-width: 0;
 }
 
-#bdugsmbeqe .gt_subtitle {
+#tmqdnwjqou .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1252,7 +1253,7 @@ slots</p>
   border-top-width: 0;
 }
 
-#bdugsmbeqe .gt_heading {
+#tmqdnwjqou .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1264,13 +1265,13 @@ slots</p>
   border-right-color: #D3D3D3;
 }
 
-#bdugsmbeqe .gt_bottom_border {
+#tmqdnwjqou .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
 }
 
-#bdugsmbeqe .gt_col_headings {
+#tmqdnwjqou .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -1285,7 +1286,7 @@ slots</p>
   border-right-color: #D3D3D3;
 }
 
-#bdugsmbeqe .gt_col_heading {
+#tmqdnwjqou .gt_col_heading {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -1305,7 +1306,7 @@ slots</p>
   overflow-x: hidden;
 }
 
-#bdugsmbeqe .gt_column_spanner_outer {
+#tmqdnwjqou .gt_column_spanner_outer {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -1317,15 +1318,15 @@ slots</p>
   padding-right: 4px;
 }
 
-#bdugsmbeqe .gt_column_spanner_outer:first-child {
+#tmqdnwjqou .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bdugsmbeqe .gt_column_spanner_outer:last-child {
+#tmqdnwjqou .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bdugsmbeqe .gt_column_spanner {
+#tmqdnwjqou .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
@@ -1337,11 +1338,11 @@ slots</p>
   width: 100%;
 }
 
-#bdugsmbeqe .gt_spanner_row {
+#tmqdnwjqou .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bdugsmbeqe .gt_group_heading {
+#tmqdnwjqou .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1367,7 +1368,7 @@ slots</p>
   text-align: left;
 }
 
-#bdugsmbeqe .gt_empty_group_heading {
+#tmqdnwjqou .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1382,15 +1383,15 @@ slots</p>
   vertical-align: middle;
 }
 
-#bdugsmbeqe .gt_from_md > :first-child {
+#tmqdnwjqou .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bdugsmbeqe .gt_from_md > :last-child {
+#tmqdnwjqou .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bdugsmbeqe .gt_row {
+#tmqdnwjqou .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1409,7 +1410,7 @@ slots</p>
   overflow-x: hidden;
 }
 
-#bdugsmbeqe .gt_stub {
+#tmqdnwjqou .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1422,7 +1423,7 @@ slots</p>
   padding-right: 5px;
 }
 
-#bdugsmbeqe .gt_stub_row_group {
+#tmqdnwjqou .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1436,15 +1437,15 @@ slots</p>
   vertical-align: top;
 }
 
-#bdugsmbeqe .gt_row_group_first td {
+#tmqdnwjqou .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bdugsmbeqe .gt_row_group_first th {
+#tmqdnwjqou .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bdugsmbeqe .gt_summary_row {
+#tmqdnwjqou .gt_summary_row {
   color: #333333;
   background-color: #D5D5D5;
   text-transform: inherit;
@@ -1454,16 +1455,16 @@ slots</p>
   padding-right: 5px;
 }
 
-#bdugsmbeqe .gt_first_summary_row {
+#tmqdnwjqou .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D5D5D5;
 }
 
-#bdugsmbeqe .gt_first_summary_row.thick {
+#tmqdnwjqou .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bdugsmbeqe .gt_last_summary_row {
+#tmqdnwjqou .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1473,7 +1474,7 @@ slots</p>
   border-bottom-color: #D5D5D5;
 }
 
-#bdugsmbeqe .gt_grand_summary_row {
+#tmqdnwjqou .gt_grand_summary_row {
   color: #FFFFFF;
   background-color: #929292;
   text-transform: inherit;
@@ -1483,7 +1484,7 @@ slots</p>
   padding-right: 5px;
 }
 
-#bdugsmbeqe .gt_first_grand_summary_row {
+#tmqdnwjqou .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1493,7 +1494,7 @@ slots</p>
   border-top-color: #D5D5D5;
 }
 
-#bdugsmbeqe .gt_last_grand_summary_row_top {
+#tmqdnwjqou .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1503,11 +1504,11 @@ slots</p>
   border-bottom-color: #D5D5D5;
 }
 
-#bdugsmbeqe .gt_striped {
+#tmqdnwjqou .gt_striped {
   background-color: #F4F4F4;
 }
 
-#bdugsmbeqe .gt_table_body {
+#tmqdnwjqou .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -1516,7 +1517,7 @@ slots</p>
   border-bottom-color: #D5D5D5;
 }
 
-#bdugsmbeqe .gt_footnotes {
+#tmqdnwjqou .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1530,7 +1531,7 @@ slots</p>
   border-right-color: #D3D3D3;
 }
 
-#bdugsmbeqe .gt_footnote {
+#tmqdnwjqou .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1539,7 +1540,7 @@ slots</p>
   padding-right: 5px;
 }
 
-#bdugsmbeqe .gt_sourcenotes {
+#tmqdnwjqou .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1553,7 +1554,7 @@ slots</p>
   border-right-color: #D3D3D3;
 }
 
-#bdugsmbeqe .gt_sourcenote {
+#tmqdnwjqou .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1561,63 +1562,63 @@ slots</p>
   padding-right: 5px;
 }
 
-#bdugsmbeqe .gt_left {
+#tmqdnwjqou .gt_left {
   text-align: left;
 }
 
-#bdugsmbeqe .gt_center {
+#tmqdnwjqou .gt_center {
   text-align: center;
 }
 
-#bdugsmbeqe .gt_right {
+#tmqdnwjqou .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bdugsmbeqe .gt_font_normal {
+#tmqdnwjqou .gt_font_normal {
   font-weight: normal;
 }
 
-#bdugsmbeqe .gt_font_bold {
+#tmqdnwjqou .gt_font_bold {
   font-weight: bold;
 }
 
-#bdugsmbeqe .gt_font_italic {
+#tmqdnwjqou .gt_font_italic {
   font-style: italic;
 }
 
-#bdugsmbeqe .gt_super {
+#tmqdnwjqou .gt_super {
   font-size: 65%;
 }
 
-#bdugsmbeqe .gt_footnote_marks {
+#tmqdnwjqou .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bdugsmbeqe .gt_asterisk {
+#tmqdnwjqou .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bdugsmbeqe .gt_indent_1 {
+#tmqdnwjqou .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bdugsmbeqe .gt_indent_2 {
+#tmqdnwjqou .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bdugsmbeqe .gt_indent_3 {
+#tmqdnwjqou .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bdugsmbeqe .gt_indent_4 {
+#tmqdnwjqou .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bdugsmbeqe .gt_indent_5 {
+#tmqdnwjqou .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1702,23 +1703,23 @@ Note, these functions are run on the source dataframe rather than on the
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">source_df_MISIP</span> <span class="op">&lt;-</span> <span class="va">source_df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_isotopolog_label.html">add_isotopolog_label</a></span><span class="op">(</span>isotope <span class="op">=</span> <span class="st">"Isotope"</span><span class="op">)</span></span></code></pre></div>
-<div id="huizvhgqcs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#huizvhgqcs table {
+<div id="mnsnghaqtd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mnsnghaqtd table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#huizvhgqcs thead, #huizvhgqcs tbody, #huizvhgqcs tfoot, #huizvhgqcs tr, #huizvhgqcs td, #huizvhgqcs th {
+#mnsnghaqtd thead, #mnsnghaqtd tbody, #mnsnghaqtd tfoot, #mnsnghaqtd tr, #mnsnghaqtd td, #mnsnghaqtd th {
   border-style: none;
 }
 
-#huizvhgqcs p {
+#mnsnghaqtd p {
   margin: 0;
   padding: 0;
 }
 
-#huizvhgqcs .gt_table {
+#mnsnghaqtd .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1744,12 +1745,12 @@ Note, these functions are run on the source dataframe rather than on the
   border-left-color: #D5D5D5;
 }
 
-#huizvhgqcs .gt_caption {
+#mnsnghaqtd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#huizvhgqcs .gt_title {
+#mnsnghaqtd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1761,7 +1762,7 @@ Note, these functions are run on the source dataframe rather than on the
   border-bottom-width: 0;
 }
 
-#huizvhgqcs .gt_subtitle {
+#mnsnghaqtd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1773,7 +1774,7 @@ Note, these functions are run on the source dataframe rather than on the
   border-top-width: 0;
 }
 
-#huizvhgqcs .gt_heading {
+#mnsnghaqtd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1785,13 +1786,13 @@ Note, these functions are run on the source dataframe rather than on the
   border-right-color: #D3D3D3;
 }
 
-#huizvhgqcs .gt_bottom_border {
+#mnsnghaqtd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
 }
 
-#huizvhgqcs .gt_col_headings {
+#mnsnghaqtd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -1806,7 +1807,7 @@ Note, these functions are run on the source dataframe rather than on the
   border-right-color: #D3D3D3;
 }
 
-#huizvhgqcs .gt_col_heading {
+#mnsnghaqtd .gt_col_heading {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -1826,7 +1827,7 @@ Note, these functions are run on the source dataframe rather than on the
   overflow-x: hidden;
 }
 
-#huizvhgqcs .gt_column_spanner_outer {
+#mnsnghaqtd .gt_column_spanner_outer {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -1838,15 +1839,15 @@ Note, these functions are run on the source dataframe rather than on the
   padding-right: 4px;
 }
 
-#huizvhgqcs .gt_column_spanner_outer:first-child {
+#mnsnghaqtd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#huizvhgqcs .gt_column_spanner_outer:last-child {
+#mnsnghaqtd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#huizvhgqcs .gt_column_spanner {
+#mnsnghaqtd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
@@ -1858,11 +1859,11 @@ Note, these functions are run on the source dataframe rather than on the
   width: 100%;
 }
 
-#huizvhgqcs .gt_spanner_row {
+#mnsnghaqtd .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#huizvhgqcs .gt_group_heading {
+#mnsnghaqtd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1888,7 +1889,7 @@ Note, these functions are run on the source dataframe rather than on the
   text-align: left;
 }
 
-#huizvhgqcs .gt_empty_group_heading {
+#mnsnghaqtd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1903,15 +1904,15 @@ Note, these functions are run on the source dataframe rather than on the
   vertical-align: middle;
 }
 
-#huizvhgqcs .gt_from_md > :first-child {
+#mnsnghaqtd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#huizvhgqcs .gt_from_md > :last-child {
+#mnsnghaqtd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#huizvhgqcs .gt_row {
+#mnsnghaqtd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1930,7 +1931,7 @@ Note, these functions are run on the source dataframe rather than on the
   overflow-x: hidden;
 }
 
-#huizvhgqcs .gt_stub {
+#mnsnghaqtd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1943,7 +1944,7 @@ Note, these functions are run on the source dataframe rather than on the
   padding-right: 5px;
 }
 
-#huizvhgqcs .gt_stub_row_group {
+#mnsnghaqtd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1957,15 +1958,15 @@ Note, these functions are run on the source dataframe rather than on the
   vertical-align: top;
 }
 
-#huizvhgqcs .gt_row_group_first td {
+#mnsnghaqtd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#huizvhgqcs .gt_row_group_first th {
+#mnsnghaqtd .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#huizvhgqcs .gt_summary_row {
+#mnsnghaqtd .gt_summary_row {
   color: #333333;
   background-color: #D5D5D5;
   text-transform: inherit;
@@ -1975,16 +1976,16 @@ Note, these functions are run on the source dataframe rather than on the
   padding-right: 5px;
 }
 
-#huizvhgqcs .gt_first_summary_row {
+#mnsnghaqtd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D5D5D5;
 }
 
-#huizvhgqcs .gt_first_summary_row.thick {
+#mnsnghaqtd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#huizvhgqcs .gt_last_summary_row {
+#mnsnghaqtd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1994,7 +1995,7 @@ Note, these functions are run on the source dataframe rather than on the
   border-bottom-color: #D5D5D5;
 }
 
-#huizvhgqcs .gt_grand_summary_row {
+#mnsnghaqtd .gt_grand_summary_row {
   color: #FFFFFF;
   background-color: #929292;
   text-transform: inherit;
@@ -2004,7 +2005,7 @@ Note, these functions are run on the source dataframe rather than on the
   padding-right: 5px;
 }
 
-#huizvhgqcs .gt_first_grand_summary_row {
+#mnsnghaqtd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2014,7 +2015,7 @@ Note, these functions are run on the source dataframe rather than on the
   border-top-color: #D5D5D5;
 }
 
-#huizvhgqcs .gt_last_grand_summary_row_top {
+#mnsnghaqtd .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2024,11 +2025,11 @@ Note, these functions are run on the source dataframe rather than on the
   border-bottom-color: #D5D5D5;
 }
 
-#huizvhgqcs .gt_striped {
+#mnsnghaqtd .gt_striped {
   background-color: #F4F4F4;
 }
 
-#huizvhgqcs .gt_table_body {
+#mnsnghaqtd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -2037,7 +2038,7 @@ Note, these functions are run on the source dataframe rather than on the
   border-bottom-color: #D5D5D5;
 }
 
-#huizvhgqcs .gt_footnotes {
+#mnsnghaqtd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2051,7 +2052,7 @@ Note, these functions are run on the source dataframe rather than on the
   border-right-color: #D3D3D3;
 }
 
-#huizvhgqcs .gt_footnote {
+#mnsnghaqtd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2060,7 +2061,7 @@ Note, these functions are run on the source dataframe rather than on the
   padding-right: 5px;
 }
 
-#huizvhgqcs .gt_sourcenotes {
+#mnsnghaqtd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2074,7 +2075,7 @@ Note, these functions are run on the source dataframe rather than on the
   border-right-color: #D3D3D3;
 }
 
-#huizvhgqcs .gt_sourcenote {
+#mnsnghaqtd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2082,63 +2083,63 @@ Note, these functions are run on the source dataframe rather than on the
   padding-right: 5px;
 }
 
-#huizvhgqcs .gt_left {
+#mnsnghaqtd .gt_left {
   text-align: left;
 }
 
-#huizvhgqcs .gt_center {
+#mnsnghaqtd .gt_center {
   text-align: center;
 }
 
-#huizvhgqcs .gt_right {
+#mnsnghaqtd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#huizvhgqcs .gt_font_normal {
+#mnsnghaqtd .gt_font_normal {
   font-weight: normal;
 }
 
-#huizvhgqcs .gt_font_bold {
+#mnsnghaqtd .gt_font_bold {
   font-weight: bold;
 }
 
-#huizvhgqcs .gt_font_italic {
+#mnsnghaqtd .gt_font_italic {
   font-style: italic;
 }
 
-#huizvhgqcs .gt_super {
+#mnsnghaqtd .gt_super {
   font-size: 65%;
 }
 
-#huizvhgqcs .gt_footnote_marks {
+#mnsnghaqtd .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#huizvhgqcs .gt_asterisk {
+#mnsnghaqtd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#huizvhgqcs .gt_indent_1 {
+#mnsnghaqtd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#huizvhgqcs .gt_indent_2 {
+#mnsnghaqtd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#huizvhgqcs .gt_indent_3 {
+#mnsnghaqtd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#huizvhgqcs .gt_indent_4 {
+#mnsnghaqtd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#huizvhgqcs .gt_indent_5 {
+#mnsnghaqtd .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2218,23 +2219,23 @@ Note, these functions are run on the source dataframe rather than on the
 <p>Now, the <code>Isotope</code> column has been renamed to
 <code>isotope</code> to satisfy MISIP standards, and all values have
 been replaced with the heavy isotope.</p>
-<div id="knxuhdabbx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#knxuhdabbx table {
+<div id="nuqqqpbslb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nuqqqpbslb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#knxuhdabbx thead, #knxuhdabbx tbody, #knxuhdabbx tfoot, #knxuhdabbx tr, #knxuhdabbx td, #knxuhdabbx th {
+#nuqqqpbslb thead, #nuqqqpbslb tbody, #nuqqqpbslb tfoot, #nuqqqpbslb tr, #nuqqqpbslb td, #nuqqqpbslb th {
   border-style: none;
 }
 
-#knxuhdabbx p {
+#nuqqqpbslb p {
   margin: 0;
   padding: 0;
 }
 
-#knxuhdabbx .gt_table {
+#nuqqqpbslb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2260,12 +2261,12 @@ been replaced with the heavy isotope.</p>
   border-left-color: #D5D5D5;
 }
 
-#knxuhdabbx .gt_caption {
+#nuqqqpbslb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#knxuhdabbx .gt_title {
+#nuqqqpbslb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2277,7 +2278,7 @@ been replaced with the heavy isotope.</p>
   border-bottom-width: 0;
 }
 
-#knxuhdabbx .gt_subtitle {
+#nuqqqpbslb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2289,7 +2290,7 @@ been replaced with the heavy isotope.</p>
   border-top-width: 0;
 }
 
-#knxuhdabbx .gt_heading {
+#nuqqqpbslb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2301,13 +2302,13 @@ been replaced with the heavy isotope.</p>
   border-right-color: #D3D3D3;
 }
 
-#knxuhdabbx .gt_bottom_border {
+#nuqqqpbslb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
 }
 
-#knxuhdabbx .gt_col_headings {
+#nuqqqpbslb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -2322,7 +2323,7 @@ been replaced with the heavy isotope.</p>
   border-right-color: #D3D3D3;
 }
 
-#knxuhdabbx .gt_col_heading {
+#nuqqqpbslb .gt_col_heading {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -2342,7 +2343,7 @@ been replaced with the heavy isotope.</p>
   overflow-x: hidden;
 }
 
-#knxuhdabbx .gt_column_spanner_outer {
+#nuqqqpbslb .gt_column_spanner_outer {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -2354,15 +2355,15 @@ been replaced with the heavy isotope.</p>
   padding-right: 4px;
 }
 
-#knxuhdabbx .gt_column_spanner_outer:first-child {
+#nuqqqpbslb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#knxuhdabbx .gt_column_spanner_outer:last-child {
+#nuqqqpbslb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#knxuhdabbx .gt_column_spanner {
+#nuqqqpbslb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
@@ -2374,11 +2375,11 @@ been replaced with the heavy isotope.</p>
   width: 100%;
 }
 
-#knxuhdabbx .gt_spanner_row {
+#nuqqqpbslb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#knxuhdabbx .gt_group_heading {
+#nuqqqpbslb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2404,7 +2405,7 @@ been replaced with the heavy isotope.</p>
   text-align: left;
 }
 
-#knxuhdabbx .gt_empty_group_heading {
+#nuqqqpbslb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2419,15 +2420,15 @@ been replaced with the heavy isotope.</p>
   vertical-align: middle;
 }
 
-#knxuhdabbx .gt_from_md > :first-child {
+#nuqqqpbslb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#knxuhdabbx .gt_from_md > :last-child {
+#nuqqqpbslb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#knxuhdabbx .gt_row {
+#nuqqqpbslb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2446,7 +2447,7 @@ been replaced with the heavy isotope.</p>
   overflow-x: hidden;
 }
 
-#knxuhdabbx .gt_stub {
+#nuqqqpbslb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2459,7 +2460,7 @@ been replaced with the heavy isotope.</p>
   padding-right: 5px;
 }
 
-#knxuhdabbx .gt_stub_row_group {
+#nuqqqpbslb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2473,15 +2474,15 @@ been replaced with the heavy isotope.</p>
   vertical-align: top;
 }
 
-#knxuhdabbx .gt_row_group_first td {
+#nuqqqpbslb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#knxuhdabbx .gt_row_group_first th {
+#nuqqqpbslb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#knxuhdabbx .gt_summary_row {
+#nuqqqpbslb .gt_summary_row {
   color: #333333;
   background-color: #D5D5D5;
   text-transform: inherit;
@@ -2491,16 +2492,16 @@ been replaced with the heavy isotope.</p>
   padding-right: 5px;
 }
 
-#knxuhdabbx .gt_first_summary_row {
+#nuqqqpbslb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D5D5D5;
 }
 
-#knxuhdabbx .gt_first_summary_row.thick {
+#nuqqqpbslb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#knxuhdabbx .gt_last_summary_row {
+#nuqqqpbslb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2510,7 +2511,7 @@ been replaced with the heavy isotope.</p>
   border-bottom-color: #D5D5D5;
 }
 
-#knxuhdabbx .gt_grand_summary_row {
+#nuqqqpbslb .gt_grand_summary_row {
   color: #FFFFFF;
   background-color: #929292;
   text-transform: inherit;
@@ -2520,7 +2521,7 @@ been replaced with the heavy isotope.</p>
   padding-right: 5px;
 }
 
-#knxuhdabbx .gt_first_grand_summary_row {
+#nuqqqpbslb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2530,7 +2531,7 @@ been replaced with the heavy isotope.</p>
   border-top-color: #D5D5D5;
 }
 
-#knxuhdabbx .gt_last_grand_summary_row_top {
+#nuqqqpbslb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2540,11 +2541,11 @@ been replaced with the heavy isotope.</p>
   border-bottom-color: #D5D5D5;
 }
 
-#knxuhdabbx .gt_striped {
+#nuqqqpbslb .gt_striped {
   background-color: #F4F4F4;
 }
 
-#knxuhdabbx .gt_table_body {
+#nuqqqpbslb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -2553,7 +2554,7 @@ been replaced with the heavy isotope.</p>
   border-bottom-color: #D5D5D5;
 }
 
-#knxuhdabbx .gt_footnotes {
+#nuqqqpbslb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2567,7 +2568,7 @@ been replaced with the heavy isotope.</p>
   border-right-color: #D3D3D3;
 }
 
-#knxuhdabbx .gt_footnote {
+#nuqqqpbslb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2576,7 +2577,7 @@ been replaced with the heavy isotope.</p>
   padding-right: 5px;
 }
 
-#knxuhdabbx .gt_sourcenotes {
+#nuqqqpbslb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2590,7 +2591,7 @@ been replaced with the heavy isotope.</p>
   border-right-color: #D3D3D3;
 }
 
-#knxuhdabbx .gt_sourcenote {
+#nuqqqpbslb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2598,63 +2599,63 @@ been replaced with the heavy isotope.</p>
   padding-right: 5px;
 }
 
-#knxuhdabbx .gt_left {
+#nuqqqpbslb .gt_left {
   text-align: left;
 }
 
-#knxuhdabbx .gt_center {
+#nuqqqpbslb .gt_center {
   text-align: center;
 }
 
-#knxuhdabbx .gt_right {
+#nuqqqpbslb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#knxuhdabbx .gt_font_normal {
+#nuqqqpbslb .gt_font_normal {
   font-weight: normal;
 }
 
-#knxuhdabbx .gt_font_bold {
+#nuqqqpbslb .gt_font_bold {
   font-weight: bold;
 }
 
-#knxuhdabbx .gt_font_italic {
+#nuqqqpbslb .gt_font_italic {
   font-style: italic;
 }
 
-#knxuhdabbx .gt_super {
+#nuqqqpbslb .gt_super {
   font-size: 65%;
 }
 
-#knxuhdabbx .gt_footnote_marks {
+#nuqqqpbslb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#knxuhdabbx .gt_asterisk {
+#nuqqqpbslb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#knxuhdabbx .gt_indent_1 {
+#nuqqqpbslb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#knxuhdabbx .gt_indent_2 {
+#nuqqqpbslb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#knxuhdabbx .gt_indent_3 {
+#nuqqqpbslb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#knxuhdabbx .gt_indent_4 {
+#nuqqqpbslb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#knxuhdabbx .gt_indent_5 {
+#nuqqqpbslb .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2677,23 +2678,23 @@ been replaced with the heavy isotope.</p>
 <p>And the designation for whether the source material was the “light”
 or “heavy” version of the isotope has now been transferred to the
 <code>isotopolog_label</code> column.</p>
-<div id="kdlmqgfdbk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#kdlmqgfdbk table {
+<div id="tdnnacoskl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tdnnacoskl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#kdlmqgfdbk thead, #kdlmqgfdbk tbody, #kdlmqgfdbk tfoot, #kdlmqgfdbk tr, #kdlmqgfdbk td, #kdlmqgfdbk th {
+#tdnnacoskl thead, #tdnnacoskl tbody, #tdnnacoskl tfoot, #tdnnacoskl tr, #tdnnacoskl td, #tdnnacoskl th {
   border-style: none;
 }
 
-#kdlmqgfdbk p {
+#tdnnacoskl p {
   margin: 0;
   padding: 0;
 }
 
-#kdlmqgfdbk .gt_table {
+#tdnnacoskl .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2719,12 +2720,12 @@ or “heavy” version of the isotope has now been transferred to the
   border-left-color: #D5D5D5;
 }
 
-#kdlmqgfdbk .gt_caption {
+#tdnnacoskl .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#kdlmqgfdbk .gt_title {
+#tdnnacoskl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2736,7 +2737,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-bottom-width: 0;
 }
 
-#kdlmqgfdbk .gt_subtitle {
+#tdnnacoskl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2748,7 +2749,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-top-width: 0;
 }
 
-#kdlmqgfdbk .gt_heading {
+#tdnnacoskl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2760,13 +2761,13 @@ or “heavy” version of the isotope has now been transferred to the
   border-right-color: #D3D3D3;
 }
 
-#kdlmqgfdbk .gt_bottom_border {
+#tdnnacoskl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
 }
 
-#kdlmqgfdbk .gt_col_headings {
+#tdnnacoskl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -2781,7 +2782,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-right-color: #D3D3D3;
 }
 
-#kdlmqgfdbk .gt_col_heading {
+#tdnnacoskl .gt_col_heading {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -2801,7 +2802,7 @@ or “heavy” version of the isotope has now been transferred to the
   overflow-x: hidden;
 }
 
-#kdlmqgfdbk .gt_column_spanner_outer {
+#tdnnacoskl .gt_column_spanner_outer {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -2813,15 +2814,15 @@ or “heavy” version of the isotope has now been transferred to the
   padding-right: 4px;
 }
 
-#kdlmqgfdbk .gt_column_spanner_outer:first-child {
+#tdnnacoskl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#kdlmqgfdbk .gt_column_spanner_outer:last-child {
+#tdnnacoskl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#kdlmqgfdbk .gt_column_spanner {
+#tdnnacoskl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
@@ -2833,11 +2834,11 @@ or “heavy” version of the isotope has now been transferred to the
   width: 100%;
 }
 
-#kdlmqgfdbk .gt_spanner_row {
+#tdnnacoskl .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#kdlmqgfdbk .gt_group_heading {
+#tdnnacoskl .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2863,7 +2864,7 @@ or “heavy” version of the isotope has now been transferred to the
   text-align: left;
 }
 
-#kdlmqgfdbk .gt_empty_group_heading {
+#tdnnacoskl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2878,15 +2879,15 @@ or “heavy” version of the isotope has now been transferred to the
   vertical-align: middle;
 }
 
-#kdlmqgfdbk .gt_from_md > :first-child {
+#tdnnacoskl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#kdlmqgfdbk .gt_from_md > :last-child {
+#tdnnacoskl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#kdlmqgfdbk .gt_row {
+#tdnnacoskl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2905,7 +2906,7 @@ or “heavy” version of the isotope has now been transferred to the
   overflow-x: hidden;
 }
 
-#kdlmqgfdbk .gt_stub {
+#tdnnacoskl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2918,7 +2919,7 @@ or “heavy” version of the isotope has now been transferred to the
   padding-right: 5px;
 }
 
-#kdlmqgfdbk .gt_stub_row_group {
+#tdnnacoskl .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2932,15 +2933,15 @@ or “heavy” version of the isotope has now been transferred to the
   vertical-align: top;
 }
 
-#kdlmqgfdbk .gt_row_group_first td {
+#tdnnacoskl .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#kdlmqgfdbk .gt_row_group_first th {
+#tdnnacoskl .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#kdlmqgfdbk .gt_summary_row {
+#tdnnacoskl .gt_summary_row {
   color: #333333;
   background-color: #D5D5D5;
   text-transform: inherit;
@@ -2950,16 +2951,16 @@ or “heavy” version of the isotope has now been transferred to the
   padding-right: 5px;
 }
 
-#kdlmqgfdbk .gt_first_summary_row {
+#tdnnacoskl .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D5D5D5;
 }
 
-#kdlmqgfdbk .gt_first_summary_row.thick {
+#tdnnacoskl .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#kdlmqgfdbk .gt_last_summary_row {
+#tdnnacoskl .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2969,7 +2970,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-bottom-color: #D5D5D5;
 }
 
-#kdlmqgfdbk .gt_grand_summary_row {
+#tdnnacoskl .gt_grand_summary_row {
   color: #FFFFFF;
   background-color: #929292;
   text-transform: inherit;
@@ -2979,7 +2980,7 @@ or “heavy” version of the isotope has now been transferred to the
   padding-right: 5px;
 }
 
-#kdlmqgfdbk .gt_first_grand_summary_row {
+#tdnnacoskl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2989,7 +2990,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-top-color: #D5D5D5;
 }
 
-#kdlmqgfdbk .gt_last_grand_summary_row_top {
+#tdnnacoskl .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2999,11 +3000,11 @@ or “heavy” version of the isotope has now been transferred to the
   border-bottom-color: #D5D5D5;
 }
 
-#kdlmqgfdbk .gt_striped {
+#tdnnacoskl .gt_striped {
   background-color: #F4F4F4;
 }
 
-#kdlmqgfdbk .gt_table_body {
+#tdnnacoskl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -3012,7 +3013,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-bottom-color: #D5D5D5;
 }
 
-#kdlmqgfdbk .gt_footnotes {
+#tdnnacoskl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3026,7 +3027,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-right-color: #D3D3D3;
 }
 
-#kdlmqgfdbk .gt_footnote {
+#tdnnacoskl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3035,7 +3036,7 @@ or “heavy” version of the isotope has now been transferred to the
   padding-right: 5px;
 }
 
-#kdlmqgfdbk .gt_sourcenotes {
+#tdnnacoskl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3049,7 +3050,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-right-color: #D3D3D3;
 }
 
-#kdlmqgfdbk .gt_sourcenote {
+#tdnnacoskl .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3057,63 +3058,63 @@ or “heavy” version of the isotope has now been transferred to the
   padding-right: 5px;
 }
 
-#kdlmqgfdbk .gt_left {
+#tdnnacoskl .gt_left {
   text-align: left;
 }
 
-#kdlmqgfdbk .gt_center {
+#tdnnacoskl .gt_center {
   text-align: center;
 }
 
-#kdlmqgfdbk .gt_right {
+#tdnnacoskl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#kdlmqgfdbk .gt_font_normal {
+#tdnnacoskl .gt_font_normal {
   font-weight: normal;
 }
 
-#kdlmqgfdbk .gt_font_bold {
+#tdnnacoskl .gt_font_bold {
   font-weight: bold;
 }
 
-#kdlmqgfdbk .gt_font_italic {
+#tdnnacoskl .gt_font_italic {
   font-style: italic;
 }
 
-#kdlmqgfdbk .gt_super {
+#tdnnacoskl .gt_super {
   font-size: 65%;
 }
 
-#kdlmqgfdbk .gt_footnote_marks {
+#tdnnacoskl .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#kdlmqgfdbk .gt_asterisk {
+#tdnnacoskl .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#kdlmqgfdbk .gt_indent_1 {
+#tdnnacoskl .gt_indent_1 {
   text-indent: 5px;
 }
 
-#kdlmqgfdbk .gt_indent_2 {
+#tdnnacoskl .gt_indent_2 {
   text-indent: 10px;
 }
 
-#kdlmqgfdbk .gt_indent_3 {
+#tdnnacoskl .gt_indent_3 {
   text-indent: 15px;
 }
 
-#kdlmqgfdbk .gt_indent_4 {
+#tdnnacoskl .gt_indent_4 {
   text-indent: 20px;
 }
 
-#kdlmqgfdbk .gt_indent_5 {
+#tdnnacoskl .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3147,23 +3148,23 @@ or “heavy” version of the isotope has now been transferred to the
 <code><a href="../reference/remove_isotopolog_label.html">remove_isotopolog_label()</a></code> function.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">source_df_ORIGINAL</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/remove_isotopolog_label.html">remove_isotopolog_label</a></span><span class="op">(</span><span class="va">source_df_MISIP</span><span class="op">)</span></span></code></pre></div>
-<div id="ghhookndbb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ghhookndbb table {
+<div id="xcthqlgizy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xcthqlgizy table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ghhookndbb thead, #ghhookndbb tbody, #ghhookndbb tfoot, #ghhookndbb tr, #ghhookndbb td, #ghhookndbb th {
+#xcthqlgizy thead, #xcthqlgizy tbody, #xcthqlgizy tfoot, #xcthqlgizy tr, #xcthqlgizy td, #xcthqlgizy th {
   border-style: none;
 }
 
-#ghhookndbb p {
+#xcthqlgizy p {
   margin: 0;
   padding: 0;
 }
 
-#ghhookndbb .gt_table {
+#xcthqlgizy .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3189,12 +3190,12 @@ or “heavy” version of the isotope has now been transferred to the
   border-left-color: #D5D5D5;
 }
 
-#ghhookndbb .gt_caption {
+#xcthqlgizy .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ghhookndbb .gt_title {
+#xcthqlgizy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3206,7 +3207,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-bottom-width: 0;
 }
 
-#ghhookndbb .gt_subtitle {
+#xcthqlgizy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3218,7 +3219,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-top-width: 0;
 }
 
-#ghhookndbb .gt_heading {
+#xcthqlgizy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3230,13 +3231,13 @@ or “heavy” version of the isotope has now been transferred to the
   border-right-color: #D3D3D3;
 }
 
-#ghhookndbb .gt_bottom_border {
+#xcthqlgizy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
 }
 
-#ghhookndbb .gt_col_headings {
+#xcthqlgizy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -3251,7 +3252,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-right-color: #D3D3D3;
 }
 
-#ghhookndbb .gt_col_heading {
+#xcthqlgizy .gt_col_heading {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -3271,7 +3272,7 @@ or “heavy” version of the isotope has now been transferred to the
   overflow-x: hidden;
 }
 
-#ghhookndbb .gt_column_spanner_outer {
+#xcthqlgizy .gt_column_spanner_outer {
   color: #FFFFFF;
   background-color: #000000;
   font-size: 100%;
@@ -3283,15 +3284,15 @@ or “heavy” version of the isotope has now been transferred to the
   padding-right: 4px;
 }
 
-#ghhookndbb .gt_column_spanner_outer:first-child {
+#xcthqlgizy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ghhookndbb .gt_column_spanner_outer:last-child {
+#xcthqlgizy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ghhookndbb .gt_column_spanner {
+#xcthqlgizy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D5D5D5;
@@ -3303,11 +3304,11 @@ or “heavy” version of the isotope has now been transferred to the
   width: 100%;
 }
 
-#ghhookndbb .gt_spanner_row {
+#xcthqlgizy .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ghhookndbb .gt_group_heading {
+#xcthqlgizy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3333,7 +3334,7 @@ or “heavy” version of the isotope has now been transferred to the
   text-align: left;
 }
 
-#ghhookndbb .gt_empty_group_heading {
+#xcthqlgizy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3348,15 +3349,15 @@ or “heavy” version of the isotope has now been transferred to the
   vertical-align: middle;
 }
 
-#ghhookndbb .gt_from_md > :first-child {
+#xcthqlgizy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ghhookndbb .gt_from_md > :last-child {
+#xcthqlgizy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ghhookndbb .gt_row {
+#xcthqlgizy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3375,7 +3376,7 @@ or “heavy” version of the isotope has now been transferred to the
   overflow-x: hidden;
 }
 
-#ghhookndbb .gt_stub {
+#xcthqlgizy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3388,7 +3389,7 @@ or “heavy” version of the isotope has now been transferred to the
   padding-right: 5px;
 }
 
-#ghhookndbb .gt_stub_row_group {
+#xcthqlgizy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3402,15 +3403,15 @@ or “heavy” version of the isotope has now been transferred to the
   vertical-align: top;
 }
 
-#ghhookndbb .gt_row_group_first td {
+#xcthqlgizy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ghhookndbb .gt_row_group_first th {
+#xcthqlgizy .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ghhookndbb .gt_summary_row {
+#xcthqlgizy .gt_summary_row {
   color: #333333;
   background-color: #D5D5D5;
   text-transform: inherit;
@@ -3420,16 +3421,16 @@ or “heavy” version of the isotope has now been transferred to the
   padding-right: 5px;
 }
 
-#ghhookndbb .gt_first_summary_row {
+#xcthqlgizy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D5D5D5;
 }
 
-#ghhookndbb .gt_first_summary_row.thick {
+#xcthqlgizy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ghhookndbb .gt_last_summary_row {
+#xcthqlgizy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3439,7 +3440,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-bottom-color: #D5D5D5;
 }
 
-#ghhookndbb .gt_grand_summary_row {
+#xcthqlgizy .gt_grand_summary_row {
   color: #FFFFFF;
   background-color: #929292;
   text-transform: inherit;
@@ -3449,7 +3450,7 @@ or “heavy” version of the isotope has now been transferred to the
   padding-right: 5px;
 }
 
-#ghhookndbb .gt_first_grand_summary_row {
+#xcthqlgizy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3459,7 +3460,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-top-color: #D5D5D5;
 }
 
-#ghhookndbb .gt_last_grand_summary_row_top {
+#xcthqlgizy .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3469,11 +3470,11 @@ or “heavy” version of the isotope has now been transferred to the
   border-bottom-color: #D5D5D5;
 }
 
-#ghhookndbb .gt_striped {
+#xcthqlgizy .gt_striped {
   background-color: #F4F4F4;
 }
 
-#ghhookndbb .gt_table_body {
+#xcthqlgizy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D5D5D5;
@@ -3482,7 +3483,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-bottom-color: #D5D5D5;
 }
 
-#ghhookndbb .gt_footnotes {
+#xcthqlgizy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3496,7 +3497,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-right-color: #D3D3D3;
 }
 
-#ghhookndbb .gt_footnote {
+#xcthqlgizy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3505,7 +3506,7 @@ or “heavy” version of the isotope has now been transferred to the
   padding-right: 5px;
 }
 
-#ghhookndbb .gt_sourcenotes {
+#xcthqlgizy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3519,7 +3520,7 @@ or “heavy” version of the isotope has now been transferred to the
   border-right-color: #D3D3D3;
 }
 
-#ghhookndbb .gt_sourcenote {
+#xcthqlgizy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3527,63 +3528,63 @@ or “heavy” version of the isotope has now been transferred to the
   padding-right: 5px;
 }
 
-#ghhookndbb .gt_left {
+#xcthqlgizy .gt_left {
   text-align: left;
 }
 
-#ghhookndbb .gt_center {
+#xcthqlgizy .gt_center {
   text-align: center;
 }
 
-#ghhookndbb .gt_right {
+#xcthqlgizy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ghhookndbb .gt_font_normal {
+#xcthqlgizy .gt_font_normal {
   font-weight: normal;
 }
 
-#ghhookndbb .gt_font_bold {
+#xcthqlgizy .gt_font_bold {
   font-weight: bold;
 }
 
-#ghhookndbb .gt_font_italic {
+#xcthqlgizy .gt_font_italic {
   font-style: italic;
 }
 
-#ghhookndbb .gt_super {
+#xcthqlgizy .gt_super {
   font-size: 65%;
 }
 
-#ghhookndbb .gt_footnote_marks {
+#xcthqlgizy .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ghhookndbb .gt_asterisk {
+#xcthqlgizy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ghhookndbb .gt_indent_1 {
+#xcthqlgizy .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ghhookndbb .gt_indent_2 {
+#xcthqlgizy .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ghhookndbb .gt_indent_3 {
+#xcthqlgizy .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ghhookndbb .gt_indent_4 {
+#xcthqlgizy .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ghhookndbb .gt_indent_5 {
+#xcthqlgizy .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
