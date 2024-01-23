@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.0.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.1.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +57,13 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="qsip2-development-version">qSIP2 (development version)<a class="anchor" aria-label="anchor" href="#qsip2-development-version"></a></h2>
-</div>
+<ul><li>Added alpha function <code>plot_resampling_convergence</code> to follow when the CoV of the resamplings converge to a stable value</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.11.1" id="qsip2-0111">qSIP2 0.11.1<a class="anchor" aria-label="anchor" href="#qsip2-0111"></a></h2>
+<ul><li>Fixed <code>run_EAF_calculations</code> to work with <code>allow_failures</code> logic</li>
+<li>Add <code>plot_feature_resamplings</code> to plot resampling results for a single or list of feature_ids</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.11.0" id="qsip2-0110">qSIP2 0.11.0<a class="anchor" aria-label="anchor" href="#qsip2-0110"></a></h2>
 <ul><li>Introduced ability to keep only successful resampling attempts, and discard failures. This keeps <code><a href="../reference/run_resampling.html">run_resampling()</a></code> from failing if the sample count is low, but could result in feature_ids with less than the expected number of resamples. This is controlled by the <code>keep_failures</code> argument in <code><a href="../reference/run_resampling.html">run_resampling()</a></code>. Two functions have been added to inspect the results of resampling: <code><a href="../reference/get_resample_counts.html">get_resample_counts()</a></code> and <code><a href="../reference/plot_successful_resamples.html">plot_successful_resamples()</a></code>.</li>
