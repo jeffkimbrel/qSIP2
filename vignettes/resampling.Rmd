@@ -215,7 +215,9 @@ plot_successful_resamples(q2)
 
 Suppose you want to overlay this success data on your final EAF plot so you can decide you have enough resampling support to trust the EAF value you obtain. This is easy to do, and you can modify the point color based on passing a threshold. We will use a success rate of 90% (i.e. 900 of 1000 resamples) as our threshold here.
 
-```{r, fig.width = 8, fig.height = 8}
+Here, we can see that although most are green, ASV_72 does show up as highly enriched and with a confidence interval clear of 0. But, the red dot further flags it as suspect and warrants a deeper look.
+
+```{r, fig.width = 8, fig.height = 10}
 EAF = run_EAF_calculations(q2)
 
 counts = get_resample_counts(q2) |>
@@ -234,5 +236,4 @@ summarize_EAF_values(EAF) |>
   labs(fill = glue::glue(">{success_rate * 100}% successes"))
 ```
 
-Here, we can see that although most are green, ASV_72 does show up as highly enriched and with a confidence interval clear of 0. But, the red dot further flags it as suspect and warrants a deeper look.
 
