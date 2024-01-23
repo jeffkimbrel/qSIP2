@@ -1,5 +1,11 @@
 # qSIP2 (development version)
 
+# qSIP2 0.11.1
+
+* Fixed `run_EAF_calculations` to work with `allow_failures` logic
+* Add `plot_feature_resamplings` to plot resampling results for a single or list of feature_ids
+* Added alpha function `plot_resampling_convergence` to follow when the CoV of the resamplings converge to a stable value
+
 # qSIP2 0.11.0
 
 * Introduced ability to keep only successful resampling attempts, and discard failures. This keeps `run_resampling()` from failing if the sample count is low, but could result in feature_ids with less than the expected number of resamples. This is controlled by the `keep_failures` argument in `run_resampling()`. Two functions have been added to inspect the results of resampling: `get_resample_counts()` and `plot_successful_resamples()`.

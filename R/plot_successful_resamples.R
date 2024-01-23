@@ -16,13 +16,15 @@
 plot_successful_resamples <- function(qsip_data_object,
                                       labels = FALSE,
                                       as_percentage = FALSE) {
+
   p <- get_resample_counts(qsip_data_object, as_percentage = as_percentage) |>
     #dplyr::select(feature_id, type, successes = n) |>
     ggplot2::ggplot(ggplot2::aes(x = n, fill = type)) +
     ggplot2::geom_histogram(bins = 20) +
     ggplot2::facet_wrap(~type, ncol = 1) +
     ggplot2::theme(legend.position = "none") +
-    ggplot2::labs(x = "Successes", y = "feature_id Count")
+    ggplot2::labs(x = "Successes", y = "feature_id Count") +
+    ggplot2::scale_fill_manual(values = c("labeled" = "#ff0000", "unlabeled" = "#037bcf"))
 
   if (isTRUE(labels)) {
     p <- p +

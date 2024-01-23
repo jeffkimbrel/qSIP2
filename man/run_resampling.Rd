@@ -9,7 +9,8 @@ run_resampling(
   resamples = 1000,
   with_seed = NULL,
   allow_failures = FALSE,
-  progress = TRUE
+  progress = TRUE,
+  quiet = FALSE
 )
 }
 \arguments{

@@ -18,7 +18,8 @@ run_resampling <- function(qsip_data_object,
                            resamples = 1000,
                            with_seed = NULL,
                            allow_failures = FALSE,
-                           progress = TRUE) {
+                           progress = TRUE,
+                           quiet = FALSE) {
   if (!"qsip_data" %in% class(qsip_data_object)) {
     stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
   } else if (length(qsip_data_object@filtered_wad_data) == 0) {
@@ -38,7 +39,9 @@ run_resampling <- function(qsip_data_object,
   if (!is.null(with_seed)) {
     set.seed(with_seed)
   } else {
-    message("Using random seed. For consistency, you can use the with_seed argument")
+    if (isFALSE(quiet)) {
+      message("Using random seed. For consistency, you can use the with_seed argument")
+    }
   }
 
   # create individual dataframes for resampling
@@ -90,11 +93,12 @@ run_resampling <- function(qsip_data_object,
       tibble::deframe()
 
     if (sum(failures > 0)) {
-      warning(glue::glue("{failures['unlabeled']} unlabeled and {failures['labeled']} labeled feature_ids had resampling failures. Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect."),
-              call. = FALSE)
+      if (isFALSE(quiet)) {
+        warning(glue::glue("{failures['unlabeled']} unlabeled and {failures['labeled']} labeled feature_ids had resampling failures. Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect."),
+                call. = FALSE)
+      }
     }
   }
-
 
 
 

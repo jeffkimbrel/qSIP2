@@ -4,7 +4,7 @@
 \alias{summarize_EAF_values}
 \title{Summarize the observed and resampled EAF values}
 \usage{
-summarize_EAF_values(qsip_data_object, confidence = 0.9)
+summarize_EAF_values(qsip_data_object, confidence = 0.9, quiet = FALSE)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) A qsip data object}

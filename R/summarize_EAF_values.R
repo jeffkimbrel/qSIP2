@@ -16,7 +16,7 @@
 #'
 #' @returns A `dataframe` with summarized observed and resampled EAF values
 
-summarize_EAF_values <- function(qsip_data_object, confidence = 0.9) {
+summarize_EAF_values <- function(qsip_data_object, confidence = 0.9, quiet = FALSE) {
 
   # confirm the data is the correct type
   stopifnot("ERROR: qsip_data_object must be of type qsip_data" = "qsip_data" %in% class(qsip_data_object))
@@ -30,7 +30,9 @@ summarize_EAF_values <- function(qsip_data_object, confidence = 0.9) {
   # confirm the qsip object has @EAF values
   stopifnot("ERROR: @EAF slot is empty, have you run run_EAF_calculations()?" = dim(qsip_data_object@EAF)[1] > 0)
 
-  message(glue::glue("Confidence level = {confidence}"))
+  if (isFALSE(quiet)) {
+    message(glue::glue("Confidence level = {confidence}"))
+  }
 
   resamples <- qsip_data_object@EAF |>
     dplyr::filter(observed == FALSE) |>

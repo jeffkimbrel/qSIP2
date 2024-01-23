@@ -42,6 +42,8 @@ reference:
   - plot_feature_curves
   - plot_filter_gradient_position
   - plot_successful_resamples
+  - plot_feature_resamplings
+  - plot_resampling_convergence
 
 - title: Datasets
   contents:
