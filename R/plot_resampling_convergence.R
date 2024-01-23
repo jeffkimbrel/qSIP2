@@ -1,3 +1,5 @@
+#' Plot resampling convergence (under construction!)
+#'
 #'
 #'
 #' @export
