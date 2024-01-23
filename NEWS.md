@@ -1,11 +1,13 @@
 # qSIP2 (development version)
 
-* Added alpha function `plot_resampling_convergence` to follow when the CoV of the resamplings converge to a stable value
+# qSIP2 0.11.2
+
+* Added alpha function `plot_resampling_convergence()` to follow when the CoV of the resamplings converge to a stable value
 
 # qSIP2 0.11.1
 
-* Fixed `run_EAF_calculations` to work with `allow_failures` logic
-* Add `plot_feature_resamplings` to plot resampling results for a single or list of feature_ids
+* Fixed `run_EAF_calculations()` to work with `allow_failures` logic
+* Add `plot_feature_resamplings()` to plot resampling results for a single or list of feature_ids
 
 # qSIP2 0.11.0
 
