@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.2.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,11 +57,14 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="qsip2-development-version">qSIP2 (development version)<a class="anchor" aria-label="anchor" href="#qsip2-development-version"></a></h2>
-</div>
+<h2 class="pkg-version" data-toc-text="0.11.3" id="qsip2-0113">qSIP2 0.11.3<a class="anchor" aria-label="anchor" href="#qsip2-0113"></a></h2>
+<ul><li>Added validation checks for existing standard names in dataframes. For example, if trying to use a data.frame with source data that already has a <code>source_mat_id</code> column, but you designate a different column as the <code>source_mat_id</code>, it will throw an error. This is to prevent column name collisions and potential unintended consequences.</li>
+<li>Added internal function <code><a href="../reference/validate_standard_names.html">validate_standard_names()</a></code> to check for existing standard names in dataframes.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.11.2" id="qsip2-0112">qSIP2 0.11.2<a class="anchor" aria-label="anchor" href="#qsip2-0112"></a></h2>
 <ul><li>Added alpha function <code><a href="../reference/plot_resampling_convergence.html">plot_resampling_convergence()</a></code> to follow when the CoV of the resamplings converge to a stable value</li>
+<li>Added new <code><a href="../articles/resampling.html">vignette("resampling")</a></code> for more details about the resampling procedure</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.11.1" id="qsip2-0111">qSIP2 0.11.1<a class="anchor" aria-label="anchor" href="#qsip2-0111"></a></h2>
