@@ -1,8 +1,12 @@
-# qSIP2 (development version)
+# qSIP2 0.11.3
+
+* Added validation checks for existing standard names in dataframes. For example, if trying to use a data.frame with source data that already has a `source_mat_id` column, but you designate a different column as the `source_mat_id`, it will throw an error. This is to prevent column name collisions and potential unintended consequences. 
+* Added internal function `validate_standard_names()` to check for existing standard names in dataframes.
 
 # qSIP2 0.11.2
 
 * Added alpha function `plot_resampling_convergence()` to follow when the CoV of the resamplings converge to a stable value
+* Added new `vignette("resampling")` for more details about the resampling procedure
 
 # qSIP2 0.11.1
 

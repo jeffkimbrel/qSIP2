@@ -63,6 +63,7 @@ reference:
 - title: internal
   contents:
   - validate_abundances
+  - validate_standard_names
   - validate_gradient_pos_density
   - validate_gradient_position
   - validate_isotopes

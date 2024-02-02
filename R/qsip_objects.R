@@ -67,6 +67,9 @@ qsip_source_data <- S7::new_class(
     }
 
     # rename columns to standardized names
+    validate_standard_names(data, source_mat_id, "source")
+
+    ## then rename if all good
     data <- data |>
       dplyr::select(
         isotope = dplyr::all_of(isotope),
@@ -172,6 +175,9 @@ qsip_feature_data <- S7::new_class(
     }
 
     # rename columns to standardized names
+    validate_standard_names(data, feature_id, "feature")
+
+    ## then rename if all good
     data <- data |>
       dplyr::select(
         feature_id = all_of(feature_id),
@@ -291,6 +297,7 @@ qsip_sample_data <- S7::new_class(
     stopifnot("gradient_pos_rel_amt column not found" = gradient_pos_rel_amt %in% colnames(data))
 
     # rename columns to standardized names
+    validate_standard_names(data, sample_id, "sample")
     data <- data |>
       dplyr::select(
         sample_id = all_of(sample_id),
