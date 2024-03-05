@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.4.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -358,7 +358,9 @@ of features. Here, I will select 3 random feature_ids to show.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">random_features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_feature_ids.html">get_feature_ids</a></span><span class="op">(</span><span class="va">q</span>, filtered <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings</a></span><span class="op">(</span><span class="va">q</span>, </span>
-<span>                         feature_id <span class="op">=</span> <span class="va">random_features</span><span class="op">)</span></span></code></pre></div>
+<span>                         feature_id <span class="op">=</span> <span class="va">random_features</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: No shared levels found between `names(values)` of the manual scale and the</span></span>
+<span><span class="co">#&gt; data's <span style="color: #00BB00;">colour</span> values.</span></span></code></pre></div>
 <p><img src="resampling_files/figure-html/unnamed-chunk-12-1.png" width="768"></p>
 <p>Additional arguments can be called to add the confidence intervals
 (as bars or lines) or with a different confidence limit (default =
