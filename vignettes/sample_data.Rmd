@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 
 ```{r setup, message=FALSE, warning=FALSE}
 library(dplyr)
+library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
 ```
@@ -155,21 +156,6 @@ sample_object <- qsip_sample_data(sample_df,
 )
 ```
 
-Here is an example of the `qSIP2` validation error telling us we have characters in the `gradient_position` field. A simple `mutate()` call to convert to integers will fix the problem, giving a valid `qsip_sample_data` object.
-
-```{r}
-sample_object <- sample_df |>
-  mutate(Fraction = as.integer(Fraction)) |>
-  qsip_sample_data(
-    sample_id = "sample",
-    source_mat_id = "source",
-    gradient_position = "Fraction",
-    gradient_pos_density = "density_g_ml",
-    gradient_pos_amt = "avg_16S_g_soil",
-    gradient_pos_rel_amt = "gradient_pos_rel_amt"
-  )
-```
-
 
 
 
@@ -186,3 +172,21 @@ plot_density_outliers(sample_object)
 ```
 
 Here we see some values at the ends of the density ranges are slightly lower than their gradient position would suggest, and are therefore considered possible outliers and colored red. The ends of the density ranges, however, are expected to fall off of the main line, and so these results are not too concerning here. 
+
+# Validation
+
+The `qSIP2` sample data object has built in error checking for the data types passed. For example, if we modify the `Fraction` column to be characters instead of integers we will get a validation error. 
+
+```{r, error=TRUE}
+sample_object <- sample_df |>
+  mutate(Fraction = as.character(Fraction)) |>
+  qsip_sample_data(
+    sample_id = "sample",
+    source_mat_id = "source",
+    gradient_position = "Fraction",
+    gradient_pos_density = "density_g_ml",
+    gradient_pos_amt = "avg_16S_g_soil",
+    gradient_pos_rel_amt = "gradient_pos_rel_amt"
+  )
+```
+

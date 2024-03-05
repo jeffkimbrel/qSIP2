@@ -4,7 +4,7 @@
       run_feature_filter(example_qsip_object, unlabeled_source_mat_ids = get_all_by_isotope(
         example_qsip_object, "12C"), labeled_source_mat_ids = c("S178", "S179",
         "S180"))
-    Message
+    Message <simpleMessage>
       There are initially 2030 unique feature_ids
       1705 of these have abundance in at least one fraction of one source_mat_id
       =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+

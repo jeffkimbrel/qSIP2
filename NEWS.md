@@ -1,3 +1,9 @@
+# qSIP2 (development version)
+
+# qSIP2 0.11.4
+
+* Fixed `example_source_df` and `example_sample_df` to remove the built in validation errors (missing `isotoplog` in the source data, and fractions as characters in the sample data). These dataframes are now valid objects for the package
+
 # qSIP2 0.11.3
 
 * Added validation checks for existing standard names in dataframes. For example, if trying to use a data.frame with source data that already has a `source_mat_id` column, but you designate a different column as the `source_mat_id`, it will throw an error. This is to prevent column name collisions and potential unintended consequences. 

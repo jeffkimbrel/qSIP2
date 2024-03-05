@@ -2,8 +2,7 @@
 
     Code
       add_isotopolog_label(example_source_df, isotope = "Isotope")
-    Condition
-      Warning:
+    Warning <lifecycle_warning_deprecated>
       Using an external vector in selections was deprecated in tidyselect 1.1.0.
       i Please use `all_of()` or `any_of()` instead.
         # Was:
@@ -14,7 +13,7 @@
       
       See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
     Output
-      # A tibble: 15 x 6
+      # A tibble: 15 x 7
          source total_copies_per_g total_dna isotope isotopolog_label     Moisture
          <chr>               <dbl>     <dbl> <chr>   <chr>                <chr>   
        1 S149            34838665.      74.5 13C     natural abundance    Normal  
@@ -32,4 +31,5 @@
       13 S201            56379702.      73.8 13C     isotopically labeled Drought 
       14 S202            42562198.     108.  13C     isotopically labeled Drought 
       15 S203            49914369.      80.5 13C     isotopically labeled Drought 
+      # i 1 more variable: isotopolog <chr>
 

@@ -61,18 +61,11 @@ example_source_df |>
   gt_func(title = "The first few rows of `example_source_df`")
 ```
 
-There are a few required columns for valid source data including a unique ID, some measure of quantitative abundance for the source material (either total DNA or qPCR copies), and an isotope and isotopolog designation. 
-
-The `isotopolog` column is missing from the example dataframe, so let's add it now.
-
-```{r}
-source_df <- example_source_df |>
-  dplyr::mutate(isotopolog = "glucose")
-```
+There are a few required columns for valid source data including a unique ID, some measure of quantitative abundance for the source material (either total DNA or qPCR copies), and an isotope and isotopolog designation for the substrate that had the label. 
 
 ```{r}
 #| echo: false
-source_df |>
+example_source_df |>
   head() |>
   gt_func(title = "`source_df`")
 ```
@@ -80,7 +73,7 @@ source_df |>
 Once the dataframe is ready, the next step is to convert it to a `qsip_source_data` object. This is one of the main `qSIP2` objects to hold and validate the data. 
 
 ```{r}
-source_object <- qsip_source_data(source_df,
+source_object <- qsip_source_data(example_source_df,
   isotope = "Isotope",
   isotopolog = "isotopolog",
   source_mat_id = "source"
@@ -92,7 +85,7 @@ class(source_object)
 This object modifies some of the column names to standard names as supplied in the above function. 
 
 ```{r}
-colnames(source_df)
+colnames(example_source_df)
 colnames(source_object@data)
 ```
 
@@ -126,31 +119,9 @@ sample_df |>
   gt_func(title = "Sums of relative abundance equal 1")
 ```
 
-Again, we make a `qSIP2` object for this data, this time as a `qsip_sample_data` object. In making these objects, we get some built-in validation, and example of which is displayed if we try to make an object with the current `sample_df`. 
-
-```{r, error=TRUE}
-sample_object <- qsip_sample_data(sample_df,
-  sample_id = "sample",
-  source_mat_id = "source",
-  gradient_position = "Fraction",
-  gradient_pos_density = "density_g_ml",
-  gradient_pos_amt = "avg_16S_g_soil",
-  gradient_pos_rel_amt = "gradient_pos_rel_amt"
-)
-```
-
-This error tells us that the `gradient_position` column ("Fraction") contains non-numeric data, and indeed we can see they are stored as strings. 
+Again, we make a `qSIP2` object for this data, this time as a `qsip_sample_data` object. 
 
 ```{r}
-class(sample_df$Fraction)
-```
-
-So, let's fix that and try creating the `qsip_sample_data` object again. 
-
-```{r}
-sample_df <- sample_df |>
-  dplyr::mutate(Fraction = as.integer(Fraction))
-
 sample_object <- qsip_sample_data(sample_df,
   sample_id = "sample",
   source_mat_id = "source",
@@ -163,7 +134,7 @@ sample_object <- qsip_sample_data(sample_df,
 class(sample_object)
 ```
 
-OK, it worked this time and gave us a valid object. See `vignette("sample_data")` for more details and relevant visualizations.
+See `vignette("sample_data")` for more details and relevant visualizations.
 
 ## Feature Data
 

@@ -11,11 +11,13 @@ example_source_df <- minimal |>
   dplyr::mutate(total_dna = sum(dna_conc)) |>
   dplyr::select(source, total_copies_per_g, total_dna, Isotope, Moisture) |>
   unique() |>
-  dplyr::ungroup()
+  dplyr::ungroup() |>
+  dplyr::mutate(isotopolog = "glucose")
 
 example_sample_df <- minimal |>
   dplyr::select(sample, source, Fraction, density_g_ml, dna_conc, avg_16S_g_soil) |>
-  dplyr::mutate(dna_conc = ifelse(dna_conc < 0, 0, dna_conc))
+  dplyr::mutate(dna_conc = ifelse(dna_conc < 0, 0, dna_conc)) |>
+  dplyr::mutate(Fraction = as.integer(Fraction))
 
 asv_table <- readr::read_tsv("~/OD/Soils_SFA/analysis/qSIP_refactor/qsip2_example_data/table.txt")
 

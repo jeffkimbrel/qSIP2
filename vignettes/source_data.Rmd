@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 
 ```{r setup, message=FALSE, warning=FALSE}
 library(dplyr)
+library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
 ```
@@ -60,31 +61,24 @@ example_source_df |>
 
 The requirements for source data are minimal, but still strict. Only three columns are necessary - the unique source ID, the isotope designation and the substrate/isotopolog information. 
 
-Two of these are already present in `example_source_df` (the `source` and `Isotope` columns). However, the `isotopolog` column is missing and will need to be added. In a simple experiment, this can easily be done by calling `dplyr::mutate`. Here, we can designate our substrate as "glucose" and save it to a new dataframe `source_df`. 
-
-```{r}
-source_df <- example_source_df |>
-  dplyr::mutate(substrate = "glucose")
-```
-
 ```{r}
 #| echo: false
 
-source_df |>
+example_source_df |>
   head() |>
-  gt_func(title = "The first few rows of `source_df`")
+  gt_func(title = "The first few rows of `example_source_df`")
 ```
 
-Now the dataframe looks good with all of the necessary fields.
+The dataframe looks good with all of the necessary fields.
 
 # qSIP2 Source Data Object
 
 Once the dataframe is ready, the next step is to convert it to a `qsip_source_data` object. This is one of the main `qSIP2` objects to hold and validate the data. 
 
 ```{r}
-source_object <- qsip_source_data(source_df,
+source_object <- qsip_source_data(example_source_df,
   isotope = "Isotope",
-  isotopolog = "substrate",
+  isotopolog = "isotopolog",
   source_mat_id = "source"
 )
 
@@ -133,17 +127,17 @@ While qSIP standards are part of the MISIP standards, the `qSIP2` package is a l
 ## Adding the `isotopolog_label` column
 
 ```{r}
-source_df_MISIP <- source_df |>
+example_source_df_MISIP <- example_source_df |>
   add_isotopolog_label(isotope = "Isotope")
 ```
 
 ```{r}
 #| echo: false
 
-source_df_MISIP |>
+example_source_df_MISIP |>
   arrange(desc(total_copies_per_g)) |>
   head() |>
-  gt_func(title = "A 'MISIPified version of `source_df`")
+  gt_func(title = "A 'MISIPified version of `example_source_df`")
 ```
 
 Now, the `Isotope` column has been renamed to `isotope` to satisfy MISIP standards, and all values have been replaced with the heavy isotope.
@@ -151,9 +145,9 @@ Now, the `Isotope` column has been renamed to `isotope` to satisfy MISIP standar
 ```{r}
 #| echo: false
 
-source_df_MISIP |>
+example_source_df_MISIP |>
   count(isotope) |>
-  gt_func(title = "Count of `isotope` types in `source_df_MISIP`")
+  gt_func(title = "Count of `isotope` types in `example_source_df_MISIP`")
 ```
 
 And the designation for whether the source material was the "light" or "heavy" version of the isotope has now been transferred to the `isotopolog_label` column.
@@ -161,9 +155,9 @@ And the designation for whether the source material was the "light" or "heavy" v
 ```{r}
 #| echo: false
 
-source_df_MISIP |>
+example_source_df_MISIP |>
   count(isotopolog_label) |>
-  gt_func(title = "Count of `isotopolog_label` types in `source_df_MISIP`")
+  gt_func(title = "Count of `isotopolog_label` types in `example_source_df_MISIP`")
 ```
 
 ## Removing the `isotopolog_label` column
@@ -171,16 +165,16 @@ source_df_MISIP |>
 This change can be reverted with the `remove_isotopolog_label()` function.
 
 ```{r}
-source_df_ORIGINAL <- remove_isotopolog_label(source_df_MISIP)
+example_source_df_ORIGINAL <- remove_isotopolog_label(example_source_df_MISIP)
 ```
 
 ```{r}
 #| echo: false
 
-source_df_ORIGINAL |>
+example_source_df_ORIGINAL |>
   arrange(desc(total_copies_per_g)) |>
   head() |>
-  gt_func(title = "`source_df_MISIP` converted back")
+  gt_func(title = "`example_source_df_MISIP` converted back")
 ```
 
 Note, the original is not *exactly* preserved as the original `Isotope` column has the MISIP standard `isotope` name retained.
