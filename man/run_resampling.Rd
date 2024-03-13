@@ -20,7 +20,11 @@ run_resampling(
 
 \item{with_seed}{(\emph{integer}) An optional seed for reproducibility}
 
+\item{allow_failures}{(\emph{boolean}) Option to allow resampling failures. If TRUE, the function will continue to resample even if some features fail. If FALSE, the function will stop if any features fail.}
+
 \item{progress}{(\emph{boolean}) Option to show a progress bar for the resampling step}
+
+\item{quiet}{(\emph{boolean}) Option to suppress messages}
 }
 \value{
 A new \code{qsip_data} object with the \verb{@resamples} slot populated with resamples wad values

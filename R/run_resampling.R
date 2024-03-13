@@ -9,6 +9,8 @@
 #' @param resamples (*integer*) The number of resamples/bootstraps to run
 #' @param with_seed (*integer*) An optional seed for reproducibility
 #' @param progress (*boolean*) Option to show a progress bar for the resampling step
+#' @param allow_failures (*boolean*) Option to allow resampling failures. If TRUE, the function will continue to resample even if some features fail. If FALSE, the function will stop if any features fail.
+#' @param quiet (*boolean*) Option to suppress messages
 #'
 #' @returns A new `qsip_data` object with the `@resamples` slot populated with resamples wad values
 #'
@@ -30,9 +32,9 @@ run_resampling <- function(qsip_data_object,
   stopifnot("resamples should be class <numeric>" = is.numeric(resamples))
   stopifnot("resamples should be positive" = resamples > 0)
 
-
-  unlabeled <- qsip_data_object@filter_results$unlabeled_source_mat_ids
-  labeled <- qsip_data_object@filter_results$labeled_source_mat_ids
+  # v0.11.5 fixed to convert to characters
+  unlabeled <- as.character(qsip_data_object@filter_results$unlabeled_source_mat_ids)
+  labeled <- as.character(qsip_data_object@filter_results$labeled_source_mat_ids)
 
 
   # set seed if given
