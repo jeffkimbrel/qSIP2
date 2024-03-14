@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.5.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.5.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -477,7 +477,7 @@ of some features.</p>
 <span>  allow_failures <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: 17 unlabeled and 4 labeled feature_ids had resampling failures. Run</span></span>
+<span><span class="co">#&gt; Warning: NA unlabeled and 4 labeled feature_ids had resampling failures. Run</span></span>
 <span><span class="co">#&gt; `get_resample_counts()` or `plot_successful_resamples()` on your &lt;qsip_data&gt;</span></span>
 <span><span class="co">#&gt; object to inspect.</span></span></code></pre></div>
 <p>The warning message here lets us know that there were no problems
@@ -488,20 +488,13 @@ resamples).</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_resample_counts.html">get_resample_counts</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">n</span> <span class="op">&lt;</span> <span class="fl">1000</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 21 × 3</span></span></span>
-<span><span class="co">#&gt;    feature_id type          n</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> ASV_113    unlabeled   334</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> ASV_117    unlabeled   345</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> ASV_126    unlabeled   345</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> ASV_130    unlabeled   334</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> ASV_149    labeled     292</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> ASV_149    unlabeled   123</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> ASV_155    labeled     307</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> ASV_155    unlabeled   345</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> ASV_157    unlabeled   100</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> ASV_161    labeled     292</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 11 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
+<span><span class="co">#&gt;   feature_id type        n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ASV_149    labeled   961</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ASV_155    labeled   968</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ASV_161    labeled   961</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ASV_72     labeled   693</span></span></code></pre></div>
 <p>Here, we see that indeed ASV_72 was only successful in 693 of 1000
 resamplings. Statistically, you may conclude that 693 resamplings is
 still robust enough to accept the conclusion. But inspecting the plot
