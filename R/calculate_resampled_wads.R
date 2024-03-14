@@ -33,7 +33,11 @@ calculate_resampled_wads <- function(i, wad_data, type, allow_failures = FALSE) 
     }
   } else if (allow_failures == TRUE) {
     # just remove rows that are all NAs... this will reduce the number of successful resamples reported for this feature/type
-    wad_data_resampled = wad_data_resampled[rowSums(is.na(wad_data_resampled)) != ncol(wad_data_resampled), ]
+
+    if (any(is.na(wad_data_resampled))) {
+      wad_data_resampled = na.omit(wad_data_resampled)
+    }
+
   }
 
   # save the original names, in case they are needed later

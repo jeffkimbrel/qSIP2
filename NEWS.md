@@ -1,3 +1,5 @@
+# qSIP2 (development version)
+
 # qSIP2 0.11.5
 
 * Fixed `run_resampling()` to not get confused when using sample names that are integers. 
