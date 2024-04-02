@@ -34,3 +34,19 @@ remove_isotopolog_label <- function(data) {
     dplyr::select(-isotopolog_label)
 
 }
+
+
+
+#' Remove isotopolog label if needed
+#'
+#' @export
+#'
+#' @family MISIP
+
+remove_isotopolog_label_check = function(df, isotope = "isotope") {
+  if (all(df[[isotope]] %in% c("13C", "15N", "18O"))) {
+    df |>
+      qSIP2::remove_isotopolog_label()
+  }
+}
+

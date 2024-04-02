@@ -472,6 +472,7 @@ S7::method(get_dataframe, qsip_sample_data) <- function(x, original_headers = FA
 #'
 #' @param x (*qsip_feature_data*) A qSIP feature data object
 #' @param original_headers (*logical*) Return the original column names
+#' @param type (*source*, *sample* or *feature*) When giving a qSIP object the type determines which dataframe to retrieve
 #'
 #' @name get_dataframe
 #' @export

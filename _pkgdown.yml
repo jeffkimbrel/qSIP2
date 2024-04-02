@@ -85,6 +85,7 @@ reference:
   - calculate_resampled_wads
   - calculate_Z
   - find_shared_ids
+  - remove_isotopolog_label_check
 
 articles:
 - title: Learn qSIP

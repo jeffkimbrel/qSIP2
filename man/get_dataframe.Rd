@@ -7,6 +7,8 @@
 \item{x}{(\emph{qsip_feature_data}) A qSIP feature data object}
 
 \item{original_headers}{(\emph{logical}) Return the original column names}
+
+\item{type}{(\emph{source}, \emph{sample} or \emph{feature}) When giving a qSIP object the type determines which dataframe to retrieve}
 }
 \description{
 Return the original dataframe from a qsip_feature_data object

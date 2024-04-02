@@ -1,4 +1,4 @@
-# qSIP2 (development version)
+# qSIP2 0.11.6
 
 # qSIP2 0.11.5
 
@@ -25,7 +25,7 @@
 
 # qSIP2 0.11.0
 
-* Introduced ability to keep only successful resampling attempts, and discard failures. This keeps `run_resampling()` from failing if the sample count is low, but could result in feature_ids with less than the expected number of resamples. This is controlled by the `keep_failures` argument in `run_resampling()`. Two functions have been added to inspect the results of resampling: `get_resample_counts()` and `plot_successful_resamples()`.
+* Introduced ability to keep only successful resampling attempts, and discard failures. This keeps `run_resampling()` from failing if the sample count is low, but could result in feature_ids with less than the expected number of resamples. This is controlled by the `allow_failures` argument in `run_resampling()`. Two functions have been added to inspect the results of resampling: `get_resample_counts()` and `plot_successful_resamples()`.
 
 # qSIP2 0.10.6
 
