@@ -47,6 +47,8 @@ remove_isotopolog_label_check = function(df, isotope = "isotope") {
   if (all(df[[isotope]] %in% c("13C", "15N", "18O"))) {
     df |>
       qSIP2::remove_isotopolog_label()
+  } else {
+    df
   }
 }
 
