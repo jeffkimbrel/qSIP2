@@ -7,7 +7,7 @@
 
 pivot_kbase_amplicon_matrix = function(amplicon) {
   amplicon |>
-    select(-id) |>
+    dplyr::select(-id) |>
     tidyr::pivot_wider(names_from = "column_id",
                        values_from = "value")
 
