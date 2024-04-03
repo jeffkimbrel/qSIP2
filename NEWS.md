@@ -1,6 +1,6 @@
-# qSIP2 0.11.7
+# qSIP2 0.12.0
 
-# qSIP2 0.11.6
+* Beginning work on KBase functionality
 
 # qSIP2 0.11.5
 
