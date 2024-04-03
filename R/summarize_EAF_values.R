@@ -49,5 +49,7 @@ summarize_EAF_values <- function(qsip_data_object, confidence = 0.9, quiet = FAL
     dplyr::select(feature_id, observed_EAF = EAF)
 
   observed |>
-    dplyr::left_join(resamples, by = "feature_id")
+    dplyr::left_join(resamples, by = "feature_id") |>
+    dplyr::left_join(get_resample_counts(qsip_data_object), by = "feature_id") |>
+    dplyr::left_join(get_filtered_source_counts(qsip_data_object), by = "feature_id")
 }

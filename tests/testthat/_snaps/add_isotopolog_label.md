@@ -2,7 +2,8 @@
 
     Code
       add_isotopolog_label(example_source_df, isotope = "Isotope")
-    Warning <lifecycle_warning_deprecated>
+    Condition
+      Warning:
       Using an external vector in selections was deprecated in tidyselect 1.1.0.
       i Please use `all_of()` or `any_of()` instead.
         # Was:

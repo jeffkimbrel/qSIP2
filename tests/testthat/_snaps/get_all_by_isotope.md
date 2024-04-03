@@ -30,7 +30,7 @@
 
     Code
       get_all_by_isotope(example_qsip_object, "labeled")
-    Message <simpleMessage>
+    Message
       WARNING: 15N not found in data
       WARNING: 18O not found in data
     Output
@@ -40,7 +40,7 @@
 
     Code
       get_all_by_isotope(example_qsip_object, "unlabeled")
-    Message <simpleMessage>
+    Message
       WARNING: 14N not found in data
       WARNING: 16O not found in data
     Output

@@ -43,5 +43,11 @@ get_resample_counts = function(qsip_data_object,
       dplyr::mutate(n = n / qsip_data_object@resamples$n)
   }
 
+  counts = counts |>
+    tidyr::pivot_wider(names_from = "type", values_from = "n") |>
+    dplyr::rename("labeled_resamples" = labeled,
+                  "unlabeled_resamples" = unlabeled)
+
+
   return(counts)
 }

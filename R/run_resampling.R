@@ -89,6 +89,9 @@ run_resampling <- function(qsip_data_object,
 
   if (isTRUE(allow_failures)) {
     failures <- get_resample_counts(qsip_data_object) |>
+      tidyr::pivot_longer(cols = c("unlabeled_resamples", "labeled_resamples"),
+                          names_to = "type",
+                          values_to = "n") |>
       dplyr::filter(n < 1000) |>
       dplyr::group_by(type) |>
       dplyr::count() |>
