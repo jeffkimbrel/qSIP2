@@ -220,17 +220,15 @@ Here, we can see that although most are green, ASV_72 does show up as highly enr
 ```{r, fig.width = 8, fig.height = 10}
 EAF = run_EAF_calculations(q2)
 
-counts = get_resample_counts(q2) |>
-  tidyr::pivot_wider(names_from = type, values_from = n)
+counts = get_resample_counts(q2)
 
 success_rate = 0.9
 
 summarize_EAF_values(EAF) |>
-  dplyr::left_join(counts, by = "feature_id") |>
   ggplot(aes(y = reorder(feature_id, observed_EAF), x = observed_EAF)) +
   geom_point(pch = 21,
                       size = 2,
-                      aes(fill = ifelse((labeled + unlabeled) > q@resamples$n*2*success_rate, "Passed", "Failed"))) +
+                      aes(fill = ifelse((labeled_resamples + unlabeled_resamples) > q@resamples$n*2*success_rate, "Passed", "Failed"))) +
   geom_errorbar(aes(xmin = lower, xmax = upper)) +
   scale_fill_manual(values = c("Passed" = "#00ff0066", "Failed" = "red")) +
   labs(fill = glue::glue(">{success_rate * 100}% successes"))
