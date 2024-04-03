@@ -48,6 +48,7 @@ reference:
   - plot_filter_gradient_position
   - plot_successful_resamples
   - plot_feature_resamplings
+  - plot_EAF_values
   - plot_resampling_convergence
 
 - title: Datasets
