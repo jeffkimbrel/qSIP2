@@ -87,6 +87,7 @@ reference:
   - find_shared_ids
   - remove_isotopolog_label_check
   - pivot_kbase_amplicon_matrix
+  - get_filtered_source_counts
 
 articles:
 - title: Learn qSIP
