@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.4.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -477,7 +477,7 @@ of some features.</p>
 <span>  allow_failures <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: NA unlabeled and 4 labeled feature_ids had resampling failures. Run</span></span>
+<span><span class="co">#&gt; Warning: NA unlabeled and NA labeled feature_ids had resampling failures. Run</span></span>
 <span><span class="co">#&gt; `get_resample_counts()` or `plot_successful_resamples()` on your &lt;qsip_data&gt;</span></span>
 <span><span class="co">#&gt; object to inspect.</span></span></code></pre></div>
 <p>The warning message here lets us know that there were no problems
@@ -488,13 +488,20 @@ resamples).</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_resample_counts.html">get_resample_counts</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">n</span> <span class="op">&lt;</span> <span class="fl">1000</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
-<span><span class="co">#&gt;   feature_id type        n</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ASV_149    labeled   961</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ASV_155    labeled   968</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ASV_161    labeled   961</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ASV_72     labeled   693</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 127 × 3</span></span></span>
+<span><span class="co">#&gt;    feature_id labeled_resamples unlabeled_resamples</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> ASV_1                   <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> ASV_10                  <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> ASV_100                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> ASV_101                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> ASV_102                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> ASV_103                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> ASV_104                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> ASV_105                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> ASV_108                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> ASV_11                  <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 117 more rows</span></span></span></code></pre></div>
 <p>Here, we see that indeed ASV_72 was only successful in 693 of 1000
 resamplings. Statistically, you may conclude that 693 resamplings is
 still robust enough to accept the conclusion. But inspecting the plot
@@ -526,17 +533,15 @@ dot further flags it as suspect and warrants a deeper look.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">EAF</span> <span class="op">=</span> <span class="fu"><a href="../reference/run_EAF_calculations.html">run_EAF_calculations</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">counts</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_resample_counts.html">get_resample_counts</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">type</span>, values_from <span class="op">=</span> <span class="va">n</span><span class="op">)</span></span>
+<span><span class="va">counts</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_resample_counts.html">get_resample_counts</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">success_rate</span> <span class="op">=</span> <span class="fl">0.9</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/summarize_EAF_values.html">summarize_EAF_values</a></span><span class="op">(</span><span class="va">EAF</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">counts</span>, by <span class="op">=</span> <span class="st">"feature_id"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">feature_id</span>, <span class="va">observed_EAF</span><span class="op">)</span>, x <span class="op">=</span> <span class="va">observed_EAF</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>pch <span class="op">=</span> <span class="fl">21</span>,</span>
 <span>                      size <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>                      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="op">(</span><span class="va">labeled</span> <span class="op">+</span> <span class="va">unlabeled</span><span class="op">)</span> <span class="op">&gt;</span> <span class="va">q</span><span class="op">@</span><span class="va">resamples</span><span class="op">$</span><span class="va">n</span><span class="op">*</span><span class="fl">2</span><span class="op">*</span><span class="va">success_rate</span>, <span class="st">"Passed"</span>, <span class="st">"Failed"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>                      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="op">(</span><span class="va">labeled_resamples</span> <span class="op">+</span> <span class="va">unlabeled_resamples</span><span class="op">)</span> <span class="op">&gt;</span> <span class="va">q</span><span class="op">@</span><span class="va">resamples</span><span class="op">$</span><span class="va">n</span><span class="op">*</span><span class="fl">2</span><span class="op">*</span><span class="va">success_rate</span>, <span class="st">"Passed"</span>, <span class="st">"Failed"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_errorbar</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="va">lower</span>, xmax <span class="op">=</span> <span class="va">upper</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Passed"</span> <span class="op">=</span> <span class="st">"#00ff0066"</span>, <span class="st">"Failed"</span> <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"&gt;{success_rate * 100}% successes"</span><span class="op">)</span><span class="op">)</span></span>
