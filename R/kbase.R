@@ -8,7 +8,7 @@
 pivot_kbase_amplicon_matrix = function(amplicon) {
   amplicon |>
     tidyr::pivot_wider(names_from = "column_id",
-                       values_from = "values")
+                       values_from = "value")
 
 
 }
