@@ -1,0 +1,80 @@
+#' Plot EAF and confidence intervals
+#'
+#' This function plots the observed EAF values for each feature in the dataset.
+#' The features are ordered by their observed EAF values. The confidence intervals
+#' are plotted as error bars or ribbons. The points are colored based on the
+#' success ratio of the resamples.
+#'
+#' @param qsip_data_object (*qsip_data*) A qsip data object
+#' @param confidence (*numeric*) The confidence level for the confidence interval
+#' @param success_ratio (*numeric*) The ratio of successful resamples to total resamples
+#' @param top (*numeric*) The number of top features to plot. Use `Inf` for all
+#' @param error (*character*) The type of error bars to plot. Options are 'none', 'bar', 'ribbon'
+#' @param alpha (*numeric*) The transparency of the error bar/ribbon
+#'
+#' @export
+
+plot_EAF_values <- function(qsip_data_object,
+                            confidence = 0.9,
+                            success_ratio = 0.9,
+                            top = Inf,
+                            error = "none",
+                            alpha = 0.3) {
+
+  # confirm the data is the correct type
+  stopifnot("ERROR: qsip_data_object must be of type qsip_data" = "qsip_data" %in% class(qsip_data_object))
+
+  # confirm the confidence value is numeric and between 0-1
+  stopifnot("ERROR: confidence should be numeric" = is.numeric(confidence))
+  if (confidence >= 1 | confidence <= 0) {
+    stop("ERROR: confidence level should be between 0 and 1")
+  }
+
+  # confirm the success_ratio value is numeric and between 0-1
+  stopifnot("ERROR: success_ratio should be numeric" = is.numeric(success_ratio))
+  if (success_ratio > 1 | success_ratio <= 0) {
+    stop("ERROR: success_ratio level should be between 0 and 1")
+  }
+
+  # confirm the alpha value is numeric and between 0-1
+  stopifnot("ERROR: alpha should be numeric" = is.numeric(alpha))
+  if (alpha > 1 | alpha <= 0) {
+    stop("ERROR: alpha level should be between 0 and 1")
+  }
+
+  if (!error %in% c('none', 'bar', 'ribbon')) {
+    stop(glue::glue("<error> should be 'none', 'bar' or 'ribbon', not {error}"), call. = FALSE)
+  }
+
+  EAF <- summarize_EAF_values(qsip_data_object,
+    confidence = confidence
+  ) |>
+    slice_max(observed_EAF, n = top) |>
+    mutate(feature_id = forcats::fct_reorder(feature_id, observed_EAF))
+
+
+  p <- EAF |>
+    ggplot(aes(y = feature_id, x = observed_EAF)) +
+    geom_point(
+      pch = 21,
+      size = 2,
+      aes(fill = ifelse((labeled_resamples + unlabeled_resamples) > qsip_data_object@resamples$n * 2 * success_ratio,
+        "Passed",
+        "Failed"
+      ))
+    ) +
+    scale_fill_manual(values = c("Passed" = "#00ff0066", "Failed" = "red")) +
+    labs(
+      fill = glue::glue(">{success_ratio * 100}% successes"),
+      y = "feature_ids reordered by observed_EAF"
+    )
+
+  if (error == "bar") {
+    p <- p + geom_errorbar(aes(xmin = lower, xmax = upper), alpha = alpha)
+  } else if (error == "ribbon") {
+    p <- p +
+      geom_ribbon(aes(xmin = lower, xmax = upper, group = 1), alpha = alpha)
+  }
+
+  return(p)
+}
