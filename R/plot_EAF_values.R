@@ -13,6 +13,23 @@
 #' @param alpha (*numeric*) The transparency of the error bar/ribbon
 #'
 #' @export
+#'
+#' @examples
+#' q = example_qsip_object |>
+#'   run_feature_filter(unlabeled_source_mat_ids = get_all_by_isotope(example_qsip_object, "12C"),
+#'   labeled_source_mat_ids = c("S178", "S179", "S180") |>
+#'   run_resampling(resamples = 1000, progress = FALSE, allow_failures = TRUE) |>
+#'   run_EAF_calculations()
+#'
+#' # plot the top 25 without confidence intervals
+#' plot_EAF_values(q, top = 25)
+#'
+#' # add confidence intervals as a ribbon
+#' plot_EAF_values(q, top = 25, error = "ribbon")
+#'
+#' # increase the resample success stringency
+#' plot_EAF_values(q, top = 25, error = "ribbon", success_ratio = 0.99)
+#'
 
 plot_EAF_values <- function(qsip_data_object,
                             confidence = 0.9,
@@ -49,31 +66,31 @@ plot_EAF_values <- function(qsip_data_object,
   EAF <- summarize_EAF_values(qsip_data_object,
     confidence = confidence
   ) |>
-    slice_max(observed_EAF, n = top) |>
-    mutate(feature_id = forcats::fct_reorder(feature_id, observed_EAF))
+    dplyr::slice_max(observed_EAF, n = top) |>
+    dplyr::mutate(feature_id = forcats::fct_reorder(feature_id, observed_EAF))
 
 
   p <- EAF |>
-    ggplot(aes(y = feature_id, x = observed_EAF)) +
-    geom_point(
+    ggplot2::ggplot(ggplot2::aes(y = feature_id, x = observed_EAF)) +
+    ggplot2::geom_point(
       pch = 21,
       size = 2,
-      aes(fill = ifelse((labeled_resamples + unlabeled_resamples) > qsip_data_object@resamples$n * 2 * success_ratio,
+      ggplot2::aes(fill = ifelse((labeled_resamples + unlabeled_resamples) > qsip_data_object@resamples$n * 2 * success_ratio,
         "Passed",
         "Failed"
       ))
     ) +
-    scale_fill_manual(values = c("Passed" = "#00ff0066", "Failed" = "red")) +
-    labs(
+    ggplot2::scale_fill_manual(values = c("Passed" = "#00ff0066", "Failed" = "red")) +
+    ggplot2::labs(
       fill = glue::glue(">{success_ratio * 100}% successes"),
       y = "feature_ids reordered by observed_EAF"
     )
 
   if (error == "bar") {
-    p <- p + geom_errorbar(aes(xmin = lower, xmax = upper), alpha = alpha)
+    p <- p + ggplot2::geom_errorbar(ggplot2::aes(xmin = lower, xmax = upper), alpha = alpha)
   } else if (error == "ribbon") {
     p <- p +
-      geom_ribbon(aes(xmin = lower, xmax = upper, group = 1), alpha = alpha)
+      ggplot2::geom_ribbon(ggplot2::aes(xmin = lower, xmax = upper, group = 1), alpha = alpha)
   }
 
   return(p)
