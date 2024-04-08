@@ -13,8 +13,6 @@
 #' @param alpha (*numeric*) The transparency of the error bar/ribbon
 #'
 #' @export
-#'
-#' @example inst/examples/plot_EAF_values.R
 
 plot_EAF_values <- function(qsip_data_object,
                             confidence = 0.9,

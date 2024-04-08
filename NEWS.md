@@ -1,18 +1,9 @@
-# qSIP2 (development version)
 
 # qSIP2 0.12.5
 
-# qSIP2 0.12.4
-
-# qSIP2 0.12.3
-
-# qSIP2 0.12.2
-
-# qSIP2 0.12.1
-
-# qSIP2 0.12.0
-
 * Beginning work on KBase functionality
+* Added additional columns to `summarize_EAF_values()` output and updated vignettes
+* `plot_EAF_values()` function added
 
 # qSIP2 0.11.5
 
