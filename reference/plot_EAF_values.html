@@ -16,7 +16,7 @@ success ratio of the resamples."><meta property="og:image" content="https://jeff
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5.9002</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,7 +111,55 @@ success ratio of the resamples.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="va">example_qsip_object</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="run_feature_filter.html">run_feature_filter</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    unlabeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="get_all_by_isotope.html">get_all_by_isotope</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, <span class="st">"12C"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    labeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S178"</span>, <span class="st">"S179"</span>, <span class="st">"S180"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="run_resampling.html">run_resampling</a></span><span class="op">(</span>resamples <span class="op">=</span> <span class="fl">1000</span>, progress <span class="op">=</span> <span class="cn">FALSE</span>, allow_failures <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="run_EAF_calculations.html">run_EAF_calculations</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> There are initially 2030 unique feature_ids</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1705 of these have abundance in at least one fraction of one source_mat_id</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Filtering feature_ids by fraction...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">1519</span> unlabeled and <span style="color: #BB0000;">1417</span> labeled feature_ids were found in <span style="color: #BB0000;">zero fractions</span> in at least one source_mat_id</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">1210</span> unlabeled and <span style="color: #BB0000;">584</span> labeled feature_ids were found in <span style="color: #BB0000;">too few fractions</span> in at least one source_mat_id</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">780</span> unlabeled and <span style="color: #00BB00;">497</span> labeled feature_ids <span style="color: #00BB00;">passed</span> the fraction filter</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> In total, <span style="color: #00BB00;">870</span> unique feature_ids <span style="color: #00BB00;">passed</span> the fraction filtering requirements...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Filtering feature_ids by source...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">90</span> unlabeled and <span style="color: #BB0000;">373</span> labeled feature_ids failed the source filter because they were found in <span style="color: #BB0000;">zero sources</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">245</span> unlabeled and <span style="color: #BB0000;">189</span> labeled feature_ids failed the source filter because they were found in <span style="color: #BB0000;">too few sources</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">535</span> unlabeled and <span style="color: #00BB00;">308</span> labeled feature_ids <span style="color: #00BB00;">passed</span> the source filter</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> In total, <span style="color: #00BB00;">257</span> unique feature_ids <span style="color: #00BB00;">passed</span> all fraction and source filtering requirements</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Using random seed. For consistency, you can use the with_seed argument</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NA unlabeled and NA labeled feature_ids had resampling failures. Run `get_resample_counts()` or `plot_successful_resamples()` on your &lt;qsip_data&gt; object to inspect.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot the top 25 without confidence intervals</span></span></span>
+<span class="r-in"><span><span class="fu">qSIP2</span><span class="fu">::</span><span class="fu">plot_EAF_values</span><span class="op">(</span><span class="va">q</span>, top <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Confidence level = 0.9</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::mutate(dplyr::slice_max(summarize_EAF_values(qsip_data_object,     confidence = confidence), observed_EAF, n = top), feature_id = forcats::fct_reorder(feature_id,     observed_EAF)):</span> <span style="color: #00BBBB;">ℹ</span> In argument: `feature_id = forcats::fct_reorder(feature_id,</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>   observed_EAF)`.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `loadNamespace()`:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> there is no package called ‘forcats’</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># add confidence intervals as a ribbon</span></span></span>
+<span class="r-in"><span><span class="fu">qSIP2</span><span class="fu">::</span><span class="fu">plot_EAF_values</span><span class="op">(</span><span class="va">q</span>, top <span class="op">=</span> <span class="fl">25</span>, error <span class="op">=</span> <span class="st">"ribbon"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Confidence level = 0.9</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::mutate(dplyr::slice_max(summarize_EAF_values(qsip_data_object,     confidence = confidence), observed_EAF, n = top), feature_id = forcats::fct_reorder(feature_id,     observed_EAF)):</span> <span style="color: #00BBBB;">ℹ</span> In argument: `feature_id = forcats::fct_reorder(feature_id,</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>   observed_EAF)`.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `loadNamespace()`:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> there is no package called ‘forcats’</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># increase the resample success stringency</span></span></span>
+<span class="r-in"><span><span class="fu">qSIP2</span><span class="fu">::</span><span class="fu">plot_EAF_values</span><span class="op">(</span><span class="va">q</span>, top <span class="op">=</span> <span class="fl">25</span>, error <span class="op">=</span> <span class="st">"ribbon"</span>, success_ratio <span class="op">=</span> <span class="fl">0.99</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Confidence level = 0.9</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::mutate(dplyr::slice_max(summarize_EAF_values(qsip_data_object,     confidence = confidence), observed_EAF, n = top), feature_id = forcats::fct_reorder(feature_id,     observed_EAF)):</span> <span style="color: #00BBBB;">ℹ</span> In argument: `feature_id = forcats::fct_reorder(feature_id,</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>   observed_EAF)`.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error in `loadNamespace()`:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> there is no package called ‘forcats’</span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
