@@ -8,7 +8,9 @@ qsip_source_data(
   data,
   isotope = "isotope",
   isotopolog = "isotopolog",
-  source_mat_id = "source_mat_id"
+  source_mat_id = "source_mat_id",
+  time = "NULL",
+  total_abundance = "NULL"
 )
 }
 \arguments{
@@ -19,6 +21,10 @@ qsip_source_data(
 \item{isotopolog}{(\emph{string})  Isotopolog data}
 
 \item{source_mat_id}{(\emph{string}) The unique ID for the biological subject or source}
+
+\item{time}{(\emph{string}) Timepoint data}
+
+\item{total_abundance}{(\emph{string}) Total abundance data}
 }
 \value{
 A validated \code{qsip_source_data} object
