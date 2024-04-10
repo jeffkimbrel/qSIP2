@@ -19,7 +19,8 @@ plot_EAF_values <- function(qsip_data_object,
                             success_ratio = 0.9,
                             top = Inf,
                             error = "none",
-                            alpha = 0.3) {
+                            alpha = 0.3,
+                            zero_line = TRUE) {
 
   # confirm the data is the correct type
   stopifnot("ERROR: qsip_data_object must be of type qsip_data" = "qsip_data" %in% class(qsip_data_object))
@@ -75,6 +76,13 @@ plot_EAF_values <- function(qsip_data_object,
     p <- p +
       ggplot2::geom_ribbon(ggplot2::aes(xmin = lower, xmax = upper, group = 1), alpha = alpha)
   }
+
+  if (isTRUE(zero_line)) {
+    p <- p +
+      ggplot2::geom_vline(xintercept = 0, linetype = "dashed", color = "black")
+  }
+
+
 
   return(p)
 }

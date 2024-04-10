@@ -4,6 +4,7 @@
 * Added additional columns to `summarize_EAF_values()` output and updated vignettes
 * `plot_EAF_values()` function added
 * Added new parameter (`gc_method`) to change the GC calculation method in `run_EAF_calculations()`. "MM" is still default. 
+* Added ability to add/remove the `zero_line` from `plot_EAF_values()`
 
 # qSIP2 0.11.5
 
