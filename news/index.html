@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5.9005</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,6 +62,9 @@
 <li>Added additional columns to <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> output and updated vignettes</li>
 <li>
 <code><a href="../reference/plot_EAF_values.html">plot_EAF_values()</a></code> function added</li>
+<li>Added new parameter (<code>gc_method</code>) to change the GC calculation method in <code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code>. “MM” is still default.</li>
+<li>Added ability to add/remove the <code>zero_line</code> from <code><a href="../reference/plot_EAF_values.html">plot_EAF_values()</a></code>
+</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.11.5" id="qsip2-0115">qSIP2 0.11.5<a class="anchor" aria-label="anchor" href="#qsip2-0115"></a></h2>
@@ -94,7 +97,7 @@
 <h2 class="pkg-version" data-toc-text="0.10.6" id="qsip2-0106">qSIP2 0.10.6<a class="anchor" aria-label="anchor" href="#qsip2-0106"></a></h2>
 <ul><li>Added <code><a href="../reference/infer_source_data.html">infer_source_data()</a></code> function to infer source data from a sample data data frame</li>
 <li>Update documentation of internal functions</li>
-<li>Fixed <code><a href="../reference/validate_gradient_pos_density.html">validate_gradient_pos_density()</a></code> (and tests) to not fail with bulk data that has a gradient_position of `-1 (<a href="https://github.com/jeffkimbrel/qSIP2/issues/8" class="external-link">#8</a>).</li>
+<li>Fixed <code><a href="../reference/validate_gradient_pos_density.html">validate_gradient_pos_density()</a></code> (and tests) to not fail with bulk data that has a gradient_position of <code>-1</code> (<a href="https://github.com/jeffkimbrel/qSIP2/issues/8" class="external-link">#8</a>).</li>
 <li>Fixed <code><a href="../reference/validate_isotopes.html">validate_isotopes()</a></code> to accept standard unfractionated terms like “bulk” or “time0” so they bypass isotope validation.</li>
 <li>
 <code><a href="../reference/plot_sample_curves.html">plot_sample_curves()</a></code> and <code><a href="../reference/plot_source_wads.html">plot_source_wads()</a></code> have been updated to ignore unfractionated samples/sources</li>
