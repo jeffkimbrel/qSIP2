@@ -10,7 +10,8 @@ plot_EAF_values(
   success_ratio = 0.9,
   top = Inf,
   error = "none",
-  alpha = 0.3
+  alpha = 0.3,
+  zero_line = TRUE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ plot_EAF_values(
 \item{error}{(\emph{character}) The type of error bars to plot. Options are 'none', 'bar', 'ribbon'}
 
 \item{alpha}{(\emph{numeric}) The transparency of the error bar/ribbon}
+
+\item{zero_line}{(\emph{logical}) Add a line at EAF = 0}
 }
 \description{
 This function plots the observed EAF values for each feature in the dataset.

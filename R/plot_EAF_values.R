@@ -11,6 +11,7 @@
 #' @param top (*numeric*) The number of top features to plot. Use `Inf` for all
 #' @param error (*character*) The type of error bars to plot. Options are 'none', 'bar', 'ribbon'
 #' @param alpha (*numeric*) The transparency of the error bar/ribbon
+#' @param zero_line (*logical*) Add a line at EAF = 0
 #'
 #' @export
 
