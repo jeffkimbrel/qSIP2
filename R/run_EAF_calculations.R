@@ -5,13 +5,14 @@
 #' as for all of the resampled data.
 #'
 #' @param qsip_data_object (*qsip_data*) A qsip_data_object with resample information
+#' @param gc_method (*string*) The method to use for calculating the GC content from WAD
 #'
 #' @export
 #'
 #' @returns Returns an updated `qsip_data_object` with final EAF and other values
 #' in the `@EAF` slot.
 
-run_EAF_calculations <- function(qsip_data_object) {
+run_EAF_calculations <- function(qsip_data_object, gc_method = "MM") {
 
   # make sure the right data type and has been filtered and resampled
   if (!"qsip_data" %in% class(qsip_data_object)) {
@@ -73,7 +74,7 @@ run_EAF_calculations <- function(qsip_data_object) {
     dplyr::mutate(observed = F) |>
     rbind(observed) |>
     dplyr::mutate(Z = calculate_Z(W_lab_mean, W_unlab_mean)) |> # hungate equation 4
-    dplyr::mutate(G = calculate_gc_from_density(W_unlab_mean)) |> # hungate equation 5
+    dplyr::mutate(G = calculate_gc_from_density(W_unlab_mean, method = gc_method)) |> # hungate equation 5
     dplyr::mutate(M = calculate_M(G)) |> # hungate equation 6
     dplyr::mutate(atom_count = calculate_atoms(G, isotope)) |>
     dplyr::mutate(M_labeledmax = calculate_M_labeledmax(M, atom_count, isotope)) |>

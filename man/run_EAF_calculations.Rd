@@ -4,10 +4,12 @@
 \alias{run_EAF_calculations}
 \title{Calculate EAF values}
 \usage{
-run_EAF_calculations(qsip_data_object)
+run_EAF_calculations(qsip_data_object, gc_method = "MM")
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) A qsip_data_object with resample information}
+
+\item{gc_method}{(\emph{string}) The method to use for calculating the GC content from WAD}
 }
 \value{
 Returns an updated \code{qsip_data_object} with final EAF and other values

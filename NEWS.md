@@ -1,9 +1,9 @@
-
 # qSIP2 0.12.5
 
 * Beginning work on KBase functionality
 * Added additional columns to `summarize_EAF_values()` output and updated vignettes
 * `plot_EAF_values()` function added
+* Added new parameter (`gc_method`) to change the GC calculation method in `run_EAF_calculations()`. "MM" is still default. 
 
 # qSIP2 0.11.5
 
@@ -36,7 +36,7 @@
 
 * Added `infer_source_data()` function to infer source data from a sample data data frame
 * Update documentation of internal functions
-* Fixed `validate_gradient_pos_density()` (and tests) to not fail with bulk data that has a gradient_position of `-1 (#8).
+* Fixed `validate_gradient_pos_density()` (and tests) to not fail with bulk data that has a gradient_position of `-1` (#8).
 * Fixed `validate_isotopes()` to accept standard unfractionated terms like "bulk" or "time0" so they bypass isotope validation.
 * `plot_sample_curves()` and `plot_source_wads()` have been updated to ignore unfractionated samples/sources
 * Removed requirement for `gradient_pos_rel_amt` column in the imported sample dataframe. If you have one you can still pass the column name. If you don't, it will run the `add_gradient_pos_rel_amt()` silently using the `gradient_pos_amt` column, and provide a message that it is doing so.
