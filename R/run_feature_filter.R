@@ -19,6 +19,7 @@
 #' are stored in the `@tube_rel_abundance` slot.
 #'
 #' @param qsip_data_object (*qsip_data*) An object of `qsip_data` class
+#' @param group (*string*) An optional name to assign to this filtered group
 #' @param unlabeled_source_mat_ids (*string or strings(s)*) A list of the unlabeled source_mat_ids to filter on
 #' @param labeled_source_mat_ids (*string or strings(s)*) A list of the labeled source_mat_ids to filter on
 #' @param min_unlabeled_sources (*integer, default: 2*) Minimum number of unlabeled source_mat_ids a feature must be found in.
@@ -35,6 +36,7 @@
 #' slot for plotting.
 
 run_feature_filter <- function(qsip_data_object,
+                               group = NULL,
                                unlabeled_source_mat_ids,
                                labeled_source_mat_ids,
                                min_unlabeled_sources = 2,
@@ -177,6 +179,7 @@ run_feature_filter <- function(qsip_data_object,
     dplyr::pull(feature_id)
 
   qsip_data_object@filter_results <- list(
+    "group" = group,
     "source_filtered" = by_source,
     "fraction_filtered" = by_fraction,
     "retained_features" = retained_features,
