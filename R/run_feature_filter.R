@@ -209,6 +209,23 @@ run_feature_filter <- function(qsip_data_object,
       values_from = WAD
     )
 
+  # update @tube_rel_abundance, @wads, @source_wads and @fraction_counts to only have features/sources that passed the filter
+
+  qsip_data_object@tube_rel_abundance = qsip_data_object@tube_rel_abundance |>
+    filter(source_mat_id %in% c(qsip_data_object@filter_results$labeled_source_mat_ids, qsip_data_object@filter_results$unlabeled_source_mat_ids)) |>
+    filter(feature_id %in% qsip_data_object@filter_results$retained_features)
+
+  qsip_data_object@wads = qsip_data_object@wads |>
+    filter(source_mat_id %in% c(qsip_data_object@filter_results$labeled_source_mat_ids, qsip_data_object@filter_results$unlabeled_source_mat_ids)) |>
+    filter(feature_id %in% qsip_data_object@filter_results$retained_features)
+
+  qsip_data_object@source_wads = qsip_data_object@source_wads |>
+    filter(source_mat_id %in% c(qsip_data_object@filter_results$labeled_source_mat_ids, qsip_data_object@filter_results$unlabeled_source_mat_ids))
+
+  qsip_data_object@fraction_counts = qsip_data_object@fraction_counts |>
+    filter(source_mat_id %in% c(qsip_data_object@filter_results$labeled_source_mat_ids, qsip_data_object@filter_results$unlabeled_source_mat_ids)) |>
+    filter(feature_id %in% qsip_data_object@filter_results$retained_features)
+
   return(qsip_data_object)
 }
 
