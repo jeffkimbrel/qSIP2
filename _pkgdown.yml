@@ -22,6 +22,7 @@ reference:
   - run_EAF_calculations
   - summarize_EAF_values
   - calculate_time_zero_totals
+  - run_growth_calculations
 
 - title: Helper Functions
   contents:
