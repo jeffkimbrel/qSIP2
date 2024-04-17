@@ -1,4 +1,4 @@
-#' Calculate time zero feature totals
+#' Calculate time zero feature total abundances
 #'
 #' @param qsip_data_object (*qsip_data*) An object of `qsip_data` class
 #' @param time (*character*) The name of the time column in the source data
@@ -8,7 +8,7 @@
 #'
 
 
-calculate_time_zero_totals <- function(qsip_data_object,
+calculate_time_zero_abundance <- function(qsip_data_object,
                                        time = "time",
                                        value = 0) {
 

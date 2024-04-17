@@ -21,7 +21,7 @@ reference:
   - run_resampling
   - run_EAF_calculations
   - summarize_EAF_values
-  - calculate_time_zero_totals
+  - calculate_time_zero_abundance
   - run_growth_calculations
 
 - title: Helper Functions
