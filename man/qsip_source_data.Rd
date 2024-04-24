@@ -9,7 +9,7 @@ qsip_source_data(
   isotope = "isotope",
   isotopolog = "isotopolog",
   source_mat_id = "source_mat_id",
-  time = "NULL",
+  timepoint = "NULL",
   total_abundance = "NULL"
 )
 }
@@ -22,7 +22,7 @@ qsip_source_data(
 
 \item{source_mat_id}{(\emph{string}) The unique ID for the biological subject or source}
 
-\item{time}{(\emph{string}) Timepoint data}
+\item{timepoint}{(\emph{string}) Timepoint data}
 
 \item{total_abundance}{(\emph{string}) Total abundance data}
 }

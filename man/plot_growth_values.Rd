@@ -4,7 +4,24 @@
 \alias{plot_growth_values}
 \title{Plot growth values}
 \usage{
-plot_growth_values(qsip_data_object, confidence = 0.9)
+plot_growth_values(
+  qsip_data_object,
+  confidence = 0.9,
+  top = Inf,
+  error = "none",
+  alpha = 0.4
+)
+}
+\arguments{
+\item{qsip_data_object}{(\emph{qsip_data}) A qsip data object}
+
+\item{confidence}{(\emph{numeric}) The confidence level for the confidence interval}
+
+\item{top}{(\emph{numeric}) The number of top features to plot. Use \code{Inf} for all}
+
+\item{error}{(\emph{character}) The type of error bars to plot. Options are 'none', 'bar', 'ribbon'}
+
+\item{alpha}{(\emph{numeric}) The transparency of the error bar/ribbon}
 }
 \description{
 Plot growth values

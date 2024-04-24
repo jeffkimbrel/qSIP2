@@ -1,10 +1,12 @@
-# qSIP2 (development version)
+# qSIP2 0.13.2
 
-# qSIP2 0.13.1
-
-# qSIP2 0.13.0
-
-* Groundwork for growth calculations
+* Beta functions for growth calculations
+* Added `time` and `total_abundance` to `qsip_source_data()` as required arguments if you want to do the growth calculations
+* Added `calculate_time_zero_abundance()` to summarize the time zero abundance for each feature
+* Added `run_growth_calculations()` to calculate growth (r), birth (b) and death (d) rates from total abundances and EAF values
+* Added `summarize_growth_values()` to summarize r, b and d rates
+* Added `plot_growth_rates()` to visualize growth r, b and d rates
+* Added a `group` argument to `run_feature_filter()` to embed a grouping name to the qsip object
 
 # qSIP2 0.12.5
 

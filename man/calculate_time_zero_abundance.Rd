@@ -6,16 +6,16 @@
 \usage{
 calculate_time_zero_abundance(
   qsip_data_object,
-  time_column = "time_column",
+  timepoint = "timepoint",
   value = 0
 )
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) An object of \code{qsip_data} class}
 
-\item{time_column}{(\emph{character}) The name of the time column in the source data}
+\item{timepoint}{(\emph{character}) The name of the timepoint column in the source data}
 
-\item{value}{(\emph{numeric}) The value of the time column to filter on}
+\item{value}{(\emph{numeric}) The value of the timepoint column to filter on}
 }
 \value{
 (\emph{data.frame}) A data frame with feature_id and total abundance at time zero

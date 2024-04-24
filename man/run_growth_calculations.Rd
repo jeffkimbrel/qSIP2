@@ -7,7 +7,7 @@
 run_growth_calculations(
   qsip_data_object,
   time_zero_totals,
-  time_column = "time_column"
+  timepoint = "timepoint"
 )
 }
 \arguments{

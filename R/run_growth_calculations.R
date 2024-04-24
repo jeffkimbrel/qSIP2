@@ -10,15 +10,15 @@
 #' abundance of zero.
 #'
 #' @param qsip_data_object (*qsip_data*) An object of `qsip_data` class
-#' @param time_column (*character*) The name of the time column in the source data
-#' @param value (*numeric*) The value of the time column to filter on
+#' @param timepoint (*character*) The name of the timepoint column in the source data
+#' @param value (*numeric*) The value of the timepoint column to filter on
 #'
 #' @export
 #'
 #' @returns (*data.frame*) A data frame with feature_id and total abundance at time zero
 
 calculate_time_zero_abundance <- function(qsip_data_object,
-                                          time_column = "time_column",
+                                          timepoint = "timepoint",
                                           value = 0) {
   if (!"qsip_data" %in% class(qsip_data_object)) {
     stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
@@ -31,12 +31,12 @@ calculate_time_zero_abundance <- function(qsip_data_object,
     dplyr::summarize(REL = sum(tube_rel_abundance), .by = c(feature_id, source_mat_id)) |>
     dplyr::left_join(qsip_data_object@source_data@data, by = "source_mat_id") |>
     dplyr::select(
-      time_column = all_of(time_column),
+      timepoint = all_of(timepoint),
       dplyr::everything()
     ) |>
-    dplyr::filter(time_column == value) |>
+    dplyr::filter(timepoint == value) |>
     dplyr::mutate(N_total_i0 = REL * total_abundance) |>
-    dplyr::select(feature_id, source_mat_id, time_column, N_total_i0) |>
+    dplyr::select(feature_id, source_mat_id, timepoint, N_total_i0) |>
     # TODO line below: should it be mean or sum?
     dplyr::summarize(N_total_i0 = sum(N_total_i0), .by = feature_id)
 
@@ -71,15 +71,15 @@ calculate_time_zero_abundance <- function(qsip_data_object,
 
 run_growth_calculations <- function(qsip_data_object,
                                     time_zero_totals,
-                                    time_column = "time_column") {
+                                    timepoint = "timepoint") {
   # TODO validate arguments
-  # TODO make @time_column and @total_abundances are not null in @source_data@data. If
+  # TODO make @timepoint and @total_abundances are not null in @source_data@data. If
   # so, give error saying they must be declared in source_data to get growth
 
 
   # normalized_copies will be a table with 5 columns
   # 1. feature_id
-  # 2. time_column
+  # 2. timepoint
   # 3. unlabeled: the number of copies of a feature without incorporation
   # 4. labeled: the number of copies of a feature with incorporation
   # 5. N_total_it: the sum of the labeled and unlabeled to get total features at time t
@@ -89,11 +89,11 @@ run_growth_calculations <- function(qsip_data_object,
     dplyr::summarize(REL = sum(tube_rel_abundance), .by = c(feature_id, source_mat_id)) |>
     dplyr::left_join(qsip_data_object@source_data@data, by = "source_mat_id") |>
     dplyr::select(
-      time_column = all_of(time_column),
+      timepoint = all_of(timepoint),
       dplyr::everything()
     ) |>
     dplyr::mutate(normalized_copies = REL * total_abundance) |>
-    dplyr::select(feature_id, source_mat_id, time_column, normalized_copies) |>
+    dplyr::select(feature_id, source_mat_id, timepoint, normalized_copies) |>
     dplyr::mutate(type = dplyr::case_when(
       source_mat_id %in% qsip_data_object@filter_results$unlabeled_source_mat_ids ~ "unlabeled",
       source_mat_id %in% qsip_data_object@filter_results$labeled_source_mat_ids ~ "labeled",
@@ -102,7 +102,7 @@ run_growth_calculations <- function(qsip_data_object,
     # TODO line below: should it be mean or sum? They do lead to slightly different results
     dplyr::summarize(
       normalized_copies = sum(normalized_copies),
-      time_column = unique(time_column), # weird to use unique(), other options?
+      timepoint = unique(timepoint), # weird to use unique(), other options?
       .by = c(feature_id, type)
     ) |>
     tidyr::pivot_wider(names_from = type, values_from = normalized_copies) |>
@@ -142,10 +142,10 @@ run_growth_calculations <- function(qsip_data_object,
     dplyr::mutate(N_total_it = labeled + unlabeled)
 
   negative_unlabeled <- rbd_3 |>
-    filter(unlabeled <= 0)
+    dplyr::filter(unlabeled <= 0)
 
   negative_labeled <- rbd_3 |>
-    filter(labeled <= 0)
+    dplyr::filter(labeled <= 0)
 
   if (nrow(negative_unlabeled) > 0) {
     warning(glue::glue("{nrow(negative_unlabeled)} calculated values of unlabeled samples are negative. These values have been filtered out and added to @growth$negative_unlabeled"), call. = FALSE)
@@ -159,11 +159,11 @@ run_growth_calculations <- function(qsip_data_object,
 
   # then, working with just the unlabeled that are great than 0
   rbd_3 <- rbd_3 |>
-    filter(unlabeled > 0) |>
-    filter(labeled > 0) |>
+    dplyr::filter(unlabeled > 0) |>
+    dplyr::filter(labeled > 0) |>
     dplyr::mutate(
-      di = log(unlabeled / N_total_i0) * (1 / time_column),
-      bi = log(N_total_it / unlabeled) * (1 / time_column),
+      di = log(unlabeled / N_total_i0) * (1 / timepoint),
+      bi = log(N_total_it / unlabeled) * (1 / timepoint),
       ri = di + bi
     ) |>
     dplyr::select(feature_id, resample, bi, di, ri)
@@ -255,13 +255,30 @@ summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = 
 
 #' Plot growth values
 #'
+#' @param qsip_data_object (*qsip_data*) A qsip data object
+#' @param confidence (*numeric*) The confidence level for the confidence interval
+#' @param top (*numeric*) The number of top features to plot. Use `Inf` for all
+#' @param error (*character*) The type of error bars to plot. Options are 'none', 'bar', 'ribbon'
+#' @param alpha (*numeric*) The transparency of the error bar/ribbon
+#'
 #' @export
 
-plot_growth_values <- function(qsip_data_object, confidence = 0.9) {
+plot_growth_values <- function(qsip_data_object,
+                               confidence = 0.9,
+                               top = Inf,
+                               error = "none",
+                               alpha = 0.4) {
+  rbd <- summarize_growth_values(qsip_data_object, confidence = confidence) |>
+    dplyr::slice_max(observed_ri, n = top)
 
-  rbd = summarize_growth_values(qsip_data_object, confidence = confidence)
+  palette <- c(
+    "ri" = "cornflowerblue",
+    "bi" = "seagreen4",
+    "di" = "tomato"
+  )
 
-  rbd |>
+
+  p <- rbd |>
     dplyr::mutate(feature_id = forcats::fct_reorder(feature_id, resampled_ri_mean)) |>
     tidyr::pivot_longer(cols = c(everything(), -feature_id), names_to = "rate", values_to = "value") |>
     tidyr::separate(rate,
@@ -274,19 +291,20 @@ plot_growth_values <- function(qsip_data_object, confidence = 0.9) {
     dplyr::select(-observed) |>
     tidyr::pivot_wider(names_from = "stat", values_from = "value") |>
     dplyr::select(-observed) |>
-    # dplyr::select(feature_id, rate, observed) |>
-    ggplot(aes(y = feature_id, x = mean, color = rate)) +
-    ggplot2::geom_ribbon(ggplot2::aes(xmin = lower, xmax = upper, group = rate, fill = rate), alpha = 0.7) +
-    # geom_errorbar(aes(xmin = lower, xmax = upper), width = 0.2, alpha = 0.7) +
-    geom_point() +
-    scale_color_manual(values = c(
-      "ri" = "cornflowerblue",
-      "bi" = "lightgreen",
-      "di" = "pink"
-    )) +
-    scale_fill_manual(values = c(
-      "ri" = "cornflowerblue",
-      "bi" = "lightgreen",
-      "di" = "pink"
-    ))
+    ggplot2::ggplot(ggplot2::aes(y = feature_id, x = mean, color = rate)) +
+      ggplot2::geom_point() +
+      ggplot2::scale_color_manual(values = palette) +
+      ggplot2::scale_fill_manual(values = palette)
+
+  if (error == "bar") {
+    p <- p + ggplot2::geom_errorbar(ggplot2::aes(xmin = lower, xmax = upper),
+      width = 0.2,
+      alpha = alpha
+    )
+  } else if (error == "ribbon") {
+    p <- p +
+      ggplot2::geom_ribbon(ggplot2::aes(xmin = lower, xmax = upper, group = rate, fill = rate), alpha = alpha)
+  }
+
+  p
 }

@@ -36,7 +36,7 @@
 #' @param isotope (*string*) Isotope name
 #' @param isotopolog (*string*)  Isotopolog data
 #' @param source_mat_id (*string*) The unique ID for the biological subject or source
-#' @param time (*string*) Timepoint data
+#' @param timepoint (*string*) Timepoint data
 #' @param total_abundance (*string*) Total abundance data
 #'
 #' @family "qSIP Objects"
@@ -52,14 +52,14 @@ qsip_source_data <- S7::new_class(
     isotope = S7::class_character,
     isotopolog = S7::class_character,
     source_mat_id = S7::class_character,
-    time = S7::class_character,
+    timepoint = S7::class_character,
     total_abundance = S7::class_character
   ),
   constructor = function(data,
                          isotope = "isotope",
                          isotopolog = "isotopolog",
                          source_mat_id = "source_mat_id",
-                         time = "NULL",
+                         timepoint = "NULL",
                          total_abundance = "NULL") {
     stopifnot("data should be class <data.frame>" = "data.frame" %in% class(data))
 
@@ -70,8 +70,8 @@ qsip_source_data <- S7::new_class(
       stop(glue::glue("isotopolog column '{isotopolog}' is not found"), call. = FALSE)
     } else if (!source_mat_id %in% colnames(data)) {
       stop(glue::glue("source_mat_id column '{source_mat_id}' is not found"), call. = FALSE)
-    } else if (time != "NULL" & !time %in% colnames(data)) {
-      stop(glue::glue("time column '{time}' is not found"), call. = FALSE)
+    } else if (timepoint != "NULL" & !timepoint %in% colnames(data)) {
+      stop(glue::glue("timepoint column '{timepoint}' is not found"), call. = FALSE)
     } else if (total_abundance != "NULL" & !total_abundance %in% colnames(data)) {
       stop(glue::glue("total_abundance column '{total_abundance}' is not found"), call. = FALSE)
     }
@@ -91,19 +91,18 @@ qsip_source_data <- S7::new_class(
       ) |>
       dplyr::ungroup()
 
-    # time
-    if (time != "NULL") {
+    # timepoint
+    if (timepoint != "NULL") {
       data <- data |>
         dplyr::select(
-          time_column = dplyr::all_of(time),
+          timepoint = dplyr::all_of(timepoint),
           dplyr::everything()
         ) |>
         dplyr::ungroup()
 
-      # verify that time_column in data is a numeric column
-
-      if (!is.numeric(data$time_column)) {
-        stop(glue::glue("time column '{time}' must be numeric"), call. = FALSE)
+      # verify that timepoint in data is a numeric column
+      if (!is.numeric(data$timepoint)) {
+        stop(glue::glue("timepoint column '{timepoint}' must be numeric"), call. = FALSE)
       }
     }
 
@@ -130,7 +129,7 @@ qsip_source_data <- S7::new_class(
       isotope = isotope,
       isotopolog = isotopolog,
       source_mat_id = source_mat_id,
-      time = time,
+      timepoint = timepoint,
       total_abundance = total_abundance
     )
   },
