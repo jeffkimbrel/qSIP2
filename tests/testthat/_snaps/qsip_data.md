@@ -8,16 +8,18 @@
     Output
       <qsip_data>
        @ source_data          : <qsip_source_data>
-       .. @ data         : tibble [15 x 6] (S3: tbl_df/tbl/data.frame)
+       .. @ data           : tibble [15 x 6] (S3: tbl_df/tbl/data.frame)
        $ isotope           : chr [1:15] "12C" "12C" "12C" "12C" ...
        $ isotopolog        : chr [1:15] "glucose" "glucose" "glucose" "glucose" ...
        $ source_mat_id     : chr [1:15] "S149" "S150" "S151" "S152" ...
        $ total_copies_per_g: num [1:15] 34838665 53528072 95774992 9126192 41744046 ...
        $ total_dna         : num [1:15] 74.5 109 182.2 23.7 67.6 ...
        $ Moisture          : chr [1:15] "Normal" "Normal" "Normal" "Normal" ...
-       .. @ isotope      : chr "Isotope"
-       .. @ isotopolog   : chr "isotopolog"
-       .. @ source_mat_id: chr "source"
+       .. @ isotope        : chr "Isotope"
+       .. @ isotopolog     : chr "isotopolog"
+       .. @ source_mat_id  : chr "source"
+       .. @ time           : chr "NULL"
+       .. @ total_abundance: chr "NULL"
        @ sample_data          : <qsip_sample_data>
        .. @ data                : tibble [284 x 7] (S3: tbl_df/tbl/data.frame)
        $ sample_id           : chr [1:284] "149_F1" "149_F2" "149_F3" "149_F4" ...
@@ -171,4 +173,5 @@
        @ filter_results       : list()
        @ resamples            : list()
        @ EAF                  :'data.frame':	0 obs. of  0 variables
+       @ growth               : list()
 

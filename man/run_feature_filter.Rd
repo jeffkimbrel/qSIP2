@@ -6,6 +6,7 @@
 \usage{
 run_feature_filter(
   qsip_data_object,
+  group = NULL,
   unlabeled_source_mat_ids,
   labeled_source_mat_ids,
   min_unlabeled_sources = 2,
@@ -17,6 +18,8 @@ run_feature_filter(
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) An object of \code{qsip_data} class}
+
+\item{group}{(\emph{string}) An optional name to assign to this filtered group}
 
 \item{unlabeled_source_mat_ids}{(\emph{string or strings(s)}) A list of the unlabeled source_mat_ids to filter on}
 

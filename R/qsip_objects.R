@@ -36,6 +36,8 @@
 #' @param isotope (*string*) Isotope name
 #' @param isotopolog (*string*)  Isotopolog data
 #' @param source_mat_id (*string*) The unique ID for the biological subject or source
+#' @param time (*string*) Timepoint data
+#' @param total_abundance (*string*) Total abundance data
 #'
 #' @family "qSIP Objects"
 #'
@@ -49,12 +51,16 @@ qsip_source_data <- S7::new_class(
     data = S7::class_data.frame,
     isotope = S7::class_character,
     isotopolog = S7::class_character,
-    source_mat_id = S7::class_character
+    source_mat_id = S7::class_character,
+    time = S7::class_character,
+    total_abundance = S7::class_character
   ),
   constructor = function(data,
                          isotope = "isotope",
                          isotopolog = "isotopolog",
-                         source_mat_id = "source_mat_id") {
+                         source_mat_id = "source_mat_id",
+                         time = "NULL",
+                         total_abundance = "NULL") {
     stopifnot("data should be class <data.frame>" = "data.frame" %in% class(data))
 
     # verify column names exist
@@ -64,7 +70,13 @@ qsip_source_data <- S7::new_class(
       stop(glue::glue("isotopolog column '{isotopolog}' is not found"), call. = FALSE)
     } else if (!source_mat_id %in% colnames(data)) {
       stop(glue::glue("source_mat_id column '{source_mat_id}' is not found"), call. = FALSE)
+    } else if (time != "NULL" & !time %in% colnames(data)) {
+      stop(glue::glue("time column '{time}' is not found"), call. = FALSE)
+    } else if (total_abundance != "NULL" & !total_abundance %in% colnames(data)) {
+      stop(glue::glue("total_abundance column '{total_abundance}' is not found"), call. = FALSE)
     }
+
+
 
     # rename columns to standardized names
     validate_standard_names(data, source_mat_id, "source")
@@ -79,11 +91,47 @@ qsip_source_data <- S7::new_class(
       ) |>
       dplyr::ungroup()
 
+    # time
+    if (time != "NULL") {
+      data <- data |>
+        dplyr::select(
+          time_column = dplyr::all_of(time),
+          dplyr::everything()
+        ) |>
+        dplyr::ungroup()
+
+      # verify that time_column in data is a numeric column
+
+      if (!is.numeric(data$time_column)) {
+        stop(glue::glue("time column '{time}' must be numeric"), call. = FALSE)
+      }
+    }
+
+
+    if (total_abundance != "NULL") {
+      data <- data |>
+        dplyr::select(
+          total_abundance = dplyr::all_of(total_abundance),
+          dplyr::everything()
+        ) |>
+        dplyr::ungroup()
+
+      # verify that total_abundance in data is a numeric column
+
+      if (!is.numeric(data$total_abundance)) {
+        stop(glue::glue("abundance column '{total_abundance}' must be numeric"), call. = FALSE)
+      }
+    }
+
+
+
     S7::new_object(S7::S7_object(),
       data = data,
       isotope = isotope,
       isotopolog = isotopolog,
-      source_mat_id = source_mat_id
+      source_mat_id = source_mat_id,
+      time = time,
+      total_abundance = total_abundance
     )
   },
   validator = function(self) {
@@ -378,7 +426,8 @@ qsip_data <- S7::new_class(
     filtered_wad_data = S7::class_data.frame,
     filter_results = S7::class_list,
     resamples = S7::class_list,
-    EAF = S7::class_data.frame
+    EAF = S7::class_data.frame,
+    growth = S7::class_list
   ),
   constructor = function(source_data,
                          sample_data,
@@ -411,7 +460,8 @@ qsip_data <- S7::new_class(
       filtered_wad_data = data.frame(),
       filter_results = list(),
       resamples = list(),
-      EAF = data.frame()
+      EAF = data.frame(),
+      growth = list()
     )
   },
   validator = function(self) {

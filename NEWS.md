@@ -1,3 +1,7 @@
+# qSIP2 0.13.0
+
+* Groundwork for growth calculations
+
 # qSIP2 0.12.5
 
 * Beginning work on KBase functionality
