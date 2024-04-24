@@ -23,6 +23,7 @@ reference:
   - summarize_EAF_values
   - calculate_time_zero_abundance
   - run_growth_calculations
+  - summarize_growth_values
 
 - title: Helper Functions
   contents:
@@ -51,6 +52,7 @@ reference:
   - plot_successful_resamples
   - plot_feature_resamplings
   - plot_EAF_values
+  - plot_growth_values
   - plot_resampling_convergence
 
 - title: Datasets
