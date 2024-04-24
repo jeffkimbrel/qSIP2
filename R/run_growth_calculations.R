@@ -36,7 +36,7 @@ calculate_time_zero_abundance <- function(qsip_data_object,
     ) |>
     dplyr::filter(timepoint == value) |>
     dplyr::mutate(N_total_i0 = REL * total_abundance) |>
-    dplyr::select(feature_id, source_mat_id, timepoint, N_total_i0) |>
+    # dplyr::select(feature_id, source_mat_id, timepoint, N_total_i0) |>
     # TODO line below: should it be mean or sum?
     dplyr::summarize(N_total_i0 = sum(N_total_i0), .by = feature_id)
 
@@ -56,6 +56,11 @@ calculate_time_zero_abundance <- function(qsip_data_object,
   if (nrow(no_abundance) > 0) {
     warning("The following feature_ids have zero abundance at time zero: ", paste(no_abundance$feature_id, collapse = ", "), call. = F)
   }
+
+
+  # add timepoint as timepoint1
+  N_total_i0 <- N_total_i0 |>
+    dplyr::mutate(timepoint1 = value)
 
   return(N_total_i0)
 }
@@ -109,6 +114,7 @@ run_growth_calculations <- function(qsip_data_object,
     dplyr::mutate(N_total_it = labeled + unlabeled)
 
   normalized_copies <- time_zero_totals |>
+    dplyr::filter(feature_id %in% qsip_data_object@filter_results$retained_features) |>
     dplyr::left_join(time_i_totals, by = "feature_id")
 
 
@@ -139,7 +145,8 @@ run_growth_calculations <- function(qsip_data_object,
   rbd_3 <- rbd_3 |>
     dplyr::mutate(M_heavy = (12.07747 * qsip_data_object@growth$propO) + M) |>
     dplyr::mutate(unlabeled = N_total_it * ((M_heavy - M_labeled) / (M_heavy - M))) |>
-    dplyr::mutate(N_total_it = labeled + unlabeled)
+    dplyr::mutate(N_total_it = labeled + unlabeled) |>
+    dplyr::mutate(time_diff = timepoint - timepoint1)
 
   negative_unlabeled <- rbd_3 |>
     dplyr::filter(unlabeled <= 0)
@@ -157,16 +164,16 @@ run_growth_calculations <- function(qsip_data_object,
     qsip_data_object@growth$negative_labeled <- negative_labeled
   }
 
-  # then, working with just the unlabeled that are great than 0
+  # then, working with just the unlabeled that are greater than 0
   rbd_3 <- rbd_3 |>
     dplyr::filter(unlabeled > 0) |>
     dplyr::filter(labeled > 0) |>
     dplyr::mutate(
-      di = log(unlabeled / N_total_i0) * (1 / timepoint),
-      bi = log(N_total_it / unlabeled) * (1 / timepoint),
+      di = log(unlabeled / N_total_i0) * (1 / (timepoint - timepoint1)),
+      bi = log(N_total_it / unlabeled) * (1 / (timepoint - timepoint1)),
       ri = di + bi
     ) |>
-    dplyr::select(feature_id, resample, bi, di, ri)
+    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, bi, di, ri)
 
   # mark observed and resamples similar to other qSIP2 objects
   rbd_3 <- rbd_3 |>
@@ -215,6 +222,8 @@ summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = 
   rbd_observed <- qsip_data_object@growth$rates |>
     dplyr::filter(observed == TRUE) |>
     dplyr::select(feature_id,
+      timepoint1,
+      timepoint2,
       observed_bi = bi,
       observed_di = di,
       observed_ri = ri
@@ -280,7 +289,7 @@ plot_growth_values <- function(qsip_data_object,
 
   p <- rbd |>
     dplyr::mutate(feature_id = forcats::fct_reorder(feature_id, resampled_ri_mean)) |>
-    tidyr::pivot_longer(cols = c(everything(), -feature_id), names_to = "rate", values_to = "value") |>
+    tidyr::pivot_longer(cols = c(everything(), -feature_id, -timepoint1, -timepoint2), names_to = "rate", values_to = "value") |>
     tidyr::separate(rate,
       into = c("observed", "rate", "stat"),
       sep = "_",
@@ -292,9 +301,9 @@ plot_growth_values <- function(qsip_data_object,
     tidyr::pivot_wider(names_from = "stat", values_from = "value") |>
     dplyr::select(-observed) |>
     ggplot2::ggplot(ggplot2::aes(y = feature_id, x = mean, color = rate)) +
-      ggplot2::geom_point() +
-      ggplot2::scale_color_manual(values = palette) +
-      ggplot2::scale_fill_manual(values = palette)
+    ggplot2::geom_point() +
+    ggplot2::scale_color_manual(values = palette) +
+    ggplot2::scale_fill_manual(values = palette)
 
   if (error == "bar") {
     p <- p + ggplot2::geom_errorbar(ggplot2::aes(xmin = lower, xmax = upper),
