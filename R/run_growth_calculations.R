@@ -171,9 +171,10 @@ run_growth_calculations <- function(qsip_data_object,
     dplyr::mutate(
       di = log(unlabeled / N_total_i0) * (1 / (timepoint - timepoint1)),
       bi = log(N_total_it / unlabeled) * (1 / (timepoint - timepoint1)),
-      ri = di + bi
+      ri = di + bi,
+      r_net = N_total_it - N_total_i0
     ) |>
-    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, bi, di, ri)
+    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, N_total_i0, N_total_it, r_net, bi, di, ri)
 
   # mark observed and resamples similar to other qSIP2 objects
   rbd_3 <- rbd_3 |>
@@ -224,6 +225,9 @@ summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = 
     dplyr::select(feature_id,
       timepoint1,
       timepoint2,
+      N_total_i0,
+      N_total_it,
+      r_net,
       observed_bi = bi,
       observed_di = di,
       observed_ri = ri
@@ -289,7 +293,7 @@ plot_growth_values <- function(qsip_data_object,
 
   p <- rbd |>
     dplyr::mutate(feature_id = forcats::fct_reorder(feature_id, resampled_ri_mean)) |>
-    tidyr::pivot_longer(cols = c(everything(), -feature_id, -timepoint1, -timepoint2), names_to = "rate", values_to = "value") |>
+    tidyr::pivot_longer(cols = c(everything(), -feature_id, -timepoint1, -timepoint2, -N_total_i0, -N_total_it, -r_net), names_to = "rate", values_to = "value") |>
     tidyr::separate(rate,
       into = c("observed", "rate", "stat"),
       sep = "_",
