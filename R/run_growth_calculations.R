@@ -38,7 +38,7 @@ calculate_time_zero_abundance <- function(qsip_data_object,
     dplyr::mutate(N_total_i0 = REL * total_abundance) |>
     # dplyr::select(feature_id, source_mat_id, timepoint, N_total_i0) |>
     # TODO line below: should it be mean or sum?
-    dplyr::summarize(N_total_i0 = sum(N_total_i0), .by = feature_id)
+    dplyr::summarize(N_total_i0 = mean(N_total_i0), .by = feature_id)
 
   # make dataframe with zeroes. This ensures feature_ids with zero abundance
   # will still be present in the resulting dataframe
@@ -106,7 +106,7 @@ run_growth_calculations <- function(qsip_data_object,
     )) |>
     # TODO line below: should it be mean or sum? They do lead to slightly different results
     dplyr::summarize(
-      normalized_copies = sum(normalized_copies),
+      normalized_copies = mean(normalized_copies),
       timepoint = unique(timepoint), # weird to use unique(), other options?
       .by = c(feature_id, type)
     ) |>
@@ -174,7 +174,7 @@ run_growth_calculations <- function(qsip_data_object,
       ri = di + bi,
       r_net = N_total_it - N_total_i0
     ) |>
-    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, N_total_i0, N_total_it, r_net, bi, di, ri)
+    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, N_total_i0, N_total_it, unlabeled, r_net, bi, di, ri)
 
   # mark observed and resamples similar to other qSIP2 objects
   rbd_3 <- rbd_3 |>
@@ -237,6 +237,14 @@ summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = 
     dplyr::filter(observed == FALSE) |>
     dplyr::select(-observed) |>
     dplyr::summarize(
+      resampled_N_mean = mean(N_total_it, na.rm = TRUE),
+      resampled_N_sd = sd(N_total_it, na.rm = TRUE),
+      resampled_N_lower = quantile(N_total_it, (1 - confidence) / 2, na.rm = T),
+      resampled_N_upper = quantile(N_total_it, 1 - (1 - confidence) / 2, na.rm = T),
+      resampled_rnet_mean = mean(r_net, na.rm = TRUE),
+      resampled_rnet_sd = sd(r_net, na.rm = TRUE),
+      resampled_rnet_lower = quantile(r_net, (1 - confidence) / 2, na.rm = T),
+      resampled_rnet_upper = quantile(r_net, 1 - (1 - confidence) / 2, na.rm = T),
       resampled_bi_mean = mean(bi, na.rm = TRUE),
       resampled_bi_sd = sd(bi, na.rm = TRUE),
       resampled_bi_lower = quantile(bi, (1 - confidence) / 2, na.rm = T),
@@ -280,9 +288,9 @@ plot_growth_values <- function(qsip_data_object,
                                confidence = 0.9,
                                top = Inf,
                                error = "none",
-                               alpha = 0.4) {
-  rbd <- summarize_growth_values(qsip_data_object, confidence = confidence) |>
-    dplyr::slice_max(observed_ri, n = top)
+                               alpha = 0.4,
+                               type = "rates") {
+  rbd <- summarize_growth_values(qsip_data_object, confidence = confidence)
 
   palette <- c(
     "ri" = "cornflowerblue",
@@ -290,34 +298,81 @@ plot_growth_values <- function(qsip_data_object,
     "di" = "tomato"
   )
 
-
-  p <- rbd |>
+  # rates
+  rbd_rate <- rbd |>
+    dplyr::slice_max(observed_ri, n = top) |>
     dplyr::mutate(feature_id = forcats::fct_reorder(feature_id, resampled_ri_mean)) |>
-    tidyr::pivot_longer(cols = c(everything(), -feature_id, -timepoint1, -timepoint2, -N_total_i0, -N_total_it, -r_net), names_to = "rate", values_to = "value") |>
+    tidyr::pivot_longer(
+      cols = c(everything(), -feature_id, -timepoint1, -timepoint2, -N_total_i0, -N_total_it, -r_net),
+      names_to = "rate",
+      values_to = "value"
+    ) |>
     tidyr::separate(rate,
       into = c("observed", "rate", "stat"),
       sep = "_",
       fill = "right"
     ) |>
+    dplyr::filter(rate %in% c("ri", "bi", "di")) |>
     dplyr::mutate(stat = ifelse(is.na(stat), "observed", stat)) |>
     dplyr::filter(stat != "sd") |>
     dplyr::select(-observed) |>
     tidyr::pivot_wider(names_from = "stat", values_from = "value") |>
-    dplyr::select(-observed) |>
+    dplyr::select(-observed)
+
+  p_rate <- rbd_rate |>
     ggplot2::ggplot(ggplot2::aes(y = feature_id, x = mean, color = rate)) +
     ggplot2::geom_point() +
     ggplot2::scale_color_manual(values = palette) +
     ggplot2::scale_fill_manual(values = palette)
 
   if (error == "bar") {
-    p <- p + ggplot2::geom_errorbar(ggplot2::aes(xmin = lower, xmax = upper),
+    p_rate <- p_rate + ggplot2::geom_errorbar(ggplot2::aes(xmin = lower, xmax = upper),
       width = 0.2,
       alpha = alpha
     )
   } else if (error == "ribbon") {
-    p <- p +
+    p_rate <- p_rate +
       ggplot2::geom_ribbon(ggplot2::aes(xmin = lower, xmax = upper, group = rate, fill = rate), alpha = alpha)
   }
 
-  p
+
+  # N copies
+  p_N <- rbd |>
+    dplyr::slice_max(N_total_it, n = top) |>
+    dplyr::mutate(feature_id = forcats::fct_reorder(feature_id, N_total_it)) |>
+    dplyr::select(feature_id, N_total_i0, N_total_it, r_net, resampled_N_mean, resampled_N_lower, resampled_N_upper) |>
+    ggplot2::ggplot(ggplot2::aes(y = feature_id, x = (N_total_i0))) +
+    ggplot2::geom_errorbar(ggplot2::aes(xmin = (resampled_N_lower), xmax = (resampled_N_upper)),
+      width = 0.5,
+      linewidth = 1,
+      color = "orangered3",
+      alpha = alpha
+    ) +
+    ggplot2::geom_segment(ggplot2::aes(x = N_total_i0, xend = N_total_it),
+      arrow = ggplot2::arrow(length = ggplot2::unit(0.2, "cm")),
+      color = "gray50"
+    ) +
+    ggplot2::geom_point() +
+    ggplot2::geom_point(ggplot2::aes(x = resampled_N_mean), color = "orangered3") +
+    ggplot2::scale_color_manual(values = palette) +
+    ggplot2::scale_fill_manual(values = palette) +
+    ggplot2::scale_x_continuous(
+      labels = function(x) {
+        format(x,
+          big.mark = ",",
+          decimal.mark = ".",
+          scientific = FALSE
+        )
+      },
+      trans = "log2"
+    )
+
+
+  if (type == "rates") {
+    p_rate
+  } else if (type == "copies") {
+    p_N
+  } else {
+    stop("type must be either 'rates' or 'copies'")
+  }
 }

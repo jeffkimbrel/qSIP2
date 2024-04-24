@@ -1,9 +1,12 @@
-# qSIP2 0.13.5
+# qSIP2 0.13.6
+
+* Resampling now calculates `r_net` and `N_total_it` values
+* Two different growth plot types based on either rates or N copies
 
 # qSIP2 0.13.4
 
 * Both timepoints (time zero and time *t*) are now reported during growth calculations
-* Other features that make comparing rates between timepoints that are not timezero easier
+* Other features that make comparing rates between timepoints that are not time zero easier
 
 # qSIP2 0.13.2
 

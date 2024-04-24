@@ -9,7 +9,8 @@ plot_growth_values(
   confidence = 0.9,
   top = Inf,
   error = "none",
-  alpha = 0.4
+  alpha = 0.4,
+  type = "rates"
 )
 }
 \arguments{
