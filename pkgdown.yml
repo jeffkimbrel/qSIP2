@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   controlled_vocab: controlled_vocab.html
@@ -8,7 +8,7 @@ articles:
   resampling: resampling.html
   sample_data: sample_data.html
   source_data: source_data.html
-last_built: 2024-04-10T18:09Z
+last_built: 2024-04-24T02:53Z
 urls:
   reference: https://jeffkimbrel.github.io/qSIP2/reference
   article: https://jeffkimbrel.github.io/qSIP2/articles

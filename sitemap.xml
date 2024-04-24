@@ -79,6 +79,9 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_source_wads.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_time_zero_abundance.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_tube_rel_abundance.html</loc>
   </url>
   <url>
@@ -166,6 +169,9 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_filter_gradient_position.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_growth_values.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_resampling_convergence.html</loc>
   </url>
   <url>
@@ -205,6 +211,9 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/run_feature_filter.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/run_growth_calculations.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/run_resampling.html</loc>
   </url>
   <url>
@@ -218,6 +227,9 @@
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/summarize_growth_values.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_abundances.html</loc>
