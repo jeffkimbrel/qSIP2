@@ -4,7 +4,11 @@
 \alias{run_growth_calculations}
 \title{Run growth calculations}
 \usage{
-run_growth_calculations(qsip_data_object, time_zero_totals, time = "time")
+run_growth_calculations(
+  qsip_data_object,
+  time_zero_totals,
+  time_column = "time_column"
+)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) An object of \code{qsip_data} class}

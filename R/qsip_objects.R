@@ -91,14 +91,22 @@ qsip_source_data <- S7::new_class(
       ) |>
       dplyr::ungroup()
 
+    # time
     if (time != "NULL") {
       data <- data |>
         dplyr::select(
-          time = dplyr::all_of(time),
+          time_column = dplyr::all_of(time),
           dplyr::everything()
         ) |>
         dplyr::ungroup()
+
+      # verify that time_column in data is a numeric column
+
+      if (!is.numeric(data$time_column)) {
+        stop(glue::glue("time column '{time}' must be numeric"), call. = FALSE)
+      }
     }
+
 
     if (total_abundance != "NULL") {
       data <- data |>
@@ -107,6 +115,12 @@ qsip_source_data <- S7::new_class(
           dplyr::everything()
         ) |>
         dplyr::ungroup()
+
+      # verify that total_abundance in data is a numeric column
+
+      if (!is.numeric(data$total_abundance)) {
+        stop(glue::glue("abundance column '{total_abundance}' must be numeric"), call. = FALSE)
+      }
     }
 
 
