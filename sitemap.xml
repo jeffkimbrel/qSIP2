@@ -55,16 +55,28 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M_heavy.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M_labeled.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M_labeledmax.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_N_light_it.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_Z.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_atoms.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_bi.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_di.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_gc_from_density.html</loc>
@@ -77,9 +89,6 @@
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_source_wads.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_time_zero_abundance.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_tube_rel_abundance.html</loc>
@@ -116,6 +125,9 @@
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/fraction_results_message.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_N_total_it.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_all_by_isotope.html</loc>

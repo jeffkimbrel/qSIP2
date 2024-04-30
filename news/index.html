@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.13.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.13.7</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,6 +57,11 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.13.7" id="qsip2-0137">qSIP2 0.13.7<a class="anchor" aria-label="anchor" href="#qsip2-0137"></a></h2>
+<ul><li>Ability to adjust the total abundance copies using a per-row volume adjustment in the source data</li>
+<li>Moved some Koch, 2018 equations to their own functions</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.13.6" id="qsip2-0136">qSIP2 0.13.6<a class="anchor" aria-label="anchor" href="#qsip2-0136"></a></h2>
 <ul><li>Resampling now calculates <code>r_net</code> and <code>N_total_it</code> values</li>
 <li>Two different growth plot types based on either rates or N copies</li>
@@ -70,7 +75,7 @@
 <h2 class="pkg-version" data-toc-text="0.13.2" id="qsip2-0132">qSIP2 0.13.2<a class="anchor" aria-label="anchor" href="#qsip2-0132"></a></h2>
 <ul><li>Beta functions for growth calculations</li>
 <li>Added <code>time</code> and <code>total_abundance</code> to <code><a href="../reference/qsip_source_data.html">qsip_source_data()</a></code> as required arguments if you want to do the growth calculations</li>
-<li>Added <code><a href="../reference/calculate_time_zero_abundance.html">calculate_time_zero_abundance()</a></code> to summarize the time zero abundance for each feature</li>
+<li>Added <code>calculate_time_zero_abundance()</code> to summarize the time zero abundance for each feature</li>
 <li>Added <code><a href="../reference/run_growth_calculations.html">run_growth_calculations()</a></code> to calculate growth (r), birth (b) and death (d) rates from total abundances and EAF values</li>
 <li>Added <code><a href="../reference/summarize_growth_values.html">summarize_growth_values()</a></code> to summarize r, b and d rates</li>
 <li>Added <code>plot_growth_rates()</code> to visualize growth r, b and d rates</li>
