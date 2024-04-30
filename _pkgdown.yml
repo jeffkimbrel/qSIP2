@@ -96,6 +96,7 @@ reference:
   - calculate_M_heavy
   - calculate_N_light_it
   - calculate_di
+  - calculate_bi
 
 articles:
 - title: Learn qSIP
