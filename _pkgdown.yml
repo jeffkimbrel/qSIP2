@@ -21,7 +21,7 @@ reference:
   - run_resampling
   - run_EAF_calculations
   - summarize_EAF_values
-  - calculate_time_zero_abundance
+  - get_N_total_it
   - run_growth_calculations
   - summarize_growth_values
 
@@ -93,6 +93,9 @@ reference:
   - remove_isotopolog_label_check
   - pivot_kbase_amplicon_matrix
   - get_filtered_source_counts
+  - calculate_M_heavy
+  - calculate_N_light_it
+  - calculate_di
 
 articles:
 - title: Learn qSIP

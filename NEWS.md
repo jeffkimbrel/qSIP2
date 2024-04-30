@@ -1,3 +1,8 @@
+# qSIP2 0.13.7
+
+* Ability to adjust the total abundance copies using a per-row volume adjustment in the source data
+* Moved some Koch, 2018 equations to their own functions
+
 # qSIP2 0.13.6
 
 * Resampling now calculates `r_net` and `N_total_it` values

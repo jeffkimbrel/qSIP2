@@ -38,6 +38,7 @@
 #' @param source_mat_id (*string*) The unique ID for the biological subject or source
 #' @param timepoint (*string*) Timepoint data
 #' @param total_abundance (*string*) Total abundance data
+#' @param volume (*string*) Volume of the abundance data. Defaults to 1, but can be a ul volume if abundance data is given as a concentration
 #'
 #' @family "qSIP Objects"
 #'
@@ -53,14 +54,16 @@ qsip_source_data <- S7::new_class(
     isotopolog = S7::class_character,
     source_mat_id = S7::class_character,
     timepoint = S7::class_character,
-    total_abundance = S7::class_character
+    total_abundance = S7::class_character,
+    volume = S7::class_character
   ),
   constructor = function(data,
                          isotope = "isotope",
                          isotopolog = "isotopolog",
                          source_mat_id = "source_mat_id",
                          timepoint = "NULL",
-                         total_abundance = "NULL") {
+                         total_abundance = "NULL",
+                         volume = "NULL") {
     stopifnot("data should be class <data.frame>" = "data.frame" %in% class(data))
 
     # verify column names exist
@@ -74,6 +77,8 @@ qsip_source_data <- S7::new_class(
       stop(glue::glue("timepoint column '{timepoint}' is not found"), call. = FALSE)
     } else if (total_abundance != "NULL" & !total_abundance %in% colnames(data)) {
       stop(glue::glue("total_abundance column '{total_abundance}' is not found"), call. = FALSE)
+    } else if (volume != "NULL" & !volume %in% colnames(data)) {
+      stop(glue::glue("volume column '{volume}' is not found"), call. = FALSE)
     }
 
 
@@ -108,11 +113,27 @@ qsip_source_data <- S7::new_class(
 
 
     if (total_abundance != "NULL") {
+
+      # stop if volume column is null
+      if (volume == "NULL") {
+        data = data |>
+          dplyr::mutate(volume = 1)
+        warning("No <volume> column provided so it is assumed the <total_abundance> column is not a concentration and will not be scaled.", call. = F)
+      } else {
+        # verify that volume in data is a numeric column
+        if (!is.numeric(data$volume)) {
+          stop(glue::glue("volume column '{volume}' must be numeric"), call. = FALSE)
+        }
+        message("Scaling the <total_abundance> values according to the <volume> column.")
+
+      }
+
       data <- data |>
         dplyr::select(
           total_abundance = dplyr::all_of(total_abundance),
           dplyr::everything()
         ) |>
+        dplyr::mutate(total_abundance = total_abundance * volume) |>
         dplyr::ungroup()
 
       # verify that total_abundance in data is a numeric column
@@ -130,7 +151,8 @@ qsip_source_data <- S7::new_class(
       isotopolog = isotopolog,
       source_mat_id = source_mat_id,
       timepoint = timepoint,
-      total_abundance = total_abundance
+      total_abundance = total_abundance,
+      volume = volume
     )
   },
   validator = function(self) {

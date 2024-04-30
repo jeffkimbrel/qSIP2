@@ -1,4 +1,4 @@
-#' Calculate time zero feature total abundances
+#' Calculate total abundances at timepoint t
 #'
 #' This function takes a `qsip_data` object and calculates the total abundance of
 #' each feature at time zero. This should be done on an early `qsip_data` object
@@ -17,9 +17,9 @@
 #'
 #' @returns (*data.frame*) A data frame with feature_id and total abundance at time zero
 
-calculate_time_zero_abundance <- function(qsip_data_object,
+get_N_total_it <- function(qsip_data_object,
                                           timepoint = "timepoint",
-                                          value = 0) {
+                                          t = 0) {
   if (!"qsip_data" %in% class(qsip_data_object)) {
     stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
   }
@@ -34,7 +34,7 @@ calculate_time_zero_abundance <- function(qsip_data_object,
       timepoint = all_of(timepoint),
       dplyr::everything()
     ) |>
-    dplyr::filter(timepoint == value) |>
+    dplyr::filter(timepoint == t) |>
     dplyr::mutate(N_total_i0 = REL * total_abundance) |>
     # dplyr::select(feature_id, source_mat_id, timepoint, N_total_i0) |>
     # TODO line below: should it be mean or sum?
@@ -60,7 +60,7 @@ calculate_time_zero_abundance <- function(qsip_data_object,
 
   # add timepoint as timepoint1
   N_total_i0 <- N_total_i0 |>
-    dplyr::mutate(timepoint1 = value)
+    dplyr::mutate(timepoint1 = t)
 
   return(N_total_i0)
 }
@@ -69,26 +69,17 @@ calculate_time_zero_abundance <- function(qsip_data_object,
 #' Run growth calculations
 #'
 #' @param qsip_data_object (*qsip_data*) An object of `qsip_data` class
-#' @param time_zero_totals (*data.frame*) A data frame of time zero totals from `calculate_time_zero_totals()`
+#' @param N_total_it (*data.frame*) A data frame of time zero totals from `get_N_total_it()`
 #'
 #' @export
 #'
 
 run_growth_calculations <- function(qsip_data_object,
-                                    time_zero_totals,
+                                    N_total_it,
                                     timepoint = "timepoint") {
   # TODO validate arguments
   # TODO make @timepoint and @total_abundances are not null in @source_data@data. If
   # so, give error saying they must be declared in source_data to get growth
-
-
-  # normalized_copies will be a table with 5 columns
-  # 1. feature_id
-  # 2. timepoint
-  # 3. unlabeled: the number of copies of a feature without incorporation
-  # 4. labeled: the number of copies of a feature with incorporation
-  # 5. N_total_it: the sum of the labeled and unlabeled to get total features at time t
-  # 6. N_total_i0: the total (unlabeled) features at time zero
 
   time_i_totals <- qsip_data_object@tube_rel_abundance |>
     dplyr::summarize(REL = sum(tube_rel_abundance), .by = c(feature_id, source_mat_id)) |>
@@ -113,7 +104,7 @@ run_growth_calculations <- function(qsip_data_object,
     tidyr::pivot_wider(names_from = type, values_from = normalized_copies) |>
     dplyr::mutate(N_total_it = labeled + unlabeled)
 
-  normalized_copies <- time_zero_totals |>
+  normalized_copies <- N_total_it |>
     dplyr::filter(feature_id %in% qsip_data_object@filter_results$retained_features) |>
     dplyr::left_join(time_i_totals, by = "feature_id")
 
@@ -137,21 +128,23 @@ run_growth_calculations <- function(qsip_data_object,
   }
 
   # can overwrite unlabeled using EAF values or not
-  N_eaf <- normalized_copies |>
+  rbd <- normalized_copies |>
     dplyr::left_join(EAFs, by = "feature_id")
 
-  rbd_3 <- N_eaf
+  rbd <- rbd |>
+    dplyr::mutate(M_heavy = calculate_M_heavy(propO = qsip_data_object@growth$propO, M)) |>
 
-  rbd_3 <- rbd_3 |>
-    dplyr::mutate(M_heavy = (12.07747 * qsip_data_object@growth$propO) + M) |>
-    dplyr::mutate(unlabeled = N_total_it * ((M_heavy - M_labeled) / (M_heavy - M))) |>
+    # overwrite the unlabeled copies with the EAF values
+    dplyr::mutate(unlabeled_uncorrected =unlabeled) |>
+    dplyr::mutate(unlabeled = calculate_N_light_it(N_total_it, M_heavy, M_labeled, M)) |>
+
     dplyr::mutate(N_total_it = labeled + unlabeled) |>
     dplyr::mutate(time_diff = timepoint - timepoint1)
 
-  negative_unlabeled <- rbd_3 |>
+  negative_unlabeled <- rbd |>
     dplyr::filter(unlabeled <= 0)
 
-  negative_labeled <- rbd_3 |>
+  negative_labeled <- rbd |>
     dplyr::filter(labeled <= 0)
 
   if (nrow(negative_unlabeled) > 0) {
@@ -165,24 +158,24 @@ run_growth_calculations <- function(qsip_data_object,
   }
 
   # then, working with just the unlabeled that are greater than 0
-  rbd_3 <- rbd_3 |>
+  rbd <- rbd |>
     dplyr::filter(unlabeled > 0) |>
     dplyr::filter(labeled > 0) |>
     dplyr::mutate(
-      di = log(unlabeled / N_total_i0) * (1 / (timepoint - timepoint1)),
-      bi = log(N_total_it / unlabeled) * (1 / (timepoint - timepoint1)),
+      di = calculate_di(unlabeled, N_total_i0, timepoint, timepoint1),
+      bi = calculate_bi(N_total_it, unlabeled, timepoint, timepoint1),
       ri = di + bi,
       r_net = N_total_it - N_total_i0
     ) |>
-    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, N_total_i0, N_total_it, unlabeled, r_net, bi, di, ri)
+    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, N_total_i0, N_total_it, unlabeled, unlabeled_uncorrected, r_net, bi, di, ri)
 
   # mark observed and resamples similar to other qSIP2 objects
-  rbd_3 <- rbd_3 |>
+  rbd <- rbd |>
     dplyr::mutate(observed = ifelse(resample == 0, TRUE, FALSE)) |>
     dplyr::mutate(resample = ifelse(resample == 0, NA, resample))
 
 
-  qsip_data_object@growth$rates <- rbd_3
+  qsip_data_object@growth$rates <- rbd
 
   return(qsip_data_object)
 }
@@ -375,4 +368,63 @@ plot_growth_values <- function(qsip_data_object,
   } else {
     stop("type must be either 'rates' or 'copies'")
   }
+}
+
+
+
+
+
+#' Calculate M_heavy
+#'
+#' This is equation 4 from Koch, 2018
+#'
+#' @export
+
+calculate_M_heavy = function(propO, M) {
+  M_heavy = (12.07747 * propO) + M
+
+  return(M_heavy)
+
+
+}
+
+
+
+#' Calculate N_Light_it
+#'
+#' This is equation 3 from Koch, 2018
+#'
+#' @export
+
+calculate_N_light_it = function(N_total_it, M_heavy, M_labeled, M) {
+
+  N_Light_it = N_total_it * ((M_heavy - M_labeled) / (M_heavy - M))
+
+  return(N_Light_it)
+
+}
+
+
+
+#' Calculate death rate
+#'
+#' @export
+
+
+calculate_di = function(unlabeled, N_total_i0, timepoint, timepoint1) {
+  di = log(unlabeled / N_total_i0) * (1 / (timepoint - timepoint1))
+
+  return(di)
+}
+
+
+
+#' Calculate birth rate
+#'
+#' @export
+
+calculate_bi = function(N_total_it, unlabeled, timepoint, timepoint1) {
+  bi = log(N_total_it / unlabeled) * (1 / (timepoint - timepoint1))
+
+  return(bi)
 }

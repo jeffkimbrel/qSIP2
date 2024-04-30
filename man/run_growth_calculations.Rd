@@ -4,16 +4,12 @@
 \alias{run_growth_calculations}
 \title{Run growth calculations}
 \usage{
-run_growth_calculations(
-  qsip_data_object,
-  time_zero_totals,
-  timepoint = "timepoint"
-)
+run_growth_calculations(qsip_data_object, N_total_it, timepoint = "timepoint")
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) An object of \code{qsip_data} class}
 
-\item{time_zero_totals}{(\emph{data.frame}) A data frame of time zero totals from \code{calculate_time_zero_totals()}}
+\item{N_total_it}{(\emph{data.frame}) A data frame of time zero totals from \code{get_N_total_it()}}
 }
 \description{
 Run growth calculations

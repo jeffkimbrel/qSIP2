@@ -10,7 +10,8 @@ qsip_source_data(
   isotopolog = "isotopolog",
   source_mat_id = "source_mat_id",
   timepoint = "NULL",
-  total_abundance = "NULL"
+  total_abundance = "NULL",
+  volume = "NULL"
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ qsip_source_data(
 \item{timepoint}{(\emph{string}) Timepoint data}
 
 \item{total_abundance}{(\emph{string}) Total abundance data}
+
+\item{volume}{(\emph{string}) Volume of the abundance data. Defaults to 1, but can be a ul volume if abundance data is given as a concentration}
 }
 \value{
 A validated \code{qsip_source_data} object
