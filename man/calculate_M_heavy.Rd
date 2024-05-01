@@ -6,6 +6,11 @@
 \usage{
 calculate_M_heavy(propO, M)
 }
+\arguments{
+\item{propO}{(\emph{numeric}) The proportion of oxygen coming from 18H2O versus other sources}
+
+\item{M}{(\emph{numeric}) The mass of the molecule}
+}
 \description{
 This is equation 4 from Koch, 2018
 }

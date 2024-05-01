@@ -7,7 +7,7 @@
 get_isotope_designation(qsip_data_object)
 }
 \arguments{
-\item{qsip_dat_object}{(\emph{qsip_data}) A \code{qsip_data} object}
+\item{qsip_data_object}{(\emph{qsip_data}) A \code{qsip_data} object}
 }
 \value{
 A single labeled isotope designation of 13C, 15N or 18O, and gives an

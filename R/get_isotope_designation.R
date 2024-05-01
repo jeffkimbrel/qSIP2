@@ -5,7 +5,7 @@
 #' (e.g. are all 12C/13C, 14N/15N or 16O/18O with no mismatches), and 2) to return
 #' the best guess of the labeled isotope so EAF calculations will proceed correctly.
 #'
-#' @param qsip_dat_object (*qsip_data*) A `qsip_data` object
+#' @param qsip_data_object (*qsip_data*) A `qsip_data` object
 #'
 #' @returns A single labeled isotope designation of 13C, 15N or 18O, and gives an
 #' error if an inference cannot be made.

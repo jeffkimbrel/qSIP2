@@ -2,7 +2,7 @@
 #'
 #' @param qsip_data (*qsip_data*) qSIP object
 #' @param group (*string*) An optional grouping parameter to facet the y or x,y axes
-#' @param color (*string*) An optional override to the default color palette
+#' @param colors (*string*) An optional override to the default color palette
 #'
 #' @export
 #'

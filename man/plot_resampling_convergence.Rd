@@ -4,7 +4,10 @@
 \alias{plot_resampling_convergence}
 \title{Plot resampling convergence (under construction!)}
 \usage{
-plot_resampling_convergence(q)
+plot_resampling_convergence(qsip_data_object)
+}
+\arguments{
+\item{qsip_data_object}{(\emph{qsip_data}) A qsip data object that has been resampled}
 }
 \description{
 Plot resampling convergence (under construction!)

@@ -6,6 +6,15 @@
 \usage{
 calculate_bi(N_total_it, unlabeled, timepoint, timepoint1)
 }
+\arguments{
+\item{N_total_it}{The copy number of feature i at timepoint t}
+
+\item{unlabeled}{The copy number of feature i at timepoint 0 (or timepoint that is being compared against)}
+
+\item{timepoint}{The timepoint at which the copy number is being measured}
+
+\item{timepoint1}{The timepoint that is being compared against}
+}
 \description{
-Calculate birth rate
+Equation 7 from Koch, 2018
 }

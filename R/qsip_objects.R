@@ -318,7 +318,6 @@ qsip_feature_data <- S7::new_class(
 #' qPCR copies or DNA
 #' @param gradient_pos_rel_amt (*string*) Column name with the relative fraction abundance
 #'  compared to the total
-#' @param fraction_volume (*string*) The volume loaded onto the column. Required if the `gradient_pos_amt` is reported as a concentration
 #'
 #' @export
 #' @family "qSIP Objects"

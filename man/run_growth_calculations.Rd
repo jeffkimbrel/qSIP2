@@ -10,6 +10,8 @@ run_growth_calculations(qsip_data_object, N_total_it, timepoint = "timepoint")
 \item{qsip_data_object}{(\emph{qsip_data}) An object of \code{qsip_data} class}
 
 \item{N_total_it}{(\emph{data.frame}) A data frame of time zero totals from \code{get_N_total_it()}}
+
+\item{timepoint}{(\emph{character}) The name of the timepoint column in the source data}
 }
 \description{
 Run growth calculations

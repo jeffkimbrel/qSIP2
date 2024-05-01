@@ -26,6 +26,7 @@
 #' @param min_labeled_sources (*integer, default: 2*) Minimum number of labeled source_mat_ids a feature must be found in.
 #' @param min_unlabeled_fractions (*integer, default: 2*) Minimum number of fractions a feature must be found in to be present in an unlabeled source_mat_id
 #' @param min_labeled_fractions (*integer, default: 2*) Minimum number of fractions a feature must be found in to be present in an labeled source_mat_id
+#' @param quiet (*logical, default: FALSE*) Suppress messages
 #'
 #' @export
 #'
@@ -44,6 +45,7 @@ run_feature_filter <- function(qsip_data_object,
                                min_unlabeled_fractions = 2,
                                min_labeled_fractions = 2,
                                quiet = FALSE) {
+
   # make sure minimums are not bigger than possible
   if (min_labeled_sources > length(labeled_source_mat_ids)) {
     stop(glue::glue("min_labeled_sources is set to {min_labeled_sources} but labeled_source_mat_ids only has {length(labeled_source_mat_ids)}"))

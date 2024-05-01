@@ -6,6 +6,13 @@
 \usage{
 summarize_growth_values(qsip_data_object, confidence = 0.9, quiet = FALSE)
 }
+\arguments{
+\item{qsip_data_object}{A qsip_data object}
+
+\item{confidence}{(\emph{numeric, default: 0.9}) The confidence level for the growth values}
+
+\item{quiet}{(\emph{logical, default: FALSE}) Suppress messages}
+}
 \description{
 Summarize growth values
 }

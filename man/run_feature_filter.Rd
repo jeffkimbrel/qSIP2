@@ -32,6 +32,8 @@ run_feature_filter(
 \item{min_unlabeled_fractions}{(\emph{integer, default: 2}) Minimum number of fractions a feature must be found in to be present in an unlabeled source_mat_id}
 
 \item{min_labeled_fractions}{(\emph{integer, default: 2}) Minimum number of fractions a feature must be found in to be present in an labeled source_mat_id}
+
+\item{quiet}{(\emph{logical, default: FALSE}) Suppress messages}
 }
 \value{
 An updated \code{qsip_data} object with a filtered feature dataframe in the

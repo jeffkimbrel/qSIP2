@@ -36,7 +36,7 @@ calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data)
   # extract dataframes
   feature_df <- feature_data@data
   sample_df <- sample_data@data |>
-    dplyr::select(-any_of("isotope")) # remove isotope column if it exists (addresses issue #5)
+    dplyr::select(-dplyr::any_of("isotope")) # remove isotope column if it exists (addresses issue #5)
   source_df <- source_data@data
 
   # make sure feature data type has compatible value
@@ -45,7 +45,7 @@ calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data)
   if (feature_data@type %in% c("counts", "coverage", "relative")) {
     feature_df |> # start with raw feature data
       tidyr::pivot_longer(
-        cols = c(everything(), -feature_id), # pivot longer
+        cols = c(dplyr::everything(), -feature_id), # pivot longer
         names_to = "sample_id",
         values_to = "raw_abundance"
       ) |>
@@ -65,7 +65,7 @@ calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data)
     message("normalized")
     feature_df |> # start with raw feature data
       tidyr::pivot_longer(
-        cols = c(everything(), -feature_id), # pivot longer
+        cols = c(dplyr::everything(), -feature_id), # pivot longer
         names_to = "sample_id",
         values_to = "raw_abundance"
       ) |>

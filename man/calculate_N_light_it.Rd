@@ -6,6 +6,15 @@
 \usage{
 calculate_N_light_it(N_total_it, M_heavy, M_labeled, M)
 }
+\arguments{
+\item{N_total_it}{The copy number of feature i at timepoint t}
+
+\item{M_heavy}{The theoretical molecular weight of 100\% labeled sequence}
+
+\item{M_labeled}{The molecular weight of the labeled sequence}
+
+\item{M}{The molecular weight of the unlabeled sequence}
+}
 \description{
 This is equation 3 from Koch, 2018
 }

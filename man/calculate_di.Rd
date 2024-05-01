@@ -6,6 +6,15 @@
 \usage{
 calculate_di(unlabeled, N_total_i0, timepoint, timepoint1)
 }
+\arguments{
+\item{unlabeled}{The unlabeled copy number of feature i at timepoint t}
+
+\item{N_total_i0}{The copy number of feature i at timepoint 0}
+
+\item{timepoint}{The timepoint at which the copy number is being measured}
+
+\item{timepoint1}{The timepoint that is being compared against}
+}
 \description{
-Calculate death rate
+Equation 6 from Koch, 2018
 }

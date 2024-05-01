@@ -1,6 +1,7 @@
 #' Plot qSIP sample data density curves
 #'
 #' @param qsip_data (*qsip_data*) qSIP object
+#' @param colors (*character*) A named vector of colors for each isotope (optional)
 #'
 #' @export
 #'

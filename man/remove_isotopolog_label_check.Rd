@@ -6,7 +6,13 @@
 \usage{
 remove_isotopolog_label_check(df, isotope = "isotope")
 }
+\arguments{
+\item{df}{Sample data}
+
+\item{isotope}{Column name with isotope data}
+}
 \description{
-Remove isotopolog label if needed
+The qSIP2 functions expect non-MISIP data. If running qSIP2 within KBase, then this function
+will verify/update the data to be non-MISIPified.
 }
 \concept{MISIP}

@@ -11,6 +11,7 @@
 #'
 #' @param qsip_data_object (*qsip_data*) A qsip data object
 #' @param confidence (*numeric, default: 0.9*) The confidence level for the confidence interval
+#' @param quiet (*logical, default: FALSE*) Suppress messages
 #'
 #' @export
 #'

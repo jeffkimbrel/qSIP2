@@ -10,7 +10,7 @@
 #'
 #' @param feature_object (*qsip_feature_data*) An object of `qsip_feature_data` class
 #' @param taxa (*dataframe*) A taxa table
-#' @param id (*string*) The column name for the feature ids that match the ids in the
+#' @param feature_id (*string*) The column name for the feature ids that match the ids in the
 #' abundance table
 #'
 #' @export
@@ -18,7 +18,8 @@
 #' @family "Feature Data"
 #'
 #' @returns An updated `qsip_feature_data` with the taxonomy slot populated with a taxonomy dataframe.
-
+#' @importFrom rlang :=
+#'
 add_taxonomy <- function(feature_object, taxa, feature_id) {
 
   # make sure feature_object is the right type

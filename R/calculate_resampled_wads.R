@@ -22,9 +22,9 @@ calculate_resampled_wads <- function(i, wad_data, type, allow_failures = FALSE) 
   if (allow_failures == FALSE) {
     # double check the dimensions remain the same after removing all rows with NA.
     wad_data_resampled_noNA = wad_data_resampled[rowSums(is.na(wad_data_resampled)) != ncol(wad_data_resampled), ]
-    if (class(wad_data_resampled_noNA) == "numeric") {
+    if (is(wad_data_resampled_noNA, "numeric")) {
       wad_data_resampled_noNA_length = length(wad_data_resampled_noNA)
-    } else if (class(wad_data_resampled_noNA) == "data.frame") {
+    } else if (is(wad_data_resampled_noNA, "data.frame")) {
       wad_data_resampled_noNA_length = nrow(wad_data_resampled_noNA)
     }
 

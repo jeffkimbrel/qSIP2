@@ -30,8 +30,6 @@ qPCR copies or DNA}
 
 \item{gradient_pos_rel_amt}{(\emph{string}) Column name with the relative fraction abundance
 compared to the total}
-
-\item{fraction_volume}{(\emph{string}) The volume loaded onto the column. Required if the \code{gradient_pos_amt} is reported as a concentration}
 }
 \value{
 A validated object of the \code{qsip_sample_data} type

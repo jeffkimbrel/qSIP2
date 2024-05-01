@@ -11,7 +11,7 @@
 #'
 #' @param qsip_data_object (*qsip_data*) An object of `qsip_data` class
 #' @param timepoint (*character*) The name of the timepoint column in the source data
-#' @param value (*numeric*) The value of the timepoint column to filter on
+#' @param t (*numeric*) The value of the timepoint column to filter on
 #'
 #' @export
 #'
@@ -70,6 +70,7 @@ get_N_total_it <- function(qsip_data_object,
 #'
 #' @param qsip_data_object (*qsip_data*) An object of `qsip_data` class
 #' @param N_total_it (*data.frame*) A data frame of time zero totals from `get_N_total_it()`
+#' @param timepoint (*character*) The name of the timepoint column in the source data
 #'
 #' @export
 #'
@@ -187,6 +188,10 @@ run_growth_calculations <- function(qsip_data_object,
 
 #' Summarize growth values
 #'
+#' @param qsip_data_object A qsip_data object
+#' @param confidence (*numeric, default: 0.9*) The confidence level for the growth values
+#' @param quiet (*logical, default: FALSE*) Suppress messages
+#'
 #' @export
 
 summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = FALSE) {
@@ -274,6 +279,7 @@ summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = 
 #' @param top (*numeric*) The number of top features to plot. Use `Inf` for all
 #' @param error (*character*) The type of error bars to plot. Options are 'none', 'bar', 'ribbon'
 #' @param alpha (*numeric*) The transparency of the error bar/ribbon
+#' @param type (*character*) The type of growth values to plot. Options are 'rates' or "copies
 #'
 #' @export
 
@@ -378,9 +384,15 @@ plot_growth_values <- function(qsip_data_object,
 #'
 #' This is equation 4 from Koch, 2018
 #'
+#' @param propO (*numeric*) The proportion of oxygen coming from 18H2O versus other sources
+#' @param M (*numeric*) The mass of the molecule
+#'
 #' @export
 
 calculate_M_heavy = function(propO, M) {
+
+
+
   M_heavy = (12.07747 * propO) + M
 
   return(M_heavy)
@@ -393,6 +405,11 @@ calculate_M_heavy = function(propO, M) {
 #' Calculate N_Light_it
 #'
 #' This is equation 3 from Koch, 2018
+#'
+#' @param N_total_it The copy number of feature i at timepoint t
+#' @param M_heavy The theoretical molecular weight of 100% labeled sequence
+#' @param M_labeled The molecular weight of the labeled sequence
+#' @param M The molecular weight of the unlabeled sequence
 #'
 #' @export
 
@@ -408,6 +425,13 @@ calculate_N_light_it = function(N_total_it, M_heavy, M_labeled, M) {
 
 #' Calculate death rate
 #'
+#' Equation 6 from Koch, 2018
+#'
+#' @param unlabeled The unlabeled copy number of feature i at timepoint t
+#' @param N_total_i0 The copy number of feature i at timepoint 0
+#' @param timepoint The timepoint at which the copy number is being measured
+#' @param timepoint1 The timepoint that is being compared against
+#'
 #' @export
 
 
@@ -420,6 +444,13 @@ calculate_di = function(unlabeled, N_total_i0, timepoint, timepoint1) {
 
 
 #' Calculate birth rate
+#'
+#' Equation 7 from Koch, 2018
+#'
+#' @param N_total_it The copy number of feature i at timepoint t
+#' @param unlabeled The copy number of feature i at timepoint 0 (or timepoint that is being compared against)
+#' @param timepoint The timepoint at which the copy number is being measured
+#' @param timepoint1 The timepoint that is being compared against
 #'
 #' @export
 

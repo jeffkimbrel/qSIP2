@@ -1,6 +1,6 @@
 Package: qSIP2
 Title: qSIP Analysis
-Version: 0.13.7
+Version: 0.14.0
 Authors@R: 
     person("Jeff", "Kimbrel", , "kimbrel1@llnl.gov", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
@@ -19,16 +19,20 @@ Imports:
     crayon,
     dplyr,
     forcats,
+    ggplot2,
     ggrepel,
     ggridges,
     ggupset,
     glue,
     gt,
+    methods,
     patchwork,
     purrr,
+    rlang,
     S7,
     scales,
     stringr,
+    tibble,
     tidyr
 URL: https://github.com/jeffkimbrel/qSIP2,
     https://jeffkimbrel.github.io/qSIP2/

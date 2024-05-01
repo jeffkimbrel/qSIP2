@@ -8,6 +8,8 @@ plot_sample_curves(qsip_data, colors = NULL)
 }
 \arguments{
 \item{qsip_data}{(\emph{qsip_data}) qSIP object}
+
+\item{colors}{(\emph{character}) A named vector of colors for each isotope (optional)}
 }
 \value{
 A ggplot object

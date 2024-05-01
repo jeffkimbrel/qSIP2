@@ -23,6 +23,8 @@ plot_growth_values(
 \item{error}{(\emph{character}) The type of error bars to plot. Options are 'none', 'bar', 'ribbon'}
 
 \item{alpha}{(\emph{numeric}) The transparency of the error bar/ribbon}
+
+\item{type}{(\emph{character}) The type of growth values to plot. Options are 'rates' or "copies}
 }
 \description{
 Plot growth values

@@ -11,7 +11,7 @@ add_taxonomy(feature_object, taxa, feature_id)
 
 \item{taxa}{(\emph{dataframe}) A taxa table}
 
-\item{id}{(\emph{string}) The column name for the feature ids that match the ids in the
+\item{feature_id}{(\emph{string}) The column name for the feature ids that match the ids in the
 abundance table}
 }
 \value{

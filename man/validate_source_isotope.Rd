@@ -6,6 +6,13 @@
 \usage{
 validate_source_isotope(qsip_data_object, source_mat_ids, isotope_list)
 }
+\arguments{
+\item{qsip_data_object}{A qsip_data object}
+
+\item{source_mat_ids}{A character vector of source_mat_ids}
+
+\item{isotope_list}{A character vector of isotopes to check against}
+}
 \value{
 TRUE (all match) or FALSE (some don't match)
 }

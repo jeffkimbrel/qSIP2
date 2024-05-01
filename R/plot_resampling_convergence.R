@@ -1,16 +1,16 @@
 #' Plot resampling convergence (under construction!)
 #'
-#'
+#' @param qsip_data_object (*qsip_data*) A qsip data object that has been resampled
 #'
 #' @export
 
-plot_resampling_convergence = function(q) {
+plot_resampling_convergence = function(qsip_data_object) {
 
   message(glue::glue_col("{red This is an alpha function and is undergoing testing!}"))
 
   k <- purrr::map(
     c(5, 10, 25, 50, 100, 250, 500, 1000),
-    \(i) run_resampling(q,
+    \(i) run_resampling(qsip_data_object,
                         resamples = i,
                         with_seed = 17,
                         progress = FALSE,

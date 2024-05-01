@@ -1,3 +1,5 @@
+# qSIP2 0.14.0
+
 # qSIP2 0.13.7
 
 * Ability to adjust the total abundance copies using a per-row volume adjustment in the source data

@@ -10,6 +10,8 @@ summarize_EAF_values(qsip_data_object, confidence = 0.9, quiet = FALSE)
 \item{qsip_data_object}{(\emph{qsip_data}) A qsip data object}
 
 \item{confidence}{(\emph{numeric, default: 0.9}) The confidence level for the confidence interval}
+
+\item{quiet}{(\emph{logical, default: FALSE}) Suppress messages}
 }
 \value{
 A \code{dataframe} with summarized observed and resampled EAF values

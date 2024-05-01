@@ -11,7 +11,7 @@ plot_source_wads(qsip_data, group = NULL, colors = NULL)
 
 \item{group}{(\emph{string}) An optional grouping parameter to facet the y or x,y axes}
 
-\item{color}{(\emph{string}) An optional override to the default color palette}
+\item{colors}{(\emph{string}) An optional override to the default color palette}
 }
 \value{
 A ggplot object
