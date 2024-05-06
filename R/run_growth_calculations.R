@@ -134,13 +134,16 @@ run_growth_calculations <- function(qsip_data_object,
 
   rbd <- rbd |>
     dplyr::mutate(M_heavy = calculate_M_heavy(propO = qsip_data_object@growth$propO, M)) |>
+    dplyr::mutate(time_diff = timepoint - timepoint1) |>
 
     # overwrite the unlabeled copies with the EAF values
-    dplyr::mutate(unlabeled_uncorrected =unlabeled) |>
+    dplyr::mutate(unlabeled_uncorrected = unlabeled) |>
     dplyr::mutate(unlabeled = calculate_N_light_it(N_total_it, M_heavy, M_labeled, M)) |>
 
-    dplyr::mutate(N_total_it = labeled + unlabeled) |>
-    dplyr::mutate(time_diff = timepoint - timepoint1)
+    # recalculate N_total_it or labeled using new unlabeled?
+    #dplyr::mutate(N_total_it = labeled + unlabeled) |>
+    dplyr::mutate(labeled_uncorrected = labeled) |>
+    dplyr::mutate(labeled = N_total_it - unlabeled)
 
   negative_unlabeled <- rbd |>
     dplyr::filter(unlabeled <= 0)
@@ -168,7 +171,7 @@ run_growth_calculations <- function(qsip_data_object,
       ri = di + bi,
       r_net = N_total_it - N_total_i0
     ) |>
-    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, N_total_i0, N_total_it, unlabeled, unlabeled_uncorrected, r_net, bi, di, ri)
+    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, N_total_i0, N_total_it, unlabeled, unlabeled_uncorrected, labeled, labeled_uncorrected, r_net, bi, di, ri)
 
   # mark observed and resamples similar to other qSIP2 objects
   rbd <- rbd |>

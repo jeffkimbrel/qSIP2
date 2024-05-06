@@ -1,4 +1,7 @@
-# qSIP2 0.14.0
+# qSIP2 0.14.1
+
+* Growth calculations more finalized
+* when recalculating N_light_it, `qSIP2` now recalculates N_heavy_it to keep N_total_it constant
 
 # qSIP2 0.13.7
 
