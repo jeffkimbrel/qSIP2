@@ -4,12 +4,12 @@
 \alias{calculate_bi}
 \title{Calculate birth rate}
 \usage{
-calculate_bi(N_total_it, unlabeled, timepoint, timepoint1)
+calculate_bi(N_total_it, N_light_it, timepoint, timepoint1)
 }
 \arguments{
 \item{N_total_it}{The copy number of feature i at timepoint t}
 
-\item{unlabeled}{The copy number of feature i at timepoint 0 (or timepoint that is being compared against)}
+\item{N_light_it}{The copy number of feature i at timepoint 0 (or timepoint that is being compared against)}
 
 \item{timepoint}{The timepoint at which the copy number is being measured}
 

@@ -1,5 +1,6 @@
-# qSIP2 0.14.1
+# qSIP2 0.14.2
 
+* Renamed *unlabeled* and *labeled* to *N_light_it* and *N_heavy_it*, respectively
 * Growth calculations more finalized
 * when recalculating N_light_it, `qSIP2` now recalculates N_heavy_it to keep N_total_it constant
 

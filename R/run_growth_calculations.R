@@ -137,19 +137,17 @@ run_growth_calculations <- function(qsip_data_object,
     dplyr::mutate(time_diff = timepoint - timepoint1) |>
 
     # overwrite the unlabeled copies with the EAF values
-    dplyr::mutate(unlabeled_uncorrected = unlabeled) |>
-    dplyr::mutate(unlabeled = calculate_N_light_it(N_total_it, M_heavy, M_labeled, M)) |>
+    dplyr::mutate(N_light_it = calculate_N_light_it(N_total_it, M_heavy, M_labeled, M)) |>
 
     # recalculate N_total_it or labeled using new unlabeled?
     #dplyr::mutate(N_total_it = labeled + unlabeled) |>
-    dplyr::mutate(labeled_uncorrected = labeled) |>
-    dplyr::mutate(labeled = N_total_it - unlabeled)
+    dplyr::mutate(N_heavy_it = N_total_it - N_light_it)
 
   negative_unlabeled <- rbd |>
-    dplyr::filter(unlabeled <= 0)
+    dplyr::filter(N_light_it <= 0)
 
   negative_labeled <- rbd |>
-    dplyr::filter(labeled <= 0)
+    dplyr::filter(N_heavy_it <= 0)
 
   if (nrow(negative_unlabeled) > 0) {
     warning(glue::glue("{nrow(negative_unlabeled)} calculated values of unlabeled samples are negative. These values have been filtered out and added to @growth$negative_unlabeled"), call. = FALSE)
@@ -163,15 +161,15 @@ run_growth_calculations <- function(qsip_data_object,
 
   # then, working with just the unlabeled that are greater than 0
   rbd <- rbd |>
-    dplyr::filter(unlabeled > 0) |>
-    dplyr::filter(labeled > 0) |>
+    dplyr::filter(N_light_it > 0) |>
+    dplyr::filter(N_heavy_it > 0) |>
     dplyr::mutate(
-      di = calculate_di(unlabeled, N_total_i0, timepoint, timepoint1),
-      bi = calculate_bi(N_total_it, unlabeled, timepoint, timepoint1),
+      di = calculate_di(N_light_it, N_total_i0, timepoint, timepoint1),
+      bi = calculate_bi(N_total_it, N_light_it, timepoint, timepoint1),
       ri = di + bi,
       r_net = N_total_it - N_total_i0
     ) |>
-    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, N_total_i0, N_total_it, unlabeled, unlabeled_uncorrected, labeled, labeled_uncorrected, r_net, bi, di, ri)
+    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, N_total_i0, N_total_it, N_light_it, unlabeled, N_heavy_it, labeled, r_net, bi, di, ri)
 
   # mark observed and resamples similar to other qSIP2 objects
   rbd <- rbd |>
@@ -430,7 +428,7 @@ calculate_N_light_it = function(N_total_it, M_heavy, M_labeled, M) {
 #'
 #' Equation 6 from Koch, 2018
 #'
-#' @param unlabeled The unlabeled copy number of feature i at timepoint t
+#' @param N_light_it The unlabeled copy number of feature i at timepoint t
 #' @param N_total_i0 The copy number of feature i at timepoint 0
 #' @param timepoint The timepoint at which the copy number is being measured
 #' @param timepoint1 The timepoint that is being compared against
@@ -438,8 +436,8 @@ calculate_N_light_it = function(N_total_it, M_heavy, M_labeled, M) {
 #' @export
 
 
-calculate_di = function(unlabeled, N_total_i0, timepoint, timepoint1) {
-  di = log(unlabeled / N_total_i0) * (1 / (timepoint - timepoint1))
+calculate_di = function(N_light_it, N_total_i0, timepoint, timepoint1) {
+  di = log(N_light_it / N_total_i0) * (1 / (timepoint - timepoint1))
 
   return(di)
 }
@@ -451,14 +449,14 @@ calculate_di = function(unlabeled, N_total_i0, timepoint, timepoint1) {
 #' Equation 7 from Koch, 2018
 #'
 #' @param N_total_it The copy number of feature i at timepoint t
-#' @param unlabeled The copy number of feature i at timepoint 0 (or timepoint that is being compared against)
+#' @param N_light_it The copy number of feature i at timepoint 0 (or timepoint that is being compared against)
 #' @param timepoint The timepoint at which the copy number is being measured
 #' @param timepoint1 The timepoint that is being compared against
 #'
 #' @export
 
-calculate_bi = function(N_total_it, unlabeled, timepoint, timepoint1) {
-  bi = log(N_total_it / unlabeled) * (1 / (timepoint - timepoint1))
+calculate_bi = function(N_total_it, N_light_it, timepoint, timepoint1) {
+  bi = log(N_total_it / N_light_it) * (1 / (timepoint - timepoint1))
 
   return(bi)
 }

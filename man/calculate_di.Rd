@@ -4,10 +4,10 @@
 \alias{calculate_di}
 \title{Calculate death rate}
 \usage{
-calculate_di(unlabeled, N_total_i0, timepoint, timepoint1)
+calculate_di(N_light_it, N_total_i0, timepoint, timepoint1)
 }
 \arguments{
-\item{unlabeled}{The unlabeled copy number of feature i at timepoint t}
+\item{N_light_it}{The unlabeled copy number of feature i at timepoint t}
 
 \item{N_total_i0}{The copy number of feature i at timepoint 0}
 
