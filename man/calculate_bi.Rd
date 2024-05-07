@@ -4,7 +4,13 @@
 \alias{calculate_bi}
 \title{Calculate birth rate}
 \usage{
-calculate_bi(N_total_it, N_light_it, timepoint, timepoint1)
+calculate_bi(
+  N_total_it,
+  N_light_it,
+  timepoint,
+  timepoint1,
+  growth_model = "exponential"
+)
 }
 \arguments{
 \item{N_total_it}{The copy number of feature i at timepoint t}
@@ -14,6 +20,8 @@ calculate_bi(N_total_it, N_light_it, timepoint, timepoint1)
 \item{timepoint}{The timepoint at which the copy number is being measured}
 
 \item{timepoint1}{The timepoint that is being compared against}
+
+\item{growth_model}{(\emph{character, default: exponential}) The growth model to use. Must be either "exponential" or "linear"}
 }
 \description{
 Equation 7 from Koch, 2018

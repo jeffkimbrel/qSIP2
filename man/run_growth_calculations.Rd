@@ -4,12 +4,19 @@
 \alias{run_growth_calculations}
 \title{Run growth calculations}
 \usage{
-run_growth_calculations(qsip_data_object, N_total_it, timepoint = "timepoint")
+run_growth_calculations(
+  qsip_data_object,
+  N_total_it,
+  growth_model = "exponential",
+  timepoint = "timepoint"
+)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) An object of \code{qsip_data} class}
 
 \item{N_total_it}{(\emph{data.frame}) A data frame of time zero totals from \code{get_N_total_it()}}
+
+\item{growth_model}{(\emph{character, default: exponential}) The growth model to use. Must be either "exponential" or "linear"}
 
 \item{timepoint}{(\emph{character}) The name of the timepoint column in the source data}
 }

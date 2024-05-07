@@ -71,16 +71,24 @@ get_N_total_it <- function(qsip_data_object,
 #' @param qsip_data_object (*qsip_data*) An object of `qsip_data` class
 #' @param N_total_it (*data.frame*) A data frame of time zero totals from `get_N_total_it()`
 #' @param timepoint (*character*) The name of the timepoint column in the source data
+#' @param growth_model (*character, default: exponential*) The growth model to use. Must be either "exponential" or "linear"
 #'
 #' @export
 #'
 
 run_growth_calculations <- function(qsip_data_object,
                                     N_total_it,
+                                    growth_model = "exponential",
                                     timepoint = "timepoint") {
   # TODO validate arguments
   # TODO make @timepoint and @total_abundances are not null in @source_data@data. If
   # so, give error saying they must be declared in source_data to get growth
+
+  # growth_model must be either "exponential" or "linear"
+  if (!growth_model %in% c("exponential", "linear")) {
+    stop(glue::glue("growth_model must be either 'exponential' or 'linear', not {growth_model}"), call. = FALSE)
+  }
+
 
   time_i_totals <- qsip_data_object@tube_rel_abundance |>
     dplyr::summarize(REL = sum(tube_rel_abundance), .by = c(feature_id, source_mat_id)) |>
@@ -164,8 +172,8 @@ run_growth_calculations <- function(qsip_data_object,
     dplyr::filter(N_light_it > 0) |>
     dplyr::filter(N_heavy_it > 0) |>
     dplyr::mutate(
-      di = calculate_di(N_light_it, N_total_i0, timepoint, timepoint1),
-      bi = calculate_bi(N_total_it, N_light_it, timepoint, timepoint1),
+      di = calculate_di(N_light_it, N_total_i0, timepoint, timepoint1, growth_model = growth_model),
+      bi = calculate_bi(N_total_it, N_light_it, timepoint, timepoint1, growth_model = growth_model),
       ri = di + bi,
       r_net = N_total_it - N_total_i0
     ) |>
@@ -432,12 +440,26 @@ calculate_N_light_it = function(N_total_it, M_heavy, M_labeled, M) {
 #' @param N_total_i0 The copy number of feature i at timepoint 0
 #' @param timepoint The timepoint at which the copy number is being measured
 #' @param timepoint1 The timepoint that is being compared against
+#' @param growth_model (*character, default: exponential*) The growth model to use. Must be either "exponential" or "linear"
 #'
 #' @export
 
 
-calculate_di = function(N_light_it, N_total_i0, timepoint, timepoint1) {
-  di = log(N_light_it / N_total_i0) * (1 / (timepoint - timepoint1))
+calculate_di = function(N_light_it,
+                        N_total_i0,
+                        timepoint,
+                        timepoint1,
+                        growth_model = "exponential") {
+
+  if (!growth_model %in% c("exponential", "linear")) {
+    stop(glue::glue("growth_model must be either 'exponential' or 'linear', not {growth_model}"), call. = FALSE)
+  }
+
+  if (growth_model == "exponential") {
+    di = log(N_light_it / N_total_i0) * (1 / (timepoint - timepoint1))
+  } else if (growth_model == "linear") {
+    di = (N_light_it - N_total_i0) / (timepoint - timepoint1)
+  }
 
   return(di)
 }
@@ -452,11 +474,25 @@ calculate_di = function(N_light_it, N_total_i0, timepoint, timepoint1) {
 #' @param N_light_it The copy number of feature i at timepoint 0 (or timepoint that is being compared against)
 #' @param timepoint The timepoint at which the copy number is being measured
 #' @param timepoint1 The timepoint that is being compared against
+#' @param growth_model (*character, default: exponential*) The growth model to use. Must be either "exponential" or "linear"
 #'
 #' @export
 
-calculate_bi = function(N_total_it, N_light_it, timepoint, timepoint1) {
-  bi = log(N_total_it / N_light_it) * (1 / (timepoint - timepoint1))
+calculate_bi = function(N_total_it,
+                        N_light_it,
+                        timepoint,
+                        timepoint1,
+                        growth_model = "exponential") {
+
+  if (!growth_model %in% c("exponential", "linear")) {
+    stop(glue::glue("growth_model must be either 'exponential' or 'linear', not {growth_model}"), call. = FALSE)
+  }
+
+  if (growth_model == "exponential") {
+    bi = log(N_total_it / N_light_it) * (1 / (timepoint - timepoint1))
+  } else if (growth_model == "linear") {
+    bi = (N_total_it - N_light_it) / (timepoint - timepoint1)
+  }
 
   return(bi)
 }
