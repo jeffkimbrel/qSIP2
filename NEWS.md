@@ -1,26 +1,17 @@
-# qSIP2 0.14.2
+# qSIP2 0.14
 
 * Renamed *unlabeled* and *labeled* to *N_light_it* and *N_heavy_it*, respectively
 * Growth calculations more finalized
 * when recalculating N_light_it, `qSIP2` now recalculates N_heavy_it to keep N_total_it constant
 
-# qSIP2 0.13.7
+# qSIP2 0.13
 
 * Ability to adjust the total abundance copies using a per-row volume adjustment in the source data
 * Moved some Koch, 2018 equations to their own functions
-
-# qSIP2 0.13.6
-
 * Resampling now calculates `r_net` and `N_total_it` values
 * Two different growth plot types based on either rates or N copies
-
-# qSIP2 0.13.4
-
 * Both timepoints (time zero and time *t*) are now reported during growth calculations
 * Other features that make comparing rates between timepoints that are not time zero easier
-
-# qSIP2 0.13.2
-
 * Beta functions for growth calculations
 * Added `time` and `total_abundance` to `qsip_source_data()` as required arguments if you want to do the growth calculations
 * Added `calculate_time_zero_abundance()` to summarize the time zero abundance for each feature
@@ -29,7 +20,7 @@
 * Added `plot_growth_rates()` to visualize growth r, b and d rates
 * Added a `group` argument to `run_feature_filter()` to embed a grouping name to the qsip object
 
-# qSIP2 0.12.5
+# qSIP2 0.12
 
 * Beginning work on KBase functionality
 * Added additional columns to `summarize_EAF_values()` output and updated vignettes
@@ -37,34 +28,19 @@
 * Added new parameter (`gc_method`) to change the GC calculation method in `run_EAF_calculations()`. "MM" is still default. 
 * Added ability to add/remove the `zero_line` from `plot_EAF_values()`
 
-# qSIP2 0.11.5
+# qSIP2 0.11
 
 * Fixed `run_resampling()` to not get confused when using sample names that are integers. 
-
-# qSIP2 0.11.4
-
 * Fixed `example_source_df` and `example_sample_df` to remove the built in validation errors (missing `isotoplog` in the source data, and fractions as characters in the sample data). These dataframes are now valid objects for the package
-
-# qSIP2 0.11.3
-
 * Added validation checks for existing standard names in dataframes. For example, if trying to use a data.frame with source data that already has a `source_mat_id` column, but you designate a different column as the `source_mat_id`, it will throw an error. This is to prevent column name collisions and potential unintended consequences. 
 * Added internal function `validate_standard_names()` to check for existing standard names in dataframes.
-
-# qSIP2 0.11.2
-
 * Added alpha function `plot_resampling_convergence()` to follow when the CoV of the resamplings converge to a stable value
 * Added new `vignette("resampling")` for more details about the resampling procedure
-
-# qSIP2 0.11.1
-
 * Fixed `run_EAF_calculations()` to work with `allow_failures` logic
 * Add `plot_feature_resamplings()` to plot resampling results for a single or list of feature_ids
-
-# qSIP2 0.11.0
-
 * Introduced ability to keep only successful resampling attempts, and discard failures. This keeps `run_resampling()` from failing if the sample count is low, but could result in feature_ids with less than the expected number of resamples. This is controlled by the `allow_failures` argument in `run_resampling()`. Two functions have been added to inspect the results of resampling: `get_resample_counts()` and `plot_successful_resamples()`.
 
-# qSIP2 0.10.6
+# qSIP2 0.10
 
 * Added `infer_source_data()` function to infer source data from a sample data data frame
 * Update documentation of internal functions
@@ -74,9 +50,6 @@
 * Removed requirement for `gradient_pos_rel_amt` column in the imported sample dataframe. If you have one you can still pass the column name. If you don't, it will run the `add_gradient_pos_rel_amt()` silently using the `gradient_pos_amt` column, and provide a message that it is doing so.
 * Updated `vignette("feature_data")`
 * Documentation for `get_dataframe()`
-
-# qSIP2 0.10.5
-
 * Started a NEWS.md file to keep track of changes
 * Updated `plot_sample_curves()` and `plot_source_wads()` to use existing WAD values that were pre-calculated when making the `qsip_data` object. This means they now require a `qsip_data` object as input and no longer accept a sample or source object. The main workflow vignette was updated to reflect these changes.
 * Renamed `data()` to `get_dataframe()` to match the naming scheme of other functions.
