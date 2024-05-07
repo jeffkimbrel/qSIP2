@@ -57,29 +57,20 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.14.2" id="qsip2-0142">qSIP2 0.14.2<a class="anchor" aria-label="anchor" href="#qsip2-0142"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.14" id="qsip2-014">qSIP2 0.14<a class="anchor" aria-label="anchor" href="#qsip2-014"></a></h2>
 <ul><li>Renamed <em>unlabeled</em> and <em>labeled</em> to <em>N_light_it</em> and <em>N_heavy_it</em>, respectively</li>
 <li>Growth calculations more finalized</li>
 <li>when recalculating N_light_it, <code>qSIP2</code> now recalculates N_heavy_it to keep N_total_it constant</li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.13.7" id="qsip2-0137">qSIP2 0.13.7<a class="anchor" aria-label="anchor" href="#qsip2-0137"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.13" id="qsip2-013">qSIP2 0.13<a class="anchor" aria-label="anchor" href="#qsip2-013"></a></h2>
 <ul><li>Ability to adjust the total abundance copies using a per-row volume adjustment in the source data</li>
 <li>Moved some Koch, 2018 equations to their own functions</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.13.6" id="qsip2-0136">qSIP2 0.13.6<a class="anchor" aria-label="anchor" href="#qsip2-0136"></a></h2>
-<ul><li>Resampling now calculates <code>r_net</code> and <code>N_total_it</code> values</li>
+<li>Resampling now calculates <code>r_net</code> and <code>N_total_it</code> values</li>
 <li>Two different growth plot types based on either rates or N copies</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.13.4" id="qsip2-0134">qSIP2 0.13.4<a class="anchor" aria-label="anchor" href="#qsip2-0134"></a></h2>
-<ul><li>Both timepoints (time zero and time <em>t</em>) are now reported during growth calculations</li>
+<li>Both timepoints (time zero and time <em>t</em>) are now reported during growth calculations</li>
 <li>Other features that make comparing rates between timepoints that are not time zero easier</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.13.2" id="qsip2-0132">qSIP2 0.13.2<a class="anchor" aria-label="anchor" href="#qsip2-0132"></a></h2>
-<ul><li>Beta functions for growth calculations</li>
+<li>Beta functions for growth calculations</li>
 <li>Added <code>time</code> and <code>total_abundance</code> to <code><a href="../reference/qsip_source_data.html">qsip_source_data()</a></code> as required arguments if you want to do the growth calculations</li>
 <li>Added <code>calculate_time_zero_abundance()</code> to summarize the time zero abundance for each feature</li>
 <li>Added <code><a href="../reference/run_growth_calculations.html">run_growth_calculations()</a></code> to calculate growth (r), birth (b) and death (d) rates from total abundances and EAF values</li>
@@ -88,7 +79,7 @@
 <li>Added a <code>group</code> argument to <code><a href="../reference/run_feature_filter.html">run_feature_filter()</a></code> to embed a grouping name to the qsip object</li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.12.5" id="qsip2-0125">qSIP2 0.12.5<a class="anchor" aria-label="anchor" href="#qsip2-0125"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.12" id="qsip2-012">qSIP2 0.12<a class="anchor" aria-label="anchor" href="#qsip2-012"></a></h2>
 <ul><li>Beginning work on KBase functionality</li>
 <li>Added additional columns to <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> output and updated vignettes</li>
 <li>
@@ -98,34 +89,19 @@
 </li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.11.5" id="qsip2-0115">qSIP2 0.11.5<a class="anchor" aria-label="anchor" href="#qsip2-0115"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.11" id="qsip2-011">qSIP2 0.11<a class="anchor" aria-label="anchor" href="#qsip2-011"></a></h2>
 <ul><li>Fixed <code><a href="../reference/run_resampling.html">run_resampling()</a></code> to not get confused when using sample names that are integers.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.11.4" id="qsip2-0114">qSIP2 0.11.4<a class="anchor" aria-label="anchor" href="#qsip2-0114"></a></h2>
-<ul><li>Fixed <code>example_source_df</code> and <code>example_sample_df</code> to remove the built in validation errors (missing <code>isotoplog</code> in the source data, and fractions as characters in the sample data). These dataframes are now valid objects for the package</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.11.3" id="qsip2-0113">qSIP2 0.11.3<a class="anchor" aria-label="anchor" href="#qsip2-0113"></a></h2>
-<ul><li>Added validation checks for existing standard names in dataframes. For example, if trying to use a data.frame with source data that already has a <code>source_mat_id</code> column, but you designate a different column as the <code>source_mat_id</code>, it will throw an error. This is to prevent column name collisions and potential unintended consequences.</li>
+<li>Fixed <code>example_source_df</code> and <code>example_sample_df</code> to remove the built in validation errors (missing <code>isotoplog</code> in the source data, and fractions as characters in the sample data). These dataframes are now valid objects for the package</li>
+<li>Added validation checks for existing standard names in dataframes. For example, if trying to use a data.frame with source data that already has a <code>source_mat_id</code> column, but you designate a different column as the <code>source_mat_id</code>, it will throw an error. This is to prevent column name collisions and potential unintended consequences.</li>
 <li>Added internal function <code><a href="../reference/validate_standard_names.html">validate_standard_names()</a></code> to check for existing standard names in dataframes.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.11.2" id="qsip2-0112">qSIP2 0.11.2<a class="anchor" aria-label="anchor" href="#qsip2-0112"></a></h2>
-<ul><li>Added alpha function <code><a href="../reference/plot_resampling_convergence.html">plot_resampling_convergence()</a></code> to follow when the CoV of the resamplings converge to a stable value</li>
+<li>Added alpha function <code><a href="../reference/plot_resampling_convergence.html">plot_resampling_convergence()</a></code> to follow when the CoV of the resamplings converge to a stable value</li>
 <li>Added new <code><a href="../articles/resampling.html">vignette("resampling")</a></code> for more details about the resampling procedure</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.11.1" id="qsip2-0111">qSIP2 0.11.1<a class="anchor" aria-label="anchor" href="#qsip2-0111"></a></h2>
-<ul><li>Fixed <code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code> to work with <code>allow_failures</code> logic</li>
+<li>Fixed <code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code> to work with <code>allow_failures</code> logic</li>
 <li>Add <code><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings()</a></code> to plot resampling results for a single or list of feature_ids</li>
+<li>Introduced ability to keep only successful resampling attempts, and discard failures. This keeps <code><a href="../reference/run_resampling.html">run_resampling()</a></code> from failing if the sample count is low, but could result in feature_ids with less than the expected number of resamples. This is controlled by the <code>allow_failures</code> argument in <code><a href="../reference/run_resampling.html">run_resampling()</a></code>. Two functions have been added to inspect the results of resampling: <code><a href="../reference/get_resample_counts.html">get_resample_counts()</a></code> and <code><a href="../reference/plot_successful_resamples.html">plot_successful_resamples()</a></code>.</li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.11.0" id="qsip2-0110">qSIP2 0.11.0<a class="anchor" aria-label="anchor" href="#qsip2-0110"></a></h2>
-<ul><li>Introduced ability to keep only successful resampling attempts, and discard failures. This keeps <code><a href="../reference/run_resampling.html">run_resampling()</a></code> from failing if the sample count is low, but could result in feature_ids with less than the expected number of resamples. This is controlled by the <code>allow_failures</code> argument in <code><a href="../reference/run_resampling.html">run_resampling()</a></code>. Two functions have been added to inspect the results of resampling: <code><a href="../reference/get_resample_counts.html">get_resample_counts()</a></code> and <code><a href="../reference/plot_successful_resamples.html">plot_successful_resamples()</a></code>.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.10.6" id="qsip2-0106">qSIP2 0.10.6<a class="anchor" aria-label="anchor" href="#qsip2-0106"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.10" id="qsip2-010">qSIP2 0.10<a class="anchor" aria-label="anchor" href="#qsip2-010"></a></h2>
 <ul><li>Added <code><a href="../reference/infer_source_data.html">infer_source_data()</a></code> function to infer source data from a sample data data frame</li>
 <li>Update documentation of internal functions</li>
 <li>Fixed <code><a href="../reference/validate_gradient_pos_density.html">validate_gradient_pos_density()</a></code> (and tests) to not fail with bulk data that has a gradient_position of <code>-1</code> (<a href="https://github.com/jeffkimbrel/qSIP2/issues/8" class="external-link">#8</a>).</li>
@@ -137,10 +113,7 @@
 </li>
 <li>Documentation for <code><a href="../reference/get_dataframe.html">get_dataframe()</a></code>
 </li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.10.5" id="qsip2-0105">qSIP2 0.10.5<a class="anchor" aria-label="anchor" href="#qsip2-0105"></a></h2>
-<ul><li>Started a NEWS.md file to keep track of changes</li>
+<li>Started a NEWS.md file to keep track of changes</li>
 <li>Updated <code><a href="../reference/plot_sample_curves.html">plot_sample_curves()</a></code> and <code><a href="../reference/plot_source_wads.html">plot_source_wads()</a></code> to use existing WAD values that were pre-calculated when making the <code>qsip_data</code> object. This means they now require a <code>qsip_data</code> object as input and no longer accept a sample or source object. The main workflow vignette was updated to reflect these changes.</li>
 <li>Renamed <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code> to <code><a href="../reference/get_dataframe.html">get_dataframe()</a></code> to match the naming scheme of other functions.</li>
 </ul></div>
