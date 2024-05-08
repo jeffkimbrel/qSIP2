@@ -8,7 +8,9 @@ run_growth_calculations(
   qsip_data_object,
   N_total_it,
   growth_model = "exponential",
-  timepoint = "timepoint"
+  timepoint = "timepoint",
+  correct_copy_numbers = "filter",
+  correct_EAF = "filter"
 )
 }
 \arguments{
@@ -19,6 +21,10 @@ run_growth_calculations(
 \item{growth_model}{(\emph{character, default: exponential}) The growth model to use. Must be either "exponential" or "linear"}
 
 \item{timepoint}{(\emph{character}) The name of the timepoint column in the source data}
+
+\item{correct_copy_numbers}{(\emph{character, default: filter}) If copy numbers are not logical (e.g. < 0), should they be filtered out or adjusted to 0?}
+
+\item{correct_EAF}{(\emph{character, default: filter}) If EAF values are not logical (e.g. <0 or >1), should they be filtered out or adjusted to 0 or 1?}
 }
 \description{
 Run growth calculations
