@@ -73,6 +73,8 @@ get_N_total_it <- function(qsip_data_object,
 #' @param N_total_it (*data.frame*) A data frame of time zero totals from `get_N_total_it()`
 #' @param timepoint (*character*) The name of the timepoint column in the source data
 #' @param growth_model (*character, default: exponential*) The growth model to use. Must be either "exponential" or "linear"
+#' @param correct_copy_numbers (*character, default: filter*) If copy numbers are not logical (e.g. < 0), should they be filtered out or adjusted to 0?
+#' @param correct_EAF (*character, default: filter*) If EAF values are not logical (e.g. <0 or >1), should they be filtered out or adjusted to 0 or 1?
 #'
 #' @export
 #'
@@ -80,7 +82,9 @@ get_N_total_it <- function(qsip_data_object,
 run_growth_calculations <- function(qsip_data_object,
                                     N_total_it,
                                     growth_model = "exponential",
-                                    timepoint = "timepoint") {
+                                    timepoint = "timepoint",
+                                    correct_copy_numbers = "filter",
+                                    correct_EAF = "filter") {
   # TODO validate arguments
   # TODO make @timepoint and @total_abundances are not null in @source_data@data. If
   # so, give error saying they must be declared in source_data to get growth
@@ -90,6 +94,13 @@ run_growth_calculations <- function(qsip_data_object,
     stop(glue::glue("growth_model must be either 'exponential' or 'linear', not {growth_model}"), call. = FALSE)
   }
 
+  if (!correct_copy_numbers %in% c("filter", "adjust")) {
+    stop(glue::glue("correct_copy_numbers must be either 'filter' or 'adjust', not {correct_copy_numbers}"), call. = FALSE)
+  }
+
+  if (!correct_EAF %in% c("filter", "adjust")) {
+    stop(glue::glue("correct_EAF must be either 'filter' or 'adjust', not {correct_EAF}"), call. = FALSE)
+  }
 
   time_i_totals <- qsip_data_object@tube_rel_abundance |>
     dplyr::summarize(REL = sum(tube_rel_abundance), .by = c(feature_id, source_mat_id)) |>
@@ -110,12 +121,13 @@ run_growth_calculations <- function(qsip_data_object,
 
 
 
-
+  # merge timepoint i totals with timepoint 0 totals
   normalized_copies <- N_total_it |>
     dplyr::filter(feature_id %in% qsip_data_object@filter_results$retained_features) |>
     dplyr::left_join(time_i_totals, by = "feature_id") |>
     dplyr::mutate(N_total_it = ifelse(is.na(N_total_it), 0, N_total_it))
 
+  # get EAF values for timepoint i
   EAFs <- qsip_data_object@EAF |>
     dplyr::mutate(resample = ifelse(is.na(resample), 0, resample))
 
@@ -129,11 +141,9 @@ run_growth_calculations <- function(qsip_data_object,
     qsip_data_object@growth$no_EAF_values <- no_EAF_values
   }
 
-  # can overwrite unlabeled using EAF values or not
+  # merge copy number with EAF values
   rbd <- normalized_copies |>
-    dplyr::left_join(EAFs, by = "feature_id")
-
-  rbd <- rbd |>
+    dplyr::left_join(EAFs, by = "feature_id") |>
     dplyr::mutate(M_heavy = calculate_M_heavy(propO = qsip_data_object@growth$propO, M)) |>
     dplyr::mutate(time_diff = timepoint - timepoint1) |>
 
@@ -145,10 +155,10 @@ run_growth_calculations <- function(qsip_data_object,
     dplyr::mutate(N_heavy_it = N_total_it - N_light_it)
 
   negative_unlabeled <- rbd |>
-    dplyr::filter(N_light_it <= 0)
+    dplyr::filter(N_light_it <= 0 | EAF > 1)
 
   negative_labeled <- rbd |>
-    dplyr::filter(N_heavy_it <= 0)
+    dplyr::filter(N_heavy_it <= 0 | EAF < 0)
 
   if (nrow(negative_unlabeled) > 0) {
     warning(glue::glue("{nrow(negative_unlabeled)} calculated values of unlabeled samples are negative. These values have been filtered out and added to @growth$negative_unlabeled"), call. = FALSE)
@@ -160,10 +170,32 @@ run_growth_calculations <- function(qsip_data_object,
     qsip_data_object@growth$negative_labeled <- negative_labeled
   }
 
-  # then, working with just the unlabeled that are greater than 0
+  if (correct_copy_numbers == "adjust") {
+    rbd <- rbd |>
+      dplyr::mutate(N_light_it = dplyr::case_when(
+        N_light_it < 0 ~ 0,
+        TRUE ~ N_light_it
+      )) |>
+      dplyr::mutate(N_heavy_it = dplyr::case_when(
+        N_heavy_it < 0 ~ 0,
+        TRUE ~ N_heavy_it
+      ))
+  }
+
+  if (correct_EAF == "adjust") {
+    rbd <- rbd |>
+      dplyr::mutate(EAF = dplyr::case_when(
+        EAF < 0 ~ 0,
+        EAF > 1 ~ 1,
+        TRUE ~ EAF
+      ))
+  }
+
+  # then, working with just the unlabeled that are greater than 0 and have a valid EAF
   rbd <- rbd |>
-    dplyr::filter(N_light_it > 0) |>
-    dplyr::filter(N_heavy_it > 0) |>
+    dplyr::filter(N_light_it >= 0) |>
+    dplyr::filter(N_heavy_it >= 0) |>
+    dplyr::filter(EAF >= 0 & EAF <= 1) |>
     dplyr::mutate(
       di = calculate_di(N_light_it, N_total_i0, timepoint, timepoint1, growth_model = growth_model),
       bi = calculate_bi(N_total_it, N_light_it, timepoint, timepoint1, growth_model = growth_model),

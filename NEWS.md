@@ -1,5 +1,3 @@
-# qSIP2 0.14.6
-
 # qSIP2 0.14
 
 * Fixed bug where N_total_it should be just from unlabeled, not labeled + unlabeled
