@@ -100,31 +100,20 @@ run_growth_calculations <- function(qsip_data_object,
     ) |>
     dplyr::mutate(normalized_copies = REL * total_abundance) |>
     dplyr::select(feature_id, source_mat_id, timepoint, normalized_copies) |>
-    dplyr::mutate(type = dplyr::case_when(
-      source_mat_id %in% qsip_data_object@filter_results$unlabeled_source_mat_ids ~ "unlabeled",
-      source_mat_id %in% qsip_data_object@filter_results$labeled_source_mat_ids ~ "labeled",
-      .default = "NA"
-    )) |>
+    dplyr::filter(source_mat_id %in% qsip_data_object@filter_results$labeled_source_mat_ids) |>
     # TODO line below: should it be mean or sum? They do lead to slightly different results
     dplyr::summarize(
-      normalized_copies = mean(normalized_copies),
-      timepoint = unique(timepoint), # weird to use unique(), other options?
-      .by = c(feature_id, type)
-    ) |>
-    tidyr::pivot_wider(names_from = type, values_from = normalized_copies) |>
-    dplyr::mutate(N_total_it = labeled)
+      N_total_it = mean(normalized_copies),
+      #timepoint = unique(timepoint), # weird to use unique(), other options?
+      .by = c(feature_id, timepoint)
+    )
 
 
 
 
   normalized_copies <- N_total_it |>
     dplyr::filter(feature_id %in% qsip_data_object@filter_results$retained_features) |>
-    dplyr::left_join(time_i_totals, by = "feature_id")
-
-
-  normalized_copies <- normalized_copies |>
-    dplyr::mutate(unlabeled = ifelse(is.na(unlabeled), 0, unlabeled)) |>
-    dplyr::mutate(labeled = ifelse(is.na(labeled), 0, labeled)) |>
+    dplyr::left_join(time_i_totals, by = "feature_id") |>
     dplyr::mutate(N_total_it = ifelse(is.na(N_total_it), 0, N_total_it))
 
   EAFs <- qsip_data_object@EAF |>
@@ -181,7 +170,7 @@ run_growth_calculations <- function(qsip_data_object,
       ri = di + bi,
       r_net = N_total_it - N_total_i0
     ) |>
-    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, N_total_i0, N_total_it, N_light_it, unlabeled, N_heavy_it, labeled, EAF, r_net, bi, di, ri)
+    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, N_total_i0, N_total_it, N_light_it, N_heavy_it, EAF, r_net, bi, di, ri)
 
   # mark observed and resamples similar to other qSIP2 objects
   rbd <- rbd |>
