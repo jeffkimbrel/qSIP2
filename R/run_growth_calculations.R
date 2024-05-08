@@ -38,6 +38,7 @@ get_N_total_it <- function(qsip_data_object,
     dplyr::mutate(N_total_i0 = REL * total_abundance) |>
     # dplyr::select(feature_id, source_mat_id, timepoint, N_total_i0) |>
     # TODO line below: should it be mean or sum?
+    # TODO should this be filtered to only include unlabeled? Timepoints other than 0 might have labeled samples
     dplyr::summarize(N_total_i0 = mean(N_total_i0), .by = feature_id)
 
   # make dataframe with zeroes. This ensures feature_ids with zero abundance
@@ -111,7 +112,10 @@ run_growth_calculations <- function(qsip_data_object,
       .by = c(feature_id, type)
     ) |>
     tidyr::pivot_wider(names_from = type, values_from = normalized_copies) |>
-    dplyr::mutate(N_total_it = labeled + unlabeled)
+    dplyr::mutate(N_total_it = labeled)
+
+
+
 
   normalized_copies <- N_total_it |>
     dplyr::filter(feature_id %in% qsip_data_object@filter_results$retained_features) |>
@@ -177,7 +181,7 @@ run_growth_calculations <- function(qsip_data_object,
       ri = di + bi,
       r_net = N_total_it - N_total_i0
     ) |>
-    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, N_total_i0, N_total_it, N_light_it, unlabeled, N_heavy_it, labeled, r_net, bi, di, ri)
+    dplyr::select(feature_id, timepoint1, timepoint2 = timepoint, resample, N_total_i0, N_total_it, N_light_it, unlabeled, N_heavy_it, labeled, EAF, r_net, bi, di, ri)
 
   # mark observed and resamples similar to other qSIP2 objects
   rbd <- rbd |>
@@ -264,6 +268,10 @@ summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = 
       resampled_ri_sd = sd(ri, na.rm = TRUE),
       resampled_ri_lower = quantile(ri, (1 - confidence) / 2, na.rm = T),
       resampled_ri_upper = quantile(ri, 1 - (1 - confidence) / 2, na.rm = T),
+      resampled_EAF_mean = mean(EAF, na.rm = TRUE),
+      resampled_EAF_sd = sd(EAF, na.rm = TRUE),
+      resampled_EAF_lower = quantile(EAF, (1 - confidence) / 2, na.rm = T),
+      resampled_EAF_upper = quantile(EAF, 1 - (1 - confidence) / 2, na.rm = T),
       .by = feature_id
     )
 
