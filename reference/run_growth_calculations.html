@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.14.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.14.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,9 @@
 <span>  <span class="va">qsip_data_object</span>,</span>
 <span>  <span class="va">N_total_it</span>,</span>
 <span>  growth_model <span class="op">=</span> <span class="st">"exponential"</span>,</span>
-<span>  timepoint <span class="op">=</span> <span class="st">"timepoint"</span></span>
+<span>  timepoint <span class="op">=</span> <span class="st">"timepoint"</span>,</span>
+<span>  correct_copy_numbers <span class="op">=</span> <span class="st">"filter"</span>,</span>
+<span>  correct_EAF <span class="op">=</span> <span class="st">"filter"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -87,6 +89,14 @@
 
 <dt>timepoint</dt>
 <dd><p>(<em>character</em>) The name of the timepoint column in the source data</p></dd>
+
+
+<dt>correct_copy_numbers</dt>
+<dd><p>(<em>character, default: filter</em>) If copy numbers are not logical (e.g. &lt; 0), should they be filtered out or adjusted to 0?</p></dd>
+
+
+<dt>correct_EAF</dt>
+<dd><p>(<em>character, default: filter</em>) If EAF values are not logical (e.g. &lt;0 or &gt;1), should they be filtered out or adjusted to 0 or 1?</p></dd>
 
 </dl></div>
 
