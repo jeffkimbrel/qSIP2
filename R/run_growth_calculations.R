@@ -18,8 +18,9 @@
 #' @returns (*data.frame*) A data frame with feature_id and total abundance at time zero
 
 get_N_total_it <- function(qsip_data_object,
-                                          timepoint = "timepoint",
-                                          t = 0) {
+                           timepoint = "timepoint",
+                           t = 0,
+                           group = NULL) {
   if (!"qsip_data" %in% class(qsip_data_object)) {
     stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
   }
@@ -35,11 +36,22 @@ get_N_total_it <- function(qsip_data_object,
       dplyr::everything()
     ) |>
     dplyr::filter(timepoint == t) |>
-    dplyr::mutate(N_total_i0 = REL * total_abundance) |>
+    dplyr::mutate(N_total_i0 = REL * total_abundance)
     # dplyr::select(feature_id, source_mat_id, timepoint, N_total_i0) |>
     # TODO line below: should it be mean or sum?
     # TODO should this be filtered to only include unlabeled? Timepoints other than 0 might have labeled samples
-    dplyr::summarize(N_total_i0 = mean(N_total_i0), .by = feature_id)
+
+  # if using a grouping variable(s) to summarize the counts
+  # !!! : https://stackoverflow.com/questions/42612417/how-to-pass-multiple-column-names-as-input-to-group-by-in-dplyr/42612631
+  # sym : https://stackoverflow.com/questions/61180201/triple-exclamation-marks-on-r
+  if (isFALSE(is.null(group))) {
+    N_total_i0 = N_total_i0 |>
+      dplyr::group_by(feature_id, !!!dplyr::syms(group)) |>
+      dplyr::summarize(N_total_i0 = mean(N_total_i0), .groups = "drop")
+  } else {
+    N_total_i0 = N_total_i0 |>
+      dplyr::summarize(N_total_i0 = mean(N_total_i0), .by = feature_id)
+  }
 
   # make dataframe with zeroes. This ensures feature_ids with zero abundance
   # will still be present in the resulting dataframe
@@ -47,15 +59,18 @@ get_N_total_it <- function(qsip_data_object,
     dplyr::select(feature_id) |>
     dplyr::mutate(zero = 0) |>
     dplyr::left_join(N_total_i0, by = "feature_id") |>
-    dplyr::mutate(N_total_i0 = sum(zero, N_total_i0, na.rm = T), .by = "feature_id") |>
-    dplyr::select(-zero)
+    dplyr::group_by(feature_id, !!!dplyr::syms(group)) |>
+    dplyr::mutate(N_total_i0 = sum(zero, N_total_i0, na.rm = T)) |>
+    dplyr::select(-zero) |>
+    dplyr::ungroup()
 
   # report on zero abundance samples
   no_abundance <- N_total_i0 |>
     dplyr::filter(N_total_i0 == 0)
 
   if (nrow(no_abundance) > 0) {
-    warning("The following feature_ids have zero abundance at time zero: ", paste(no_abundance$feature_id, collapse = ", "), call. = F)
+    warning(glue::glue("{nrow(no_abundance)} feature_ids have zero abundance at time {t}:"), call. = F)
+    warning(paste(no_abundance$feature_id, collapse = ", "), call. = F)
   }
 
 
@@ -115,7 +130,7 @@ run_growth_calculations <- function(qsip_data_object,
     # TODO line below: should it be mean or sum? They do lead to slightly different results
     dplyr::summarize(
       N_total_it = mean(normalized_copies),
-      #timepoint = unique(timepoint), # weird to use unique(), other options?
+      # timepoint = unique(timepoint), # weird to use unique(), other options?
       .by = c(feature_id, timepoint)
     )
 
@@ -146,12 +161,10 @@ run_growth_calculations <- function(qsip_data_object,
     dplyr::left_join(EAFs, by = "feature_id") |>
     dplyr::mutate(M_heavy = calculate_M_heavy(propO = qsip_data_object@growth$propO, M)) |>
     dplyr::mutate(time_diff = timepoint - timepoint1) |>
-
     # overwrite the unlabeled copies with the EAF values
     dplyr::mutate(N_light_it = calculate_N_light_it(N_total_it, M_heavy, M_labeled, M)) |>
-
     # recalculate N_total_it or labeled using new unlabeled?
-    #dplyr::mutate(N_total_it = labeled + unlabeled) |>
+    # dplyr::mutate(N_total_it = labeled + unlabeled) |>
     dplyr::mutate(N_heavy_it = N_total_it - N_light_it)
 
   negative_unlabeled <- rbd |>
@@ -427,15 +440,10 @@ plot_growth_values <- function(qsip_data_object,
 #'
 #' @export
 
-calculate_M_heavy = function(propO, M) {
-
-
-
-  M_heavy = (12.07747 * propO) + M
+calculate_M_heavy <- function(propO, M) {
+  M_heavy <- (12.07747 * propO) + M
 
   return(M_heavy)
-
-
 }
 
 
@@ -451,12 +459,10 @@ calculate_M_heavy = function(propO, M) {
 #'
 #' @export
 
-calculate_N_light_it = function(N_total_it, M_heavy, M_labeled, M) {
-
-  N_Light_it = N_total_it * ((M_heavy - M_labeled) / (M_heavy - M))
+calculate_N_light_it <- function(N_total_it, M_heavy, M_labeled, M) {
+  N_Light_it <- N_total_it * ((M_heavy - M_labeled) / (M_heavy - M))
 
   return(N_Light_it)
-
 }
 
 
@@ -474,20 +480,19 @@ calculate_N_light_it = function(N_total_it, M_heavy, M_labeled, M) {
 #' @export
 
 
-calculate_di = function(N_light_it,
-                        N_total_i0,
-                        timepoint,
-                        timepoint1,
-                        growth_model = "exponential") {
-
+calculate_di <- function(N_light_it,
+                         N_total_i0,
+                         timepoint,
+                         timepoint1,
+                         growth_model = "exponential") {
   if (!growth_model %in% c("exponential", "linear")) {
     stop(glue::glue("growth_model must be either 'exponential' or 'linear', not {growth_model}"), call. = FALSE)
   }
 
   if (growth_model == "exponential") {
-    di = log(N_light_it / N_total_i0) * (1 / (timepoint - timepoint1))
+    di <- log(N_light_it / N_total_i0) * (1 / (timepoint - timepoint1))
   } else if (growth_model == "linear") {
-    di = (N_light_it - N_total_i0) / (timepoint - timepoint1)
+    di <- (N_light_it - N_total_i0) / (timepoint - timepoint1)
   }
 
   return(di)
@@ -507,20 +512,19 @@ calculate_di = function(N_light_it,
 #'
 #' @export
 
-calculate_bi = function(N_total_it,
-                        N_light_it,
-                        timepoint,
-                        timepoint1,
-                        growth_model = "exponential") {
-
+calculate_bi <- function(N_total_it,
+                         N_light_it,
+                         timepoint,
+                         timepoint1,
+                         growth_model = "exponential") {
   if (!growth_model %in% c("exponential", "linear")) {
     stop(glue::glue("growth_model must be either 'exponential' or 'linear', not {growth_model}"), call. = FALSE)
   }
 
   if (growth_model == "exponential") {
-    bi = log(N_total_it / N_light_it) * (1 / (timepoint - timepoint1))
+    bi <- log(N_total_it / N_light_it) * (1 / (timepoint - timepoint1))
   } else if (growth_model == "linear") {
-    bi = (N_total_it - N_light_it) / (timepoint - timepoint1)
+    bi <- (N_total_it - N_light_it) / (timepoint - timepoint1)
   }
 
   return(bi)

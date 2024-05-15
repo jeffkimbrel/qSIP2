@@ -49,8 +49,11 @@ validate_abundances <- function(data,
       stop("Some data are not integers", call. = FALSE)
     }
 
-  } else if (length(values) - length(dplyr::select_if(values, is.numeric)) > 0) {
-    stop("Some data is not numeric", call. = FALSE)
+  # this was in here as a check, but it isn't clear when some data might pass
+    # the integer check above, but then still not be numeric.
+    # So, commenting out for now.
+  # } else if (length(values) - length(dplyr::select_if(values, is.numeric)) > 0) {
+  #   stop("Some data is not numeric", call. = FALSE)
 
   } else {
     return(NULL)

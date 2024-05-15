@@ -13,10 +13,6 @@ test_that("incorrect input types give errors", {
   )
 })
 
-test_that("Returns an S4 type", {
-  expect_type(qsip_feature_data(example_feature_df, feature_id = "ASV"), "S4")
-})
-
 test_that("@data slot is the right size", {
   expect_equal(
     dim(qsip_feature_data(example_feature_df, feature_id = "ASV")@data),

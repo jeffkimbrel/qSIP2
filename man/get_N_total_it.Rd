@@ -4,7 +4,7 @@
 \alias{get_N_total_it}
 \title{Calculate total abundances at timepoint t}
 \usage{
-get_N_total_it(qsip_data_object, timepoint = "timepoint", t = 0)
+get_N_total_it(qsip_data_object, timepoint = "timepoint", t = 0, group = NULL)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) An object of \code{qsip_data} class}

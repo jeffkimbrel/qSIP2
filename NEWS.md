@@ -1,5 +1,6 @@
 # qSIP2 0.14
 
+* Added grouping variable to `get_N_total_it()` to summarize by metadata variables
 * Fixed bug where N_total_it should be just from unlabeled, not labeled + unlabeled
 * Added linear growth model in addition to the existing exponential model. Exponential is still default.
 * Renamed *unlabeled* and *labeled* to *N_light_it* and *N_heavy_it*, respectively
