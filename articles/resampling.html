@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.14.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.14.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -318,8 +318,9 @@ object has helper functions like <code><a href="../reference/n_resamples.html">n
 that were performed and the seed that was used, respectively.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/n_resamples.html">n_resamples</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1000</span></span>
-<span><span class="fu"><a href="../reference/resample_seed.html">resample_seed</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1000</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/resample_seed.html">resample_seed</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 19</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="dataframe-of-resampled-wads">Dataframe of resampled WADs<a class="anchor" aria-label="anchor" href="#dataframe-of-resampled-wads"></a>
@@ -328,7 +329,7 @@ that were performed and the seed that was used, respectively.</p>
 <code><a href="../reference/get_resample_data.html">get_resample_data()</a></code> function and appropriate arguments.
 Note, if you set <code>pivot = TRUE</code> the dataframe can be quite
 large and take a while to assemble/display.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_resample_data.html">get_resample_data</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 74,000 × 13</span></span></span>
 <span><span class="co">#&gt;    feature_id resample unlabeled_1 unlabeled_2 unlabeled_3 unlabeled_4</span></span>
@@ -355,7 +356,7 @@ only interested in the range of the mean WAD values for each resampling
 iteration. You can leave the <code>feature_id</code> argument empty to
 see all of the features, or you can specify a single feature or a vector
 of features. Here, I will select 3 random feature_ids to show.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">random_features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_feature_ids.html">get_feature_ids</a></span><span class="op">(</span><span class="va">q</span>, filtered <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings</a></span><span class="op">(</span><span class="va">q</span>, </span>
 <span>                         feature_id <span class="op">=</span> <span class="va">random_features</span><span class="op">)</span></span>
@@ -365,7 +366,7 @@ of features. Here, I will select 3 random feature_ids to show.</p>
 <p>Additional arguments can be called to add the confidence intervals
 (as bars or lines) or with a different confidence limit (default =
 <code>0.9</code>).</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings</a></span><span class="op">(</span><span class="va">q</span>, </span>
 <span>                         feature_id <span class="op">=</span> <span class="va">random_features</span>,</span>
 <span>                         interval <span class="op">=</span> <span class="st">"bar"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -395,7 +396,7 @@ previous filtering step.</p>
 <p>But, if your filtering requirements were less strict as before
 (e.g. by setting <code>min_labeled_sources = 1</code>), then this
 feature could make it through the filtering.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_feature_filter.html">run_feature_filter</a></span><span class="op">(</span><span class="va">example_qsip_object</span>,</span>
 <span>  unlabeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="../reference/get_all_by_isotope.html">get_all_by_isotope</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, <span class="st">"12C"</span><span class="op">)</span>,</span>
 <span>  labeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S178"</span>, <span class="st">"S179"</span>, <span class="st">"S180"</span><span class="op">)</span>,</span>
@@ -407,7 +408,7 @@ feature could make it through the filtering.</p>
 <span><span class="op">)</span> <span class="co"># running with quiet = TRUE to suppress messages</span></span></code></pre></div>
 <p>But we now get an error when running the resampling step suggesting
 we increase our filtering stringency.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/run_resampling.html">run_resampling</a></span><span class="op">(</span><span class="va">q2</span>,</span>
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  with_seed <span class="op">=</span> <span class="fl">19</span>,</span>
@@ -439,7 +440,7 @@ remove features from the dataset. If you want to keep the features
 function. This will allow the resampling to continue, but it will also
 return a warning message that the resampling failed for some iterations
 of some features.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_resampling.html">run_resampling</a></span><span class="op">(</span><span class="va">q2</span>,</span>
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  with_seed <span class="op">=</span> <span class="fl">19</span>,</span>
@@ -454,7 +455,7 @@ with the unlabeled resampling, but 4 features had failures for the
 labeled sources. We can see which features had failures by
 <code><a href="../reference/get_resample_counts.html">get_resample_counts()</a></code> and filtering for values of <span class="math inline">\(n\)</span> less than 1000 (our number of
 resamples).</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_resample_counts.html">get_resample_counts</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">n</span> <span class="op">&lt;</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 127 × 3</span></span></span>
@@ -476,7 +477,7 @@ resamplings. Statistically, you may conclude that 693 resamplings is
 still robust enough to accept the conclusion. But inspecting the plot
 for these 3 of these features show something strange with ASV_72 and we
 may still choose to remove it from our analysis.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings</a></span><span class="op">(</span><span class="va">q2</span>, </span>
 <span>                         feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ASV_72"</span>, <span class="st">"ASV_155"</span>, <span class="st">"ASV_161"</span><span class="op">)</span>, </span>
 <span>                         intervals <span class="op">=</span> <span class="st">"bar"</span><span class="op">)</span></span></code></pre></div>
@@ -484,7 +485,7 @@ may still choose to remove it from our analysis.</p>
 <p>We can further see the resampling successes for each feature with the
 <code><a href="../reference/plot_successful_resamples.html">plot_successful_resamples()</a></code> function, and this histogram
 shows that most features do have 1000 successful resamplings.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_successful_resamples.html">plot_successful_resamples</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="resampling_files/figure-html/unnamed-chunk-20-1.png" width="384"></p>
 </div>
@@ -499,7 +500,7 @@ based on passing a threshold. We will use a success rate of 90%
 <p>Here, we can see that although most are green, ASV_72 does show up as
 highly enriched and with a confidence interval clear of 0. But, the red
 dot further flags it as suspect and warrants a deeper look.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">EAF</span> <span class="op">=</span> <span class="fu"><a href="../reference/run_EAF_calculations.html">run_EAF_calculations</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">counts</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_resample_counts.html">get_resample_counts</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span></span>
