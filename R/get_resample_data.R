@@ -22,13 +22,13 @@ get_resample_data <- function(qsip_data_object,
   }
 
   if (type == "all") {
-    u <- dplyr::bind_rows(qsip_data_object@resamples$u) |> select(-type)
-    l <- dplyr::bind_rows(qsip_data_object@resamples$l) |> select(-type)
-    df <- dplyr::left_join(u, l, by = join_by(feature_id, resample))
+    u <- dplyr::bind_rows(qsip_data_object@resamples$u) |> dplyr::select(-type)
+    l <- dplyr::bind_rows(qsip_data_object@resamples$l) |> dplyr::select(-type)
+    df <- dplyr::left_join(u, l, by = dplyr::join_by(feature_id, resample))
   } else if (type == "unlabeled") {
-    df <- dplyr::bind_rows(qsip_data_object@resamples$u) |> select(-type)
+    df <- dplyr::bind_rows(qsip_data_object@resamples$u) |> dplyr::select(-type)
   } else if (type == "labeled") {
-    df <- dplyr::bind_rows(qsip_data_object@resamples$l) |> select(-type)
+    df <- dplyr::bind_rows(qsip_data_object@resamples$l) |> dplyr::select(-type)
   } else {
     stop("type must be one of 'all', 'unlabeled', or 'labeled'", call. = FALSE)
   }
