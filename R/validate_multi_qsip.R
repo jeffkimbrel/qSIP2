@@ -1,7 +1,7 @@
 #' Validate a multi-qsip list object
 #'
 #'
-#'
+#' @export
 
 validate_multi_qsip <- function(qsip_list) {
 

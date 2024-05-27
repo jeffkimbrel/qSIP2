@@ -1,3 +1,8 @@
+# qSIP2 0.15
+
+* Introducing functions to work with multiple qSIP2 objects at once
+* Added `run_comparison_groups()` to launch multiple qSIP2 EAF workflows
+
 # qSIP2 0.14
 
 * Added grouping variable to `get_N_total_it()` to summarize by metadata variables

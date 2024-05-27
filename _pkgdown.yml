@@ -14,13 +14,17 @@ reference:
   - qsip_sample_data
   - qsip_feature_data
 
-- title: Main qSIP2 Workflow
+- title: qSIP2 EAF Workflow
   contents:
   - show_comparison_groups
   - run_feature_filter
   - run_resampling
   - run_EAF_calculations
   - summarize_EAF_values
+  - run_comparison_groups
+
+- title: qSIP2 Growth Workflow
+  contents:
   - get_N_total_it
   - run_growth_calculations
   - summarize_growth_values
@@ -67,6 +71,9 @@ reference:
 
 - title: internal
   contents:
+  - multi_qsip_wrapper_launcher
+  - multi_qsip_wrapper
+  - validate_multi_qsip
   - validate_abundances
   - validate_standard_names
   - validate_gradient_pos_density
