@@ -2,12 +2,13 @@
 #'
 #' @param qsip_data_object (*qsip_data or qsip_source_data*) A qsip object with source data
 #' @param isotopes (*string(s)*) Isotopes used to pull source_mat_ids. Can be a standard isotope name (e.g. `12C`) or special terms `labeled` or `unlabeled`
+#' @param silent (*boolean*) If `TRUE`, suppresses messages about missing isotope hits and doesn't fail
 #'
 #' @returns A vector of source_mat_ids. It may also print some messages.
 #'
 #' @export
 
-get_all_by_isotope <- function(qsip_data_object, isotopes) {
+get_all_by_isotope <- function(qsip_data_object, isotopes, silent = FALSE) {
   if ("qsip_data" %in% class(qsip_data_object)) {
     source_data <- qsip_data_object@source_data@data
   } else if ("qsip_source_data" %in% class(qsip_data_object)) {
@@ -31,15 +32,18 @@ get_all_by_isotope <- function(qsip_data_object, isotopes) {
     dplyr::select(source_mat_id, isotope)
 
   # error if no source_mat_ids are found that match the criteria
-  if (nrow(source_mat_ids) == 0) {
-    i <- paste(isotopes, collapse = ", ")
-    stop(glue::glue_col("No source_mat_ids found with isotopes {red {i}}"))
-  }
+  if (isFALSE(silent)) {
 
-  # print a message for each isotope that didn't have any hits. This is FYI and doesn't stop the function
-  for (isotope in isotopes) {
-    if (!isotope %in% source_mat_ids$isotope) {
-      message(glue::glue("WARNING: {isotope} not found in data"))
+    if (nrow(source_mat_ids) == 0) {
+      i <- paste(isotopes, collapse = ", ")
+      stop(glue::glue_col("No source_mat_ids found with isotopes {red {i}}"))
+    }
+
+    # print a message for each isotope that didn't have any hits. This is FYI and doesn't stop the function
+    for (isotope in isotopes) {
+      if (!isotope %in% source_mat_ids$isotope) {
+        message(glue::glue("WARNING: {isotope} not found in data"))
+      }
     }
   }
 

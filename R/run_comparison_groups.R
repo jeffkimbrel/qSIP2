@@ -7,13 +7,28 @@ run_comparison_groups <- function(groups, qsip_data_object) {
     stop("Invalid column names in groups")
   }
 
-  # make sure all columns contain validate isotope names. "group" is skipped
-  ## commenting this out for now as I am opting for "unlabeled" and "labeled" as the group names in the external file
-  # if (!is.null(validate_isotopes(colnames(groups)[colnames(groups) != "group"]))) {
-  #   stop("Invalid isotope names in groups")
-  # }
+
 
   # make sure all source_mat_ids in the isotope columns are in the qsip_data_object
+  ## first, fill in "wildcard" source_mat_ids
+  groups = groups |>
+    dplyr::mutate(unlabeled = dplyr::case_match(
+      unlabeled,
+      "unlabeled" ~ paste(get_all_by_isotope(qsip_data_object, "unlabeled", silent = TRUE), collapse = ","),
+      "12C" ~ paste(get_all_by_isotope(qsip_data_object, "12C", silent = TRUE), collapse = ","),
+      "14N" ~ paste(get_all_by_isotope(qsip_data_object, "14N", silent = TRUE), collapse = ","),
+      "16O" ~ paste(get_all_by_isotope(qsip_data_object, "16O", silent = TRUE), collapse = ","),
+      .default = unlabeled
+    ))  |>
+    dplyr::mutate(labeled = dplyr::case_match(
+      labeled,
+      "labeled" ~ paste(get_all_by_isotope(qsip_data_object, "labeled", silent = TRUE), collapse = ","),
+      "13C" ~ paste(get_all_by_isotope(qsip_data_object, "13C", silent = TRUE), collapse = ","),
+      "15N" ~ paste(get_all_by_isotope(qsip_data_object, "15N", silent = TRUE), collapse = ","),
+      "18O" ~ paste(get_all_by_isotope(qsip_data_object, "18O", silent = TRUE), collapse = ","),
+      .default = labeled
+    ))
+
   source_mat_ids_in_groups <- unlist(groups[, colnames(groups) != "group"]) |>
     enframe() |>
     separate_rows(value, sep = ",") |>
@@ -48,7 +63,6 @@ run_comparison_groups <- function(groups, qsip_data_object) {
 
 test_func <- function(group, name, qsip_data_object) {
   # if group$unlabeled is "unlabeled", or an isotope, run get isotope thing. same with labeled
-
 
   run_qsip_wrapper(qsip_data_object,
     group = name,
