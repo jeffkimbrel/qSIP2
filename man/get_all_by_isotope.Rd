@@ -4,12 +4,14 @@
 \alias{get_all_by_isotope}
 \title{Get source_mat_ids meeting certain isotope conditions}
 \usage{
-get_all_by_isotope(qsip_data_object, isotopes)
+get_all_by_isotope(qsip_data_object, isotopes, silent = FALSE)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data or qsip_source_data}) A qsip object with source data}
 
 \item{isotopes}{(\emph{string(s)}) Isotopes used to pull source_mat_ids. Can be a standard isotope name (e.g. \verb{12C}) or special terms \code{labeled} or \code{unlabeled}}
+
+\item{silent}{(\emph{boolean}) If \code{TRUE}, suppresses messages about missing isotope hits and doesn't fail}
 }
 \value{
 A vector of source_mat_ids. It may also print some messages.

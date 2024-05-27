@@ -10,5 +10,5 @@ resample_seed(qsip_data_object)
 \item{qsip_data_object}{A \code{qSIP_data} object that has been run through \code{run_resampling()}}
 }
 \description{
-Seed used in resampling
+Returns the seed used in the resampling step, or \code{NA} if no specific seed was given.
 }

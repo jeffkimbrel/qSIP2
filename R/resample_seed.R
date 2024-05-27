@@ -1,5 +1,7 @@
 #' Seed used in resampling
 #'
+#' Returns the seed used in the resampling step, or `NA` if no specific seed was given.
+#'
 #' @param qsip_data_object A `qSIP_data` object that has been run through `run_resampling()`
 #'
 #' @export
@@ -11,5 +13,9 @@ resample_seed <- function(qsip_data_object) {
     stop("this function requires a qsip object that has been run through run_resampling()", call. = FALSE)
   }
 
-  qsip_data_object@resamples$seed
+  if (is.null(qsip_data_object@resamples$seed)) {
+    return(NA)
+  } else {
+    qsip_data_object@resamples$seed
+  }
 }
