@@ -9,7 +9,7 @@
 #' function returns the 5% and 95% quantiles (representing 90% of the resampling)
 #' as the `lower` and `upper` results.
 #'
-#' @param qsip_data_object (*qsip_data*) A qsip data object
+#' @param qsip_data_object (*qsip_data*) A qsip_data object or list of qsip_data objects
 #' @param confidence (*numeric, default: 0.9*) The confidence level for the confidence interval
 #' @param quiet (*logical, default: FALSE*) Suppress messages
 #'
@@ -19,21 +19,45 @@
 
 summarize_EAF_values <- function(qsip_data_object, confidence = 0.9, quiet = FALSE) {
 
-  # confirm the data is the correct type
-  stopifnot("ERROR: qsip_data_object must be of type qsip_data" = "qsip_data" %in% class(qsip_data_object))
-
   # confirm the confidence value is numeric and between 0-1
   stopifnot("ERROR: confidence should be numeric" = is.numeric(confidence))
   if (confidence >= 1 | confidence <= 0) {
     stop("ERROR: confidence level should be between 0 and 1")
   }
 
-  # confirm the qsip object has @EAF values
-  stopifnot("ERROR: @EAF slot is empty, have you run run_EAF_calculations()?" = dim(qsip_data_object@EAF)[1] > 0)
-
   if (isFALSE(quiet)) {
     message(glue::glue("Confidence level = {confidence}"))
   }
+
+  # confirm qsip_data_object class is either qsip_data or list
+  if ("list" %in% class(qsip_data_object)) {
+    if (isTRUE(validate_multi_qsip(qsip_data_object))) {
+      lapply(qsip_data_object, summarize_EAF_values_internal, confidence = confidence) |>
+        dplyr::bind_rows(.id = "group")
+    } else {
+      stop("ERROR: list of qsip_data objects failed validation")
+    }
+  } else if ("qsip_data" %in% class(qsip_data_object)) {
+    summarize_EAF_values_internal(qsip_data_object, confidence = confidence)
+  } else {
+    stop("ERROR: qsip_data_object must be of class <qsip_data> or <list> of qsip_data objects")
+  }
+
+}
+
+
+#' Internal function to summarize EAF values
+#'
+#' Called by `summarize_EAF_values` to calculate the resampled EAF values.
+
+summarize_EAF_values_internal <- function(qsip_data_object,
+                                          confidence = 0.9) {
+
+  # confirm the data is the correct type
+  stopifnot("ERROR: qsip_data_object must be of type qsip_data" = "qsip_data" %in% class(qsip_data_object))
+
+  # confirm the qsip object has @EAF values
+  stopifnot("ERROR: @EAF slot is empty, have you run run_EAF_calculations()?" = dim(qsip_data_object@EAF)[1] > 0)
 
   resamples <- qsip_data_object@EAF |>
     dplyr::filter(observed == FALSE) |>
@@ -54,3 +78,5 @@ summarize_EAF_values <- function(qsip_data_object, confidence = 0.9, quiet = FAL
     dplyr::left_join(get_resample_counts(qsip_data_object), by = "feature_id") |>
     dplyr::left_join(get_filtered_source_counts(qsip_data_object), by = "feature_id")
 }
+
+

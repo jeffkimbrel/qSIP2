@@ -19,7 +19,7 @@ test_that("snapshots look as expected", {
 test_that("Wrong input types give error", {
   expect_error(
     summarize_EAF_values(example_feature_df),
-    "ERROR: qsip_data_object must be of type qsip_data"
+    "ERROR: qsip_data_object must be of class <qsip_data> or <list> of qsip_data objects"
   )
   expect_error(
     summarize_EAF_values(test_qsip, confidence = "not_a_numeric"),
@@ -41,3 +41,4 @@ test_that("Make sure qsip object has EAF data", {
     "ERROR: @EAF slot is empty, have you run run_EAF_calculations()?"
   )
 })
+

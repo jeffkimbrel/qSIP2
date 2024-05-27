@@ -15,7 +15,7 @@ plot_EAF_values(
 )
 }
 \arguments{
-\item{qsip_data_object}{(\emph{qsip_data}) A qsip data object}
+\item{qsip_data_object}{(\emph{qsip_data}) A qsip_data object or list of qsip_data objects}
 
 \item{confidence}{(\emph{numeric}) The confidence level for the confidence interval}
 

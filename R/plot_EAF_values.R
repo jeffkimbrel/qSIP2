@@ -5,7 +5,7 @@
 #' are plotted as error bars or ribbons. The points are colored based on the
 #' success ratio of the resamples.
 #'
-#' @param qsip_data_object (*qsip_data*) A qsip data object
+#' @param qsip_data_object (*qsip_data*) A qsip_data object or list of qsip_data objects
 #' @param confidence (*numeric*) The confidence level for the confidence interval
 #' @param success_ratio (*numeric*) The ratio of successful resamples to total resamples
 #' @param top (*numeric*) The number of top features to plot. Use `Inf` for all
@@ -23,8 +23,15 @@ plot_EAF_values <- function(qsip_data_object,
                             alpha = 0.3,
                             zero_line = TRUE) {
 
-  # confirm the data is the correct type
-  stopifnot("ERROR: qsip_data_object must be of type qsip_data" = "qsip_data" %in% class(qsip_data_object))
+  # confirm qsip_data_object class is either qsip_data or list
+
+  if ("list" %in% class(qsip_data_object)) {
+    object_type = "multiple"
+  } else if ("qsip_data" %in% class(qsip_data_object)) {
+    object_type = "single"
+  } else {
+    stop("ERROR: qsip_data_object must be of class <qsip_data> or <list> of qsip_data objects")
+  }
 
   # confirm the confidence value is numeric and between 0-1
   stopifnot("ERROR: confidence should be numeric" = is.numeric(confidence))
@@ -49,20 +56,36 @@ plot_EAF_values <- function(qsip_data_object,
   }
 
   EAF <- summarize_EAF_values(qsip_data_object,
-    confidence = confidence
-  ) |>
-    dplyr::slice_max(observed_EAF, n = top) |>
-    dplyr::mutate(feature_id = forcats::fct_reorder(feature_id, observed_EAF))
+    confidence = confidence)
 
+  # add number of attempted resamples
+  if (object_type == "multiple") {
 
-  p <- EAF |>
+    EAF <- EAF |>
+      dplyr::group_by(group) |>
+      dplyr::slice_max(observed_EAF, n = top) |>
+      dplyr::ungroup() |>
+      dplyr::mutate(feature_id = tidytext::reorder_within(feature_id, observed_EAF, within = group)) %>%
+      dplyr::left_join(sapply(qsip_data_object, n_resamples) |>
+                         enframe(name = "group", value = "resamples"),
+                       by = "group")
+
+  } else {
+    EAF = EAF |>
+      dplyr::slice_max(observed_EAF, n = top) |>
+      mutate(resamples = qsip_data_object@resamples$n)
+
+  }
+
+  p = EAF |>
+    dplyr::mutate(feature_id = forcats::fct_reorder(feature_id, observed_EAF)) |>
     ggplot2::ggplot(ggplot2::aes(y = feature_id, x = observed_EAF)) +
     ggplot2::geom_point(
       pch = 21,
       size = 2,
-      ggplot2::aes(fill = ifelse((labeled_resamples + unlabeled_resamples) > qsip_data_object@resamples$n * 2 * success_ratio,
-        "Passed",
-        "Failed"
+      ggplot2::aes(fill = ifelse((labeled_resamples + unlabeled_resamples) > resamples * 2 * success_ratio,
+                                 "Passed",
+                                 "Failed"
       ))
     ) +
     ggplot2::scale_fill_manual(values = c("Passed" = "#00ff0066", "Failed" = "red")) +
@@ -83,7 +106,11 @@ plot_EAF_values <- function(qsip_data_object,
       ggplot2::geom_vline(xintercept = 0, linetype = "dashed", color = "black")
   }
 
-
+  if (object_type == "multiple") {
+    p <- p +
+      tidytext::scale_y_reordered() +
+      ggplot2::facet_wrap(~group, scales = "free_y")
+  }
 
   return(p)
 }

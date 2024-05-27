@@ -2,6 +2,7 @@
 
 * Introducing functions to work with multiple qSIP2 objects at once
 * Added `run_comparison_groups()` to launch multiple qSIP2 EAF workflows
+* Updated `summarize_EAF_values()` and `plot_EAF_values()` functions to work with multiple qSIP2 objects. Plotting puts each group in it's own facet, and each facet is sorted individually by EAF values. The `top` argument also works for each group independently, but the `confidence` value is shared across all groups. 
 
 # qSIP2 0.14
 
