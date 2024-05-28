@@ -73,6 +73,7 @@ reference:
   contents:
   - multi_qsip_wrapper_launcher
   - multi_qsip_wrapper
+  - summarize_EAF_values_internal
   - validate_multi_qsip
   - validate_abundances
   - validate_standard_names
