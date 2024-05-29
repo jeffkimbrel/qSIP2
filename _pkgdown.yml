@@ -45,6 +45,7 @@ reference:
   - add_gradient_pos_rel_amt
   - add_taxonomy
   - show_unshared_ids
+  - is_qsip_data
 
 - title: Plots and Visualizations
   contents:

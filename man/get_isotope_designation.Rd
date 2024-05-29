@@ -4,10 +4,18 @@
 \alias{get_isotope_designation}
 \title{Infer which isotope calculations to use (internal)}
 \usage{
-get_isotope_designation(qsip_data_object)
+get_isotope_designation(
+  qsip_data_object,
+  unlabeled_source_mat_ids,
+  labeled_source_mat_ids
+)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) A \code{qsip_data} object}
+
+\item{unlabeled_source_mat_ids}{(\emph{character}) A vector of source_mat_ids that are unlabeled}
+
+\item{labeled_source_mat_ids}{(\emph{character}) A vector of source_mat_ids that are labeled}
 }
 \value{
 A single labeled isotope designation of 13C, 15N or 18O, and gives an

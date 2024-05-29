@@ -1,6 +1,8 @@
 add_taxonomy_testdf <- dplyr::select(example_feature_object@data, feature_id) |>
   dplyr::mutate(genus = "test", species = "test")
 
+add_taxonomy_testdf_with_error = add_taxonomy_testdf |>
+  rbind(tibble::tibble("feature_id" = "not_found", "genus" = "genus", "species" = "species"))
 
 test_that("feature wrong type produces error", {
   expect_error(add_taxonomy(example_feature_df, add_taxonomy_testdf, feature_id = "ASV"),
@@ -31,6 +33,13 @@ test_that("extra features in taxonomy table give error", {
     rbind(add_taxonomy_testdf, add_taxonomy_testdf),
     feature_id = "feature_id"
   ), "some feature_ids in the taxonomy dataframe are duplicated")
+})
+
+test_that("feature_ids in the table not found in the feature_object give error", {
+  expect_error(add_taxonomy(example_feature_object,
+                            add_taxonomy_testdf_with_error,
+                            feature_id = "feature_id"
+  ), "Some ids found in the taxa table are not found in the abundance object")
 })
 
 test_that("@taxonomy slot gets populated correctly", {

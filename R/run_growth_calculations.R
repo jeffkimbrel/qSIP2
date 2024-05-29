@@ -12,6 +12,7 @@
 #' @param qsip_data_object (*qsip_data*) An object of `qsip_data` class
 #' @param timepoint (*character*) The name of the timepoint column in the source data
 #' @param t (*numeric*) The value of the timepoint column to filter on
+#' @param group (*character*) The name of the grouping variable(s) to summarize the counts
 #'
 #' @export
 #'

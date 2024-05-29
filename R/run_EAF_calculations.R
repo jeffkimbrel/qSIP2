@@ -22,17 +22,21 @@ run_EAF_calculations <- function(qsip_data_object, gc_method = "MM", propO = 1) 
     stop("qsip_data_object should be run through run_feature_filter() and run_resampling() functions first", call. = FALSE)
   }
 
-  isotope <- get_isotope_designation(qsip_data_object)
+  # get the source material ids corresponding to the labeled and unlabeled
+  unlabeled_source_mat_ids = qsip_data_object@filter_results$unlabeled_source_mat_ids
+  labeled_source_mat_ids = qsip_data_object@filter_results$labeled_source_mat_ids
+
+  isotope <- get_isotope_designation(qsip_data_object, unlabeled_source_mat_ids, labeled_source_mat_ids)
 
   # work with observed data
   observed_labeled <- qsip_data_object@wads |>
-    dplyr::filter(source_mat_id %in% qsip_data_object@filter_results$labeled_source_mat_ids) |>
+    dplyr::filter(source_mat_id %in% labeled_source_mat_ids) |>
     dplyr::filter(feature_id %in% qsip_data_object@filter_results$retained_features) |>
     dplyr::group_by(feature_id) |>
     dplyr::summarize(W_lab_mean = mean(WAD))
 
   observed_unlabeled <- qsip_data_object@wads |>
-    dplyr::filter(source_mat_id %in% qsip_data_object@filter_results$unlabeled_source_mat_ids) |>
+    dplyr::filter(source_mat_id %in% unlabeled_source_mat_ids) |>
     dplyr::filter(feature_id %in% qsip_data_object@filter_results$retained_features) |>
     dplyr::group_by(feature_id) |>
     dplyr::summarize(W_unlab_mean = mean(WAD))

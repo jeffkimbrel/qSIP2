@@ -12,6 +12,8 @@ get_N_total_it(qsip_data_object, timepoint = "timepoint", t = 0, group = NULL)
 \item{timepoint}{(\emph{character}) The name of the timepoint column in the source data}
 
 \item{t}{(\emph{numeric}) The value of the timepoint column to filter on}
+
+\item{group}{(\emph{character}) The name of the grouping variable(s) to summarize the counts}
 }
 \value{
 (\emph{data.frame}) A data frame with feature_id and total abundance at time zero

@@ -5,6 +5,7 @@
 #' @param i (*integer*) The specific iteration of the resampling
 #' @param wad_data (*dataframe*) A WAD dataframe to resample columns from
 #' @param type (*string*) Text for whether the wad data is from labeled or unlabeled data
+#' @param allow_failures (*logical*) Whether to allow failures in the resampling
 #'
 #' @returns The resampling data that will be boot in `@resamples`
 #'

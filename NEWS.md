@@ -3,6 +3,7 @@
 * Introducing functions to work with multiple qSIP2 objects at once
 * Added `run_comparison_groups()` to launch multiple qSIP2 EAF workflows
 * Updated `summarize_EAF_values()` and `plot_EAF_values()` functions to work with multiple qSIP2 objects. Plotting puts each group in it's own facet, and each facet is sorted individually by EAF values. The `top` argument also works for each group independently, but the `confidence` value is shared across all groups. 
+* Less strict isotope validation to allow comparing mismatched labeled with unlabeled sources. For example, you can compare 18O labeled against 12C unlabeled sources.
 
 # qSIP2 0.14
 
@@ -15,19 +16,19 @@
 
 # qSIP2 0.13
 
-* Ability to adjust the total abundance copies using a per-row volume adjustment in the source data
-* Moved some Koch, 2018 equations to their own functions
-* Resampling now calculates `r_net` and `N_total_it` values
-* Two different growth plot types based on either rates or N copies
-* Both timepoints (time zero and time *t*) are now reported during growth calculations
-* Other features that make comparing rates between timepoints that are not time zero easier
 * Beta functions for growth calculations
 * Added `time` and `total_abundance` to `qsip_source_data()` as required arguments if you want to do the growth calculations
 * Added `calculate_time_zero_abundance()` to summarize the time zero abundance for each feature
 * Added `run_growth_calculations()` to calculate growth (r), birth (b) and death (d) rates from total abundances and EAF values
 * Added `summarize_growth_values()` to summarize r, b and d rates
 * Added `plot_growth_rates()` to visualize growth r, b and d rates
+* Two different growth plot types based on either rates or N copies
+* Both timepoints (time zero and time *t*) are now reported during growth calculations
+* Other features that make comparing rates between timepoints that are not time zero easier
 * Added a `group` argument to `run_feature_filter()` to embed a grouping name to the qsip object
+* Ability to adjust the total abundance copies using a per-row volume adjustment in the source data
+* Moved some Koch, 2018 equations to their own functions
+* Resampling now calculates `r_net` and `N_total_it` values
 
 # qSIP2 0.12
 

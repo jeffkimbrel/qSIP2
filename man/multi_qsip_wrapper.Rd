@@ -18,6 +18,29 @@ multi_qsip_wrapper(
   seed = NULL
 )
 }
+\arguments{
+\item{qsip_data_object}{A qsip_data object}
+
+\item{group}{A group name}
+
+\item{unlabeled_source_mat_ids}{A vector of source_mat_ids for the unlabeled isotope}
+
+\item{labeled_source_mat_ids}{A vector of source_mat_ids for the labeled isotope}
+
+\item{min_unlabeled_sources}{The minimum number of sources for the unlabeled isotope}
+
+\item{min_labeled_sources}{The minimum number of sources for the labeled isotope}
+
+\item{min_unlabeled_fractions}{The minimum number of fractions for the unlabeled isotope}
+
+\item{min_labeled_fractions}{The minimum number of fractions for the labeled isotope}
+
+\item{allow_failures}{Whether to allow failures in the filtering step}
+
+\item{resamples}{The number of resamples to run}
+
+\item{seed}{The seed for the resampling}
+}
 \description{
 Wrapper for running the qSIP EAF workflow
 }

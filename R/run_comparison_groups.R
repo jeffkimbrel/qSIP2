@@ -32,10 +32,7 @@ run_comparison_groups <- function(groups,
                                   seed = NULL,
                                   resamples = NULL) {
 
-  # check if qsip_data_object is a qsip_data object
-  if (!inherits(qsip_data_object, "qsip_data")) {
-    stop("qsip_data_object must be a <qsip_data> object")
-  }
+  is_qsip_data(qsip_data_object)
 
   # groups dataframe should contain group, unlabeled and labeled columns, and there can be others
   required_cols <- c("group", "unlabeled", "labeled")
@@ -81,10 +78,10 @@ run_comparison_groups <- function(groups,
 
 
   source_mat_ids_in_groups <- unlist(groups[, colnames(groups) %in% c("labeled", "unlabeled")]) |>
-    enframe() |>
-    separate_rows(value, sep = ",") |>
-    mutate(value = str_trim(value)) |>
-    pull(value)
+    tibble::enframe() |>
+    tidyr::separate_rows(value, sep = ",") |>
+    dplyr::mutate(value = stringr::str_trim(value)) |>
+    dplyr::pull(value)
 
   if (length(setdiff(source_mat_ids_in_groups, get_source_mat_ids(qsip_data_object))) > 0) {
     stop("Invalid source_mat_ids in group dataframe")
@@ -102,7 +99,7 @@ run_comparison_groups <- function(groups,
     )
   )
 
-  if (isTRUE(validate_multi_qsip(multi_qsip_list))) {
+  if (isTRUE(is_multi_qsip_data(multi_qsip_list))) {
     return(multi_qsip_list)
   } else {
     stop("Something went wrong with run_comparison_groups()")

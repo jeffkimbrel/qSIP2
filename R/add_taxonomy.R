@@ -36,8 +36,8 @@ add_taxonomy <- function(feature_object, taxa, feature_id) {
     stop(glue::glue("{feature_id} column not found in taxonomy dataframe"), call. = FALSE)
   }
 
-  feature_object_ids <- feature_object@data["feature_id"]
-  taxa_ids <- taxa["feature_id"]
+  feature_object_ids <- feature_object@data["feature_id"] |> dplyr::pull(feature_id)
+  taxa_ids <- taxa["feature_id"] |> dplyr::pull(feature_id)
 
   # check that feature ids are not duplicated
   if (any(duplicated(taxa_ids))) {

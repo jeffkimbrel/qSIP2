@@ -25,9 +25,9 @@ plot_EAF_values <- function(qsip_data_object,
 
   # confirm qsip_data_object class is either qsip_data or list
 
-  if ("list" %in% class(qsip_data_object)) {
+  if (is_multi_qsip_data(qsip_data_object, error = FALSE)) {
     object_type = "multiple"
-  } else if ("qsip_data" %in% class(qsip_data_object)) {
+  } else if (is_qsip_data(qsip_data_object, error = FALSE)) {
     object_type = "single"
   } else {
     stop("ERROR: qsip_data_object must be of class <qsip_data> or <list> of qsip_data objects")
@@ -67,13 +67,13 @@ plot_EAF_values <- function(qsip_data_object,
       dplyr::ungroup() |>
       dplyr::mutate(feature_id = tidytext::reorder_within(feature_id, observed_EAF, within = group)) %>%
       dplyr::left_join(sapply(qsip_data_object, n_resamples) |>
-                         enframe(name = "group", value = "resamples"),
+                         tibble::enframe(name = "group", value = "resamples"),
                        by = "group")
 
   } else {
     EAF = EAF |>
       dplyr::slice_max(observed_EAF, n = top) |>
-      mutate(resamples = qsip_data_object@resamples$n)
+      dplyr::mutate(resamples = qsip_data_object@resamples$n)
 
   }
 

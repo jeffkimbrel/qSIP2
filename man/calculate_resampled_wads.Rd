@@ -12,6 +12,8 @@ calculate_resampled_wads(i, wad_data, type, allow_failures = FALSE)
 \item{wad_data}{(\emph{dataframe}) A WAD dataframe to resample columns from}
 
 \item{type}{(\emph{string}) Text for whether the wad data is from labeled or unlabeled data}
+
+\item{allow_failures}{(\emph{logical}) Whether to allow failures in the resampling}
 }
 \value{
 The resampling data that will be boot in \verb{@resamples}

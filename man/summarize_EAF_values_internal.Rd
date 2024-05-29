@@ -6,6 +6,13 @@
 \usage{
 summarize_EAF_values_internal(qsip_data_object, confidence = 0.9)
 }
+\arguments{
+\item{qsip_data_object}{(\emph{qsip_data}) A qsip_data object}
+
+\item{confidence}{(\emph{numeric, default: 0.9}) The confidence level for the confidence interval
+
+Called by \code{summarize_EAF_values} to calculate the resampled EAF values.}
+}
 \description{
-Called by \code{summarize_EAF_values} to calculate the resampled EAF values.
+Internal function to summarize EAF values
 }

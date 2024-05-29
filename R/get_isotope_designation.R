@@ -10,26 +10,37 @@
 #' to a 12C sample, but also an 18O against the same 12C sample.
 #'
 #' @param qsip_data_object (*qsip_data*) A `qsip_data` object
+#' @param unlabeled_source_mat_ids (*character*) A vector of source_mat_ids that are unlabeled
+#' @param labeled_source_mat_ids (*character*) A vector of source_mat_ids that are labeled
 #'
 #' @returns A single labeled isotope designation of 13C, 15N or 18O, and gives an
 #' error if an inference cannot be made.
 
 
-get_isotope_designation <- function(qsip_data_object) {
+get_isotope_designation <- function(qsip_data_object, unlabeled_source_mat_ids, labeled_source_mat_ids) {
 
-  stopifnot("ERROR: qsip_data_object must be of class <qsip_data>" = "qsip_data" %in% class(qsip_data_object))
+  # check unlabeled_source_mat_ids is a character vector with a size of 1 or more
+  if (!is.character(unlabeled_source_mat_ids) | length(unlabeled_source_mat_ids) == 0) {
+    stop("unlabeled_source_mat_ids must be a character vector with a size of 1 or more")
+  }
+
+  # check labeled_source_mat_ids is a character vector with a size of 1 or more
+  if (!is.character(labeled_source_mat_ids) | length(labeled_source_mat_ids) == 0) {
+    stop("labeled_source_mat_ids must be a character vector with a size of 1 or more")
+  }
+
+  is_qsip_data(qsip_data_object, error = TRUE)
 
   unlabeled_isotopes = qsip_data_object@source_data@data |>
-    dplyr::filter(source_mat_id %in% qsip_data_object@filter_results$unlabeled_source_mat_ids) |>
+    dplyr::filter(source_mat_id %in% unlabeled_source_mat_ids) |>
     dplyr::pull(isotope) |>
     unique()
   if (!is.null(validate_isotopes(unlabeled_isotopes, c("12C", "14N", "16O")))) {
     stop("One of the unlabeled isotope designations is not 12C, 14N or 16O")
   }
 
-
   labeled_isotopes <- qsip_data_object@source_data@data |>
-    dplyr::filter(source_mat_id %in% qsip_data_object@filter_results$labeled_source_mat_ids,) |>
+    dplyr::filter(source_mat_id %in% labeled_source_mat_ids) |>
     dplyr::pull(isotope) |>
     unique()
   if (!is.null(validate_isotopes(labeled_isotopes, c("13C", "15N", "18O")))) {
