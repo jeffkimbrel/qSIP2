@@ -99,7 +99,7 @@ run_comparison_groups <- function(groups,
     )
   )
 
-  if (isTRUE(is_multi_qsip_data(multi_qsip_list))) {
+  if (isTRUE(is_qsip_data_list(multi_qsip_list))) {
     return(multi_qsip_list)
   } else {
     stop("Something went wrong with run_comparison_groups()")

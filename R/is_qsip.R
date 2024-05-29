@@ -31,7 +31,7 @@ is_qsip_data = function(object, error = FALSE) {
 #'
 #' @export
 
-is_multi_qsip_data <- function(object, error = FALSE) {
+is_qsip_data_list <- function(object, error = FALSE) {
 
   # check if object is a list
   if(!is.list(object)) {

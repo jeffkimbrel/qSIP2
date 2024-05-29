@@ -25,7 +25,7 @@ plot_EAF_values <- function(qsip_data_object,
 
   # confirm qsip_data_object class is either qsip_data or list
 
-  if (is_multi_qsip_data(qsip_data_object, error = FALSE)) {
+  if (is_qsip_data_list(qsip_data_object, error = FALSE)) {
     object_type = "multiple"
   } else if (is_qsip_data(qsip_data_object, error = FALSE)) {
     object_type = "single"

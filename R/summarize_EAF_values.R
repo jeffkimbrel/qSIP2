@@ -29,7 +29,7 @@ summarize_EAF_values <- function(qsip_data_object, confidence = 0.9, quiet = FAL
   }
 
   # confirm qsip_data_object class is either qsip_data or list
-  if (is_multi_qsip_data(qsip_data_object, error = FALSE)) {
+  if (is_qsip_data_list(qsip_data_object, error = FALSE)) {
     lapply(qsip_data_object,
       summarize_EAF_values_internal,
       confidence = confidence
