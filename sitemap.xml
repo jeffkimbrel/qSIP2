@@ -160,6 +160,12 @@
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/infer_source_data.html</loc>
   </url>
   <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_data.html</loc>
+  </url>
+  <url>
+    <loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_data_list.html</loc>
+  </url>
+  <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/multi_qsip_wrapper.html</loc>
   </url>
   <url>
@@ -266,9 +272,6 @@
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_isotopes.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_multi_qsip.html</loc>
   </url>
   <url>
     <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_source_isotope.html</loc>

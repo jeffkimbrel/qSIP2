@@ -16,7 +16,7 @@ the best guess of the labeled isotope so EAF calculations will proceed correctly
     
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,13 +72,25 @@ the best guess of the labeled isotope so EAF calculations will proceed correctly
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_isotope_designation</span><span class="op">(</span><span class="va">qsip_data_object</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_isotope_designation</span><span class="op">(</span></span>
+<span>  <span class="va">qsip_data_object</span>,</span>
+<span>  <span class="va">unlabeled_source_mat_ids</span>,</span>
+<span>  <span class="va">labeled_source_mat_ids</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>qsip_data_object</dt>
 <dd><p>(<em>qsip_data</em>) A <code>qsip_data</code> object</p></dd>
+
+
+<dt>unlabeled_source_mat_ids</dt>
+<dd><p>(<em>character</em>) A vector of source_mat_ids that are unlabeled</p></dd>
+
+
+<dt>labeled_source_mat_ids</dt>
+<dd><p>(<em>character</em>) A vector of source_mat_ids that are labeled</p></dd>
 
 </dl></div>
     <div class="section level2">
