@@ -1,3 +1,5 @@
+# qSIP2 0.15.2
+
 # qSIP2 0.15
 
 * Introducing functions to work with multiple qSIP2 objects at once

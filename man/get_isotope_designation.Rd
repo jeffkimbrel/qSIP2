@@ -19,3 +19,8 @@ their isotope designation for two reasons, 1) to make sure they are comparable
 (e.g. are all 12C/13C, 14N/15N or 16O/18O with no mismatches), and 2) to return
 the best guess of the labeled isotope so EAF calculations will proceed correctly.
 }
+\details{
+As of v0.15.2 it is now possible to have a mismatch. This is particularly
+important with multiple isotope studies where you may want to compare a 13C sample
+to a 12C sample, but also an 18O against the same 12C sample.
+}
