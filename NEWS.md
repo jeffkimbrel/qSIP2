@@ -1,3 +1,5 @@
+# qSIP2 (development version)
+
 # qSIP2 0.15.2
 
 # qSIP2 0.15
