@@ -7,8 +7,8 @@
 resample_seed(qsip_data_object)
 }
 \arguments{
-\item{qsip_data_object}{A \code{qSIP_data} object that has been run through \code{run_resampling()}}
+\item{qsip_data_object}{A \code{qSIP_data} or list of \code{qSIP_data} objects.}
 }
 \description{
-Returns the seed used in the resampling step, or \code{NA} if no specific seed was given.
+Returns the seed used in the resampling step, or \code{NULL} if no specific seed was given.
 }

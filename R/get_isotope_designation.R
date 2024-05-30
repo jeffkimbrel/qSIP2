@@ -35,17 +35,13 @@ get_isotope_designation <- function(qsip_data_object, unlabeled_source_mat_ids, 
     dplyr::filter(source_mat_id %in% unlabeled_source_mat_ids) |>
     dplyr::pull(isotope) |>
     unique()
-  if (!is.null(validate_isotopes(unlabeled_isotopes, c("12C", "14N", "16O")))) {
-    stop("One of the unlabeled isotope designations is not 12C, 14N or 16O")
-  }
+  validate_isotopes(unlabeled_isotopes, c("12C", "14N", "16O"))
 
   labeled_isotopes <- qsip_data_object@source_data@data |>
     dplyr::filter(source_mat_id %in% labeled_source_mat_ids) |>
     dplyr::pull(isotope) |>
     unique()
-  if (!is.null(validate_isotopes(labeled_isotopes, c("13C", "15N", "18O")))) {
-    stop("One of the labeled isotope designations is not 13C, 15N or 18O")
-  }
+  validate_isotopes(labeled_isotopes, c("13C", "15N", "18O"))
 
   if (length(unique(labeled_isotopes)) == 1) {
     return(unique(labeled_isotopes))

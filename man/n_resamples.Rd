@@ -7,8 +7,9 @@
 n_resamples(qsip_data_object)
 }
 \arguments{
-\item{qsip_data_object}{A \code{qSIP_data} object that has been run through \code{run_resampling()}}
+\item{qsip_data_object}{A \code{qSIP_data} object or list of objects}
 }
 \description{
-Number of resamples
+This function returns the number of resamples that were performed on the data.
+It will return \code{NULL} if the data has not been resampled.
 }

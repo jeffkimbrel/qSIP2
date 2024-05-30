@@ -21,3 +21,4 @@ test_that("heavy isotope given as unlabeled gives error", {
   expect_error(get_isotope_designation(example_qsip_object, c("S178", "S179", "S180"), c("S149","S150","S151")),
                "Please fix the isotope names and try again")
 })
+
