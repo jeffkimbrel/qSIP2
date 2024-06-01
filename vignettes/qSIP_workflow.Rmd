@@ -142,7 +142,7 @@ Finally, the last of the three necessary input files is a feature abundance tabl
 
 For now, the validation step defaults to requiring all values be positive integers, but other `type` options include `coverage` (for working with MAGs or metagenomes) or `relative` if you already have relative abundances. 
 
-```{r}
+```{r, echo=FALSE}
 example_feature_df[1:6] |>
   head() |>
   gt_func(title = "First bit of `example_feature_df`")
