@@ -1,0 +1,71 @@
+test_growth <- run_feature_filter(example_qsip_growth_object,
+                          group = "Day 10",
+                          unlabeled_source_mat_ids = c("source_11", "source_14", "source_2", "source_5", "source_8"),
+                          labeled_source_mat_ids = c("source_12", "source_15", "source_3", "source_6", "source_9"),
+                          min_labeled_fractions = 4,
+                          min_unlabeled_fractions = 4
+) |>
+  run_resampling(
+    resamples = 100,
+    with_seed = 1332,
+    allow_failures = TRUE,
+    quiet = TRUE
+  ) |>
+  run_EAF_calculations(gc_method = "S", propO = 0.6)
+
+
+
+
+
+test_that("works as expected", {
+  expect_snapshot(run_growth_calculations(test_growth,
+                                       N_total_it = example_qsip_growth_t0))
+})
+
+test_that("non-qsip object errors", {
+  expect_error(run_growth_calculations(example_feature_df,
+                                       N_total_it = example_qsip_growth_t0),
+               "qsip_data_object must be a <qsip_data> object, not <tbl_df>")
+})
+
+test_that("non-growth qsip object errors", {
+  expect_error(run_growth_calculations(example_qsip_object,
+                                          N_total_it = example_qsip_growth_t0), "timepoint column timepoint not found in source_data@data")
+})
+
+
+test_that("Not giving time zero (N_total_it) data failes", {
+  expect_error(run_growth_calculations(test_growth), 'argument "N_total_it" is missing, with no default')
+})
+
+
+test_that("designated timepoint column not found gives error", {
+  expect_error(run_growth_calculations(test_growth,
+                                          N_total_it = example_qsip_growth_t0,
+                                          timepoint = "not_found"),
+               "timepoint column not_found not found in source_data@data")
+})
+
+
+test_that("unkonwn growth model fails", {
+  expect_error(run_growth_calculations(test_growth,
+                                       N_total_it = example_qsip_growth_t0,
+                                       growth_model = "not_a_model"),
+               "growth_model must be either 'exponential' or 'linear', not not_a_model")
+})
+
+
+test_that("unkonwn correct_copy_numbers fails", {
+  expect_error(run_growth_calculations(test_growth,
+                                       N_total_it = example_qsip_growth_t0,
+                                       correct_copy_numbers = "not_an_option"),
+               "correct_copy_numbers must be either 'filter' or 'adjust', not not_an_option")
+})
+
+
+test_that("unkonwn correct_EAF fails", {
+  expect_error(run_growth_calculations(test_growth,
+                                       N_total_it = example_qsip_growth_t0,
+                                       correct_EAF = "not_an_option"),
+               "correct_EAF must be either 'filter' or 'adjust', not not_an_option")
+})

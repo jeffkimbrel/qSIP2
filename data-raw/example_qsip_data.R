@@ -58,12 +58,55 @@ example_feature_object <- qsip_feature_data(example_feature_df,
   type = "counts"
 )
 
-
 example_qsip_object <- qsip_data(
   example_source_object,
   example_sample_object,
   example_feature_object
 )
+
+
+# growth object
+q_feature <- readr::read_tsv("/Users/kimbrel1/Library/CloudStorage/OneDrive-LLNL/Documents/Soils_SFA/analysis/qSIP_refactor/qSIP2_TM/TM_uc_97_non_chimeras_otu_table_no_low_sample_filtered_.005_filtered_L6.txt") |>
+  tidyr::pivot_longer(cols = c(dplyr::everything(), -Taxon)) |>
+  dplyr::mutate(name = paste("sample", name, sep = "_")) |>
+  tidyr::pivot_wider() |>
+  dplyr::mutate(Taxon = paste("taxon", dplyr::row_number(), sep = "_")) |>
+  qsip_feature_data(
+    feature_id = "Taxon",
+    type = "relative"
+  )
+
+q_samples <- readr::read_tsv("/Users/kimbrel1/Library/CloudStorage/OneDrive-LLNL/Documents/Soils_SFA/analysis/qSIP_refactor/qSIP2_TM/TM_fraction_data.txt") |>
+  dplyr::filter(!is.na(qPCR.16S.copies.g.soil)) |> # removes the non-fractionated samples
+  dplyr::mutate(fraction = ifelse(is.na(fraction), -1, fraction)) |> # convert bulk data to fraction -1
+  dplyr::mutate(SampleID = paste("sample", SampleID, sep = "_")) |>
+  dplyr::mutate(tube = paste("source", tube, sep = "_")) |>
+  dplyr::select(tube, rep, tmt, fraction, SampleID, density.g.ml, qPCR.16S.copies.g.soil) |>
+  qsip_sample_data(
+    sample_id = "SampleID",
+    source_mat_id = "tube",
+    gradient_position = "fraction",
+    gradient_pos_amt = "qPCR.16S.copies.g.soil",
+    gradient_pos_density = "density.g.ml"
+  )
+
+q_source <- readr::read_tsv("/Users/kimbrel1/Library/CloudStorage/OneDrive-LLNL/Documents/Soils_SFA/analysis/qSIP_refactor/qSIP2_TM/TM_replicate_data.txt") |>
+  dplyr::mutate(tube = paste("source", tube, sep = "_")) |>
+  dplyr::mutate(isotopolog = "water") |>
+  dplyr::mutate(volume = 1) |>
+  qsip_source_data(
+    source_mat_id = "tube",
+    isotopolog = "isotopolog",
+    isotope = "tmt",
+    time = "TIME",
+    total_abundance = "qPCR.16S.copies.g.soil",
+    volume = "volume"
+  )
+
+example_qsip_growth_object <- qsip_data(q_source, q_samples, q_feature)
+example_qsip_growth_t0 <- get_N_total_it(example_qsip_growth_object, t = 0)
+
+
 
 
 
@@ -77,3 +120,6 @@ usethis::use_data(example_sample_object, overwrite = TRUE)
 usethis::use_data(example_feature_object, overwrite = TRUE)
 
 usethis::use_data(example_qsip_object, overwrite = TRUE)
+
+usethis::use_data(example_qsip_growth_object, overwrite = TRUE)
+usethis::use_data(example_qsip_growth_t0, overwrite = TRUE)

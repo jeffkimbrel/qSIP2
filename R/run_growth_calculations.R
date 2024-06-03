@@ -105,6 +105,8 @@ run_growth_calculations <- function(qsip_data_object,
   # TODO make @timepoint and @total_abundances are not null in @source_data@data. If
   # so, give error saying they must be declared in source_data to get growth
 
+  is_qsip_data(qsip_data_object, error = TRUE)
+
   # growth_model must be either "exponential" or "linear"
   if (!growth_model %in% c("exponential", "linear")) {
     stop(glue::glue("growth_model must be either 'exponential' or 'linear', not {growth_model}"), call. = FALSE)
@@ -117,6 +119,12 @@ run_growth_calculations <- function(qsip_data_object,
   if (!correct_EAF %in% c("filter", "adjust")) {
     stop(glue::glue("correct_EAF must be either 'filter' or 'adjust', not {correct_EAF}"), call. = FALSE)
   }
+
+  # error if there is no timepoint column
+  if (!timepoint %in% colnames(qsip_data_object@source_data@data)) {
+    stop(glue::glue("timepoint column {timepoint} not found in source_data@data"), call. = FALSE)
+  }
+
 
   time_i_totals <- qsip_data_object@tube_rel_abundance |>
     dplyr::summarize(REL = sum(tube_rel_abundance), .by = c(feature_id, source_mat_id)) |>

@@ -42,3 +42,12 @@ test_that("Make sure qsip object has EAF data", {
   )
 })
 
+
+
+test_that("works on lists of qsip objects", {
+  expect_snapshot(summarize_EAF_values(list("A" = test_qsip)))
+})
+
+test_that("fails on list of non-qsip objects", {
+  expect_error(summarize_EAF_values(list("A" = 123)), "qsip_data_object must be of class <qsip_data> or <list> of qsip_data objects")
+})
