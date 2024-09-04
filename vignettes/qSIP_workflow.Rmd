@@ -32,20 +32,20 @@ gt_func <- function(df, title) {
     gt::tab_header(
       title = title,
     ) |>
-    gt::opt_stylize(style = 2, color = "gray") |>
+    gt::opt_stylize(style = 6, color = "red") |>
     gt::tab_options(
-      table.font.size = 12
-    ) |>
-    gt::tab_style(
-      style = gt::cell_text(font = gt::system_fonts(name = "monospace-code")),
-      locations = gt::cells_body()
-    )
+      table.font.size = 14
+    ) # |>
+    # gt::tab_style(
+    #   style = gt::cell_text(font = gt::system_fonts(name = "monospace-code")),
+    #   locations = gt::cells_body()
+    # )
 }
 ```
 
 # Background
 
-A complete quantitative stable isotope probing (qSIP) workflow using the `qSIP2` package starts with three input files and ends with calculated excess atom fraction (EAF) values along with a ton of intermediate data. This vignette will be a high-level walk through of the major steps with links to more specific vignettes where more detail is appropriate. 
+A complete quantitative stable isotope probing (qSIP) workflow using the `qSIP2` package starts with three input files and ends with calculated excess atom fraction (EAF) values along with a ton of intermediate data. This vignette will be a high-level walk through of the major steps with links to more specific vignettes where more detail is appropriate.
 
 # The Input Files
 
@@ -53,7 +53,7 @@ Preparing and formatting the input files is often the most tedious part of any a
 
 ## Source Data
 
-The source data is the highest level of metadata with a row corresponding to each original experimental or source material object. An example source dataframe is included in the `qSIP2` package called `example_source_df`. 
+The source data is the highest level of metadata with a row corresponding to each original experimental or source material object. An example source dataframe is included in the `qSIP2` package called `example_source_df`.
 
 ```{r, echo=FALSE}
 example_source_df |>
@@ -61,7 +61,7 @@ example_source_df |>
   gt_func(title = "The first few rows of `example_source_df`")
 ```
 
-There are a few required columns for valid source data including a unique ID, some measure of quantitative abundance for the source material (either total DNA or qPCR copies), and an isotope and isotopolog designation for the substrate that had the label. 
+There are a few required columns for valid source data including a unique ID, some measure of quantitative abundance for the source material (either total DNA or qPCR copies), and an isotope and isotopolog designation for the substrate that had the label.
 
 ```{r}
 #| echo: false
@@ -70,7 +70,7 @@ example_source_df |>
   gt_func(title = "`source_df`")
 ```
 
-Once the dataframe is ready, the next step is to convert it to a `qsip_source_data` object. This is one of the main `qSIP2` objects to hold and validate the data. 
+Once the dataframe is ready, the next step is to convert it to a `qsip_source_data` object. This is one of the main `qSIP2` objects to hold and validate the data.
 
 ```{r}
 source_object <- qsip_source_data(example_source_df,
@@ -82,7 +82,7 @@ source_object <- qsip_source_data(example_source_df,
 class(source_object)
 ```
 
-This object modifies some of the column names to standard names as supplied in the above function. 
+This object modifies some of the column names to standard names as supplied in the above function.
 
 ```{r}
 colnames(example_source_df)
@@ -93,7 +93,7 @@ See `vignette("source_data")` for more details.
 
 ## Sample Data
 
-The sample metadata is the next level of detail with one row for each fraction, or one row for each set of fastq files that were sequenced. 
+The sample metadata is the next level of detail with one row for each fraction, or one row for each set of fastq files that were sequenced.
 
 ```{r, echo=FALSE}
 example_sample_df |>
@@ -119,7 +119,7 @@ sample_df |>
   gt_func(title = "Sums of relative abundance equal 1")
 ```
 
-Again, we make a `qSIP2` object for this data, this time as a `qsip_sample_data` object. 
+Again, we make a `qSIP2` object for this data, this time as a `qsip_sample_data` object.
 
 ```{r}
 sample_object <- qsip_sample_data(sample_df,
@@ -138,9 +138,9 @@ See `vignette("sample_data")` for more details and relevant visualizations.
 
 ## Feature Data
 
-Finally, the last of the three necessary input files is a feature abundance table, aka "OTU table" or "ASV table". The format of this dataframe has the unique feature IDs in the first column, and an additional column for each sample. Each row then contains the whole number (non-normalized) counts of each feature in each sample. 
+Finally, the last of the three necessary input files is a feature abundance table, aka "OTU table" or "ASV table". The format of this dataframe has the unique feature IDs in the first column, and an additional column for each sample. Each row then contains the whole number (non-normalized) counts of each feature in each sample.
 
-For now, the validation step defaults to requiring all values be positive integers, but other `type` options include `coverage` (for working with MAGs or metagenomes) or `relative` if you already have relative abundances. 
+For now, the validation step defaults to requiring all values be positive integers, but other `type` options include `coverage` (for working with MAGs or metagenomes) or `relative` if you already have relative abundances.
 
 ```{r, echo=FALSE}
 example_feature_df[1:6] |>
@@ -160,7 +160,7 @@ See `vignette("feature_data")` for more details and relevant visualizations.
 
 # The `qsip_data` Object
 
-The `qsip_data` class is the main workhorse object in the `qSIP2` package. It is built from validated versions of the three previous objects, and is meant to be a self-contained object with all of the necessary information for analysis. 
+The `qsip_data` class is the main workhorse object in the `qSIP2` package. It is built from validated versions of the three previous objects, and is meant to be a self-contained object with all of the necessary information for analysis.
 
 The design of it is that it is both input for workflow functions, as well as output. For this reason, you can feel safe overwriting the object with new analysis as you work, or you can create a new object each step if you prefer.
 
@@ -212,24 +212,23 @@ show_comparison_groups(qsip_object,
 
 The `group` argument here is the most important as it will define the rows that it thinks constitute a comparison. The `isotope` argument is what defines the labeled and unlabeled values for the comparisons. This can be more complex, particularly if you have more than one isotopolog, and details will be made available in the future in another vignette.
 
-So if we work with the "Normal" moisture groups we likely want to use S149, S150, S151 and S152 for the unlabeled and compare to S178, S179 and S180 for the labeled. 
+So if we work with the "Normal" moisture groups we likely want to use S149, S150, S151 and S152 for the unlabeled and compare to S178, S179 and S180 for the labeled.
 
-Sometimes you may also want to compare the specific labeled samples in a group to *all* unlabeled. The `qSIP2` package has a convenient way to get those by using the `get_all_by_isotope()` function. 
+Sometimes you may also want to compare the specific labeled samples in a group to *all* unlabeled. The `qSIP2` package has a convenient way to get those by using the `get_all_by_isotope()` function.
 
 ```{r}
 get_all_by_isotope(qsip_object, "12C")
 ```
 
-
 ## Filter Features
 
-Rather than filter up front, it might make the most sense to run comparison specific filtering with presence requirements for just the sources you are comparing. 
+Rather than filter up front, it might make the most sense to run comparison specific filtering with presence requirements for just the sources you are comparing.
 
 The `run_feature_filter()` function takes a different set of fraction and source requirements for the labeled and unlabeled data, allowing you to precisely tailor your filtering results.
 
-<div class="alert alert-primary">Note, although I said earlier you can overwrite your `qsip_data` objects as you go, it might make sense to create two versions here, one for the Normal and one for the Drought moisture treatments.</div>
-
-
+::: {.alert .alert-primary}
+Note, although I said earlier you can overwrite your `qsip_data` objects as you go, it might make sense to create two versions here, one for the Normal and one for the Drought moisture treatments.
+:::
 
 ```{r}
 qsip_normal <- run_feature_filter(qsip_object,
@@ -248,11 +247,11 @@ Here, we can see our rather strict filtering removed all but 64 features from th
 plot_filter_gradient_position(qsip_normal)
 ```
 
-Although a large number of features were removed, we can tell that the 64 that remained actually still make up a large proportion of the total abundance in each sample. In **A** above, the retained features (in blue) make up ~80-85% of the total data, while the removed data (orange) is the remaining ~15-20%. 
+Although a large number of features were removed, we can tell that the 64 that remained actually still make up a large proportion of the total abundance in each sample. In **A** above, the retained features (in blue) make up \~80-85% of the total data, while the removed data (orange) is the remaining \~15-20%.
 
-In **B**, we can see that a surprisingly large number of features are found 0 times in many sources (gray) and will therefore never be present regardless of our filtering choices. And although there are are ~100-200 features that passed the filtering requirements (blue), our requirement that `min_unlabeled_sources = 6` and `min_labeled_sources = 3` means that only the features present in many of the blue slices will be retained, leaving only 64 total. 
+In **B**, we can see that a surprisingly large number of features are found 0 times in many sources (gray) and will therefore never be present regardless of our filtering choices. And although there are are \~100-200 features that passed the filtering requirements (blue), our requirement that `min_unlabeled_sources = 6` and `min_labeled_sources = 3` means that only the features present in many of the blue slices will be retained, leaving only 64 total.
 
-Let's do the same comparison with the drought samples. 
+Let's do the same comparison with the drought samples.
 
 ```{r}
 qsip_drought <- run_feature_filter(qsip_object,
@@ -271,7 +270,6 @@ Here, we can see our rather strict filtering removed all but 64 features from th
 plot_filter_gradient_position(qsip_drought)
 ```
 
-
 ## Resampling
 
 In order to calculate the confidence interval for the EAF values, we first need to run a resampling/bootstrapping procedure on the WAD values.
@@ -284,7 +282,7 @@ qsip_normal <- run_resampling(qsip_normal,
 )
 ```
 
-As this step requires some random sampling it is good practice to set the "seed". Rather than doing this outside of the function, you can pass the seed as an argument. If you leave blank, it will generate a random seed. The seed will generate the same results each time you run the resampling process. 
+As this step requires some random sampling it is good practice to set the "seed". Rather than doing this outside of the function, you can pass the seed as an argument. If you leave blank, it will generate a random seed. The seed will generate the same results each time you run the resampling process.
 
 ```{r qsip_normal_resampling_again}
 qsip_normal_17_again <- run_resampling(qsip_normal,
