@@ -1,10 +1,8 @@
 url: https://jeffkimbrel.github.io/qSIP2/
 template:
   bootstrap: 5
-  bslib:
-    bg: "#202123"
-    fg: "#B8BCC2"
-    primary: "#037bcf"
+  bootswatch: cyborg
+  light-switch: true
 
 reference:
 - title: qSIP Data Objects
