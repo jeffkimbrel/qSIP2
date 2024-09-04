@@ -1,282 +1,96 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/404.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/articles/controlled_vocab.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/articles/feature_data.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/articles/qSIP_workflow.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/articles/resampling.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/articles/sample_data.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/articles/source_data.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/add_gradient_pos_rel_amt.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/add_isotopolog_label.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/add_taxonomy.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_EAF.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M_heavy.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M_labeled.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M_labeledmax.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_N_light_it.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_Z.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_atoms.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_bi.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_di.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_gc_from_density.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_gc_from_sequence.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_resampled_wads.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_source_wads.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_tube_rel_abundance.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_wads.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/completely_labeled_values.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/example_feature_df.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/example_feature_object.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/example_qsip_object.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/example_sample_df.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/example_sample_object.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/example_source_df.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/example_source_object.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/find_shared_ids.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/fraction_results_message.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_N_total_it.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_all_by_isotope.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_dataframe.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_feature_ids.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_filtered_source_counts.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_isotope_designation.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_data.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/get_source_mat_ids.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/infer_source_data.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_data.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_data_list.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/multi_qsip_wrapper.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/multi_qsip_wrapper_launcher.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/n_resamples.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/pivot_kbase_amplicon_matrix.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_EAF_values.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_density_outliers.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_curves.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_resamplings.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_filter_gradient_position.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_growth_values.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_resampling_convergence.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_sample_curves.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_source_wads.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_successful_resamples.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_data.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_feature_data.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_sample_data.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_source_data.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/remove_isotopolog_label.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/remove_isotopolog_label_check.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/resample_seed.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/run_EAF_calculations.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/run_comparison_groups.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/run_feature_filter.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/run_growth_calculations.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/run_resampling.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/show_comparison_groups.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/show_unshared_ids.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/source_results_message.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values_internal.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/summarize_growth_values.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_abundances.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_gradient_pos_density.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_gradient_position.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_isotopes.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_source_isotope.html</loc>
-  </url>
-  <url>
-    <loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_standard_names.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/404.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/LICENSE-text.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/LICENSE.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/articles/controlled_vocab.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/articles/feature_data.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/articles/index.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/articles/qSIP_workflow.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/articles/resampling.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/articles/sample_data.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/articles/source_data.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/authors.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/index.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/news/index.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/add_gradient_pos_rel_amt.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/add_isotopolog_label.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/add_taxonomy.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_EAF.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M_heavy.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M_labeled.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_M_labeledmax.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_N_light_it.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_Z.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_atoms.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_bi.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_di.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_gc_from_density.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_gc_from_sequence.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_resampled_wads.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_source_wads.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_tube_rel_abundance.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_wads.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/completely_labeled_values.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_feature_df.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_feature_object.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_qsip_object.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_sample_df.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_sample_object.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_source_df.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_source_object.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/find_shared_ids.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/fraction_results_message.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_N_total_it.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_all_by_isotope.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_dataframe.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_feature_ids.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_filtered_source_counts.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_isotope_designation.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_data.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_source_mat_ids.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/index.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/infer_source_data.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_data.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_data_list.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/multi_qsip_wrapper.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/multi_qsip_wrapper_launcher.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/n_resamples.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/pivot_kbase_amplicon_matrix.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_EAF_values.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_density_outliers.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_curves.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_resamplings.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_filter_gradient_position.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_growth_values.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_resampling_convergence.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_sample_curves.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_source_wads.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_successful_resamples.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_data.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_feature_data.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_sample_data.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_source_data.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/remove_isotopolog_label.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/remove_isotopolog_label_check.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/resample_seed.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/run_EAF_calculations.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/run_comparison_groups.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/run_feature_filter.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/run_growth_calculations.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/run_resampling.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/show_comparison_groups.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/show_unshared_ids.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/source_results_message.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values_internal.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/summarize_growth_values.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_abundances.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_gradient_pos_density.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_gradient_position.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_isotopes.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_source_isotope.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_standard_names.html</loc></url>
 </urlset>
+
