@@ -32,10 +32,10 @@ gt_func <- function(df, title) {
     gt::tab_header(
       title = title,
     ) |>
-    gt::opt_stylize(style = 6, color = "red") |>
     gt::tab_options(
-      table.font.size = 14
-    ) # |>
+      table.font.size = 13
+    )  #|>
+    # gt::opt_stylize(style = 6, color = "red") |>
     # gt::tab_style(
     #   style = gt::cell_text(font = gt::system_fonts(name = "monospace-code")),
     #   locations = gt::cells_body()
@@ -58,7 +58,8 @@ The source data is the highest level of metadata with a row corresponding to eac
 ```{r, echo=FALSE}
 example_source_df |>
   head() |>
-  gt_func(title = "The first few rows of `example_source_df`")
+  gt_func(title = "The first few rows of `example_source_df`") |>
+  gt::fmt_integer(columns = "total_copies_per_g")
 ```
 
 There are a few required columns for valid source data including a unique ID, some measure of quantitative abundance for the source material (either total DNA or qPCR copies), and an isotope and isotopolog designation for the substrate that had the label.
