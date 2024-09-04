@@ -115,6 +115,70 @@ of the common sources of error or confusion.</p>
 corresponding to each original experimental or source material object.
 An example source dataframe is included in the <code>qSIP2</code>
 package called <code>example_source_df</code>.</p>
+<table class="table">
+<thead><tr class="header">
+<th align="left">source</th>
+<th align="right">total_copies_per_g</th>
+<th align="right">total_dna</th>
+<th align="left">Isotope</th>
+<th align="left">Moisture</th>
+<th align="left">isotopolog</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">S149</td>
+<td align="right">34838665</td>
+<td align="right">74.46539</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="even">
+<td align="left">S150</td>
+<td align="right">53528072</td>
+<td align="right">109.01522</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="odd">
+<td align="left">S151</td>
+<td align="right">95774992</td>
+<td align="right">182.16852</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="even">
+<td align="left">S152</td>
+<td align="right">9126192</td>
+<td align="right">23.68963</td>
+<td align="left">12C</td>
+<td align="left">Normal</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="odd">
+<td align="left">S161</td>
+<td align="right">41744046</td>
+<td align="right">67.62552</td>
+<td align="left">12C</td>
+<td align="left">Drought</td>
+<td align="left">glucose</td>
+</tr>
+<tr class="even">
+<td align="left">S162</td>
+<td align="right">49402713</td>
+<td align="right">94.21217</td>
+<td align="left">12C</td>
+<td align="left">Drought</td>
+<td align="left">glucose</td>
+</tr>
+</tbody>
+</table>
+<p>There are a few required columns for valid source data including a
+unique ID, some measure of quantitative abundance for the source
+material (either total DNA or qPCR copies), and an isotope and
+isotopolog designation for the substrate that had the label.</p>
 <div id="mwlefoodfi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#mwlefoodfi table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -567,7 +631,7 @@ package called <code>example_source_df</code>.</p>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>The first few rows of `example_source_df`</td>
+<td colspan="6" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>`source_df`</td>
     </tr>
 <tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="source">source</th>
@@ -581,7 +645,7 @@ package called <code>example_source_df</code>.</p>
 <tbody class="gt_table_body">
 <tr>
 <td headers="source" class="gt_row gt_left">S149</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">34,838,665</td>
+<td headers="total_copies_per_g" class="gt_row gt_right">34838665</td>
 <td headers="total_dna" class="gt_row gt_right">74.46539</td>
 <td headers="Isotope" class="gt_row gt_left">12C</td>
 <td headers="Moisture" class="gt_row gt_left">Normal</td>
@@ -589,7 +653,7 @@ package called <code>example_source_df</code>.</p>
 </tr>
 <tr>
 <td headers="source" class="gt_row gt_left">S150</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">53,528,072</td>
+<td headers="total_copies_per_g" class="gt_row gt_right">53528072</td>
 <td headers="total_dna" class="gt_row gt_right">109.01522</td>
 <td headers="Isotope" class="gt_row gt_left">12C</td>
 <td headers="Moisture" class="gt_row gt_left">Normal</td>
@@ -597,7 +661,7 @@ package called <code>example_source_df</code>.</p>
 </tr>
 <tr>
 <td headers="source" class="gt_row gt_left">S151</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">95,774,992</td>
+<td headers="total_copies_per_g" class="gt_row gt_right">95774992</td>
 <td headers="total_dna" class="gt_row gt_right">182.16852</td>
 <td headers="Isotope" class="gt_row gt_left">12C</td>
 <td headers="Moisture" class="gt_row gt_left">Normal</td>
@@ -605,7 +669,7 @@ package called <code>example_source_df</code>.</p>
 </tr>
 <tr>
 <td headers="source" class="gt_row gt_left">S152</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">9,126,192</td>
+<td headers="total_copies_per_g" class="gt_row gt_right">9126192</td>
 <td headers="total_dna" class="gt_row gt_right">23.68963</td>
 <td headers="Isotope" class="gt_row gt_left">12C</td>
 <td headers="Moisture" class="gt_row gt_left">Normal</td>
@@ -613,7 +677,7 @@ package called <code>example_source_df</code>.</p>
 </tr>
 <tr>
 <td headers="source" class="gt_row gt_left">S161</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">41,744,046</td>
+<td headers="total_copies_per_g" class="gt_row gt_right">41744046</td>
 <td headers="total_dna" class="gt_row gt_right">67.62552</td>
 <td headers="Isotope" class="gt_row gt_left">12C</td>
 <td headers="Moisture" class="gt_row gt_left">Drought</td>
@@ -621,7 +685,7 @@ package called <code>example_source_df</code>.</p>
 </tr>
 <tr>
 <td headers="source" class="gt_row gt_left">S162</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">49,402,713</td>
+<td headers="total_copies_per_g" class="gt_row gt_right">49402713</td>
 <td headers="total_dna" class="gt_row gt_right">94.21217</td>
 <td headers="Isotope" class="gt_row gt_left">12C</td>
 <td headers="Moisture" class="gt_row gt_left">Drought</td>
@@ -630,10 +694,35 @@ package called <code>example_source_df</code>.</p>
 </tbody>
 </table>
 </div>
-<p>There are a few required columns for valid source data including a
-unique ID, some measure of quantitative abundance for the source
-material (either total DNA or qPCR copies), and an isotope and
-isotopolog designation for the substrate that had the label.</p>
+<p>Once the dataframe is ready, the next step is to convert it to a
+<code>qsip_source_data</code> object. This is one of the main
+<code>qSIP2</code> objects to hold and validate the data.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">source_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_source_data.html">qsip_source_data</a></span><span class="op">(</span><span class="va">example_source_df</span>,</span>
+<span>  isotope <span class="op">=</span> <span class="st">"Isotope"</span>,</span>
+<span>  isotopolog <span class="op">=</span> <span class="st">"isotopolog"</span>,</span>
+<span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">source_object</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "qsip_source_data" "S7_object"</span></span></code></pre></div>
+<p>This object modifies some of the column names to standard names as
+supplied in the above function.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">example_source_df</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "source"             "total_copies_per_g" "total_dna"         </span></span>
+<span><span class="co">#&gt; [4] "Isotope"            "Moisture"           "isotopolog"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">source_object</span><span class="op">@</span><span class="va">data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "isotope"            "isotopolog"         "source_mat_id"     </span></span>
+<span><span class="co">#&gt; [4] "total_copies_per_g" "total_dna"          "Moisture"</span></span></code></pre></div>
+<p>See <code><a href="../articles/source_data.html">vignette("source_data")</a></code> for more details.</p>
+</div>
+<div class="section level3">
+<h3 id="sample-data">Sample Data<a class="anchor" aria-label="anchor" href="#sample-data"></a>
+</h3>
+<p>The sample metadata is the next level of detail with one row for each
+fraction, or one row for each set of fastq files that were
+sequenced.</p>
 <div id="eexombwkke" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#eexombwkke table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1086,98 +1175,81 @@ isotopolog designation for the substrate that had the label.</p>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>`source_df`</td>
+<td colspan="6" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>`example_sample_df`</td>
     </tr>
 <tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="source">source</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_copies_per_g">total_copies_per_g</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_dna">total_dna</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Isotope">Isotope</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Moisture">Moisture</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="isotopolog">isotopolog</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sample">sample</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="source">source</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Fraction">Fraction</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="density_g_ml">density_g_ml</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="dna_conc">dna_conc</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="avg_16S_g_soil">avg_16S_g_soil</th>
     </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr>
+<td headers="sample" class="gt_row gt_left">149_F1</td>
 <td headers="source" class="gt_row gt_left">S149</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">34838665</td>
-<td headers="total_dna" class="gt_row gt_right">74.46539</td>
-<td headers="Isotope" class="gt_row gt_left">12C</td>
-<td headers="Moisture" class="gt_row gt_left">Normal</td>
-<td headers="isotopolog" class="gt_row gt_left">glucose</td>
+<td headers="Fraction" class="gt_row gt_right">1</td>
+<td headers="density_g_ml" class="gt_row gt_right">1.778855</td>
+<td headers="dna_conc" class="gt_row gt_right">0.000000000</td>
+<td headers="avg_16S_g_soil" class="gt_row gt_right">4473.7081</td>
 </tr>
 <tr>
-<td headers="source" class="gt_row gt_left">S150</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">53528072</td>
-<td headers="total_dna" class="gt_row gt_right">109.01522</td>
-<td headers="Isotope" class="gt_row gt_left">12C</td>
-<td headers="Moisture" class="gt_row gt_left">Normal</td>
-<td headers="isotopolog" class="gt_row gt_left">glucose</td>
+<td headers="sample" class="gt_row gt_left">149_F2</td>
+<td headers="source" class="gt_row gt_left">S149</td>
+<td headers="Fraction" class="gt_row gt_right">2</td>
+<td headers="density_g_ml" class="gt_row gt_right">1.773391</td>
+<td headers="dna_conc" class="gt_row gt_right">0.000000000</td>
+<td headers="avg_16S_g_soil" class="gt_row gt_right">986.6581</td>
 </tr>
 <tr>
-<td headers="source" class="gt_row gt_left">S151</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">95774992</td>
-<td headers="total_dna" class="gt_row gt_right">182.16852</td>
-<td headers="Isotope" class="gt_row gt_left">12C</td>
-<td headers="Moisture" class="gt_row gt_left">Normal</td>
-<td headers="isotopolog" class="gt_row gt_left">glucose</td>
+<td headers="sample" class="gt_row gt_left">149_F3</td>
+<td headers="source" class="gt_row gt_left">S149</td>
+<td headers="Fraction" class="gt_row gt_right">3</td>
+<td headers="density_g_ml" class="gt_row gt_right">1.765742</td>
+<td headers="dna_conc" class="gt_row gt_right">0.000000000</td>
+<td headers="avg_16S_g_soil" class="gt_row gt_right">4002.7026</td>
 </tr>
 <tr>
-<td headers="source" class="gt_row gt_left">S152</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">9126192</td>
-<td headers="total_dna" class="gt_row gt_right">23.68963</td>
-<td headers="Isotope" class="gt_row gt_left">12C</td>
-<td headers="Moisture" class="gt_row gt_left">Normal</td>
-<td headers="isotopolog" class="gt_row gt_left">glucose</td>
+<td headers="sample" class="gt_row gt_left">149_F4</td>
+<td headers="source" class="gt_row gt_left">S149</td>
+<td headers="Fraction" class="gt_row gt_right">4</td>
+<td headers="density_g_ml" class="gt_row gt_right">1.759185</td>
+<td headers="dna_conc" class="gt_row gt_right">0.000000000</td>
+<td headers="avg_16S_g_soil" class="gt_row gt_right">3959.7283</td>
 </tr>
 <tr>
-<td headers="source" class="gt_row gt_left">S161</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">41744046</td>
-<td headers="total_dna" class="gt_row gt_right">67.62552</td>
-<td headers="Isotope" class="gt_row gt_left">12C</td>
-<td headers="Moisture" class="gt_row gt_left">Drought</td>
-<td headers="isotopolog" class="gt_row gt_left">glucose</td>
+<td headers="sample" class="gt_row gt_left">149_F5</td>
+<td headers="source" class="gt_row gt_left">S149</td>
+<td headers="Fraction" class="gt_row gt_right">5</td>
+<td headers="density_g_ml" class="gt_row gt_right">1.752629</td>
+<td headers="dna_conc" class="gt_row gt_right">0.001241303</td>
+<td headers="avg_16S_g_soil" class="gt_row gt_right">5725.7319</td>
 </tr>
 <tr>
-<td headers="source" class="gt_row gt_left">S162</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">49402713</td>
-<td headers="total_dna" class="gt_row gt_right">94.21217</td>
-<td headers="Isotope" class="gt_row gt_left">12C</td>
-<td headers="Moisture" class="gt_row gt_left">Drought</td>
-<td headers="isotopolog" class="gt_row gt_left">glucose</td>
+<td headers="sample" class="gt_row gt_left">149_F6</td>
+<td headers="source" class="gt_row gt_left">S149</td>
+<td headers="Fraction" class="gt_row gt_right">6</td>
+<td headers="density_g_ml" class="gt_row gt_right">1.746072</td>
+<td headers="dna_conc" class="gt_row gt_right">0.012815610</td>
+<td headers="avg_16S_g_soil" class="gt_row gt_right">7566.2722</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Once the dataframe is ready, the next step is to convert it to a
-<code>qsip_source_data</code> object. This is one of the main
-<code>qSIP2</code> objects to hold and validate the data.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">source_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_source_data.html">qsip_source_data</a></span><span class="op">(</span><span class="va">example_source_df</span>,</span>
-<span>  isotope <span class="op">=</span> <span class="st">"Isotope"</span>,</span>
-<span>  isotopolog <span class="op">=</span> <span class="st">"isotopolog"</span>,</span>
-<span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">source_object</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "qsip_source_data" "S7_object"</span></span></code></pre></div>
-<p>This object modifies some of the column names to standard names as
-supplied in the above function.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">example_source_df</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "source"             "total_copies_per_g" "total_dna"         </span></span>
-<span><span class="co">#&gt; [4] "Isotope"            "Moisture"           "isotopolog"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">source_object</span><span class="op">@</span><span class="va">data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "isotope"            "isotopolog"         "source_mat_id"     </span></span>
-<span><span class="co">#&gt; [4] "total_copies_per_g" "total_dna"          "Moisture"</span></span></code></pre></div>
-<p>See <code><a href="../articles/source_data.html">vignette("source_data")</a></code> for more details.</p>
-</div>
-<div class="section level3">
-<h3 id="sample-data">Sample Data<a class="anchor" aria-label="anchor" href="#sample-data"></a>
-</h3>
-<p>The sample metadata is the next level of detail with one row for each
-fraction, or one row for each set of fastq files that were
-sequenced.</p>
+<p>Again, there are several necessary columns for valid sample data,
+including a unique sample ID, the source they came from, the fraction
+ID, the fraction density and a measure of abundance in that fraction
+(total DNA or qPCR copy number). An additional column that can be
+derived is the percent abundance of your total sample that is found in
+each of the fractions. The <code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code>
+function can help calculate that by dividing each fraction abundance by
+the total abundance for each source and putting in a
+<code>gradient_pos_rel_amt</code> column.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sample_df</span> <span class="op">&lt;-</span> <span class="va">example_sample_df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span>source_mat_id <span class="op">=</span> <span class="st">"source"</span>, amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span><span class="op">)</span></span></code></pre></div>
 <div id="ulbfdpbcyv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#ulbfdpbcyv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1630,81 +1702,77 @@ sequenced.</p>
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>`example_sample_df`</td>
+<td colspan="3" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Sums of relative abundance equal 1</td>
     </tr>
 <tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sample">sample</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="source">source</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Fraction">Fraction</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="density_g_ml">density_g_ml</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="dna_conc">dna_conc</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="avg_16S_g_soil">avg_16S_g_soil</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="source">source</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="qPCR_copies">qPCR_copies</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Sum Relative Abundance">Sum Relative Abundance</th>
     </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="sample" class="gt_row gt_left">149_F1</td>
 <td headers="source" class="gt_row gt_left">S149</td>
-<td headers="Fraction" class="gt_row gt_right">1</td>
-<td headers="density_g_ml" class="gt_row gt_right">1.778855</td>
-<td headers="dna_conc" class="gt_row gt_right">0.000000000</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right">4473.7081</td>
+<td headers="qPCR_copies" class="gt_row gt_right">34838665</td>
+<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
 </tr>
 <tr>
-<td headers="sample" class="gt_row gt_left">149_F2</td>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="Fraction" class="gt_row gt_right">2</td>
-<td headers="density_g_ml" class="gt_row gt_right">1.773391</td>
-<td headers="dna_conc" class="gt_row gt_right">0.000000000</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right">986.6581</td>
+<td headers="source" class="gt_row gt_left">S150</td>
+<td headers="qPCR_copies" class="gt_row gt_right">53528072</td>
+<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
 </tr>
 <tr>
-<td headers="sample" class="gt_row gt_left">149_F3</td>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="Fraction" class="gt_row gt_right">3</td>
-<td headers="density_g_ml" class="gt_row gt_right">1.765742</td>
-<td headers="dna_conc" class="gt_row gt_right">0.000000000</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right">4002.7026</td>
+<td headers="source" class="gt_row gt_left">S151</td>
+<td headers="qPCR_copies" class="gt_row gt_right">95774992</td>
+<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
 </tr>
 <tr>
-<td headers="sample" class="gt_row gt_left">149_F4</td>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="Fraction" class="gt_row gt_right">4</td>
-<td headers="density_g_ml" class="gt_row gt_right">1.759185</td>
-<td headers="dna_conc" class="gt_row gt_right">0.000000000</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right">3959.7283</td>
+<td headers="source" class="gt_row gt_left">S152</td>
+<td headers="qPCR_copies" class="gt_row gt_right">9126192</td>
+<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
 </tr>
 <tr>
-<td headers="sample" class="gt_row gt_left">149_F5</td>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="Fraction" class="gt_row gt_right">5</td>
-<td headers="density_g_ml" class="gt_row gt_right">1.752629</td>
-<td headers="dna_conc" class="gt_row gt_right">0.001241303</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right">5725.7319</td>
+<td headers="source" class="gt_row gt_left">S161</td>
+<td headers="qPCR_copies" class="gt_row gt_right">41744046</td>
+<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
 </tr>
 <tr>
-<td headers="sample" class="gt_row gt_left">149_F6</td>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="Fraction" class="gt_row gt_right">6</td>
-<td headers="density_g_ml" class="gt_row gt_right">1.746072</td>
-<td headers="dna_conc" class="gt_row gt_right">0.012815610</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right">7566.2722</td>
+<td headers="source" class="gt_row gt_left">S162</td>
+<td headers="qPCR_copies" class="gt_row gt_right">49402713</td>
+<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Again, there are several necessary columns for valid sample data,
-including a unique sample ID, the source they came from, the fraction
-ID, the fraction density and a measure of abundance in that fraction
-(total DNA or qPCR copy number). An additional column that can be
-derived is the percent abundance of your total sample that is found in
-each of the fractions. The <code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code>
-function can help calculate that by dividing each fraction abundance by
-the total abundance for each source and putting in a
-<code>gradient_pos_rel_amt</code> column.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample_df</span> <span class="op">&lt;-</span> <span class="va">example_sample_df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span>source_mat_id <span class="op">=</span> <span class="st">"source"</span>, amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span><span class="op">)</span></span></code></pre></div>
+<p>Again, we make a <code>qSIP2</code> object for this data, this time
+as a <code>qsip_sample_data</code> object.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sample_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_sample_data.html">qsip_sample_data</a></span><span class="op">(</span><span class="va">sample_df</span>,</span>
+<span>  sample_id <span class="op">=</span> <span class="st">"sample"</span>,</span>
+<span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
+<span>  gradient_position <span class="op">=</span> <span class="st">"Fraction"</span>,</span>
+<span>  gradient_pos_density <span class="op">=</span> <span class="st">"density_g_ml"</span>,</span>
+<span>  gradient_pos_amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span>,</span>
+<span>  gradient_pos_rel_amt <span class="op">=</span> <span class="st">"gradient_pos_rel_amt"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">sample_object</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "qsip_sample_data" "S7_object"</span></span></code></pre></div>
+<p>See <code><a href="../articles/sample_data.html">vignette("sample_data")</a></code> for more details and
+relevant visualizations.</p>
+</div>
+<div class="section level3">
+<h3 id="feature-data">Feature Data<a class="anchor" aria-label="anchor" href="#feature-data"></a>
+</h3>
+<p>Finally, the last of the three necessary input files is a feature
+abundance table, aka “OTU table” or “ASV table”. The format of this
+dataframe has the unique feature IDs in the first column, and an
+additional column for each sample. Each row then contains the whole
+number (non-normalized) counts of each feature in each sample.</p>
+<p>For now, the validation step defaults to requiring all values be
+positive integers, but other <code>type</code> options include
+<code>coverage</code> (for working with MAGs or metagenomes) or
+<code>relative</code> if you already have relative abundances.</p>
 <div id="kgufivjubq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#kgufivjubq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -2157,77 +2225,137 @@ the total abundance for each source and putting in a
 <table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="gt_heading">
-<td colspan="3" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Sums of relative abundance equal 1</td>
+<td colspan="6" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>First bit of `example_feature_df`</td>
     </tr>
 <tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="source">source</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="qPCR_copies">qPCR_copies</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Sum Relative Abundance">Sum Relative Abundance</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="ASV">ASV</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F1">149_F1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F2">149_F2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F3">149_F3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F4">149_F4</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F5">149_F5</th>
     </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="qPCR_copies" class="gt_row gt_right">34838665</td>
-<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
+<td headers="ASV" class="gt_row gt_left">ASV_1</td>
+<td headers="149_F1" class="gt_row gt_right">1245</td>
+<td headers="149_F2" class="gt_row gt_right">376</td>
+<td headers="149_F3" class="gt_row gt_right">582</td>
+<td headers="149_F4" class="gt_row gt_right">1258</td>
+<td headers="149_F5" class="gt_row gt_right">692</td>
 </tr>
 <tr>
-<td headers="source" class="gt_row gt_left">S150</td>
-<td headers="qPCR_copies" class="gt_row gt_right">53528072</td>
-<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
+<td headers="ASV" class="gt_row gt_left">ASV_2</td>
+<td headers="149_F1" class="gt_row gt_right">1471</td>
+<td headers="149_F2" class="gt_row gt_right">569</td>
+<td headers="149_F3" class="gt_row gt_right">830</td>
+<td headers="149_F4" class="gt_row gt_right">1373</td>
+<td headers="149_F5" class="gt_row gt_right">737</td>
 </tr>
 <tr>
-<td headers="source" class="gt_row gt_left">S151</td>
-<td headers="qPCR_copies" class="gt_row gt_right">95774992</td>
-<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
+<td headers="ASV" class="gt_row gt_left">ASV_3</td>
+<td headers="149_F1" class="gt_row gt_right">342</td>
+<td headers="149_F2" class="gt_row gt_right">152</td>
+<td headers="149_F3" class="gt_row gt_right">211</td>
+<td headers="149_F4" class="gt_row gt_right">389</td>
+<td headers="149_F5" class="gt_row gt_right">218</td>
 </tr>
 <tr>
-<td headers="source" class="gt_row gt_left">S152</td>
-<td headers="qPCR_copies" class="gt_row gt_right">9126192</td>
-<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
+<td headers="ASV" class="gt_row gt_left">ASV_4</td>
+<td headers="149_F1" class="gt_row gt_right">288</td>
+<td headers="149_F2" class="gt_row gt_right">119</td>
+<td headers="149_F3" class="gt_row gt_right">161</td>
+<td headers="149_F4" class="gt_row gt_right">294</td>
+<td headers="149_F5" class="gt_row gt_right">157</td>
 </tr>
 <tr>
-<td headers="source" class="gt_row gt_left">S161</td>
-<td headers="qPCR_copies" class="gt_row gt_right">41744046</td>
-<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
+<td headers="ASV" class="gt_row gt_left">ASV_5</td>
+<td headers="149_F1" class="gt_row gt_right">317</td>
+<td headers="149_F2" class="gt_row gt_right">108</td>
+<td headers="149_F3" class="gt_row gt_right">95</td>
+<td headers="149_F4" class="gt_row gt_right">292</td>
+<td headers="149_F5" class="gt_row gt_right">164</td>
 </tr>
 <tr>
-<td headers="source" class="gt_row gt_left">S162</td>
-<td headers="qPCR_copies" class="gt_row gt_right">49402713</td>
-<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
+<td headers="ASV" class="gt_row gt_left">ASV_6</td>
+<td headers="149_F1" class="gt_row gt_right">201</td>
+<td headers="149_F2" class="gt_row gt_right">73</td>
+<td headers="149_F3" class="gt_row gt_right">130</td>
+<td headers="149_F4" class="gt_row gt_right">250</td>
+<td headers="149_F5" class="gt_row gt_right">112</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Again, we make a <code>qSIP2</code> object for this data, this time
-as a <code>qsip_sample_data</code> object.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_sample_data.html">qsip_sample_data</a></span><span class="op">(</span><span class="va">sample_df</span>,</span>
-<span>  sample_id <span class="op">=</span> <span class="st">"sample"</span>,</span>
-<span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
-<span>  gradient_position <span class="op">=</span> <span class="st">"Fraction"</span>,</span>
-<span>  gradient_pos_density <span class="op">=</span> <span class="st">"density_g_ml"</span>,</span>
-<span>  gradient_pos_amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span>,</span>
-<span>  gradient_pos_rel_amt <span class="op">=</span> <span class="st">"gradient_pos_rel_amt"</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">feature_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_feature_data.html">qsip_feature_data</a></span><span class="op">(</span><span class="va">example_feature_df</span>,</span>
+<span>  feature_id <span class="op">=</span> <span class="st">"ASV"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">sample_object</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "qsip_sample_data" "S7_object"</span></span></code></pre></div>
-<p>See <code><a href="../articles/sample_data.html">vignette("sample_data")</a></code> for more details and
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">feature_object</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "qsip_feature_data" "S7_object"</span></span></code></pre></div>
+<p>See <code><a href="../articles/feature_data.html">vignette("feature_data")</a></code> for more details and
 relevant visualizations.</p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="the-qsip_data-object">The <code>qsip_data</code> Object<a class="anchor" aria-label="anchor" href="#the-qsip_data-object"></a>
+</h2>
+<p>The <code>qsip_data</code> class is the main workhorse object in the
+<code>qSIP2</code> package. It is built from validated versions of the
+three previous objects, and is meant to be a self-contained object with
+all of the necessary information for analysis.</p>
+<p>The design of it is that it is both input for workflow functions, as
+well as output. For this reason, you can feel safe overwriting the
+object with new analysis as you work, or you can create a new object
+each step if you prefer.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">qsip_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_data.html">qsip_data</a></span><span class="op">(</span></span>
+<span>  source_data <span class="op">=</span> <span class="va">source_object</span>,</span>
+<span>  sample_data <span class="op">=</span> <span class="va">sample_object</span>,</span>
+<span>  feature_data <span class="op">=</span> <span class="va">feature_object</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">There are 15 source_mat_ids, and they are all shared between the source and sample objects</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">There are 284 sample_ids, and they are all shared between the sample and feature objects</span></span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">qsip_object</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "qsip_data" "S7_object"</span></span></code></pre></div>
+<p>This function will report if all <code>source_mat_id</code>s are
+shared between the source and sample data, and if all
+<code>sample_id</code>s are shared between the sample and feature data.
+If it reports there are some unshared ids, you can access them with
+<code>show_unshared_ids(qsip_object)</code>, but note that it is just a
+warning and does not stop the creation of the qSIP object.</p>
+<p>Behind the scenes, creation of this object also runs some other
+calculations, particularly getting the weighted-average density (WAD)
+for each feature in each source, and also the tube relative abundance of
+each feature. With these, certain visualizations can be made.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_source_wads.html">plot_source_wads</a></span><span class="op">(</span><span class="va">qsip_object</span>, group <span class="op">=</span> <span class="st">"Moisture"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-14-1.png" width="576"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_sample_curves.html">plot_sample_curves</a></span><span class="op">(</span><span class="va">qsip_object</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-15-1.png" width="576"></p>
+</div>
+<div class="section level2">
+<h2 id="main-workflow">Main Workflow<a class="anchor" aria-label="anchor" href="#main-workflow"></a>
+</h2>
+<p>Now that we have a validated <code>qsip_data</code> object, we can
+start the main workflow consisting of comparison grouping, filtering,
+resampling and finally calculating EAF values.</p>
 <div class="section level3">
-<h3 id="feature-data">Feature Data<a class="anchor" aria-label="anchor" href="#feature-data"></a>
+<h3 id="comparison-grouping">Comparison Grouping<a class="anchor" aria-label="anchor" href="#comparison-grouping"></a>
 </h3>
-<p>Finally, the last of the three necessary input files is a feature
-abundance table, aka “OTU table” or “ASV table”. The format of this
-dataframe has the unique feature IDs in the first column, and an
-additional column for each sample. Each row then contains the whole
-number (non-normalized) counts of each feature in each sample.</p>
-<p>For now, the validation step defaults to requiring all values be
-positive integers, but other <code>type</code> options include
-<code>coverage</code> (for working with MAGs or metagenomes) or
-<code>relative</code> if you already have relative abundances.</p>
+<p>Your <code>qsip_data</code> object likely contains all of your data,
+but you may only want to run comparisons on certain subsets. The
+<code><a href="../reference/show_comparison_groups.html">show_comparison_groups()</a></code> function attempts to identify and
+suggest the sources you may want to compare.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/show_comparison_groups.html">show_comparison_groups</a></span><span class="op">(</span><span class="va">qsip_object</span>,</span>
+<span>  group <span class="op">=</span> <span class="st">"Moisture"</span>,</span>
+<span>  isotope <span class="op">=</span> <span class="st">"isotope"</span>,</span>
+<span>  source_mat_id <span class="op">=</span> <span class="st">"source_mat_id"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div id="txvafbsnay" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#txvafbsnay table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -2674,589 +2802,6 @@ positive integers, but other <code>type</code> options include
 }
 
 #txvafbsnay div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>First bit of `example_feature_df`</td>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="ASV">ASV</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F1">149_F1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F2">149_F2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F3">149_F3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F4">149_F4</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F5">149_F5</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr>
-<td headers="ASV" class="gt_row gt_left">ASV_1</td>
-<td headers="149_F1" class="gt_row gt_right">1245</td>
-<td headers="149_F2" class="gt_row gt_right">376</td>
-<td headers="149_F3" class="gt_row gt_right">582</td>
-<td headers="149_F4" class="gt_row gt_right">1258</td>
-<td headers="149_F5" class="gt_row gt_right">692</td>
-</tr>
-<tr>
-<td headers="ASV" class="gt_row gt_left">ASV_2</td>
-<td headers="149_F1" class="gt_row gt_right">1471</td>
-<td headers="149_F2" class="gt_row gt_right">569</td>
-<td headers="149_F3" class="gt_row gt_right">830</td>
-<td headers="149_F4" class="gt_row gt_right">1373</td>
-<td headers="149_F5" class="gt_row gt_right">737</td>
-</tr>
-<tr>
-<td headers="ASV" class="gt_row gt_left">ASV_3</td>
-<td headers="149_F1" class="gt_row gt_right">342</td>
-<td headers="149_F2" class="gt_row gt_right">152</td>
-<td headers="149_F3" class="gt_row gt_right">211</td>
-<td headers="149_F4" class="gt_row gt_right">389</td>
-<td headers="149_F5" class="gt_row gt_right">218</td>
-</tr>
-<tr>
-<td headers="ASV" class="gt_row gt_left">ASV_4</td>
-<td headers="149_F1" class="gt_row gt_right">288</td>
-<td headers="149_F2" class="gt_row gt_right">119</td>
-<td headers="149_F3" class="gt_row gt_right">161</td>
-<td headers="149_F4" class="gt_row gt_right">294</td>
-<td headers="149_F5" class="gt_row gt_right">157</td>
-</tr>
-<tr>
-<td headers="ASV" class="gt_row gt_left">ASV_5</td>
-<td headers="149_F1" class="gt_row gt_right">317</td>
-<td headers="149_F2" class="gt_row gt_right">108</td>
-<td headers="149_F3" class="gt_row gt_right">95</td>
-<td headers="149_F4" class="gt_row gt_right">292</td>
-<td headers="149_F5" class="gt_row gt_right">164</td>
-</tr>
-<tr>
-<td headers="ASV" class="gt_row gt_left">ASV_6</td>
-<td headers="149_F1" class="gt_row gt_right">201</td>
-<td headers="149_F2" class="gt_row gt_right">73</td>
-<td headers="149_F3" class="gt_row gt_right">130</td>
-<td headers="149_F4" class="gt_row gt_right">250</td>
-<td headers="149_F5" class="gt_row gt_right">112</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">feature_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_feature_data.html">qsip_feature_data</a></span><span class="op">(</span><span class="va">example_feature_df</span>,</span>
-<span>  feature_id <span class="op">=</span> <span class="st">"ASV"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">feature_object</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "qsip_feature_data" "S7_object"</span></span></code></pre></div>
-<p>See <code><a href="../articles/feature_data.html">vignette("feature_data")</a></code> for more details and
-relevant visualizations.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="the-qsip_data-object">The <code>qsip_data</code> Object<a class="anchor" aria-label="anchor" href="#the-qsip_data-object"></a>
-</h2>
-<p>The <code>qsip_data</code> class is the main workhorse object in the
-<code>qSIP2</code> package. It is built from validated versions of the
-three previous objects, and is meant to be a self-contained object with
-all of the necessary information for analysis.</p>
-<p>The design of it is that it is both input for workflow functions, as
-well as output. For this reason, you can feel safe overwriting the
-object with new analysis as you work, or you can create a new object
-each step if you prefer.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">qsip_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_data.html">qsip_data</a></span><span class="op">(</span></span>
-<span>  source_data <span class="op">=</span> <span class="va">source_object</span>,</span>
-<span>  sample_data <span class="op">=</span> <span class="va">sample_object</span>,</span>
-<span>  feature_data <span class="op">=</span> <span class="va">feature_object</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">There are 15 source_mat_ids, and they are all shared between the source and sample objects</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">There are 284 sample_ids, and they are all shared between the sample and feature objects</span></span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">qsip_object</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "qsip_data" "S7_object"</span></span></code></pre></div>
-<p>This function will report if all <code>source_mat_id</code>s are
-shared between the source and sample data, and if all
-<code>sample_id</code>s are shared between the sample and feature data.
-If it reports there are some unshared ids, you can access them with
-<code>show_unshared_ids(qsip_object)</code>, but note that it is just a
-warning and does not stop the creation of the qSIP object.</p>
-<p>Behind the scenes, creation of this object also runs some other
-calculations, particularly getting the weighted-average density (WAD)
-for each feature in each source, and also the tube relative abundance of
-each feature. With these, certain visualizations can be made.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_source_wads.html">plot_source_wads</a></span><span class="op">(</span><span class="va">qsip_object</span>, group <span class="op">=</span> <span class="st">"Moisture"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-14-1.png" width="576"></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_sample_curves.html">plot_sample_curves</a></span><span class="op">(</span><span class="va">qsip_object</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-15-1.png" width="576"></p>
-</div>
-<div class="section level2">
-<h2 id="main-workflow">Main Workflow<a class="anchor" aria-label="anchor" href="#main-workflow"></a>
-</h2>
-<p>Now that we have a validated <code>qsip_data</code> object, we can
-start the main workflow consisting of comparison grouping, filtering,
-resampling and finally calculating EAF values.</p>
-<div class="section level3">
-<h3 id="comparison-grouping">Comparison Grouping<a class="anchor" aria-label="anchor" href="#comparison-grouping"></a>
-</h3>
-<p>Your <code>qsip_data</code> object likely contains all of your data,
-but you may only want to run comparisons on certain subsets. The
-<code><a href="../reference/show_comparison_groups.html">show_comparison_groups()</a></code> function attempts to identify and
-suggest the sources you may want to compare.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/show_comparison_groups.html">show_comparison_groups</a></span><span class="op">(</span><span class="va">qsip_object</span>,</span>
-<span>  group <span class="op">=</span> <span class="st">"Moisture"</span>,</span>
-<span>  isotope <span class="op">=</span> <span class="st">"isotope"</span>,</span>
-<span>  source_mat_id <span class="op">=</span> <span class="st">"source_mat_id"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div id="orehalspkz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#orehalspkz table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#orehalspkz thead, #orehalspkz tbody, #orehalspkz tfoot, #orehalspkz tr, #orehalspkz td, #orehalspkz th {
-  border-style: none;
-}
-
-#orehalspkz p {
-  margin: 0;
-  padding: 0;
-}
-
-#orehalspkz .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 13px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#orehalspkz .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#orehalspkz .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#orehalspkz .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#orehalspkz .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#orehalspkz .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#orehalspkz .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#orehalspkz .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#orehalspkz .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#orehalspkz .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#orehalspkz .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#orehalspkz .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#orehalspkz .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#orehalspkz .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#orehalspkz .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#orehalspkz .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#orehalspkz .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#orehalspkz .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#orehalspkz .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#orehalspkz .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#orehalspkz .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#orehalspkz .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#orehalspkz .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#orehalspkz .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#orehalspkz .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#orehalspkz .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#orehalspkz .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#orehalspkz .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#orehalspkz .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#orehalspkz .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#orehalspkz .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#orehalspkz .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#orehalspkz .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#orehalspkz .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#orehalspkz .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#orehalspkz .gt_left {
-  text-align: left;
-}
-
-#orehalspkz .gt_center {
-  text-align: center;
-}
-
-#orehalspkz .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#orehalspkz .gt_font_normal {
-  font-weight: normal;
-}
-
-#orehalspkz .gt_font_bold {
-  font-weight: bold;
-}
-
-#orehalspkz .gt_font_italic {
-  font-style: italic;
-}
-
-#orehalspkz .gt_super {
-  font-size: 65%;
-}
-
-#orehalspkz .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#orehalspkz .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#orehalspkz .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#orehalspkz .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#orehalspkz .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#orehalspkz .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#orehalspkz .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#orehalspkz .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#orehalspkz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
