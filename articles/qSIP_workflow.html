@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Standard qSIP Workflow • qSIP2</title>
+<title>Standard qSIP EAF Workflow • qSIP2</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Standard qSIP Workflow">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Standard qSIP EAF Workflow">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/qSIP_workflow.html">Standard qSIP Workflow</a></li>
+<li><a class="dropdown-item" href="../articles/qSIP_workflow.html">Standard qSIP EAF Workflow</a></li>
     <li><a class="dropdown-item" href="../articles/source_data.html">Working with Source Data</a></li>
     <li><a class="dropdown-item" href="../articles/sample_data.html">Working with Sample Data</a></li>
     <li><a class="dropdown-item" href="../articles/feature_data.html">Working with Feature Data</a></li>
@@ -75,7 +75,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Standard qSIP Workflow</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Standard qSIP EAF Workflow</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/jeffkimbrel/qSIP2/blob/master/vignettes/qSIP_workflow.Rmd" class="external-link"><code>vignettes/qSIP_workflow.Rmd</code></a></small>
@@ -89,7 +89,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.15.3.9000'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.16.0'</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -116,6 +116,8 @@ corresponding to each original experimental or source material object.
 An example source dataframe is included in the <code>qSIP2</code>
 package called <code>example_source_df</code>.</p>
 <table class="table">
+<caption>The first few rows of <code>example_source_df</code>
+</caption>
 <thead><tr class="header">
 <th align="left">source</th>
 <th align="right">total_copies_per_g</th>
@@ -176,527 +178,23 @@ package called <code>example_source_df</code>.</p>
 </tbody>
 </table>
 <p>There are a few required columns for valid source data including a
-unique ID, some measure of quantitative abundance for the source
-material (either total DNA or qPCR copies), and an isotope and
-isotopolog designation for the substrate that had the label.</p>
-<div id="mwlefoodfi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mwlefoodfi table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#mwlefoodfi thead, #mwlefoodfi tbody, #mwlefoodfi tfoot, #mwlefoodfi tr, #mwlefoodfi td, #mwlefoodfi th {
-  border-style: none;
-}
-
-#mwlefoodfi p {
-  margin: 0;
-  padding: 0;
-}
-
-#mwlefoodfi .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 13px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#mwlefoodfi .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#mwlefoodfi .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#mwlefoodfi .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#mwlefoodfi .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#mwlefoodfi .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#mwlefoodfi .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#mwlefoodfi .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#mwlefoodfi .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#mwlefoodfi .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#mwlefoodfi .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#mwlefoodfi .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#mwlefoodfi .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#mwlefoodfi .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#mwlefoodfi .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#mwlefoodfi .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#mwlefoodfi .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#mwlefoodfi .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#mwlefoodfi .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#mwlefoodfi .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_left {
-  text-align: left;
-}
-
-#mwlefoodfi .gt_center {
-  text-align: center;
-}
-
-#mwlefoodfi .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#mwlefoodfi .gt_font_normal {
-  font-weight: normal;
-}
-
-#mwlefoodfi .gt_font_bold {
-  font-weight: bold;
-}
-
-#mwlefoodfi .gt_font_italic {
-  font-style: italic;
-}
-
-#mwlefoodfi .gt_super {
-  font-size: 65%;
-}
-
-#mwlefoodfi .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#mwlefoodfi .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#mwlefoodfi .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#mwlefoodfi .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#mwlefoodfi .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#mwlefoodfi .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#mwlefoodfi .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#mwlefoodfi .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#mwlefoodfi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>`source_df`</td>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="source">source</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_copies_per_g">total_copies_per_g</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_dna">total_dna</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Isotope">Isotope</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Moisture">Moisture</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="isotopolog">isotopolog</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">34838665</td>
-<td headers="total_dna" class="gt_row gt_right">74.46539</td>
-<td headers="Isotope" class="gt_row gt_left">12C</td>
-<td headers="Moisture" class="gt_row gt_left">Normal</td>
-<td headers="isotopolog" class="gt_row gt_left">glucose</td>
-</tr>
-<tr>
-<td headers="source" class="gt_row gt_left">S150</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">53528072</td>
-<td headers="total_dna" class="gt_row gt_right">109.01522</td>
-<td headers="Isotope" class="gt_row gt_left">12C</td>
-<td headers="Moisture" class="gt_row gt_left">Normal</td>
-<td headers="isotopolog" class="gt_row gt_left">glucose</td>
-</tr>
-<tr>
-<td headers="source" class="gt_row gt_left">S151</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">95774992</td>
-<td headers="total_dna" class="gt_row gt_right">182.16852</td>
-<td headers="Isotope" class="gt_row gt_left">12C</td>
-<td headers="Moisture" class="gt_row gt_left">Normal</td>
-<td headers="isotopolog" class="gt_row gt_left">glucose</td>
-</tr>
-<tr>
-<td headers="source" class="gt_row gt_left">S152</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">9126192</td>
-<td headers="total_dna" class="gt_row gt_right">23.68963</td>
-<td headers="Isotope" class="gt_row gt_left">12C</td>
-<td headers="Moisture" class="gt_row gt_left">Normal</td>
-<td headers="isotopolog" class="gt_row gt_left">glucose</td>
-</tr>
-<tr>
-<td headers="source" class="gt_row gt_left">S161</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">41744046</td>
-<td headers="total_dna" class="gt_row gt_right">67.62552</td>
-<td headers="Isotope" class="gt_row gt_left">12C</td>
-<td headers="Moisture" class="gt_row gt_left">Drought</td>
-<td headers="isotopolog" class="gt_row gt_left">glucose</td>
-</tr>
-<tr>
-<td headers="source" class="gt_row gt_left">S162</td>
-<td headers="total_copies_per_g" class="gt_row gt_right">49402713</td>
-<td headers="total_dna" class="gt_row gt_right">94.21217</td>
-<td headers="Isotope" class="gt_row gt_left">12C</td>
-<td headers="Moisture" class="gt_row gt_left">Drought</td>
-<td headers="isotopolog" class="gt_row gt_left">glucose</td>
-</tr>
-</tbody>
-</table>
-</div>
+unique ID (<code>source_mat_id</code>), an <code>isotope</code> and
+<code>isotopolog</code> designation for the substrate that had the
+label. Additional columns can be added as necessary
+(e.g. <code>Moisture</code>) for grouping and filtering later in the
+process.</p>
+<p>For growth calculations there are three additional requirements -
+<code>timepoint</code>, <code>total_abundance</code> and
+<code>volume</code>. These are not necessary for the standard EAF
+workflow and will instead be addressed in a forthcoming growth
+vignette.</p>
 <p>Once the dataframe is ready, the next step is to convert it to a
 <code>qsip_source_data</code> object. This is one of the main
-<code>qSIP2</code> objects to hold and validate the data.</p>
+<code>qSIP2</code> objects to hold and validate the data. Each of the
+required columns of metadata is assigned to a column in your dataframe.
+For example, below the “Isotope” column in the dataframe is assigned to
+the <code>isotope</code> parameter in the <code>qsip_source_data</code>
+object.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">source_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_source_data.html">qsip_source_data</a></span><span class="op">(</span><span class="va">example_source_df</span>,</span>
 <span>  isotope <span class="op">=</span> <span class="st">"Isotope"</span>,</span>
@@ -708,14 +206,108 @@ isotopolog designation for the substrate that had the label.</p>
 <span><span class="co">#&gt; [1] "qsip_source_data" "S7_object"</span></span></code></pre></div>
 <p>This object modifies some of the column names to standard names as
 supplied in the above function.</p>
+<table class="table">
+<thead><tr class="header">
+<th align="left">Original Headers</th>
+<th align="left">Modified Headers</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">source</td>
+<td align="left">source_mat_id</td>
+</tr>
+<tr class="even">
+<td align="left">total_copies_per_g</td>
+<td align="left">total_copies_per_g</td>
+</tr>
+<tr class="odd">
+<td align="left">total_dna</td>
+<td align="left">total_dna</td>
+</tr>
+<tr class="even">
+<td align="left">Isotope</td>
+<td align="left">isotope</td>
+</tr>
+<tr class="odd">
+<td align="left">Moisture</td>
+<td align="left">Moisture</td>
+</tr>
+<tr class="even">
+<td align="left">isotopolog</td>
+<td align="left">isotopolog</td>
+</tr>
+</tbody>
+</table>
+<p>If the column names in the dataframe already match the expected
+standard names, then you can skip assigning them and they should be
+identified correctly.</p>
+<p>A dataframe with the original headers can be recovered using the
+<code><a href="../reference/get_dataframe.html">get_dataframe()</a></code> method with the
+<code>original_headers = T</code> option.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">example_source_df</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "source"             "total_copies_per_g" "total_dna"         </span></span>
-<span><span class="co">#&gt; [4] "Isotope"            "Moisture"           "isotopolog"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">source_object</span><span class="op">@</span><span class="va">data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "isotope"            "isotopolog"         "source_mat_id"     </span></span>
-<span><span class="co">#&gt; [4] "total_copies_per_g" "total_dna"          "Moisture"</span></span></code></pre></div>
-<p>See <code><a href="../articles/source_data.html">vignette("source_data")</a></code> for more details.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_dataframe.html">get_dataframe</a></span><span class="op">(</span><span class="va">source_object</span>, original_headers <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">Isotope</th>
+<th align="left">isotopolog</th>
+<th align="left">source</th>
+<th align="right">total_copies_per_g</th>
+<th align="right">total_dna</th>
+<th align="left">Moisture</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">12C</td>
+<td align="left">glucose</td>
+<td align="left">S149</td>
+<td align="right">34838665</td>
+<td align="right">74.46539</td>
+<td align="left">Normal</td>
+</tr>
+<tr class="even">
+<td align="left">12C</td>
+<td align="left">glucose</td>
+<td align="left">S150</td>
+<td align="right">53528072</td>
+<td align="right">109.01522</td>
+<td align="left">Normal</td>
+</tr>
+<tr class="odd">
+<td align="left">12C</td>
+<td align="left">glucose</td>
+<td align="left">S151</td>
+<td align="right">95774992</td>
+<td align="right">182.16852</td>
+<td align="left">Normal</td>
+</tr>
+<tr class="even">
+<td align="left">12C</td>
+<td align="left">glucose</td>
+<td align="left">S152</td>
+<td align="right">9126192</td>
+<td align="right">23.68963</td>
+<td align="left">Normal</td>
+</tr>
+<tr class="odd">
+<td align="left">12C</td>
+<td align="left">glucose</td>
+<td align="left">S161</td>
+<td align="right">41744046</td>
+<td align="right">67.62552</td>
+<td align="left">Drought</td>
+</tr>
+<tr class="even">
+<td align="left">12C</td>
+<td align="left">glucose</td>
+<td align="left">S162</td>
+<td align="right">49402713</td>
+<td align="right">94.21217</td>
+<td align="left">Drought</td>
+</tr>
+</tbody>
+</table>
+<p>See <code><a href="../articles/source_data.html">vignette("source_data")</a></code> for more details on working
+with source data including the built-in validations.</p>
 </div>
 <div class="section level3">
 <h3 id="sample-data">Sample Data<a class="anchor" aria-label="anchor" href="#sample-data"></a>
@@ -723,1029 +315,170 @@ supplied in the above function.</p>
 <p>The sample metadata is the next level of detail with one row for each
 fraction, or one row for each set of fastq files that were
 sequenced.</p>
-<div id="eexombwkke" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#eexombwkke table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#eexombwkke thead, #eexombwkke tbody, #eexombwkke tfoot, #eexombwkke tr, #eexombwkke td, #eexombwkke th {
-  border-style: none;
-}
-
-#eexombwkke p {
-  margin: 0;
-  padding: 0;
-}
-
-#eexombwkke .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 13px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#eexombwkke .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#eexombwkke .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#eexombwkke .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#eexombwkke .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#eexombwkke .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#eexombwkke .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#eexombwkke .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#eexombwkke .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#eexombwkke .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#eexombwkke .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#eexombwkke .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#eexombwkke .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#eexombwkke .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#eexombwkke .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#eexombwkke .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#eexombwkke .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#eexombwkke .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#eexombwkke .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#eexombwkke .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#eexombwkke .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#eexombwkke .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#eexombwkke .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#eexombwkke .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#eexombwkke .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#eexombwkke .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#eexombwkke .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#eexombwkke .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#eexombwkke .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#eexombwkke .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#eexombwkke .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_left {
-  text-align: left;
-}
-
-#eexombwkke .gt_center {
-  text-align: center;
-}
-
-#eexombwkke .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#eexombwkke .gt_font_normal {
-  font-weight: normal;
-}
-
-#eexombwkke .gt_font_bold {
-  font-weight: bold;
-}
-
-#eexombwkke .gt_font_italic {
-  font-style: italic;
-}
-
-#eexombwkke .gt_super {
-  font-size: 65%;
-}
-
-#eexombwkke .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#eexombwkke .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#eexombwkke .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#eexombwkke .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#eexombwkke .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#eexombwkke .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#eexombwkke .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#eexombwkke .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#eexombwkke div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>`example_sample_df`</td>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sample">sample</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="source">source</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Fraction">Fraction</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="density_g_ml">density_g_ml</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="dna_conc">dna_conc</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="avg_16S_g_soil">avg_16S_g_soil</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr>
-<td headers="sample" class="gt_row gt_left">149_F1</td>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="Fraction" class="gt_row gt_right">1</td>
-<td headers="density_g_ml" class="gt_row gt_right">1.778855</td>
-<td headers="dna_conc" class="gt_row gt_right">0.000000000</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right">4473.7081</td>
+<table class="table">
+<caption>The first few rows of <code>example_sample_df</code>
+</caption>
+<thead><tr class="header">
+<th align="left">sample</th>
+<th align="left">source</th>
+<th align="right">Fraction</th>
+<th align="right">density_g_ml</th>
+<th align="right">dna_conc</th>
+<th align="right">avg_16S_g_soil</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">149_F1</td>
+<td align="left">S149</td>
+<td align="right">1</td>
+<td align="right">1.778855</td>
+<td align="right">0.0000000</td>
+<td align="right">4473.7081</td>
 </tr>
-<tr>
-<td headers="sample" class="gt_row gt_left">149_F2</td>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="Fraction" class="gt_row gt_right">2</td>
-<td headers="density_g_ml" class="gt_row gt_right">1.773391</td>
-<td headers="dna_conc" class="gt_row gt_right">0.000000000</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right">986.6581</td>
+<tr class="even">
+<td align="left">149_F2</td>
+<td align="left">S149</td>
+<td align="right">2</td>
+<td align="right">1.773391</td>
+<td align="right">0.0000000</td>
+<td align="right">986.6581</td>
 </tr>
-<tr>
-<td headers="sample" class="gt_row gt_left">149_F3</td>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="Fraction" class="gt_row gt_right">3</td>
-<td headers="density_g_ml" class="gt_row gt_right">1.765742</td>
-<td headers="dna_conc" class="gt_row gt_right">0.000000000</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right">4002.7026</td>
+<tr class="odd">
+<td align="left">149_F3</td>
+<td align="left">S149</td>
+<td align="right">3</td>
+<td align="right">1.765742</td>
+<td align="right">0.0000000</td>
+<td align="right">4002.7026</td>
 </tr>
-<tr>
-<td headers="sample" class="gt_row gt_left">149_F4</td>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="Fraction" class="gt_row gt_right">4</td>
-<td headers="density_g_ml" class="gt_row gt_right">1.759185</td>
-<td headers="dna_conc" class="gt_row gt_right">0.000000000</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right">3959.7283</td>
+<tr class="even">
+<td align="left">149_F4</td>
+<td align="left">S149</td>
+<td align="right">4</td>
+<td align="right">1.759185</td>
+<td align="right">0.0000000</td>
+<td align="right">3959.7283</td>
 </tr>
-<tr>
-<td headers="sample" class="gt_row gt_left">149_F5</td>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="Fraction" class="gt_row gt_right">5</td>
-<td headers="density_g_ml" class="gt_row gt_right">1.752629</td>
-<td headers="dna_conc" class="gt_row gt_right">0.001241303</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right">5725.7319</td>
+<tr class="odd">
+<td align="left">149_F5</td>
+<td align="left">S149</td>
+<td align="right">5</td>
+<td align="right">1.752629</td>
+<td align="right">0.0012413</td>
+<td align="right">5725.7319</td>
 </tr>
-<tr>
-<td headers="sample" class="gt_row gt_left">149_F6</td>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="Fraction" class="gt_row gt_right">6</td>
-<td headers="density_g_ml" class="gt_row gt_right">1.746072</td>
-<td headers="dna_conc" class="gt_row gt_right">0.012815610</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right">7566.2722</td>
+<tr class="even">
+<td align="left">149_F6</td>
+<td align="left">S149</td>
+<td align="right">6</td>
+<td align="right">1.746072</td>
+<td align="right">0.0128156</td>
+<td align="right">7566.2722</td>
 </tr>
 </tbody>
 </table>
-</div>
 <p>Again, there are several necessary columns for valid sample data,
-including a unique sample ID, the source they came from, the fraction
-ID, the fraction density and a measure of abundance in that fraction
-(total DNA or qPCR copy number). An additional column that can be
-derived is the percent abundance of your total sample that is found in
-each of the fractions. The <code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code>
-function can help calculate that by dividing each fraction abundance by
-the total abundance for each source and putting in a
-<code>gradient_pos_rel_amt</code> column.</p>
+including a unique sample ID (<code>sample_id</code>), the source they
+came from (<code>source_mat_id</code>), the fraction ID
+(<code>gradient_position</code>), the fraction density
+(<code>gradient_pos_density</code>) and a measure of abundance (total
+DNA or qPCR copy number) in that fraction
+(<code>gradient_pos_amt</code>).</p>
+<p>An additional column that can be derived is the percent abundance of
+your total sample that is found in each of the fractions. The
+<code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code> function can help calculate that
+by dividing each fraction abundance by the total abundance for each
+source and putting it in a <code>gradient_pos_rel_amt</code> column.</p>
+<p>But there is no need to do this if you already have the relative
+amounts calculated in your dataframe.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sample_df</span> <span class="op">&lt;-</span> <span class="va">example_sample_df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span>source_mat_id <span class="op">=</span> <span class="st">"source"</span>, amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span><span class="op">)</span></span></code></pre></div>
-<div id="ulbfdpbcyv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ulbfdpbcyv table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#ulbfdpbcyv thead, #ulbfdpbcyv tbody, #ulbfdpbcyv tfoot, #ulbfdpbcyv tr, #ulbfdpbcyv td, #ulbfdpbcyv th {
-  border-style: none;
-}
-
-#ulbfdpbcyv p {
-  margin: 0;
-  padding: 0;
-}
-
-#ulbfdpbcyv .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 13px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#ulbfdpbcyv .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#ulbfdpbcyv .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#ulbfdpbcyv .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#ulbfdpbcyv .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#ulbfdpbcyv .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#ulbfdpbcyv .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#ulbfdpbcyv .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#ulbfdpbcyv .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#ulbfdpbcyv .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#ulbfdpbcyv .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#ulbfdpbcyv .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#ulbfdpbcyv .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#ulbfdpbcyv .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#ulbfdpbcyv .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#ulbfdpbcyv .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#ulbfdpbcyv .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#ulbfdpbcyv .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#ulbfdpbcyv .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#ulbfdpbcyv .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_left {
-  text-align: left;
-}
-
-#ulbfdpbcyv .gt_center {
-  text-align: center;
-}
-
-#ulbfdpbcyv .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#ulbfdpbcyv .gt_font_normal {
-  font-weight: normal;
-}
-
-#ulbfdpbcyv .gt_font_bold {
-  font-weight: bold;
-}
-
-#ulbfdpbcyv .gt_font_italic {
-  font-style: italic;
-}
-
-#ulbfdpbcyv .gt_super {
-  font-size: 65%;
-}
-
-#ulbfdpbcyv .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#ulbfdpbcyv .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#ulbfdpbcyv .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#ulbfdpbcyv .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#ulbfdpbcyv .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#ulbfdpbcyv .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#ulbfdpbcyv .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#ulbfdpbcyv .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#ulbfdpbcyv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="3" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Sums of relative abundance equal 1</td>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="source">source</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="qPCR_copies">qPCR_copies</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Sum Relative Abundance">Sum Relative Abundance</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr>
-<td headers="source" class="gt_row gt_left">S149</td>
-<td headers="qPCR_copies" class="gt_row gt_right">34838665</td>
-<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
+<table class="table">
+<caption>Additional <code>gradient_pos_rel_amt</code> column
+added</caption>
+<colgroup>
+<col width="8%">
+<col width="8%">
+<col width="10%">
+<col width="15%">
+<col width="12%">
+<col width="18%">
+<col width="25%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">sample</th>
+<th align="left">source</th>
+<th align="right">Fraction</th>
+<th align="right">density_g_ml</th>
+<th align="right">dna_conc</th>
+<th align="right">avg_16S_g_soil</th>
+<th align="right">gradient_pos_rel_amt</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">149_F1</td>
+<td align="left">S149</td>
+<td align="right">1</td>
+<td align="right">1.778855</td>
+<td align="right">0.0000000</td>
+<td align="right">4473.7081</td>
+<td align="right">0.0001284</td>
 </tr>
-<tr>
-<td headers="source" class="gt_row gt_left">S150</td>
-<td headers="qPCR_copies" class="gt_row gt_right">53528072</td>
-<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
+<tr class="even">
+<td align="left">149_F2</td>
+<td align="left">S149</td>
+<td align="right">2</td>
+<td align="right">1.773391</td>
+<td align="right">0.0000000</td>
+<td align="right">986.6581</td>
+<td align="right">0.0000283</td>
 </tr>
-<tr>
-<td headers="source" class="gt_row gt_left">S151</td>
-<td headers="qPCR_copies" class="gt_row gt_right">95774992</td>
-<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
+<tr class="odd">
+<td align="left">149_F3</td>
+<td align="left">S149</td>
+<td align="right">3</td>
+<td align="right">1.765742</td>
+<td align="right">0.0000000</td>
+<td align="right">4002.7026</td>
+<td align="right">0.0001149</td>
 </tr>
-<tr>
-<td headers="source" class="gt_row gt_left">S152</td>
-<td headers="qPCR_copies" class="gt_row gt_right">9126192</td>
-<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
+<tr class="even">
+<td align="left">149_F4</td>
+<td align="left">S149</td>
+<td align="right">4</td>
+<td align="right">1.759185</td>
+<td align="right">0.0000000</td>
+<td align="right">3959.7283</td>
+<td align="right">0.0001137</td>
 </tr>
-<tr>
-<td headers="source" class="gt_row gt_left">S161</td>
-<td headers="qPCR_copies" class="gt_row gt_right">41744046</td>
-<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
+<tr class="odd">
+<td align="left">149_F5</td>
+<td align="left">S149</td>
+<td align="right">5</td>
+<td align="right">1.752629</td>
+<td align="right">0.0012413</td>
+<td align="right">5725.7319</td>
+<td align="right">0.0001643</td>
 </tr>
-<tr>
-<td headers="source" class="gt_row gt_left">S162</td>
-<td headers="qPCR_copies" class="gt_row gt_right">49402713</td>
-<td headers="Sum Relative Abundance" class="gt_row gt_right">1</td>
+<tr class="even">
+<td align="left">149_F6</td>
+<td align="left">S149</td>
+<td align="right">6</td>
+<td align="right">1.746072</td>
+<td align="right">0.0128156</td>
+<td align="right">7566.2722</td>
+<td align="right">0.0002172</td>
 </tr>
 </tbody>
 </table>
-</div>
 <p>Again, we make a <code>qSIP2</code> object for this data, this time
-as a <code>qsip_sample_data</code> object.</p>
+as a <code>qsip_sample_data</code> object. The columns in the dataframe
+are assigned to the appropriate parameters, and any column names exactly
+matching the parameter name will automatically be identified. Similar to
+the <code>source_data</code> above, the names in the
+<code>sample_data</code> object will be modified from the original names
+to the standardized names.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sample_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_sample_data.html">qsip_sample_data</a></span><span class="op">(</span><span class="va">sample_df</span>,</span>
 <span>  sample_id <span class="op">=</span> <span class="st">"sample"</span>,</span>
@@ -1758,8 +491,9 @@ as a <code>qsip_sample_data</code> object.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">sample_object</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "qsip_sample_data" "S7_object"</span></span></code></pre></div>
-<p>See <code><a href="../articles/sample_data.html">vignette("sample_data")</a></code> for more details and
-relevant visualizations.</p>
+<p>See <code><a href="../articles/sample_data.html">vignette("sample_data")</a></code> for more information on
+working with sample data including the built-in validations and
+visualizations.</p>
 </div>
 <div class="section level3">
 <h3 id="feature-data">Feature Data<a class="anchor" aria-label="anchor" href="#feature-data"></a>
@@ -1770,524 +504,73 @@ dataframe has the unique feature IDs in the first column, and an
 additional column for each sample. Each row then contains the whole
 number (non-normalized) counts of each feature in each sample.</p>
 <p>For now, the validation step defaults to requiring all values be
-positive integers, but other <code>type</code> options include
-<code>coverage</code> (for working with MAGs or metagenomes) or
-<code>relative</code> if you already have relative abundances.</p>
-<div id="kgufivjubq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#kgufivjubq table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#kgufivjubq thead, #kgufivjubq tbody, #kgufivjubq tfoot, #kgufivjubq tr, #kgufivjubq td, #kgufivjubq th {
-  border-style: none;
-}
-
-#kgufivjubq p {
-  margin: 0;
-  padding: 0;
-}
-
-#kgufivjubq .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 13px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#kgufivjubq .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#kgufivjubq .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#kgufivjubq .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#kgufivjubq .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#kgufivjubq .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#kgufivjubq .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#kgufivjubq .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#kgufivjubq .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#kgufivjubq .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#kgufivjubq .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#kgufivjubq .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#kgufivjubq .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#kgufivjubq .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#kgufivjubq .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#kgufivjubq .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#kgufivjubq .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#kgufivjubq .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#kgufivjubq .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#kgufivjubq .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#kgufivjubq .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#kgufivjubq .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#kgufivjubq .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#kgufivjubq .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#kgufivjubq .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#kgufivjubq .gt_left {
-  text-align: left;
-}
-
-#kgufivjubq .gt_center {
-  text-align: center;
-}
-
-#kgufivjubq .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#kgufivjubq .gt_font_normal {
-  font-weight: normal;
-}
-
-#kgufivjubq .gt_font_bold {
-  font-weight: bold;
-}
-
-#kgufivjubq .gt_font_italic {
-  font-style: italic;
-}
-
-#kgufivjubq .gt_super {
-  font-size: 65%;
-}
-
-#kgufivjubq .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#kgufivjubq .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#kgufivjubq .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#kgufivjubq .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#kgufivjubq .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#kgufivjubq .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#kgufivjubq .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#kgufivjubq .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#kgufivjubq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>First bit of `example_feature_df`</td>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="ASV">ASV</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F1">149_F1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F2">149_F2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F3">149_F3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F4">149_F4</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="149_F5">149_F5</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr>
-<td headers="ASV" class="gt_row gt_left">ASV_1</td>
-<td headers="149_F1" class="gt_row gt_right">1245</td>
-<td headers="149_F2" class="gt_row gt_right">376</td>
-<td headers="149_F3" class="gt_row gt_right">582</td>
-<td headers="149_F4" class="gt_row gt_right">1258</td>
-<td headers="149_F5" class="gt_row gt_right">692</td>
+<code>counts</code> (positive integers), but other <code>type</code>
+options include <code>coverage</code> (for working with MAGs or
+metagenomes), <code>relative</code> if you already have relative
+abundances and <code>normalized</code> if you have spike-ins or another
+method that determines the correct abundance in each sample.</p>
+<table class="table">
+<caption>First bit of <code>example_feature_df</code>
+</caption>
+<thead><tr class="header">
+<th align="left">ASV</th>
+<th align="right">149_F1</th>
+<th align="right">149_F2</th>
+<th align="right">149_F3</th>
+<th align="right">149_F4</th>
+<th align="right">149_F5</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">ASV_1</td>
+<td align="right">1245</td>
+<td align="right">376</td>
+<td align="right">582</td>
+<td align="right">1258</td>
+<td align="right">692</td>
 </tr>
-<tr>
-<td headers="ASV" class="gt_row gt_left">ASV_2</td>
-<td headers="149_F1" class="gt_row gt_right">1471</td>
-<td headers="149_F2" class="gt_row gt_right">569</td>
-<td headers="149_F3" class="gt_row gt_right">830</td>
-<td headers="149_F4" class="gt_row gt_right">1373</td>
-<td headers="149_F5" class="gt_row gt_right">737</td>
+<tr class="even">
+<td align="left">ASV_2</td>
+<td align="right">1471</td>
+<td align="right">569</td>
+<td align="right">830</td>
+<td align="right">1373</td>
+<td align="right">737</td>
 </tr>
-<tr>
-<td headers="ASV" class="gt_row gt_left">ASV_3</td>
-<td headers="149_F1" class="gt_row gt_right">342</td>
-<td headers="149_F2" class="gt_row gt_right">152</td>
-<td headers="149_F3" class="gt_row gt_right">211</td>
-<td headers="149_F4" class="gt_row gt_right">389</td>
-<td headers="149_F5" class="gt_row gt_right">218</td>
+<tr class="odd">
+<td align="left">ASV_3</td>
+<td align="right">342</td>
+<td align="right">152</td>
+<td align="right">211</td>
+<td align="right">389</td>
+<td align="right">218</td>
 </tr>
-<tr>
-<td headers="ASV" class="gt_row gt_left">ASV_4</td>
-<td headers="149_F1" class="gt_row gt_right">288</td>
-<td headers="149_F2" class="gt_row gt_right">119</td>
-<td headers="149_F3" class="gt_row gt_right">161</td>
-<td headers="149_F4" class="gt_row gt_right">294</td>
-<td headers="149_F5" class="gt_row gt_right">157</td>
+<tr class="even">
+<td align="left">ASV_4</td>
+<td align="right">288</td>
+<td align="right">119</td>
+<td align="right">161</td>
+<td align="right">294</td>
+<td align="right">157</td>
 </tr>
-<tr>
-<td headers="ASV" class="gt_row gt_left">ASV_5</td>
-<td headers="149_F1" class="gt_row gt_right">317</td>
-<td headers="149_F2" class="gt_row gt_right">108</td>
-<td headers="149_F3" class="gt_row gt_right">95</td>
-<td headers="149_F4" class="gt_row gt_right">292</td>
-<td headers="149_F5" class="gt_row gt_right">164</td>
+<tr class="odd">
+<td align="left">ASV_5</td>
+<td align="right">317</td>
+<td align="right">108</td>
+<td align="right">95</td>
+<td align="right">292</td>
+<td align="right">164</td>
 </tr>
-<tr>
-<td headers="ASV" class="gt_row gt_left">ASV_6</td>
-<td headers="149_F1" class="gt_row gt_right">201</td>
-<td headers="149_F2" class="gt_row gt_right">73</td>
-<td headers="149_F3" class="gt_row gt_right">130</td>
-<td headers="149_F4" class="gt_row gt_right">250</td>
-<td headers="149_F5" class="gt_row gt_right">112</td>
+<tr class="even">
+<td align="left">ASV_6</td>
+<td align="right">201</td>
+<td align="right">73</td>
+<td align="right">130</td>
+<td align="right">250</td>
+<td align="right">112</td>
 </tr>
 </tbody>
 </table>
-</div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">feature_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_feature_data.html">qsip_feature_data</a></span><span class="op">(</span><span class="va">example_feature_df</span>,</span>
 <span>  feature_id <span class="op">=</span> <span class="st">"ASV"</span></span>
@@ -2306,10 +589,6 @@ relevant visualizations.</p>
 <code>qSIP2</code> package. It is built from validated versions of the
 three previous objects, and is meant to be a self-contained object with
 all of the necessary information for analysis.</p>
-<p>The design of it is that it is both input for workflow functions, as
-well as output. For this reason, you can feel safe overwriting the
-object with new analysis as you work, or you can create a new object
-each step if you prefer.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qsip_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_data.html">qsip_data</a></span><span class="op">(</span></span>
 <span>  source_data <span class="op">=</span> <span class="va">source_object</span>,</span>
@@ -2318,6 +597,7 @@ each step if you prefer.</p>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">There are 15 source_mat_ids, and they are all shared between the source and sample objects</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">There are 284 sample_ids, and they are all shared between the sample and feature objects</span></span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">qsip_object</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "qsip_data" "S7_object"</span></span></code></pre></div>
 <p>This function will report if all <code>source_mat_id</code>s are
@@ -2326,16 +606,31 @@ shared between the source and sample data, and if all
 If it reports there are some unshared ids, you can access them with
 <code>show_unshared_ids(qsip_object)</code>, but note that it is just a
 warning and does not stop the creation of the qSIP object.</p>
+<div class="section level3">
+<h3 id="visualizations">Visualizations<a class="anchor" aria-label="anchor" href="#visualizations"></a>
+</h3>
 <p>Behind the scenes, creation of this object also runs some other
 calculations, particularly getting the weighted-average density (WAD)
 for each feature in each source, and also the tube relative abundance of
-each feature. With these, certain visualizations can be made.</p>
+each feature. With these, certain visualizations can be made with
+built-in functions.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_source_wads.html">plot_source_wads</a></span><span class="op">(</span><span class="va">qsip_object</span>, group <span class="op">=</span> <span class="st">"Moisture"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-14-1.png" width="576"></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_sample_curves.html">plot_sample_curves</a></span><span class="op">(</span><span class="va">qsip_object</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_source_wads.html">plot_source_wads</a></span><span class="op">(</span><span class="va">qsip_object</span>, group <span class="op">=</span> <span class="st">"Moisture"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"WAD of each source, grouped by Moisture"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-15-1.png" width="576"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_sample_curves.html">plot_sample_curves</a></span><span class="op">(</span><span class="va">qsip_object</span>, colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"12C"</span> <span class="op">=</span> <span class="st">"orange"</span>,</span>
+<span>                                           <span class="st">"13C"</span> <span class="op">=</span> <span class="st">"magenta"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Normalized density curves for each sample"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-16-1.png" width="576"></p>
+<div class="alert alert-primary">
+<p>The design of the <code>qsip_data</code> object is that it is
+contains “slots” for each new analysis step. Although you could create a
+new object for each step of the workflow, you can assign the output of
+each step back to the original object in order to keep everything
+together.</p>
+</div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="main-workflow">Main Workflow<a class="anchor" aria-label="anchor" href="#main-workflow"></a>
@@ -2356,512 +651,63 @@ suggest the sources you may want to compare.</p>
 <span>  isotope <span class="op">=</span> <span class="st">"isotope"</span>,</span>
 <span>  source_mat_id <span class="op">=</span> <span class="st">"source_mat_id"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="txvafbsnay" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#txvafbsnay table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#txvafbsnay thead, #txvafbsnay tbody, #txvafbsnay tfoot, #txvafbsnay tr, #txvafbsnay td, #txvafbsnay th {
-  border-style: none;
-}
-
-#txvafbsnay p {
-  margin: 0;
-  padding: 0;
-}
-
-#txvafbsnay .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 13px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#txvafbsnay .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#txvafbsnay .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#txvafbsnay .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#txvafbsnay .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#txvafbsnay .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#txvafbsnay .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#txvafbsnay .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#txvafbsnay .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#txvafbsnay .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#txvafbsnay .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#txvafbsnay .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#txvafbsnay .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#txvafbsnay .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#txvafbsnay .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#txvafbsnay .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#txvafbsnay .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#txvafbsnay .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#txvafbsnay .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#txvafbsnay .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#txvafbsnay .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#txvafbsnay .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#txvafbsnay .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#txvafbsnay .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#txvafbsnay .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#txvafbsnay .gt_left {
-  text-align: left;
-}
-
-#txvafbsnay .gt_center {
-  text-align: center;
-}
-
-#txvafbsnay .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#txvafbsnay .gt_font_normal {
-  font-weight: normal;
-}
-
-#txvafbsnay .gt_font_bold {
-  font-weight: bold;
-}
-
-#txvafbsnay .gt_font_italic {
-  font-style: italic;
-}
-
-#txvafbsnay .gt_super {
-  font-size: 65%;
-}
-
-#txvafbsnay .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#txvafbsnay .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#txvafbsnay .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#txvafbsnay .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#txvafbsnay .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#txvafbsnay .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#txvafbsnay .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#txvafbsnay .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#txvafbsnay div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="3" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Output of `show_comparison_groups()`</td>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Moisture">Moisture</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="12C">12C</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="13C">13C</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr>
-<td headers="Moisture" class="gt_row gt_left">Normal</td>
-<td headers="12C" class="gt_row gt_left">S149, S150, S151, S152</td>
-<td headers="13C" class="gt_row gt_left">S178, S179, S180</td>
+<table class="table">
+<caption>Output of <code><a href="../reference/show_comparison_groups.html">show_comparison_groups()</a></code>
+</caption>
+<thead><tr class="header">
+<th align="left">Moisture</th>
+<th align="left">12C</th>
+<th align="left">13C</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Normal</td>
+<td align="left">S149, S150, S151, S152</td>
+<td align="left">S178, S179, S180</td>
 </tr>
-<tr>
-<td headers="Moisture" class="gt_row gt_left">Drought</td>
-<td headers="12C" class="gt_row gt_left">S161, S162, S163, S164</td>
-<td headers="13C" class="gt_row gt_left">S200, S201, S202, S203</td>
+<tr class="even">
+<td align="left">Drought</td>
+<td align="left">S161, S162, S163, S164</td>
+<td align="left">S200, S201, S202, S203</td>
 </tr>
 </tbody>
 </table>
-</div>
 <p>The <code>group</code> argument here is the most important as it will
 define the rows that it thinks constitute a comparison. The
 <code>isotope</code> argument is what defines the labeled and unlabeled
 values for the comparisons. This can be more complex, particularly if
 you have more than one isotopolog, and details will be made available in
 the future in another vignette.</p>
-<p>So if we work with the “Normal” moisture groups we likely want to use
-S149, S150, S151 and S152 for the unlabeled and compare to S178, S179
-and S180 for the labeled.</p>
-<p>Sometimes you may also want to compare the specific labeled samples
-in a group to <em>all</em> unlabeled. The <code>qSIP2</code> package has
-a convenient way to get those by using the
-<code><a href="../reference/get_all_by_isotope.html">get_all_by_isotope()</a></code> function.</p>
+<p>The first row shows what “Normal” moisture groups we likely want to
+use for unlabeled (S149, S150, S151 and S152) to compare to the labeled
+(S178, S179 and S180). Sometimes you may also want to compare the
+specific labeled samples in a group to <em>all</em> unlabeled. The
+<code>qSIP2</code> package has a convenient way to get those by using
+the <code><a href="../reference/get_all_by_isotope.html">get_all_by_isotope()</a></code> function.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_all_by_isotope.html">get_all_by_isotope</a></span><span class="op">(</span><span class="va">qsip_object</span>, <span class="st">"12C"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "S149" "S150" "S151" "S152" "S161" "S162" "S163" "S164"</span></span></code></pre></div>
+<div class="alert alert-primary">
+<p>The <code><a href="../reference/show_comparison_groups.html">show_comparison_groups()</a></code> function is entirely
+informational. There is a more automated way to run the qSIP workflow
+using the <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> function, and it will be
+detailed in another vignette.</p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="filter-features">Filter Features<a class="anchor" aria-label="anchor" href="#filter-features"></a>
 </h3>
-<p>Rather than filter up front, it might make the most sense to run
-comparison specific filtering with presence requirements for just the
-sources you are comparing.</p>
-<p>The <code><a href="../reference/run_feature_filter.html">run_feature_filter()</a></code> function takes a different set
-of fraction and source requirements for the labeled and unlabeled data,
-allowing you to precisely tailor your filtering results.</p>
-<div class="alert alert-primary">
-<p>Note, although I said earlier you can overwrite your
-<code>qsip_data</code> objects as you go, it might make sense to create
-two versions here, one for the Normal and one for the Drought moisture
-treatments.</p>
-</div>
+<p>The filter features step does two things. First, it is where the set
+of labeled and unlabeled sources are defined for a specific comparison.
+Second, it is where you can explicitly say how prevalent a feature must
+be to be considered “present” in a source. In other words, you define
+the parameters that a feature must be found enough of the replicate
+sources, and in enough samples that you can calculate an accurate WAD
+value for it.</p>
+<p>The <code><a href="../reference/run_feature_filter.html">run_feature_filter()</a></code> function takes a
+<code>qsip_data</code> object and these different parameters allowing
+you to precisely tailor your filtering results. The more strict the
+filtering, the fewer features that will pass the filter.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qsip_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_feature_filter.html">run_feature_filter</a></span><span class="op">(</span><span class="va">qsip_object</span>,</span>
 <span>  unlabeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="../reference/get_all_by_isotope.html">get_all_by_isotope</a></span><span class="op">(</span><span class="va">qsip_object</span>, <span class="st">"12C"</span><span class="op">)</span>,</span>
@@ -2886,17 +732,25 @@ treatments.</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">103</span> unlabeled and <span style="color: #00BB00;">82</span> labeled feature_ids <span style="color: #00BB00;">passed</span> the source filter</span></span>
 <span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
 <span><span class="co">#&gt; In total, <span style="color: #00BB00;">64</span> unique feature_ids <span style="color: #00BB00;">passed</span> all fraction and source filtering requirements</span></span></code></pre></div>
-<p>Here, we can see our rather strict filtering removed all but 64
-features from the dataset. We can visualize the filtering results on a
-per-source basis.</p>
+<div class="alert alert-primary">
+<p>Note, although I said earlier you can overwrite your
+<code>qsip_data</code> objects as you go, here it might make sense to
+create two versions for the moisture treatments. We’ll take the original
+<code>qsip_object</code> and save the filtered Normal dataset to
+<code>qsip_normal', and the Drought to</code>qsip_drought`.</p>
+</div>
+<p>Of the 1,705 features found in the “Normal” data, we can see our
+rather strict filtering removed all but 64 features from the dataset. We
+can visualize these results on a per-source basis with the
+<code><a href="../reference/plot_filter_gradient_position.html">plot_filter_gradient_position()</a></code> function.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_filter_gradient_position.html">plot_filter_gradient_position</a></span><span class="op">(</span><span class="va">qsip_normal</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-20-1.png" width="768"></p>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-21-1.png" width="768"></p>
 <p>Although a large number of features were removed, we can tell that
 the 64 that remained actually still make up a large proportion of the
 total abundance in each sample. In <strong>A</strong> above, the
-retained features (in blue) make up ~80-85% of the total data, while the
-removed data (orange) is the remaining ~15-20%.</p>
+retained features (in blue) make up ~75-85% of the total data, while the
+removed data (orange) is the remaining ~15-25%.</p>
 <p>In <strong>B</strong>, we can see that a surprisingly large number of
 features are found 0 times in many sources (gray) and will therefore
 never be present regardless of our filtering choices. And although there
@@ -2930,19 +784,37 @@ total.</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">103</span> unlabeled and <span style="color: #00BB00;">114</span> labeled feature_ids <span style="color: #00BB00;">passed</span> the source filter</span></span>
 <span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
 <span><span class="co">#&gt; In total, <span style="color: #00BB00;">89</span> unique feature_ids <span style="color: #00BB00;">passed</span> all fraction and source filtering requirements</span></span></code></pre></div>
-<p>Here, we can see our rather strict filtering removed all but 64
-features from the dataset. We can visualize the filtering results on a
-per-source basis.</p>
+<p>And only 89 features were retained in the Drought dataset.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_filter_gradient_position.html">plot_filter_gradient_position</a></span><span class="op">(</span><span class="va">qsip_drought</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-22-1.png" width="768"></p>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-23-1.png" width="768"></p>
+<p>Strictly speaking, there is no requirement to do strict filtering,
+and it is possible to execute <code><a href="../reference/run_feature_filter.html">run_feature_filter()</a></code> with all
+parameters set to <code>1</code>. Filtering was originally recommended
+because it dramatically sped up the compute time, but running all vs. a
+subset of features in <code>qSIP2</code> has a minimal impact. Further,
+setting all values to <code>1</code> and utilizing the
+<code>allow_failures</code> flag in the resampling step can provide an
+alternative way of deciding which features to keep, rather than just
+their prevalence amongst sources/samples. More information is provided
+in the Resampling section below, or the
+<code><a href="../articles/resampling.html">vignette("resampling")</a></code> vignette.</p>
+<p>Importantly, since the relative abundances have already been
+calculated for each feature, the subsequent steps in the qSIP pipeline
+keep each feature’s computations independent, and the results for a
+specific feature will be identical regardless of whether other features
+are included or filtered out.</p>
 </div>
 <div class="section level3">
 <h3 id="resampling">Resampling<a class="anchor" aria-label="anchor" href="#resampling"></a>
 </h3>
-<p>In order to calculate the confidence interval for the EAF values, we
-first need to run a resampling/bootstrapping procedure on the WAD
-values.</p>
+<p>The weighted average density (WAD) values were automatically
+calculated during the creation of the <code>qsip_data</code> object
+earlier. In order to calculate the confidence interval for the EAF
+values, we first need to run a resampling/bootstrapping procedure on the
+WAD values. For example, a feature found in 6 unlabeled sources will
+have 6 WAD values, and these 6 WAD values are resampled many times to
+obtain bootstrapped mean WAD values.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qsip_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_resampling.html">run_resampling</a></span><span class="op">(</span><span class="va">qsip_normal</span>,</span>
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
@@ -2970,23 +842,32 @@ resampling process.</p>
 <span><span class="co"># but individual resamplings within are different</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">qsip_normal</span><span class="op">@</span><span class="va">resamples</span><span class="op">$</span><span class="va">l</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">qsip_normal</span><span class="op">@</span><span class="va">resamples</span><span class="op">$</span><span class="va">l</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+<p>Ressampling of the drought dataset. Notice at this step we are
+overwriting the original <code>qsip_drought</code> with the results of
+<code><a href="../reference/run_resampling.html">run_resampling()</a></code>, rather than creating new objects.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qsip_drought</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_resampling.html">run_resampling</a></span><span class="op">(</span><span class="va">qsip_drought</span>,</span>
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  with_seed <span class="op">=</span> <span class="fl">17</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+<p>It is possible to get a resampling error if your filtering is too
+strict. If so, consult the <code><a href="../articles/resampling.html">vignette("resampling")</a></code> vignette
+and consider running with <code>allow_failures = T</code>.</p>
 </div>
-</div>
-<div class="section level2">
-<h2 id="eaf-calculations">EAF Calculations<a class="anchor" aria-label="anchor" href="#eaf-calculations"></a>
-</h2>
+<div class="section level3">
+<h3 id="eaf-calculations">EAF Calculations<a class="anchor" aria-label="anchor" href="#eaf-calculations"></a>
+</h3>
 <p>And we are finally at the last main step, calculating and summarizing
 the excess atom fraction (EAF) values. There are two functions to run,
 the first (<code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code>) that calculate EAF for
 the observed data and all resamplings, and the second
 (<code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code>) that summarizes that data at a
-chosen confidence interval.</p>
+chosen confidence interval. These are split into two functions simply
+because the <code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code> can take a little
+longer, allowing different parameters to be tried in
+<code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> without having to recalculate
+everything.</p>
 <p>We’ll also <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code> to add the original Moisture
 condition to each dataframe before we combine them.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -3002,30 +883,198 @@ condition to each dataframe before we combine them.</p>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span>
 <span></span>
 <span><span class="va">eaf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">normal</span>, <span class="va">drought</span><span class="op">)</span></span></code></pre></div>
-<p>We can plot the top 25 by each moisture condition.</p>
+<p>We can plot the top 50 by each moisture condition.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">eaf</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Moisture</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_max</a></span><span class="op">(</span><span class="va">observed_EAF</span>, n <span class="op">=</span> <span class="fl">25</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">feature_id</span>, <span class="va">observed_EAF</span><span class="op">)</span>, x <span class="op">=</span> <span class="va">mean_resampled_EAF</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_errorbar</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
-<span>    xmin <span class="op">=</span> <span class="va">lower</span>, xmax <span class="op">=</span> <span class="va">upper</span>,</span>
-<span>    color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">lower</span> <span class="op">&gt;</span> <span class="fl">0</span>, <span class="st">"cornflowerblue"</span>, <span class="st">"gray10"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"gray30"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_identity.html" class="external-link">scale_color_identity</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Moisture</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-23-1.png" width="384"></p>
-<p>The <code><a href="../reference/plot_feature_curves.html">plot_feature_curves()</a></code> function allows us to plot the
-tube relative abundances for specific feature IDs. Let’s look at the top
-few.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_curves.html">plot_feature_curves</a></span><span class="op">(</span><span class="va">qsip_normal</span>,</span>
-<span>  feature_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ASV_55"</span>, <span class="st">"ASV_20"</span>, <span class="st">"ASV_93"</span>, <span class="st">"ASV_41"</span>, <span class="st">"ASV_2"</span>, <span class="st">"ASV_5"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_normal</span>, top <span class="op">=</span> <span class="fl">50</span>, confidence <span class="op">=</span> <span class="fl">0.9</span>, error <span class="op">=</span> <span class="st">"ribbon"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Normal moisture"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
 <p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-24-1.png" width="480"></p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_drought</span>, top <span class="op">=</span> <span class="fl">50</span>, confidence <span class="op">=</span> <span class="fl">0.9</span>, error <span class="op">=</span> <span class="st">"ribbon"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Drought moisture"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-25-1.png" width="480"></p>
+<p>The <code><a href="../reference/plot_feature_curves.html">plot_feature_curves()</a></code> function allows us to plot the
+tube relative abundances for specific feature IDs. Let’s look at two
+with high EAF values, and two with low values.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_curves.html">plot_feature_curves</a></span><span class="op">(</span><span class="va">qsip_normal</span>,</span>
+<span>  feature_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ASV_55"</span>, <span class="st">"ASV_84"</span>, <span class="st">"ASV_41"</span>, <span class="st">"ASV_44"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-26-1.png" width="576"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="working-with-multiple-qsip-objects-preview">Working with multiple qSIP objects (preview)<a class="anchor" aria-label="anchor" href="#working-with-multiple-qsip-objects-preview"></a>
+</h2>
+<p>It is possible to work with multiple <code>qsip_data</code> objects
+if they are in a list. This will be detailed in a forthcoming vignette,
+but here is a sneak peak where we can use the existing
+<code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> or <code><a href="../reference/plot_EAF_values.html">plot_EAF_values()</a></code>
+functions.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">qsip_list</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"Normal"</span> <span class="op">=</span> <span class="va">qsip_normal</span>,</span>
+<span>                 <span class="st">"Drought"</span> <span class="op">=</span> <span class="va">qsip_drought</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/summarize_EAF_values.html">summarize_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">feature_id</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="5%">
+<col width="7%">
+<col width="8%">
+<col width="13%">
+<col width="7%">
+<col width="7%">
+<col width="12%">
+<col width="13%">
+<col width="11%">
+<col width="12%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">group</th>
+<th align="left">feature_id</th>
+<th align="right">observed_EAF</th>
+<th align="right">mean_resampled_EAF</th>
+<th align="right">lower</th>
+<th align="right">upper</th>
+<th align="right">labeled_resamples</th>
+<th align="right">unlabeled_resamples</th>
+<th align="right">labeled_sources</th>
+<th align="right">unlabeled_sources</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Normal</td>
+<td align="left">ASV_1</td>
+<td align="right">-0.0153107</td>
+<td align="right">-0.0157044</td>
+<td align="right">-0.0516543</td>
+<td align="right">0.0236518</td>
+<td align="right">1000</td>
+<td align="right">1000</td>
+<td align="right">3</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="left">Drought</td>
+<td align="left">ASV_1</td>
+<td align="right">-0.0333856</td>
+<td align="right">-0.0330890</td>
+<td align="right">-0.0808509</td>
+<td align="right">0.0161212</td>
+<td align="right">1000</td>
+<td align="right">1000</td>
+<td align="right">4</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="left">Normal</td>
+<td align="left">ASV_10</td>
+<td align="right">0.1126260</td>
+<td align="right">0.1121874</td>
+<td align="right">0.0848992</td>
+<td align="right">0.1400368</td>
+<td align="right">1000</td>
+<td align="right">1000</td>
+<td align="right">3</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="left">Drought</td>
+<td align="left">ASV_10</td>
+<td align="right">0.0543136</td>
+<td align="right">0.0541364</td>
+<td align="right">0.0303215</td>
+<td align="right">0.0776436</td>
+<td align="right">1000</td>
+<td align="right">1000</td>
+<td align="right">4</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="left">Drought</td>
+<td align="left">ASV_100</td>
+<td align="right">-0.0892684</td>
+<td align="right">-0.0895131</td>
+<td align="right">-0.1488307</td>
+<td align="right">-0.0349891</td>
+<td align="right">1000</td>
+<td align="right">1000</td>
+<td align="right">3</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
+<td align="left">Drought</td>
+<td align="left">ASV_102</td>
+<td align="right">-0.0407091</td>
+<td align="right">-0.0407609</td>
+<td align="right">-0.0907747</td>
+<td align="right">0.0088904</td>
+<td align="right">1000</td>
+<td align="right">1000</td>
+<td align="right">4</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="left">Normal</td>
+<td align="left">ASV_11</td>
+<td align="right">0.3749260</td>
+<td align="right">0.3743849</td>
+<td align="right">0.3392976</td>
+<td align="right">0.4094196</td>
+<td align="right">1000</td>
+<td align="right">1000</td>
+<td align="right">3</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="left">Drought</td>
+<td align="left">ASV_11</td>
+<td align="right">0.2629470</td>
+<td align="right">0.2622983</td>
+<td align="right">0.2041474</td>
+<td align="right">0.3099201</td>
+<td align="right">1000</td>
+<td align="right">1000</td>
+<td align="right">4</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="left">Normal</td>
+<td align="left">ASV_114</td>
+<td align="right">0.1926455</td>
+<td align="right">0.1918100</td>
+<td align="right">0.1234247</td>
+<td align="right">0.2683575</td>
+<td align="right">1000</td>
+<td align="right">1000</td>
+<td align="right">3</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
+<td align="left">Drought</td>
+<td align="left">ASV_114</td>
+<td align="right">0.2160639</td>
+<td align="right">0.2167657</td>
+<td align="right">0.1304984</td>
+<td align="right">0.2998898</td>
+<td align="right">1000</td>
+<td align="right">1000</td>
+<td align="right">3</td>
+<td align="right">7</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span>, </span>
+<span>                top <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>                confidence <span class="op">=</span> <span class="fl">0.9</span>, </span>
+<span>                error <span class="op">=</span> <span class="st">"bar"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-29-1.png" width="768"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
