@@ -102,6 +102,8 @@ plot_EAF_values <- function(qsip_data_object,
   ## first, make variable for if any of the qsip objects have allow_failures true
   if (object_type == "multiple") {
     allow_failures = any(sapply(qsip_data_object, function(x) x@resamples$allow_failures))
+  } else if (object_type == "single") {
+    allow_failures = qsip_data_object@resamples$allow_failures
   } else {
     allow_failures = FALSE
   }
