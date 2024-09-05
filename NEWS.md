@@ -1,4 +1,6 @@
-# qSIP2 (development version)
+# qSIP2 0.16.0
+
+* Working on documentation updates starting with `vignettes("qSIP_workflow")
 
 # qSIP2 0.15
 

@@ -11,6 +11,7 @@
 
 plot_sample_curves <- function(qsip_data,
                                colors = NULL) {
+
   stopifnot("sample_data should be class <qsip_data>" = "qsip_data" %in% class(qsip_data))
 
   df <- qsip_data@tube_rel_abundance |>

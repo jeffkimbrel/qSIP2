@@ -26,9 +26,9 @@ plot_EAF_values <- function(qsip_data_object,
   # confirm qsip_data_object class is either qsip_data or list
 
   if (is_qsip_data_list(qsip_data_object, error = FALSE)) {
-    object_type = "multiple"
+    object_type <- "multiple"
   } else if (is_qsip_data(qsip_data_object, error = FALSE)) {
-    object_type = "single"
+    object_type <- "single"
   } else {
     stop("ERROR: qsip_data_object must be of class <qsip_data> or <list> of qsip_data objects")
   }
@@ -51,49 +51,69 @@ plot_EAF_values <- function(qsip_data_object,
     stop("ERROR: alpha level should be between 0 and 1")
   }
 
-  if (!error %in% c('none', 'bar', 'ribbon')) {
+  if (!error %in% c("none", "bar", "ribbon")) {
     stop(glue::glue("<error> should be 'none', 'bar' or 'ribbon', not {error}"), call. = FALSE)
   }
 
   EAF <- summarize_EAF_values(qsip_data_object,
-    confidence = confidence)
+    confidence = confidence
+  )
 
   # add number of attempted resamples
   if (object_type == "multiple") {
-
     EAF <- EAF |>
       dplyr::group_by(group) |>
       dplyr::slice_max(observed_EAF, n = top) |>
       dplyr::ungroup() |>
       dplyr::mutate(feature_id = tidytext::reorder_within(feature_id, observed_EAF, within = group)) %>%
-      dplyr::left_join(sapply(qsip_data_object, n_resamples) |>
-                         tibble::enframe(name = "group", value = "resamples"),
-                       by = "group")
-
+      dplyr::left_join(
+        sapply(qsip_data_object, n_resamples) |>
+          tibble::enframe(name = "group", value = "resamples"),
+        by = "group"
+      )
   } else {
-    EAF = EAF |>
+    EAF <- EAF |>
       dplyr::slice_max(observed_EAF, n = top) |>
       dplyr::mutate(resamples = qsip_data_object@resamples$n)
-
   }
 
-  p = EAF |>
+  p <- EAF |>
     dplyr::mutate(feature_id = forcats::fct_reorder(feature_id, observed_EAF)) |>
     ggplot2::ggplot(ggplot2::aes(y = feature_id, x = observed_EAF)) +
     ggplot2::geom_point(
       pch = 21,
       size = 2,
       ggplot2::aes(fill = ifelse((labeled_resamples + unlabeled_resamples) > resamples * 2 * success_ratio,
-                                 "Passed",
-                                 "Failed"
+        "Passed",
+        "Failed"
       ))
-    ) +
-    ggplot2::scale_fill_manual(values = c("Passed" = "#00ff0066", "Failed" = "red")) +
-    ggplot2::labs(
-      fill = glue::glue(">{success_ratio * 100}% successes"),
-      y = "feature_ids reordered by observed_EAF"
     )
 
+  # color and label differently depending on allow_failures
+  ## first, make variable for if any of the qsip objects have allow_failures true
+  if (object_type == "multiple") {
+    allow_failures = any(sapply(qsip_data_object, function(x) x@resamples$allow_failures))
+  } else {
+    allow_failures = FALSE
+  }
+
+  if (isTRUE(allow_failures)) {
+    p <- p +
+      ggplot2::scale_fill_manual(values = c("Passed" = "#00ff0066", "Failed" = "red")) +
+      ggplot2::labs(
+        fill = glue::glue(">{success_ratio * 100}% successes"),
+        y = "feature_ids reordered by observed_EAF"
+      )
+  } else {
+    p <- p +
+      ggplot2::scale_fill_manual(values = c("Passed" = "#037bcf", "Failed" = "#037bcf")) +
+      ggplot2::labs(
+        y = "feature_ids reordered by observed_EAF"
+      ) +
+      guides(fill="none")
+  }
+
+  # control the CI display
   if (error == "bar") {
     p <- p + ggplot2::geom_errorbar(ggplot2::aes(xmin = lower, xmax = upper), alpha = alpha)
   } else if (error == "ribbon") {

@@ -86,7 +86,7 @@ qsip_source_data <- S7::new_class(
     # rename columns to standardized names
     validate_standard_names(data, source_mat_id, "source")
 
-    ## then rename if all good
+    ## then rename if all good. doing it like this unfortunately changes the order of the columns though
     data <- data |>
       dplyr::select(
         isotope = dplyr::all_of(isotope),
