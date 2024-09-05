@@ -397,6 +397,12 @@ qsip_list = list("Normal" = qsip_normal,
 ```
 
 ```{r}
+#| eval: FALSE
+summarize_EAF_values(qsip_list)
+```
+
+```{r}
+#| echo: FALSE
 summarize_EAF_values(qsip_list) |>
   dplyr::arrange(feature_id) |>
   head(10) |> knitr::kable()
