@@ -197,10 +197,17 @@ plot_sample_curves(qsip_object, colors = c("12C" = "orange",
   labs(title = "Normalized density curves for each sample")
 ```
 
+Another sanity check is making sure the reported density values are on a reasonably straight line with the gradient position. This can be plotted, and then a Cook's distance can be calculated to highlight any outliers. Note, the ends of the gradient are often flagged as outliers, although this may not necessarily be the case.
+
+```{r, fig.height=6, fig.width=6}
+plot_density_outliers(qsip_object)
+```
+
+
+
 ::: {.alert .alert-primary}
 The design of the `qsip_data` object is that it is contains "slots" for each new analysis step. Although you could create a new object for each step of the workflow, you can assign the output of each step back to the original object in order to keep everything together.
 :::
-
 
 
 
@@ -413,4 +420,28 @@ plot_EAF_values(qsip_list,
                 top = 50,
                 confidence = 0.9, 
                 error = "bar")
+```
+
+
+# Piped Workflow
+
+Although the workflow is often easier to understand and troubleshoot when broken 
+into individual steps, it is possible to run the entire workflow in a single pipe. 
+
+For example, the normal moisture data could be filtered, resampled and have EAF values calculated 
+in a single pipe.
+
+```{r}
+#| eval: FALSE
+
+# example code, not executed. Default values are not shown.
+
+qsip_normal <- run_feature_filter(qsip_object,
+  unlabeled_source_mat_ids = get_all_by_isotope(qsip_object, "12C"),
+  labeled_source_mat_ids = c("S178", "S179", "S180"),
+  min_unlabeled_sources = 6,
+  min_labeled_sources = 3
+) |>
+  run_resampling() |>
+  run_EAF_calculations()
 ```
