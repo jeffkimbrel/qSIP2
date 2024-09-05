@@ -115,7 +115,8 @@ object.</p>
 the <code>data.frame</code></p></li>
 <li><p>The <code>source_mat_id</code> column must be unique</p></li>
 <li><p>The <code>isotope</code> column must contain valid isotope names. "Valid" means they must be
-one of the types that the <code>qSIP2</code> package has equations for, namely 12C/13C, 14N/15N and 16O/18O.</p></li>
+one of the types that the <code>qSIP2</code> package has equations for, namely 12C/13C, 14N/15N and 16O/18O.
+Some non-isotope names are also valid, including "bulk", "unfractionated" and "T0".</p></li>
 </ul><p>Internally, <code>qsip_source_data</code> renames the metadata columns to be standardized
 to MISIP terminology. A <code>data.frame</code> with the standardized names can be extracted
 back out of the object using the <code><a href="get_dataframe.html">get_dataframe()</a></code> method, and the optional <code>original_headers</code>
