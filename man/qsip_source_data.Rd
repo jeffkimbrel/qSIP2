@@ -53,6 +53,7 @@ the \code{data.frame}
 \item The \code{source_mat_id} column must be unique
 \item The \code{isotope} column must contain valid isotope names. "Valid" means they must be
 one of the types that the \code{qSIP2} package has equations for, namely 12C/13C, 14N/15N and 16O/18O.
+Some non-isotope names are also valid, including "bulk", "unfractionated" and "T0".
 }
 
 Internally, \code{qsip_source_data} renames the metadata columns to be standardized

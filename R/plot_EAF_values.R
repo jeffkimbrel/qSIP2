@@ -2,8 +2,17 @@
 #'
 #' This function plots the observed EAF values for each feature in the dataset.
 #' The features are ordered by their observed EAF values. The confidence intervals
-#' are plotted as error bars or ribbons. The points are colored based on the
-#' success ratio of the resamples.
+#' are plotted as error bars or ribbons.
+#'
+#' Either a single qsip object or a list of named qsip objects can be passed to this
+#' function. If giving a list of qsip objects the plot will be faceted by the
+#' list names.
+#'
+#' If the resampling step was run with the default `allow_failures = FALSE`, then the
+#' points will just be colored a generic blue. But, if resampling was instead run
+#' with `allow_failures = TRUE`, then the points are colored based on the success
+#' ratio of the resamples. If giving a list of qsip objects then the pass/fail color scheme
+#' will be applied if any of the qsip objects have `allow_failures = TRUE`.
 #'
 #' @param qsip_data_object (*qsip_data*) A qsip_data object or list of qsip_data objects
 #' @param confidence (*numeric*) The confidence level for the confidence interval

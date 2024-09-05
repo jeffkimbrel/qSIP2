@@ -34,7 +34,7 @@ at any point in the analysis, if necessary. For example, a study with multiple c
 groups might be combined into one large \code{qSIP_data} object, and then split into separate
 objects at the \code{run_feature_filtering()} step.
 
-Internally, creating the original qSIP objects renamed the metadata columns to be standardized
+Internally, creating the original qSIP objects renames the metadata columns to be standardized
 to MISIP terminology. A \code{data.frame} with the standardized names can be extracted
 back out of the \code{qSIP_data} using the \code{get_dataframe()} method and a required \code{type} argument
 of "source", "sample" or "feature". The optional \code{original_headers}

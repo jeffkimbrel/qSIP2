@@ -20,6 +20,7 @@
 #' * The `source_mat_id` column must be unique
 #' * The `isotope` column must contain valid isotope names. "Valid" means they must be
 #'   one of the types that the `qSIP2` package has equations for, namely 12C/13C, 14N/15N and 16O/18O.
+#'   Some non-isotope names are also valid, including "bulk", "unfractionated" and "T0".
 #'
 #' Internally, `qsip_source_data` renames the metadata columns to be standardized
 #' to MISIP terminology. A `data.frame` with the standardized names can be extracted
@@ -415,7 +416,7 @@ qsip_sample_data <- S7::new_class(
 #' groups might be combined into one large `qSIP_data` object, and then split into separate
 #' objects at the `run_feature_filtering()` step.
 #'
-#' Internally, creating the original qSIP objects renamed the metadata columns to be standardized
+#' Internally, creating the original qSIP objects renames the metadata columns to be standardized
 #' to MISIP terminology. A `data.frame` with the standardized names can be extracted
 #' back out of the `qSIP_data` using the `get_dataframe()` method and a required `type` argument
 #' of "source", "sample" or "feature". The optional `original_headers`
