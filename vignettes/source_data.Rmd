@@ -133,7 +133,7 @@ source_object@data$isotope <- "13G"
 
 # MISIP
 
-While qSIP standards are part of the MISIP standards, the `qSIP2` package is a little less stringent. This means your valid `qSIP2` object might not be valid for a MISIP submission. At the source data level this is primarily through the difference between how the `isotope` data is coded, plus the addition of another `isotopolog_label` column. 
+While qSIP standards are part of the MISIP^[https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1] standards, the `qSIP2` package is a little less stringent. This means your valid `qSIP2` object might not be valid for a MISIP submission. At the source data level this is primarily through the difference between how the `isotope` data is coded, plus the addition of another `isotopolog_label` column. 
 
 `qSIP2` has functions to convert between these two types. `add_isotoplog_label()` makes a MISIP version of the source data, and `remove_isotopolog_label()` converts it back to a `qSIP2` compatible version. Two things are changed when running `add_isotoplog_label()` - 1) the `isotopolog_label` column is added and is populated with either "isotopically labeled" or "natural abundance" for heavy and light isotopes, respectively, and 2) the `isotope` column gets modified to be only the heavy isotope (e.g. all "12C" entries become "13C"). 
 

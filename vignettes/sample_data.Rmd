@@ -18,102 +18,155 @@ knitr::opts_chunk$set(
 
 ```{r setup, message=FALSE, warning=FALSE}
 library(dplyr)
-library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
 ```
 
 ```{r, echo=FALSE}
-ggplot2::theme_set(ggplot2::theme_bw())
-
-gt_func <- function(df, title) {
-  df |>
-    gt::gt() |>
-    gt::tab_header(
-      title = title,
-    ) |>
-    gt::opt_stylize(style = 2, color = "gray") |>
-    gt::tab_options(
-      table.font.size = 12
-    ) |>
-    gt::tab_style(
-      style = gt::cell_text(font = gt::system_fonts(name = "monospace-code")),
-      locations = gt::cells_body()
-    )
-}
+ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
-# Sample Metadata
+# Samples and Metadata
 
-In `qSIP2`, "sample data" refers to any metadata associated with the individual fractions or their sequencing data. This is the second level of metadata - more granular than "source data", but at a higher-level than the "feature data".
+In `qSIP2`, "sample data" refers to any metadata associated with the individual fractions or their sequencing data. This is the second level of metadata - more granular than "source data", but at a higher-level than the "feature data". 
 
-## What is a sample?
-
+::: {.alert .alert-primary}
 The word **sample** typically refers to the biological or environmental entity the DNA was isolated (aka the **source material**). In qSIP, however, because there are multiple sequencing runs per **source**, the term **sample** has historically been reserved for sequencing of each fraction. In practice, this means you will have many **samples** for each single **source**. To keep with the proposed MISIP^[https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1] standards, the source material is coded with the `source_mat_id`, and each sequencing run/fraction is coded with the `sample_id`.
+:::
 
-# Sample Metadata
-
-The sample data has the most requirements to pass validation of the three qSIP input types. To standardize these requirements the column names should adhere as closely to MISIP standards where possible. Absolute requirements are slightly different than the official MISIP standards, and for the `qSIP2` package would be the `source_mat_id`, `sample_id`, `gradient_position`, `gradient_pos_density` and `gradient_pos_rel_amt` fields.
+The sample data has the most requirements to pass validation of the three `qSIP2` input types. To standardize these requirements the column names should adhere as closely to MISIP standards where possible. Absolute requirements are slightly different than the official MISIP standards, and for the `qSIP2` package would be the `source_mat_id`, `sample_id`, `gradient_position`, `gradient_pos_density` and `gradient_pos_rel_amt` fields.
 
 ## `source_mat_id` and `sample_id` columns
 
-One column of the metadata should contain a unique `sample_id` that is associated with a `source_mat_id`. The format of the `sample_id` doesn't matter, as long as it is unique. A popular choice might be the `source_mat_id` appended with the gradient position.
+One column of the metadata should contain a unique `sample_id` that is associated with a `source_mat_id` that matches one row on the `qsip_source_data` dataframe. Although the `sample_id` should be unique for each row, it is expected that the `source_mat_id` will be duplicated creating a **many-to-one** relationship. The format of the `sample_id` doesn't matter, as long as it is unique. A popular choice might be the `source_mat_id` appended with the gradient position. 
 
-```{r, echo=FALSE}
-data.frame(
-  "source_mat_id" = c(rep("A", 3), rep("B", 3)),
-  "sample_id" = c(paste(rep("A", 3, ), 1:3, sep = "_"), paste(rep("B", 3), 1:3, sep = "_"))
-) |>
-  gt_func("Sample `source_mat_id` and `sample_id` pairs")
-```
 
-Each `source_mat_id` should match to one row on the `qsip_source_data` dataframe. And although the `sample_id` should be unique for each row, it is expected that the `source_mat_id` will be duplicated. 
+
 
 ## `gradient_position` and `gradient_pos_density` columns
 
-These are columns conforming to the MISIP standards to describe the position and density values for each `sample_id`. Although only `gradient_position` is required for MISIP, they are both required for qSIP. 
-
-`gradient_position` is typically numbered by decreasing density, so the heaviest will be `1`, second heaviest will be `2`, etc. To pass `qSIP2` validation the `gradient_position` must be a positive integer, but `-1` will also be accepted to designate a "bulk" sample (although these are not used in `qSIP2`). `gradient_position` is not used directly in `qSIP2` calculations but can be useful for quality control (see below).
-
-`gradient_pos_density` is reported as g/ml with as much decimal place precision as your method allows. 
-
+These are the required columns to describe the position and density values for each `sample_id`. `gradient_position` is typically numbered by decreasing density, so the heaviest will be `1`, second heaviest will be `2`, etc. To pass `qSIP2` validation the `gradient_position` must be a positive integer, but `-1` will also be accepted to designate a "bulk" or other "unfractionated" sample (e.g. when doing growth analysis). `gradient_position` is not used directly in `qSIP2` calculations but can be useful for quality control. `gradient_pos_density` is reported as g/ml with as much decimal place precision as your method allows. 
 
 
 
 
 ## `gradient_pos_amt` and `gradient_pos_rel_amt` columns
 
-A requirement for qSIP is the `gradient_pos_rel_amt` field, which gives the percent amount that a fraction has of the whole. The preferred method is given in qPCR copy numbers, but DNA concentrations can be used as well. 
+A requirement for qSIP is the `gradient_pos_rel_amt` field, which gives the percent amount that a fraction has of the whole. The preferred method is given in qPCR copy numbers per volume of source material, but DNA totals/concentrations can be used as well. 
 
 The `gradient_pos_rel_amt` column is required for MISIP standards, but for `qSIP2` we also require an additional `gradient_pos_amt` column with the "raw" abundance values for each sample. This requirement is because typically a qSIP workflow will produce the `gradient_pos_amt` values, and the `gradient_pos_rel_amt` can be derived from it using the `add_gradient_pos_rel_amt()` function. This function simply totals up the `gradient_pos_amt` for each sample in a source, and then divides by the total. This math is the same whether using qPCR amplicon copies or total DNA isolated.
 
 For example, if there are 100,000 total 16S copies in a source as determined by qPCR, and 15,000 copies in fraction 7, then the `gradient_pos_rel_amt` value for fraction 7 would be 0.15 (15,000 / 100,000). Similarly, if you had 25ng total DNA used for density separation, and fraction 7 had 3.75 ng DNA recovered, then `gradient_pos_rel_amt` would also be 0.15 (3.75 / 25). 
 
-Ideally, all of the `gradient_pos_rel_amt` for a given `source_mat_id` should add up to 1^[The `add_gradient_pos_rel_amt()` function will always give totals equal to 1.], but there are situations where it might be less than 1. For example, if you removed some fractions because they didn't sequence well or there was some other reason to remove a fraction. If you have 16S or DNA concentrations for these removed samples they would be subtracted from the total. So, for our example above, if fraction 7 needed to be removed, then the total for all fractions of that `source_mat_id` would only be 0.85. Another situation would be that although you added 25ng to a centrifugation, you only recovered 20ng and the rest was lost[^angel_share]. The total fractions within a `source_mat_id` within should never be greater than 1.
+See below for cases where it might make sense for the totals to not add up to 100%, and how to work with those cases in `qSIP2`. 
+
+An example sample dataframe is included in the `qSIP2` package to demonstrate the possible columns. 
+
+```{r, eval=FALSE}
+example_sample_df
+```
+
+```{r, echo=FALSE}
+example_sample_df |>
+  head() |>
+  knitr::kable(caption = "First few rows of formatted sample data")
+```
+
+
+# qSIP2 Sample Data Object
+
+The `qsip_sample_data()` constructor builds a sample data object from the dataframe. Like the source data object, the sample data object is built by providing column names to the appropriate parameters. 
+
+```{r, error=TRUE}
+sample_object <- qsip_sample_data(example_sample_df,
+  sample_id = "sample",
+  source_mat_id = "source",
+  gradient_position = "Fraction",
+  gradient_pos_density = "density_g_ml",
+  gradient_pos_amt = "avg_16S_g_soil"
+)
+```
+
+::: {.alert .alert-primary}
+Notice our dataframe did not contain the required `gradient_pos_rel_amt` column, but the function was able to calculate it using the data in the `gradient_pos_amt` column. See below for reasons why you might want to pre-calculate this value rather than having the function calculate it for you. 
+:::
+
+## Structure of `qsip_sample_data`
+
+Like other `qSIP2` objects, the `qsip_sample_data` object is a list with a few key components, but not meant to be inspected directly. 
+
+```{r}
+glimpse(sample_object)
+```
+
+The dataframe can be returned from the object using the `get_dataframe()` function. 
+
+```{r}
+#| eval: FALSE
+get_dataframe(sample_object)
+```
+
+```{r}
+#| echo: FALSE
+get_dataframe(sample_object) |>
+  head() |>
+  knitr::kable(caption = "First few rows of formatted sample data")
+```
+
+
+
+## Validation of `qsip_sample_data`
+
+A valid `qsip_sample_data` object will have the required columns, `sample_id` will contain unique values, and `gradient_position` will be positive integers or `-1`. 
+
+Additionally, the `density_g_ml` values should be in a reasonable range (between 1.55 and 1.8)
+
+```{r, error = TRUE}
+# modifying density_g_ml to be too low will give an error
+example_sample_df |>
+  mutate(density_g_ml = density_g_ml / 2) |>
+  qsip_sample_data(
+    sample_id = "sample",
+    source_mat_id = "source",
+    gradient_position = "Fraction",
+    gradient_pos_density = "density_g_ml",
+    gradient_pos_amt = "avg_16S_g_soil"
+  )
+```
+
+# When to calculate the `gradient_pos_rel_amt` values?
+
+Typically all of the `gradient_pos_rel_amt` for a given `source_mat_id` should add up to 1 (i.e. 100%), but there are situations where it might be less than 1 (although never be greater than 1). For example, if you removed some fractions because they didn't sequence well or there was some other reason to remove a fraction. If those removed fractions were 5% of the total data in that `source_mat_id`, then you would expect the total of all fractions to be 0.95 rather than 1. Another situation would be that although you added 25ng to a centrifugation, you only recovered 20ng and the rest was lost[^angel_share]. 
 
 [^angel_share]: [The angel's share and devil's cut](https://www.visitlex.com/guides/post/common-geeky-bourbon-terms-explained/#:~:text=Angel's%20Share)
 
-### `add_gradient_pos_rel_amt()` function
+This matters because if you run the `add_gradient_pos_rel_amt()` function on your dataframe then the totals will add up to 1. You can then remove the rows from the dataframe that you don't want to include in the analysis, and sum of the `gradient_pos_rel_amt` values will equal the appropriately adjusted amount. But, if you remove the bad rows from the dataframe first, and then let the `qsip_sample_data()` function create the `gradient_pos_rel_amt` values, then they will be artificially higher than they should be. 
 
 You can use a total abundance (qPCR or DNA concentrations) to calculate the `gradient_pos_rel_amt` column.
 
 ```{r}
-sample_df <- add_gradient_pos_rel_amt(example_sample_df,
+#| eval: false
+add_gradient_pos_rel_amt(example_sample_df,
   source_mat_id = "source",
   amt = "avg_16S_g_soil"
 )
 ```
 
 ```{r, echo=FALSE}
-sample_df |>
+add_gradient_pos_rel_amt(example_sample_df,
+  source_mat_id = "source",
+  amt = "avg_16S_g_soil") |>
   head() |>
-  gt_func(title = "sample data with `gradient_pos_rel_amt` added")
+  knitr::kable(caption = "sample data with `gradient_pos_rel_amt` added")
 ```
 
 Trying to run this function on a dataframe with an existing `gradient_pos_rel_amt` will give an error, but it can be overridden with the `overwrite = T` flag.
 
 ```{r, error=TRUE}
-sample_df |>
+add_gradient_pos_rel_amt(example_sample_df,
+  source_mat_id = "source",
+  amt = "avg_16S_g_soil"
+) |>
   add_gradient_pos_rel_amt(
     source_mat_id = "source",
     amt = "avg_16S_g_soil"
@@ -121,72 +174,17 @@ sample_df |>
 ```
 
 ```{r, eval=FALSE}
-sample_df |>
+# set overwrite = TRUE to override the error, although this is a silly example here
+add_gradient_pos_rel_amt(example_sample_df,
+  source_mat_id = "source",
+  amt = "avg_16S_g_soil"
+) |>
   add_gradient_pos_rel_amt(
     source_mat_id = "source",
     amt = "avg_16S_g_soil",
-    overwrite = T
+    overwrite = TRUE
   )
 ```
 
 
-
-
-
-
-# Making a `qsip_sample_data` object
-
-The `qsip_sample_data` constructor builds a sample data object from the dataframe. We can use the `sample_df` we built above (with the relative amounts) to build the qsip object. We can take another look at it to make sure we have the column names we will need.
-
-```{r, echo=FALSE}
-sample_df |>
-  dplyr::select(-dna_conc) |>
-  head() |>
-  gt_func(title = "First few rows of formatted sample data")
-```
-
-```{r, error=TRUE}
-sample_object <- qsip_sample_data(sample_df,
-  sample_id = "sample",
-  source_mat_id = "source",
-  gradient_position = "Fraction",
-  gradient_pos_density = "density_g_ml",
-  gradient_pos_amt = "avg_16S_g_soil",
-  gradient_pos_rel_amt = "gradient_pos_rel_amt"
-)
-```
-
-
-
-
-# Working with a `qsip_sample_data` object
-
-The `sample_object` created above is ready for the next step in the main workflow, but we can also use it for some intermediate analysis and QC.
-
-## Look for density outliers
-
-Sometimes there might be errors in the density values in a spreadsheet, particularly if they are entered by hand. The `plot_density_outliers()` can help identify these outliers using Cook's distance and a specified `sensitivity` value. The lower the `sensitivity` parameter, the more sensitive the algorithm is to calling a point an outlier.
-
-```{r, fig.width=8, fig.height=6}
-plot_density_outliers(sample_object)
-```
-
-Here we see some values at the ends of the density ranges are slightly lower than their gradient position would suggest, and are therefore considered possible outliers and colored red. The ends of the density ranges, however, are expected to fall off of the main line, and so these results are not too concerning here. 
-
-# Validation
-
-The `qSIP2` sample data object has built in error checking for the data types passed. For example, if we modify the `Fraction` column to be characters instead of integers we will get a validation error. 
-
-```{r, error=TRUE}
-sample_object <- sample_df |>
-  mutate(Fraction = as.character(Fraction)) |>
-  qsip_sample_data(
-    sample_id = "sample",
-    source_mat_id = "source",
-    gradient_position = "Fraction",
-    gradient_pos_density = "density_g_ml",
-    gradient_pos_amt = "avg_16S_g_soil",
-    gradient_pos_rel_amt = "gradient_pos_rel_amt"
-  )
-```
 

@@ -3,6 +3,7 @@
 * Working on documentation updates starting with `vignette("qSIP_workflow")`
 * Added light/dark switch to website documentation
 * Updated `vignette("source_data")`
+* Updated `vignette("sample_data")`
 
 # qSIP2 0.15
 
