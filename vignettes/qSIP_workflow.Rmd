@@ -89,7 +89,7 @@ get_dataframe(source_object, original_headers = T) |>
   knitr::kable()
 ```
 
-See `vignette("source_data")` for more details on working with source data including the built-in validations.
+See `vignette("source_data")` for more details on working with source data.
 
 
 
@@ -136,7 +136,7 @@ sample_object <- qsip_sample_data(sample_df,
 class(sample_object)
 ```
 
-See `vignette("sample_data")` for more information on working with sample data including the built-in validations and visualizations.
+See `vignette("sample_data")` for more information on working with sample data including the built-in validations.
 
 
 
@@ -160,7 +160,7 @@ feature_object <- qsip_feature_data(example_feature_df,
 class(feature_object)
 ```
 
-See `vignette("feature_data")` for more details and relevant visualizations.
+See `vignette("feature_data")` for more details.
 
 
 
