@@ -1,11 +1,11 @@
-# qSIP2 0.16.4
-
 # qSIP2 0.16
 
-* Working on documentation updates starting with `vignette("qSIP_workflow")`
+* The vignettes were previously hastily written, but now they have been hastily re-written to capture the modern workflow of `qSIP2`
+    * `vignette("qSIP_workflow")`
+    * `vignette("source_data")`
+    * `vignette("sample_data")`
+    * `vignette("feature_data")`
 * Added light/dark switch to website documentation
-* Updated `vignette("source_data")`
-* Updated `vignette("sample_data")`
 
 # qSIP2 0.15
 
