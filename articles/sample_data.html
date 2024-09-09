@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,20 +86,17 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.16.2'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.16.3'</span></span></code></pre></div>
 <div class="section level2">
-<h2 id="sample-metadata">Sample Metadata<a class="anchor" aria-label="anchor" href="#sample-metadata"></a>
+<h2 id="samples-and-metadata">Samples and Metadata<a class="anchor" aria-label="anchor" href="#samples-and-metadata"></a>
 </h2>
 <p>In <code>qSIP2</code>, “sample data” refers to any metadata
 associated with the individual fractions or their sequencing data. This
 is the second level of metadata - more granular than “source data”, but
 at a higher-level than the “feature data”.</p>
-<div class="section level3">
-<h3 id="what-is-a-sample">What is a sample?<a class="anchor" aria-label="anchor" href="#what-is-a-sample"></a>
-</h3>
+<div class="alert alert-primary">
 <p>The word <strong>sample</strong> typically refers to the biological
 or environmental entity the DNA was isolated (aka the <strong>source
 material</strong>). In qSIP, however, because there are multiple
@@ -111,15 +108,11 @@ keep with the proposed MISIP<a class="footnote-ref" tabindex="0" data-bs-toggle=
 with the <code>source_mat_id</code>, and each sequencing run/fraction is
 coded with the <code>sample_id</code>.</p>
 </div>
-</div>
-<div class="section level2">
-<h2 id="sample-metadata-1">Sample Metadata<a class="anchor" aria-label="anchor" href="#sample-metadata-1"></a>
-</h2>
 <p>The sample data has the most requirements to pass validation of the
-three qSIP input types. To standardize these requirements the column
-names should adhere as closely to MISIP standards where possible.
-Absolute requirements are slightly different than the official MISIP
-standards, and for the <code>qSIP2</code> package would be the
+three <code>qSIP2</code> input types. To standardize these requirements
+the column names should adhere as closely to MISIP standards where
+possible. Absolute requirements are slightly different than the official
+MISIP standards, and for the <code>qSIP2</code> package would be the
 <code>source_mat_id</code>, <code>sample_id</code>,
 <code>gradient_position</code>, <code>gradient_pos_density</code> and
 <code>gradient_pos_rel_amt</code> fields.</p>
@@ -129,520 +122,30 @@ standards, and for the <code>qSIP2</code> package would be the
 </h3>
 <p>One column of the metadata should contain a unique
 <code>sample_id</code> that is associated with a
-<code>source_mat_id</code>. The format of the <code>sample_id</code>
-doesn’t matter, as long as it is unique. A popular choice might be the
-<code>source_mat_id</code> appended with the gradient position.</p>
-<div id="mwlefoodfi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mwlefoodfi table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#mwlefoodfi thead, #mwlefoodfi tbody, #mwlefoodfi tfoot, #mwlefoodfi tr, #mwlefoodfi td, #mwlefoodfi th {
-  border-style: none;
-}
-
-#mwlefoodfi p {
-  margin: 0;
-  padding: 0;
-}
-
-#mwlefoodfi .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 12px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 3px;
-  border-top-color: #D5D5D5;
-  border-right-style: solid;
-  border-right-width: 3px;
-  border-right-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 3px;
-  border-bottom-color: #D5D5D5;
-  border-left-style: solid;
-  border-left-width: 3px;
-  border-left-color: #D5D5D5;
-}
-
-#mwlefoodfi .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#mwlefoodfi .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#mwlefoodfi .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#mwlefoodfi .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-}
-
-#mwlefoodfi .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_col_heading {
-  color: #FFFFFF;
-  background-color: #000000;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#mwlefoodfi .gt_column_spanner_outer {
-  color: #FFFFFF;
-  background-color: #000000;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#mwlefoodfi .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#mwlefoodfi .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#mwlefoodfi .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#mwlefoodfi .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#mwlefoodfi .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#mwlefoodfi .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-  vertical-align: middle;
-}
-
-#mwlefoodfi .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#mwlefoodfi .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#mwlefoodfi .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D5D5D5;
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-left-color: #D5D5D5;
-  border-right-style: solid;
-  border-right-width: 1px;
-  border-right-color: #D5D5D5;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#mwlefoodfi .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #5F5F5F;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#mwlefoodfi .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#mwlefoodfi .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#mwlefoodfi .gt_summary_row {
-  color: #333333;
-  background-color: #D5D5D5;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D5D5D5;
-}
-
-#mwlefoodfi .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#mwlefoodfi .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-}
-
-#mwlefoodfi .gt_grand_summary_row {
-  color: #FFFFFF;
-  background-color: #929292;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D5D5D5;
-}
-
-#mwlefoodfi .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D5D5D5;
-}
-
-#mwlefoodfi .gt_striped {
-  background-color: #F4F4F4;
-}
-
-#mwlefoodfi .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-}
-
-#mwlefoodfi .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#mwlefoodfi .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mwlefoodfi .gt_left {
-  text-align: left;
-}
-
-#mwlefoodfi .gt_center {
-  text-align: center;
-}
-
-#mwlefoodfi .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#mwlefoodfi .gt_font_normal {
-  font-weight: normal;
-}
-
-#mwlefoodfi .gt_font_bold {
-  font-weight: bold;
-}
-
-#mwlefoodfi .gt_font_italic {
-  font-style: italic;
-}
-
-#mwlefoodfi .gt_super {
-  font-size: 65%;
-}
-
-#mwlefoodfi .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#mwlefoodfi .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#mwlefoodfi .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#mwlefoodfi .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#mwlefoodfi .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#mwlefoodfi .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#mwlefoodfi .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#mwlefoodfi .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#mwlefoodfi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="2" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Sample `source_mat_id` and `sample_id` pairs</td>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="source_mat_id">source_mat_id</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sample_id">sample_id</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr>
-<td headers="source_mat_id" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">A</td>
-<td headers="sample_id" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">A_1</td>
-</tr>
-<tr>
-<td headers="source_mat_id" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">A</td>
-<td headers="sample_id" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">A_2</td>
-</tr>
-<tr>
-<td headers="source_mat_id" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">A</td>
-<td headers="sample_id" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">A_3</td>
-</tr>
-<tr>
-<td headers="source_mat_id" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">B</td>
-<td headers="sample_id" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">B_1</td>
-</tr>
-<tr>
-<td headers="source_mat_id" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">B</td>
-<td headers="sample_id" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">B_2</td>
-</tr>
-<tr>
-<td headers="source_mat_id" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">B</td>
-<td headers="sample_id" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">B_3</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Each <code>source_mat_id</code> should match to one row on the
-<code>qsip_source_data</code> dataframe. And although the
+<code>source_mat_id</code> that matches one row on the
+<code>qsip_source_data</code> dataframe. Although the
 <code>sample_id</code> should be unique for each row, it is expected
-that the <code>source_mat_id</code> will be duplicated.</p>
+that the <code>source_mat_id</code> will be duplicated creating a
+<strong>many-to-one</strong> relationship. The format of the
+<code>sample_id</code> doesn’t matter, as long as it is unique. A
+popular choice might be the <code>source_mat_id</code> appended with the
+gradient position.</p>
 </div>
 <div class="section level3">
 <h3 id="gradient_position-and-gradient_pos_density-columns">
 <code>gradient_position</code> and <code>gradient_pos_density</code>
 columns<a class="anchor" aria-label="anchor" href="#gradient_position-and-gradient_pos_density-columns"></a>
 </h3>
-<p>These are columns conforming to the MISIP standards to describe the
-position and density values for each <code>sample_id</code>. Although
-only <code>gradient_position</code> is required for MISIP, they are both
-required for qSIP.</p>
-<p><code>gradient_position</code> is typically numbered by decreasing
-density, so the heaviest will be <code>1</code>, second heaviest will be
-<code>2</code>, etc. To pass <code>qSIP2</code> validation the
-<code>gradient_position</code> must be a positive integer, but
-<code>-1</code> will also be accepted to designate a “bulk” sample
-(although these are not used in <code>qSIP2</code>).
-<code>gradient_position</code> is not used directly in
-<code>qSIP2</code> calculations but can be useful for quality control
-(see below).</p>
-<p><code>gradient_pos_density</code> is reported as g/ml with as much
+<p>These are the required columns to describe the position and density
+values for each <code>sample_id</code>. <code>gradient_position</code>
+is typically numbered by decreasing density, so the heaviest will be
+<code>1</code>, second heaviest will be <code>2</code>, etc. To pass
+<code>qSIP2</code> validation the <code>gradient_position</code> must be
+a positive integer, but <code>-1</code> will also be accepted to
+designate a “bulk” or other “unfractionated” sample (e.g. when doing
+growth analysis). <code>gradient_position</code> is not used directly in
+<code>qSIP2</code> calculations but can be useful for quality control.
+<code>gradient_pos_density</code> is reported as g/ml with as much
 decimal place precision as your method allows.</p>
 </div>
 <div class="section level3">
@@ -652,8 +155,8 @@ columns<a class="anchor" aria-label="anchor" href="#gradient_pos_amt-and-gradien
 </h3>
 <p>A requirement for qSIP is the <code>gradient_pos_rel_amt</code>
 field, which gives the percent amount that a fraction has of the whole.
-The preferred method is given in qPCR copy numbers, but DNA
-concentrations can be used as well.</p>
+The preferred method is given in qPCR copy numbers per volume of source
+material, but DNA totals/concentrations can be used as well.</p>
 <p>The <code>gradient_pos_rel_amt</code> column is required for MISIP
 standards, but for <code>qSIP2</code> we also require an additional
 <code>gradient_pos_amt</code> column with the “raw” abundance values for
@@ -670,1150 +173,360 @@ determined by qPCR, and 15,000 copies in fraction 7, then the
 (15,000 / 100,000). Similarly, if you had 25ng total DNA used for
 density separation, and fraction 7 had 3.75 ng DNA recovered, then
 <code>gradient_pos_rel_amt</code> would also be 0.15 (3.75 / 25).</p>
-<p>Ideally, all of the <code>gradient_pos_rel_amt</code> for a given
-<code>source_mat_id</code> should add up to 1<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;The &lt;code&gt;&lt;a href="../reference/add_gradient_pos_rel_amt.html"&gt;add_gradient_pos_rel_amt()&lt;/a&gt;&lt;/code&gt; function
-will always give totals equal to 1.&lt;/p&gt;'><sup>2</sup></a>, but there are
-situations where it might be less than 1. For example, if you removed
-some fractions because they didn’t sequence well or there was some other
-reason to remove a fraction. If you have 16S or DNA concentrations for
-these removed samples they would be subtracted from the total. So, for
-our example above, if fraction 7 needed to be removed, then the total
-for all fractions of that <code>source_mat_id</code> would only be 0.85.
-Another situation would be that although you added 25ng to a
-centrifugation, you only recovered 20ng and the rest was lost<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;&lt;a href=&quot;https://www.visitlex.com/guides/post/common-geeky-bourbon-terms-explained/#:~:text=Angel's%20Share&quot; class=&quot;external-link&quot;&gt;The
-angel’s share and devil’s cut&lt;/a&gt;&lt;/p&gt;"><sup>3</sup></a>. The total
-fractions within a <code>source_mat_id</code> within should never be
-greater than 1.</p>
-<div class="section level4">
-<h4 id="add_gradient_pos_rel_amt-function">
-<code>add_gradient_pos_rel_amt()</code> function<a class="anchor" aria-label="anchor" href="#add_gradient_pos_rel_amt-function"></a>
-</h4>
-<p>You can use a total abundance (qPCR or DNA concentrations) to
-calculate the <code>gradient_pos_rel_amt</code> column.</p>
+<p>See below for cases where it might make sense for the totals to not
+add up to 100%, and how to work with those cases in
+<code>qSIP2</code>.</p>
+<p>An example sample dataframe is included in the <code>qSIP2</code>
+package to demonstrate the possible columns.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span><span class="va">example_sample_df</span>,</span>
-<span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
-<span>  amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div id="eexombwkke" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#eexombwkke table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#eexombwkke thead, #eexombwkke tbody, #eexombwkke tfoot, #eexombwkke tr, #eexombwkke td, #eexombwkke th {
-  border-style: none;
-}
-
-#eexombwkke p {
-  margin: 0;
-  padding: 0;
-}
-
-#eexombwkke .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 12px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 3px;
-  border-top-color: #D5D5D5;
-  border-right-style: solid;
-  border-right-width: 3px;
-  border-right-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 3px;
-  border-bottom-color: #D5D5D5;
-  border-left-style: solid;
-  border-left-width: 3px;
-  border-left-color: #D5D5D5;
-}
-
-#eexombwkke .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#eexombwkke .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#eexombwkke .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#eexombwkke .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#eexombwkke .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-}
-
-#eexombwkke .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#eexombwkke .gt_col_heading {
-  color: #FFFFFF;
-  background-color: #000000;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#eexombwkke .gt_column_spanner_outer {
-  color: #FFFFFF;
-  background-color: #000000;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#eexombwkke .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#eexombwkke .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#eexombwkke .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#eexombwkke .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#eexombwkke .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#eexombwkke .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-  vertical-align: middle;
-}
-
-#eexombwkke .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#eexombwkke .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#eexombwkke .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D5D5D5;
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-left-color: #D5D5D5;
-  border-right-style: solid;
-  border-right-width: 1px;
-  border-right-color: #D5D5D5;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#eexombwkke .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #5F5F5F;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#eexombwkke .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#eexombwkke .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#eexombwkke .gt_summary_row {
-  color: #333333;
-  background-color: #D5D5D5;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D5D5D5;
-}
-
-#eexombwkke .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#eexombwkke .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-}
-
-#eexombwkke .gt_grand_summary_row {
-  color: #FFFFFF;
-  background-color: #929292;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D5D5D5;
-}
-
-#eexombwkke .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D5D5D5;
-}
-
-#eexombwkke .gt_striped {
-  background-color: #F4F4F4;
-}
-
-#eexombwkke .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-}
-
-#eexombwkke .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#eexombwkke .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#eexombwkke .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#eexombwkke .gt_left {
-  text-align: left;
-}
-
-#eexombwkke .gt_center {
-  text-align: center;
-}
-
-#eexombwkke .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#eexombwkke .gt_font_normal {
-  font-weight: normal;
-}
-
-#eexombwkke .gt_font_bold {
-  font-weight: bold;
-}
-
-#eexombwkke .gt_font_italic {
-  font-style: italic;
-}
-
-#eexombwkke .gt_super {
-  font-size: 65%;
-}
-
-#eexombwkke .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#eexombwkke .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#eexombwkke .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#eexombwkke .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#eexombwkke .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#eexombwkke .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#eexombwkke .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#eexombwkke .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#eexombwkke div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="7" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>sample data with `gradient_pos_rel_amt` added</td>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sample">sample</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="source">source</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Fraction">Fraction</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="density_g_ml">density_g_ml</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="dna_conc">dna_conc</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="avg_16S_g_soil">avg_16S_g_soil</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="gradient_pos_rel_amt">gradient_pos_rel_amt</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr>
-<td headers="sample" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">149_F1</td>
-<td headers="source" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">S149</td>
-<td headers="Fraction" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1</td>
-<td headers="density_g_ml" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.778855</td>
-<td headers="dna_conc" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">0.000000000</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">4473.7081</td>
-<td headers="gradient_pos_rel_amt" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.284122e-04</td>
+<code class="sourceCode R"><span><span class="va">example_sample_df</span></span></code></pre></div>
+<table class="table">
+<caption>First few rows of formatted sample data</caption>
+<thead><tr class="header">
+<th align="left">sample</th>
+<th align="left">source</th>
+<th align="right">Fraction</th>
+<th align="right">density_g_ml</th>
+<th align="right">dna_conc</th>
+<th align="right">avg_16S_g_soil</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">149_F1</td>
+<td align="left">S149</td>
+<td align="right">1</td>
+<td align="right">1.778855</td>
+<td align="right">0.0000000</td>
+<td align="right">4473.7081</td>
 </tr>
-<tr>
-<td headers="sample" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">149_F2</td>
-<td headers="source" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">S149</td>
-<td headers="Fraction" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">2</td>
-<td headers="density_g_ml" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.773391</td>
-<td headers="dna_conc" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">0.000000000</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">986.6581</td>
-<td headers="gradient_pos_rel_amt" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">2.832078e-05</td>
+<tr class="even">
+<td align="left">149_F2</td>
+<td align="left">S149</td>
+<td align="right">2</td>
+<td align="right">1.773391</td>
+<td align="right">0.0000000</td>
+<td align="right">986.6581</td>
 </tr>
-<tr>
-<td headers="sample" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">149_F3</td>
-<td headers="source" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">S149</td>
-<td headers="Fraction" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">3</td>
-<td headers="density_g_ml" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.765742</td>
-<td headers="dna_conc" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">0.000000000</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">4002.7026</td>
-<td headers="gradient_pos_rel_amt" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.148925e-04</td>
+<tr class="odd">
+<td align="left">149_F3</td>
+<td align="left">S149</td>
+<td align="right">3</td>
+<td align="right">1.765742</td>
+<td align="right">0.0000000</td>
+<td align="right">4002.7026</td>
 </tr>
-<tr>
-<td headers="sample" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">149_F4</td>
-<td headers="source" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">S149</td>
-<td headers="Fraction" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">4</td>
-<td headers="density_g_ml" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.759185</td>
-<td headers="dna_conc" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">0.000000000</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">3959.7283</td>
-<td headers="gradient_pos_rel_amt" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.136590e-04</td>
+<tr class="even">
+<td align="left">149_F4</td>
+<td align="left">S149</td>
+<td align="right">4</td>
+<td align="right">1.759185</td>
+<td align="right">0.0000000</td>
+<td align="right">3959.7283</td>
 </tr>
-<tr>
-<td headers="sample" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">149_F5</td>
-<td headers="source" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">S149</td>
-<td headers="Fraction" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">5</td>
-<td headers="density_g_ml" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.752629</td>
-<td headers="dna_conc" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">0.001241303</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">5725.7319</td>
-<td headers="gradient_pos_rel_amt" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.643499e-04</td>
+<tr class="odd">
+<td align="left">149_F5</td>
+<td align="left">S149</td>
+<td align="right">5</td>
+<td align="right">1.752629</td>
+<td align="right">0.0012413</td>
+<td align="right">5725.7319</td>
 </tr>
-<tr>
-<td headers="sample" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">149_F6</td>
-<td headers="source" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">S149</td>
-<td headers="Fraction" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">6</td>
-<td headers="density_g_ml" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.746072</td>
-<td headers="dna_conc" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">0.012815610</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">7566.2722</td>
-<td headers="gradient_pos_rel_amt" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">2.171803e-04</td>
+<tr class="even">
+<td align="left">149_F6</td>
+<td align="left">S149</td>
+<td align="right">6</td>
+<td align="right">1.746072</td>
+<td align="right">0.0128156</td>
+<td align="right">7566.2722</td>
 </tr>
 </tbody>
 </table>
-</div>
-<p>Trying to run this function on a dataframe with an existing
-<code>gradient_pos_rel_amt</code> will give an error, but it can be
-overridden with the <code>overwrite = T</code> flag.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample_df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span></span>
-<span>    source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
-<span>    amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Error: gradient_pos_rel_amt already exists! Set overwrite = TRUE if you want to overwrite</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample_df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span></span>
-<span>    source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
-<span>    amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span>,</span>
-<span>    overwrite <span class="op">=</span> <span class="cn">T</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-</div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="making-a-qsip_sample_data-object">Making a <code>qsip_sample_data</code> object<a class="anchor" aria-label="anchor" href="#making-a-qsip_sample_data-object"></a>
+<h2 id="qsip2-sample-data-object">qSIP2 Sample Data Object<a class="anchor" aria-label="anchor" href="#qsip2-sample-data-object"></a>
 </h2>
-<p>The <code>qsip_sample_data</code> constructor builds a sample data
-object from the dataframe. We can use the <code>sample_df</code> we
-built above (with the relative amounts) to build the qsip object. We can
-take another look at it to make sure we have the column names we will
-need.</p>
-<div id="ulbfdpbcyv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ulbfdpbcyv table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#ulbfdpbcyv thead, #ulbfdpbcyv tbody, #ulbfdpbcyv tfoot, #ulbfdpbcyv tr, #ulbfdpbcyv td, #ulbfdpbcyv th {
-  border-style: none;
-}
-
-#ulbfdpbcyv p {
-  margin: 0;
-  padding: 0;
-}
-
-#ulbfdpbcyv .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 12px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 3px;
-  border-top-color: #D5D5D5;
-  border-right-style: solid;
-  border-right-width: 3px;
-  border-right-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 3px;
-  border-bottom-color: #D5D5D5;
-  border-left-style: solid;
-  border-left-width: 3px;
-  border-left-color: #D5D5D5;
-}
-
-#ulbfdpbcyv .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#ulbfdpbcyv .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#ulbfdpbcyv .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#ulbfdpbcyv .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-}
-
-#ulbfdpbcyv .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_col_heading {
-  color: #FFFFFF;
-  background-color: #000000;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#ulbfdpbcyv .gt_column_spanner_outer {
-  color: #FFFFFF;
-  background-color: #000000;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#ulbfdpbcyv .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#ulbfdpbcyv .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#ulbfdpbcyv .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#ulbfdpbcyv .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#ulbfdpbcyv .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#ulbfdpbcyv .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-  vertical-align: middle;
-}
-
-#ulbfdpbcyv .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#ulbfdpbcyv .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#ulbfdpbcyv .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D5D5D5;
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-left-color: #D5D5D5;
-  border-right-style: solid;
-  border-right-width: 1px;
-  border-right-color: #D5D5D5;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#ulbfdpbcyv .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #5F5F5F;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#ulbfdpbcyv .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#ulbfdpbcyv .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#ulbfdpbcyv .gt_summary_row {
-  color: #333333;
-  background-color: #D5D5D5;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D5D5D5;
-}
-
-#ulbfdpbcyv .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#ulbfdpbcyv .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-}
-
-#ulbfdpbcyv .gt_grand_summary_row {
-  color: #FFFFFF;
-  background-color: #929292;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D5D5D5;
-}
-
-#ulbfdpbcyv .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D5D5D5;
-}
-
-#ulbfdpbcyv .gt_striped {
-  background-color: #F4F4F4;
-}
-
-#ulbfdpbcyv .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D5D5D5;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D5D5D5;
-}
-
-#ulbfdpbcyv .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#ulbfdpbcyv .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ulbfdpbcyv .gt_left {
-  text-align: left;
-}
-
-#ulbfdpbcyv .gt_center {
-  text-align: center;
-}
-
-#ulbfdpbcyv .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#ulbfdpbcyv .gt_font_normal {
-  font-weight: normal;
-}
-
-#ulbfdpbcyv .gt_font_bold {
-  font-weight: bold;
-}
-
-#ulbfdpbcyv .gt_font_italic {
-  font-style: italic;
-}
-
-#ulbfdpbcyv .gt_super {
-  font-size: 65%;
-}
-
-#ulbfdpbcyv .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#ulbfdpbcyv .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#ulbfdpbcyv .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#ulbfdpbcyv .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#ulbfdpbcyv .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#ulbfdpbcyv .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#ulbfdpbcyv .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#ulbfdpbcyv .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#ulbfdpbcyv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="gt_heading">
-<td colspan="6" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>First few rows of formatted sample data</td>
-    </tr>
-<tr class="gt_col_headings">
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sample">sample</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="source">source</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Fraction">Fraction</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="density_g_ml">density_g_ml</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="avg_16S_g_soil">avg_16S_g_soil</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="gradient_pos_rel_amt">gradient_pos_rel_amt</th>
-    </tr>
-</thead>
-<tbody class="gt_table_body">
-<tr>
-<td headers="sample" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">149_F1</td>
-<td headers="source" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">S149</td>
-<td headers="Fraction" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1</td>
-<td headers="density_g_ml" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.778855</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">4473.7081</td>
-<td headers="gradient_pos_rel_amt" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.284122e-04</td>
-</tr>
-<tr>
-<td headers="sample" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">149_F2</td>
-<td headers="source" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">S149</td>
-<td headers="Fraction" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">2</td>
-<td headers="density_g_ml" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.773391</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">986.6581</td>
-<td headers="gradient_pos_rel_amt" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">2.832078e-05</td>
-</tr>
-<tr>
-<td headers="sample" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">149_F3</td>
-<td headers="source" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">S149</td>
-<td headers="Fraction" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">3</td>
-<td headers="density_g_ml" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.765742</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">4002.7026</td>
-<td headers="gradient_pos_rel_amt" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.148925e-04</td>
-</tr>
-<tr>
-<td headers="sample" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">149_F4</td>
-<td headers="source" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">S149</td>
-<td headers="Fraction" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">4</td>
-<td headers="density_g_ml" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.759185</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">3959.7283</td>
-<td headers="gradient_pos_rel_amt" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.136590e-04</td>
-</tr>
-<tr>
-<td headers="sample" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">149_F5</td>
-<td headers="source" class="gt_row gt_left" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">S149</td>
-<td headers="Fraction" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">5</td>
-<td headers="density_g_ml" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.752629</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">5725.7319</td>
-<td headers="gradient_pos_rel_amt" class="gt_row gt_right" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.643499e-04</td>
-</tr>
-<tr>
-<td headers="sample" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">149_F6</td>
-<td headers="source" class="gt_row gt_left gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">S149</td>
-<td headers="Fraction" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">6</td>
-<td headers="density_g_ml" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">1.746072</td>
-<td headers="avg_16S_g_soil" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">7566.2722</td>
-<td headers="gradient_pos_rel_amt" class="gt_row gt_right gt_striped" style="font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">2.171803e-04</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_sample_data.html">qsip_sample_data</a></span><span class="op">(</span><span class="va">sample_df</span>,</span>
+<p>The <code><a href="../reference/qsip_sample_data.html">qsip_sample_data()</a></code> constructor builds a sample data
+object from the dataframe. Like the source data object, the sample data
+object is built by providing column names to the appropriate
+parameters.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sample_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_sample_data.html">qsip_sample_data</a></span><span class="op">(</span><span class="va">example_sample_df</span>,</span>
 <span>  sample_id <span class="op">=</span> <span class="st">"sample"</span>,</span>
 <span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
 <span>  gradient_position <span class="op">=</span> <span class="st">"Fraction"</span>,</span>
 <span>  gradient_pos_density <span class="op">=</span> <span class="st">"density_g_ml"</span>,</span>
-<span>  gradient_pos_amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span>,</span>
-<span>  gradient_pos_rel_amt <span class="op">=</span> <span class="st">"gradient_pos_rel_amt"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  gradient_pos_amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;gradient_pos_rel_amt&gt; not specified. Calculating using avg_16S_g_soil column</span></span></code></pre></div>
+<div class="alert alert-primary">
+<p>Notice our dataframe did not contain the required
+<code>gradient_pos_rel_amt</code> column, but the function was able to
+calculate it using the data in the <code>gradient_pos_amt</code> column.
+See below for reasons why you might want to pre-calculate this value
+rather than having the function calculate it for you.</p>
 </div>
-<div class="section level2">
-<h2 id="working-with-a-qsip_sample_data-object">Working with a <code>qsip_sample_data</code> object<a class="anchor" aria-label="anchor" href="#working-with-a-qsip_sample_data-object"></a>
-</h2>
-<p>The <code>sample_object</code> created above is ready for the next
-step in the main workflow, but we can also use it for some intermediate
-analysis and QC.</p>
 <div class="section level3">
-<h3 id="look-for-density-outliers">Look for density outliers<a class="anchor" aria-label="anchor" href="#look-for-density-outliers"></a>
+<h3 id="structure-of-qsip_sample_data">Structure of <code>qsip_sample_data</code><a class="anchor" aria-label="anchor" href="#structure-of-qsip_sample_data"></a>
 </h3>
-<p>Sometimes there might be errors in the density values in a
-spreadsheet, particularly if they are entered by hand. The
-<code><a href="../reference/plot_density_outliers.html">plot_density_outliers()</a></code> can help identify these outliers
-using Cook’s distance and a specified <code>sensitivity</code> value.
-The lower the <code>sensitivity</code> parameter, the more sensitive the
-algorithm is to calling a point an outlier.</p>
+<p>Like other <code>qSIP2</code> objects, the
+<code>qsip_sample_data</code> object is a list with a few key
+components, but not meant to be inspected directly.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">sample_object</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;qsip_sample_data&gt;</span></span>
+<span><span class="co">#&gt;  @ data                : tibble [284 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;  $ sample_id           : chr [1:284] "149_F1" "149_F2" "149_F3" "149_F4" ...</span></span>
+<span><span class="co">#&gt;  $ source_mat_id       : chr [1:284] "S149" "S149" "S149" "S149" ...</span></span>
+<span><span class="co">#&gt;  $ gradient_position   : int [1:284] 1 2 3 4 5 6 7 8 9 10 ...</span></span>
+<span><span class="co">#&gt;  $ gradient_pos_density: num [1:284] 1.78 1.77 1.77 1.76 1.75 ...</span></span>
+<span><span class="co">#&gt;  $ gradient_pos_amt    : num [1:284] 4474 987 4003 3960 5726 ...</span></span>
+<span><span class="co">#&gt;  $ gradient_pos_rel_amt: num [1:284] 1.28e-04 2.83e-05 1.15e-04 1.14e-04 1.64e-04 ...</span></span>
+<span><span class="co">#&gt;  $ dna_conc            : num [1:284] 0 0 0 0 0.00124 ...</span></span>
+<span><span class="co">#&gt;  @ sample_id           : chr "sample"</span></span>
+<span><span class="co">#&gt;  @ source_mat_id       : chr "source"</span></span>
+<span><span class="co">#&gt;  @ gradient_position   : chr "Fraction"</span></span>
+<span><span class="co">#&gt;  @ gradient_pos_density: chr "density_g_ml"</span></span>
+<span><span class="co">#&gt;  @ gradient_pos_amt    : chr "avg_16S_g_soil"</span></span>
+<span><span class="co">#&gt;  @ gradient_pos_rel_amt: chr "gradient_pos_rel_amt"</span></span></code></pre></div>
+<p>The dataframe can be returned from the object using the
+<code><a href="../reference/get_dataframe.html">get_dataframe()</a></code> function.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_dataframe.html">get_dataframe</a></span><span class="op">(</span><span class="va">sample_object</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<caption>First few rows of formatted sample data</caption>
+<colgroup>
+<col width="9%">
+<col width="12%">
+<col width="16%">
+<col width="18%">
+<col width="15%">
+<col width="18%">
+<col width="9%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">sample_id</th>
+<th align="left">source_mat_id</th>
+<th align="right">gradient_position</th>
+<th align="right">gradient_pos_density</th>
+<th align="right">gradient_pos_amt</th>
+<th align="right">gradient_pos_rel_amt</th>
+<th align="right">dna_conc</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">149_F1</td>
+<td align="left">S149</td>
+<td align="right">1</td>
+<td align="right">1.778855</td>
+<td align="right">4473.7081</td>
+<td align="right">0.0001284</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">149_F2</td>
+<td align="left">S149</td>
+<td align="right">2</td>
+<td align="right">1.773391</td>
+<td align="right">986.6581</td>
+<td align="right">0.0000283</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">149_F3</td>
+<td align="left">S149</td>
+<td align="right">3</td>
+<td align="right">1.765742</td>
+<td align="right">4002.7026</td>
+<td align="right">0.0001149</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">149_F4</td>
+<td align="left">S149</td>
+<td align="right">4</td>
+<td align="right">1.759185</td>
+<td align="right">3959.7283</td>
+<td align="right">0.0001137</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">149_F5</td>
+<td align="left">S149</td>
+<td align="right">5</td>
+<td align="right">1.752629</td>
+<td align="right">5725.7319</td>
+<td align="right">0.0001643</td>
+<td align="right">0.0012413</td>
+</tr>
+<tr class="even">
+<td align="left">149_F6</td>
+<td align="left">S149</td>
+<td align="right">6</td>
+<td align="right">1.746072</td>
+<td align="right">7566.2722</td>
+<td align="right">0.0002172</td>
+<td align="right">0.0128156</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="validation-of-qsip_sample_data">Validation of <code>qsip_sample_data</code><a class="anchor" aria-label="anchor" href="#validation-of-qsip_sample_data"></a>
+</h3>
+<p>A valid <code>qsip_sample_data</code> object will have the required
+columns, <code>sample_id</code> will contain unique values, and
+<code>gradient_position</code> will be positive integers or
+<code>-1</code>.</p>
+<p>Additionally, the <code>density_g_ml</code> values should be in a
+reasonable range (between 1.55 and 1.8)</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_density_outliers.html">plot_density_outliers</a></span><span class="op">(</span><span class="va">sample_object</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sample_data_files/figure-html/unnamed-chunk-10-1.png" width="768"></p>
-<p>Here we see some values at the ends of the density ranges are
-slightly lower than their gradient position would suggest, and are
-therefore considered possible outliers and colored red. The ends of the
-density ranges, however, are expected to fall off of the main line, and
-so these results are not too concerning here.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="validation">Validation<a class="anchor" aria-label="anchor" href="#validation"></a>
-</h2>
-<p>The <code>qSIP2</code> sample data object has built in error checking
-for the data types passed. For example, if we modify the
-<code>Fraction</code> column to be characters instead of integers we
-will get a validation error.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample_object</span> <span class="op">&lt;-</span> <span class="va">sample_df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Fraction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">Fraction</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="co"># modifying density_g_ml to be too low will give an error</span></span>
+<span><span class="va">example_sample_df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>density_g_ml <span class="op">=</span> <span class="va">density_g_ml</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/qsip_sample_data.html">qsip_sample_data</a></span><span class="op">(</span></span>
 <span>    sample_id <span class="op">=</span> <span class="st">"sample"</span>,</span>
 <span>    source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
 <span>    gradient_position <span class="op">=</span> <span class="st">"Fraction"</span>,</span>
 <span>    gradient_pos_density <span class="op">=</span> <span class="st">"density_g_ml"</span>,</span>
-<span>    gradient_pos_amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span>,</span>
-<span>    gradient_pos_rel_amt <span class="op">=</span> <span class="st">"gradient_pos_rel_amt"</span></span>
+<span>    gradient_pos_amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; Error: <span style="color: #BB0000;">some gradient_position values are non-numeric</span></span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;gradient_pos_rel_amt&gt; not specified. Calculating using avg_16S_g_soil column</span></span>
+<span><span class="co">#&gt; Error in qSIP2::validate_gradient_pos_density(dplyr::select(self@data, : some gradient_pos_density values are lower than 1.55</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="when-to-calculate-the-gradient_pos_rel_amt-values">When to calculate the <code>gradient_pos_rel_amt</code> values?<a class="anchor" aria-label="anchor" href="#when-to-calculate-the-gradient_pos_rel_amt-values"></a>
+</h2>
+<p>Typically all of the <code>gradient_pos_rel_amt</code> for a given
+<code>source_mat_id</code> should add up to 1 (i.e. 100%), but there are
+situations where it might be less than 1 (although never be greater than
+1). For example, if you removed some fractions because they didn’t
+sequence well or there was some other reason to remove a fraction. If
+those removed fractions were 5% of the total data in that
+<code>source_mat_id</code>, then you would expect the total of all
+fractions to be 0.95 rather than 1. Another situation would be that
+although you added 25ng to a centrifugation, you only recovered 20ng and
+the rest was lost<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;&lt;a href=&quot;https://www.visitlex.com/guides/post/common-geeky-bourbon-terms-explained/#:~:text=Angel's%20Share&quot; class=&quot;external-link&quot;&gt;The
+angel’s share and devil’s cut&lt;/a&gt;&lt;/p&gt;"><sup>2</sup></a>.</p>
+<p>This matters because if you run the
+<code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code> function on your dataframe then
+the totals will add up to 1. You can then remove the rows from the
+dataframe that you don’t want to include in the analysis, and sum of the
+<code>gradient_pos_rel_amt</code> values will equal the appropriately
+adjusted amount. But, if you remove the bad rows from the dataframe
+first, and then let the <code><a href="../reference/qsip_sample_data.html">qsip_sample_data()</a></code> function create
+the <code>gradient_pos_rel_amt</code> values, then they will be
+artificially higher than they should be.</p>
+<p>You can use a total abundance (qPCR or DNA concentrations) to
+calculate the <code>gradient_pos_rel_amt</code> column.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span><span class="va">example_sample_df</span>,</span>
+<span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
+<span>  amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<caption>sample data with <code>gradient_pos_rel_amt</code>
+added</caption>
+<colgroup>
+<col width="8%">
+<col width="8%">
+<col width="10%">
+<col width="15%">
+<col width="12%">
+<col width="18%">
+<col width="25%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">sample</th>
+<th align="left">source</th>
+<th align="right">Fraction</th>
+<th align="right">density_g_ml</th>
+<th align="right">dna_conc</th>
+<th align="right">avg_16S_g_soil</th>
+<th align="right">gradient_pos_rel_amt</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">149_F1</td>
+<td align="left">S149</td>
+<td align="right">1</td>
+<td align="right">1.778855</td>
+<td align="right">0.0000000</td>
+<td align="right">4473.7081</td>
+<td align="right">0.0001284</td>
+</tr>
+<tr class="even">
+<td align="left">149_F2</td>
+<td align="left">S149</td>
+<td align="right">2</td>
+<td align="right">1.773391</td>
+<td align="right">0.0000000</td>
+<td align="right">986.6581</td>
+<td align="right">0.0000283</td>
+</tr>
+<tr class="odd">
+<td align="left">149_F3</td>
+<td align="left">S149</td>
+<td align="right">3</td>
+<td align="right">1.765742</td>
+<td align="right">0.0000000</td>
+<td align="right">4002.7026</td>
+<td align="right">0.0001149</td>
+</tr>
+<tr class="even">
+<td align="left">149_F4</td>
+<td align="left">S149</td>
+<td align="right">4</td>
+<td align="right">1.759185</td>
+<td align="right">0.0000000</td>
+<td align="right">3959.7283</td>
+<td align="right">0.0001137</td>
+</tr>
+<tr class="odd">
+<td align="left">149_F5</td>
+<td align="left">S149</td>
+<td align="right">5</td>
+<td align="right">1.752629</td>
+<td align="right">0.0012413</td>
+<td align="right">5725.7319</td>
+<td align="right">0.0001643</td>
+</tr>
+<tr class="even">
+<td align="left">149_F6</td>
+<td align="left">S149</td>
+<td align="right">6</td>
+<td align="right">1.746072</td>
+<td align="right">0.0128156</td>
+<td align="right">7566.2722</td>
+<td align="right">0.0002172</td>
+</tr>
+</tbody>
+</table>
+<p>Trying to run this function on a dataframe with an existing
+<code>gradient_pos_rel_amt</code> will give an error, but it can be
+overridden with the <code>overwrite = T</code> flag.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span><span class="va">example_sample_df</span>,</span>
+<span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
+<span>  amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span></span>
+<span>    source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
+<span>    amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; Error: gradient_pos_rel_amt already exists! Set overwrite = TRUE if you want to overwrite</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># set overwrite = TRUE to override the error, although this is a silly example here</span></span>
+<span><span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span><span class="va">example_sample_df</span>,</span>
+<span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
+<span>  amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span></span>
+<span>    source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
+<span>    amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span>,</span>
+<span>    overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
