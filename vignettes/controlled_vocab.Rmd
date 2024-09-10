@@ -1,5 +1,5 @@
 ---
-title: "Controlled vocabulary for qSIP data"
+title: "qSIP Definitions and Terminology"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{controlled_vocab}
@@ -16,26 +16,34 @@ knitr::opts_chunk$set(
 ```
 
 
-Below are a list of terms and variables used throughout the `qSIP2` that will retain a specific meaning and will remain unchanged (without adequate notice).
-
-<div class="alert alert-warning">
-  <strong>NOTE!</strong> This is a draft contract and is undergoing modifications.
-  last modified: `r format(Sys.Date())`
-</div>
-
-# Terminology
+# Source Data
 
 - `source_mat_id`: Unique name for the experimental source material prior to DNA extraction, etc
   - The `source_mat_id` is also used as the link between sample metadata and source metadata
-  - This term is derived from the MISIP standards. Previous synonyms in qSIP include "rep" and "tube"
+  - This term is derived from the MISIP^[https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1] standards
 - `isotope`: The isotope used
-  - For qSIP, the choices are limited to one of 12C, 13C, 14N, 15N, 16O or 18O
+  - For qSIP2, the choices are limited to one of 12C, 13C, 14N, 15N, 16O or 18O
+  - If you're sample is unfractionated, you can also use "bulk", "unfractionated" or "T0"
   - This term is also a required MISIP field
 - `isotopolog`: The name or ID of the labeled substrate
   - This term is also a required MISIP field
-  - For qSIP it doesn't have to strictly adhere to MISIP standards, and a string such as "glucose" will suffice
+  - For qSIP2 it doesn't have to strictly adhere to MISIP standards, and a string such as "glucose" will suffice
+- `timepoint`: The timepoint of the experiment. The unit doesn't matter, but it should be consistent across the dataset. Designating the timepoint is required for growth calculations
+- `total_abundance`: The total copy number in the unfractionated source material. This is required for growth calculations
+- `volume`: The volume of DNA that the `total_abundance` was measured in. Can just be set to `1` if all samples have the same volume. This is required for growth calculations.
 
 
+# Sample Data
 
+- `sample_id`: Unique name for the sample
+  - This term is also used as the link between sample metadata and source metadata
+- `gradient_position`: The numerical position of the sample in the gradient. Informally refered to as "fraction".
+- `gradient_pos_density`: The density of the gradient at this position
+- `gradient_pos_amt`: The total mass, concentration or copy numbers at the position
+- `gradient_pos_rel_amt`: The relative amount of the `gradient_pos_amt` compared to the total amount of the source material
 
+# Feature Data
+
+- `feature_id`: A unique ID for each feature
+- feature `type`: Explains what the values in the feature table represent. For example "counts", "relative", etc.
 

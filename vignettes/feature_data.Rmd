@@ -128,7 +128,7 @@ tibble(
 
 ## Taxonomy or other metadata
 
-If you have further metadata for your features, such as a taxonomy table, you can add it with the `add_taxonomy()` function. 
+If you have further metadata for your features, such as a taxonomy table, you can add it with the `add_taxonomy()` function and it will live in the `@taxonomy` slot.
 
 ```{r}
 taxonomy <- tibble(
