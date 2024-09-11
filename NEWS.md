@@ -1,5 +1,3 @@
-# qSIP2 0.16.5
-
 # qSIP2 0.16
 
 * The vignettes were previously hastily written, but now they have been hastily re-written to capture the modern workflow of `qSIP2`
