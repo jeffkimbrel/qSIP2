@@ -22,6 +22,10 @@ library(ggplot2)
 library(qSIP2)
 ```
 
+```{r, echo=FALSE}
+ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
+```
+
 # Background
 
 In `qSIP2` we use *resampling* of the weighted average densities (WADs) to obtain the confidence intervals of the WADs *within* replicates of a type (unlabeled vs labeled) as well as in the shift of average WADs *between* types. The resampling is a simple bootstrap procedure where the source WADs for each `feature_id` are sampled with replacement $n$ times. 
@@ -75,8 +79,8 @@ q <- run_feature_filter(example_qsip_object,
   min_labeled_sources = 3,
   min_unlabeled_fractions = 6,
   min_labeled_fractions = 6,
-  quiet = TRUE
-) # running with quiet = TRUE to suppress messages
+  quiet = TRUE # running with quiet = TRUE to suppress messages
+) 
 
 q <- run_resampling(q,
   resamples = 1000,
@@ -85,7 +89,8 @@ q <- run_resampling(q,
 )
 ```
 
-Setting `resamples = 1000` will give 1000 resamplings for each feature. The resampling is not a deterministic procedure, and so the use of a seed is recommended with the `with_seed` argument.
+Setting `resamples = 1000` will give 1000 resamplings for each feature. The resampling is not a deterministic procedure, and so the use of a seed is recommended using the `with_seed` argument.
+
 
 ## Under the hood
 
@@ -96,8 +101,9 @@ purrr::map_df(1:n, \(i) calculate_resampled_wads(i, WADs, "labeled"))
 ```
 
 ```{r, echo = FALSE}
-purrr::map_df(1:n, \(i) calculate_resampled_wads(i, WADs, "labeled")) |> knitr::kable()
+purrr::map_df(1:n, \(i) calculate_resampled_wads(i, WADs, "labeled")) |> knitr::kable(caption = "Example of resampling 4 WAD values 5 times")
 ```
+
 
 # Inspect resample results
 
@@ -116,6 +122,7 @@ If you want the data itself, you can access it with the `get_resample_data()` fu
 get_resample_data(q)
 ```
 
+
 ## Visualizing range of mean resampled WADs
 
 Rather than seeing all of the resampled data itself, you are often only interested in the range of the mean WAD values for each resampling iteration. You can leave the `feature_id` argument empty to see all of the features, or you can specify a single feature or a vector of features. Here, I will select 3 random feature_ids to show.
@@ -126,30 +133,23 @@ plot_feature_resamplings(q,
                          feature_id = random_features)
 ```
 
-Additional arguments can be called to add the confidence intervals (as bars or lines) or with a different confidence limit (default = `0.9`).
+Additional arguments can be called to add the confidence intervals (as bars or lines) or with a different confidence limit (default = `0.9`). 
 
 ```{r, fig.width = 8, fig.height = 3}
 plot_feature_resamplings(q, 
                          feature_id = random_features,
-                         interval = "bar") +
+                         interval = "bar",
+                         confidence = 0.95) +
   labs(title = "With confidence interval bars")
 ```
+
+
 
 # When resampling goes wrong
 
 The resampling procedure is a simple bootstrap procedure, and so it is not without its limitations. The most common issue is when there are more sources than your filtering requires, and you end up with WADs that contain `NA` values. 
 
-Take ASV_72 as an example, it is found in only 1 of the labeled sources (S178) above the fraction threshold, so it was removed from the previous filtering step. 
-
-```{r, echo = FALSE}
-q@wads |>
-  filter(feature_id == "ASV_72") |>
-  filter(source_mat_id %in% get_source_mat_ids(q, filtered = T)) |>
-  filter(n_fractions >= 6) |>
-  knitr::kable()
-```
-
-But, if your filtering requirements were less strict as before (e.g. by setting `min_labeled_sources = 1`), then this feature could make it through the filtering. 
+Take ASV_72 as an example, it is found in only 1 of the labeled sources (S178) above the fraction threshold, so it was removed from the previous filtering step. But, if your filtering requirements were less strict as before (e.g. by setting `min_labeled_sources = 1`), then this feature could make it through the filtering. 
 
 ```{r}
 q2 <- run_feature_filter(example_qsip_object,
@@ -161,6 +161,14 @@ q2 <- run_feature_filter(example_qsip_object,
   min_labeled_fractions = 6,
   quiet = TRUE
 ) # running with quiet = TRUE to suppress messages
+```
+
+```{r, echo = FALSE}
+q2@wads |>
+  filter(feature_id == "ASV_72") |>
+  filter(source_mat_id %in% get_source_mat_ids(q, filtered = T)) |>
+  #filter(n_fractions >= 6) |>
+  knitr::kable()
 ```
 
 But we now get an error when running the resampling step suggesting we increase our filtering stringency. 
@@ -176,6 +184,7 @@ run_resampling(q2,
 What is happening is that the resampling is done consistently across all feature_ids, so although there is only one labeled source for ASV_72, the other two sources (S179 and S180) are included in the resampling with a WAD value of `NaN` (for "not a number", i.e. an numeric form of `NA`).
 
 Bootstrapping a vector that is 2/3s `NaN` will fairly often return only `NaN` values, and therefore the mean is undefined. The previous error message above suggests increasing `min_labeled_sources` which would remove the number of `NaN` values passed to the resampling.
+
 
 ## Allow failures
 
@@ -194,7 +203,7 @@ The warning message here lets us know that there were no problems with the unlab
 
 ```{r}
 get_resample_counts(q2) |> 
-  filter(n < 1000)
+  filter(labeled_resamples < 1000 | unlabeled_resamples < 1000)
 ```
 
 Here, we see that indeed ASV_72 was only successful in 693 of 1000 resamplings. Statistically, you may conclude that 693 resamplings is still robust enough to accept the conclusion. But inspecting the plot for these 3 of these features show something strange with ASV_72 and we may still choose to remove it from our analysis.
@@ -211,6 +220,7 @@ We can further see the resampling successes for each feature with the `plot_succ
 plot_successful_resamples(q2)
 ```
 
+
 ## Using success results for further filtering
 
 Suppose you want to overlay this success data on your final EAF plot so you can decide you have enough resampling support to trust the EAF value you obtain. This is easy to do, and you can modify the point color based on passing a threshold. We will use a success rate of 90% (i.e. 900 of 1000 resamples) as our threshold here.
@@ -220,18 +230,11 @@ Here, we can see that although most are green, ASV_72 does show up as highly enr
 ```{r, fig.width = 8, fig.height = 10}
 EAF = run_EAF_calculations(q2)
 
-counts = get_resample_counts(q2)
-
-success_rate = 0.9
-
-summarize_EAF_values(EAF) |>
-  ggplot(aes(y = reorder(feature_id, observed_EAF), x = observed_EAF)) +
-  geom_point(pch = 21,
-                      size = 2,
-                      aes(fill = ifelse((labeled_resamples + unlabeled_resamples) > q@resamples$n*2*success_rate, "Passed", "Failed"))) +
-  geom_errorbar(aes(xmin = lower, xmax = upper)) +
-  scale_fill_manual(values = c("Passed" = "#00ff0066", "Failed" = "red")) +
-  labs(fill = glue::glue(">{success_rate * 100}% successes"))
+plot_EAF_values(EAF, 
+                error = "ribbon",
+                success_ratio = 0.9)
 ```
 
+# Conclusion
 
+In conclusion, instead of pre-filtering your data based on the number of sources or fractions, you can use the resampling procedure to determine if your data is robust enough to proceed. This is especially useful when you have a large dataset and you want to ensure that you are not removing features that could be informative.

@@ -46,13 +46,13 @@ plot_feature_resamplings <- function(qsip_data_object,
     tidyr::pivot_longer(cols = dplyr::starts_with("unlabeled_")) |>
     dplyr::filter(!is.na(value)) |>
     dplyr::group_by(feature_id, resample, type) |>
-    dplyr::summarize(mean_resampled_EAF = mean(value))
+    dplyr::summarize(mean_resampled_WAD = mean(value))
 
   labeled_data <- dplyr::bind_rows(qsip_data_object@resamples$l) |>
     tidyr::pivot_longer(cols = dplyr::starts_with("labeled_")) |>
     dplyr::filter(!is.na(value)) |>
     dplyr::group_by(feature_id, resample, type) |>
-    dplyr::summarize(mean_resampled_EAF = mean(value))
+    dplyr::summarize(mean_resampled_WAD = mean(value))
 
   combined_data <- rbind(unlabeled_data, labeled_data)
 
@@ -63,7 +63,7 @@ plot_feature_resamplings <- function(qsip_data_object,
   }
 
   p <- combined_data |>
-    ggplot2::ggplot(ggplot2::aes(x = mean_resampled_EAF, y = type)) +
+    ggplot2::ggplot(ggplot2::aes(x = mean_resampled_WAD, y = type)) +
     ggplot2::facet_wrap(~feature_id, scales = "free_x") +
     ggplot2::scale_color_manual(values = c("labeled" = "#ff0000", "unlabeled" = "#037bcf")) +
     ggplot2::scale_fill_manual(values = c("labeled" = "#FF000055", "unlabeled" = "#037bcf55"))
@@ -77,19 +77,19 @@ plot_feature_resamplings <- function(qsip_data_object,
   summary_statistics <- combined_data |>
     dplyr::group_by(feature_id, type) |>
     dplyr::summarize(
-      mean_resampled_EAF2 = mean(mean_resampled_EAF),
-      lower = quantile(mean_resampled_EAF, (1 - confidence) / 2, na.rm = T),
-      upper = quantile(mean_resampled_EAF, 1 - (1 - confidence) / 2, na.rm = T),
+      mean_resampled_WAD2 = mean(mean_resampled_WAD),
+      lower = quantile(mean_resampled_WAD, (1 - confidence) / 2, na.rm = T),
+      upper = quantile(mean_resampled_WAD, 1 - (1 - confidence) / 2, na.rm = T),
       .groups = "drop"
     ) |>
-    dplyr::rename(mean_resampled_EAF = mean_resampled_EAF2)
+    dplyr::rename(mean_resampled_WAD = mean_resampled_WAD2)
 
   if (intervals == "bar") {
     p <- p +
       ggplot2::geom_errorbarh(data = summary_statistics, ggplot2::aes(xmin = lower, xmax = upper, color = type), linewidth = 1, show.legend = F)
   } else if (intervals == "line") {
     p <- p +
-      ggplot2::geom_vline(data = summary_statistics, ggplot2::aes(xintercept = mean_resampled_EAF, color = type), show.legend = F) +
+      ggplot2::geom_vline(data = summary_statistics, ggplot2::aes(xintercept = mean_resampled_WAD, color = type), show.legend = F) +
       ggplot2::geom_vline(data = summary_statistics, ggplot2::aes(xintercept = lower, color = type), linetype = 2, show.legend = F) +
       ggplot2::geom_vline(data = summary_statistics, ggplot2::aes(xintercept = upper, color = type), linetype = 2, show.legend = F)
   }
