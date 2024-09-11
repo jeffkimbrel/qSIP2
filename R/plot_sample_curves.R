@@ -2,6 +2,7 @@
 #'
 #' @param qsip_data (*qsip_data*) qSIP object
 #' @param colors (*character*) A named vector of colors for each isotope (optional)
+#' @param title (*character*) An optional title for the plot
 #'
 #' @export
 #'
@@ -10,7 +11,8 @@
 #' @family "visualizations"
 
 plot_sample_curves <- function(qsip_data,
-                               colors = NULL) {
+                               colors = NULL,
+                               title = NULL) {
 
   stopifnot("sample_data should be class <qsip_data>" = "qsip_data" %in% class(qsip_data))
 
@@ -62,6 +64,10 @@ plot_sample_curves <- function(qsip_data,
     ggplot2::facet_wrap(~source_mat_id) +
     ggplot2::geom_vline(data = source_wads,
                         linetype = 3, ggplot2::aes(xintercept = WAD))
+
+  if (!is.null(title)) {
+    p = p + ggplot2::labs(title = title)
+  }
 
   p
 }

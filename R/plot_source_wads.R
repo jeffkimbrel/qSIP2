@@ -1,8 +1,9 @@
 #' Plot the source WADs by isotope
 #'
 #' @param qsip_data (*qsip_data*) qSIP object
-#' @param group (*string*) An optional grouping parameter to facet the y or x,y axes
-#' @param colors (*string*) An optional override to the default color palette
+#' @param group (*character*) An optional grouping parameter to facet the y or x,y axes
+#' @param colors (*character*) An optional override to the default color palette
+#' @param title (*character*) An optional title for the plot
 #'
 #' @export
 #'
@@ -10,7 +11,10 @@
 #'
 #' @family "visualizations"
 
-plot_source_wads <- function(qsip_data, group = NULL, colors = NULL) {
+plot_source_wads <- function(qsip_data,
+                             group = NULL,
+                             colors = NULL,
+                             title = NULL) {
   if ("qsip_data" %in% class(qsip_data)) {
     # if given a qsip_data object then get both the sample_data and source_data out
     source_data <- qsip_data@source_data
@@ -27,7 +31,7 @@ plot_source_wads <- function(qsip_data, group = NULL, colors = NULL) {
     )
   }
 
-  qsip_data@source_wads |>
+  p = qsip_data@source_wads |>
     dplyr::filter(!is.na(WAD)) |> # filter unfractionated
     dplyr::left_join(source_data@data, by = "source_mat_id") |>
     ggplot2::ggplot(ggplot2::aes(color = isotope)) +
@@ -35,4 +39,10 @@ plot_source_wads <- function(qsip_data, group = NULL, colors = NULL) {
     ggplot2::facet_grid(paste(group, " ~ .", sep = "")) +
     ggplot2::scale_color_manual(values = colors) +
     ggplot2::labs(x = "Weighted Average Density")
+
+  if (!is.null(title)) {
+    p = p + ggplot2::labs(title = title)
+  }
+
+  p
 }

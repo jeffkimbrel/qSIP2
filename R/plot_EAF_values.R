@@ -21,6 +21,7 @@
 #' @param error (*character*) The type of error bars to plot. Options are 'none', 'bar', 'ribbon'
 #' @param alpha (*numeric*) The transparency of the error bar/ribbon
 #' @param zero_line (*logical*) Add a line at EAF = 0
+#' @param title (*character*) An optional title of the plot
 #'
 #' @export
 
@@ -30,7 +31,8 @@ plot_EAF_values <- function(qsip_data_object,
                             top = Inf,
                             error = "none",
                             alpha = 0.3,
-                            zero_line = TRUE) {
+                            zero_line = TRUE,
+                            title = NULL) {
 
   # confirm qsip_data_object class is either qsip_data or list
 
@@ -141,6 +143,10 @@ plot_EAF_values <- function(qsip_data_object,
     p <- p +
       tidytext::scale_y_reordered() +
       ggplot2::facet_wrap(~group, scales = "free_y")
+  }
+
+  if (!is.null(title)) {
+    p = p + ggplot2::labs(title = title)
   }
 
   return(p)

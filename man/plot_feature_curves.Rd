@@ -4,7 +4,12 @@
 \alias{plot_feature_curves}
 \title{Plot qSIP feature data density curves}
 \usage{
-plot_feature_curves(qsip_data_object, feature_ids, source_mat_ids = NULL)
+plot_feature_curves(
+  qsip_data_object,
+  feature_ids,
+  source_mat_ids = NULL,
+  title = NULL
+)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) A qsip data object with tube relative abundances}
@@ -12,6 +17,8 @@ plot_feature_curves(qsip_data_object, feature_ids, source_mat_ids = NULL)
 \item{feature_ids}{(\emph{string}) Feature ids to be plotted on their own facet}
 
 \item{source_mat_ids}{(\emph{string, defaults to all}) A list of source material ids}
+
+\item{title}{(\emph{string}) An optional title for the plot}
 }
 \value{
 A ggplot object

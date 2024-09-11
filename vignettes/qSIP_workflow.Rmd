@@ -187,14 +187,15 @@ This function will report if all `source_mat_id`s are shared between the source 
 Behind the scenes, creation of this object also runs some other calculations, particularly getting the weighted-average density (WAD) for each feature in each source, and also the tube relative abundance of each feature. With these, certain visualizations can be made with built-in functions.
 
 ```{r, fig.height=2, fig.width=6}
-plot_source_wads(qsip_object, group = "Moisture") +
-  labs(title = "WAD of each source, grouped by Moisture")
+plot_source_wads(qsip_object, 
+                 group = "Moisture",
+                 title = "WAD of each source, grouped by Moisture")
 ```
 
 ```{r, fig.height=4, fig.width=6}
-plot_sample_curves(qsip_object, colors = c("12C" = "orange",
-                                           "13C" = "magenta")) +
-  labs(title = "Normalized density curves for each sample")
+plot_sample_curves(qsip_object,
+                   colors = c("12C" = "orange", "13C" = "magenta"),
+                   title = "Normalized density curves for each sample")
 ```
 
 Another sanity check is making sure the reported density values are on a reasonably straight line with the gradient position. This can be plotted, and then a Cook's distance can be calculated to highlight any outliers. Note, the ends of the gradient are often flagged as outliers, although this may not necessarily be the case.
@@ -377,20 +378,27 @@ eaf <- rbind(normal, drought)
 We can plot the top 50 by each moisture condition.
 
 ```{r, fig.height=5, fig.width=5}
-plot_EAF_values(qsip_normal, top = 50, confidence = 0.9, error = "ribbon") +
-  labs(title = "Normal moisture")
+plot_EAF_values(qsip_normal, 
+                top = 50, 
+                confidence = 0.9, 
+                error = "ribbon",
+                title = "Normal moisture")
 ```
 
 ```{r, fig.height=5, fig.width=5}
-plot_EAF_values(qsip_drought, top = 50, confidence = 0.9, error = "ribbon") +
-  labs(title = "Drought moisture")
+plot_EAF_values(qsip_drought, 
+                top = 50, 
+                confidence = 0.9, 
+                error = "ribbon",
+                title = "Drought moisture")
 ```
 
 The `plot_feature_curves()` function allows us to plot the tube relative abundances for specific feature IDs. Let's look at two with high EAF values, and two with low values.
 
 ```{r, fig.height=4, fig.width=6}
 plot_feature_curves(qsip_normal,
-  feature_ids = c("ASV_55", "ASV_84", "ASV_41", "ASV_44")
+  feature_ids = c("ASV_55", "ASV_84", "ASV_41", "ASV_44"),
+  title = "Density curves of selected features"
 )
 ```
 

@@ -11,7 +11,8 @@ plot_EAF_values(
   top = Inf,
   error = "none",
   alpha = 0.3,
-  zero_line = TRUE
+  zero_line = TRUE,
+  title = NULL
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ plot_EAF_values(
 \item{alpha}{(\emph{numeric}) The transparency of the error bar/ribbon}
 
 \item{zero_line}{(\emph{logical}) Add a line at EAF = 0}
+
+\item{title}{(\emph{character}) An optional title of the plot}
 }
 \description{
 This function plots the observed EAF values for each feature in the dataset.

@@ -4,12 +4,14 @@
 \alias{plot_sample_curves}
 \title{Plot qSIP sample data density curves}
 \usage{
-plot_sample_curves(qsip_data, colors = NULL)
+plot_sample_curves(qsip_data, colors = NULL, title = NULL)
 }
 \arguments{
 \item{qsip_data}{(\emph{qsip_data}) qSIP object}
 
 \item{colors}{(\emph{character}) A named vector of colors for each isotope (optional)}
+
+\item{title}{(\emph{character}) An optional title for the plot}
 }
 \value{
 A ggplot object

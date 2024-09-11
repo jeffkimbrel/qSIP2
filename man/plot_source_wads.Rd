@@ -4,14 +4,16 @@
 \alias{plot_source_wads}
 \title{Plot the source WADs by isotope}
 \usage{
-plot_source_wads(qsip_data, group = NULL, colors = NULL)
+plot_source_wads(qsip_data, group = NULL, colors = NULL, title = NULL)
 }
 \arguments{
 \item{qsip_data}{(\emph{qsip_data}) qSIP object}
 
-\item{group}{(\emph{string}) An optional grouping parameter to facet the y or x,y axes}
+\item{group}{(\emph{character}) An optional grouping parameter to facet the y or x,y axes}
 
-\item{colors}{(\emph{string}) An optional override to the default color palette}
+\item{colors}{(\emph{character}) An optional override to the default color palette}
+
+\item{title}{(\emph{character}) An optional title for the plot}
 }
 \value{
 A ggplot object

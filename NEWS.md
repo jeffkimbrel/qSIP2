@@ -1,3 +1,5 @@
+# qSIP2 0.16.5
+
 # qSIP2 0.16
 
 * The vignettes were previously hastily written, but now they have been hastily re-written to capture the modern workflow of `qSIP2`
@@ -7,6 +9,7 @@
     * `vignette("feature_data")`
     * `vignette("resampling")`
 * Added light/dark switch to website documentation
+* Added optional `title` argument to change the title of the plot to `plot_EAF_values()`, `plot_feature_curves()`, `plot_sample_curves()` and `plot_source_wads()`
 
 # qSIP2 0.15
 
