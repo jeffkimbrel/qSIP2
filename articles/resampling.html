@@ -207,8 +207,8 @@ come back to how this filtering affects the resampling in a bit.</p>
 <span>  min_labeled_sources <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  min_unlabeled_fractions <span class="op">=</span> <span class="fl">6</span>,</span>
 <span>  min_labeled_fractions <span class="op">=</span> <span class="fl">6</span>,</span>
-<span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span> <span class="co"># running with quiet = TRUE to suppress messages</span></span>
+<span>  quiet <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># running with quiet = TRUE to suppress messages</span></span>
+<span><span class="op">)</span> </span>
 <span></span>
 <span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_resampling.html">run_resampling</a></span><span class="op">(</span><span class="va">q</span>,</span>
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
@@ -217,7 +217,7 @@ come back to how this filtering affects the resampling in a bit.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Setting <code>resamples = 1000</code> will give 1000 resamplings for
 each feature. The resampling is not a deterministic procedure, and so
-the use of a seed is recommended with the <code>with_seed</code>
+the use of a seed is recommended using the <code>with_seed</code>
 argument.</p>
 <div class="section level3">
 <h3 id="under-the-hood">Under the hood<a class="anchor" aria-label="anchor" href="#under-the-hood"></a>
@@ -233,6 +233,7 @@ an example of the resampling procedure.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_df</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span>, \<span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="../reference/calculate_resampled_wads.html">calculate_resampled_wads</a></span><span class="op">(</span><span class="va">i</span>, <span class="va">WADs</span>, <span class="st">"labeled"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<caption>Example of resampling 4 WAD values 5 times</caption>
 <colgroup>
 <col width="16%">
 <col width="11%">
@@ -355,16 +356,17 @@ of features. Here, I will select 3 random feature_ids to show.</p>
 <span>                         feature_id <span class="op">=</span> <span class="va">random_features</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: No shared levels found between `names(values)` of the manual scale and the</span></span>
 <span><span class="co">#&gt; data's <span style="color: #00BB00;">colour</span> values.</span></span></code></pre></div>
-<p><img src="resampling_files/figure-html/unnamed-chunk-12-1.png" width="768"></p>
+<p><img src="resampling_files/figure-html/unnamed-chunk-13-1.png" width="768"></p>
 <p>Additional arguments can be called to add the confidence intervals
 (as bars or lines) or with a different confidence limit (default =
 <code>0.9</code>).</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings</a></span><span class="op">(</span><span class="va">q</span>, </span>
 <span>                         feature_id <span class="op">=</span> <span class="va">random_features</span>,</span>
-<span>                         interval <span class="op">=</span> <span class="st">"bar"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>                         interval <span class="op">=</span> <span class="st">"bar"</span>,</span>
+<span>                         confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"With confidence interval bars"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="resampling_files/figure-html/unnamed-chunk-13-1.png" width="768"></p>
+<p><img src="resampling_files/figure-html/unnamed-chunk-14-1.png" width="768"></p>
 </div>
 </div>
 <div class="section level2">
@@ -376,19 +378,9 @@ more sources than your filtering requires, and you end up with WADs that
 contain <code>NA</code> values.</p>
 <p>Take ASV_72 as an example, it is found in only 1 of the labeled
 sources (S178) above the fraction threshold, so it was removed from the
-previous filtering step.</p>
-<table class="table">
-<thead><tr class="header">
-<th align="left">feature_id</th>
-<th align="left">source_mat_id</th>
-<th align="right">WAD</th>
-<th align="right">n_fractions</th>
-</tr></thead>
-<tbody></tbody>
-</table>
-<p>But, if your filtering requirements were less strict as before
-(e.g. by setting <code>min_labeled_sources = 1</code>), then this
-feature could make it through the filtering.</p>
+previous filtering step. But, if your filtering requirements were less
+strict as before (e.g. by setting <code>min_labeled_sources = 1</code>),
+then this feature could make it through the filtering.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_feature_filter.html">run_feature_filter</a></span><span class="op">(</span><span class="va">example_qsip_object</span>,</span>
 <span>  unlabeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="../reference/get_all_by_isotope.html">get_all_by_isotope</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, <span class="st">"12C"</span><span class="op">)</span>,</span>
@@ -399,6 +391,64 @@ feature could make it through the filtering.</p>
 <span>  min_labeled_fractions <span class="op">=</span> <span class="fl">6</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span> <span class="co"># running with quiet = TRUE to suppress messages</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">feature_id</th>
+<th align="left">source_mat_id</th>
+<th align="right">WAD</th>
+<th align="right">n_fractions</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">ASV_72</td>
+<td align="left">S150</td>
+<td align="right">1.713317</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">ASV_72</td>
+<td align="left">S152</td>
+<td align="right">1.764545</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">ASV_72</td>
+<td align="left">S149</td>
+<td align="right">1.741933</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="left">ASV_72</td>
+<td align="left">S178</td>
+<td align="right">1.746895</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">ASV_72</td>
+<td align="left">S161</td>
+<td align="right">1.713579</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left">ASV_72</td>
+<td align="left">S162</td>
+<td align="right">1.713647</td>
+<td align="right">18</td>
+</tr>
+<tr class="odd">
+<td align="left">ASV_72</td>
+<td align="left">S163</td>
+<td align="right">1.713918</td>
+<td align="right">19</td>
+</tr>
+<tr class="even">
+<td align="left">ASV_72</td>
+<td align="left">S164</td>
+<td align="right">1.714959</td>
+<td align="right">19</td>
+</tr>
+</tbody>
+</table>
 <p>But we now get an error when running the resampling step suggesting
 we increase our filtering stringency.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -451,21 +501,14 @@ labeled sources. We can see which features had failures by
 less than 1000 (our number of resamples).</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_resample_counts.html">get_resample_counts</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">n</span> <span class="op">&lt;</span> <span class="fl">1000</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 127 × 3</span></span></span>
-<span><span class="co">#&gt;    feature_id labeled_resamples unlabeled_resamples</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> ASV_1                   <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> ASV_10                  <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> ASV_100                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> ASV_101                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> ASV_102                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> ASV_103                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> ASV_104                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> ASV_105                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> ASV_108                 <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> ASV_11                  <span style="text-decoration: underline;">1</span>000                <span style="text-decoration: underline;">1</span>000</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 117 more rows</span></span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">labeled_resamples</span> <span class="op">&lt;</span> <span class="fl">1000</span> <span class="op">|</span> <span class="va">unlabeled_resamples</span> <span class="op">&lt;</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
+<span><span class="co">#&gt;   feature_id labeled_resamples unlabeled_resamples</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ASV_149                  961                <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ASV_155                  968                <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ASV_161                  961                <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ASV_72                   693                <span style="text-decoration: underline;">1</span>000</span></span></code></pre></div>
 <p>Here, we see that indeed ASV_72 was only successful in 693 of 1000
 resamplings. Statistically, you may conclude that 693 resamplings is
 still robust enough to accept the conclusion. But inspecting the plot
@@ -475,13 +518,13 @@ may still choose to remove it from our analysis.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings</a></span><span class="op">(</span><span class="va">q2</span>, </span>
 <span>                         feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ASV_72"</span>, <span class="st">"ASV_155"</span>, <span class="st">"ASV_161"</span><span class="op">)</span>, </span>
 <span>                         intervals <span class="op">=</span> <span class="st">"bar"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="resampling_files/figure-html/unnamed-chunk-19-1.png" width="768"></p>
+<p><img src="resampling_files/figure-html/unnamed-chunk-20-1.png" width="768"></p>
 <p>We can further see the resampling successes for each feature with the
 <code><a href="../reference/plot_successful_resamples.html">plot_successful_resamples()</a></code> function, and this histogram
 shows that most features do have 1000 successful resamplings.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_successful_resamples.html">plot_successful_resamples</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="resampling_files/figure-html/unnamed-chunk-20-1.png" width="384"></p>
+<p><img src="resampling_files/figure-html/unnamed-chunk-21-1.png" width="384"></p>
 </div>
 <div class="section level3">
 <h3 id="using-success-results-for-further-filtering">Using success results for further filtering<a class="anchor" aria-label="anchor" href="#using-success-results-for-further-filtering"></a>
@@ -497,21 +540,21 @@ dot further flags it as suspect and warrants a deeper look.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">EAF</span> <span class="op">=</span> <span class="fu"><a href="../reference/run_EAF_calculations.html">run_EAF_calculations</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">counts</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_resample_counts.html">get_resample_counts</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">success_rate</span> <span class="op">=</span> <span class="fl">0.9</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/summarize_EAF_values.html">summarize_EAF_values</a></span><span class="op">(</span><span class="va">EAF</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">feature_id</span>, <span class="va">observed_EAF</span><span class="op">)</span>, x <span class="op">=</span> <span class="va">observed_EAF</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>pch <span class="op">=</span> <span class="fl">21</span>,</span>
-<span>                      size <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>                      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="op">(</span><span class="va">labeled_resamples</span> <span class="op">+</span> <span class="va">unlabeled_resamples</span><span class="op">)</span> <span class="op">&gt;</span> <span class="va">q</span><span class="op">@</span><span class="va">resamples</span><span class="op">$</span><span class="va">n</span><span class="op">*</span><span class="fl">2</span><span class="op">*</span><span class="va">success_rate</span>, <span class="st">"Passed"</span>, <span class="st">"Failed"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_errorbar</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="va">lower</span>, xmax <span class="op">=</span> <span class="va">upper</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Passed"</span> <span class="op">=</span> <span class="st">"#00ff0066"</span>, <span class="st">"Failed"</span> <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"&gt;{success_rate * 100}% successes"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">EAF</span>, </span>
+<span>                error <span class="op">=</span> <span class="st">"ribbon"</span>,</span>
+<span>                success_ratio <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
-<p><img src="resampling_files/figure-html/unnamed-chunk-21-1.png" width="768"></p>
+<p><img src="resampling_files/figure-html/unnamed-chunk-22-1.png" width="768"></p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h2>
+<p>In conclusion, instead of pre-filtering your data based on the number
+of sources or fractions, you can use the resampling procedure to
+determine if your data is robust enough to proceed. This is especially
+useful when you have a large dataset and you want to ensure that you are
+not removing features that could be informative.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
