@@ -5,6 +5,7 @@
     * `vignette("source_data")`
     * `vignette("sample_data")`
     * `vignette("feature_data")`
+    * `vignette("resampling")`
 * Added light/dark switch to website documentation
 
 # qSIP2 0.15
