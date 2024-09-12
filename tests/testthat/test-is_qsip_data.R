@@ -1,4 +1,3 @@
-
 test_that("correct type gives NULL", {
   expect_true(is_qsip_data(example_qsip_object))
 })

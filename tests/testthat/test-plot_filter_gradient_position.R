@@ -1,32 +1,24 @@
-qsip_filtered_object <- run_feature_filter(example_qsip_object,
-  unlabeled_source_mat_ids = get_all_by_isotope(example_qsip_object, "12C"),
-  labeled_source_mat_ids = c("S178", "S179", "S180"),
-  min_unlabeled_sources = 3,
-  min_labeled_sources = 3,
-  min_unlabeled_fractions = 6,
-  min_labeled_fractions = 6
-)
-
+qsip_normal_strict_filtered <- readRDS(test_path("fixtures", "qsip_normal_strict_filtered.rds"))
 
 test_that("works as expected", {
-  expect_true("ggplot" %in% class(plot_filter_gradient_position(qsip_filtered_object)))
-  expect_true("ggplot" %in% class(plot_filter_gradient_position(qsip_filtered_object,
+  expect_true("ggplot" %in% class(plot_filter_gradient_position(qsip_normal_strict_filtered)))
+  expect_true("ggplot" %in% class(plot_filter_gradient_position(qsip_normal_strict_filtered,
     colors = c("red", "blue", "black")
   )))
 
-  expect_true("ggplot" %in% class(plot_filter_gradient_position(qsip_filtered_object,
+  expect_true("ggplot" %in% class(plot_filter_gradient_position(qsip_normal_strict_filtered,
     return_type = "combined"
   )))
-  expect_type(plot_filter_gradient_position(qsip_filtered_object,
+  expect_type(plot_filter_gradient_position(qsip_normal_strict_filtered,
     return_type = "individual"
   ), "list")
-  expect_type(plot_filter_gradient_position(qsip_filtered_object,
+  expect_type(plot_filter_gradient_position(qsip_normal_strict_filtered,
     return_type = "dataframe"
   ), "list")
 })
 
 test_that("incorrect return type fails", {
-  expect_error(plot_filter_gradient_position(qsip_filtered_object, return_type = "not_valid"))
+  expect_error(plot_filter_gradient_position(qsip_normal_strict_filtered, return_type = "not_valid"))
 })
 
 test_that("running on object that hasn't been filtered fails", {

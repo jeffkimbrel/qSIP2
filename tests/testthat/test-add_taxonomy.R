@@ -1,8 +1,5 @@
-add_taxonomy_testdf <- dplyr::select(example_feature_object@data, feature_id) |>
-  dplyr::mutate(genus = "test", species = "test")
-
-add_taxonomy_testdf_with_error = add_taxonomy_testdf |>
-  rbind(tibble::tibble("feature_id" = "not_found", "genus" = "genus", "species" = "species"))
+add_taxonomy_testdf <- readRDS(test_path("fixtures", "add_taxonomy_testdf.rds"))
+add_taxonomy_testdf_with_error <- readRDS(test_path("fixtures", "add_taxonomy_testdf_with_error.rds"))
 
 test_that("feature wrong type produces error", {
   expect_error(add_taxonomy(example_feature_df, add_taxonomy_testdf, feature_id = "ASV"),

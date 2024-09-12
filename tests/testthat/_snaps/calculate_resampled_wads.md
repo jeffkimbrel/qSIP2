@@ -1,7 +1,7 @@
 # resampling works correctly
 
     Code
-      calculate_resampled_wads(1, test_wad, type = "labeled")
+      calculate_resampled_wads(1, wad_matrix, type = "labeled")
     Output
       # A tibble: 6 x 6
         feature_id type    resample labeled_1 labeled_2 labeled_3

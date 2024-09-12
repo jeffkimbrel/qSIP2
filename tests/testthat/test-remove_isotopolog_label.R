@@ -15,16 +15,20 @@ test_that("Missing columns trigger error", {
     "not_found" = rep("13C", 12),
     "isotopolog_label" = c(rep("natural abundance", 6), rep("isotopically labeled", 6))
   )
-  expect_error(remove_isotopolog_label(testdf2),
-               "isotope column not found")
+  expect_error(
+    remove_isotopolog_label(testdf2),
+    "isotope column not found"
+  )
 
 
   testdf3 <- data.frame(
     "isotope" = rep("13C", 12),
     "not_found" = c(rep("natural abundance", 6), rep("isotopically labeled", 6))
   )
-  expect_error(remove_isotopolog_label(testdf3),
-               "isotopolog_label column not found")
+  expect_error(
+    remove_isotopolog_label(testdf3),
+    "isotopolog_label column not found"
+  )
 })
 
 test_that("Unexpected isotopes produce error", {
