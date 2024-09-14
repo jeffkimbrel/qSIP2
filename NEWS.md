@@ -1,5 +1,6 @@
 # qSIP2 0.16
 
+* Added `vignette("growth")` to introduce the growth workflow
 * The vignettes were previously hastily written, but now they have been hastily re-written to capture the modern workflow of `qSIP2`
     * `vignette("qSIP_workflow")`
     * `vignette("source_data")`

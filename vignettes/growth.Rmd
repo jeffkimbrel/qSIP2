@@ -1,0 +1,233 @@
+---
+title: "Growth Workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{growth}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dplyr)
+library(ggplot2)
+library(qSIP2)
+packageVersion("qSIP2")
+```
+
+```{r, echo=FALSE}
+ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
+```
+
+# Background
+
+Using qSIP2, we can estimate the growth rate of individual features (i.e. bacteria) in a microbial community by fitting a growth model to the abundance of a labeled taxon over time. Assumptions for growth include
+
+1.  there is no isotopic labeling at time zero
+2.  the pool of unlabeled features will not go up over time
+3.  bacteria that incorporate the isotope are 100% labeled
+
+Using the calculated EAF values from the standard workflow, we therefore can say an EAF of 0.5 means that 50% of the bacteria are labeled and the result of growth since time zero (i.e. "birth" or $b$). Further, using quantitative abundance values in both time zero and time point samples, we can estimate the death rate ($d$) of individual features by calculating the decrease in unlabeled features. Together, we get at the growth rate using the equation $r_i = b_i + d_i$ for each feature $i$[^1]. This is one of the main advantages of qSIP where if $b$ equals $d$ then traditional community analysis would detect no change in the community, whereas qSIP would detect growth and death of individual features.
+
+[^1]: <https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090>
+
+Growth analysis starts with calculations of EAF values, and therefore requires the standard workflow (`vignette("qSIP_workflow")`) to be run first with only slight modifications.
+
+For growth, three additional arguments are required for the `qsip_source_data` creation.
+
+1.  `timepoint` - a numerical value for the timepoint of the source material. There is often a `0` timepoint, but these can be any values and the growth rate will be calculated as the difference between time points. Further, these can be any units (e.g. days, hours, etc.), and the interpretation of the growth rate will depend on the units (e.g. "per day" or "per hour").
+2.  `total_abundance` - a numerical value for the total abundance of the source material. Ideally, this is a copy number from qPCR using the same primers as the sequencing. Further, it should be standardized to some unit of starting material (e.g. copies per gram of soil). If it isn't, then the next `volume` argument is important.
+3.  `volume` - a numerical value for the volume of the source material DNA that the copy number was derived from. Typically the volume is the same for all source material DNA extractions, but if your starting volume for qPCR was different then this parameter is important.
+
+# Growth Object
+
+An example growth object is provided with the `qSIP2` package called `example_qsip_growth_object`. We can check which columns contain the three additional arguments for growth, and pull out a table with the relevant columns.
+
+```{r}
+#| eval: false
+get_dataframe(example_qsip_growth_object, type = "source") |> 
+  select(source_mat_id, isotope, timepoint, total_abundance, volume) |>
+  arrange(timepoint, isotope)
+```
+
+```{r}
+#| echo: FALSE
+get_dataframe(example_qsip_growth_object, type = "source") |> 
+  select(source_mat_id, isotope, timepoint, total_abundance, volume) |>
+  arrange(timepoint, isotope) |>
+  knitr::kable()
+```
+
+From this table, we can notice a few things. First, there are 15 total samples - 5 with timepoint 0, and 5 each with 16O or 18O isotopes. Second, some sources do not have a standard `isotope` designation, but instead say "Time0". This is a special allowed `isotope` type flagging these sources as unfractionated, and therefor no EAF value will be calculated for them. Third, the `volume` column is the same for all samples which indicates that the `total_abundance` is already standardized to the same volume. Indeed if we look at the column that `total_abundance` was derived from we can tell from the name that it is a copy number to a standardize amount of soil (16S copies per gram of soil).
+
+```{r}
+example_qsip_growth_object@source_data@total_abundance
+```
+
+# EAF Workflow
+
+As mentioned above, the growth workflow requires the EAF values to be calculated first. Note, we are running with `allow_failures = TRUE`, but still with a minimum of 4 labeled and 4 unlabeled fractions.
+
+```{r}
+q <- run_feature_filter(example_qsip_growth_object,
+  group = "Day 10",
+  unlabeled_source_mat_ids = c("source_11", "source_14", "source_2", "source_5", "source_8"),
+  labeled_source_mat_ids = c("source_12", "source_15", "source_3", "source_6", "source_9"),
+  min_labeled_fractions = 4,
+  min_unlabeled_fractions = 4
+) |>
+  run_resampling(
+    resamples = 1000,
+    with_seed = 1332,
+    allow_failures = TRUE,
+    progress = FALSE
+  ) |>
+  run_EAF_calculations()
+```
+
+Overall, most features had robust resampling results, with only a few having less than 99% success in the labeled sources.
+
+```{r}
+get_resample_counts(q) |>
+  filter(labeled_resamples < 1000 | unlabeled_resamples < 1000)
+```
+
+```{r, fig.height=8, fig.width=6}
+plot_EAF_values(q,
+  confidence = 0.9,
+  error = "ribbon",
+  success_ratio = 0.9
+)
+```
+
+# Growth Workflow
+
+## Time zero total abundances
+
+In addition to the EAF values stored in the `qsip_data` object, we also need a table with the $N_{TOTALi0}$ values for each feature $i$ at timepoint $t$, in this case time 0. This value is the *total* abundance of each feature and is the sum of both the labeled and unlabeled features (equation 2 from Koch, 2018[^1]). Note you don't have to always compare against time zero. If you have a 7-day and 14-day timepoint you can set day 7 as the initial timepoint here.
+
+This table is created with the `get_N_total_it()` function where you pass the original `qsip_data` object and the timepoint of interest.
+
+::: {.alert .alert-primary}
+`get_N_total_it()` should be run on the initial `qsip_data` object before any filtering or resampling has been done. This is because the unfractionated time zero sources will not be present in the filtered data.
+:::
+
+```{r}
+N_total_i0 <- get_N_total_it(example_qsip_growth_object, t = 0)
+```
+
+Note we get a warning here that taxon_194 has zero abundance at `t = 0`. Therefore, this feature cannot have a growth rate calculated because any change in abundance would be considered infinite growth.
+
+```{r}
+#| echo: FALSE
+N_total_i0 |> head() |> knitr::kable(caption = "First few rows of `N_total_i0`")
+```
+
+## Growth rate calculations
+
+Using the abundance values stored in `N_total_i0` and the resampled EAF values stored in `q`, we can calculate the growth rate for each feature. This is done with the `run_growth_calculations()` function where you pass the `qsip_data` object, the `N_total_i0` table, and the growth model to use. The growth model can be either "exponential" or "linear".
+
+```{r}
+q <- run_growth_calculations(q,
+                               N_total_it = example_qsip_growth_t0,
+                               growth_model = "exponential")
+```
+
+Note the warning message, which we will return to in a minute.
+
+## Growth calculation results
+
+We can get a dataframe of the growth calculations with the `get_growth_data()` function. Here, we will also filter to just the data for the first resample.
+
+```{r}
+#| eval: false
+get_growth_data(q) |>
+  filter(resample == 1)
+```
+
+```{r}
+#| echo: FALSE
+get_growth_data(q) |>
+  filter(resample == 1) |>
+  head() |>
+  knitr::kable(caption = "The first few rows of `get_growth_data(q)`")
+```
+
+Some columns contain important, but redundant information. For example, for each feature `timepoint1`, `timepoint2`, `N_total_i0`, `N_total_it`, `r_net` and `ri` are the same for all rows.
+
+-   `timepoint1` and `timepoint2` are the timepoints for the growth calculations. For this dataset, we are comparing day 10 to day 0, so the rates will be in units of "per day".
+-   `N_total_i0` is the total abundance of each feature at time 0, and `N_total_it` is the total abundance of each feature at time $t$. `r_net` is just the copy number difference between the two time points for each feature, or $N_{TOTALit} - N_{TOTALi0}$.
+-   `ri` is the overall growth rate, where a negative value indicates more death than birth
+
+The remaining columns use the resampled EAF data to determine which portion of the `N_total_it` copies correspond to those taking up the substrate and those that remain unlabeled.
+
+-   `N_light_it` comes from equation 3 of Koch, 2018[^1], and is the proportion of `N_total_it` that isn't labeled.
+-   `N_heavy_it` is the proportion of `N_total_it` that is labeled, and is roughly $N_{TOTALit} * EAF$
+-   `bi` is the per-unit-of-time birth rate, `di` is the death rate
+
+## Summarizing Growth Data
+
+We can summarize the growth data at a specified `confidence` with the `summarize_growth_values()` function. This function will calculate the mean, sd and confidence intervals for the birth and death rates, as well as EAF.
+
+```{r}
+summarize_growth_values(q, confidence = 0.9) |> arrange(feature_id)
+```
+
+## Growth rate plots
+
+```{r, fig.height=8, fig.width=6}
+plot_growth_values(q,
+                   confidence = 0.9,
+                   top = 100,
+                   alpha = 0.4,
+                   error = "ribbon"
+                   )
+```
+
+## When growth cannot be calculated
+
+There are a few cases where growth cannot be calculated or the results can be non-sensical. Some cases result in the entire feature being unusable, while other cases just remove specific resamples for that feature while using the remaining features where possible.
+
+### No time zero data
+
+As noted above, taxon_194 has zero abundance at time zero. Therefore, the growth rate cannot be calculated because any change in abundance would be considered infinite growth. The intermediate values for these features can be found in the `get_growth_data()` function, but the feature will be omitted entirely from the `summarize_growth_values()` data.
+
+### Negative EAF values
+
+This is related to the warning we received above stating there were 31862 resamplings that have "negative EAF values". While negative EAF values can be common due to noise, it doesn't make sense when calculating $N_{LIGHTit}$ and $N_{HEAVYit}$ values. This happens because $N_{LIGHTit}$ gets calculated to actually have more copies than $N_{TOTALit}$, which is impossible, and therefore $N_{HEAVYit}$ will be a negative number of copies, which is also impossible. Below is from the `q@growth$negative_labeled` dataframe for taxon_1 explaining the reasoning. Z (equation 4 from Hungate, 2015[^2]) is the difference between the labeled and unlabeled WAD value, so when Z is negative, it indicates the WAD values were lower for the labeled fractions, likely due to noise in the SIP process. 
+
+[^2]: https://journals.asm.org/doi/10.1128/aem.02280-15
+
+```{r}
+#| eval: false
+q@growth$negative_labeled |> 
+  filter(feature_id == "taxon_1") |>
+  select(feature_id, N_total_it, resample, Z, EAF, N_light_it, N_heavy_it)
+```
+
+```{r}
+#| echo: false
+q@growth$negative_labeled |> 
+  filter(feature_id == "taxon_1") |>
+  select(feature_id, N_total_it, resample, Z, EAF, N_light_it, N_heavy_it) |>
+  head() |>
+  knitr::kable(caption = "First few rows for taxon_1")
+```
+
+taxon_1 had a total of 28 resamplings fall into this category, but the remaining 972 were successful. This number is reflected in the `successes` column of `summarize_growth_values()`.
+
+```{r}
+summarize_growth_values(q, confidence = 0.9) |> 
+  filter(feature_id == "taxon_1") |>
+  select(feature_id, successes)
+```
+
+

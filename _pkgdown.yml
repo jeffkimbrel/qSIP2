@@ -38,6 +38,7 @@ reference:
   - get_resample_data
   - get_feature_ids
   - get_source_mat_ids
+  - get_growth_data
   - resample_seed
   - n_resamples
   - add_gradient_pos_rel_amt
@@ -110,12 +111,13 @@ articles:
   navbar: ~
   contents:
   - qSIP_workflow
+  - growth
+
+- title: Other
+  contents:
   - source_data
   - sample_data
   - feature_data
   - resampling
-
-- title: Other
-  contents:
   - controlled_vocab
 

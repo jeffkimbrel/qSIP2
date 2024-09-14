@@ -6,7 +6,7 @@
       Warning:
       32 calculated values of unlabeled samples are negative. These values have been filtered out and added to @growth$negative_unlabeled
       Warning:
-      3968 calculated values of labeled samples are negative. These values have been filtered out and added to @growth$negative_labeled
+      3968 resamplings have a negative EAF value or calculated labeled copy numbers less than 0. These values have been filtered out and added to @growth$negative_labeled
     Output
       <qsip_data>
        @ source_data          : <qsip_source_data>

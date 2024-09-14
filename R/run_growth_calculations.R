@@ -188,7 +188,7 @@ run_growth_calculations <- function(qsip_data_object,
   }
 
   if (nrow(negative_labeled) > 0) {
-    warning(glue::glue("{nrow(negative_labeled)} calculated values of labeled samples are negative. These values have been filtered out and added to @growth$negative_labeled"), call. = FALSE)
+    warning(glue::glue("{nrow(negative_labeled)} resamplings have a negative EAF value or calculated labeled copy numbers less than 0. These values have been filtered out and added to @growth$negative_labeled"), call. = FALSE)
     qsip_data_object@growth$negative_labeled <- negative_labeled
   }
 
@@ -291,14 +291,15 @@ summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = 
     dplyr::filter(observed == FALSE) |>
     dplyr::select(-observed) |>
     dplyr::summarize(
+      successes = dplyr::n(),
       resampled_N_mean = mean(N_total_it, na.rm = TRUE),
-      resampled_N_sd = sd(N_total_it, na.rm = TRUE),
-      resampled_N_lower = quantile(N_total_it, (1 - confidence) / 2, na.rm = T),
-      resampled_N_upper = quantile(N_total_it, 1 - (1 - confidence) / 2, na.rm = T),
+      # resampled_N_sd = sd(N_total_it, na.rm = TRUE),
+      # resampled_N_lower = quantile(N_total_it, (1 - confidence) / 2, na.rm = T),
+      # resampled_N_upper = quantile(N_total_it, 1 - (1 - confidence) / 2, na.rm = T),
       resampled_rnet_mean = mean(r_net, na.rm = TRUE),
-      resampled_rnet_sd = sd(r_net, na.rm = TRUE),
-      resampled_rnet_lower = quantile(r_net, (1 - confidence) / 2, na.rm = T),
-      resampled_rnet_upper = quantile(r_net, 1 - (1 - confidence) / 2, na.rm = T),
+      # resampled_rnet_sd = sd(r_net, na.rm = TRUE),
+      # resampled_rnet_lower = quantile(r_net, (1 - confidence) / 2, na.rm = T),
+      # resampled_rnet_upper = quantile(r_net, 1 - (1 - confidence) / 2, na.rm = T),
       resampled_bi_mean = mean(bi, na.rm = TRUE),
       resampled_bi_sd = sd(bi, na.rm = TRUE),
       resampled_bi_lower = quantile(bi, (1 - confidence) / 2, na.rm = T),
@@ -399,14 +400,14 @@ plot_growth_values <- function(qsip_data_object,
   p_N <- rbd |>
     dplyr::slice_max(N_total_it, n = top) |>
     dplyr::mutate(feature_id = forcats::fct_reorder(feature_id, N_total_it)) |>
-    dplyr::select(feature_id, N_total_i0, N_total_it, r_net, resampled_N_mean, resampled_N_lower, resampled_N_upper) |>
+    dplyr::select(feature_id, N_total_i0, N_total_it, r_net, resampled_N_mean) |>
     ggplot2::ggplot(ggplot2::aes(y = feature_id, x = (N_total_i0))) +
-    ggplot2::geom_errorbar(ggplot2::aes(xmin = (resampled_N_lower), xmax = (resampled_N_upper)),
-      width = 0.5,
-      linewidth = 1,
-      color = "orangered3",
-      alpha = alpha
-    ) +
+    # ggplot2::geom_errorbar(ggplot2::aes(xmin = (resampled_N_lower), xmax = (resampled_N_upper)),
+    #   width = 0.5,
+    #   linewidth = 1,
+    #   color = "orangered3",
+    #   alpha = alpha
+    # ) +
     ggplot2::geom_segment(ggplot2::aes(x = N_total_i0, xend = N_total_it),
       arrow = ggplot2::arrow(length = ggplot2::unit(0.2, "cm")),
       color = "gray50"
