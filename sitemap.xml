@@ -4,6 +4,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/LICENSE.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/articles/controlled_vocab.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/articles/feature_data.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/articles/growth.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/articles/index.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/articles/qSIP_workflow.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/articles/resampling.html</loc></url>
@@ -46,6 +47,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_dataframe.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_feature_ids.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_filtered_source_counts.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_growth_data.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_isotope_designation.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_data.html</loc></url>
