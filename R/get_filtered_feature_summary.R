@@ -12,8 +12,8 @@ get_filtered_feature_summary = function(qsip_data_object, feature_id) {
     stop("ERROR: this function requires a qsip object that has been run through run_feature_filter()")
   }
 
-  A = qsip_data_object@filter_results$fraction_filtered |> filter(feature_id == feature)
-  B = qsip_data_object@filter_results$source_filtered |> filter(feature_id == feature)
+  A = qsip_data_object@filter_results$fraction_filtered |> dplyr::filter(feature_id == feature)
+  B = qsip_data_object@filter_results$source_filtered |> dplyr::filter(feature_id == feature)
   C = feature %in% qsip_data_object@filter_results$retained_features
 
   return(list("fraction_filter_summary" = A,
