@@ -10,6 +10,7 @@
 * Added light/dark switch to website documentation
 * Added optional `title` argument to change the title of the plot to `plot_EAF_values()`, `plot_feature_curves()`, `plot_sample_curves()` and `plot_source_wads()`
 * Switched to using `testthat` fixtures
+* Added `get_filtered_feature_summary()` to see the filtering fate of a specified `feature_id`
 
 # qSIP2 0.15
 

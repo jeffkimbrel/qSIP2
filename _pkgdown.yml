@@ -37,6 +37,7 @@ reference:
   - get_resample_counts
   - get_resample_data
   - get_feature_ids
+  - get_filtered_feature_summary
   - get_source_mat_ids
   - get_growth_data
   - resample_seed

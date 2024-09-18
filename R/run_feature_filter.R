@@ -152,7 +152,7 @@ run_feature_filter <- function(qsip_data_object,
     dplyr::filter(tube_rel_abundance > 0) |>
     dplyr::summarize(
       n_sources = dplyr::n(),
-      tube_rel_abundance = sum(tube_rel_abundance),
+      mean_tube_rel_abundance = mean(tube_rel_abundance),
       .groups = "drop"
     ) |>
     tidyr::complete(feature_id,
