@@ -1,5 +1,5 @@
 ---
-title: "Working with Feature Data"
+title: "Feature Data"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{abundance_data}

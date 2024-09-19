@@ -115,11 +115,14 @@ articles:
   - qSIP_workflow
   - growth
 
-- title: Other
+- title: Working with...
   contents:
   - source_data
   - sample_data
   - feature_data
   - resampling
+
+- title: Other
+  contents:
   - controlled_vocab
 

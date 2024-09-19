@@ -1,5 +1,5 @@
 ---
-title: "Working with Sample Data"
+title: "Sample Data"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{sample_data}

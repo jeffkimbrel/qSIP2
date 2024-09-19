@@ -1,5 +1,5 @@
 ---
-title: "Working with Source Data"
+title: "Source Data"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{source_data}
