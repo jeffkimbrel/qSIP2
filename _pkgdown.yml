@@ -114,13 +114,14 @@ articles:
   contents:
   - qSIP_workflow
   - growth
+  - resampling
 
 - title: Working with...
   contents:
   - source_data
   - sample_data
   - feature_data
-  - resampling
+  - multiple_objects
 
 - title: Other
   contents:
