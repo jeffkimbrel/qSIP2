@@ -195,13 +195,13 @@ summarize_EAF_values(qsip_list_3) |>
   filter(feature_id == "ASV_311")
 ```
 
-And although you can plot all together, more than a few objects might make the plots harder to read.
+And although you can plot all together, more than a few objects might make the plots harder to read. But, because it is a simple list you can always still access the individual objects if needed using the `$` operator (e.g. `qsip_list_3$Drought`) or `[]` brackets (e.g. `qsip_list_3[c("Drought", "Normal")]`). 
 
 ```{r}
-#| fig.width: 12
-#| fig.height: 8
+#| fig.width: 8
+#| fig.height: 6
 
-plot_EAF_values(qsip_list_3,
+plot_EAF_values(qsip_list_3[c("Drought", "Normal")],
                 error = "ribbon",
                 top = 50)
 ```
