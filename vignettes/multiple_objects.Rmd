@@ -3,8 +3,10 @@ title: "Multiple qSIP Objects"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{multiple_objects}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -23,4 +25,183 @@ packageVersion("qSIP2")
 
 ```{r, echo=FALSE}
 ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
+```
+
+# Background
+
+In `qSIP2`, you can run the standard EAF workflow with multiple `qsip_data` objects at the same time. This vignette will show you different ways to create and use multiple `qsip_data` objects in the same workflow.
+ 
+# Multiple Object Structure
+
+The format for storing multiple `qsip_data` objects is a simple named list, where the names are a descriptive but succinct name for that comparison, and the value is the `qsip_data` object. The list can be created in a few different ways, including "by hand", by formatting the `show_comparison_groups()` output, or providing a dataframe to the dedicated `run_comparison_groups()` function. Each of these are detailed below. 
+
+# Building the multi `qsip_data` object "by hand"
+
+In the standard `vignette("qSIP_workflow")` vignette we filtered the example object to create "normal" and "drought" objects, and then proceeded through the workflow with these two objects independently. However, these two objects can instead be combined using `list()` to work with both simultaneously. We can run a validation function that will return `TRUE` if the list is correct.
+
+
+```{r}
+qsip_normal <- run_feature_filter(example_qsip_object,
+  unlabeled_source_mat_ids = get_all_by_isotope(example_qsip_object, "12C"),
+  labeled_source_mat_ids = c("S178", "S179", "S180"),
+  min_unlabeled_sources = 6, min_labeled_sources = 3,
+  min_unlabeled_fractions = 5, min_labeled_fractions = 5,
+  quiet = TRUE
+) |>
+  run_resampling(with_seed = 49, quiet = TRUE, progress = FALSE) |>
+  run_EAF_calculations()
+
+qsip_drought <- run_feature_filter(example_qsip_object,
+  unlabeled_source_mat_ids = get_all_by_isotope(example_qsip_object, "12C"),
+  labeled_source_mat_ids = c("S200", "S201", "S202", "S203"),
+  min_unlabeled_sources = 6, min_labeled_sources = 3,
+  min_unlabeled_fractions = 5, min_labeled_fractions = 5,
+  quiet = TRUE
+) |>
+  run_resampling(with_seed = 50, quiet = TRUE, progress = FALSE) |>
+  run_EAF_calculations()
+
+qsip_list_1 = list("Normal" = qsip_normal, 
+                          "Drought" = qsip_drought)
+
+is_qsip_data_list(qsip_list_1)
+```
+
+The list objects now holds both `qsip_data` objects, but each can be accessed by name (e.g. `qsip_list_1$Normal`) if needed. When building by hand, the main benefit of combining multiple objects together is that you get shared reporting with summary functions like `summarize_EAF_values()` and `plot_EAF_values()`.  
+
+```{r}
+#| eval: FALSE
+summarize_EAF_values(qsip_list_1)
+```
+
+```{r}
+#| echo: FALSE
+summarize_EAF_values(qsip_list_1) |>
+  arrange(feature_id) |>
+  head() |>
+  knitr::kable(caption = "First few rows from `summarize_EAF_values()`")
+```
+
+In the table above, you can see that the `feature_id` column is repeated for each group. 
+
+```{r}
+#| fig.width: 8
+#| fig.height: 6
+
+plot_EAF_values(qsip_list_1,
+                top = 50,
+                error = "ribbon")
+```
+
+Other helper functions can be used on the list as well.
+
+```{r}
+n_resamples(qsip_list_1)
+resample_seed(qsip_list_1)
+```
+
+# Dataframe-based multi `qsip_data` object
+
+While building the list by hand can be useful in organizing the output, the functionality of the list structure really shines when you start with a dataframe of comparisons you want to make. This workflow will do all of the steps from the initial, unfiltered `qsip_data` objects without the need to manually build each comparison object. 
+
+## Dataframe Structure
+
+The dataframe has a simple structure, and requires at a minimum three columns. The `group` column is the name of the comparison group, and the `unlabeled` and `labeled` columns are vectors of the `source_material_id`s to use in the comparison. Each row of the dataframe will be a separate comparison group. 
+
+## Modifying `show_comparison_groups()` output
+
+Recall that `show_comparison_groups()` attempts to guess the relevant comparison groups using the metadata. For the example qsip object, when grouping by "Moisture" we get
+
+```{r}
+show_comparison_groups(example_qsip_object, group = "Moisture")
+```
+
+The output is already in our desired format, and all that is needed is some slight tweaking of the column names using `dplyr::select()` (or `dplyr::rename()`). 
+
+```{r}
+show_comparison_groups(example_qsip_object, group = "Moisture") |> 
+  dplyr::select("group" = Moisture, "unlabeled" = "12C", "labeled" = "13C")
+```
+
+This dataframe can be passed directly to `run_comparison_groups()` to create the multi `qsip_data` object. `run_comparison_groups()` requires the dataframe and a `qsip_data` object as the first two arguments. It has three additional optional arguments that globally apply to all comparisons: `allow_failures` (*boolean*), `seed` (*integer*), and `resamples` (*integer*). 
+
+```{r}
+qsip_list_2 = show_comparison_groups(example_qsip_object, group = "Moisture") |> 
+  dplyr::select("group" = Moisture, "unlabeled" = "12C", "labeled" = "13C") |>
+  run_comparison_groups(example_qsip_object, 
+                        seed = 99,
+                        allow_failures = TRUE)
+
+is_qsip_data_list(qsip_list_2)
+```
+
+Plotting the values here should give almost identical results (within sampling error) to the previous plot, but this time we have enabled the `allow_failures` option so we get resampling success as well. 
+
+```{r}
+#| fig.width: 8
+#| fig.height: 6
+
+plot_EAF_values(qsip_list_2,
+                top = 50,
+                success_ratio = 0.99,
+                error = "ribbon")
+```
+
+# Custom dataframe for ultimate control
+
+It is possible to make a dataframe from scratch (e.g. as an excel spreadsheet) to give even more fine-grain control over each comparison. Here, rather than setting parameters that will be treated as identical for all comparisons (like `seed = 99` above), here additional columns can be used to set the values independently per row. An example dataframe is included in the `qSIP2` package called `example_group_dataframe`. This dataframe is shown below, but with some columns temporarily removed for brevity (those columns will be discussed later). 
+
+```{r}
+#| eval: false
+example_group_dataframe
+```
+
+```{r}
+#| echo: false
+example_group_dataframe |>
+  select(!contains("min")) |>
+  knitr::kable(caption = "Example dataframe with some columns removed")
+```
+
+This dataframe shows the customizability of the format, including retaining the ability to use isotope terms like "12C" to grab all source material IDs with that isotope. 
+
+```{r}
+qsip_list_3 = example_group_dataframe |>
+  run_comparison_groups(example_qsip_object)
+
+resample_seed(qsip_list_3)
+```
+
+If you use the additional arguments in `run_comparison_groups()` then they will override the values in the dataframe.
+
+```{r}
+qsip_list_4 = example_group_dataframe |>
+  run_comparison_groups(example_qsip_object,
+                        seed = 42)
+resample_seed(qsip_list_4)
+```
+
+The are 4 additional dataframe columns that `run_comparison_groups()` will accept: `min_unlabeled_sources`, `min_labeled_sources`, `min_unlabeled_fractions`, and `min_labeled_fractions`. These columns are used to set the minimum number of sources and fractions required for each comparison. The full example dataframe does additionally contain these columns. 
+
+```{r}
+summarize_EAF_values(qsip_list_3) |>
+  filter(feature_id == "ASV_1")
+```
+
+But, keep in mind that each row of the dataframe will be filtered differently, and therefore some `feature_id`s could be missing from certain comparisons. For example, ASV_311 only appears in the two "Drought" comparisons.
+
+```{r}
+summarize_EAF_values(qsip_list_3) |>
+  filter(feature_id == "ASV_311")
+```
+
+And although you can plot all together, more than a few objects might make the plots harder to read.
+
+```{r}
+#| fig.width: 12
+#| fig.height: 8
+
+plot_EAF_values(qsip_list_3,
+                error = "ribbon",
+                top = 50)
 ```

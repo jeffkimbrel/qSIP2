@@ -13,7 +13,7 @@ resample_seed <- function(qsip_data_object) {
   } else if (is_qsip_data_list(qsip_data_object)) {
     seed_used = lapply(qsip_data_object, function(x) {x@resamples$seed}) |>
       unlist() |>
-      tibble::enframe(name = "group", value = "n_resamples")
+      tibble::enframe(name = "group", value = "seed")
     return(seed_used)
   } else {
     stop("this function requires a <qsip_data> object, or a list of <qsip_data> objects", call. = FALSE)

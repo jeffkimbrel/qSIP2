@@ -264,6 +264,7 @@ fraction_results_message <- function(by_fraction) {
     length()
 
   message(glue::glue_col("In total, {green {fraction_passed}} unique feature_ids {green passed} the fraction filtering requirements..."))
+
 }
 
 #' Filter features by source message formatting (internal)

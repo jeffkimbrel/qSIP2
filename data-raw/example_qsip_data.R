@@ -108,6 +108,9 @@ example_qsip_growth_t0 <- get_N_total_it(example_qsip_growth_object, t = 0)
 
 
 
+example_group_dataframe = readxl::read_excel("/Users/kimbrel1/Library/CloudStorage/Dropbox/working/qSIP/multiple_objects_test.xlsx")
+
+
 
 
 # save
@@ -123,3 +126,5 @@ usethis::use_data(example_qsip_object, overwrite = TRUE)
 
 usethis::use_data(example_qsip_growth_object, overwrite = TRUE)
 usethis::use_data(example_qsip_growth_t0, overwrite = TRUE)
+
+usethis::use_data(example_group_dataframe, overwrite = TRUE)
