@@ -3,7 +3,7 @@
 * Added new vignettes
     * `vignette("growth")`
     * `vignette("multiple_objects")`
-* The vignettes were previously hastily written, but now they have been hastily re-written to capture the modern workflow of `qSIP2`
+* The previous vignettes were hastily written, but now they have been hastily re-written to capture the modern workflow of `qSIP2`
     * `vignette("qSIP_workflow")`
     * `vignette("source_data")`
     * `vignette("sample_data")`
