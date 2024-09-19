@@ -5,11 +5,12 @@ articles:
   controlled_vocab: controlled_vocab.html
   feature_data: feature_data.html
   growth: growth.html
+  multiple_objects: multiple_objects.html
   qSIP_workflow: qSIP_workflow.html
   resampling: resampling.html
   sample_data: sample_data.html
   source_data: source_data.html
-last_built: 2024-09-19T00:10Z
+last_built: 2024-09-19T20:17Z
 urls:
   reference: https://jeffkimbrel.github.io/qSIP2/reference
   article: https://jeffkimbrel.github.io/qSIP2/articles
