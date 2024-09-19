@@ -6,15 +6,18 @@
 #' @export
 
 get_filtered_feature_summary = function(qsip_data_object, feature_id) {
-  if (!is_qsip_data(qsip_data_object)) {
-    stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
-  } else if (length(qsip_data_object@filtered_wad_data) == 0) {
-    stop("ERROR: this function requires a qsip object that has been run through run_feature_filter()")
+
+  is_qsip_filtered(qsip_data_object, error = TRUE)
+
+  if (!feature_id %in% get_feature_ids(qsip_data_object)) {
+    stop(glue::glue("{feature_id} is not a valid feature_id"), call. = FALSE)
   }
 
-  A = qsip_data_object@filter_results$fraction_filtered |> dplyr::filter(feature_id == feature)
-  B = qsip_data_object@filter_results$source_filtered |> dplyr::filter(feature_id == feature)
-  C = feature %in% qsip_data_object@filter_results$retained_features
+  A = qsip_data_object@filter_results$fraction_filtered |>
+    dplyr::filter(feature_id == !!feature_id)
+  B = qsip_data_object@filter_results$source_filtered |>
+    dplyr::filter(feature_id == !!feature_id)
+  C = feature_id %in% qsip_data_object@filter_results$retained_features
 
   return(list("fraction_filter_summary" = A,
               "source_filter_summary" = B,
