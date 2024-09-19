@@ -524,13 +524,17 @@ the two “Drought” comparisons.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: unlabeled_resamples &lt;int&gt;, labeled_sources &lt;int&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   unlabeled_sources &lt;int&gt;</span></span></span></code></pre></div>
 <p>And although you can plot all together, more than a few objects might
-make the plots harder to read.</p>
+make the plots harder to read. But, because it is a simple list you can
+always still access the individual objects if needed using the
+<code>$</code> operator (e.g. <code>qsip_list_3$Drought</code>) or
+<code>[]</code> brackets
+(e.g. <code>qsip_list_3[c("Drought", "Normal")]</code>).</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list_3</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list_3</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Drought"</span>, <span class="st">"Normal"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>                error <span class="op">=</span> <span class="st">"ribbon"</span>,</span>
 <span>                top <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
-<p><img src="multiple_objects_files/figure-html/unnamed-chunk-18-1.png" width="1152"></p>
+<p><img src="multiple_objects_files/figure-html/unnamed-chunk-18-1.png" width="768"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
