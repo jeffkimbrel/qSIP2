@@ -28,6 +28,7 @@ is_qsip_data = function(object, error = FALSE) {
 #' Validate a multi-qsip list object
 #'
 #' @param qsip_list A list of qsip_data objects
+#' @param error If TRUE it stops with an error message. If FALSE it doesn't error, but returns FALSE
 #'
 #' @export
 
@@ -52,5 +53,31 @@ is_qsip_data_list <- function(object, error = FALSE) {
     } else {
       stop(glue::glue("qsip_data_object must be a <qsip_data> object, not <{class(object)[1]}>"), call. = FALSE)
     }
+  }
+}
+
+
+
+
+#' Validate a qsip object has been filtered
+#'
+#' @param object The object to check if it is a filtered qsip_data object
+#' @param error If TRUE it stops with an error message. If FALSE it doesn't error, but returns FALSE
+#'
+#' @export
+
+is_qsip_filtered <- function(object, error = FALSE) {
+  if (!is_qsip_data(object)) {
+    stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
+  }
+
+  if (length(object@filtered_wad_data) == 0) {
+    if (isFALSE(error)) {
+      return(FALSE)
+    } else {
+      stop(glue::glue("qsip_data_object is a non-filtered <qsip_data> object"), call. = FALSE)
+    }
+  } else {
+    return(TRUE)
   }
 }

@@ -7,6 +7,8 @@
 is_qsip_data_list(object, error = FALSE)
 }
 \arguments{
+\item{error}{If TRUE it stops with an error message. If FALSE it doesn't error, but returns FALSE}
+
 \item{qsip_list}{A list of qsip_data objects}
 }
 \description{

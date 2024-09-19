@@ -47,6 +47,7 @@ reference:
   - show_unshared_ids
   - is_qsip_data
   - is_qsip_data_list
+  - is_qsip_filtered
 
 - title: Plots and Visualizations
   contents:
