@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.10</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.10.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,7 +87,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.16.10'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.16.10.9000'</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -282,7 +282,7 @@ column is repeated for each group.</p>
 <div class="section level2">
 <h2 id="dataframe-based-multi-qsip_data-object">Dataframe-based multi <code>qsip_data</code> object<a class="anchor" aria-label="anchor" href="#dataframe-based-multi-qsip_data-object"></a>
 </h2>
-<p>While building the list by hand can be useful in organizing the
+<p>Although building the list by hand can be useful in organizing the
 output, the functionality of the list structure really shines when you
 start with a dataframe of comparisons you want to make. This workflow
 will do all of the steps from the initial, unfiltered
@@ -354,10 +354,9 @@ well.</p>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
 <p><img src="multiple_objects_files/figure-html/unnamed-chunk-11-1.png" width="768"></p>
 </div>
-</div>
-<div class="section level2">
-<h2 id="custom-dataframe-for-ultimate-control">Custom dataframe for ultimate control<a class="anchor" aria-label="anchor" href="#custom-dataframe-for-ultimate-control"></a>
-</h2>
+<div class="section level3">
+<h3 id="custom-dataframe-for-ultimate-control">Custom dataframe for ultimate control<a class="anchor" aria-label="anchor" href="#custom-dataframe-for-ultimate-control"></a>
+</h3>
 <p>It is possible to make a dataframe from scratch (e.g. as an excel
 spreadsheet) to give even more fine-grain control over each comparison.
 Here, rather than setting parameters that will be treated as identical
@@ -535,6 +534,7 @@ always still access the individual objects if needed using the
 <span>                top <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
 <p><img src="multiple_objects_files/figure-html/unnamed-chunk-18-1.png" width="768"></p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
