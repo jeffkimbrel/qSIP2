@@ -53,7 +53,7 @@ plot_EAF_values <- function(qsip_data_object,
   # confirm the success_ratio value is numeric and between 0-1
   stopifnot("ERROR: success_ratio should be numeric" = is.numeric(success_ratio))
   if (success_ratio > 1 | success_ratio <= 0) {
-    stop("ERROR: success_ratio level should be between 0 and 1")
+    stop("ERROR: success_ratio should be between 0 and 1")
   }
 
   # confirm the alpha value is numeric and between 0-1
@@ -123,7 +123,7 @@ plot_EAF_values <- function(qsip_data_object,
       ggplot2::labs(
         y = "feature_ids reordered by observed_EAF"
       ) +
-      guides(fill="none")
+      ggplot2::guides(fill="none")
   }
 
   # control the CI display

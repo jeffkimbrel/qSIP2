@@ -1,6 +1,6 @@
 Package: qSIP2
 Title: qSIP Analysis
-Version: 0.16.10
+Version: 0.16.10.9000
 Authors@R: 
     person("Jeff", "Kimbrel", , "kimbrel1@llnl.gov", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7213-9392"))
@@ -35,7 +35,8 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    tidytext
+    tidytext,
+    vdiffr
 URL: https://github.com/jeffkimbrel/qSIP2,
     https://jeffkimbrel.github.io/qSIP2/
 BugReports: https://github.com/jeffkimbrel/qSIP2/issues

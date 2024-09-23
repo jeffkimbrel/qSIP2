@@ -1,8 +1,10 @@
 qsip_normal_strict_filtered <- readRDS(test_path("fixtures", "qsip_normal_strict_filtered.rds"))
 
-
 test_that("works correctly", {
   expect_snapshot(run_resampling(qsip_normal_strict_filtered, resamples = 100, with_seed = 21))
+  expect_snapshot(run_resampling(qsip_normal_strict_filtered, resamples = 10))
+  expect_snapshot(run_resampling(qsip_normal_strict_filtered, resamples = 10, progress = FALSE))
+  expect_snapshot(run_resampling(qsip_normal_strict_filtered, resamples = 10, allow_failures = TRUE))
 })
 
 test_that("wrong input types fail", {

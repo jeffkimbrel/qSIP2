@@ -102,7 +102,7 @@ resample_seed(qsip_list_1)
 
 # Dataframe-based multi `qsip_data` object
 
-While building the list by hand can be useful in organizing the output, the functionality of the list structure really shines when you start with a dataframe of comparisons you want to make. This workflow will do all of the steps from the initial, unfiltered `qsip_data` objects without the need to manually build each comparison object. 
+Although building the list by hand can be useful in organizing the output, the functionality of the list structure really shines when you start with a dataframe of comparisons you want to make. This workflow will do all of the steps from the initial, unfiltered `qsip_data` objects without the need to manually build each comparison object. 
 
 ## Dataframe Structure
 
@@ -147,7 +147,7 @@ plot_EAF_values(qsip_list_2,
                 error = "ribbon")
 ```
 
-# Custom dataframe for ultimate control
+## Custom dataframe for ultimate control
 
 It is possible to make a dataframe from scratch (e.g. as an excel spreadsheet) to give even more fine-grain control over each comparison. Here, rather than setting parameters that will be treated as identical for all comparisons (like `seed = 99` above), here additional columns can be used to set the values independently per row. An example dataframe is included in the `qSIP2` package called `example_group_dataframe`. This dataframe is shown below, but with some columns temporarily removed for brevity (those columns will be discussed later). 
 

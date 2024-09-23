@@ -26,6 +26,12 @@ get_N_total_it <- function(qsip_data_object,
     stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
   }
 
+  # stop if t is not numeric
+  if (!is.numeric(t)) {
+    stop("t must be numeric", call. = FALSE)
+  }
+
+
   # this section makes the basic dataframe with total abundance at time zero.
   # Because it is based on @tube_rel_abundance it will not have data for
   # features with zero abundance at time zero
@@ -35,7 +41,14 @@ get_N_total_it <- function(qsip_data_object,
     dplyr::select(
       timepoint = all_of(timepoint),
       dplyr::everything()
-    ) |>
+    )
+
+  # make sure there are values of t in the dataframe
+  if (!t %in% N_total_i0$timepoint) {
+    stop(glue::glue("no source_mat_ids with a 't = {t}' timepoint were found in <qsip_data>"), call. = FALSE)
+  }
+
+  N_total_i0 = N_total_i0|>
     dplyr::filter(timepoint == t) |>
     dplyr::mutate(N_total_i0 = REL * total_abundance)
     # dplyr::select(feature_id, source_mat_id, timepoint, N_total_i0) |>

@@ -43,6 +43,16 @@ readRDS(file = "tests/testthat/fixtures/qsip_normal_strict_resampled.rds") |>
   run_EAF_calculations() |>
   saveRDS(file = "tests/testthat/fixtures/qsip_normal_strict_EAF.rds")
 
+
+readRDS(file = "tests/testthat/fixtures/qsip_normal_strict_filtered.rds") |>
+  run_resampling(resamples = 1000, with_seed = 43, allow_failures = TRUE) |>
+  saveRDS(file = "tests/testthat/fixtures/qsip_normal_failures_resampled.rds")
+
+readRDS(file = "tests/testthat/fixtures/qsip_normal_failures_resampled.rds") |>
+  run_EAF_calculations() |>
+  saveRDS(file = "tests/testthat/fixtures/qsip_normal_failures_EAF.rds")
+
+
 ## drought strict
 example_qsip_object |>
   run_feature_filter(
@@ -62,6 +72,15 @@ readRDS(file = "tests/testthat/fixtures/qsip_drought_strict_filtered.rds") |>
 readRDS(file = "tests/testthat/fixtures/qsip_drought_strict_resampled.rds") |>
   run_EAF_calculations() |>
   saveRDS(file = "tests/testthat/fixtures/qsip_drought_strict_EAF.rds")
+
+
+multi_qsip = list("normal" = readRDS(file = "tests/testthat/fixtures/qsip_normal_strict_EAF.rds"),
+                  "drought" = readRDS(file = "tests/testthat/fixtures/qsip_drought_strict_EAF.rds")) |>
+  saveRDS(file = "tests/testthat/fixtures/multi_qsip_EAF.rds")
+
+
+
+
 
 # Growth Data ##############
 
