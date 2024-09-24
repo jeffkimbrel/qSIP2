@@ -71,6 +71,9 @@ reference:
   - example_sample_object
   - example_feature_object
   - example_qsip_object
+  - example_group_dataframe
+  - example_qsip_growth_object
+  - example_qsip_growth_t0
 
 - title: internal
   contents:
