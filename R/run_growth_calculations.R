@@ -31,6 +31,8 @@ get_N_total_it <- function(qsip_data_object,
     stop("t must be numeric", call. = FALSE)
   }
 
+  # bind variables
+  tube_rel_abundance <- feature_id <- source_mat_id <- REL <- total_abundance <- zero <- NULL
 
   # this section makes the basic dataframe with total abundance at time zero.
   # Because it is based on @tube_rel_abundance it will not have data for
@@ -39,7 +41,7 @@ get_N_total_it <- function(qsip_data_object,
     dplyr::summarize(REL = sum(tube_rel_abundance), .by = c(feature_id, source_mat_id)) |>
     dplyr::left_join(qsip_data_object@source_data@data, by = "source_mat_id") |>
     dplyr::select(
-      timepoint = all_of(timepoint),
+      timepoint = dplyr::all_of(timepoint),
       dplyr::everything()
     )
 
@@ -138,12 +140,14 @@ run_growth_calculations <- function(qsip_data_object,
     stop(glue::glue("timepoint column {timepoint} not found in source_data@data"), call. = FALSE)
   }
 
+  # bind variables
+  tube_rel_abundance <- feature_id <- source_mat_id <- REL <- total_abundance <- resample <- M <- timepoint1 <- M_heavy <- M_labeled <- N_light_it <- EAF <- N_heavy_it <- N_total_i0 <- di <- bi <- r_net <- ri <- NULL
 
   time_i_totals <- qsip_data_object@tube_rel_abundance |>
     dplyr::summarize(REL = sum(tube_rel_abundance), .by = c(feature_id, source_mat_id)) |>
     dplyr::left_join(qsip_data_object@source_data@data, by = "source_mat_id") |>
     dplyr::select(
-      timepoint = all_of(timepoint),
+      timepoint = dplyr::all_of(timepoint),
       dplyr::everything()
     ) |>
     dplyr::mutate(normalized_copies = REL * total_abundance) |>
@@ -280,7 +284,7 @@ summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = 
     stop("ERROR: @growth$rates slot is empty, have you run run_growth_calculations()?", .call = FALSE)
   }
 
-
+  observed <- feature_id <- timepoint1 <- timepoint2 <- N_total_i0 <- N_total_it <- r_net <- bi <- di <- ri <- EAF <- desc <- observed_ri <- NULL
 
 
   if (isFALSE(quiet)) {
@@ -363,6 +367,11 @@ plot_growth_values <- function(qsip_data_object,
                                error = "none",
                                alpha = 0.4,
                                type = "rates") {
+
+
+  # bind variables
+  observed_ri <- feature_id <- resampled_ri_mean <- timepoint1 <- timepoint2 <- N_total_i0 <- N_total_it <- r_net <- rate <- observed <- lower <- upper <- resampled_N_mean <- stat <- NULL
+
   rbd <- summarize_growth_values(qsip_data_object, confidence = confidence)
 
   palette <- c(
@@ -376,7 +385,7 @@ plot_growth_values <- function(qsip_data_object,
     dplyr::slice_max(observed_ri, n = top) |>
     dplyr::mutate(feature_id = forcats::fct_reorder(feature_id, resampled_ri_mean)) |>
     tidyr::pivot_longer(
-      cols = c(everything(), -feature_id, -timepoint1, -timepoint2, -N_total_i0, -N_total_it, -r_net),
+      cols = c(dplyr::everything(), -feature_id, -timepoint1, -timepoint2, -N_total_i0, -N_total_it, -r_net),
       names_to = "rate",
       values_to = "value"
     ) |>

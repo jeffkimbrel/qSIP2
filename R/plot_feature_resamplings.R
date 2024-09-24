@@ -42,6 +42,9 @@ plot_feature_resamplings <- function(qsip_data_object,
     stop("<confidence> argument must be between 0 and 1", call. = FALSE)
   }
 
+  # bind variables
+  value <- feature_id <- resample <- type <- mean_resampled_WAD <- mean_resampled_WAD2 <- lower <- upper <- NULL
+
   unlabeled_data <- dplyr::bind_rows(qsip_data_object@resamples$u) |>
     tidyr::pivot_longer(cols = dplyr::starts_with("unlabeled_")) |>
     dplyr::filter(!is.na(value)) |>
@@ -78,8 +81,8 @@ plot_feature_resamplings <- function(qsip_data_object,
     dplyr::group_by(feature_id, type) |>
     dplyr::summarize(
       mean_resampled_WAD2 = mean(mean_resampled_WAD),
-      lower = quantile(mean_resampled_WAD, (1 - confidence) / 2, na.rm = T),
-      upper = quantile(mean_resampled_WAD, 1 - (1 - confidence) / 2, na.rm = T),
+      lower = stats::quantile(mean_resampled_WAD, (1 - confidence) / 2, na.rm = T),
+      upper = stats::quantile(mean_resampled_WAD, 1 - (1 - confidence) / 2, na.rm = T),
       .groups = "drop"
     ) |>
     dplyr::rename(mean_resampled_WAD = mean_resampled_WAD2)

@@ -24,6 +24,9 @@ remove_isotopolog_label <- function(data) {
   # must be a heavy isotope
   qSIP2::validate_isotopes(data$isotope, isotope_list = c("13C", "15N", "18O"))
 
+  # bind variables
+  isotope <- isotopolog_label <- NULL
+
   data |>
     dplyr::mutate(isotope = dplyr::case_when(
       isotopolog_label == "natural abundance" & isotope == "13C" ~ "12C",

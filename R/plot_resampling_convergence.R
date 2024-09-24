@@ -8,6 +8,9 @@ plot_resampling_convergence = function(qsip_data_object) {
 
   message(glue::glue_col("{red This is an alpha function and is undergoing testing!}"))
 
+  # bind variables
+  mean_resampled_EAF <- lower <- upper <- L <- U <- n <- value <- name <- NULL
+
   k <- purrr::map(
     c(5, 10, 25, 50, 100, 250, 500, 1000),
     \(i) run_resampling(qsip_data_object,

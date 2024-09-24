@@ -250,7 +250,7 @@ qsip_feature_data <- S7::new_class(
     ## then rename if all good
     data <- data |>
       dplyr::select(
-        feature_id = all_of(feature_id),
+        feature_id = dplyr::all_of(feature_id),
         dplyr::everything()
       ) |>
       dplyr::ungroup()
@@ -369,12 +369,12 @@ qsip_sample_data <- S7::new_class(
     validate_standard_names(data, sample_id, "sample")
     data <- data |>
       dplyr::select(
-        sample_id = all_of(sample_id),
-        source_mat_id = all_of(source_mat_id),
-        gradient_position = all_of(gradient_position),
-        gradient_pos_density = all_of(gradient_pos_density),
-        gradient_pos_amt = all_of(gradient_pos_amt),
-        gradient_pos_rel_amt = all_of(gradient_pos_rel_amt),
+        sample_id = dplyr::all_of(sample_id),
+        source_mat_id = dplyr::all_of(source_mat_id),
+        gradient_position = dplyr::all_of(gradient_position),
+        gradient_pos_density = dplyr::all_of(gradient_pos_density),
+        gradient_pos_amt = dplyr::all_of(gradient_pos_amt),
+        gradient_pos_rel_amt = dplyr::all_of(gradient_pos_rel_amt),
         dplyr::everything()
       ) |>
       dplyr::ungroup()

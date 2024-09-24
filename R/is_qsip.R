@@ -27,7 +27,7 @@ is_qsip_data = function(object, error = FALSE) {
 
 #' Validate a multi-qsip list object
 #'
-#' @param qsip_list A list of qsip_data objects
+#' @param object A list of qsip_data objects
 #' @param error If TRUE it stops with an error message. If FALSE it doesn't error, but returns FALSE
 #'
 #' @export

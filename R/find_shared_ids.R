@@ -24,24 +24,27 @@
 find_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL) {
 
   # Check that the source_data object is a qsip_source_data or qsip_data object
-  if (!is(source_data, "qsip_source_data") && !is(source_data, "qsip_data")) {
+  if (!methods::is(source_data, "qsip_source_data") && !methods::is(source_data, "qsip_data")) {
     stop(glue::glue("source_data must be a <qsip_source_data> or <qsip_data object>, not <{class(source_data)[1]}>"))
   }
 
-  if (is(source_data, "qsip_data")) {
+  if (methods::is(source_data, "qsip_data")) {
     feature_data <- source_data@feature_data
     sample_data <- source_data@sample_data
     source_data <- source_data@source_data # after getting the first two objects, overwrite the source_data object
   } else {
     # make sure sample_data is a qsip_sample_data object and feature_data is a qsip_feature_data object
-    if (!is(sample_data, "qsip_sample_data")) {
+    if (!methods::is(sample_data, "qsip_sample_data")) {
       stop(glue::glue("sample_data must be a <qsip_sample_data> object, not <{class(sample_data)[1]}>"))
     }
 
-    if (!is(feature_data, "qsip_feature_data")) {
+    if (!methods::is(feature_data, "qsip_feature_data")) {
       stop(glue::glue("feature_data must be a <qsip_feature_data> object, not <{class(feature_data)[1]}>"))
     }
   }
+
+  # bind variables
+  source_mat_id <- sample_id <- feature_id <- NULL
 
   missing <- FALSE
 

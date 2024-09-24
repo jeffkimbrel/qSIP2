@@ -32,6 +32,9 @@ run_resampling <- function(qsip_data_object,
   stopifnot("resamples should be class <numeric>" = is.numeric(resamples))
   stopifnot("resamples should be positive" = resamples > 0)
 
+  # bind variables
+  n <- type <- NULL
+
   # v0.11.5 fixed to convert to characters
   unlabeled <- as.character(qsip_data_object@filter_results$unlabeled_source_mat_ids)
   labeled <- as.character(qsip_data_object@filter_results$labeled_source_mat_ids)

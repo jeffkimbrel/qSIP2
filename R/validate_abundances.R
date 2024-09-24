@@ -24,6 +24,8 @@ validate_abundances <- function(data,
                                 type) {
   stopifnot("feature data type should be 'counts', 'coverage', 'normalized' or 'relative'" =  type %in% c("counts", "coverage", "normalized", "relative"))
 
+  name <- value <- S <- NULL
+
   if (type == "relative") {
     totals <- data |>
       tidyr::pivot_longer(cols = dplyr::where(is.numeric)) |>
@@ -39,7 +41,7 @@ validate_abundances <- function(data,
   }
 
   values <- data |>
-    dplyr::select(-all_of(feature_id))
+    dplyr::select(-dplyr::all_of(feature_id))
 
   if (any(values < 0)) {
     stop("Some numbers are negative", call. = FALSE)

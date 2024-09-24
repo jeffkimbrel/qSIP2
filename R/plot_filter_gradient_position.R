@@ -32,6 +32,9 @@ plot_filter_gradient_position <- function(qsip_data_object,
     stop(glue::glue("please run run_filter_feature() on qsip_data_object before plotting results"))
   }
 
+  # bind variables
+  source_mat_id <- fraction_call <- tube_rel_abundance <- n <- NULL
+
   if (is.null(colors)) {
     colors <- c(
       "Fraction Passed" = "#2B92BE",

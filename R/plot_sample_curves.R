@@ -16,6 +16,9 @@ plot_sample_curves <- function(qsip_data,
 
   stopifnot("sample_data should be class <qsip_data>" = "qsip_data" %in% class(qsip_data))
 
+  # bind variables
+  sample_id <- gradient_position <- source_mat_id <- isotope <- WAD <- gradient_pos_density <- gradient_pos_rel_amt <- NULL
+
   df <- qsip_data@tube_rel_abundance |>
     dplyr::left_join(
       qsip_data@sample_data@data |>

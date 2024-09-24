@@ -78,6 +78,9 @@ run_feature_filter <- function(qsip_data_object,
     stop("some of the labeled_source_mat_ids have a light isotope designation", call. = FALSE)
   }
 
+  # bind variables
+  feature_id <- source_mat_id <- tube_rel_abundance <- fraction_call <- type <- source_call <- labeled <- unlabeled <- sample_id <- WAD <- NULL
+
   source_mat_ids <- c(unlabeled_source_mat_ids, labeled_source_mat_ids)
 
   # extract tables
@@ -238,11 +241,15 @@ run_feature_filter <- function(qsip_data_object,
 #' @export
 
 fraction_results_message <- function(by_fraction) {
+
+  # binding variables
+  feature_id <- type <- fraction_call <- counts <- NULL
+
   fraction_results <- by_fraction |>
     dplyr::count(feature_id, type, fraction_call) |>
     # unique() |>
-    dplyr::count(type, fraction_call) |>
-    tidyr::pivot_wider(names_from = type, values_from = n, values_fill = 0) |>
+    dplyr::count(type, fraction_call, name = "counts") |>
+    tidyr::pivot_wider(names_from = type, values_from = counts, values_fill = 0) |>
     tibble::column_to_rownames("fraction_call")
 
   if (!is.na(fraction_results["Zero Fractions", "unlabeled"])) {
@@ -274,13 +281,15 @@ fraction_results_message <- function(by_fraction) {
 #' @export
 
 source_results_message <- function(by_source) {
-  # fraction_results =
+
+  # binding variables
+  feature_id <- type <- source_call <- counts <- labeled <- unlabeled <- NULL
 
   source_results <- by_source |>
     dplyr::select(feature_id, type, source_call) |>
     unique() |>
-    dplyr::count(type, source_call) |>
-    tidyr::pivot_wider(names_from = type, values_from = n, values_fill = 0) |>
+    dplyr::count(type, source_call, name = "counts") |>
+    tidyr::pivot_wider(names_from = type, values_from = counts, values_fill = 0) |>
     tibble::column_to_rownames("source_call")
 
   if (!is.na(source_results["Zero Sources", "unlabeled"])) {

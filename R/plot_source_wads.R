@@ -23,6 +23,9 @@ plot_source_wads <- function(qsip_data,
     stop(glue::glue("qsip_data should be class<qsip_data>, not {class(qsip_data)[1]}"))
   }
 
+  # bind variables
+  WAD <- isotope <- NULL
+
   if (is.null(colors)) {
     colors <- c(
       "12C" = "cornflowerblue", "13C" = "firebrick",

@@ -31,6 +31,9 @@ get_isotope_designation <- function(qsip_data_object, unlabeled_source_mat_ids, 
 
   is_qsip_data(qsip_data_object, error = TRUE)
 
+  # bind variables
+  source_mat_id <- isotope <- NULL
+
   unlabeled_isotopes = qsip_data_object@source_data@data |>
     dplyr::filter(source_mat_id %in% unlabeled_source_mat_ids) |>
     dplyr::pull(isotope) |>

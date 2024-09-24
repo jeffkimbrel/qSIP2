@@ -17,6 +17,9 @@ plot_successful_resamples <- function(qsip_data_object,
                                       labels = FALSE,
                                       as_percentage = FALSE) {
 
+  # bind variables
+  n <- type <- count <- NULL
+
   p <- get_resample_counts(qsip_data_object, as_percentage = as_percentage) |>
     tidyr::pivot_longer(cols = c("unlabeled_resamples", "labeled_resamples"),
                         names_to = "type",

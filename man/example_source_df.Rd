@@ -27,6 +27,9 @@ An example source data table with top-level (pre-fractionation) metadata
 Other "example datasets": 
 \code{\link{example_feature_df}},
 \code{\link{example_feature_object}},
+\code{\link{example_group_dataframe}},
+\code{\link{example_qsip_growth_object}},
+\code{\link{example_qsip_growth_t0}},
 \code{\link{example_qsip_object}},
 \code{\link{example_sample_df}},
 \code{\link{example_sample_object}},

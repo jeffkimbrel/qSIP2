@@ -22,6 +22,9 @@ run_EAF_calculations <- function(qsip_data_object, gc_method = "MM", propO = 1) 
     stop("qsip_data_object should be run through run_feature_filter() and run_resampling() functions first", call. = FALSE)
   }
 
+  # bind variables
+  source_mat_id <- feature_id <- WAD <- resample <- W_lab_mean <- W_unlab_mean <- Z <- G <- M <- atom_count <- M_labeledmax <- M_labeled <- NULL
+
   # get the source material ids corresponding to the labeled and unlabeled
   unlabeled_source_mat_ids = qsip_data_object@filter_results$unlabeled_source_mat_ids
   labeled_source_mat_ids = qsip_data_object@filter_results$labeled_source_mat_ids

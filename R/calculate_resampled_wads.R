@@ -16,6 +16,9 @@ calculate_resampled_wads <- function(i, wad_data, type, allow_failures = FALSE) 
   # make sure all data is numeric or NA
   stopifnot("wad dataframe to resample from contains non-numeric data" = all(sapply(wad_data, is.numeric)))
 
+  # bind variables
+  feature_id <- NULL
+
   # make a new names vector to abstract away the real names into a numbered list of names
   new_names <- c("feature_id", paste(type, seq(1:(ncol(wad_data))), sep = "_"))
   wad_data_resampled <- wad_data[, sample(ncol(wad_data), replace = T, size = ncol(wad_data)), drop = FALSE]
@@ -23,9 +26,9 @@ calculate_resampled_wads <- function(i, wad_data, type, allow_failures = FALSE) 
   if (allow_failures == FALSE) {
     # double check the dimensions remain the same after removing all rows with NA.
     wad_data_resampled_noNA = wad_data_resampled[rowSums(is.na(wad_data_resampled)) != ncol(wad_data_resampled), ]
-    if (is(wad_data_resampled_noNA, "numeric")) {
+    if (methods::is(wad_data_resampled_noNA, "numeric")) {
       wad_data_resampled_noNA_length = length(wad_data_resampled_noNA)
-    } else if (is(wad_data_resampled_noNA, "data.frame")) {
+    } else if (methods::is(wad_data_resampled_noNA, "data.frame")) {
       wad_data_resampled_noNA_length = nrow(wad_data_resampled_noNA)
     }
 

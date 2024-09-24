@@ -66,6 +66,10 @@ plot_EAF_values <- function(qsip_data_object,
     stop(glue::glue("<error> should be 'none', 'bar' or 'ribbon', not {error}"), call. = FALSE)
   }
 
+  # bind variables
+  group <- observed_EAF <- feature_id <- labeled_resamples <- unlabeled_resamples <- resamples <- lower <- upper <- NULL
+
+
   EAF <- summarize_EAF_values(qsip_data_object,
     confidence = confidence
   )
@@ -76,7 +80,7 @@ plot_EAF_values <- function(qsip_data_object,
       dplyr::group_by(group) |>
       dplyr::slice_max(observed_EAF, n = top) |>
       dplyr::ungroup() |>
-      dplyr::mutate(feature_id = tidytext::reorder_within(feature_id, observed_EAF, within = group)) %>%
+      dplyr::mutate(feature_id = tidytext::reorder_within(feature_id, observed_EAF, within = group)) |>
       dplyr::left_join(
         sapply(qsip_data_object, n_resamples) |>
           tibble::enframe(name = "group", value = "resamples"),

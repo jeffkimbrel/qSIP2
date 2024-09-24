@@ -12,6 +12,8 @@ validate_gradient_pos_density <- function(df, low = 1.55, high = 1.8) {
 
   stopifnot("data should be class <data.frame>" = "data.frame" %in% class(df))
 
+  gradient_position <- NULL
+
   # message if any fractions are -1 indicating bulk data. These will be ignored
   # from the validation because there densities are often NA
   if(any(df$gradient_position == -1)) {

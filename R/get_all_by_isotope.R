@@ -23,6 +23,10 @@ get_all_by_isotope <- function(qsip_data_object, isotopes, silent = FALSE) {
     isotopes <- c("12C", "14N", "16O")
   }
 
+  # bind variables
+  source_mat_id <- NULL
+
+
   # verify given isotopes are valid
   validate_isotopes(isotopes)
 

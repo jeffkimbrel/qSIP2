@@ -31,12 +31,16 @@ plot_density_outliers <- function(sample_data,
     message("some unfractionated samples have been filtered from this plot")
   }
 
+  # bind variables
+  gradient_position <- source_mat_id <- . <- .cooksd <- COOKS_CUTOFF <- gradient_pos_density <- sample_id <- NULL
+
+
   data = data |>
     dplyr::filter(gradient_position > 0)
 
   S <- data |>
     dplyr::group_by(source_mat_id) |>
-    dplyr::do(broom::augment(lm(gradient_pos_density ~ gradient_position, data = .))) |>
+    dplyr::do(broom::augment(stats::lm(gradient_pos_density ~ gradient_position, data = .))) |>
     dplyr::mutate(S = paste(source_mat_id, gradient_position, sep = "_"), COOKS_CUTOFF = sensitivity / dplyr::n()) |>
     dplyr::ungroup() |>
     dplyr::select(S, .cooksd, COOKS_CUTOFF)

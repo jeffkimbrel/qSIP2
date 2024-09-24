@@ -1,6 +1,6 @@
 Package: qSIP2
 Title: qSIP Analysis
-Version: 0.16.10.9000
+Version: 0.16.11
 Authors@R: 
     person("Jeff", "Kimbrel", , "kimbrel1@llnl.gov", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7213-9392"))
@@ -12,7 +12,8 @@ RoxygenNote: 7.3.1
 Suggests: 
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    readxl
 Config/testthat/edition: 3
 Imports: 
     broom,
@@ -22,21 +23,19 @@ Imports:
     ggplot2,
     ggrepel,
     ggridges,
-    ggupset,
     glue,
-    gt,
     methods,
     patchwork,
     purrr,
-    readxl,
     rlang,
     S7,
     scales,
+    stats,
     stringr,
     tibble,
     tidyr,
-    tidytext,
-    vdiffr
+    tidyselect,
+    tidytext
 URL: https://github.com/jeffkimbrel/qSIP2,
     https://jeffkimbrel.github.io/qSIP2/
 BugReports: https://github.com/jeffkimbrel/qSIP2/issues

@@ -59,6 +59,8 @@ summarize_EAF_values_internal <- function(qsip_data_object,
   # confirm the qsip object has @EAF values
   stopifnot("ERROR: @EAF slot is empty, have you run run_EAF_calculations()?" = dim(qsip_data_object@EAF)[1] > 0)
 
+  feature_id <- EAF <- NULL
+
   resamples <- qsip_data_object@EAF |>
     dplyr::filter(observed == FALSE) |>
     dplyr::group_by(feature_id) |>

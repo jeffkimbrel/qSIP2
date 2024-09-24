@@ -18,6 +18,9 @@ get_growth_data <- function(qsip_data_object,
     stop("this function requires a qsip object that has been run through run_growth_calculations()", call. = FALSE)
   }
 
+  # bind variables
+  observed <- NULL
+
   qsip_data_object@growth$rates |>
     dplyr::select(-observed)
 

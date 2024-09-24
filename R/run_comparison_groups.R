@@ -45,6 +45,9 @@ run_comparison_groups <- function(groups,
     stop("group column must be unique", call. = FALSE)
   }
 
+  # bind variables
+  unlabeled <- labeled <- value <- . <- NULL
+
   # make sure all source_mat_ids in the isotope columns are in the qsip_data_object
   ## first, fill in "wildcard" source_mat_ids
   groups = groups |>
@@ -87,7 +90,7 @@ run_comparison_groups <- function(groups,
     stop("Invalid source_mat_ids in group dataframe")
   }
 
-  group_list <- groups %>%
+  group_list <- groups |>
     split(.$group)
 
   # print the name of each element in group_list

@@ -32,6 +32,8 @@ calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data)
     stop("feature_data must be of class <qsip_feature_data>")
   }
 
+  # bind variables
+  feature_id <- raw_abundance <- sample_id <- source_mat_id <- rel_abundance <- gradient_pos_density <- gradient_pos_rel_amt <- tube_rel_abundance <- isotope <- tube_rel_abundance <- NULL
 
   # extract dataframes
   feature_df <- feature_data@data

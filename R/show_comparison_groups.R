@@ -47,6 +47,9 @@ show_comparison_groups <- function(source_data = NULL,
     }
   }
 
+  # bind variables
+  SAMPLES <- NULL
+
   df |>
     dplyr::select(!!as.name(source_mat_id), !!as.name(isotope), dplyr::all_of(group)) |>
     dplyr::rename(SAMPLES = !!as.name(source_mat_id)) |>

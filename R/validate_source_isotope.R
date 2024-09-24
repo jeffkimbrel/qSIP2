@@ -11,8 +11,10 @@
 #'
 #' @returns TRUE (all match) or FALSE (some don't match)
 
-validate_source_isotope = function(qsip_data_object, source_mat_ids, isotope_list) {
-  source_isotopes = qsip_data_object@source_data@data |>
+validate_source_isotope <- function(qsip_data_object, source_mat_ids, isotope_list) {
+  source_mat_id <- isotope <- NULL
+
+  source_isotopes <- qsip_data_object@source_data@data |>
     dplyr::filter(source_mat_id %in% source_mat_ids) |>
     dplyr::pull(isotope) |>
     unique()

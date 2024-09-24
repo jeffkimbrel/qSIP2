@@ -56,6 +56,7 @@
 #' An example qsip_source_data object
 #'
 #' @format ## `example_source_object`
+#' a qsip_source_data object
 #'
 #' @family "example datasets"
 "example_source_object"
@@ -65,6 +66,7 @@
 #' An example qsip_sample_data object
 #'
 #' @format ## `example_sample_object`
+#' a qsip_sample_data object
 #'
 #' @family "example datasets"
 "example_sample_object"
@@ -74,6 +76,7 @@
 #' An example qsip_feature_data object
 #'
 #' @format ## `example_feature_object`
+#' A qsip_sample_data object
 #'
 #' @family "example datasets"
 "example_feature_object"
@@ -84,6 +87,39 @@
 #' An example qsip_data object
 #'
 #' @format ## `example_qsip_object`
+#' a qsip_data object
 #'
 #' @family "example datasets"
 "example_qsip_object"
+
+
+#' Example data frame for run_comparison_groups()
+#'
+#' An dataframe with 6 example comparisons.
+#'
+#' @format ## `example_group_dataframe`
+#' a 6x10 tibble
+#'
+#' @family "example datasets"
+"example_group_dataframe"
+
+
+#' Example qSIP Growth Object
+#'
+#' An example qsip_data object for growth calculations
+#'
+#' @format ## `example_qsip_growth_object`
+#' A qsip_data object with growth slots filled in
+#' @family "example datasets"
+"example_qsip_growth_object"
+
+
+#' Example qSIP Time Zero Growth Dataframe
+#'
+#' An example dataframe with time zero abundances for growth calculations
+#'
+#' @format ## `example_qsip_growth_t0`
+#' A 364x3 tibble
+#'
+#' @family "example datasets"
+"example_qsip_growth_t0"

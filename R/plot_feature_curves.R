@@ -15,7 +15,6 @@ plot_feature_curves <- function(qsip_data_object,
                                 feature_ids,
                                 source_mat_ids = NULL,
                                 title = NULL) {
-
   if (!"qsip_data" %in% class(qsip_data_object)) {
     stop(glue::glue("qsip_data_object should be class <qsip_data>, not {class(qsip_data_object)[1]}"))
   }
@@ -30,13 +29,14 @@ plot_feature_curves <- function(qsip_data_object,
     message("WARNING: some feature_ids are not found")
   }
 
-
+  # bind variables
+  source_mat_id <- isotope <- feature_id <- gradient_pos_density <- tube_rel_abundance <- NULL
 
   # get source data for isotope
   s_data <- qsip_data_object@source_data@data |>
     dplyr::select(source_mat_id, isotope)
 
-  p = qsip_data_object@tube_rel_abundance |>
+  p <- qsip_data_object@tube_rel_abundance |>
     dplyr::left_join(s_data, by = "source_mat_id") |>
     dplyr::filter(source_mat_id %in% source_mat_ids) |>
     dplyr::filter(feature_id %in% feature_ids) |>
@@ -48,12 +48,14 @@ plot_feature_curves <- function(qsip_data_object,
     ggplot2::geom_line(ggplot2::aes(group = source_mat_id)) +
     ggplot2::geom_point() +
     ggplot2::facet_wrap(~feature_id, scales = "free_y") +
-    ggplot2::scale_color_manual(values = c("12C" = "cornflowerblue", "13C" = "firebrick",
-                                           "14C" = "cornflowerblue", "15N" = "firebrick",
-                                           "16O" = "cornflowerblue", "18O" = "firebrick"))
+    ggplot2::scale_color_manual(values = c(
+      "12C" = "cornflowerblue", "13C" = "firebrick",
+      "14C" = "cornflowerblue", "15N" = "firebrick",
+      "16O" = "cornflowerblue", "18O" = "firebrick"
+    ))
 
   if (!is.null(title)) {
-    p = p + ggplot2::labs(title = title)
+    p <- p + ggplot2::labs(title = title)
   }
 
   p

@@ -25,6 +25,9 @@ get_resample_counts = function(qsip_data_object,
     stop("this function requires a qsip object that has been run through run_resampling()", call. = FALSE)
   }
 
+  # bind variables
+  feature_id <- type <- n_counts <- labeled <- unlabeled <- NULL
+
   u = dplyr::bind_rows(qsip_data_object@resamples$u, .id = "resample")
   u = u[rowSums(is.na(u)) != ncol(u) - 3, ] |>
     dplyr::select(feature_id, type)
@@ -35,16 +38,16 @@ get_resample_counts = function(qsip_data_object,
 
   counts = rbind(u, l) |>
     dplyr::group_by(feature_id, type) |>
-    dplyr::count() |>
+    dplyr::count(name = "n_counts") |>
     dplyr::ungroup()
 
   if (isTRUE(as_percentage)) {
     counts = counts |>
-      dplyr::mutate(n = n / qsip_data_object@resamples$n)
+      dplyr::mutate(n_counts = n_counts / qsip_data_object@resamples$n)
   }
 
   counts = counts |>
-    tidyr::pivot_wider(names_from = "type", values_from = "n") |>
+    tidyr::pivot_wider(names_from = "type", values_from = "n_counts") |>
     dplyr::rename("labeled_resamples" = labeled,
                   "unlabeled_resamples" = unlabeled)
 

@@ -21,6 +21,9 @@ get_resample_data <- function(qsip_data_object,
     stop("this function requires a qsip object that has been run through run_resampling()", call. = FALSE)
   }
 
+  # bind variables
+  feature_id <- resample <- NULL
+
   if (type == "all") {
     u <- dplyr::bind_rows(qsip_data_object@resamples$u) |> dplyr::select(-type)
     l <- dplyr::bind_rows(qsip_data_object@resamples$l) |> dplyr::select(-type)

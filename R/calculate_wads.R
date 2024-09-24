@@ -20,6 +20,9 @@ calculate_wads <- function(tube_rel_abundance) {
   stopifnot("tube_rel_abundance column missing" ="tube_rel_abundance" %in% colnames(tube_rel_abundance))
   stopifnot("gradient_pos_density column missing" ="gradient_pos_density" %in% colnames(tube_rel_abundance))
 
+  # bind variables
+  feature_id <- source_mat_id <- gradient_pos_density <- n_fractions <- WAD <- NULL
+
   wads <- tube_rel_abundance |>
     dplyr::group_by(feature_id, source_mat_id) |>
     dplyr::summarize(
@@ -36,19 +39,19 @@ calculate_wads <- function(tube_rel_abundance) {
       values_from = n_fractions
     ) |>
     tidyr::pivot_longer(
-      cols = c(everything(), -feature_id),
+      cols = c(tidyselect::everything(), -feature_id),
       names_to = "source_mat_id",
       values_to = "n_fractions"
     ) |>
     dplyr::arrange(feature_id)
 
-  missing_feature_ids <- fraction_counts |>
-    dplyr::filter(is.na(n_fractions)) |>
-    dplyr::count(feature_id) |>
-    dplyr::arrange(n) |>
-    dplyr::count(n, name = "counts") |>
-    dplyr::summarize(S = sum(counts)) |>
-    dplyr::pull(S)
+  # missing_feature_ids <- fraction_counts |>
+  #   dplyr::filter(is.na(n_fractions)) |>
+  #   dplyr::count(feature_id, name = feature_count) |>
+  #   dplyr::arrange(feature_count) |>
+  #   dplyr::count(feature_count, name = "counts") |>
+  #   dplyr::summarize(S = sum(counts)) |>
+  #   dplyr::pull(S)
 
   #message(glue::glue_col("WARNING: {red {missing_feature_ids}} feature_ids have no counts in one or more source_mat_ids"))
 
@@ -73,6 +76,9 @@ calculate_source_wads <- function(sample_data) {
   if (!"qsip_sample_data" %in% class(sample_data)) {
     stop(glue::glue("sample_data must be of class <qsip_sample_data>, not {class(sample_data)[1]}"), call. = FALSE)
   }
+
+  # bind variables
+  source_mat_id <- gradient_pos_density <- gradient_pos_rel_amt <- NULL
 
   sample_data@data |>
     dplyr::group_by(source_mat_id) |>
