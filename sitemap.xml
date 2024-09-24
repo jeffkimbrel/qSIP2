@@ -36,6 +36,9 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/completely_labeled_values.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_feature_df.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_feature_object.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_group_dataframe.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_qsip_growth_object.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_qsip_growth_t0.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_qsip_object.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_sample_df.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_sample_object.html</loc></url>
@@ -73,6 +76,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_sample_curves.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_source_wads.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_successful_resamples.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/qSIP2-package.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_data.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_feature_data.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/qsip_sample_data.html</loc></url>
