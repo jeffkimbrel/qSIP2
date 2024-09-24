@@ -46,7 +46,7 @@ run_comparison_groups <- function(groups,
   }
 
   # bind variables
-  unlabeled <- labeled <- value <- . <- NULL
+  unlabeled <- labeled <- value <- NULL
 
   # make sure all source_mat_ids in the isotope columns are in the qsip_data_object
   ## first, fill in "wildcard" source_mat_ids
@@ -90,8 +90,7 @@ run_comparison_groups <- function(groups,
     stop("Invalid source_mat_ids in group dataframe")
   }
 
-  group_list <- groups |>
-    split(.$group)
+  group_list <- split(groups, groups$group)
 
   # print the name of each element in group_list
   multi_qsip_list <- purrr::map2(group_list, names(group_list), \(i, j) multi_qsip_wrapper_launcher(i, j, qsip_data_object),
