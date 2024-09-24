@@ -13,7 +13,7 @@
 * Added optional `title` argument to change the title of the plot to `plot_
 * Switched to using `testthat` fixtures
 * Added `get_filtered_feature_summary()` to see the filtering fate of a specified `feature_id`
-* Clean `devtools::check()` with no errors, warnings or notes. 
+* Clean `check()` with no errors, warnings or notes. 
 
 # qSIP2 0.15
 
