@@ -2,7 +2,7 @@
 title: "Feature Data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{abundance_data}
+  %\VignetteIndexEntry{feature_data}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 

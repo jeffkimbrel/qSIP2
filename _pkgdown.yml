@@ -116,8 +116,9 @@ articles:
   navbar: ~
   contents:
   - qSIP_workflow
-  - growth
+  - filtering
   - resampling
+  - growth
 
 - title: Working with...
   contents:

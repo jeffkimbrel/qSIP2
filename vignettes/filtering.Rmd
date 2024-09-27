@@ -1,0 +1,163 @@
+---
+title: "Filtering Features"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{filtering}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(qSIP2)
+packageVersion("qSIP2")
+```
+
+```{r, echo=FALSE}
+ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
+```
+
+# Background
+
+After a qsip_data object is built and validated, the first step in the analysis is to filter the features using `run_feature_filter()`. This is done to narrow down the sources for a specific comparison, and remove features that are not useful for the analysis. Filtering has three sequential steps.
+
+- identify relevant unlabeled and labeled `source_mat_id` values for the comparison
+- score specific features are considered “present” in a source by using fraction count thresholds
+- remove features that are not present in enough sources
+
+Each step is detailed in the following sections.
+
+# Define the sources for a comparison
+
+The first step in filtering is to identify the relevant source_mat_id values for a specific comparison. The `run_feature_filter()` arguments most important for this step are `unlabeled_source_mat_ids` and `labeled_source_mat_ids.` These are lists of source_mat_id values that are used to filter the features. These can be explicitly stated (e.g. `unlabeled_source_mat_ids = c("source1", "source2")`), or they can be identified by using some key terms that will identify all sources satisfying that criteria (e.g. `unlabeled_source_mat_ids = "12C"` or `labeled_source_mat_ids = "labeled"`).
+
+There are internal validations for this step to make sure the sources provided to a given argument make sense with the isotope designation in the source data. For example, if you try to give a 13C source to the `unlabeled_source_mat_ids` then there will be an error. If you try to sources with a mixture of heavy istopes (e.g. 13C and 15N) to the `labeled_source_mat_ids` then there will be an error. This can happen either explicitly by providing the wrong source_mat_id values, or if you have a mixture and choose "labeled" for `labeled_source_mat_ids`. Having a mixture of unlabeled source isotopes (e.g. 12C and 14N), however, is allowed and will not give an error.
+
+The group argument is optional and provides a place for a description of that particular comparison (e.g. `group = "7 day drought treatment"`).
+
+# Score features as "present" in a source
+
+Simplistically, a feature is considered present in a sample if there are counts for it. Features present in only a few samples, however, can lead to inaccurate estimates of thei weighted average density (WAD) and should therefore be removed. For example, if a source has 20 sequenced samples (fractions), each with their own read depths, a feature appearing in only one sample may be because that sample happened to have the deepest sequencing. Therefore, it wouldn't be expected to be an accurate representation of the true density values. Therefore, a feature should be present in at least a few samples (let's say 3) to have a more trustworthy WAD value. 
+
+The minimum fraction count can be defined differently for the unlabeled and labeled samples using the `min_unlabeled_fractions` and `min_labeled_fractions` arguments, respectively. The function uses these values to define a feature is present in a source if it is found in at least that many samples (fractions).
+
+# Remove features that are not present in enough sources
+
+The results of the last filtering step are used in this step to make a final call for a `feature_id` in that comparison. If a feature is found in the number of sources defined in `min_unlabeled_sources` and `min_labeled_sources`, then it will survive the filtering step and move on to resampling/EAF calculations. 
+
+# Example
+
+As detailed in the main vignette, we can use the `show_comparison_groups()` function to see the available comparisons (this is just a prediction though!). We can run a few with the test dataset (`example_qsip_object`) and see how the text result changes to allow less through as we get more restrictive. 
+
+```{r}
+restrictive <- run_feature_filter(example_qsip_object,
+  unlabeled_source_mat_ids = get_all_by_isotope(example_qsip_object, "12C"),
+  labeled_source_mat_ids = c("S178", "S179", "S180"),
+  min_unlabeled_sources = 6,
+  min_labeled_sources = 3,
+  min_unlabeled_fractions = 6,
+  min_labeled_fractions = 6
+)
+
+loose <- run_feature_filter(example_qsip_object,
+  unlabeled_source_mat_ids = get_all_by_isotope(example_qsip_object, "12C"),
+  labeled_source_mat_ids = c("S178", "S179", "S180"),
+  min_unlabeled_sources = 2,
+  min_labeled_sources = 2,
+  min_unlabeled_fractions = 2,
+  min_labeled_fractions = 2
+)
+```
+
+So, 64 features pass the more restrictive criteria, but we get 257 by relaxing the criteria a little bit. The function messages are rather verbose, but they try to summarize the results of each step. 
+
+::: {.alert .alert-primary}
+Note, relaxing the criteria too much can lead to errors later during resampling. See `vignette(resampling)` for more information or how to use the `allow_failures = TRUE` argument.
+:::
+
+We can get a list of the features using `get_feature_ids()`, and to restrict it to the post-filtering results we add the `filtered = TRUE` argument. 
+
+```{r}
+get_feature_ids(restrictive, filtered = TRUE) |> 
+  length()
+
+get_feature_ids(loose, filtered = TRUE) |> 
+  length()
+```
+
+## Inspecting the results
+
+You can see the "fate" of a specific feature to see why it was or wasn't included in the resulting object. First, we can get a few feature_ids that had different fates between the different filtering conditions. 
+
+```{r}
+diff_features = setdiff(get_feature_ids(loose, filtered = TRUE), get_feature_ids(restrictive, filtered = TRUE))
+```
+
+`ASV_100` is the first on the list that was present in the loose filtering, but remove in the restrictive filtering. We can use the `get_filtered_feature_summary()` function to look at the filtering parameters affected the fate of `ASV_100`. 
+
+```{r}
+ASV_100_restrictive = get_filtered_feature_summary(restrictive, feature_id = "ASV_100")
+ASV_100_loose = get_filtered_feature_summary(loose, feature_id = "ASV_100")
+```
+
+The `get_filtered_feature_summary()` function returns a list with information that summarize the filtering steps for a specific feature. 
+
+- `$fraction_filter_summary` is the sample (fraction) count results
+- `$source_filter_summary` is the source count results
+- `$retained` is the final boolean call of whether the feature was retained or not
+
+As expected (because we picked `ASV_100` as an example of differential filtering), the `retained` slot is `FALSE` for the restrictive filtering and `TRUE` for the loose filtering.
+
+```{r}
+ASV_100_loose$retained
+ASV_100_restrictive$retained
+```
+
+We can look at the fraction count summary for the feature in the two filtering conditions in the `$fraction_filter_summary` slot. This code combines the two sets of results, but just the last two columns are of importance.
+
+```{r}
+merge(
+  ASV_100_restrictive$fraction_filter_summary,
+  ASV_100_loose$fraction_filter_summary,
+  by = c("feature_id", "source_mat_id", "tube_rel_abundance", "type", "n_fractions"),
+  suffixes = c(" (restrictive)", " (loose)")
+) |>
+  select(source_mat_id, type, contains("fraction"))
+```
+
+Above, you can see that in the unlabeled samples, only S149 had a difference between restrictive and loose, but 2 of the 3 labeled samples had differences and showed as "Fraction Filtered".
+
+Therefore, the sample (fraction) count filtering came to different conclusions...
+
+```{r}
+merge(
+  ASV_100_restrictive$source_filter_summary,
+  ASV_100_loose$source_filter_summary,
+  by = c("feature_id", "type"),
+  suffixes = c("_restrictive", "_loose")
+) |>
+  select(-mean_tube_rel_abundance_restrictive, -mean_tube_rel_abundance_loose)
+```
+
+## Plotting the results
+
+Although there is a dramatic difference in the number of retained features between the two conditions, we can see how prevalent the features that are different are by plotting the fraction count distributions. 
+
+```{r, fig.width=8, fig.height=12}
+library(patchwork)
+a = plot_filter_gradient_position(loose) + ggtitle("Loose")
+b = plot_filter_gradient_position(restrictive) + ggtitle("Restrictive")
+a / b
+```
+
+In the top plots, the blue is much larger than it is in the bottom plots, indicating more (obviously) made it through the loose filtering. But, even though there are 4x more features in the loose dataset, it is only about a 15-20% increase in terms of the abundance of features in the original dataset.  
