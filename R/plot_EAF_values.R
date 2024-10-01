@@ -21,6 +21,7 @@
 #' @param error (*character*) The type of error bars to plot. Options are 'none', 'bar', 'ribbon'
 #' @param alpha (*numeric*) The transparency of the error bar/ribbon
 #' @param zero_line (*logical*) Add a line at EAF = 0
+#' @param shared_y (*logical*) Use a shared y-axis for the facets
 #' @param title (*character*) An optional title of the plot
 #'
 #' @export
@@ -32,6 +33,7 @@ plot_EAF_values <- function(qsip_data_object,
                             error = "none",
                             alpha = 0.3,
                             zero_line = TRUE,
+                            shared_y = FALSE,
                             title = NULL) {
 
   # confirm qsip_data_object class is either qsip_data or list
@@ -79,8 +81,14 @@ plot_EAF_values <- function(qsip_data_object,
     EAF <- EAF |>
       dplyr::group_by(group) |>
       dplyr::slice_max(observed_EAF, n = top) |>
-      dplyr::ungroup() |>
-      dplyr::mutate(feature_id = tidytext::reorder_within(feature_id, observed_EAF, within = group)) |>
+      dplyr::ungroup()
+
+    if (isFALSE(shared_y)) {
+        EAF <- EAF |>
+          dplyr::mutate(feature_id = tidytext::reorder_within(feature_id, observed_EAF, within = group))
+    }
+
+    EAF <- EAF |>
       dplyr::left_join(
         sapply(qsip_data_object, n_resamples) |>
           tibble::enframe(name = "group", value = "resamples"),
@@ -144,9 +152,14 @@ plot_EAF_values <- function(qsip_data_object,
   }
 
   if (object_type == "multiple") {
-    p <- p +
-      tidytext::scale_y_reordered() +
-      ggplot2::facet_wrap(~group, scales = "free_y")
+    if (isFALSE(shared_y)) {
+      p <- p +
+        tidytext::scale_y_reordered() +
+        ggplot2::facet_wrap(~group, scales = "free_y")
+    } else {
+      p <- p +
+        ggplot2::facet_wrap(~group)
+    }
   }
 
   if (!is.null(title)) {

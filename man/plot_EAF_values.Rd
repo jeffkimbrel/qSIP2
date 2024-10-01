@@ -12,6 +12,7 @@ plot_EAF_values(
   error = "none",
   alpha = 0.3,
   zero_line = TRUE,
+  shared_y = FALSE,
   title = NULL
 )
 }
@@ -29,6 +30,8 @@ plot_EAF_values(
 \item{alpha}{(\emph{numeric}) The transparency of the error bar/ribbon}
 
 \item{zero_line}{(\emph{logical}) Add a line at EAF = 0}
+
+\item{shared_y}{(\emph{logical}) Use a shared y-axis for the facets}
 
 \item{title}{(\emph{character}) An optional title of the plot}
 }

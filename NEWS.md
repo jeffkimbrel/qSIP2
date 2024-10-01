@@ -16,6 +16,7 @@
 * Added `get_filtered_feature_summary()` to see the filtering fate of a specified `feature_id`
 * Clean `check()` with no errors, warnings or notes. 
 * Changed license to BSD-3
+* `shared_y` argument (`TRUE`/`FALSE`) added to `plot_EAF_values()` to share the y-axis across all comparisons
 
 # qSIP2 0.15
 
