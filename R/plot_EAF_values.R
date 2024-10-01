@@ -68,6 +68,13 @@ plot_EAF_values <- function(qsip_data_object,
     stop(glue::glue("<error> should be 'none', 'bar' or 'ribbon', not {error}"), call. = FALSE)
   }
 
+  # print warning that data may be missing if shared_y = TRUE and top != NULL
+  if (isTRUE(shared_y) & top < Inf) {
+    warning("When setting <shared_y> to TRUE and also passing a value to <top>, there will likely be missing data in the plots if a feature is in the top n of one comparison, but not in the other.", call. = FALSE)
+  }
+
+
+
   # bind variables
   group <- observed_EAF <- feature_id <- labeled_resamples <- unlabeled_resamples <- resamples <- lower <- upper <- NULL
 
