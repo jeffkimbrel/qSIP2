@@ -1,8 +1,6 @@
 #' Plot resampling convergence (under construction!)
 #'
 #' @param qsip_data_object (*qsip_data*) A qsip data object that has been resampled
-#'
-#' @export
 
 plot_resampling_convergence = function(qsip_data_object) {
 
@@ -27,12 +25,14 @@ plot_resampling_convergence = function(qsip_data_object) {
   )
 
   dplyr::bind_rows(k) |>
-    dplyr:: mutate(L = (mean_resampled_EAF - lower) / mean_resampled_EAF,
-                   U = (mean_resampled_EAF - upper) / mean_resampled_EAF) |>
-    tidyr::pivot_longer(cols = c(L, U)) |>
-    ggplot2:: ggplot(ggplot2::aes(x = n, y = value, color = name)) +
+    dplyr:: mutate(Lower = (mean_resampled_EAF - lower) / mean_resampled_EAF,
+                   Upper = (mean_resampled_EAF - upper) / mean_resampled_EAF) |>
+    tidyr::pivot_longer(cols = c(Lower, Upper)) |>
+    ggplot2::ggplot(ggplot2::aes(x = n, y = value, color = name)) +
     ggplot2::geom_point(alpha = 0.3, pch = 21) +
     ggplot2::geom_smooth(formula = "y ~ x", method = "loess") +
-    ggplot2::scale_fill_manual(values = c("L" = "red", "U" = "#037bcf")) +
-    ggplot2::scale_color_manual(values = c("L" = "red", "U" = "#037bcf"))
+    ggplot2::scale_fill_manual(values = c("Lower" = "red", "Upper" = "#037bcf")) +
+    ggplot2::scale_color_manual(values = c("Lower" = "red", "Upper" = "#037bcf")) +
+    ggplot2::scale_y_log10() +
+    ggplot2::scale_x_log10()
 }

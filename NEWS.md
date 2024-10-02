@@ -4,6 +4,7 @@
     * `vignette("growth")`
     * `vignette("multiple_objects")`
     * `vignette("filtering")`
+    * `vignette("EAF")`
 * The previous vignettes were hastily written, but now they have been hastily re-written to capture the modern workflow of `qSIP2`
     * `vignette("qSIP_workflow")`
     * `vignette("source_data")`

@@ -60,7 +60,6 @@ reference:
   - plot_feature_resamplings
   - plot_EAF_values
   - plot_growth_values
-  - plot_resampling_convergence
 
 - title: Datasets
   contents:
@@ -110,6 +109,7 @@ reference:
   - calculate_N_light_it
   - calculate_di
   - calculate_bi
+  - plot_resampling_convergence
 
 articles:
 - title: Learn qSIP
@@ -118,6 +118,7 @@ articles:
   - qSIP_workflow
   - filtering
   - resampling
+  - EAF
   - growth
 
 - title: Working with...

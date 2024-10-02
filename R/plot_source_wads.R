@@ -27,11 +27,7 @@ plot_source_wads <- function(qsip_data,
   WAD <- isotope <- NULL
 
   if (is.null(colors)) {
-    colors <- c(
-      "12C" = "cornflowerblue", "13C" = "firebrick",
-      "14N" = "cornflowerblue", "15N" = "firebrick",
-      "16O" = "cornflowerblue", "18O" = "firebrick"
-    )
+    colors <- isotope_palette
   }
 
   p = qsip_data@source_wads |>

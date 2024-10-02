@@ -69,7 +69,8 @@ plot_feature_resamplings <- function(qsip_data_object,
     ggplot2::ggplot(ggplot2::aes(x = mean_resampled_WAD, y = type)) +
     ggplot2::facet_wrap(~feature_id, scales = "free_x") +
     ggplot2::scale_color_manual(values = c("labeled" = "#ff0000", "unlabeled" = "#037bcf")) +
-    ggplot2::scale_fill_manual(values = c("labeled" = "#FF000055", "unlabeled" = "#037bcf55"))
+    ggplot2::scale_fill_manual(values = c("labeled" = "#FF000055", "unlabeled" = "#037bcf55")) +
+    ggplot2::labs(x = "Resampled WAD Values")
 
   if (isTRUE(area)) {
     p <- p +

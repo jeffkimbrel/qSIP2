@@ -111,7 +111,12 @@ example_qsip_growth_t0 <- get_N_total_it(example_qsip_growth_object, t = 0)
 example_group_dataframe = readxl::read_excel("/Users/kimbrel1/Library/CloudStorage/Dropbox/working/qSIP/multiple_objects_test.xlsx")
 
 
-
+# palettes
+isotope_palette = c(
+  "12C" = "#037bcf", "13C" = "#ff0000",
+  "14N" = "#037bcf", "15N" = "#ff0000",
+  "16O" = "#037bcf", "18O" = "#ff0000"
+)
 
 # save
 usethis::use_data(example_source_df, overwrite = TRUE)
@@ -128,3 +133,5 @@ usethis::use_data(example_qsip_growth_object, overwrite = TRUE)
 usethis::use_data(example_qsip_growth_t0, overwrite = TRUE)
 
 usethis::use_data(example_group_dataframe, overwrite = TRUE)
+
+usethis::use_data(isotope_palette, overwrite = TRUE, internal = TRUE)
