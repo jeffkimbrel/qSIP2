@@ -1,6 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/404.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/LICENSE-text.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/articles/EAF.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/articles/controlled_vocab.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/articles/feature_data.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/articles/filtering.html</loc></url>
@@ -69,6 +70,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_EAF_values.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_density_outliers.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_curves.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_occurrence.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_resamplings.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_filter_gradient_position.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_growth_values.html</loc></url>
