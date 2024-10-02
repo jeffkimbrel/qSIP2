@@ -56,6 +56,7 @@ reference:
   - plot_density_outliers
   - plot_feature_curves
   - plot_filter_gradient_position
+  - plot_feature_occurrence
   - plot_successful_resamples
   - plot_feature_resamplings
   - plot_EAF_values
