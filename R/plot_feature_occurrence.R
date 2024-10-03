@@ -15,6 +15,7 @@
 #'
 #' @returns Returns a ggplot object
 
+
 plot_feature_occurrence = function(qsip_data_object,
                                    feature_ids,
                                    scale = "none",
@@ -24,7 +25,7 @@ plot_feature_occurrence = function(qsip_data_object,
 
   # stop if qsip_data_object !is_qsip()
   if (!is_qsip_data(qsip_data_object)) {
-    stop("Input must be a <qsip_data> object", call. = F)
+    stop("qsip_data_object should be class <qsip_data>", call. = F)
   }
 
   # features must be a vector, and not too big
@@ -47,6 +48,8 @@ plot_feature_occurrence = function(qsip_data_object,
   # title must be a character or NULL
   if (!is.character(title) & !is.null(title)) {
     stop("title must be a character or NULL", call. = F)
+  } else if (length(title) > 1) {
+    stop("title should only have a length one 1", call. = F)
   }
 
 
@@ -55,11 +58,11 @@ plot_feature_occurrence = function(qsip_data_object,
   df = qsip_data_object@tube_rel_abundance |>
     dplyr::filter(feature_id %in% feature_ids) |>
     dplyr::left_join(qsip_data_object@sample_data@data,
-              by = join_by(sample_id, source_mat_id, gradient_pos_density, gradient_pos_rel_amt)) |>
+              by = dplyr::join_by(sample_id, source_mat_id, gradient_pos_density, gradient_pos_rel_amt)) |>
     dplyr::left_join(qsip_data_object@source_data@data,
-              by = join_by(source_mat_id)) |>
+              by = dplyr::join_by(source_mat_id)) |>
     dplyr::left_join(qsip_data_object@wads,
-              by = join_by(feature_id, source_mat_id))
+              by = dplyr::join_by(feature_id, source_mat_id))
 
   # if scale = "source"
   if (scale == "source") {

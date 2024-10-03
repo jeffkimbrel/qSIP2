@@ -21,10 +21,9 @@ plot_feature_resamplings <- function(qsip_data_object,
                                      area = TRUE,
                                      confidence = 0.9,
                                      intervals = "") {
-  if (!"qsip_data" %in% class(qsip_data_object)) {
-    stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
-  } else if (length(qsip_data_object@resamples) == 0) {
-    stop("this function requires a qsip object that has been run through run_resampling()", call. = FALSE)
+
+  if (isFALSE(is_qsip_filtered(qsip_data_object, error = FALSE))) {
+    stop("This function requires a qsip object that has been run through run_resampling()", call. = FALSE)
   }
 
   # feature_ids must be null or a vector of strings
@@ -40,6 +39,11 @@ plot_feature_resamplings <- function(qsip_data_object,
   # confidence must be between 0 and including 1
   if (confidence <= 0 | confidence > 1) {
     stop("<confidence> argument must be between 0 and 1", call. = FALSE)
+  }
+
+  # error if interval is not "", "bar" or "line"
+  if (intervals != "" & intervals != "bar" & intervals != "line") {
+    stop("<intervals> argument must be 'bar' or 'line'", call. = FALSE)
   }
 
   # bind variables
@@ -61,6 +65,18 @@ plot_feature_resamplings <- function(qsip_data_object,
 
   # filter feature ids is given
   if (!is.null(feature_ids)) {
+
+    # if no overlap between feature_ids and combined_data$feature_data give error
+    if (length(intersect(feature_ids, combined_data$feature_id)) == 0) {
+      stop("None of the features in feature_ids were found in the <qsip_data_object>", call. = FALSE)
+    }
+
+
+    # print a message if not all of the feature_ids are found in combined_data$feature_id
+    if (length(setdiff(feature_ids, combined_data$feature_id)) > 0) {
+      message("Some of the features in feature_ids were not found in the <qsip_data_object>")
+    }
+
     combined_data <- combined_data |>
       dplyr::filter(feature_id %in% feature_ids)
   }

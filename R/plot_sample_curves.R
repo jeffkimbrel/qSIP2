@@ -42,14 +42,7 @@ plot_sample_curves <- function(qsip_data,
     dplyr::filter(!is.na(WAD))
 
   if (is.null(colors)) {
-    colors <- c(
-      "12C" = "cornflowerblue",
-      "13C" = "firebrick",
-      "14N" = "cornflowerblue",
-      "15N" = "firebrick",
-      "16O" = "cornflowerblue",
-      "18O" = "firebrick"
-    )
+    colors <- isotope_palette
   }
 
   p <- df |>

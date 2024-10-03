@@ -81,3 +81,30 @@ is_qsip_filtered <- function(object, error = FALSE) {
     return(TRUE)
   }
 }
+
+
+
+
+
+#' Validate a qsip object has been resampled
+#'
+#' @param object The object to check if it is a resampled qsip_data object
+#' @param error If TRUE it stops with an error message. If FALSE it doesn't error, but returns FALSE
+#'
+#' @export
+
+is_qsip_resampled <- function(object, error = FALSE) {
+  if (!is_qsip_data(object)) {
+    stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
+  }
+
+  if (length(object@resamples) == 0) {
+    if (isFALSE(error)) {
+      return(FALSE)
+    } else {
+      stop(glue::glue("qsip_data_object is a non-resampled <qsip_data> object"), call. = FALSE)
+    }
+  } else {
+    return(TRUE)
+  }
+}
