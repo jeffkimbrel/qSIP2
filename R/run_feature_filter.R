@@ -46,6 +46,12 @@ run_feature_filter <- function(qsip_data_object,
                                min_labeled_fractions = 2,
                                quiet = FALSE) {
 
+  # error ir is_qsip_data(qsip_data_object) is not true
+  if (isFALSE(is_qsip_data(qsip_data_object))) {
+    stop("<qsip_data_object> must be of class qsip_data", call. = FALSE)
+  }
+
+
   # make sure minimums are not bigger than possible
   if (min_labeled_sources > length(labeled_source_mat_ids)) {
     stop(glue::glue("min_labeled_sources is set to {min_labeled_sources} but labeled_source_mat_ids only has {length(labeled_source_mat_ids)}"))

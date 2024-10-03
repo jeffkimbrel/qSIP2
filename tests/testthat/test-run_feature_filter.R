@@ -5,6 +5,11 @@ test_that("works properly", {
   ))
 })
 
+test_that("fails if non-qsip object provided", {
+  expect_error(run_feature_filter(example_sample_df),
+    "<qsip_data_object> must be of class qsip_data"
+  )
+})
 
 test_that("minimums larger than possible give error", {
   expect_error(
