@@ -67,6 +67,9 @@ reference:
   - jgi_source_df
   - jgi_sample_df
   - jgi_feature_df
+  - fit_regression_model
+  - jgi_normalize_features
+  - get_normalized_features
 
 - title: Datasets
   contents:
@@ -117,6 +120,8 @@ reference:
   - calculate_di
   - calculate_bi
   - plot_resampling_convergence
+  - isotope_palette
+  - jgi_mixes
 
 articles:
 - title: Learn qSIP

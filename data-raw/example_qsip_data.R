@@ -150,5 +150,5 @@ usethis::use_data(example_qsip_growth_t0, overwrite = TRUE)
 
 usethis::use_data(example_group_dataframe, overwrite = TRUE)
 
-usethis::use_data(isotope_palette, overwrite = TRUE, internal = TRUE)
-usethis::use_data(jgi_mixes, overwrite = TRUE, internal = TRUE)
+usethis::use_data(isotope_palette, overwrite = TRUE)
+usethis::use_data(jgi_mixes, overwrite = TRUE)
