@@ -62,6 +62,12 @@ reference:
   - plot_EAF_values
   - plot_growth_values
 
+- title: Spike-In Controls
+  contents:
+  - jgi_source_df
+  - jgi_sample_df
+  - jgi_feature_df
+
 - title: Datasets
   contents:
   - example_source_df

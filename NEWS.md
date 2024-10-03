@@ -1,3 +1,7 @@
+# qSIP2 0.17.0
+
+* New functions to work with JGI spike-ins
+
 # qSIP2 0.16
 
 * Added new vignettes
