@@ -9,7 +9,10 @@ test_that("invalid timepoints give error", {
   expect_error(get_N_total_it(example_qsip_growth_object, t = "ABC"), "t must be numeric")
 })
 
-
+test_that("works with grouping", {
+  expect_snapshot(get_N_total_it(example_qsip_growth_object, t = 0, group = "isotopolog"))
+  expect_error(get_N_total_it(example_qsip_growth_object, t = 0, group = "not_a_column"), "grouping variable not_a_column not found in source_data")
+})
 
 
 

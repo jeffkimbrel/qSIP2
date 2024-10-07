@@ -120,7 +120,6 @@ reference:
   - calculate_di
   - calculate_bi
   - plot_resampling_convergence
-  - isotope_palette
   - jgi_mixes
 
 articles:

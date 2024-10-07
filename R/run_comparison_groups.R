@@ -32,12 +32,12 @@ run_comparison_groups <- function(groups,
                                   seed = NULL,
                                   resamples = NULL) {
 
-  is_qsip_data(qsip_data_object)
+  is_qsip_data(qsip_data_object, error = TRUE)
 
   # groups dataframe should contain group, unlabeled and labeled columns, and there can be others
   required_cols <- c("group", "unlabeled", "labeled")
   if (!all(required_cols %in% colnames(groups))) {
-    stop(glue::glue("Missing required column names in groups dataframe: {setdiff(required_cols, colnames(groups))}"))
+    stop(glue::glue("Missing required column names in groups dataframe: {setdiff(required_cols, colnames(groups))}"), call. = F)
   }
 
   # groups$group column should be unique
@@ -87,7 +87,7 @@ run_comparison_groups <- function(groups,
     dplyr::pull(value)
 
   if (length(setdiff(source_mat_ids_in_groups, get_source_mat_ids(qsip_data_object))) > 0) {
-    stop("Invalid source_mat_ids in group dataframe")
+    stop("Invalid source_mat_ids in group dataframe", call. = FALSE)
   }
 
   group_list <- split(groups, groups$group)

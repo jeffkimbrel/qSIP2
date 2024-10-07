@@ -22,7 +22,7 @@ plot_feature_resamplings <- function(qsip_data_object,
                                      confidence = 0.9,
                                      intervals = "") {
 
-  if (isFALSE(is_qsip_filtered(qsip_data_object, error = FALSE))) {
+  if (isFALSE(is_qsip_resampled(qsip_data_object, error = FALSE))) {
     stop("This function requires a qsip object that has been run through run_resampling()", call. = FALSE)
   }
 

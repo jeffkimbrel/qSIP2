@@ -50,7 +50,17 @@ get_N_total_it <- function(qsip_data_object,
     stop(glue::glue("no source_mat_ids with a 't = {t}' timepoint were found in <qsip_data>"), call. = FALSE)
   }
 
-  N_total_i0 = N_total_i0|>
+  # group can be NULL, or should be a column in N_total_i0
+  if (!is.null(group)) {
+
+     if (!group %in% colnames(N_total_i0)) {
+      stop(glue::glue("grouping variable {group} not found in source_data"), call. = FALSE)
+     }
+  }
+
+
+
+  N_total_i0 = N_total_i0 |>
     dplyr::filter(timepoint == t) |>
     dplyr::mutate(N_total_i0 = REL * total_abundance)
     # dplyr::select(feature_id, source_mat_id, timepoint, N_total_i0) |>

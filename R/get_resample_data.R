@@ -15,11 +15,20 @@
 get_resample_data <- function(qsip_data_object,
                               type = "all",
                               pivot = FALSE) {
-  if (!"qsip_data" %in% class(qsip_data_object)) {
-    stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
-  } else if (length(qsip_data_object@resamples) == 0) {
-    stop("this function requires a qsip object that has been run through run_resampling()", call. = FALSE)
+  if (isFALSE(is_qsip_resampled(qsip_data_object, error = FALSE))) {
+    stop("This function requires a qsip object that has been run through run_resampling()", call. = FALSE)
   }
+
+  # error if type is not one of "all", "unlabeled", or "labeled"
+  if (!type %in% c("all", "unlabeled", "labeled")) {
+    stop("type must be one of 'all', 'unlabeled', or 'labeled'", call. = FALSE)
+  }
+
+  # error if pivot is not TRUE/FALSE
+  if (!isTRUE(pivot) && !isFALSE(pivot)) {
+    stop("pivot must be TRUE or FALSE", call. = FALSE)
+  }
+
 
   # bind variables
   feature_id <- resample <- NULL
@@ -32,8 +41,6 @@ get_resample_data <- function(qsip_data_object,
     df <- dplyr::bind_rows(qsip_data_object@resamples$u) |> dplyr::select(-type)
   } else if (type == "labeled") {
     df <- dplyr::bind_rows(qsip_data_object@resamples$l) |> dplyr::select(-type)
-  } else {
-    stop("type must be one of 'all', 'unlabeled', or 'labeled'", call. = FALSE)
   }
 
 
