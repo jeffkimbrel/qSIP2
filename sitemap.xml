@@ -46,6 +46,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_source_df.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_source_object.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/find_shared_ids.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/fit_regression_model.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/fraction_results_message.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_N_total_it.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_all_by_isotope.html</loc></url>
@@ -55,6 +56,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_filtered_source_counts.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_growth_data.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_isotope_designation.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_normalized_features.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_data.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_source_mat_ids.html</loc></url>
@@ -63,6 +65,11 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_data.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_data_list.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_filtered.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_resampled.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/jgi_feature_df.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/jgi_normalize_features.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/jgi_sample_df.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/jgi_source_df.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/multi_qsip_wrapper.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/multi_qsip_wrapper_launcher.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/n_resamples.html</loc></url>
