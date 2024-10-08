@@ -48,6 +48,7 @@ reference:
   - is_qsip_data
   - is_qsip_data_list
   - is_qsip_filtered
+  - is_qsip_resampled
 
 - title: Plots and Visualizations
   contents:
