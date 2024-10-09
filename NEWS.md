@@ -1,12 +1,7 @@
-# qSIP2 0.17.3
-
-# qSIP2 0.17.2
-
-# qSIP2 0.17.1
-
-# qSIP2 0.17.0
+# qSIP2 0.17
 
 * New functions to work with JGI spike-ins
+* Changed `plot_feature_occurrence()` to show all features by default
 
 # qSIP2 0.16
 

@@ -5,7 +5,7 @@
 #' the results by total abundance or source abundance, and the WAD value can also be shown.
 #'
 #' @param qsip_data_object (*qsip_data*) A qsip_data object
-#' @param feature_ids (*character*) A vector of feature_ids
+#' @param feature_ids (*character*) An optional vector of feature_ids
 #' @param scale (*character*) A character string
 #' @param show_wad (*logical*) A logical value
 #' @param title (*character*) A character string
@@ -17,7 +17,7 @@
 
 
 plot_feature_occurrence = function(qsip_data_object,
-                                   feature_ids,
+                                   feature_ids = NULL,
                                    scale = "none",
                                    show_wad = FALSE,
                                    title = NULL,
@@ -28,11 +28,9 @@ plot_feature_occurrence = function(qsip_data_object,
     stop("qsip_data_object should be class <qsip_data>", call. = F)
   }
 
-  # features must be a vector, and not too big
-  if (!is.vector(feature_ids)) {
-    stop("feature_ids must be a vector", call. = F)
-  } else if (length(feature_ids) > 64) {
-    stop("The length of feature_ids is capped at 64", call. = F)
+  # feature_ids must be null or a vector of strings
+  if (!is.null(feature_ids) & !is.character(feature_ids)) {
+    stop("<feature_ids> argument must be NULL or a vector of strings", call. = FALSE)
   }
 
   # scale must be "none", "total", or "source"
@@ -52,12 +50,18 @@ plot_feature_occurrence = function(qsip_data_object,
     stop("title should only have a length one 1", call. = F)
   }
 
+  # if feature_ids is null, then get all
+  if (is.null(feature_ids)) {
+    feature_ids = get_feature_ids(qsip_data_object, filtered = T)
+  }
 
+  # if the sample_data contains an isotope column, remove it so there isn't a .x, .y
+  sample_df = qsip_data_object@sample_data@data |> select(-dplyr::any_of("isotope"))
 
   # make dataframe with joined metadata
   df = qsip_data_object@tube_rel_abundance |>
     dplyr::filter(feature_id %in% feature_ids) |>
-    dplyr::left_join(qsip_data_object@sample_data@data,
+    dplyr::left_join(sample_df,
               by = dplyr::join_by(sample_id, source_mat_id, gradient_pos_density, gradient_pos_rel_amt)) |>
     dplyr::left_join(qsip_data_object@source_data@data,
               by = dplyr::join_by(source_mat_id)) |>

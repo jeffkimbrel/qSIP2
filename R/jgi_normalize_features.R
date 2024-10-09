@@ -5,6 +5,7 @@
 
 jgi_normalize_features = function(features, method = "lm") {
   j = features %>%
+    tidyr::pivot_longer(cols = -feature_id, names_to = "sample_id", values_to = "COVERAGE") |>
     dplyr::left_join(samples, by = "sample_id") |>
     dplyr::select(sample_id, feature_id, COVERAGE, MIX, sequins_pg) |>
     dplyr::mutate(TYPE = ifelse(feature_id %in% jgi_mixes$feature_id, "CONTROL", "EXP")) |>

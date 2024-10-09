@@ -9,5 +9,6 @@ jgi_feature_df <- function(coverage_file) {
       names_to = "sample_id",
       values_to = "COVERAGE"
     ) |>
-    dplyr::rename("feature_id" = "Feature")
+    dplyr::rename("feature_id" = "Feature") |>
+    tidyr::pivot_wider(values_from = COVERAGE, names_from = sample_id, values_fill = 0)
 }
