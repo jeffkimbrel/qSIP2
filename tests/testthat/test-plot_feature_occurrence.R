@@ -9,9 +9,7 @@ test_that("wrong type gives error", {
 
 test_that("incorrect feature_ids gives error", {
   expect_error(plot_feature_occurrence(example_qsip_object, feature_ids = example_feature_df),
-               "feature_ids must be a vector")
-  expect_error(plot_feature_occurrence(example_qsip_object, feature_ids = rep("aaa", 65)),
-               "The length of feature_ids is capped at 64")
+               "<feature_ids> argument must be NULL or a vector of strings")
 })
 
 test_that("given scale argument OK", {

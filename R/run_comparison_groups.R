@@ -106,6 +106,7 @@ run_comparison_groups <- function(groups,
   } else {
     stop("Something went wrong with run_comparison_groups()")
   }
+
 }
 
 

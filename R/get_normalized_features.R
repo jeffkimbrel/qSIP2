@@ -2,11 +2,11 @@
 #'
 #' @export
 
-get_normalized_features = function(data) {
+get_normalized_features = function(normalized_df) {
 
-  data |>
-    tidyr::unnest(cols = pred_experimental) |>
-    dplyr::select(sample_id, .pred, feature_id) |>
-    dplyr::mutate(.pred = exp(.pred)) |>
-    tidyr::pivot_wider(values_from = .pred, names_from = sample_id, values_fill = 0)
+  normalized_df |>
+    tidyr::unnest(cols = EXP_predict) |>
+    dplyr::select(sample_id, .fitted, feature_id) |>
+    dplyr::mutate(.fitted = exp(.fitted)) |>
+    tidyr::pivot_wider(values_from = .fitted, names_from = sample_id, values_fill = 0)
 }

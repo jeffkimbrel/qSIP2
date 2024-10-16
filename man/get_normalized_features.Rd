@@ -4,7 +4,7 @@
 \alias{get_normalized_features}
 \title{Get normalized features from jgi_normalize_features}
 \usage{
-get_normalized_features(data)
+get_normalized_features(normalized_df)
 }
 \description{
 Get normalized features from jgi_normalize_features

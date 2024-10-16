@@ -1,3 +1,6 @@
+qsip_test = example_feature_object
+qsip_test@type = "normalized"
+
 test_that("runs correctly", {
   expect_snapshot(calculate_tube_rel_abundance(example_source_object, example_sample_object, example_feature_object))
 })

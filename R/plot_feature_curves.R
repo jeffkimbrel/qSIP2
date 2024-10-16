@@ -15,9 +15,16 @@ plot_feature_curves <- function(qsip_data_object,
                                 feature_ids,
                                 source_mat_ids = NULL,
                                 title = NULL) {
-  if (!"qsip_data" %in% class(qsip_data_object)) {
-    stop(glue::glue("qsip_data_object should be class <qsip_data>, not {class(qsip_data_object)[1]}"))
+
+  is_qsip_data(qsip_data_object, error = TRUE)
+
+  # make sure all values in source_mat_ids are found in get_source_mat_ids(qsip_data_object)
+  if (!is.null(source_mat_ids)) {
+    if (length(setdiff(source_mat_ids, get_source_mat_ids(qsip_data_object))) > 0) {
+      stop("some provided source_mat_ids are not found in the qsip_data object", call. = F)
+    }
   }
+
 
   # get all source_mat_ids if NULL
   if (is.null(source_mat_ids)) {
@@ -26,7 +33,7 @@ plot_feature_curves <- function(qsip_data_object,
 
 
   if (length(setdiff(feature_ids, qsip_data_object@feature_data@data$feature_id)) > 0) {
-    message("WARNING: some feature_ids are not found")
+    stop("some provided feature_ids are not found in the qsip_data object", call. = F)
   }
 
   # bind variables

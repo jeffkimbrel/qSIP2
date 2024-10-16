@@ -6,7 +6,7 @@
 \usage{
 plot_feature_occurrence(
   qsip_data_object,
-  feature_ids,
+  feature_ids = NULL,
   scale = "none",
   show_wad = FALSE,
   title = NULL,
@@ -16,7 +16,7 @@ plot_feature_occurrence(
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) A qsip_data object}
 
-\item{feature_ids}{(\emph{character}) A vector of feature_ids}
+\item{feature_ids}{(\emph{character}) An optional vector of feature_ids}
 
 \item{scale}{(\emph{character}) A character string}
 

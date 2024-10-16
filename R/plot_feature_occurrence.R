@@ -56,7 +56,7 @@ plot_feature_occurrence = function(qsip_data_object,
   }
 
   # if the sample_data contains an isotope column, remove it so there isn't a .x, .y
-  sample_df = qsip_data_object@sample_data@data |> select(-dplyr::any_of("isotope"))
+  sample_df = qsip_data_object@sample_data@data |> dplyr::select(-dplyr::any_of("isotope"))
 
   # make dataframe with joined metadata
   df = qsip_data_object@tube_rel_abundance |>
