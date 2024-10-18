@@ -17,9 +17,9 @@ validate_gradient_position <- function(gradient_position) {
     if (all(gradient_position - floor(gradient_position) == 0)) {
       return(NULL)
     } else {
-      stop(crayon::red("some gradient_position values are not integers"), call. = FALSE)
+      stop("some gradient_position values are not integers", call. = FALSE)
     }
   } else {
-    stop(crayon::red("some gradient_position values are non-numeric"), call. = FALSE)
+    stop("some gradient_position values are non-numeric", call. = FALSE)
   }
 }

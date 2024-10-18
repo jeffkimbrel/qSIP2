@@ -19,6 +19,16 @@ plot_successful_resamples <- function(qsip_data_object,
 
   # bind variables
   n <- type <- count <- NULL
+  
+  is_qsip_resampled(qsip_data_object, error = T)
+
+  if (!is.logical(labels)) {
+    stop("<labels> should be TRUE/FALSE", call. = F)
+  }
+
+  if (!is.logical(as_percentage)) {
+    stop("<as_percentage> should be TRUE/FALSE", call. = F)
+  }
 
   p <- get_resample_counts(qsip_data_object, as_percentage = as_percentage) |>
     tidyr::pivot_longer(cols = c("unlabeled_resamples", "labeled_resamples"),

@@ -4,12 +4,10 @@
 \alias{get_growth_data}
 \title{Get dataframe of resampled growth data}
 \usage{
-get_growth_data(qsip_data_object, type = "all")
+get_growth_data(qsip_data_object)
 }
 \arguments{
 \item{qsip_data_object}{A \code{qsip_data} object that has been run through \code{run_growth_calculations()}}
-
-\item{type}{(\emph{string}) The type of data to return: "all", "unlabeled", or "labeled"}
 }
 \value{
 A dataframe of the resampled data

@@ -5,6 +5,8 @@
 
 get_normalized_controls <- function(normalized_df) {
 
+  sample_id <- CONTROL_predict <- CONTROL <- CONTROL_coverage <- feature_id <- MIX <- sequins_pg <- pg <- NULL
+
   normalized_df |>
     dplyr::select(sample_id, CONTROL_predict, CONTROL) |>
     tidyr::unnest(cols = c(CONTROL, CONTROL_predict), names_sep = "_") |>

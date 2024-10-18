@@ -1,3 +1,5 @@
+# qSIP2 0.17.6
+
 # qSIP2 0.17
 
 * New functions to work with JGI spike-ins

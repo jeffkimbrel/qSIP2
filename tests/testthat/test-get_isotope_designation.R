@@ -1,6 +1,6 @@
 test_that("Passing wrong object gives error", {
   expect_error(get_isotope_designation(example_feature_object, c("S149","S150","S151"), c("S178", "S179", "S180")),
-               "qsip_data_object must be a <qsip_data> object, not <qsip_feature_data>")
+               "object must be a <qsip_data> object, not <qsip_feature_data>")
 })
 
 test_that("Returns the right value", {

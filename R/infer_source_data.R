@@ -22,6 +22,6 @@ infer_source_data = function(sample_data, source_mat_id) {
     colnames()
 
   sample_data |>
-    dplyr::select(source_mat_id, tidyselect::all_of(cols_to_keep)) |>
+    dplyr::select(source_mat_id, dplyr::all_of(cols_to_keep)) |>
     unique()
 }

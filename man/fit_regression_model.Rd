@@ -6,6 +6,11 @@
 \usage{
 fit_regression_model(control_data, engine = "lm")
 }
+\arguments{
+\item{control_data}{A data frame containing the spike-in control data}
+
+\item{engine}{The regression engine to use. Choices are "lm" or "glm"}
+}
 \description{
 Fit regression model to spike-in control data
 }

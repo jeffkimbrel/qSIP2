@@ -84,6 +84,9 @@ multi_qsip = list("normal" = readRDS(file = "tests/testthat/fixtures/qsip_normal
 
 # Growth Data ##############
 
+get_N_total_it(example_qsip_growth_object, t = 0) |>
+  saveRDS(file = "tests/testthat/fixtures/N_total_i0.rds")
+
 example_qsip_growth_object |>
   run_feature_filter(
     group = "Day 10",
@@ -107,6 +110,9 @@ readRDS(file = "tests/testthat/fixtures/qsip_growth_resampled.rds") |>
   run_EAF_calculations(propO = 0.6) |>
   saveRDS(file = "tests/testthat/fixtures/qsip_growth_EAF.rds")
 
+readRDS(file = "tests/testthat/fixtures/qsip_growth_EAF.rds") |>
+  run_growth_calculations(readRDS(file = "tests/testthat/fixtures/N_total_i0.rds")) |>
+  saveRDS(file = "tests/testthat/fixtures/qsip_growth_rates.rds")
 
 # Sample Data ##############
 example_sample_df |>

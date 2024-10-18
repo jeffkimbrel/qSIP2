@@ -39,7 +39,7 @@ calculate_wads <- function(tube_rel_abundance) {
       values_from = n_fractions
     ) |>
     tidyr::pivot_longer(
-      cols = c(tidyselect::everything(), -feature_id),
+      cols = c(dplyr::everything(), -feature_id),
       names_to = "source_mat_id",
       values_to = "n_fractions"
     ) |>

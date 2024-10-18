@@ -16,11 +16,7 @@
 run_EAF_calculations <- function(qsip_data_object, gc_method = "MM", propO = 1) {
 
   # make sure the right data type and has been filtered and resampled
-  if (!"qsip_data" %in% class(qsip_data_object)) {
-    stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
-  } else if (length(qsip_data_object@resamples) == 0) {
-    stop("qsip_data_object should be run through run_feature_filter() and run_resampling() functions first", call. = FALSE)
-  }
+  is_qsip_filtered(qsip_data_object, error = TRUE)
 
   # bind variables
   source_mat_id <- feature_id <- WAD <- resample <- W_lab_mean <- W_unlab_mean <- Z <- G <- M <- atom_count <- M_labeledmax <- M_labeled <- NULL

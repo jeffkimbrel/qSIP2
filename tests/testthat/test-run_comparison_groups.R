@@ -10,7 +10,7 @@ test_that("works as expected", {
 
 test_that("wrong qsip_object gives error", {
   expect_error(run_comparison_groups(df, "a string"),
-               "qsip_data_object must be a <qsip_data> object, not <character>")
+               "object must be a <qsip_data> object, not <character>")
 })
 
 test_that("missing expected column names fail", {

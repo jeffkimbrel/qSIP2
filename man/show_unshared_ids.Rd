@@ -13,6 +13,6 @@ show_unshared_ids(qsip_data_object)
 A message with unique IDs per category
 }
 \description{
-This function identifies missing source_mat_ids and sample_ids between the source,
+This function identifies shared and missing source_mat_ids and sample_ids between the source,
 sample, and feature data objects.
 }

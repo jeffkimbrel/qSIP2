@@ -1,10 +1,15 @@
 #' Fit regression model to spike-in control data
 #'
+#' @param control_data A data frame containing the spike-in control data
+#' @param engine The regression engine to use. Choices are "lm" or "glm"
+#'
 #' @export
 
 fit_regression_model <- function(control_data,
                         engine = "lm") { # choices are "lm" or "glm"
 
+  COVERAGE <- feature_id <- MIX <- RATIO <- NULL
+  
   # process coverage data (log and remove non-control features) and join with internal jgi_mixes dataframe.
   control_data <- control_data |>
     dplyr::filter(COVERAGE > -Inf) |>

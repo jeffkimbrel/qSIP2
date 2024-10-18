@@ -7,7 +7,7 @@ test_that("works as expected, or at least makes a ggplot", {
 
 test_that("wrong type or not run through pre-steps", {
   expect_error(plot_feature_resamplings(isotope_palette),
-               "qsip_data_object should be class <qsip_data>")
+               "object must be a <qsip_data> object, not <character>")
   expect_error(plot_feature_resamplings(example_qsip_object),
                "This function requires a qsip object that has been run through run_resampling()")
 })

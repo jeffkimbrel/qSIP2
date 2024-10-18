@@ -8,7 +8,7 @@ test_that("works as expected", {
 test_that("non-qsip object errors", {
   expect_error(run_growth_calculations(example_feature_df,
                                        N_total_it = example_qsip_growth_t0),
-               "qsip_data_object must be a <qsip_data> object, not <tbl_df>")
+               "object must be a <qsip_data> object, not <tbl_df>")
 })
 
 test_that("non-growth qsip object errors", {

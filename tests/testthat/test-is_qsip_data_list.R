@@ -4,7 +4,7 @@ test_that("returns TRUE when it is a list of qsip objects", {
 
 
 test_that("naked qsip object gives error when set to return an error", {
-  expect_error(is_qsip_data_list(example_qsip_object, error = TRUE), "qsip_list must be a list")
+  expect_error(is_qsip_data_list(example_qsip_object, error = TRUE), "object must be a list")
 })
 
 test_that("naked qsip object gives FALSE when set to return a logical", {
@@ -13,7 +13,7 @@ test_that("naked qsip object gives FALSE when set to return a logical", {
 
 
 test_that("non-list gives error when set to return an error", {
-  expect_error(is_qsip_data_list(123, error = TRUE), "qsip_list must be a list")
+  expect_error(is_qsip_data_list(123, error = TRUE), "object must be a list")
 })
 
 test_that("non-list gives FALSE when set to return a logical", {

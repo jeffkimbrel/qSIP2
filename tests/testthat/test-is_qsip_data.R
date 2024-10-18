@@ -3,7 +3,7 @@ test_that("correct type gives NULL", {
 })
 
 test_that("wrong type gives an error", {
-  expect_error(is_qsip_data(1, error = TRUE), "qsip_data_object must be a <qsip_data> object, not <numeric>")
+  expect_error(is_qsip_data(1, error = TRUE), "object must be a <qsip_data> object, not <numeric>")
 })
 
 test_that("wrong type gives an FALSE when error = FALSE", {
