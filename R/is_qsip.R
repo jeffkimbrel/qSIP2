@@ -94,7 +94,7 @@ is_qsip_filtered <- function(object, error = FALSE) {
 #' @export
 
 is_qsip_resampled <- function(object, error = FALSE) {
-  
+
   # first check if it is even a qsip object
   is_qsip_data(object, error = TRUE)
 
@@ -109,7 +109,28 @@ is_qsip_resampled <- function(object, error = FALSE) {
   }
 }
 
+#' Validate a qsip object has EAF values
+#'
+#' @param object The object to check if it is a qsip_data object with EAF calculations
+#' @param error If TRUE it stops with an error message. If FALSE it doesn't error, but returns FALSE
+#'
+#' @export
 
+is_qsip_EAF <- function(object, error = FALSE) {
+
+  # first check if it is even a qsip object
+  is_qsip_data(object, error = TRUE)
+
+  if (!dim(object@EAF)[1] > 0) {
+    if (isFALSE(error)) {
+      return(FALSE)
+    } else {
+      stop(glue::glue("<qsip_data> object does not have EAF calculations"), call. = FALSE)
+    }
+  } else {
+    return(TRUE)
+  }
+}
 
 #' Validate a qsip object has been run through growth workflow
 #'
@@ -119,7 +140,7 @@ is_qsip_resampled <- function(object, error = FALSE) {
 #' @export
 
 is_qsip_growth <- function(object, error = FALSE) {
-  
+
   # first check if it is even a qsip object
   is_qsip_data(object, error = TRUE)
 

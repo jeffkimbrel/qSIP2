@@ -10,10 +10,10 @@ plot_resampling_convergence = function(qsip_data_object) {
   mean_resampled_EAF <- lower <- upper <- L <- U <- n <- value <- name <- NULL
 
   k <- purrr::map(
-    c(5, 10, 25, 50, 100, 250, 500, 1000),
+    c(rep(1, 10), rep(2,10), rep(4,10),rep(8,10),rep(16,10), rep(32,10),rep(64,10),rep(128,10), rep(256,10), rep(512,10), rep(1024,10)),
     \(i) run_resampling(qsip_data_object,
                         resamples = i,
-                        with_seed = 17,
+                        #with_seed = 17,
                         progress = FALSE,
                         allow_failures = TRUE,
                         quiet = T
@@ -25,14 +25,14 @@ plot_resampling_convergence = function(qsip_data_object) {
   )
 
   dplyr::bind_rows(k) |>
-    dplyr:: mutate(Lower = (mean_resampled_EAF - lower) / mean_resampled_EAF,
-                   Upper = (mean_resampled_EAF - upper) / mean_resampled_EAF) |>
-    tidyr::pivot_longer(cols = c(Lower, Upper)) |>
-    ggplot2::ggplot(ggplot2::aes(x = n, y = value, color = name)) +
-    ggplot2::geom_point(alpha = 0.3, pch = 21) +
-    ggplot2::geom_smooth(formula = "y ~ x", method = "loess") +
-    ggplot2::scale_fill_manual(values = c("Lower" = "red", "Upper" = "#037bcf")) +
-    ggplot2::scale_color_manual(values = c("Lower" = "red", "Upper" = "#037bcf")) +
-    ggplot2::scale_y_log10() +
-    ggplot2::scale_x_log10()
+    ggplot(aes(x = unlabeled_resamples, y = mean_resampled_EAF)) +
+      geom_point() +
+      facet_wrap(~feature_id, scales = "free_y") +
+      scale_x_log10() +
+      geom_smooth(color = "#037bcf",
+                  formula = 'y ~ x',
+                  method = 'loess') +
+      #geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.1) +
+      geom_hline(aes(yintercept = observed_EAF), color = "red") +
+      geom_boxplot(aes(group = unlabeled_resamples))
 }

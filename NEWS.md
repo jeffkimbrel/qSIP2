@@ -2,6 +2,7 @@
 
 * New functions to work with JGI spike-ins
 * Changed `plot_feature_occurrence()` to show all features by default
+* Print methods for the 4 main objects to show summary information
 
 # qSIP2 0.16
 

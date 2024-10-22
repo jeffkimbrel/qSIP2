@@ -49,6 +49,7 @@ reference:
   - is_qsip_data_list
   - is_qsip_filtered
   - is_qsip_resampled
+  - is_qsip_EAF
   - is_qsip_growth
 
 - title: Plots and Visualizations
