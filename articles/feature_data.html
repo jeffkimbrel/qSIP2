@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.17.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.17.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,7 +90,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.17.6'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.17.7'</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="feature-counts-and-metadata">Feature Counts and Metadata<a class="anchor" aria-label="anchor" href="#feature-counts-and-metadata"></a>
 </h2>
@@ -209,14 +209,10 @@ the type is the default <code>counts</code>.</p>
 <span>  sample2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.4</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/qsip_feature_data.html">qsip_feature_data</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"coverage"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;qsip_feature_data&gt;</span></span>
-<span><span class="co">#&gt;  @ data      : tibble [3 × 3] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;  $ feature_id: chr [1:3] "feature1" "feature2" "feature3"</span></span>
-<span><span class="co">#&gt;  $ sample1   : num [1:3] 0.1 0.2 0.3</span></span>
-<span><span class="co">#&gt;  $ sample2   : num [1:3] 0.4 0.5 0.6</span></span>
-<span><span class="co">#&gt;  @ feature_id: chr "feature_id"</span></span>
-<span><span class="co">#&gt;  @ taxonomy  :'data.frame':  0 obs. of  0 variables</span></span>
-<span><span class="co">#&gt;  @ type      : chr "coverage"</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;qSIP2::qsip_feature_data&gt;</span></span>
+<span><span class="co">#&gt; feature_id count: <span style="color: #00BB00;">3</span></span></span>
+<span><span class="co">#&gt; sample_id count: <span style="color: #00BB00;">2</span></span></span>
+<span><span class="co">#&gt; data type: <span style="color: #00BB00;">coverage</span></span></span></code></pre></div>
 <p>In theory, the slots can be overwritten, but this is not recommended.
 If you do, they will undergo the same validations and may fail.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -244,14 +240,10 @@ practice would be to convert prior to creating the object with a
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">~</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html" class="external-link">replace_na</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/qsip_feature_data.html">qsip_feature_data</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;qsip_feature_data&gt;</span></span>
-<span><span class="co">#&gt;  @ data      : tibble [3 × 3] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;  $ feature_id: chr [1:3] "feature1" "feature2" "feature3"</span></span>
-<span><span class="co">#&gt;  $ sample1   : num [1:3] 1 2 0</span></span>
-<span><span class="co">#&gt;  $ sample2   : num [1:3] 4 5 6</span></span>
-<span><span class="co">#&gt;  @ feature_id: chr "feature_id"</span></span>
-<span><span class="co">#&gt;  @ taxonomy  :'data.frame':  0 obs. of  0 variables</span></span>
-<span><span class="co">#&gt;  @ type      : chr "counts"</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;qSIP2::qsip_feature_data&gt;</span></span>
+<span><span class="co">#&gt; feature_id count: <span style="color: #00BB00;">3</span></span></span>
+<span><span class="co">#&gt; sample_id count: <span style="color: #00BB00;">2</span></span></span>
+<span><span class="co">#&gt; data type: <span style="color: #00BB00;">counts</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="taxonomy-or-other-metadata">Taxonomy or other metadata<a class="anchor" aria-label="anchor" href="#taxonomy-or-other-metadata"></a>
@@ -273,17 +265,10 @@ it will live in the <code>@taxonomy</code> slot.</p>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/qsip_feature_data.html">qsip_feature_data</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_taxonomy.html">add_taxonomy</a></span><span class="op">(</span><span class="va">taxonomy</span>, feature_id <span class="op">=</span> <span class="st">"feature_id"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;qsip_feature_data&gt;</span></span>
-<span><span class="co">#&gt;  @ data      : tibble [3 × 3] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;  $ feature_id: chr [1:3] "feature1" "feature2" "feature3"</span></span>
-<span><span class="co">#&gt;  $ sample1   : num [1:3] 1 2 3</span></span>
-<span><span class="co">#&gt;  $ sample2   : num [1:3] 4 5 6</span></span>
-<span><span class="co">#&gt;  @ feature_id: chr "feature_id"</span></span>
-<span><span class="co">#&gt;  @ taxonomy  : tibble [3 × 3] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;  $ feature_id: chr [1:3] "feature1" "feature2" "feature3"</span></span>
-<span><span class="co">#&gt;  $ genus     : chr [1:3] "Marinobacter" "Devosia" "Pseudomonas"</span></span>
-<span><span class="co">#&gt;  $ species   : chr [1:3] "adhaerens" "insulae" "syringae"</span></span>
-<span><span class="co">#&gt;  @ type      : chr "counts"</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;qSIP2::qsip_feature_data&gt;</span></span>
+<span><span class="co">#&gt; feature_id count: <span style="color: #00BB00;">3</span></span></span>
+<span><span class="co">#&gt; sample_id count: <span style="color: #00BB00;">2</span></span></span>
+<span><span class="co">#&gt; data type: <span style="color: #00BB00;">counts</span></span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
