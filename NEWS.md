@@ -18,7 +18,7 @@
     * `vignette("feature_data")`
     * `vignette("resampling")`
 * Added light/dark switch to website documentation
-* Added optional `title` argument to change the title of the plot to `plot_
+* Added optional `title` argument to change the title of the plot to several functions
 * Switched to using `testthat` fixtures
 * Added `get_filtered_feature_summary()` to see the filtering fate of a specified `feature_id`
 * Clean `check()` with no errors, warnings or notes. 
