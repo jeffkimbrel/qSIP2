@@ -379,6 +379,12 @@ qsip_sample_data <- S7::new_class(
       ) |>
       dplyr::ungroup()
 
+    # sample_id column in data should not contain duplicates
+    if (any(duplicated(data["sample_id"]))) {
+      stop("Some sample_ids are duplicated", call. = FALSE)
+    }
+
+
     S7::new_object(S7::S7_object(),
       data = data,
       sample_id = sample_id,

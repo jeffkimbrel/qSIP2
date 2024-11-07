@@ -81,3 +81,15 @@ test_that("missing columns give errors", {
     gradient_pos_rel_amt = "not_found"
   ), "gradient_pos_rel_amt column not found")
 })
+
+
+test_that("duplicate sample_ids give error", {
+  expect_error(qsip_sample_data(rbind(add_taxonomy_testdf,add_taxonomy_testdf),
+                                   sample_id = "sample",
+                                   source_mat_id = "source",
+                                   gradient_position = "Fraction",
+                                   gradient_pos_density = "density_g_ml",
+                                   gradient_pos_amt = "avg_16S_g_soil",
+                                   gradient_pos_rel_amt = "gradient_pos_rel_amt"
+  ), "Some sample_ids are duplicated")
+})
