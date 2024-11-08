@@ -2,9 +2,6 @@ qsip_normal_strict_filtered <- readRDS(test_path("fixtures", "qsip_normal_strict
 
 test_that("works as expected", {
   expect_true("ggplot" %in% class(plot_filter_results(qsip_normal_strict_filtered)))
-  expect_true("ggplot" %in% class(plot_filter_results(qsip_normal_strict_filtered,
-    colors = c("red", "blue", "black")
-  )))
 
   expect_true("ggplot" %in% class(plot_filter_results(qsip_normal_strict_filtered,
     return_type = "combined"

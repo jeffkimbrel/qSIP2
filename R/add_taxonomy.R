@@ -19,7 +19,7 @@
 #'
 #' @returns An updated `qsip_feature_data` with the taxonomy slot populated with a taxonomy dataframe.
 #' @importFrom rlang :=
-#'
+
 add_taxonomy <- function(feature_object, taxa, feature_id) {
 
   # make sure feature_object is the right type

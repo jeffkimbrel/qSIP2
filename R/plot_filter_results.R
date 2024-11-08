@@ -10,7 +10,6 @@
 #'
 #' @param qsip_data_object (*qsip_data*)
 #' @param return_type (*string, default: combined*) Changes the return type from a combined plot (*combined*), list of individual plots (*individual*) or list of dataframes (*dataframe*)
-#' @param colors (*strings*) An optional color palette
 #'
 #' @export
 #'
@@ -21,28 +20,26 @@
 
 plot_filter_results <- function(qsip_data_object,
                                 return_type = "combined",
-                                colors = NULL) {
-  stopifnot("qsip_data_object should be class <qsip_data>" = "qsip_data" %in% class(qsip_data_object))
+                                colors = lifecycle::deprecated()) {
+
+  is_qsip_filtered(qsip_data_object, error = TRUE)
+
+  if (lifecycle::is_present(colors)) {
+    lifecycle::deprecate_warn("0.17.10", "plot_filter_results(colors)")
+  }
 
   if (!return_type %in% c("combined", "individual", "dataframe")) {
     stop(glue::glue("return_type should be either one of 'combined', 'individual' or 'dataframe'"))
   }
 
-  if (length(qsip_data_object@filter_results) == 0) {
-    stop(glue::glue("please run run_filter_feature() on qsip_data_object before plotting results"))
-  }
-
   # bind variables
   source_mat_id <- fraction_call <- tube_rel_abundance <- n <- NULL
 
-  if (is.null(colors)) {
-    colors <- c(
-      "Fraction Passed" = "#2B92BE",
-      "Fraction Filtered" = "#BE572B",
-      "Zero Fractions" = "gray30"
-    )
-  }
-
+  colors <- c(
+    "Fraction Passed" = "#037bcf",
+    "Fraction Filtered" = "#BE572B",
+    "Zero Fractions" = "gray70"
+  )
 
   by_abundance_df <- qsip_data_object@filter_results$fraction_filtered |>
     dplyr::group_by(source_mat_id, fraction_call) |>

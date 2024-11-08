@@ -595,19 +595,19 @@ S7::method(get_dataframe, qsip_data) <- function(x, type, original_headers = FAL
 
 S7::method(print, qsip_source_data) <- function(x, ...) {
   sd = x@data
-  print(glue::glue_col("<qSIP2::qsip_source_data>
+  print(glue::glue_col("<qsip_source_data>
                        source_material_id count: {green {length(unique(sd$source_mat_id))}}"))
 }
 
 S7::method(print, qsip_sample_data) <- function(x, ...) {
   sd = x@data
-  print(glue::glue_col("<qSIP2::qsip_sample_data>
+  print(glue::glue_col("<qsip_sample_data>
                        source_material_id count: {green {length(unique(sd$source_mat_id))}}
                        sample_id count: {green {length(unique(sd$sample_id))}}"))
 }
 
 S7::method(print, qsip_feature_data) <- function(x, ...) {
-  print(glue::glue_col("<qSIP2::qsip_feature_data>
+  print(glue::glue_col("<qsip_feature_data>
                        feature_id count: {green {dim(x@data)[1]}}
                        sample_id count: {green {dim(x@data)[2] - 1}}
                        data type: {green {x@type}}"))
@@ -616,7 +616,7 @@ S7::method(print, qsip_feature_data) <- function(x, ...) {
 S7::method(print, qsip_data) <- function(x, ...) {
 
 
-  print(glue::glue_col("<qSIP2::qsip_data>
+  print(glue::glue_col("<qsip_data>
                        group: {green {ifelse(is.null(x@filter_results$group), 'none', x@filter_results$group)}}
                        feature_id count: {green {length(get_feature_ids(x, filtered = is_qsip_filtered(x)))} of {dim(x@feature_data@data)[1]}}
                        sample_id count: {green {length(unique(x@sample_data@data$sample_id))}}

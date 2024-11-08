@@ -4,14 +4,16 @@
 \alias{plot_filter_results}
 \title{Plot the results of filtering features}
 \usage{
-plot_filter_results(qsip_data_object, return_type = "combined", colors = NULL)
+plot_filter_results(
+  qsip_data_object,
+  return_type = "combined",
+  colors = lifecycle::deprecated()
+)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data})}
 
 \item{return_type}{(\emph{string, default: combined}) Changes the return type from a combined plot (\emph{combined}), list of individual plots (\emph{individual}) or list of dataframes (\emph{dataframe})}
-
-\item{colors}{(\emph{strings}) An optional color palette}
 }
 \value{
 Combined or individual plots, or the raw dataframes

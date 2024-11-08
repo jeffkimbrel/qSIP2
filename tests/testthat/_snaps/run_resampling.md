@@ -3,7 +3,7 @@
     Code
       run_resampling(qsip_normal_strict_filtered, resamples = 100, with_seed = 21)
     Output
-      <qSIP2::qsip_data>
+      <qsip_data>
       group: none
       feature_id count: 74 of 2030
       sample_id count: 284
@@ -19,7 +19,7 @@
     Message
       Using random seed. For consistency, you can use the with_seed argument
     Output
-      <qSIP2::qsip_data>
+      <qsip_data>
       group: none
       feature_id count: 74 of 2030
       sample_id count: 284
@@ -35,7 +35,7 @@
     Message
       Using random seed. For consistency, you can use the with_seed argument
     Output
-      <qSIP2::qsip_data>
+      <qsip_data>
       group: none
       feature_id count: 74 of 2030
       sample_id count: 284
@@ -54,7 +54,7 @@
       Warning:
       NA unlabeled and NA labeled feature_ids had resampling failures. Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect.
     Output
-      <qSIP2::qsip_data>
+      <qsip_data>
       group: none
       feature_id count: 74 of 2030
       sample_id count: 284
