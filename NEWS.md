@@ -3,6 +3,8 @@
 * New functions to work with JGI spike-ins
 * Changed `plot_feature_occurrence()` to show all features by default
 * Print methods for the 4 main objects to show summary information
+* Added better error checking for sample data with duplicated sample names (#17)
+* Deprecated the `plot_filter_gradient_position()` function and replaced with `plot_filter_results()`, and updated vignettes
 
 # qSIP2 0.16
 

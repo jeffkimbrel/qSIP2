@@ -23,7 +23,7 @@ Plot qSIP sample data density curves
 Other "visualizations": 
 \code{\link{plot_density_outliers}()},
 \code{\link{plot_feature_curves}()},
-\code{\link{plot_filter_gradient_position}()},
+\code{\link{plot_filter_results}()},
 \code{\link{plot_source_wads}()}
 }
 \concept{"visualizations"}

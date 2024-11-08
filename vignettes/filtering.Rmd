@@ -155,8 +155,8 @@ Although there is a dramatic difference in the number of retained features betwe
 
 ```{r, fig.width=8, fig.height=12}
 library(patchwork)
-a = plot_filter_gradient_position(loose) + ggtitle("Loose")
-b = plot_filter_gradient_position(restrictive) + ggtitle("Restrictive")
+a = plot_filter_results(loose) + ggtitle("Loose")
+b = plot_filter_results(restrictive) + ggtitle("Restrictive")
 a / b
 ```
 

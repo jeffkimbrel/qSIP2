@@ -19,9 +19,9 @@
 #' @return Combined or individual plots, or the raw dataframes
 
 
-plot_filter_gradient_position <- function(qsip_data_object,
-                                          return_type = "combined",
-                                          colors = NULL) {
+plot_filter_results <- function(qsip_data_object,
+                                return_type = "combined",
+                                colors = NULL) {
   stopifnot("qsip_data_object should be class <qsip_data>" = "qsip_data" %in% class(qsip_data_object))
 
   if (!return_type %in% c("combined", "individual", "dataframe")) {
@@ -129,4 +129,14 @@ plot_filter_gradient_position <- function(qsip_data_object,
       "B" = by_count_df
     )
   }
+}
+
+
+
+plot_filter_gradient_position <- function(qsip_data_object,
+                                          return_type = "combined",
+                                          colors = NULL) {
+  lifecycle::deprecate_warn("0.17.9",
+                            "plot_filter_gradient_position()",
+                            "plot_filter_results()")
 }
