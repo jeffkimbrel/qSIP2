@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.17.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.18.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,7 +89,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.17.8'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.18.1'</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -203,7 +203,7 @@ object.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">source_object</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "qsip_source_data" "S7_object"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "qSIP2::qsip_source_data" "S7_object"</span></span></code></pre></div>
 <p>This object modifies some of the column names to standard names as
 supplied in the above function.</p>
 <table class="table">
@@ -490,7 +490,7 @@ to the standardized names.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">sample_object</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "qsip_sample_data" "S7_object"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "qSIP2::qsip_sample_data" "S7_object"</span></span></code></pre></div>
 <p>See <code><a href="../articles/sample_data.html">vignette("sample_data")</a></code> for more information on
 working with sample data including the built-in validations.</p>
 </div>
@@ -576,7 +576,7 @@ method that determines the correct abundance in each sample.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">feature_object</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "qsip_feature_data" "S7_object"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "qSIP2::qsip_feature_data" "S7_object"</span></span></code></pre></div>
 <p>See <code><a href="../articles/feature_data.html">vignette("feature_data")</a></code> for more details.</p>
 </div>
 </div>
@@ -597,7 +597,7 @@ all of the necessary information for analysis.</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">There are 284 sample_ids, and they are all shared between the sample and feature objects</span></span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">qsip_object</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "qsip_data" "S7_object"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "qSIP2::qsip_data" "S7_object"</span></span></code></pre></div>
 <p>This function will report if all <code>source_mat_id</code>s are
 shared between the source and sample data, and if all
 <code>sample_id</code>s are shared between the sample and feature data.
@@ -749,9 +749,9 @@ create two versions for the moisture treatments. We’ll take the original
 <p>Of the 1,705 features found in the “Normal” data, we can see our
 rather strict filtering removed all but 64 features from the dataset. We
 can visualize these results on a per-source basis with the
-<code><a href="../reference/plot_filter_gradient_position.html">plot_filter_gradient_position()</a></code> function.</p>
+<code><a href="../reference/plot_filter_results.html">plot_filter_results()</a></code> function.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_filter_gradient_position.html">plot_filter_gradient_position</a></span><span class="op">(</span><span class="va">qsip_normal</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_filter_results.html">plot_filter_results</a></span><span class="op">(</span><span class="va">qsip_normal</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-22-1.png" width="768"></p>
 <p>Although a large number of features were removed, we can tell that
 the 64 that remained actually still make up a large proportion of the
@@ -793,7 +793,7 @@ total.</p>
 <span><span class="co">#&gt; In total, <span style="color: #00BB00;">89</span> unique feature_ids <span style="color: #00BB00;">passed</span> all fraction and source filtering requirements</span></span></code></pre></div>
 <p>And only 89 features were retained in the Drought dataset.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_filter_gradient_position.html">plot_filter_gradient_position</a></span><span class="op">(</span><span class="va">qsip_drought</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_filter_results.html">plot_filter_results</a></span><span class="op">(</span><span class="va">qsip_drought</span><span class="op">)</span></span></code></pre></div>
 <p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-24-1.png" width="768"></p>
 <p>Strictly speaking, there is no requirement to do strict filtering,
 and it is possible to execute <code><a href="../reference/run_feature_filter.html">run_feature_filter()</a></code> with all
