@@ -278,19 +278,12 @@ run_growth_calculations <- function(qsip_data_object,
 
 summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = FALSE) {
   # confirm the data is the correct type
-  stopifnot("ERROR: qsip_data_object must be of type qsip_data" = "qsip_data" %in% class(qsip_data_object))
+  is_qsip_growth(qsip_data_object, error = TRUE)
 
   # confirm the confidence value is numeric and between 0-1
   stopifnot("ERROR: confidence should be numeric" = is.numeric(confidence))
   if (confidence >= 1 | confidence <= 0) {
     stop("ERROR: confidence level should be between 0 and 1")
-  }
-
-  # confirm the qsip object has @growth$rates values
-  stopifnot("ERROR: @growth slot is empty, have you run run_growth_calculations()?" = length(qsip_data_object@growth) > 0)
-
-  if (length(qsip_data_object@growth) == 0 | is.null(qsip_data_object@growth$rates)) {
-    stop("ERROR: @growth$rates slot is empty, have you run run_growth_calculations()?", .call = FALSE)
   }
 
   observed <- feature_id <- timepoint1 <- timepoint2 <- N_total_i0 <- N_total_it <- r_net <- bi <- di <- ri <- EAF <- desc <- observed_ri <- NULL

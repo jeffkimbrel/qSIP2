@@ -1,4 +1,6 @@
-# qSIP2 0.18.0
+# qSIP2 0.18
+
+* Object type checks more consistent
 
 # qSIP2 0.17
 
