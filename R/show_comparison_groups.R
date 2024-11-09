@@ -29,7 +29,7 @@ show_comparison_groups <- function(source_data = NULL,
 
   if (is_qsip_data(source_data, error = FALSE)) { # error to false so it continues to else if
     df <- source_data@source_data@data
-  } else if (inherits(source_data, c("qsip_source_data", "qSIP2::qsip_source_data"))) {
+  } else if (inherits(source_data, qsip_source_data)) {
     df <- source_data@data
   } else if (inherits(source_data, "data.frame")) {
     df <- source_data

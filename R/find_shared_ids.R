@@ -30,15 +30,15 @@ find_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL
                                                                                                                      "qSIP2::qsip_data")))
 
   # if passing a complete qsip_data object, extract out the individual components
-  if (inherits(source_data, c("qsip_data", "qSIP2::qsip_data"))) {
+  if (inherits(source_data, qsip_data)) {
     feature_data <- source_data@feature_data
     sample_data <- source_data@sample_data
     source_data <- source_data@source_data # after getting the first two objects, overwrite the source_data object
   }
 
   # and make sure these objects are of the correct type, whether passed to the function or created above
-  stopifnot("sample_data should be of class <qsip_sample_data>" = inherits(sample_data, c("qsip_sample_data", "qSIP2::qsip_sample_data")))
-  stopifnot("feature_data should be of class <qsip_feature_data>" = inherits(feature_data, c("qsip_feature_data", "qSIP2::qsip_feature_data")))
+  stopifnot("sample_data should be of class <qsip_sample_data>" = inherits(sample_data, qsip_sample_data))
+  stopifnot("feature_data should be of class <qsip_feature_data>" = inherits(feature_data, qsip_feature_data))
 
 
   # bind variables

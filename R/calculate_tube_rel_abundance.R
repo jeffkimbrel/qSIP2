@@ -25,9 +25,9 @@
 calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data) {
 
   # make sure the objects are of the right type
-  stopifnot("source_data should be of class <qsip_source_data>" = inherits(source_data, c("qsip_source_data", "qSIP2::qsip_source_data")))
-  stopifnot("sample_data should be of class <qsip_sample_data>" = inherits(sample_data, c("qsip_sample_data", "qSIP2::qsip_sample_data")))
-  stopifnot("feature_data should be of class <qsip_feature_data>" = inherits(feature_data, c("qsip_feature_data", "qSIP2::qsip_feature_data")))
+  stopifnot("source_data should be of class <qsip_source_data>" = inherits(source_data, qsip_source_data))
+  stopifnot("sample_data should be of class <qsip_sample_data>" = inherits(sample_data, qsip_sample_data))
+  stopifnot("feature_data should be of class <qsip_feature_data>" = inherits(feature_data, qsip_feature_data))
 
   # bind variables
   feature_id <- raw_abundance <- sample_id <- source_mat_id <- rel_abundance <- gradient_pos_density <- gradient_pos_rel_amt <- tube_rel_abundance <- isotope <- tube_rel_abundance <- NULL

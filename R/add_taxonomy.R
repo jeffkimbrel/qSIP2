@@ -23,7 +23,7 @@
 add_taxonomy <- function(feature_object, taxa, feature_id) {
 
   # make sure feature_object is the right type
-  if (!inherits(feature_object, c("qsip_feature_data", "qSIP2::qsip_feature_data"))) {
+  if (!inherits(feature_object, qsip_feature_data)) {
     stop(glue::glue("feature_object should be class <qsip_feature_data>, not {class(feature_object)[1]})"), call. = FALSE)
   }
 

@@ -466,9 +466,9 @@ qsip_data <- S7::new_class(
                          feature_data) {
 
     # make sure data is correct
-    stopifnot("source_data should be of class <qsip_source_data>" = inherits(source_data, c("qsip_source_data", "qSIP2::qsip_source_data")))
-    stopifnot("sample_data should be of class <qsip_sample_data>" = inherits(sample_data, c("qsip_sample_data", "qSIP2::qsip_sample_data")))
-    stopifnot("feature_data should be of class <qsip_feature_data>" = inherits(feature_data, c("qsip_feature_data", "qSIP2::qsip_feature_data")))
+    stopifnot("source_data should be of class <qsip_source_data>" = inherits(source_data, qsip_source_data))
+    stopifnot("sample_data should be of class <qsip_sample_data>" = inherits(sample_data, qsip_sample_data))
+    stopifnot("feature_data should be of class <qsip_feature_data>" = inherits(feature_data, qsip_feature_data))
 
     # calculate tube level relative abundances
     tube_rel_abundance <- calculate_tube_rel_abundance(

@@ -9,9 +9,9 @@
 #' @export
 
 get_all_by_isotope <- function(qsip_data_object, isotopes, silent = FALSE) {
-  if (inherits(qsip_data_object, c("qsip_data", "qSIP2::qsip_data"))) {
+  if (inherits(qsip_data_object, qsip_data)) {
     source_data <- qsip_data_object@source_data@data
-  } else if (inherits(qsip_data_object, c("qsip_source_data", "qSIP2::qsip_source_data"))) {
+  } else if (inherits(qsip_data_object, qsip_source_data)) {
     source_data <- qsip_data_object@data
   } else {
     stop("qsip_data_object must be class <qsip_data> or <qsip_source_data>")
