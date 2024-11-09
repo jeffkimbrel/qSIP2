@@ -19,6 +19,8 @@
 
 get_isotope_designation <- function(qsip_data_object, unlabeled_source_mat_ids, labeled_source_mat_ids) {
 
+  is_qsip_data(qsip_data_object, error = TRUE)
+
   # check unlabeled_source_mat_ids is a character vector with a size of 1 or more
   if (!is.character(unlabeled_source_mat_ids) | length(unlabeled_source_mat_ids) == 0) {
     stop("unlabeled_source_mat_ids must be a character vector with a size of 1 or more")
@@ -28,8 +30,6 @@ get_isotope_designation <- function(qsip_data_object, unlabeled_source_mat_ids, 
   if (!is.character(labeled_source_mat_ids) | length(labeled_source_mat_ids) == 0) {
     stop("labeled_source_mat_ids must be a character vector with a size of 1 or more")
   }
-
-  is_qsip_data(qsip_data_object, error = TRUE)
 
   # bind variables
   source_mat_id <- isotope <- NULL

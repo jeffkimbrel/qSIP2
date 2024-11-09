@@ -119,7 +119,7 @@ isotope_palette = c(
 )
 
 # JGI
-jgi_mixes <- readxl::read_excel("/Users/kimbrel1/Library/CloudStorage/OneDrive-LLNL/Documents/Soils_SFA/analysis/qSIP_refactor/JGI_spike_ins/JGI_mixes.xlsx") |>
+jgi_mixes <- readxl::read_excel("/Users/kimbrel1/Library/CloudStorage/OneDrive-LLNL/Documents/Soils_SFA/analysis/qSIP_refactor/JGI_mixes.xlsx") |>
   tidyr::pivot_longer(
     cols = tidyr::ends_with("stoichiometry"),
     names_to = "MIX",

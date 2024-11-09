@@ -1,6 +1,6 @@
 test_that("works with correct object", {
   expect_snapshot(get_N_total_it(example_qsip_growth_object, t = 0))
-  expect_error(get_N_total_it(example_feature_df), "qsip_data_object should be class <qsip_data>")
+  expect_error(get_N_total_it(example_feature_df), "object must be a <qsip_data> object, not <tbl_df>")
 })
 
 test_that("invalid timepoints give error", {

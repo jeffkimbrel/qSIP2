@@ -6,6 +6,6 @@ test_that("function works", {
 
 
 test_that("wrong input gives errors", {
-  expect_error(get_filtered_source_counts(example_qsip_object), "this function requires a qsip object that has been run through run_feature_filter()")
-  expect_error(get_filtered_source_counts(example_feature_df), "qsip_data_object should be class <qsip_data>")
+  expect_error(get_filtered_source_counts(example_qsip_object), "object is a non-filtered <qsip_data> object")
+  expect_error(get_filtered_source_counts(example_feature_df), "object must be a <qsip_data> object, not <tbl_df>")
 })

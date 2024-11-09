@@ -27,11 +27,11 @@ show_comparison_groups <- function(source_data = NULL,
     stop("ERROR: Please provide a grouping variable with the 'group' argument")
   }
 
-  if ("qsip_data" %in% class(source_data)) {
+  if (is_qsip_data(source_data, error = FALSE)) { # error to false so it continues to else if
     df <- source_data@source_data@data
-  } else if ("qsip_source_data" %in% class(source_data)) {
+  } else if (inherits(source_data, c("qsip_source_data", "qSIP2::qsip_source_data"))) {
     df <- source_data@data
-  } else if ("data.frame" %in% class(source_data)) {
+  } else if (inherits(source_data, "data.frame")) {
     df <- source_data
   } else {
     class(source_data)

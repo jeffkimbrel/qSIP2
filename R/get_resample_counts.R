@@ -19,11 +19,7 @@
 get_resample_counts = function(qsip_data_object,
                                as_percentage = FALSE) {
 
-  if (!"qsip_data" %in% class(qsip_data_object)) {
-    stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
-  } else if (length(qsip_data_object@resamples) == 0) {
-    stop("this function requires a qsip object that has been run through run_resampling()", call. = FALSE)
-  }
+  is_qsip_resampled(qsip_data_object, error = TRUE)
 
   # bind variables
   feature_id <- type <- n_counts <- labeled <- unlabeled <- NULL

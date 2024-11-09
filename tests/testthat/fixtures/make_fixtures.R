@@ -132,3 +132,4 @@ tibble::tibble("gradient_position" = c(1, 2, 3),
 tibble::tibble("gradient_position" = c(-1, 2, 3),
                          "gradient_pos_density" = c(1.6, 1.7, 1.8)) |>
   saveRDS(file = "tests/testthat/fixtures/gradient_pos_density_df_bulk.rds")
+

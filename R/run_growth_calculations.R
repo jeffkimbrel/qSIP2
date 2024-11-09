@@ -22,9 +22,8 @@ get_N_total_it <- function(qsip_data_object,
                            timepoint = "timepoint",
                            t = 0,
                            group = NULL) {
-  if (!"qsip_data" %in% class(qsip_data_object)) {
-    stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
-  }
+
+  is_qsip_data(qsip_data_object, error = TRUE)
 
   # stop if t is not numeric
   if (!is.numeric(t)) {

@@ -6,6 +6,6 @@ test_that("works correctly", {
 
 test_that("wrong type or not run through pre-steps", {
   expect_error(run_EAF_calculations(example_feature_object),
-               "object must be a <qsip_data> object, not <qsip_feature_data>")
+               "object must be a <qsip_data> object, not <qSIP2::qsip_feature_data>")
   expect_error(run_EAF_calculations(example_qsip_object))
 })

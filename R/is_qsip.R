@@ -12,7 +12,7 @@ is_qsip_data = function(object, error = FALSE) {
     stop("error must be a logical", call. = FALSE)
   }
 
-  if (!inherits(object, "qsip_data")) {
+  if (!inherits(object, c("qsip_data", "qSIP2::qsip_data"))) {
     if (isFALSE(error)) {
       return(FALSE)
     } else {
