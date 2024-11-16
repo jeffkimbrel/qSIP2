@@ -322,3 +322,34 @@ source_results_message <- function(by_source) {
 
   message(glue::glue_col("In total, {green {total_passed}} unique feature_ids {green passed} all fraction and source filtering requirements"))
 }
+
+
+#' Tabular output summarizing filtering
+#'
+#' @export
+
+get_filter_results = function(qsip_data_object) {
+  a = qsip_data_object@filter_results$fraction_filtered |>
+    summarize(mean_tube_rel_abundance = sum(tube_rel_abundance),
+              features = list(unique(feature_id)),
+              .by = c(source_mat_id, type, fraction_call)) |>
+    summarize(mean_abundance = mean(mean_tube_rel_abundance),
+              features = list(unique(unlist(features))),
+              .by = c(type, fraction_call)) |>
+    rename(filter_step = fraction_call) |>
+    mutate(features = lengths(features))
+
+
+  b = qsip_data_object@filter_results$source_filtered |>
+    summarize(features = n(), mean_abundance = sum(mean_tube_rel_abundance), .by = c(type, source_call)) |>
+    rename(filter_step = source_call)
+
+  rbind(a,b) |>
+    mutate(filter_step = fct_relevel(filter_step, "Zero Fractions", "Fraction Filtered", "Fraction Passed", "Zero Sources", "Source Filtered",
+                                     "Source Passed")) |>
+    pivot_longer(cols = c(features, mean_abundance), names_to = "value_type") |>
+    pivot_wider(names_from = value_type) |>
+    mutate(mean_abundance = ifelse(is.na(mean_abundance), 0, mean_abundance)) |>
+    arrange(filter_step, type)
+
+}
