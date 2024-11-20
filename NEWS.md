@@ -1,8 +1,7 @@
-# qSIP2 0.18.3
-
 # qSIP2 0.18
 
 * Object type checks more consistent
+* Updated `plot_sample_curves()` to have better options
 
 # qSIP2 0.17
 
