@@ -194,8 +194,9 @@ plot_source_wads(qsip_object,
 
 ```{r, fig.height=4, fig.width=6}
 plot_sample_curves(qsip_object,
-                   colors = c("12C" = "orange", "13C" = "magenta"),
-                   title = "Normalized density curves for each sample")
+                   title = "Normalized density curves for each sample",
+                   facet_by = "isotope",
+                   show_wad = F)
 ```
 
 Another sanity check is making sure the reported density values are on a reasonably straight line with the gradient position. This can be plotted, and then a Cook's distance can be calculated to highlight any outliers. Note, the ends of the gradient are often flagged as outliers, although this may not necessarily be the case.

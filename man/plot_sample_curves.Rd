@@ -4,14 +4,22 @@
 \alias{plot_sample_curves}
 \title{Plot qSIP sample data density curves}
 \usage{
-plot_sample_curves(qsip_data_object, colors = NULL, title = NULL)
+plot_sample_curves(
+  qsip_data_object,
+  title = NULL,
+  facet_by = "source",
+  show_wad = FALSE,
+  colors = lifecycle::deprecated()
+)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) qSIP object}
 
-\item{colors}{(\emph{character}) A named vector of colors for each isotope (optional)}
-
 \item{title}{(\emph{character}) An optional title for the plot}
+
+\item{facet_by}{(\emph{character}) Facet the plots by "source" or by "isotope"}
+
+\item{show_wad}{(\emph{logical}) A logical value}
 }
 \value{
 A ggplot object
