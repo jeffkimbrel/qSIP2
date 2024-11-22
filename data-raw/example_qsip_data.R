@@ -118,8 +118,11 @@ isotope_palette = c(
   "16O" = "#037bcf", "18O" = "#ff0000"
 )
 
+source_palette = colorRampPalette(RColorBrewer::brewer.pal(8, "Dark2"))
+
+
 # JGI
-jgi_mixes <- readxl::read_excel("/Users/kimbrel1/Library/CloudStorage/OneDrive-LLNL/Documents/Soils_SFA/analysis/qSIP_refactor/JGI_spike_ins/JGI_mixes.xlsx") |>
+jgi_mixes <- readxl::read_excel("/Users/kimbrel1/Library/CloudStorage/OneDrive-LLNL/Documents/Soils_SFA/analysis/qSIP_refactor/JGI_mixes.xlsx") |>
   tidyr::pivot_longer(
     cols = tidyr::ends_with("stoichiometry"),
     names_to = "MIX",
@@ -151,4 +154,5 @@ usethis::use_data(example_qsip_growth_t0, overwrite = TRUE)
 usethis::use_data(example_group_dataframe, overwrite = TRUE)
 
 usethis::use_data(isotope_palette, overwrite = TRUE)
+usethis::use_data(source_palette, overwrite = TRUE)
 usethis::use_data(jgi_mixes, overwrite = TRUE)

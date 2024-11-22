@@ -22,7 +22,7 @@ sensitivity. The lower the sensitivity, the more likely outliers will be flagged
 \seealso{
 Other "visualizations": 
 \code{\link{plot_feature_curves}()},
-\code{\link{plot_filter_gradient_position}()},
+\code{\link{plot_filter_results}()},
 \code{\link{plot_sample_curves}()},
 \code{\link{plot_source_wads}()}
 }

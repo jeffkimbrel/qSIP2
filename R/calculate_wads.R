@@ -73,9 +73,7 @@ calculate_wads <- function(tube_rel_abundance) {
 
 calculate_source_wads <- function(sample_data) {
 
-  if (!"qsip_sample_data" %in% class(sample_data)) {
-    stop(glue::glue("sample_data must be of class <qsip_sample_data>, not {class(sample_data)[1]}"), call. = FALSE)
-  }
+  stopifnot("sample_data should be of class <qsip_sample_data>" = inherits(sample_data, qsip_sample_data))
 
   # bind variables
   source_mat_id <- gradient_pos_density <- gradient_pos_rel_amt <- NULL

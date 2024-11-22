@@ -1,7 +1,7 @@
 test_that("incorrect input types give errors", {
   expect_error(
     qsip_feature_data(example_feature_object, feature_id = "ASV"),
-    "data must be class <dataframe>, not qsip_feature_data"
+    "data must be class <dataframe>, not qSIP2::qsip_feature_data"
   )
   expect_error(
     qsip_feature_data(example_feature_df, feature_id = "not_found"),

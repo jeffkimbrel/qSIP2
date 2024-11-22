@@ -19,11 +19,11 @@
 #'
 #' @returns An updated `qsip_feature_data` with the taxonomy slot populated with a taxonomy dataframe.
 #' @importFrom rlang :=
-#'
+
 add_taxonomy <- function(feature_object, taxa, feature_id) {
 
   # make sure feature_object is the right type
-  if (!"qsip_feature_data" %in% class(feature_object)) {
+  if (!inherits(feature_object, qsip_feature_data)) {
     stop(glue::glue("feature_object should be class <qsip_feature_data>, not {class(feature_object)[1]})"), call. = FALSE)
   }
 

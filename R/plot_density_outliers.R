@@ -17,9 +17,9 @@
 plot_density_outliers <- function(sample_data,
                                   sensitivity = 4) {
 
-  if ("qsip_data" %in% class(sample_data)) {
+  if (inherits(sample_data, qsip_data)) {
     data <- sample_data@sample_data@data
-  } else if ("qsip_sample_data" %in% class(sample_data)) {
+  } else if (inherits(sample_data, qsip_sample_data)) {
     data <- sample_data@data
   } else {
     stop(glue::glue("sample_data should be class <qsip_sample_data> or <qsip_data>, not {class(sample_data)[1]}"), call. = FALSE)

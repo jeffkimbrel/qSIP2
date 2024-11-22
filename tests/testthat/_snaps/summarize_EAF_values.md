@@ -1,7 +1,7 @@
 # snapshots look as expected
 
     Code
-      summarize_EAF_values(test_qsip)
+      summarize_EAF_values(normal_qsip)
     Message
       Confidence level = 0.9
     Output
@@ -25,7 +25,7 @@
 ---
 
     Code
-      summarize_EAF_values(test_qsip, confidence = 0.95)
+      summarize_EAF_values(normal_qsip, confidence = 0.95)
     Message
       Confidence level = 0.95
     Output
@@ -49,24 +49,24 @@
 # works on lists of qsip objects
 
     Code
-      summarize_EAF_values(list(A = test_qsip))
+      summarize_EAF_values(multi_qsip)
     Message
       Confidence level = 0.9
     Output
-      # A tibble: 74 x 10
-         group feature_id observed_EAF mean_resampled_EAF   lower  upper
-         <chr> <chr>             <dbl>              <dbl>   <dbl>  <dbl>
-       1 A     ASV_1          -0.0153            -0.0150  -0.0513 0.0239
-       2 A     ASV_10          0.113              0.113    0.0822 0.145 
-       3 A     ASV_104         0.106              0.106    0.0663 0.143 
-       4 A     ASV_108         0.210              0.209    0.0903 0.305 
-       5 A     ASV_11          0.375              0.375    0.335  0.410 
-       6 A     ASV_112         0.208              0.207    0.172  0.242 
-       7 A     ASV_114         0.193              0.193    0.123  0.274 
-       8 A     ASV_119        -0.00141           -0.00100 -0.0485 0.0437
-       9 A     ASV_12          0.376              0.376    0.341  0.407 
-      10 A     ASV_13          0.0670             0.0669   0.0427 0.0912
-      # i 64 more rows
+      # A tibble: 155 x 10
+         group  feature_id observed_EAF mean_resampled_EAF   lower  upper
+         <chr>  <chr>             <dbl>              <dbl>   <dbl>  <dbl>
+       1 normal ASV_1          -0.0153            -0.0150  -0.0513 0.0239
+       2 normal ASV_10          0.113              0.113    0.0822 0.145 
+       3 normal ASV_104         0.106              0.106    0.0663 0.143 
+       4 normal ASV_108         0.210              0.209    0.0903 0.305 
+       5 normal ASV_11          0.375              0.375    0.335  0.410 
+       6 normal ASV_112         0.208              0.207    0.172  0.242 
+       7 normal ASV_114         0.193              0.193    0.123  0.274 
+       8 normal ASV_119        -0.00141           -0.00100 -0.0485 0.0437
+       9 normal ASV_12          0.376              0.376    0.341  0.407 
+      10 normal ASV_13          0.0670             0.0669   0.0427 0.0912
+      # i 145 more rows
       # i 4 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
       #   labeled_sources <int>, unlabeled_sources <int>
 

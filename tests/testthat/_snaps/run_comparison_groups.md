@@ -5,7 +5,7 @@
         resamples = 100)
     Output
       $Drought
-      <qSIP2::qsip_data>
+      <qsip_data>
       group: Drought
       feature_id count: 305 of 2030
       sample_id count: 284
@@ -15,7 +15,7 @@
       growth: FALSE
       
       $Normal
-      <qSIP2::qsip_data>
+      <qsip_data>
       group: Normal
       feature_id count: 239 of 2030
       sample_id count: 284

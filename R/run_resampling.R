@@ -22,11 +22,8 @@ run_resampling <- function(qsip_data_object,
                            allow_failures = FALSE,
                            progress = TRUE,
                            quiet = FALSE) {
-  if (!"qsip_data" %in% class(qsip_data_object)) {
-    stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
-  } else if (length(qsip_data_object@filtered_wad_data) == 0) {
-    stop("ERROR: this function requires a qsip object that has been run through run_feature_filter()")
-  }
+
+  is_qsip_filtered(qsip_data_object, error = TRUE)
 
   stopifnot("progress must be either TRUE of FALSE" = progress %in% c(TRUE, FALSE))
   stopifnot("resamples should be class <numeric>" = is.numeric(resamples))

@@ -6,11 +6,7 @@
 
 get_filtered_source_counts = function(qsip_data_object) {
 
-  if (!"qsip_data" %in% class(qsip_data_object)) {
-    stop("qsip_data_object should be class <qsip_data>", call. = FALSE)
-  } else if (length(qsip_data_object@filtered_wad_data) == 0) {
-    stop("ERROR: this function requires a qsip object that has been run through run_feature_filter()")
-  }
+  is_qsip_filtered(qsip_data_object, error = TRUE)
 
   # bind variables
   fraction_call <- feature_id <- type <- counts <- labeled <- unlabeled <- NULL

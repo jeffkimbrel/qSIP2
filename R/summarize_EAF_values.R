@@ -53,11 +53,8 @@ summarize_EAF_values <- function(qsip_data_object, confidence = 0.9, quiet = FAL
 
 summarize_EAF_values_internal <- function(qsip_data_object,
                                           confidence = 0.9) {
-  # confirm the data is the correct type
-  stopifnot("ERROR: qsip_data_object must be of type qsip_data" = "qsip_data" %in% class(qsip_data_object))
 
-  # confirm the qsip object has @EAF values
-  stopifnot("ERROR: @EAF slot is empty, have you run run_EAF_calculations()?" = dim(qsip_data_object@EAF)[1] > 0)
+  is_qsip_filtered(qsip_data_object, error = TRUE)
 
   feature_id <- EAF <- NULL
 

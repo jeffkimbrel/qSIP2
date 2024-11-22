@@ -1,8 +1,9 @@
 #' Plot qSIP sample data density curves
 #'
 #' @param qsip_data_object (*qsip_data*) qSIP object
-#' @param colors (*character*) A named vector of colors for each isotope (optional)
 #' @param title (*character*) An optional title for the plot
+#' @param facet_by (*character*) Facet the plots by "source" or by "isotope"
+#' @param show_wad (*logical*) A logical value
 #'
 #' @export
 #'
@@ -11,8 +12,10 @@
 #' @family "visualizations"
 
 plot_sample_curves <- function(qsip_data_object,
-                               colors = NULL,
-                               title = NULL) {
+                               title = NULL,
+                               facet_by = "source",
+                               show_wad = FALSE,
+                               colors = lifecycle::deprecated()) {
 
   is_qsip_data(qsip_data_object, error = TRUE)
 
@@ -21,6 +24,19 @@ plot_sample_curves <- function(qsip_data_object,
     stop("title must be a character string", call. = FALSE)
   }
 
+  # facet_by must be either "source" or "isotope"
+  if (!facet_by %in% c("source", "isotope")) {
+    stop("facet_by must be either 'source' or 'isotope'", call. = FALSE)
+  }
+
+  # show_wad must be boolean
+  if (!is.logical(show_wad)) {
+    stop("show_wad must be TRUE/FALSE", call. = F)
+  }
+
+  if (lifecycle::is_present(colors)) {
+    lifecycle::deprecate_warn("0.18.3", "plot_sample_curves(colors)")
+  }
 
   # bind variables
   sample_id <- gradient_position <- source_mat_id <- isotope <- WAD <- gradient_pos_density <- gradient_pos_rel_amt <- NULL
@@ -45,27 +61,56 @@ plot_sample_curves <- function(qsip_data_object,
     dplyr::filter(gradient_position > 0)
 
   source_wads <- qsip_data_object@source_wads |>
-    dplyr::filter(!is.na(WAD))
-
-  if (is.null(colors)) {
-    colors <- isotope_palette
-  }
+    dplyr::filter(!is.na(WAD)) |>
+    dplyr::left_join(qsip_data_object@source_data@data, by = "source_mat_id")
 
   p <- df |>
     dplyr::filter(!is.na(gradient_position)) |>
-    dplyr::filter(gradient_pos_density > 1.5) |>
+    #dplyr::filter(gradient_pos_density > 1.5) |>
     # dplyr::group_by(source_mat_id) |>
     ggplot2::ggplot(ggplot2::aes(
       x = gradient_pos_density,
-      y = gradient_pos_rel_amt,
-      color = isotope
-    )) +
-    ggplot2::geom_point() +
-    ggplot2::geom_line(linewidth = 1) +
-    ggplot2::scale_color_manual(values = colors) +
-    ggplot2::facet_wrap(~source_mat_id) +
-    ggplot2::geom_vline(data = source_wads,
-                        linetype = 3, ggplot2::aes(xintercept = WAD))
+      y = gradient_pos_rel_amt
+    ))
+
+  if (facet_by == "source") {
+    p <- p +
+      ggplot2::geom_point(ggplot2::aes(color = isotope)) +
+      ggplot2::geom_line(linewidth = 1, ggplot2::aes(color = isotope)) +
+      ggplot2::facet_wrap(~source_mat_id) +
+      ggplot2::scale_color_manual(values = isotope_palette)
+
+
+    if (isTRUE(show_wad)) {
+      p = p +
+        ggplot2::geom_vline(data = source_wads,
+                            size = 1,
+                            linetype = 2, ggplot2::aes(xintercept = WAD,
+                                                       color = isotope))
+    }
+
+
+
+
+  } else if (facet_by == "isotope") {
+
+    p <- p +
+      ggplot2::geom_point(ggplot2::aes(color = source_mat_id)) +
+      ggplot2::geom_line(linewidth = 1, ggplot2::aes(group = source_mat_id, color = source_mat_id)) +
+      ggplot2::facet_wrap(~isotope) +
+      ggplot2::scale_color_manual(values = source_palette(nrow(source_wads)))
+
+    if (isTRUE(show_wad)) {
+      p = p +
+        ggplot2::geom_vline(data = source_wads,
+                        size = 1,
+                        linetype = 2, ggplot2::aes(xintercept = WAD,
+                                                   color = source_mat_id))
+    }
+
+
+
+  }
 
   if (!is.null(title)) {
     p = p + ggplot2::labs(title = title)

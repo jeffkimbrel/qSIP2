@@ -1,8 +1,15 @@
+# qSIP2 0.18
+
+* Object type checks more consistent
+* Updated `plot_sample_curves()` to have better options
+
 # qSIP2 0.17
 
 * New functions to work with JGI spike-ins
 * Changed `plot_feature_occurrence()` to show all features by default
 * Print methods for the 4 main objects to show summary information
+* Added better error checking for sample data with duplicated sample names (#17)
+* Deprecated the `plot_filter_gradient_position()` function and replaced with `plot_filter_results()`, and updated vignettes
 
 # qSIP2 0.16
 
@@ -18,7 +25,7 @@
     * `vignette("feature_data")`
     * `vignette("resampling")`
 * Added light/dark switch to website documentation
-* Added optional `title` argument to change the title of the plot to `plot_
+* Added optional `title` argument to change the title of the plot to several functions
 * Switched to using `testthat` fixtures
 * Added `get_filtered_feature_summary()` to see the filtering fate of a specified `feature_id`
 * Clean `check()` with no errors, warnings or notes. 

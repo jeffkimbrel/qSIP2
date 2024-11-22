@@ -2,15 +2,9 @@ normal_qsip <- readRDS(test_path("fixtures", "qsip_normal_strict_EAF.rds"))
 normal_qsip_failures <- readRDS(test_path("fixtures", "qsip_normal_failures_EAF.rds"))
 multi_qsip <- readRDS(test_path("fixtures", "multi_qsip_EAF.rds"))
 
-
-
 test_that("fails if wrong object given", {
   expect_error(plot_EAF_values(example_feature_df), "qsip_data_object must be of class <qsip_data> or <list> of qsip_data objects")
 })
-
-
-
-
 
 test_that("plot and layers look as expected", {
   p <- plot_EAF_values(normal_qsip)

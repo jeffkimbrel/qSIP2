@@ -49,6 +49,7 @@
 
 qsip_source_data <- S7::new_class(
   "qsip_source_data",
+  package = "qSIP2",
   properties = list(
     data = S7::class_data.frame,
     isotope = S7::class_character,
@@ -65,6 +66,7 @@ qsip_source_data <- S7::new_class(
                          timepoint = "NULL",
                          total_abundance = "NULL",
                          volume = "NULL") {
+
     stopifnot("data should be class <data.frame>" = "data.frame" %in% class(data))
 
     # verify column names exist
@@ -227,6 +229,7 @@ qsip_source_data <- S7::new_class(
 
 qsip_feature_data <- S7::new_class(
   "qsip_feature_data",
+  package = "qSIP2",
   properties = list(
     data = S7::class_data.frame,
     feature_id = S7::class_character,
@@ -327,6 +330,7 @@ qsip_feature_data <- S7::new_class(
 
 qsip_sample_data <- S7::new_class(
   "qsip_sample_data",
+  package = "qSIP2",
   properties = list(
     data = S7::class_data.frame,
     sample_id = S7::class_character,
@@ -378,6 +382,12 @@ qsip_sample_data <- S7::new_class(
         dplyr::everything()
       ) |>
       dplyr::ungroup()
+
+    # sample_id column in data should not contain duplicates
+    if (any(duplicated(data["sample_id"]))) {
+      stop("Some sample_ids are duplicated", call. = FALSE)
+    }
+
 
     S7::new_object(S7::S7_object(),
       data = data,
@@ -434,6 +444,7 @@ qsip_sample_data <- S7::new_class(
 
 qsip_data <- S7::new_class(
   "qsip_data",
+  package = "qSIP2",
   properties = list(
     source_data = S7::class_any,
     sample_data = S7::class_any,
@@ -453,10 +464,11 @@ qsip_data <- S7::new_class(
   constructor = function(source_data,
                          sample_data,
                          feature_data) {
+
     # make sure data is correct
-    stopifnot("source_data should be of class <qsip_source_data>" = "qsip_source_data" %in% class(source_data))
-    stopifnot("sample_data should be of class <qsip_sample_data>" = "qsip_sample_data" %in% class(sample_data))
-    stopifnot("feature_data should be of class <qsip_feature_data>" = "qsip_feature_data" %in% class(feature_data))
+    stopifnot("source_data should be of class <qsip_source_data>" = inherits(source_data, qsip_source_data))
+    stopifnot("sample_data should be of class <qsip_sample_data>" = inherits(sample_data, qsip_sample_data))
+    stopifnot("feature_data should be of class <qsip_feature_data>" = inherits(feature_data, qsip_feature_data))
 
     # calculate tube level relative abundances
     tube_rel_abundance <- calculate_tube_rel_abundance(
@@ -464,6 +476,7 @@ qsip_data <- S7::new_class(
       sample_data,
       feature_data
     )
+
     wad_data <- calculate_wads(tube_rel_abundance)
     source_wad <- calculate_source_wads(sample_data)
     shared <- find_shared_ids(source_data, sample_data, feature_data)
@@ -499,6 +512,7 @@ get_dataframe <- S7::new_generic("get_dataframe", "x")
 
 ## source data
 S7::method(get_dataframe, qsip_source_data) <- function(x, original_headers = FALSE) {
+
   # if is not boolean
   if (!is.logical(original_headers)) {
     stop(glue::glue("original_headers should be TRUE/FALSE, not {class(original_headers)[1]}"))
@@ -587,20 +601,20 @@ S7::method(get_dataframe, qsip_data) <- function(x, type, original_headers = FAL
 # extending print methods
 
 S7::method(print, qsip_source_data) <- function(x, ...) {
-  sd = x@data
-  print(glue::glue_col("<qSIP2::qsip_source_data>
+  sd = S7::prop(x, "data")
+  print(glue::glue_col("<qsip_source_data>
                        source_material_id count: {green {length(unique(sd$source_mat_id))}}"))
 }
 
 S7::method(print, qsip_sample_data) <- function(x, ...) {
   sd = x@data
-  print(glue::glue_col("<qSIP2::qsip_sample_data>
+  print(glue::glue_col("<qsip_sample_data>
                        source_material_id count: {green {length(unique(sd$source_mat_id))}}
                        sample_id count: {green {length(unique(sd$sample_id))}}"))
 }
 
 S7::method(print, qsip_feature_data) <- function(x, ...) {
-  print(glue::glue_col("<qSIP2::qsip_feature_data>
+  print(glue::glue_col("<qsip_feature_data>
                        feature_id count: {green {dim(x@data)[1]}}
                        sample_id count: {green {dim(x@data)[2] - 1}}
                        data type: {green {x@type}}"))
@@ -608,8 +622,7 @@ S7::method(print, qsip_feature_data) <- function(x, ...) {
 
 S7::method(print, qsip_data) <- function(x, ...) {
 
-
-  print(glue::glue_col("<qSIP2::qsip_data>
+  print(glue::glue_col("<qsip_data>
                        group: {green {ifelse(is.null(x@filter_results$group), 'none', x@filter_results$group)}}
                        feature_id count: {green {length(get_feature_ids(x, filtered = is_qsip_filtered(x)))} of {dim(x@feature_data@data)[1]}}
                        sample_id count: {green {length(unique(x@sample_data@data$sample_id))}}

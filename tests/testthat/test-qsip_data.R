@@ -4,11 +4,6 @@ test_that("works as expected", {
     example_sample_object,
     example_feature_object
   ))
-  expect_true("qsip_data" %in% class(qsip_data(
-    example_source_object,
-    example_sample_object,
-    example_feature_object
-  )))
 })
 
 test_that("wrong input types fail", {

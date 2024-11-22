@@ -194,8 +194,9 @@ plot_source_wads(qsip_object,
 
 ```{r, fig.height=4, fig.width=6}
 plot_sample_curves(qsip_object,
-                   colors = c("12C" = "orange", "13C" = "magenta"),
-                   title = "Normalized density curves for each sample")
+                   title = "Normalized density curves for each sample",
+                   facet_by = "isotope",
+                   show_wad = F)
 ```
 
 Another sanity check is making sure the reported density values are on a reasonably straight line with the gradient position. This can be plotted, and then a Cook's distance can be calculated to highlight any outliers. Note, the ends of the gradient are often flagged as outliers, although this may not necessarily be the case.
@@ -275,10 +276,10 @@ qsip_normal <- run_feature_filter(qsip_object,
 Note, although I said earlier you can overwrite your `qsip_data` objects as you go, here it might make sense to create two versions for the moisture treatments. We'll take the original `qsip_object` and save the filtered Normal dataset to `qsip_normal', and the Drought to `qsip_drought`.
 :::
 
-Of the 1,705 features found in the "Normal" data, we can see our rather strict filtering removed all but 64 features from the dataset. We can visualize these results on a per-source basis with the `plot_filter_gradient_position()` function. 
+Of the 1,705 features found in the "Normal" data, we can see our rather strict filtering removed all but 64 features from the dataset. We can visualize these results on a per-source basis with the `plot_filter_results()` function. 
 
 ```{r, fig.height=4, fig.width=8}
-plot_filter_gradient_position(qsip_normal)
+plot_filter_results(qsip_normal)
 ```
 
 Although a large number of features were removed, we can tell that the 64 that remained actually still make up a large proportion of the total abundance in each sample. In **A** above, the retained features (in blue) make up \~75-85% of the total data, while the removed data (orange) is the remaining \~15-25%.
@@ -301,7 +302,7 @@ qsip_drought <- run_feature_filter(qsip_object,
 And only 89 features were retained in the Drought dataset.
 
 ```{r, fig.height=4, fig.width=8}
-plot_filter_gradient_position(qsip_drought)
+plot_filter_results(qsip_drought)
 ```
 
 Strictly speaking, there is no requirement to do strict filtering, and it is possible to execute `run_feature_filter()` with all parameters set to `1`. Filtering was originally recommended because it dramatically sped up the compute time, but running all vs. a subset of features in `qSIP2` has a minimal impact. Further, setting all values to `1` and utilizing the `allow_failures` flag in the resampling step can provide an alternative way of deciding which features to keep, rather than just their prevalence amongst sources/samples. More information is provided in the Resampling section below, or the `vignette("resampling")` vignette.

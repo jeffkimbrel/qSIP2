@@ -23,14 +23,11 @@
 #' @returns A long format dataframe with one row per `feature_id` per `sample_id`
 
 calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data) {
+
   # make sure the objects are of the right type
-  if (!"qsip_source_data" %in% class(source_data)) {
-    stop("source_data must be of class <qsip_source_data>")
-  } else if (!"qsip_sample_data" %in% class(sample_data)) {
-    stop("sample_data must be of class <qsip_sample_data>")
-  } else if (!"qsip_feature_data" %in% class(feature_data)) {
-    stop("feature_data must be of class <qsip_feature_data>")
-  }
+  stopifnot("source_data should be of class <qsip_source_data>" = inherits(source_data, qsip_source_data))
+  stopifnot("sample_data should be of class <qsip_sample_data>" = inherits(sample_data, qsip_sample_data))
+  stopifnot("feature_data should be of class <qsip_feature_data>" = inherits(feature_data, qsip_feature_data))
 
   # bind variables
   feature_id <- raw_abundance <- sample_id <- source_mat_id <- rel_abundance <- gradient_pos_density <- gradient_pos_rel_amt <- tube_rel_abundance <- isotope <- tube_rel_abundance <- NULL

@@ -24,24 +24,22 @@
 find_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL) {
 
   # Check that the source_data object is a qsip_source_data or qsip_data object
-  if (!methods::is(source_data, "qsip_source_data") && !methods::is(source_data, "qsip_data")) {
-    stop(glue::glue("source_data must be a <qsip_source_data> or <qsip_data object>, not <{class(source_data)[1]}>"))
-  }
+    stopifnot("source_data should be of class <qsip_source_data> or <qsip_data>" = inherits(source_data, c("qsip_source_data",
+                                                                                                                     "qSIP2::qsip_source_data",
+                                                                                                                     "qsip_data",
+                                                                                                                     "qSIP2::qsip_data")))
 
-  if (methods::is(source_data, "qsip_data")) {
+  # if passing a complete qsip_data object, extract out the individual components
+  if (inherits(source_data, qsip_data)) {
     feature_data <- source_data@feature_data
     sample_data <- source_data@sample_data
     source_data <- source_data@source_data # after getting the first two objects, overwrite the source_data object
-  } else {
-    # make sure sample_data is a qsip_sample_data object and feature_data is a qsip_feature_data object
-    if (!methods::is(sample_data, "qsip_sample_data")) {
-      stop(glue::glue("sample_data must be a <qsip_sample_data> object, not <{class(sample_data)[1]}>"))
-    }
-
-    if (!methods::is(feature_data, "qsip_feature_data")) {
-      stop(glue::glue("feature_data must be a <qsip_feature_data> object, not <{class(feature_data)[1]}>"))
-    }
   }
+
+  # and make sure these objects are of the correct type, whether passed to the function or created above
+  stopifnot("sample_data should be of class <qsip_sample_data>" = inherits(sample_data, qsip_sample_data))
+  stopifnot("feature_data should be of class <qsip_feature_data>" = inherits(feature_data, qsip_feature_data))
+
 
   # bind variables
   source_mat_id <- sample_id <- feature_id <- NULL

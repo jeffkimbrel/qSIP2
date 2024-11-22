@@ -8,7 +8,7 @@
       Warning:
       3968 resamplings have a negative EAF value or calculated labeled copy numbers less than 0. These values have been filtered out and added to @growth$negative_labeled
     Output
-      <qSIP2::qsip_data>
+      <qsip_data>
       group: Day 10
       feature_id count: 358 of 364
       sample_id count: 106
