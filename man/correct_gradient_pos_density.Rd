@@ -2,10 +2,23 @@
 % Please edit documentation in R/correct_gradient_pos_density.R
 \name{correct_gradient_pos_density}
 \alias{correct_gradient_pos_density}
-\title{test}
+\title{Correct sample density values using gradient position information}
 \usage{
-correct_gradient_pos_density(qsip_sample_data, sensitivity = 4)
+correct_gradient_pos_density(sample_data, sensitivity = 4)
+}
+\arguments{
+\item{sample_data}{(\emph{qsip_sample_data}) A qsip object with sample data}
+
+\item{sensitivity}{(\emph{numeric, default: 4}) A sensitivity value, with lower values being more sensitive to outlier detection and correction}
+}
+\value{
+A qsip_sample_data object with corrected gradient_pos_density values
 }
 \description{
-test
+Used in conjunction with \code{plot_density_outliers()}, this function will correct
+the gradient_pos_density values for outliers based on the gradient_position
+values. A linear model is built using the gradient_position and
+gradient_pos_density, and if the Cook's outlier value is above the cutoff, then
+that sample's gradient_pos_density value is replaced with the fitted value. If
+it isn't above the cut-off, then no correction is made for that sample.
 }

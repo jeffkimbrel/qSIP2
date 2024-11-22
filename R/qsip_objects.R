@@ -346,7 +346,8 @@ qsip_sample_data <- S7::new_class(
                          gradient_position = "gradient_position",
                          gradient_pos_density = "gradient_pos_density",
                          gradient_pos_amt = "gradient_pos_amt",
-                         gradient_pos_rel_amt = "") {
+                         gradient_pos_rel_amt = "",
+                         overwrite = FALSE) {
     # make sure data is correct
     stopifnot("data should be class <data.frame>" = "data.frame" %in% class(data))
 
@@ -354,7 +355,9 @@ qsip_sample_data <- S7::new_class(
     if (gradient_pos_rel_amt == "") {
       message(glue::glue("<gradient_pos_rel_amt> not specified. Calculating using {gradient_pos_amt} column"))
       data = data |>
-        add_gradient_pos_rel_amt(source_mat_id = source_mat_id, amt = gradient_pos_amt)
+        add_gradient_pos_rel_amt(source_mat_id = source_mat_id,
+                                 amt = gradient_pos_amt,
+                                 overwrite = overwrite)
       gradient_pos_rel_amt = "gradient_pos_rel_amt"
     }
 
