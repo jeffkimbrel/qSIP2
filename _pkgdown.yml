@@ -44,6 +44,7 @@ reference:
   - n_resamples
   - add_gradient_pos_rel_amt
   - add_taxonomy
+  - correct_gradient_pos_density
   - show_unshared_ids
   - is_qsip_data
   - is_qsip_data_list

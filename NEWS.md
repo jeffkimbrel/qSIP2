@@ -2,6 +2,7 @@
 
 * Object type checks more consistent
 * Updated `plot_sample_curves()` to have better options
+* Added `correct_gradient_pos_density()` to adjust WAD values of sample data based on the gradient position
 
 # qSIP2 0.17
 
