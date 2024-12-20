@@ -3,6 +3,7 @@
 * Object type checks more consistent
 * Updated `plot_sample_curves()` to have better options
 * Added `correct_gradient_pos_density()` to adjust WAD values of sample data based on the gradient position
+* Replace the *silent* argument with `get_all_by_isotope()` with *quiet* to fit better with other functions
 
 # qSIP2 0.17
 

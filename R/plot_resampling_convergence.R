@@ -25,14 +25,14 @@ plot_resampling_convergence = function(qsip_data_object) {
   )
 
   dplyr::bind_rows(k) |>
-    ggplot(aes(x = unlabeled_resamples, y = mean_resampled_EAF)) +
-      geom_point() +
-      facet_wrap(~feature_id, scales = "free_y") +
-      scale_x_log10() +
-      geom_smooth(color = "#037bcf",
+      ggplot2::ggplot(ggplot2::aes(x = unlabeled_resamples, y = mean_resampled_EAF)) +
+      ggplot2::geom_point() +
+      ggplot2::facet_wrap(~feature_id, scales = "free_y") +
+      ggplot2::scale_x_log10() +
+      ggplot2::geom_smooth(color = "#037bcf",
                   formula = 'y ~ x',
                   method = 'loess') +
       #geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.1) +
-      geom_hline(aes(yintercept = observed_EAF), color = "red") +
-      geom_boxplot(aes(group = unlabeled_resamples))
+      ggplot2::geom_hline(aes(yintercept = observed_EAF), color = "red") +
+      ggplot2::geom_boxplot(ggplot2::aes(group = unlabeled_resamples))
 }

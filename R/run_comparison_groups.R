@@ -53,18 +53,18 @@ run_comparison_groups <- function(groups,
   groups = groups |>
     dplyr::mutate(unlabeled = dplyr::case_match(
       unlabeled,
-      "unlabeled" ~ paste(get_all_by_isotope(qsip_data_object, "unlabeled", silent = TRUE), collapse = ","),
-      "12C" ~ paste(get_all_by_isotope(qsip_data_object, "12C", silent = TRUE), collapse = ","),
-      "14N" ~ paste(get_all_by_isotope(qsip_data_object, "14N", silent = TRUE), collapse = ","),
-      "16O" ~ paste(get_all_by_isotope(qsip_data_object, "16O", silent = TRUE), collapse = ","),
+      "unlabeled" ~ paste(get_all_by_isotope(qsip_data_object, "unlabeled", quiet = TRUE), collapse = ","),
+      "12C" ~ paste(get_all_by_isotope(qsip_data_object, "12C", quiet = TRUE), collapse = ","),
+      "14N" ~ paste(get_all_by_isotope(qsip_data_object, "14N", quiet = TRUE), collapse = ","),
+      "16O" ~ paste(get_all_by_isotope(qsip_data_object, "16O", quiet = TRUE), collapse = ","),
       .default = unlabeled
     ))  |>
     dplyr::mutate(labeled = dplyr::case_match(
       labeled,
-      "labeled" ~ paste(get_all_by_isotope(qsip_data_object, "labeled", silent = TRUE), collapse = ","),
-      "13C" ~ paste(get_all_by_isotope(qsip_data_object, "13C", silent = TRUE), collapse = ","),
-      "15N" ~ paste(get_all_by_isotope(qsip_data_object, "15N", silent = TRUE), collapse = ","),
-      "18O" ~ paste(get_all_by_isotope(qsip_data_object, "18O", silent = TRUE), collapse = ","),
+      "labeled" ~ paste(get_all_by_isotope(qsip_data_object, "labeled", quiet = TRUE), collapse = ","),
+      "13C" ~ paste(get_all_by_isotope(qsip_data_object, "13C", quiet = TRUE), collapse = ","),
+      "15N" ~ paste(get_all_by_isotope(qsip_data_object, "15N", quiet = TRUE), collapse = ","),
+      "18O" ~ paste(get_all_by_isotope(qsip_data_object, "18O", quiet = TRUE), collapse = ","),
       .default = labeled
     ))
 
