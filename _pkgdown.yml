@@ -52,6 +52,7 @@ reference:
   - is_qsip_resampled
   - is_qsip_EAF
   - is_qsip_growth
+  - qsip_object_size
 
 - title: Plots and Visualizations
   contents:

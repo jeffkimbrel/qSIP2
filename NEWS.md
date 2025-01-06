@@ -4,6 +4,7 @@
 * Updated `plot_sample_curves()` to have better options
 * Added `correct_gradient_pos_density()` to adjust WAD values of sample data based on the gradient position
 * Replace the *silent* argument with `get_all_by_isotope()` with *quiet* to fit better with other functions
+* Added `qsip_object_size()` function to get the size of a `qsip_data` object and @slots
 
 # qSIP2 0.17
 
