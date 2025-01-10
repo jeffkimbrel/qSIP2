@@ -86,8 +86,6 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
-<span><span class="co">#&gt;   object 'type_sum.accel' not found</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
@@ -103,8 +101,8 @@ useful for the analysis. Filtering has three sequential steps.</p>
 <ul>
 <li>identify relevant unlabeled and labeled <code>source_mat_id</code>
 values for the comparison</li>
-<li>score specific features are considered “present” in a source by
-using fraction count thresholds</li>
+<li>score specific features considered as “present” in a source by using
+fraction count thresholds</li>
 <li>remove features that are not present in enough sources</li>
 </ul>
 <p>Each step is detailed in the following sections.</p>
@@ -144,19 +142,19 @@ of that particular comparison
 </h2>
 <p>Simplistically, a feature is considered present in a sample if there
 are counts for it. Features present in only a few samples, however, can
-lead to inaccurate estimates of thei weighted average density (WAD) and
+lead to inaccurate estimates of the weighted average density (WAD) and
 should therefore be removed. For example, if a source has 20 sequenced
 samples (fractions), each with their own read depths, a feature
 appearing in only one sample may be because that sample happened to have
 the deepest sequencing. Therefore, it wouldn’t be expected to be an
-accurate representation of the true density values. Therefore, a feature
-should be present in at least a few samples (let’s say 3) to have a more
-trustworthy WAD value.</p>
+accurate representation of the true density values. Accordingly, a
+feature should be present in at least a few samples (let’s say 3) to
+have a more trustworthy WAD value.</p>
 <p>The minimum fraction count can be defined differently for the
 unlabeled and labeled samples using the
 <code>min_unlabeled_fractions</code> and
 <code>min_labeled_fractions</code> arguments, respectively. The function
-uses these values to define a feature is present in a source if it is
+uses these values to define a feature is “present” in a source if it is
 found in at least that many samples (fractions).</p>
 </div>
 <div class="section level2">
