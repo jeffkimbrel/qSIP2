@@ -32,7 +32,7 @@ ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 After a qsip_data object is built and validated, the first step in the analysis is to filter the features using `run_feature_filter()`. This is done to narrow down the sources for a specific comparison, and remove features that are not useful for the analysis. Filtering has three sequential steps.
 
 - identify relevant unlabeled and labeled `source_mat_id` values for the comparison
-- score specific features are considered “present” in a source by using fraction count thresholds
+- score specific features considered as “present” in a source by using fraction count thresholds
 - remove features that are not present in enough sources
 
 Each step is detailed in the following sections.
@@ -47,9 +47,9 @@ The group argument is optional and provides a place for a description of that pa
 
 # Score features as "present" in a source
 
-Simplistically, a feature is considered present in a sample if there are counts for it. Features present in only a few samples, however, can lead to inaccurate estimates of thei weighted average density (WAD) and should therefore be removed. For example, if a source has 20 sequenced samples (fractions), each with their own read depths, a feature appearing in only one sample may be because that sample happened to have the deepest sequencing. Therefore, it wouldn't be expected to be an accurate representation of the true density values. Therefore, a feature should be present in at least a few samples (let's say 3) to have a more trustworthy WAD value. 
+Simplistically, a feature is considered present in a sample if there are counts for it. Features present in only a few samples, however, can lead to inaccurate estimates of the weighted average density (WAD) and should therefore be removed. For example, if a source has 20 sequenced samples (fractions), each with their own read depths, a feature appearing in only one sample may be because that sample happened to have the deepest sequencing. Therefore, it wouldn't be expected to be an accurate representation of the true density values. Accordingly, a feature should be present in at least a few samples (let's say 3) to have a more trustworthy WAD value. 
 
-The minimum fraction count can be defined differently for the unlabeled and labeled samples using the `min_unlabeled_fractions` and `min_labeled_fractions` arguments, respectively. The function uses these values to define a feature is present in a source if it is found in at least that many samples (fractions).
+The minimum fraction count can be defined differently for the unlabeled and labeled samples using the `min_unlabeled_fractions` and `min_labeled_fractions` arguments, respectively. The function uses these values to define a feature is "present" in a source if it is found in at least that many samples (fractions).
 
 # Remove features that are not present in enough sources
 
