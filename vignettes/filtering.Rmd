@@ -82,7 +82,7 @@ loose <- run_feature_filter(example_qsip_object,
 So, 64 features pass the more restrictive criteria, but we get 257 by relaxing the criteria a little bit. The function messages are rather verbose, but they try to summarize the results of each step. 
 
 ::: {.alert .alert-primary}
-Note, relaxing the criteria too much can lead to errors later during resampling. See `vignette(resampling)` for more information or how to use the `allow_failures = TRUE` argument.
+Note, relaxing the criteria too much can lead to errors later during resampling. See `vignette("resampling")` for more information or how to use the `allow_failures = TRUE` argument.
 :::
 
 We can get a list of the features using `get_feature_ids()`, and to restrict it to the post-filtering results we add the `filtered = TRUE` argument. 
