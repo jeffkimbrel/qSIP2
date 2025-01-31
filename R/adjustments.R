@@ -1,0 +1,191 @@
+#' Correct sample density values using gradient position information
+#'
+#' Used in conjunction with `plot_density_outliers()`, this function will correct
+#' the gradient_pos_density values for outliers based on the gradient_position
+#' values. A linear model is built using the gradient_position and
+#' gradient_pos_density, and if the Cook's outlier value is above the cutoff, then
+#' that sample's gradient_pos_density value is replaced with the fitted value. If
+#' it isn't above the cut-off, then no correction is made for that sample.
+#'
+#' @param sample_data (*qsip_sample_data*) A qsip object with sample data
+#' @param sensitivity (*numeric, default: 4*) A sensitivity value, with lower values being more sensitive to outlier detection and correction
+#'
+#' @export
+#'
+#' @returns A qsip_sample_data object with corrected gradient_pos_density values
+
+correct_gradient_pos_density <- function(sample_data,
+                                         sensitivity = 4) {
+  stopifnot("sample_data should be of class <qsip_sample_data>" = inherits(sample_data, qsip_sample_data))
+
+  # sensitivity should a positive number
+  stopifnot("sensitivity should be a positive number" = is.numeric(sensitivity) & sensitivity > 0)
+
+
+  data <- sample_data@data |>
+    dplyr::filter(gradient_position > 0)
+
+  S <- data |>
+    dplyr::group_by(source_mat_id) |>
+    dplyr::do(broom::augment(stats::lm(gradient_pos_density ~ gradient_position, data = .))) |>
+    dplyr::mutate(S = paste(source_mat_id, gradient_position, sep = "_"), COOKS_CUTOFF = sensitivity / dplyr::n()) |>
+    dplyr::ungroup() |>
+    dplyr::select(S, .cooksd, COOKS_CUTOFF, .fitted)
+
+  data |>
+    dplyr::mutate(S = paste(source_mat_id, gradient_position, sep = "_")) |>
+    dplyr::left_join(S, by = "S") |>
+    dplyr::select(-S) |>
+    dplyr::rename(gradient_pos_density_nonfitted = gradient_pos_density) |>
+    tibble::as_tibble() |>
+    dplyr::mutate(gradient_pos_density = dplyr::case_when(
+      .cooksd >= COOKS_CUTOFF ~ .fitted,
+      TRUE ~ gradient_pos_density_nonfitted
+    )) |>
+    dplyr::select(-.cooksd, -.fitted, -COOKS_CUTOFF) |>
+    qsip_sample_data(
+      overwrite = TRUE,
+      gradient_pos_rel_amt = "gradient_pos_rel_amt"
+    )
+}
+
+
+
+#' Correct gradient position density (gpd) values using bootstrapped features
+#'
+#' @param qsip_data_object (*qsip_data*) A qsip data object
+#'
+#' @export
+
+correct_gpd_bootstrap <- function(qsip_data_object,
+                                  fraction_cutoff = 5,
+                                  source_cutoff = 3) {
+  wad_reference <- iq_get_wad_reference(qsip_data_object,
+    fraction_cutoff = fraction_cutoff,
+    source_cutoff = source_cutoff
+  )
+
+  df_for_resampling <- ig_get_df_for_resampling(qsip_data_object,
+    wad_reference,
+    fraction_cutoff = fraction_cutoff,
+    source_cutoff = source_cutoff
+  )
+
+  return(df_for_resampling)
+}
+
+
+
+
+
+
+
+#' Get unlabeled features for WAD reference (internal)
+#'
+#' Internal function used by the "correct_gpd_" functions to grab unlabeled features
+#' that fit a certain prevalence criteria, and return their mean and median WAD
+#' values, as well as their standard deviation, coefficient of variation, and number
+#' of sources/fractions found in.
+#'
+#' @param qsip_data_object (*qsip_data*) A qsip data object
+#' @param fraction_cutoff (*numeric, default: 5*) The minimum number of fractions a feature must be found in to be considered
+#' @param source_cutoff (*numeric, default: 3*) The minimum number of sources a feature must be found in to be considered
+#'
+#' @keywords internal
+#'
+#' @return A tibble
+
+iq_get_wad_reference <- function(qsip_data_object,
+                                 fraction_cutoff = 5,
+                                 source_cutoff = 3) {
+  # error if is_qsip_data(qsip_data_object) is not true
+  if (isFALSE(is_qsip_data(qsip_data_object))) {
+    stop("<qsip_data_object> must be of class qsip_data", call. = FALSE)
+  }
+
+  # fraction_cutoff must be an integer greater than 0
+  if (!is.numeric(fraction_cutoff) | fraction_cutoff < 1) {
+    stop("<fraction_cutoff> must be an integer greater than 0", call. = FALSE)
+  }
+
+  # source_cutoff must be an integer greater than 0
+  if (!is.numeric(source_cutoff) | source_cutoff < 1) {
+    stop("<source_cutoff> must be an integer greater than 0", call. = FALSE)
+  }
+
+  wad_reference <- qsip_data_object@wads |>
+    dplyr::filter(n_fractions >= fraction_cutoff) |>
+    dplyr::left_join(get_dataframe(qsip_data_object, "source"), by = "source_mat_id") |>
+    dplyr::filter(source_mat_id %in% get_all_by_isotope(qsip_data_object, "unlabeled", quiet = T)) |>
+    dplyr::mutate(n_sources = dplyr::n(), .by = "feature_id") |>
+    dplyr::filter(n_sources >= source_cutoff) |>
+    dplyr::summarize(
+      WAD_reference_mean = mean(WAD),
+      sd = sd(WAD),
+      cov = sd / WAD_reference_mean,
+      WAD_reference_median = median(WAD),
+      n_sources = dplyr::n(),
+      mean_fractions = sum(n_fractions) / n_sources,
+      .by = feature_id
+    ) |>
+    dplyr::arrange(feature_id)
+
+  return(wad_reference)
+}
+
+
+
+#' Make nested dataframe for gpd adjustment sampling
+#'
+#'
+#' @keywords internal
+
+ig_get_df_for_resampling <- function(qsip_data_object,
+                                     wad_reference,
+                                     fraction_cutoff,
+                                     source_cutoff) {
+  df_for_resampling <- qsip_data_object@wads |>
+    dplyr::filter(feature_id %in% wad_reference$feature_id) |>
+    dplyr::filter(n_fractions >= fraction_cutoff) |>
+    dplyr::select(feature_id, source_mat_id, WAD, n_fractions) |>
+    dplyr::mutate(n_sources = dplyr::n(), .by = "feature_id") |>
+    dplyr::filter(n_sources >= source_cutoff) |>
+    dplyr::left_join(wad_reference, by = "feature_id") |>
+    dplyr::mutate(
+      difference_to_mean = (WAD_reference_mean - WAD), # positive means it is less dense than the mean
+      stress_to_mean = difference_to_mean^2
+    ) |>
+    tidyr::nest(data = -source_mat_id) |>
+    dplyr::arrange(source_mat_id)
+
+  return(df_for_resampling)
+}
+
+#' Plot difference between feature WAD and WAD reference
+#'
+#' @export
+
+plot_difference_to_mean <- function(qsip_data_object,
+                                    fraction_cutoff = 5,
+                                    source_cutoff = 3) {
+  wad_reference <- iq_get_wad_reference(qsip_data_object,
+    fraction_cutoff = fraction_cutoff,
+    source_cutoff = source_cutoff
+  )
+
+  qsip_data_object@wads |>
+    dplyr::left_join(wad_reference, by = "feature_id") |>
+    dplyr::filter(!is.na(WAD_reference_mean)) |>
+    dplyr::left_join(get_dataframe(example_qsip_object, type = "source"), by = join_by(source_mat_id)) |>
+    ggplot2::ggplot(ggplot2::aes(y = source_mat_id, x = WAD - WAD_reference_mean, fill = factor(after_stat(quantile)))) +
+    ggridges::stat_density_ridges(
+      geom = "density_ridges_gradient", calc_ecdf = TRUE,
+      quantiles = 4,
+      # quantile_lines = TRUE,
+      bandwidth = 5e-4
+    ) +
+    ggplot2::scale_fill_viridis_d() +
+    ggplot2::labs(x = "WAD minus Reference WAD", fill = "quantiles") +
+    ggplot2::facet_wrap(~isotope, scales = "free_y") +
+    ggplot2::geom_vline(xintercept = 0, linetype = 3, color = "purple", linewidth = 1)
+}
