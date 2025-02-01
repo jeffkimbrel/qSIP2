@@ -4,7 +4,12 @@
 \alias{correct_gpd_bootstrap}
 \title{Correct gradient position density (gpd) values using bootstrapped features}
 \usage{
-correct_gpd_bootstrap(qsip_data_object, fraction_cutoff = 5, source_cutoff = 3)
+correct_gpd_bootstrap(
+  qsip_data_object,
+  boostraps = 1000,
+  fraction_cutoff = 5,
+  source_cutoff = 3
+)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) A qsip data object}

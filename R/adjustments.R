@@ -58,8 +58,15 @@ correct_gradient_pos_density <- function(sample_data,
 #' @export
 
 correct_gpd_bootstrap <- function(qsip_data_object,
+                                  bootstraps = 1000,
                                   fraction_cutoff = 5,
-                                  source_cutoff = 3) {
+                                  source_cutoff = 3,
+                                  return = "qsip_data_object") {
+
+  # return should be either "corrections" or "qsip_data_object"
+  stopifnot("<return> should be either 'corrections' or 'qsip_data_object'" = return %in% c("corrections", "qsip_data_object"))
+
+
   wad_reference <- iq_get_wad_reference(qsip_data_object,
     fraction_cutoff = fraction_cutoff,
     source_cutoff = source_cutoff
@@ -71,12 +78,107 @@ correct_gpd_bootstrap <- function(qsip_data_object,
     source_cutoff = source_cutoff
   )
 
-  return(df_for_resampling)
+  corrections <- df_for_resampling |>
+    dplyr::mutate(b = purrr::map(data, ~ rsample::bootstraps(
+      . |>
+        dplyr::select(difference_to_mean),
+      times = bootstraps
+    ))) |>
+    tidyr::unnest(b) |>
+    dplyr::mutate(m = purrr::map_dbl(
+      splits,
+      function(x) {
+        dat <- as.data.frame(x)$difference_to_mean
+        median(dat)
+      }
+    )) |>
+    dplyr::summarise(
+      correction_mean = mean(m),
+      correction_median = median(m),
+      .by = source_mat_id
+    ) |>
+    dplyr::arrange(correction_mean)
+
+  if (return == "corrections") {
+    return(corrections)
+  } else if (return == "qsip_data_object") {
+
+    qf = qsip_data_object@feature_data
+    qm = qsip_data_object@source_data
+
+    qs = get_dataframe(qsip_data_object, "sample") |>
+      dplyr::left_join(corrections, by = "source_mat_id") |>
+      dplyr::mutate(gradient_pos_density = gradient_pos_density + correction_median) |>
+      qsip_sample_data(gradient_pos_rel_amt = "gradient_pos_rel_amt",
+                       gradient_pos_density = "gradient_pos_density",
+                       overwrite = T)
+
+    q_corrected = qsip_data(qm, qs, qf)
+    print(corrections)
+    return(q_corrected)
+
+  }
 }
 
 
 
+#' Correct gradient position density (gpd) values using linear regression approach
+#'
+#' @param qsip_data_object (*qsip_data*) A qsip data object
+#' @param method (*character*) The lm method to use
+#'
+#' @export
 
+correct_gpd_rlm <- function(qsip_data_object,
+                                  method = "siegel",
+                                  fraction_cutoff = 5,
+                                  source_cutoff = 3,
+                                  return = "qsip_data_object") {
+
+  # return should be either "corrections" or "qsip_data_object"
+  stopifnot("<return> should be either 'corrections' or 'qsip_data_object'" = return %in% c("corrections", "qsip_data_object"))
+
+
+  wad_reference <- iq_get_wad_reference(qsip_data_object,
+                                        fraction_cutoff = fraction_cutoff,
+                                        source_cutoff = source_cutoff
+  )
+
+  df_for_resampling <- ig_get_df_for_resampling(qsip_data_object,
+                                                wad_reference,
+                                                fraction_cutoff = fraction_cutoff,
+                                                source_cutoff = source_cutoff
+  )
+
+  if (method == "siegel") {
+    siegel = qsip_data_object@wads |>
+      dplyr::filter(feature_id %in% wad_reference$feature_id) |>
+      dplyr::left_join(wad_reference, by = dplyr::join_by(feature_id)) |>
+      dplyr::left_join(get_dataframe(qsip_data_object, type = "source"), by = dplyr::join_by(source_mat_id)) |>
+      tidyr::nest(data = -source_mat_id) |>
+      dplyr::mutate(siegel = purrr::map(data, ~RobustLinearReg::siegel_regression(WAD_reference_mean ~ WAD, .x),
+                                 progress = TRUE))
+
+    corrections = get_dataframe(qsip_data_object, "sample") |>
+      dplyr::rename(WAD = gradient_pos_density) |>
+      tidyr::nest(data = -source_mat_id) |>
+      dplyr::left_join(siegel, by = "source_mat_id") |>
+      dplyr::mutate(p = purrr::map2(siegel, data.x, ~broom::augment(.x, newdata = .y))) |>
+      tidyr::unnest(p)
+
+    qf = qsip_data_object@feature_data
+    qm = qsip_data_object@source_data
+
+    qs = corrections |>
+      dplyr::select(-data.x, -data.y, -siegel) |>
+      qsip_sample_data(gradient_pos_density = ".fitted",
+                       overwrite = T)
+
+    q = qsip_data(qm, qs, qf)
+    return(q)
+  }
+
+}
 
 
 
@@ -176,8 +278,8 @@ plot_difference_to_mean <- function(qsip_data_object,
   qsip_data_object@wads |>
     dplyr::left_join(wad_reference, by = "feature_id") |>
     dplyr::filter(!is.na(WAD_reference_mean)) |>
-    dplyr::left_join(get_dataframe(example_qsip_object, type = "source"), by = join_by(source_mat_id)) |>
-    ggplot2::ggplot(ggplot2::aes(y = source_mat_id, x = WAD - WAD_reference_mean, fill = factor(after_stat(quantile)))) +
+    dplyr::left_join(get_dataframe(example_qsip_object, type = "source"), by = dplyr::join_by(source_mat_id)) |>
+    ggplot2::ggplot(ggplot2::aes(y = source_mat_id, x = WAD - WAD_reference_mean, fill = factor(ggplot2::after_stat(quantile)))) +
     ggridges::stat_density_ridges(
       geom = "density_ridges_gradient", calc_ecdf = TRUE,
       quantiles = 4,

@@ -1,6 +1,6 @@
 Package: qSIP2
 Title: qSIP Analysis
-Version: 0.18.4.9002
+Version: 0.18.4.9003
 Authors@R: 
     person("Jeff", "Kimbrel", , "kimbrel1@llnl.gov", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7213-9392"))
@@ -31,6 +31,7 @@ Imports:
     readr,
     recipes,
     rlang,
+    RobustLinearReg,
     S7,
     scales,
     stats,
