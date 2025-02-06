@@ -270,6 +270,7 @@ ig_get_df_for_resampling <- function(qsip_data_object,
 plot_difference_to_mean <- function(qsip_data_object,
                                     fraction_cutoff = 5,
                                     source_cutoff = 3) {
+
   wad_reference <- iq_get_wad_reference(qsip_data_object,
     fraction_cutoff = fraction_cutoff,
     source_cutoff = source_cutoff
@@ -278,7 +279,7 @@ plot_difference_to_mean <- function(qsip_data_object,
   qsip_data_object@wads |>
     dplyr::left_join(wad_reference, by = "feature_id") |>
     dplyr::filter(!is.na(WAD_reference_mean)) |>
-    dplyr::left_join(get_dataframe(example_qsip_object, type = "source"), by = dplyr::join_by(source_mat_id)) |>
+    dplyr::left_join(get_dataframe(qsip_data_object, type = "source"), by = dplyr::join_by(source_mat_id)) |>
     ggplot2::ggplot(ggplot2::aes(y = source_mat_id, x = WAD - WAD_reference_mean, fill = factor(ggplot2::after_stat(quantile)))) +
     ggridges::stat_density_ridges(
       geom = "density_ridges_gradient", calc_ecdf = TRUE,

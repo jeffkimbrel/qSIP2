@@ -6,9 +6,10 @@
 \usage{
 correct_gpd_bootstrap(
   qsip_data_object,
-  boostraps = 1000,
+  bootstraps = 1000,
   fraction_cutoff = 5,
-  source_cutoff = 3
+  source_cutoff = 3,
+  return = "qsip_data_object"
 )
 }
 \arguments{
