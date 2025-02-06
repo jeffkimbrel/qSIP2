@@ -52,6 +52,25 @@ readRDS(file = "tests/testthat/fixtures/qsip_normal_failures_resampled.rds") |>
   run_EAF_calculations() |>
   saveRDS(file = "tests/testthat/fixtures/qsip_normal_failures_EAF.rds")
 
+## normal lenient
+example_qsip_object |>
+  run_feature_filter(
+    unlabeled_source_mat_ids = get_all_by_isotope(example_qsip_object, "12C"),
+    labeled_source_mat_ids = c("S178", "S179", "S180"),
+    min_unlabeled_sources = 1,
+    min_labeled_sources = 1,
+    min_unlabeled_fractions = 2,
+    min_labeled_fractions = 2
+  ) |>
+  saveRDS(file = "tests/testthat/fixtures/qsip_normal_lenient_filtered.rds")
+
+readRDS(file = "tests/testthat/fixtures/qsip_normal_lenient_filtered.rds") |>
+  run_resampling(resamples = 1000, with_seed = 43, allow_failures = T) |>
+  saveRDS(file = "tests/testthat/fixtures/qsip_normal_lenient_resampled.rds")
+
+readRDS(file = "tests/testthat/fixtures/qsip_normal_lenient_resampled.rds") |>
+  run_EAF_calculations() |>
+  saveRDS(file = "tests/testthat/fixtures/qsip_normal_lenient_EAF.rds")
 
 ## drought strict
 example_qsip_object |>
