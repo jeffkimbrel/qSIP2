@@ -57,6 +57,7 @@ correct_gradient_pos_density <- function(sample_data,
 #' @param bootstraps (*numeric, default: 1000*) The number of bootstraps to perform
 #' @param fraction_cutoff (*numeric, default: 5*) The minimum number of fractions a feature must be found in to be considered
 #' @param source_cutoff (*numeric, default: 3*) The minimum number of sources a feature must be found in to be considered
+#' @param quiet (*logical, default: FALSE*) Whether to print a message about the number of features found
 #' @param return (*character, default: "qsip_data_object") Whether to return the corrections or the qsip_data_object
 #'
 #' @export
@@ -65,6 +66,7 @@ correct_gpd_bootstrap <- function(qsip_data_object,
                                   bootstraps = 1000,
                                   fraction_cutoff = 5,
                                   source_cutoff = 3,
+                                  quiet = F,
                                   return = "qsip_data_object") {
   # return should be either "corrections" or "qsip_data_object"
   stopifnot("<return> should be either 'corrections' or 'qsip_data_object'" = return %in% c("corrections", "qsip_data_object"))
@@ -72,7 +74,8 @@ correct_gpd_bootstrap <- function(qsip_data_object,
 
   wad_reference <- iq_get_wad_reference(qsip_data_object,
     fraction_cutoff = fraction_cutoff,
-    source_cutoff = source_cutoff
+    source_cutoff = source_cutoff,
+    quiet = quiet
   )
 
   df_for_resampling <- ig_get_df_for_resampling(qsip_data_object,
@@ -131,6 +134,7 @@ correct_gpd_bootstrap <- function(qsip_data_object,
 #' @param method (*character*) The lm method to use
 #' @param fraction_cutoff (*numeric, default: 5*) The minimum number of fractions a feature must be found in to be considered
 #' @param source_cutoff (*numeric, default: 3*) The minimum number of sources a feature must be found in to be considered
+#' @param quiet (*logical, default: FALSE*) Whether to print a message about the number of features found
 #' @param return (*character, default: "qsip_data_object") Whether to return the corrections or the qsip_data_object
 #'
 #' @export
@@ -139,6 +143,7 @@ correct_gpd_rlm <- function(qsip_data_object,
                             method = "siegel",
                             fraction_cutoff = 5,
                             source_cutoff = 3,
+                            quiet = F,
                             return = "qsip_data_object") {
   # return should be either "corrections" or "qsip_data_object"
   stopifnot("<return> should be either 'corrections' or 'qsip_data_object'" = return %in% c("corrections", "qsip_data_object"))
@@ -146,7 +151,8 @@ correct_gpd_rlm <- function(qsip_data_object,
 
   wad_reference <- iq_get_wad_reference(qsip_data_object,
     fraction_cutoff = fraction_cutoff,
-    source_cutoff = source_cutoff
+    source_cutoff = source_cutoff,
+    quiet = quiet
   )
 
   df_for_resampling <- ig_get_df_for_resampling(qsip_data_object,
@@ -172,18 +178,22 @@ correct_gpd_rlm <- function(qsip_data_object,
       dplyr::mutate(p = purrr::map2(siegel, data.x, ~ broom::augment(.x, newdata = .y))) |>
       tidyr::unnest(p)
 
-    qf <- qsip_data_object@feature_data
-    qm <- qsip_data_object@source_data
+    if (return == "corrections") {
+      return(corrections)
+    } else if (return == "qsip_data_object") {
+      qf <- qsip_data_object@feature_data
+      qm <- qsip_data_object@source_data
 
-    qs <- corrections |>
-      dplyr::select(-data.x, -data.y, -siegel) |>
-      qsip_sample_data(
-        gradient_pos_density = ".fitted",
-        overwrite = T
-      )
+      qs <- corrections |>
+        dplyr::select(-data.x, -data.y, -siegel) |>
+        qsip_sample_data(
+          gradient_pos_density = ".fitted",
+          overwrite = T
+        )
 
-    q <- qsip_data(qm, qs, qf)
-    return(q)
+      q <- qsip_data(qm, qs, qf)
+      return(q)
+    }
   }
 }
 
@@ -286,15 +296,19 @@ ig_get_df_for_resampling <- function(qsip_data_object,
 #' @param qsip_data_object (*qsip_data*) A qsip data object
 #' @param fraction_cutoff (*numeric, default: 5*) The minimum number of fractions a feature must be found in to be considered
 #' @param source_cutoff (*numeric, default: 3*) The minimum number of sources a feature must be found in to be considered
+#' @param quiet (*logical, default: FALSE*) Whether to print a message about the number of features found
 #'
 #' @export
 
 plot_difference_to_mean <- function(qsip_data_object,
                                     fraction_cutoff = 5,
-                                    source_cutoff = 3) {
+                                    source_cutoff = 3,
+                                    quiet = F) {
+
   wad_reference <- iq_get_wad_reference(qsip_data_object,
     fraction_cutoff = fraction_cutoff,
-    source_cutoff = source_cutoff
+    source_cutoff = source_cutoff,
+    quiet = quiet
   )
 
   qsip_data_object@wads |>
@@ -376,4 +390,34 @@ plot_correction_stats <- function(reference, corrected, source_cutoff = 3, fract
     ggplot2::scale_color_manual(values = isotope_palette) +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1)) +
     ggplot2::expand_limits(y = 0)
+}
+
+
+#' Get compression values from a rlm correction
+#'
+#' @param corrections (*tibble*) A tibble of corrections from `correct_gpd_rlm()`
+#'
+#' @export
+
+get_correction_compression = function(corrections) {
+  corrections |>
+    dplyr::summarize(compression = (max(.fitted) - min(.fitted)) / (max(WAD) - min(WAD)), .by = source_mat_id)
+}
+
+#' Plot correction compression
+#'
+#' @export
+
+plot_correction_compression = function(corrections) {
+
+  correction_values = get_correction_compression(corrections)
+
+  corrections |>
+    dplyr::left_join(correction_values, by = "source_mat_id") |>
+    ggplot2::ggplot(ggplot2::aes(x = WAD, y = .fitted)) +
+    ggplot2::geom_point(aes(color = compression)) +
+    ggplot2::scale_color_viridis_c() +
+    ggplot2::facet_wrap(~source_mat_id) +
+    geom_abline(intercept = 0, slope = 1, linetype = 3) +
+    labs(x = "original WAD", y = "corrected WAD")
 }

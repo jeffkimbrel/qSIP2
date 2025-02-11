@@ -54,6 +54,16 @@ reference:
   - is_qsip_growth
   - qsip_object_size
 
+- title: WAD Corrections
+  contents:
+  - correct_gpd_bootstrap
+  - correct_gpd_rlm
+  - plot_corrected_curves
+  - plot_correction_stats
+  - plot_difference_to_mean
+  - get_correction_compression
+  - plot_correction_compression
+
 - title: Plots and Visualizations
   contents:
   - plot_sample_curves

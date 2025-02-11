@@ -1,4 +1,6 @@
-# qSIP2 (development version)
+# qSIP2 0.19.0
+
+* Many functions for correcting WAD values (details coming soon)
 
 # qSIP2 0.18
 

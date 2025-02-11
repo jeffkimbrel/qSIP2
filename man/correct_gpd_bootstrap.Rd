@@ -9,6 +9,7 @@ correct_gpd_bootstrap(
   bootstraps = 1000,
   fraction_cutoff = 5,
   source_cutoff = 3,
+  quiet = F,
   return = "qsip_data_object"
 )
 }
@@ -20,6 +21,8 @@ correct_gpd_bootstrap(
 \item{fraction_cutoff}{(\emph{numeric, default: 5}) The minimum number of fractions a feature must be found in to be considered}
 
 \item{source_cutoff}{(\emph{numeric, default: 3}) The minimum number of sources a feature must be found in to be considered}
+
+\item{quiet}{(\emph{logical, default: FALSE}) Whether to print a message about the number of features found}
 
 \item{return}{(*character, default: "qsip_data_object") Whether to return the corrections or the qsip_data_object}
 }
