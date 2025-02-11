@@ -1,6 +1,6 @@
 Package: qSIP2
 Title: qSIP Analysis
-Version: 0.18.4.9001
+Version: 0.18.4.9004
 Authors@R: 
     person("Jeff", "Kimbrel", , "kimbrel1@llnl.gov", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7213-9392"))
@@ -31,6 +31,7 @@ Imports:
     readr,
     recipes,
     rlang,
+    RobustLinearReg,
     S7,
     scales,
     stats,
@@ -38,7 +39,8 @@ Imports:
     tibble,
     tidyr,
     tidytext,
-    workflows
+    workflows,
+    yardstick
 URL: https://github.com/jeffkimbrel/qSIP2,
     https://jeffkimbrel.github.io/qSIP2/
 BugReports: https://github.com/jeffkimbrel/qSIP2/issues

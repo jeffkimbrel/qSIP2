@@ -2,7 +2,7 @@ qsip_normal_strict_filtered <- readRDS(test_path("fixtures", "qsip_normal_strict
 
 
 test_that("doesn't error", {
-  expect_no_error(get_filtered_feature_summary(qsip_normal_strict_filtered, feature_id = "ASV_2"))
+  expect_snapshot(get_filtered_feature_summary(qsip_normal_strict_filtered, feature_id = "ASV_2"))
 })
 
 

@@ -58,7 +58,8 @@ plot_sample_curves <- function(qsip_data_object,
   }
 
   df <- df |>
-    dplyr::filter(gradient_position > 0)
+    dplyr::filter(gradient_position > 0) |>
+    dplyr::summarize(tube_rel_abundance = sum(tube_rel_abundance), .by = c(sample_id, source_mat_id, gradient_position, gradient_pos_density, isotope))
 
   source_wads <- qsip_data_object@source_wads |>
     dplyr::filter(!is.na(WAD)) |>
@@ -70,7 +71,7 @@ plot_sample_curves <- function(qsip_data_object,
     # dplyr::group_by(source_mat_id) |>
     ggplot2::ggplot(ggplot2::aes(
       x = gradient_pos_density,
-      y = gradient_pos_rel_amt
+      y = tube_rel_abundance
     ))
 
   if (facet_by == "source") {
