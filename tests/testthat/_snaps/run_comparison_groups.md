@@ -3,6 +3,10 @@
     Code
       run_comparison_groups(df, example_qsip_object, seed = 99, allow_failures = TRUE,
         resamples = 100)
+    Message
+      Finished groups ===============>---------------   50%
+      Finished groups ==============================>  100%
+      
     Output
       $Drought
       <qsip_data>

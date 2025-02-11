@@ -1,4 +1,4 @@
-# qSIP2 0.19.0
+# qSIP2 0.19
 
 * Many functions for correcting WAD values (details coming soon)
 
