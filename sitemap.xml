@@ -2,7 +2,6 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/404.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/LICENSE-text.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/articles/EAF.html</loc></url>
-<url><loc>https://jeffkimbrel.github.io/qSIP2/articles/controlled_vocab.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/articles/feature_data.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/articles/filtering.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/articles/growth.html</loc></url>
@@ -35,6 +34,8 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_tube_rel_abundance.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_wads.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/completely_labeled_values.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/correct_gpd_bootstrap.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/correct_gpd_rlm.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/correct_gradient_pos_density.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_feature_df.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/example_feature_object.html</loc></url>
@@ -51,6 +52,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/fraction_results_message.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_N_total_it.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_all_by_isotope.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_correction_compression.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_dataframe.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_feature_ids.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_filtered_feature_summary.html</loc></url>
@@ -61,8 +63,10 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_data.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_source_mat_ids.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/ig_get_df_for_resampling.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/index.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/infer_source_data.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/iq_get_wad_reference.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_EAF.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_data.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_data_list.html</loc></url>
@@ -78,7 +82,11 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/n_resamples.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/pivot_kbase_amplicon_matrix.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_EAF_values.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_corrected_curves.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_correction_compression.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_correction_stats.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_density_outliers.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_difference_to_mean.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_curves.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_occurrence.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_resamplings.html</loc></url>
