@@ -10,6 +10,13 @@ plot_difference_to_mean(
   source_cutoff = 3
 )
 }
+\arguments{
+\item{qsip_data_object}{(\emph{qsip_data}) A qsip data object}
+
+\item{fraction_cutoff}{(\emph{numeric, default: 5}) The minimum number of fractions a feature must be found in to be considered}
+
+\item{source_cutoff}{(\emph{numeric, default: 3}) The minimum number of sources a feature must be found in to be considered}
+}
 \description{
 Plot difference between feature WAD and WAD reference
 }

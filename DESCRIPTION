@@ -39,7 +39,8 @@ Imports:
     tibble,
     tidyr,
     tidytext,
-    workflows
+    workflows,
+    yardstick
 URL: https://github.com/jeffkimbrel/qSIP2,
     https://jeffkimbrel.github.io/qSIP2/
 BugReports: https://github.com/jeffkimbrel/qSIP2/issues

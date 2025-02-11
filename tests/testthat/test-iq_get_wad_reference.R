@@ -1,5 +1,6 @@
 test_that("works as expected", {
-  expect_snapshot(iq_get_wad_reference(example_qsip_object))
+  expect_snapshot(iq_get_wad_reference(example_qsip_object, quiet = F))
+  expect_snapshot(iq_get_wad_reference(example_qsip_object, quiet = T))
 })
 
 test_that("non-qsip errors caught", {

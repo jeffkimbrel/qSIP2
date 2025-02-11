@@ -2,10 +2,10 @@ qsip_normal_strict_filtered <- readRDS(test_path("fixtures", "qsip_normal_strict
 qsip_normal_strict_resampled <- readRDS(test_path("fixtures", "qsip_normal_strict_resampled.rds"))
 
 test_that("no errors given", {
-  expect_no_error(get_resample_data(qsip_normal_strict_resampled))
-  expect_no_error(get_resample_data(qsip_normal_strict_resampled, type = "labeled"))
-  expect_no_error(get_resample_data(qsip_normal_strict_resampled, type = "unlabeled"))
-  expect_no_error(get_resample_data(qsip_normal_strict_resampled, type = "labeled", pivot = TRUE))
+  expect_snapshot(get_resample_data(qsip_normal_strict_resampled))
+  expect_snapshot(get_resample_data(qsip_normal_strict_resampled, type = "labeled"))
+  expect_snapshot(get_resample_data(qsip_normal_strict_resampled, type = "unlabeled"))
+  expect_snapshot(get_resample_data(qsip_normal_strict_resampled, type = "labeled", pivot = TRUE))
 })
 
 test_that("non-resampled objects give error", {

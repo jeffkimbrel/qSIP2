@@ -54,6 +54,10 @@ correct_gradient_pos_density <- function(sample_data,
 #' Correct gradient position density (gpd) values using bootstrapped features
 #'
 #' @param qsip_data_object (*qsip_data*) A qsip data object
+#' @param bootstraps (*numeric, default: 1000*) The number of bootstraps to perform
+#' @param fraction_cutoff (*numeric, default: 5*) The minimum number of fractions a feature must be found in to be considered
+#' @param source_cutoff (*numeric, default: 3*) The minimum number of sources a feature must be found in to be considered
+#' @param return (*character, default: "qsip_data_object") Whether to return the corrections or the qsip_data_object
 #'
 #' @export
 
@@ -62,7 +66,6 @@ correct_gpd_bootstrap <- function(qsip_data_object,
                                   fraction_cutoff = 5,
                                   source_cutoff = 3,
                                   return = "qsip_data_object") {
-
   # return should be either "corrections" or "qsip_data_object"
   stopifnot("<return> should be either 'corrections' or 'qsip_data_object'" = return %in% c("corrections", "qsip_data_object"))
 
@@ -102,21 +105,21 @@ correct_gpd_bootstrap <- function(qsip_data_object,
   if (return == "corrections") {
     return(corrections)
   } else if (return == "qsip_data_object") {
+    qf <- qsip_data_object@feature_data
+    qm <- qsip_data_object@source_data
 
-    qf = qsip_data_object@feature_data
-    qm = qsip_data_object@source_data
-
-    qs = get_dataframe(qsip_data_object, "sample") |>
+    qs <- get_dataframe(qsip_data_object, "sample") |>
       dplyr::left_join(corrections, by = "source_mat_id") |>
       dplyr::mutate(gradient_pos_density = gradient_pos_density + correction_median) |>
-      qsip_sample_data(gradient_pos_rel_amt = "gradient_pos_rel_amt",
-                       gradient_pos_density = "gradient_pos_density",
-                       overwrite = T)
+      qsip_sample_data(
+        gradient_pos_rel_amt = "gradient_pos_rel_amt",
+        gradient_pos_density = "gradient_pos_density",
+        overwrite = T
+      )
 
-    q_corrected = qsip_data(qm, qs, qf)
+    q_corrected <- qsip_data(qm, qs, qf)
     print(corrections)
     return(q_corrected)
-
   }
 }
 
@@ -126,58 +129,62 @@ correct_gpd_bootstrap <- function(qsip_data_object,
 #'
 #' @param qsip_data_object (*qsip_data*) A qsip data object
 #' @param method (*character*) The lm method to use
+#' @param fraction_cutoff (*numeric, default: 5*) The minimum number of fractions a feature must be found in to be considered
+#' @param source_cutoff (*numeric, default: 3*) The minimum number of sources a feature must be found in to be considered
+#' @param return (*character, default: "qsip_data_object") Whether to return the corrections or the qsip_data_object
 #'
 #' @export
 
 correct_gpd_rlm <- function(qsip_data_object,
-                                  method = "siegel",
-                                  fraction_cutoff = 5,
-                                  source_cutoff = 3,
-                                  return = "qsip_data_object") {
-
+                            method = "siegel",
+                            fraction_cutoff = 5,
+                            source_cutoff = 3,
+                            return = "qsip_data_object") {
   # return should be either "corrections" or "qsip_data_object"
   stopifnot("<return> should be either 'corrections' or 'qsip_data_object'" = return %in% c("corrections", "qsip_data_object"))
 
 
   wad_reference <- iq_get_wad_reference(qsip_data_object,
-                                        fraction_cutoff = fraction_cutoff,
-                                        source_cutoff = source_cutoff
+    fraction_cutoff = fraction_cutoff,
+    source_cutoff = source_cutoff
   )
 
   df_for_resampling <- ig_get_df_for_resampling(qsip_data_object,
-                                                wad_reference,
-                                                fraction_cutoff = fraction_cutoff,
-                                                source_cutoff = source_cutoff
+    wad_reference,
+    fraction_cutoff = fraction_cutoff,
+    source_cutoff = source_cutoff
   )
 
   if (method == "siegel") {
-    siegel = qsip_data_object@wads |>
+    siegel <- qsip_data_object@wads |>
       dplyr::filter(feature_id %in% wad_reference$feature_id) |>
       dplyr::left_join(wad_reference, by = dplyr::join_by(feature_id)) |>
       dplyr::left_join(get_dataframe(qsip_data_object, type = "source"), by = dplyr::join_by(source_mat_id)) |>
       tidyr::nest(data = -source_mat_id) |>
-      dplyr::mutate(siegel = purrr::map(data, ~RobustLinearReg::siegel_regression(WAD_reference_mean ~ WAD, .x),
-                                 progress = TRUE))
+      dplyr::mutate(siegel = purrr::map(data, ~ RobustLinearReg::siegel_regression(WAD_reference_mean ~ WAD, .x),
+        progress = TRUE
+      ))
 
-    corrections = get_dataframe(qsip_data_object, "sample") |>
+    corrections <- get_dataframe(qsip_data_object, "sample") |>
       dplyr::rename(WAD = gradient_pos_density) |>
       tidyr::nest(data = -source_mat_id) |>
       dplyr::left_join(siegel, by = "source_mat_id") |>
-      dplyr::mutate(p = purrr::map2(siegel, data.x, ~broom::augment(.x, newdata = .y))) |>
+      dplyr::mutate(p = purrr::map2(siegel, data.x, ~ broom::augment(.x, newdata = .y))) |>
       tidyr::unnest(p)
 
-    qf = qsip_data_object@feature_data
-    qm = qsip_data_object@source_data
+    qf <- qsip_data_object@feature_data
+    qm <- qsip_data_object@source_data
 
-    qs = corrections |>
+    qs <- corrections |>
       dplyr::select(-data.x, -data.y, -siegel) |>
-      qsip_sample_data(gradient_pos_density = ".fitted",
-                       overwrite = T)
+      qsip_sample_data(
+        gradient_pos_density = ".fitted",
+        overwrite = T
+      )
 
-    q = qsip_data(qm, qs, qf)
+    q <- qsip_data(qm, qs, qf)
     return(q)
   }
-
 }
 
 
@@ -192,6 +199,7 @@ correct_gpd_rlm <- function(qsip_data_object,
 #' @param qsip_data_object (*qsip_data*) A qsip data object
 #' @param fraction_cutoff (*numeric, default: 5*) The minimum number of fractions a feature must be found in to be considered
 #' @param source_cutoff (*numeric, default: 3*) The minimum number of sources a feature must be found in to be considered
+#' @param quiet (*logical, default: FALSE*) Whether to print a message about the number of features found
 #'
 #' @keywords internal
 #'
@@ -199,9 +207,10 @@ correct_gpd_rlm <- function(qsip_data_object,
 
 iq_get_wad_reference <- function(qsip_data_object,
                                  fraction_cutoff = 5,
-                                 source_cutoff = 3) {
+                                 source_cutoff = 3,
+                                 quiet = F) {
   # error if is_qsip_data(qsip_data_object) is not true
-  if (isFALSE(is_qsip_data(qsip_data_object))) {
+  if (!inherits(qsip_data_object, qsip_data)) {
     stop("<qsip_data_object> must be of class qsip_data", call. = FALSE)
   }
 
@@ -232,6 +241,11 @@ iq_get_wad_reference <- function(qsip_data_object,
     ) |>
     dplyr::arrange(feature_id)
 
+  if (!quiet) {
+    message(wad_reference |>
+      dplyr::n_distinct("feature_id"), " reference features found with at least ", fraction_cutoff, " fractions and ", source_cutoff, " sources")
+  }
+
   return(wad_reference)
 }
 
@@ -239,13 +253,17 @@ iq_get_wad_reference <- function(qsip_data_object,
 
 #' Make nested dataframe for gpd adjustment sampling
 #'
+#' @param qsip_data_object (*qsip_data*) A qsip data object
+#' @param wad_reference (*tibble*) A tibble of WAD reference values
+#' @param fraction_cutoff (*numeric, default: 5*) The minimum number of fractions a feature must be found in to be considered
+#' @param source_cutoff (*numeric, default: 3*) The minimum number of sources a feature must be found in to be considered
 #'
 #' @keywords internal
 
 ig_get_df_for_resampling <- function(qsip_data_object,
                                      wad_reference,
-                                     fraction_cutoff,
-                                     source_cutoff) {
+                                     fraction_cutoff = 5,
+                                     source_cutoff = 3) {
   df_for_resampling <- qsip_data_object@wads |>
     dplyr::filter(feature_id %in% wad_reference$feature_id) |>
     dplyr::filter(n_fractions >= fraction_cutoff) |>
@@ -265,12 +283,15 @@ ig_get_df_for_resampling <- function(qsip_data_object,
 
 #' Plot difference between feature WAD and WAD reference
 #'
+#' @param qsip_data_object (*qsip_data*) A qsip data object
+#' @param fraction_cutoff (*numeric, default: 5*) The minimum number of fractions a feature must be found in to be considered
+#' @param source_cutoff (*numeric, default: 3*) The minimum number of sources a feature must be found in to be considered
+#'
 #' @export
 
 plot_difference_to_mean <- function(qsip_data_object,
                                     fraction_cutoff = 5,
                                     source_cutoff = 3) {
-
   wad_reference <- iq_get_wad_reference(qsip_data_object,
     fraction_cutoff = fraction_cutoff,
     source_cutoff = source_cutoff
@@ -291,4 +312,68 @@ plot_difference_to_mean <- function(qsip_data_object,
     ggplot2::labs(x = "WAD minus Reference WAD", fill = "quantiles") +
     ggplot2::facet_wrap(~isotope, scales = "free_y") +
     ggplot2::geom_vline(xintercept = 0, linetype = 3, color = "purple", linewidth = 1)
+}
+
+
+
+
+
+
+
+#' Plot curves of corrected sample curves versus reference
+#'
+#' @param reference (*qsip_data*) A qsip data object
+#' @param corrected (*qsip_data*) A qsip data object
+#'
+#' @export
+
+plot_corrected_curves <- function(reference, corrected) {
+  l <- list(
+    "reference" = dplyr::left_join(slot(reference, "wads"), slot(reference, "tube_rel_abundance"), by = dplyr::join_by(feature_id, source_mat_id)),
+    "corrected" = dplyr::left_join(slot(corrected, "wads"), slot(corrected, "tube_rel_abundance"), by = dplyr::join_by(feature_id, source_mat_id))
+  )
+
+  dplyr::bind_rows(l, .id = "correction_method") |>
+    dplyr::summarize(tube_rel_abundance = sum(tube_rel_abundance), .by = c(correction_method, source_mat_id, gradient_pos_density, sample_id)) |>
+    dplyr::left_join(get_dataframe(reference, type = "source"), by = dplyr::join_by(source_mat_id)) |>
+    ggplot2::ggplot(ggplot2::aes(x = gradient_pos_density, y = correction_method)) +
+    ggridges::geom_density_ridges(ggplot2::aes(fill = correction_method, height = tube_rel_abundance), stat = "identity", alpha = 0.9) +
+    ggplot2::facet_wrap(~ isotope + source_mat_id, ncol = 6) +
+    ggplot2::scale_fill_manual(values = c("reference" = "gray70", "corrected" = "dodgerblue")) +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1))
+}
+
+
+#' Plot the correction statistics
+#'
+#' @param reference (*qsip_data*) A qsip data object
+#' @param corrected (*qsip_data*) A qsip data object
+#' @param source_cutoff (*numeric, default: 3*) The minimum number of sources a feature must be found in to be considered
+#' @param fraction_cutoff (*numeric, default: 5*) The minimum number of fractions a feature must be found in to be considered
+#' @param quiet (*logical, default: FALSE*) Whether to print a message about the number of features found
+#'
+#' @export
+
+plot_correction_stats <- function(reference, corrected, source_cutoff = 3, fraction_cutoff = 5, quiet = F) {
+
+  l <- list(
+    "reference" = reference@wads,
+    "corrected" = corrected@wads
+  )
+
+  wad_reference <- iq_get_wad_reference(reference, source_cutoff = source_cutoff, fraction_cutoff = fraction_cutoff, quiet = quiet)
+
+  dplyr::bind_rows(l, .id = "correction_method") |>
+    dplyr::mutate(correction_method = forcats::fct_relevel(correction_method, c("reference", "corrected"))) |>
+    dplyr::left_join(wad_reference, by = dplyr::join_by(feature_id)) |>
+    dplyr::left_join(get_dataframe(reference, type = "source"), by = dplyr::join_by(source_mat_id)) |>
+    dplyr::group_by(correction_method, source_mat_id, isotope) |>
+    yardstick::metrics(truth = WAD_reference_mean, estimate = WAD) |>
+    ggplot2::ggplot(ggplot2::aes(x = correction_method, y = .estimate, color = isotope)) +
+    ggplot2::geom_boxplot(fill = NA) +
+    ggplot2::geom_point(position = ggplot2::position_dodge2(width = 0.8)) +
+    ggplot2::facet_wrap(~.metric, scales = "free_y", ncol = 3) +
+    ggplot2::scale_color_manual(values = isotope_palette) +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+    ggplot2::expand_limits(y = 0)
 }
