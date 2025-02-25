@@ -4,7 +4,7 @@
 \alias{jgi_normalize_features}
 \title{asdf}
 \usage{
-jgi_normalize_features(features, method = "lm")
+jgi_normalize_features(features, samples, method = "lm")
 }
 \description{
 asdf

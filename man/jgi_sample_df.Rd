@@ -4,7 +4,7 @@
 \alias{jgi_sample_df}
 \title{Make a sample dataframe from JGI proposal file}
 \usage{
-jgi_sample_df(file_path, skip = 27)
+jgi_sample_df(file_path, sources, skip = 27)
 }
 \description{
 Make a sample dataframe from JGI proposal file
