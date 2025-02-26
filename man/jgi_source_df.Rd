@@ -6,6 +6,24 @@
 \usage{
 jgi_source_df(file_path, skip = 27)
 }
+\arguments{
+\item{file_path}{A file path to a JGI proposal file}
+
+\item{skip}{The number of lines to skip in the proposal file}
+}
+\value{
+A dataframe suitable for \code{qSIP2} workflows
+}
 \description{
 Make a source dataframe from JGI proposal file
 }
+\seealso{
+Other "spike-ins": 
+\code{\link{fit_regression_model}()},
+\code{\link{get_normalized_controls}()},
+\code{\link{get_normalized_features}()},
+\code{\link{jgi_feature_df}()},
+\code{\link{jgi_normalize_features}()},
+\code{\link{jgi_sample_df}()}
+}
+\concept{"spike-ins"}

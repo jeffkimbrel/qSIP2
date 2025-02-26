@@ -82,9 +82,9 @@ reference:
   - jgi_source_df
   - jgi_sample_df
   - jgi_feature_df
-  - fit_regression_model
   - jgi_normalize_features
   - get_normalized_features
+  - get_normalized_controls
 
 - title: Datasets
   contents:

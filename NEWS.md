@@ -1,6 +1,7 @@
 # qSIP2 0.19
 
 * Many functions for correcting WAD values (details coming soon)
+* more documentation for spike-in control functions
 
 # qSIP2 0.18
 

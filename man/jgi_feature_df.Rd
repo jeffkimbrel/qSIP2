@@ -6,6 +6,22 @@
 \usage{
 jgi_feature_df(coverage_file)
 }
+\arguments{
+\item{coverage_file}{A file path to a JGI coverage file}
+}
+\value{
+A dataframe suitable for \code{qSIP2} workflows
+}
 \description{
 Make a feature dataframe from a JGI coverage file
 }
+\seealso{
+Other "spike-ins": 
+\code{\link{fit_regression_model}()},
+\code{\link{get_normalized_controls}()},
+\code{\link{get_normalized_features}()},
+\code{\link{jgi_normalize_features}()},
+\code{\link{jgi_sample_df}()},
+\code{\link{jgi_source_df}()}
+}
+\concept{"spike-ins"}

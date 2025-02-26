@@ -213,7 +213,7 @@ correct_gpd_rlm <- function(qsip_data_object,
 #'
 #' @keywords internal
 #'
-#' @return A tibble
+#' @returns A tibble
 
 iq_get_wad_reference <- function(qsip_data_object,
                                  fraction_cutoff = 5,
