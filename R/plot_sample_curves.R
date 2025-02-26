@@ -78,7 +78,7 @@ plot_sample_curves <- function(qsip_data_object,
     p <- p +
       ggplot2::geom_point(ggplot2::aes(color = isotope)) +
       ggplot2::geom_line(linewidth = 1, ggplot2::aes(color = isotope)) +
-      ggplot2::facet_wrap(~source_mat_id) +
+      ggplot2::facet_wrap(~source_mat_id, scales = "free_y") +
       ggplot2::scale_color_manual(values = isotope_palette)
 
 

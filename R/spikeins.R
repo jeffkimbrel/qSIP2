@@ -180,9 +180,9 @@ jgi_sample_df <- function(file_path, sources, skip = 27) {
   ) |>
     tibble::enframe() |>
     dplyr::filter(stringr::str_detect(value, "^\\d+\\.\\d+")) |>
-    tidyr::separate(value, sep = "\t", into = c("Fraction", "Fraction_eluted_volume (uL)", "Fraction_density (g/mL)", "Eluted_DNA_concentration (ng/uL)", "Run_date", "Library_name", "Fastq_name", "Sequencing_project_ID", "Sequins_added (pg)", "Mix_type", "Raw_reads_count", "Filtered_reads_count")) |>
-    tidyr::separate(Fraction, sep = " ", into = c("Fraction", "sample_id")) |>
-    tidyr::separate(Fraction, sep = "\\.", into = c("SOURCE", "Fraction")) |>
+    tidyr::separate(value, sep = "\t", into = c("Gradient_position", "sample_id", "Fraction_eluted_volume (uL)", "Fraction_density (g/mL)", "Eluted_DNA_concentration (ng/uL)", "Run_date", "Library_name", "Fastq_name", "Sequencing_project_ID", "Sequins_added (pg)", "Mix_type", "Raw_reads_count", "Filtered_reads_count")) |>
+    #tidyr::separate(Fraction_name, sep = " ", into = c("Fraction", "sample_id")) |>
+    tidyr::separate(Gradient_position, sep = "\\.", into = c("SOURCE", "Fraction")) |>
     dplyr::select(sample_id,
       SOURCE,
       gradient_pos = Fraction,
