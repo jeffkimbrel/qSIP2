@@ -14,7 +14,7 @@ reference:
 
 - title: qSIP2 EAF Workflow
   contents:
-  - show_comparison_groups
+  - get_comparison_groups
   - run_feature_filter
   - run_resampling
   - run_EAF_calculations
@@ -45,7 +45,7 @@ reference:
   - add_gradient_pos_rel_amt
   - add_taxonomy
   - correct_gradient_pos_density
-  - show_unshared_ids
+  - get_unshared_ids
   - is_qsip_data
   - is_qsip_data_list
   - is_qsip_filtered
@@ -126,7 +126,7 @@ reference:
   - source_results_message
   - calculate_resampled_wads
   - calculate_Z
-  - find_shared_ids
+  - get_shared_ids
   - remove_isotopolog_label_check
   - pivot_kbase_amplicon_matrix
   - get_filtered_source_counts
@@ -135,6 +135,9 @@ reference:
   - calculate_di
   - calculate_bi
   - plot_resampling_convergence
+  - find_shared_ids
+  - show_unshared_ids
+  - show_comparison_groups
 
 articles:
 - title: Learn qSIP
