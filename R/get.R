@@ -120,6 +120,7 @@ get_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL)
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
+#' @export
 
 find_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL) {
   lifecycle::deprecate_warn("0.20", "find_shared_ids()", "get_shared_ids()")
@@ -152,6 +153,7 @@ get_unshared_ids <- function(qsip_data_object) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
+#' @export
 
 show_unshared_ids <- function(qsip_data_object) {
   lifecycle::deprecate_warn("0.20", "show_unshared_ids()", "get_unshared_ids()")
@@ -234,6 +236,8 @@ get_comparison_groups <- function(source_data = NULL,
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
+#'
+#' @export
 
 show_comparison_groups <- function(source_data = NULL,
                                    group = NULL,
