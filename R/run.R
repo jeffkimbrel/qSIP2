@@ -127,11 +127,11 @@ run_feature_filter <- function(qsip_data_object,
       .groups = "drop"
     ) |>
     tidyr::complete(feature_id, # fill in missing fractions with 0
-      source_mat_id,
-      fill = list(
-        n_fractions = 0,
-        tube_rel_abundance = 0
-      )
+                    source_mat_id,
+                    fill = list(
+                      n_fractions = 0,
+                      tube_rel_abundance = 0
+                    )
     ) |>
     dplyr::mutate(type = dplyr::case_when(
       source_mat_id %in% unlabeled_source_mat_ids ~ "unlabeled",
@@ -164,11 +164,11 @@ run_feature_filter <- function(qsip_data_object,
       .groups = "drop"
     ) |>
     tidyr::complete(feature_id,
-      type,
-      fill = list(
-        n_sources = 0,
-        tube_rel_abundance = 0
-      )
+                    type,
+                    fill = list(
+                      n_sources = 0,
+                      tube_rel_abundance = 0
+                    )
     ) |>
     dplyr::mutate(source_call = dplyr::case_when(
       n_sources == 0 ~ "Zero Sources",
@@ -239,85 +239,116 @@ run_feature_filter <- function(qsip_data_object,
   return(qsip_data_object)
 }
 
-#' Filter features by fraction message formatting (internal)
+
+
+
+#' Resample WAD values
 #'
-#' @param by_fraction by_fraction dataframe from run_feature_filter
+#' Takes a filtered WAD dataframe and resamples x times
 #'
-#' @export
-
-fraction_results_message <- function(by_fraction) {
-
-  # binding variables
-  feature_id <- type <- fraction_call <- counts <- NULL
-
-  fraction_results <- by_fraction |>
-    dplyr::count(feature_id, type, fraction_call) |>
-    # unique() |>
-    dplyr::count(type, fraction_call, name = "counts") |>
-    tidyr::pivot_wider(names_from = type, values_from = counts, values_fill = 0) |>
-    tibble::column_to_rownames("fraction_call")
-
-  if (!is.na(fraction_results["Zero Fractions", "unlabeled"])) {
-    message(glue::glue_col('{red {fraction_results["Zero Fractions","unlabeled"]}} unlabeled and {red {fraction_results["Zero Fractions","labeled"]}} labeled feature_ids were found in {red zero fractions} in at least one source_mat_id'))
-  }
-
-  if (!is.na(fraction_results["Fraction Filtered", "unlabeled"])) {
-    message(glue::glue_col('{red {fraction_results["Fraction Filtered","unlabeled"]}} unlabeled and {red {fraction_results["Fraction Filtered","labeled"]}} labeled feature_ids were found in {red too few fractions} in at least one source_mat_id'))
-  }
-
-  if (!is.na(fraction_results["Fraction Passed", "unlabeled"])) {
-    message(glue::glue_col('{green {fraction_results["Fraction Passed","unlabeled"]}} unlabeled and {green {fraction_results["Fraction Passed","labeled"]}} labeled feature_ids {green passed} the fraction filter'))
-  }
-
-  fraction_passed <- by_fraction |>
-    dplyr::filter(fraction_call == "Fraction Passed") |>
-    dplyr::pull(feature_id) |>
-    unique() |>
-    length()
-
-  message(glue::glue_col("In total, {green {fraction_passed}} unique feature_ids {green passed} the fraction filtering requirements..."))
-
-}
-
-#' Filter features by source message formatting (internal)
+#' This function returns a list of resampled dataframes of x length for both the
+#' labeled and unlabeled sources.
 #'
-#' @param by_source by_source dataframe from run_feature_filter
+#' @param qsip_data_object (*qsip_data*) A qsip data object that has been filtered
+#' @param resamples (*integer*) The number of resamples/bootstraps to run
+#' @param with_seed (*integer*) An optional seed for reproducibility
+#' @param progress (*boolean*) Option to show a progress bar for the resampling step
+#' @param allow_failures (*boolean*) Option to allow resampling failures. If TRUE, the function will continue to resample even if some features fail. If FALSE, the function will stop if any features fail.
+#' @param quiet (*boolean*) Option to suppress messages
+#'
+#' @returns A new `qsip_data` object with the `@resamples` slot populated with resamples wad values
 #'
 #' @export
 
-source_results_message <- function(by_source) {
+run_resampling <- function(qsip_data_object,
+                           resamples = 1000,
+                           with_seed = NULL,
+                           allow_failures = FALSE,
+                           progress = TRUE,
+                           quiet = FALSE) {
 
-  # binding variables
-  feature_id <- type <- source_call <- counts <- labeled <- unlabeled <- NULL
+  is_qsip_filtered(qsip_data_object, error = TRUE)
 
-  source_results <- by_source |>
-    dplyr::select(feature_id, type, source_call) |>
-    unique() |>
-    dplyr::count(type, source_call, name = "counts") |>
-    tidyr::pivot_wider(names_from = type, values_from = counts, values_fill = 0) |>
-    tibble::column_to_rownames("source_call")
+  stopifnot("progress must be either TRUE of FALSE" = progress %in% c(TRUE, FALSE))
+  stopifnot("resamples should be class <numeric>" = is.numeric(resamples))
+  stopifnot("resamples should be positive" = resamples > 0)
 
-  if (!is.na(source_results["Zero Sources", "unlabeled"])) {
-    message(glue::glue_col('{red {source_results["Zero Sources","unlabeled"]}} unlabeled and {red {source_results["Zero Sources","labeled"]}} labeled feature_ids failed the source filter because they were found in {red zero sources}'))
+  # bind variables
+  n <- type <- NULL
+
+  # v0.11.5 fixed to convert to characters
+  unlabeled <- as.character(qsip_data_object@filter_results$unlabeled_source_mat_ids)
+  labeled <- as.character(qsip_data_object@filter_results$labeled_source_mat_ids)
+
+
+  # set seed if given
+  if (!is.null(with_seed)) {
+    set.seed(with_seed)
+  } else {
+    if (isFALSE(quiet)) {
+      message("Using random seed. For consistency, you can use the with_seed argument")
+    }
   }
 
-  if (!is.na(source_results["Source Filtered", "unlabeled"])) {
-    message(glue::glue_col('{red {source_results["Source Filtered","unlabeled"]}} unlabeled and {red {source_results["Source Filtered","labeled"]}} labeled feature_ids failed the source filter because they were found in {red too few sources}'))
+  # create individual dataframes for resampling
+  labeled_wads <- qsip_data_object@filtered_wad_data |>
+    tibble::column_to_rownames("feature_id") |>
+    dplyr::select(dplyr::all_of(labeled))
+
+  unlabeled_wads <- qsip_data_object@filtered_wad_data |>
+    tibble::column_to_rownames("feature_id") |>
+    dplyr::select(dplyr::all_of(unlabeled))
+
+  # remove NAs?
+
+  # run resampling. This will return a list of x size with resampling results
+  if (isTRUE(progress)) {
+    progress_bar_l <- "labeled resamples..."
+    progress_bar_u <- "unlabeled resamples..."
+  } else {
+    progress_bar_l <- FALSE
+    progress_bar_u <- FALSE
   }
 
-  if (!is.na(source_results["Source Passed", "unlabeled"])) {
-    message(glue::glue_col('{green {source_results["Source Passed","unlabeled"]}} unlabeled and {green {source_results["Source Passed","labeled"]}} labeled feature_ids {green passed} the source filter'))
+  labeled_resamples <- purrr::map(1:resamples, \(i) calculate_resampled_wads(
+    i, labeled_wads,
+    "labeled",
+    allow_failures = allow_failures
+  ), .progress = progress_bar_l)
+
+  unlabeled_resamples <- purrr::map(1:resamples, \(i) calculate_resampled_wads(
+    i, unlabeled_wads,
+    "unlabeled",
+    allow_failures = allow_failures
+  ), .progress = progress_bar_u)
+
+  # merge two lists into a list of lists in the @resamples slot
+  qsip_data_object@resamples <- list(
+    "l" = labeled_resamples,
+    "u" = unlabeled_resamples,
+    "n" = resamples,
+    "seed" = with_seed,
+    "allow_failures" = allow_failures
+  )
+
+  if (isTRUE(allow_failures)) {
+    failures <- get_resample_counts(qsip_data_object) |>
+      tidyr::pivot_longer(cols = c("unlabeled_resamples", "labeled_resamples"),
+                          names_to = "type",
+                          values_to = "n") |>
+      dplyr::filter(n < 1000) |>
+      dplyr::group_by(type) |>
+      dplyr::count() |>
+      tibble::deframe()
+
+    if (sum(failures > 0)) {
+      if (isFALSE(quiet)) {
+        warning(glue::glue("{failures['unlabeled']} unlabeled and {failures['labeled']} labeled feature_ids had resampling failures. Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect."),
+                call. = FALSE)
+      }
+    }
   }
 
-  total_passed <- by_source |>
-    dplyr::select(feature_id, type, source_call) |>
-    tidyr::pivot_wider(names_from = type, values_from = source_call) |>
-    dplyr::filter(labeled == "Source Passed" & unlabeled == "Source Passed") |>
-    dplyr::pull(feature_id) |>
-    unique() |>
-    length()
-
-  message(rep("=+", 25))
-
-  message(glue::glue_col("In total, {green {total_passed}} unique feature_ids {green passed} all fraction and source filtering requirements"))
+  # return the complete qsip_data object
+  qsip_data_object
 }

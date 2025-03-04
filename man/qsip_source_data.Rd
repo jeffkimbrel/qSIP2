@@ -65,7 +65,7 @@ One column of metadata that is required although not used by \code{qSIP2} is the
 \code{isotopolog} column. This column is required to capture complete metadata that
 is compliant with the MISIP standards. However, when running experiments with multiple
 isotopologs this column can be used to generate correct comparison groups using
-the \code{show_comparison_groups()} function.
+the \code{get_comparison_groups()} function.
 }
 \seealso{
 Other "qSIP Objects": 

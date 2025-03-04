@@ -57,7 +57,7 @@ The results of the last filtering step are used in this step to make a final cal
 
 # Example
 
-As detailed in the main vignette, we can use the `show_comparison_groups()` function to see the available comparisons (this is just a prediction though!). We can run a few with the test dataset (`example_qsip_object`) and see how the text result changes to allow less through as we get more restrictive. 
+As detailed in the main vignette, we can use the `get_comparison_groups()` function to see the available comparisons (this is just a prediction though!). We can run a few with the test dataset (`example_qsip_object`) and see how the text result changes to allow less through as we get more restrictive. 
 
 ```{r}
 restrictive <- run_feature_filter(example_qsip_object,

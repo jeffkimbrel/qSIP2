@@ -31,7 +31,7 @@
 #' `isotopolog` column. This column is required to capture complete metadata that
 #' is compliant with the MISIP standards. However, when running experiments with multiple
 #' isotopologs this column can be used to generate correct comparison groups using
-#' the `show_comparison_groups()` function.
+#' the `get_comparison_groups()` function.
 #'
 #' @param data (*dataframe*) Source metadata
 #' @param isotope (*string*) Isotope name

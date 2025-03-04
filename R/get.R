@@ -700,3 +700,91 @@ resample_seed <- function(qsip_data_object) {
   }
 }
 
+
+
+#' Filter features by fraction message formatting (internal)
+#'
+#' @param by_fraction by_fraction dataframe from run_feature_filter
+#'
+#' @export
+
+fraction_results_message <- function(by_fraction) {
+
+  # binding variables
+  feature_id <- type <- fraction_call <- counts <- NULL
+
+  fraction_results <- by_fraction |>
+    dplyr::count(feature_id, type, fraction_call) |>
+    # unique() |>
+    dplyr::count(type, fraction_call, name = "counts") |>
+    tidyr::pivot_wider(names_from = type, values_from = counts, values_fill = 0) |>
+    tibble::column_to_rownames("fraction_call")
+
+  if (!is.na(fraction_results["Zero Fractions", "unlabeled"])) {
+    message(glue::glue_col('{red {fraction_results["Zero Fractions","unlabeled"]}} unlabeled and {red {fraction_results["Zero Fractions","labeled"]}} labeled feature_ids were found in {red zero fractions} in at least one source_mat_id'))
+  }
+
+  if (!is.na(fraction_results["Fraction Filtered", "unlabeled"])) {
+    message(glue::glue_col('{red {fraction_results["Fraction Filtered","unlabeled"]}} unlabeled and {red {fraction_results["Fraction Filtered","labeled"]}} labeled feature_ids were found in {red too few fractions} in at least one source_mat_id'))
+  }
+
+  if (!is.na(fraction_results["Fraction Passed", "unlabeled"])) {
+    message(glue::glue_col('{green {fraction_results["Fraction Passed","unlabeled"]}} unlabeled and {green {fraction_results["Fraction Passed","labeled"]}} labeled feature_ids {green passed} the fraction filter'))
+  }
+
+  fraction_passed <- by_fraction |>
+    dplyr::filter(fraction_call == "Fraction Passed") |>
+    dplyr::pull(feature_id) |>
+    unique() |>
+    length()
+
+  message(glue::glue_col("In total, {green {fraction_passed}} unique feature_ids {green passed} the fraction filtering requirements..."))
+
+}
+
+
+
+
+
+#' Filter features by source message formatting (internal)
+#'
+#' @param by_source by_source dataframe from run_feature_filter
+#'
+#' @export
+
+source_results_message <- function(by_source) {
+
+  # binding variables
+  feature_id <- type <- source_call <- counts <- labeled <- unlabeled <- NULL
+
+  source_results <- by_source |>
+    dplyr::select(feature_id, type, source_call) |>
+    unique() |>
+    dplyr::count(type, source_call, name = "counts") |>
+    tidyr::pivot_wider(names_from = type, values_from = counts, values_fill = 0) |>
+    tibble::column_to_rownames("source_call")
+
+  if (!is.na(source_results["Zero Sources", "unlabeled"])) {
+    message(glue::glue_col('{red {source_results["Zero Sources","unlabeled"]}} unlabeled and {red {source_results["Zero Sources","labeled"]}} labeled feature_ids failed the source filter because they were found in {red zero sources}'))
+  }
+
+  if (!is.na(source_results["Source Filtered", "unlabeled"])) {
+    message(glue::glue_col('{red {source_results["Source Filtered","unlabeled"]}} unlabeled and {red {source_results["Source Filtered","labeled"]}} labeled feature_ids failed the source filter because they were found in {red too few sources}'))
+  }
+
+  if (!is.na(source_results["Source Passed", "unlabeled"])) {
+    message(glue::glue_col('{green {source_results["Source Passed","unlabeled"]}} unlabeled and {green {source_results["Source Passed","labeled"]}} labeled feature_ids {green passed} the source filter'))
+  }
+
+  total_passed <- by_source |>
+    dplyr::select(feature_id, type, source_call) |>
+    tidyr::pivot_wider(names_from = type, values_from = source_call) |>
+    dplyr::filter(labeled == "Source Passed" & unlabeled == "Source Passed") |>
+    dplyr::pull(feature_id) |>
+    unique() |>
+    length()
+
+  message(rep("=+", 25))
+
+  message(glue::glue_col("In total, {green {total_passed}} unique feature_ids {green passed} all fraction and source filtering requirements"))
+}

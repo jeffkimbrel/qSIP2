@@ -180,7 +180,7 @@ qsip_object <- qsip_data(
 class(qsip_object)
 ```
 
-This function will report if all `source_mat_id`s are shared between the source and sample data, and if all `sample_id`s are shared between the sample and feature data. If it reports there are some unshared ids, you can access them with `show_unshared_ids(qsip_object)`, but note that it is just a warning and does not stop the creation of the qSIP object.
+This function will report if all `source_mat_id`s are shared between the source and sample data, and if all `sample_id`s are shared between the sample and feature data. If it reports there are some unshared ids, you can access them with `get_unshared_ids(qsip_object)`, but note that it is just a warning and does not stop the creation of the qSIP object.
 
 ## Visualizations
 
@@ -219,10 +219,10 @@ Now that we have a validated `qsip_data` object, we can start the main workflow 
 
 ## Comparison Grouping
 
-Your `qsip_data` object likely contains all of your data, but you may only want to run comparisons on certain subsets. The `show_comparison_groups()` function attempts to identify and suggest the sources you may want to compare.
+Your `qsip_data` object likely contains all of your data, but you may only want to run comparisons on certain subsets. The `get_comparison_groups()` function attempts to identify and suggest the sources you may want to compare.
 
 ```{r, eval=FALSE}
-show_comparison_groups(qsip_object,
+get_comparison_groups(qsip_object,
   group = "Moisture",
   isotope = "isotope",
   source_mat_id = "source_mat_id"
@@ -230,12 +230,12 @@ show_comparison_groups(qsip_object,
 ```
 
 ```{r, echo=FALSE}
-show_comparison_groups(qsip_object,
+get_comparison_groups(qsip_object,
   group = "Moisture",
   isotope = "isotope",
   source_mat_id = "source_mat_id"
 ) |>
-  knitr::kable(caption = "Output of `show_comparison_groups()`")
+  knitr::kable(caption = "Output of `get_comparison_groups()`")
 ```
 
 The `group` argument here is the most important as it will define the rows that it thinks constitute a comparison. The `isotope` argument is what defines the labeled and unlabeled values for the comparisons. This can be more complex, particularly if you have more than one isotopolog, and details will be made available in the future in another vignette.
@@ -248,7 +248,7 @@ get_all_by_isotope(qsip_object, "12C")
 
 
 ::: {.alert .alert-primary}
-The `show_comparison_groups()` function is entirely informational. There is a more automated way to run the qSIP workflow using the `run_comparison_groups()` function, and it will be detailed in another vignette.
+The `get_comparison_groups()` function is entirely informational. There is a more automated way to run the qSIP workflow using the `run_comparison_groups()` function, and it will be detailed in another vignette.
 :::
 
 
