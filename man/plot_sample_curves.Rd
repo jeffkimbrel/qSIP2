@@ -20,6 +20,8 @@ plot_sample_curves(
 \item{facet_by}{(\emph{character}) Facet the plots by "source" or by "isotope"}
 
 \item{show_wad}{(\emph{logical}) A logical value}
+
+\item{colors}{deprecated}
 }
 \value{
 A ggplot object

@@ -120,6 +120,11 @@ get_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL)
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
+#'
+#' @param source_data (*qsip_source_data or qsip_data*) A qSIP object with source data object
+#' @param sample_data (*qsip_sample_data*) A qSIP sample data object
+#' @param feature_data (*qsip_feature_data*) A qSIP feature data object
+#'
 #' @export
 
 find_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL) {
@@ -153,6 +158,9 @@ get_unshared_ids <- function(qsip_data_object) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
+#'
+#' @param qsip_data_object (*qsip_data*) A qSIP data object
+#'
 #' @export
 
 show_unshared_ids <- function(qsip_data_object) {
@@ -237,6 +245,11 @@ get_comparison_groups <- function(source_data = NULL,
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #'
+#' @param source_data (*dataframe, qsip_source_data or qsip_data*) Sample metadata
+#' @param group (*string*) Treatment value or values
+#' @param isotope (*string, default: isotope*) Column name with isotope data
+#' @param source_mat_id (*string, default: source_mat_id*) Column name with source_mat_id
+#'
 #' @export
 
 show_comparison_groups <- function(source_data = NULL,
@@ -256,6 +269,7 @@ show_comparison_groups <- function(source_data = NULL,
 #' @param qsip_data_object (*qsip_data or qsip_source_data*) A qsip object with source data
 #' @param isotopes (*string(s)*) Isotopes used to pull source_mat_ids. Can be a standard isotope name (e.g. `12C`) or special terms `labeled` or `unlabeled`
 #' @param quiet (*boolean*) If `TRUE`, suppresses messages about missing isotope hits and doesn't fail
+#' @param silent Deprecated, use `quiet` instead
 #'
 #' @returns A vector of source_mat_ids. It may also print some messages.
 #'

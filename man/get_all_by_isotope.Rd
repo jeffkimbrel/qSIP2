@@ -17,6 +17,8 @@ get_all_by_isotope(
 \item{isotopes}{(\emph{string(s)}) Isotopes used to pull source_mat_ids. Can be a standard isotope name (e.g. \verb{12C}) or special terms \code{labeled} or \code{unlabeled}}
 
 \item{quiet}{(\emph{boolean}) If \code{TRUE}, suppresses messages about missing isotope hits and doesn't fail}
+
+\item{silent}{Deprecated, use \code{quiet} instead}
 }
 \value{
 A vector of source_mat_ids. It may also print some messages.

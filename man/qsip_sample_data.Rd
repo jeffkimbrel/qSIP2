@@ -31,6 +31,8 @@ qPCR copies or DNA}
 
 \item{gradient_pos_rel_amt}{(\emph{string}) Column name with the relative fraction abundance
 compared to the total}
+
+\item{overwrite}{(\emph{boolean}) Whether or not to overwrite the gradient_pos_rel_amt values}
 }
 \value{
 A validated object of the \code{qsip_sample_data} type

@@ -113,6 +113,7 @@ plot_growth_values <- function(qsip_data_object,
 #' @param title (*character*) An optional title for the plot
 #' @param facet_by (*character*) Facet the plots by "source" or by "isotope"
 #' @param show_wad (*logical*) A logical value
+#' @param colors deprecated
 #'
 #' @export
 #'
@@ -859,6 +860,7 @@ plot_feature_resamplings <- function(qsip_data_object,
 #'
 #' @param qsip_data_object (*qsip_data*)
 #' @param return_type (*string, default: combined*) Changes the return type from a combined plot (*combined*), list of individual plots (*individual*) or list of dataframes (*dataframe*)
+#' @param colors deprecated
 #'
 #' @export
 #'

@@ -123,3 +123,34 @@
 #'
 #' @family "example datasets"
 "example_qsip_growth_t0"
+
+#' Color palettes for isotopes
+#'
+#' Used by default in the plots
+#'
+#' @format ## `isotope_palette`
+#' A named vector with length 6
+#'
+#' @family "palettes"
+"isotope_palette"
+
+#' An expanding color palette
+#'
+#' Used in some plots
+#'
+#' @format ## `source_palette`
+#' A function that takes a number
+#'
+#' @family "palettes"
+"source_palette"
+
+#' JGI control sequences
+#'
+#' Used to normalize controls
+#'
+#' @format ## `jgi_mixes`
+#' 252x8 tibble
+#'
+#' @family "normalization"
+"jgi_mixes"
+

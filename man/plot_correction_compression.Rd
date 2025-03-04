@@ -6,6 +6,9 @@
 \usage{
 plot_correction_compression(corrections)
 }
+\arguments{
+\item{corrections}{(\emph{tibble}) A tibble of corrections from \code{correct_gpd_rlm()}}
+}
 \description{
 Plot correction compression
 }

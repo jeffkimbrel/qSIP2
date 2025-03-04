@@ -14,6 +14,8 @@ plot_filter_results(
 \item{qsip_data_object}{(\emph{qsip_data})}
 
 \item{return_type}{(\emph{string, default: combined}) Changes the return type from a combined plot (\emph{combined}), list of individual plots (\emph{individual}) or list of dataframes (\emph{dataframe})}
+
+\item{colors}{deprecated}
 }
 \value{
 Combined or individual plots, or the raw dataframes

@@ -68,9 +68,9 @@ correct_gpd_bootstrap <- function(qsip_data_object,
                                   source_cutoff = 3,
                                   quiet = F,
                                   return = "qsip_data_object") {
+
   # return should be either "corrections" or "qsip_data_object"
   stopifnot("<return> should be either 'corrections' or 'qsip_data_object'" = return %in% c("corrections", "qsip_data_object"))
-
 
   wad_reference <- iq_get_wad_reference(qsip_data_object,
     fraction_cutoff = fraction_cutoff,
@@ -85,7 +85,7 @@ correct_gpd_bootstrap <- function(qsip_data_object,
   )
 
   corrections <- df_for_resampling |>
-    dplyr::mutate(b = purrr::map(data, ~ rsample::bootstraps(
+    dplyr::mutate(b = purrr::map(.datadata, ~ rsample::bootstraps(
       . |>
         dplyr::select(difference_to_mean),
       times = bootstraps
@@ -95,12 +95,12 @@ correct_gpd_bootstrap <- function(qsip_data_object,
       splits,
       function(x) {
         dat <- as.data.frame(x)$difference_to_mean
-        median(dat)
+        stats::median(dat)
       }
     )) |>
     dplyr::summarise(
       correction_mean = mean(m),
-      correction_median = median(m),
+      correction_median = stats::median(m),
       .by = source_mat_id
     ) |>
     dplyr::arrange(correction_mean)
@@ -404,7 +404,11 @@ get_correction_compression = function(corrections) {
     dplyr::summarize(compression = (max(.fitted) - min(.fitted)) / (max(WAD) - min(WAD)), .by = source_mat_id)
 }
 
+
+
 #' Plot correction compression
+#'
+#' @param corrections (*tibble*) A tibble of corrections from `correct_gpd_rlm()`
 #'
 #' @export
 

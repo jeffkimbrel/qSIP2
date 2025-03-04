@@ -6,6 +6,13 @@
 \usage{
 find_shared_ids(source_data, sample_data = NULL, feature_data = NULL)
 }
+\arguments{
+\item{source_data}{(\emph{qsip_source_data or qsip_data}) A qSIP object with source data object}
+
+\item{sample_data}{(\emph{qsip_sample_data}) A qSIP sample data object}
+
+\item{feature_data}{(\emph{qsip_feature_data}) A qSIP feature data object}
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }

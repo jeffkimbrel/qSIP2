@@ -322,6 +322,7 @@ qsip_feature_data <- S7::new_class(
 #' qPCR copies or DNA
 #' @param gradient_pos_rel_amt (*string*) Column name with the relative fraction abundance
 #'  compared to the total
+#' @param overwrite (*boolean*) Whether or not to overwrite the gradient_pos_rel_amt values
 #'
 #' @export
 #' @family "qSIP Objects"

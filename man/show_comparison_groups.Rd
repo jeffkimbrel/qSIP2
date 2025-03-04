@@ -11,6 +11,15 @@ show_comparison_groups(
   source_mat_id = "source_mat_id"
 )
 }
+\arguments{
+\item{source_data}{(\emph{dataframe, qsip_source_data or qsip_data}) Sample metadata}
+
+\item{group}{(\emph{string}) Treatment value or values}
+
+\item{isotope}{(\emph{string, default: isotope}) Column name with isotope data}
+
+\item{source_mat_id}{(\emph{string, default: source_mat_id}) Column name with source_mat_id}
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }

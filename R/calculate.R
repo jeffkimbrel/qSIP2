@@ -481,9 +481,15 @@ calculate_gc_from_density <- function(density,
 
 calculate_gc_from_sequence <- function(sequence) {
   if (is.character(sequence)) {
+
+    # error if string contains characters other than A, C, G or T
+    if (any(grepl("[^ACGTacgt]", sequence) == TRUE)) {
+      stop("<sequence> appears to contain invalid characters (not ACGT/acgt)")
+    }
+
     (stringr::str_count(sequence, "g|G") + stringr::str_count(sequence, "c|C")) / stringr::str_length(sequence)
   } else {
-    stop("ERROR: Please provide a string sequence to calculate GC%")
+    stop("Please provide a string sequence to calculate GC%")
   }
 }
 
@@ -537,7 +543,7 @@ qsip_object_size = function(qsip_data_object,
     l = qsip_data_object
     colname = "$group"
   } else {
-    stop("Input must be a qsip object or list of qsip objects", call. = F)
+    stop("<qsip_data_object> must be a qsip object or list of qsip objects", call. = F)
   }
 
   purrr::map_df(l, function(x) {
@@ -564,6 +570,15 @@ qsip_object_size = function(qsip_data_object,
 #' @export
 
 calculate_M_heavy <- function(propO, M) {
+
+  if (propO > 1 | propO < 0) {
+    stop("prop0 should be between 0 and 1", call. = FALSE)
+  }
+
+  if (!is.numeric(M)) {
+    stop("M should be class <numeric>", call. = FALSE)
+  }
+
   M_heavy <- (12.07747 * propO) + M
 
   return(M_heavy)

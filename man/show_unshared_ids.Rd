@@ -6,6 +6,9 @@
 \usage{
 show_unshared_ids(qsip_data_object)
 }
+\arguments{
+\item{qsip_data_object}{(\emph{qsip_data}) A qSIP data object}
+}
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
