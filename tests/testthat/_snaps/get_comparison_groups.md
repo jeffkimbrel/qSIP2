@@ -1,7 +1,7 @@
 # Works as expected
 
     Code
-      show_comparison_groups(example_qsip_object, group = "Moisture")
+      get_comparison_groups(example_qsip_object, group = "Moisture")
     Output
       # A tibble: 2 x 3
         Moisture `12C`                  `13C`                 
@@ -12,7 +12,7 @@
 ---
 
     Code
-      show_comparison_groups(example_source_object, group = "Moisture")
+      get_comparison_groups(example_source_object, group = "Moisture")
     Output
       # A tibble: 2 x 3
         Moisture `12C`                  `13C`                 
@@ -23,7 +23,7 @@
 ---
 
     Code
-      show_comparison_groups(example_source_df, group = "Moisture", source_mat_id = "source",
+      get_comparison_groups(example_source_df, group = "Moisture", source_mat_id = "source",
         isotope = "Isotope")
     Output
       # A tibble: 2 x 3

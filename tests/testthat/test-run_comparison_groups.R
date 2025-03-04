@@ -1,4 +1,4 @@
-df = show_comparison_groups(example_qsip_object, group = "Moisture") |>
+df = get_comparison_groups(example_qsip_object, group = "Moisture") |>
   dplyr::select("group" = Moisture, "unlabeled" = "12C", "labeled" = "13C")
 
 test_that("works as expected", {

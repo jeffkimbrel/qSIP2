@@ -1,3 +1,11 @@
+# qSIP2 0.20
+
+* prepping for v1.0
+* changed name of some functions so they match the larger naming scheme
+  * `show_comparison_groups()` to `get_comparison_groups()`
+  * `find_shared_ids()` to `get_shared_ids()`
+  * `show_unshared_ids()` to `get_unshared_ids()`
+
 # qSIP2 0.19
 
 * Many functions for correcting WAD values (details coming soon)

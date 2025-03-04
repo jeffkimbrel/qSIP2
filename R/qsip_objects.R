@@ -482,7 +482,7 @@ qsip_data <- S7::new_class(
 
     wad_data <- calculate_wads(tube_rel_abundance)
     source_wad <- calculate_source_wads(sample_data)
-    shared <- find_shared_ids(source_data, sample_data, feature_data)
+    shared <- get_shared_ids(source_data, sample_data, feature_data)
 
     S7::new_object(S7::S7_object(),
       source_data = source_data,

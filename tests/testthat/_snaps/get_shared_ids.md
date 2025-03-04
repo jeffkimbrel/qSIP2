@@ -1,7 +1,7 @@
 # works as expected
 
     Code
-      find_shared_ids(example_source_object, example_sample_object,
+      get_shared_ids(example_source_object, example_sample_object,
         example_feature_object)
     Message
       There are 15 source_mat_ids, and they are all shared between the source and sample objects
