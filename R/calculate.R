@@ -551,3 +551,107 @@ qsip_object_size = function(qsip_data_object,
     dplyr::arrange(-size_raw) |>
     dplyr::select(!!colname := names, size)
 }
+
+
+
+#' Calculate M_heavy
+#'
+#' This is equation 4 from Koch, 2018
+#'
+#' @param propO (*numeric*) The proportion of oxygen coming from 18H2O versus other sources
+#' @param M (*numeric*) The mass of the molecule
+#'
+#' @export
+
+calculate_M_heavy <- function(propO, M) {
+  M_heavy <- (12.07747 * propO) + M
+
+  return(M_heavy)
+}
+
+
+
+#' Calculate N_Light_it
+#'
+#' This is equation 3 from Koch, 2018
+#'
+#' @param N_total_it The copy number of feature i at timepoint t
+#' @param M_heavy The theoretical molecular weight of 100% labeled sequence
+#' @param M_labeled The molecular weight of the labeled sequence
+#' @param M The molecular weight of the unlabeled sequence
+#'
+#' @export
+
+calculate_N_light_it <- function(N_total_it, M_heavy, M_labeled, M) {
+  N_Light_it <- N_total_it * ((M_heavy - M_labeled) / (M_heavy - M))
+
+  return(N_Light_it)
+}
+
+
+
+
+#' Calculate death rate
+#'
+#' Equation 6 from Koch, 2018
+#'
+#' @param N_light_it The unlabeled copy number of feature i at timepoint t
+#' @param N_total_i0 The copy number of feature i at timepoint 0
+#' @param timepoint The timepoint at which the copy number is being measured
+#' @param timepoint1 The timepoint that is being compared against
+#' @param growth_model (*character, default: exponential*) The growth model to use. Must be either "exponential" or "linear"
+#'
+#' @export
+
+
+calculate_di <- function(N_light_it,
+                         N_total_i0,
+                         timepoint,
+                         timepoint1,
+                         growth_model = "exponential") {
+  if (!growth_model %in% c("exponential", "linear")) {
+    stop(glue::glue("growth_model must be either 'exponential' or 'linear', not {growth_model}"), call. = FALSE)
+  }
+
+  if (growth_model == "exponential") {
+    di <- log(N_light_it / N_total_i0) * (1 / (timepoint - timepoint1))
+  } else if (growth_model == "linear") {
+    di <- (N_light_it - N_total_i0) / (timepoint - timepoint1)
+  }
+
+  return(di)
+}
+
+
+
+
+
+#' Calculate birth rate
+#'
+#' Equation 7 from Koch, 2018
+#'
+#' @param N_total_it The copy number of feature i at timepoint t
+#' @param N_light_it The copy number of feature i at timepoint 0 (or timepoint that is being compared against)
+#' @param timepoint The timepoint at which the copy number is being measured
+#' @param timepoint1 The timepoint that is being compared against
+#' @param growth_model (*character, default: exponential*) The growth model to use. Must be either "exponential" or "linear"
+#'
+#' @export
+
+calculate_bi <- function(N_total_it,
+                         N_light_it,
+                         timepoint,
+                         timepoint1,
+                         growth_model = "exponential") {
+  if (!growth_model %in% c("exponential", "linear")) {
+    stop(glue::glue("growth_model must be either 'exponential' or 'linear', not {growth_model}"), call. = FALSE)
+  }
+
+  if (growth_model == "exponential") {
+    bi <- log(N_total_it / N_light_it) * (1 / (timepoint - timepoint1))
+  } else if (growth_model == "linear") {
+    bi <- (N_total_it - N_light_it) / (timepoint - timepoint1)
+  }
+
+  return(bi)
+}

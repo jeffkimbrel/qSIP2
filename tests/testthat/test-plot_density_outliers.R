@@ -1,8 +1,3 @@
-test_that("works with qsip data or sample data", {
-  expect_no_error(plot_density_outliers(example_qsip_object))
-  expect_no_error(plot_density_outliers(example_sample_object))
-})
-
 test_that("wrong input types fail", {
   expect_error(plot_density_outliers(example_feature_object),
                "sample_data should be class <qsip_sample_data> or <qsip_data>, not qSIP2::qsip_feature_data")

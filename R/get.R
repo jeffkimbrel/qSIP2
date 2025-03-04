@@ -788,3 +788,285 @@ source_results_message <- function(by_source) {
 
   message(glue::glue_col("In total, {green {total_passed}} unique feature_ids {green passed} all fraction and source filtering requirements"))
 }
+
+
+
+
+#' Calculate total abundances at timepoint t
+#'
+#' This function takes a `qsip_data` object and calculates the total abundance of
+#' each feature at time zero. This should be done on an early `qsip_data` object
+#' that still has time zero data.
+#'
+#' Sometimes, a feature will have abundance at a later time point, but no values
+#' for time zero. If a feature has zero abundance at time zero, a warning will
+#' be issued, but the feature will still be included in the output with a starting
+#' abundance of zero.
+#'
+#' @param qsip_data_object (*qsip_data*) An object of `qsip_data` class
+#' @param timepoint (*character*) The name of the timepoint column in the source data
+#' @param t (*numeric*) The value of the timepoint column to filter on
+#' @param group (*character*) The name of the grouping variable(s) to summarize the counts
+#'
+#' @export
+#'
+#' @returns (*data.frame*) A data frame with feature_id and total abundance at time zero
+
+get_N_total_it <- function(qsip_data_object,
+                           timepoint = "timepoint",
+                           t = 0,
+                           group = NULL) {
+
+  is_qsip_data(qsip_data_object, error = TRUE)
+
+  # stop if t is not numeric
+  if (!is.numeric(t)) {
+    stop("t must be numeric", call. = FALSE)
+  }
+
+  # bind variables
+  tube_rel_abundance <- feature_id <- source_mat_id <- REL <- total_abundance <- zero <- NULL
+
+  # this section makes the basic dataframe with total abundance at time zero.
+  # Because it is based on @tube_rel_abundance it will not have data for
+  # features with zero abundance at time zero
+  N_total_i0 <- qsip_data_object@tube_rel_abundance |>
+    dplyr::summarize(REL = sum(tube_rel_abundance), .by = c(feature_id, source_mat_id)) |>
+    dplyr::left_join(qsip_data_object@source_data@data, by = "source_mat_id") |>
+    dplyr::select(
+      timepoint = dplyr::all_of(timepoint),
+      dplyr::everything()
+    )
+
+  # make sure there are values of t in the dataframe
+  if (!t %in% N_total_i0$timepoint) {
+    stop(glue::glue("no source_mat_ids with a 't = {t}' timepoint were found in <qsip_data>"), call. = FALSE)
+  }
+
+  # group can be NULL, or should be a column in N_total_i0
+  if (!is.null(group)) {
+
+    if (!group %in% colnames(N_total_i0)) {
+      stop(glue::glue("grouping variable {group} not found in source_data"), call. = FALSE)
+    }
+  }
+
+
+
+  N_total_i0 = N_total_i0 |>
+    dplyr::filter(timepoint == t) |>
+    dplyr::mutate(N_total_i0 = REL * total_abundance)
+  # dplyr::select(feature_id, source_mat_id, timepoint, N_total_i0) |>
+  # TODO line below: should it be mean or sum?
+  # TODO should this be filtered to only include unlabeled? Timepoints other than 0 might have labeled samples
+
+  # if using a grouping variable(s) to summarize the counts
+  # !!! : https://stackoverflow.com/questions/42612417/how-to-pass-multiple-column-names-as-input-to-group-by-in-dplyr/42612631
+  # sym : https://stackoverflow.com/questions/61180201/triple-exclamation-marks-on-r
+  if (isFALSE(is.null(group))) {
+    N_total_i0 = N_total_i0 |>
+      dplyr::group_by(feature_id, !!!dplyr::syms(group)) |>
+      dplyr::summarize(N_total_i0 = mean(N_total_i0), .groups = "drop")
+  } else {
+    N_total_i0 = N_total_i0 |>
+      dplyr::summarize(N_total_i0 = mean(N_total_i0), .by = feature_id)
+  }
+
+  # make dataframe with zeroes. This ensures feature_ids with zero abundance
+  # will still be present in the resulting dataframe
+  N_total_i0 <- get_dataframe(qsip_data_object, type = "feature") |>
+    dplyr::select(feature_id) |>
+    dplyr::mutate(zero = 0) |>
+    dplyr::left_join(N_total_i0, by = "feature_id") |>
+    dplyr::group_by(feature_id, !!!dplyr::syms(group)) |>
+    dplyr::mutate(N_total_i0 = sum(zero, N_total_i0, na.rm = T)) |>
+    dplyr::select(-zero) |>
+    dplyr::ungroup()
+
+  # report on zero abundance samples
+  no_abundance <- N_total_i0 |>
+    dplyr::filter(N_total_i0 == 0)
+
+  if (nrow(no_abundance) > 0) {
+    warning(glue::glue("{nrow(no_abundance)} feature_ids have zero abundance at time {t}:"), call. = F)
+    warning(paste(no_abundance$feature_id, collapse = ", "), call. = F)
+  }
+
+
+  # add timepoint as timepoint1
+  N_total_i0 <- N_total_i0 |>
+    dplyr::mutate(timepoint1 = t)
+
+  return(N_total_i0)
+}
+
+
+
+
+
+#' Summarize growth values
+#'
+#' @param qsip_data_object A qsip_data object
+#' @param confidence (*numeric, default: 0.9*) The confidence level for the growth values
+#' @param quiet (*logical, default: FALSE*) Suppress messages
+#'
+#' @export
+
+summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = FALSE) {
+  # confirm the data is the correct type
+  is_qsip_growth(qsip_data_object, error = TRUE)
+
+  # confirm the confidence value is numeric and between 0-1
+  stopifnot("ERROR: confidence should be numeric" = is.numeric(confidence))
+  if (confidence >= 1 | confidence <= 0) {
+    stop("ERROR: confidence level should be between 0 and 1")
+  }
+
+  observed <- feature_id <- timepoint1 <- timepoint2 <- N_total_i0 <- N_total_it <- r_net <- bi <- di <- ri <- EAF <- desc <- observed_ri <- NULL
+
+
+  if (isFALSE(quiet)) {
+    message(glue::glue("Confidence level = {confidence}"))
+  }
+
+  rbd_observed <- qsip_data_object@growth$rates |>
+    dplyr::filter(observed == TRUE) |>
+    dplyr::select(feature_id,
+                  timepoint1,
+                  timepoint2,
+                  N_total_i0,
+                  N_total_it,
+                  r_net,
+                  observed_bi = bi,
+                  observed_di = di,
+                  observed_ri = ri
+    )
+
+  rbd_resamples <- qsip_data_object@growth$rates |>
+    dplyr::filter(observed == FALSE) |>
+    dplyr::select(-observed) |>
+    dplyr::summarize(
+      successes = dplyr::n(),
+      resampled_N_mean = mean(N_total_it, na.rm = TRUE),
+      # resampled_N_sd = sd(N_total_it, na.rm = TRUE),
+      # resampled_N_lower = quantile(N_total_it, (1 - confidence) / 2, na.rm = T),
+      # resampled_N_upper = quantile(N_total_it, 1 - (1 - confidence) / 2, na.rm = T),
+      resampled_rnet_mean = mean(r_net, na.rm = TRUE),
+      # resampled_rnet_sd = sd(r_net, na.rm = TRUE),
+      # resampled_rnet_lower = quantile(r_net, (1 - confidence) / 2, na.rm = T),
+      # resampled_rnet_upper = quantile(r_net, 1 - (1 - confidence) / 2, na.rm = T),
+      resampled_bi_mean = mean(bi, na.rm = TRUE),
+      resampled_bi_sd = sd(bi, na.rm = TRUE),
+      resampled_bi_lower = quantile(bi, (1 - confidence) / 2, na.rm = T),
+      resampled_bi_upper = quantile(bi, 1 - (1 - confidence) / 2, na.rm = T),
+      resampled_di_mean = mean(di, na.rm = TRUE),
+      resampled_di_sd = sd(di, na.rm = TRUE),
+      resampled_di_lower = quantile(di, (1 - confidence) / 2, na.rm = T),
+      resampled_di_upper = quantile(di, 1 - (1 - confidence) / 2, na.rm = T),
+      resampled_ri_mean = mean(ri, na.rm = TRUE),
+      resampled_ri_sd = sd(ri, na.rm = TRUE),
+      resampled_ri_lower = quantile(ri, (1 - confidence) / 2, na.rm = T),
+      resampled_ri_upper = quantile(ri, 1 - (1 - confidence) / 2, na.rm = T),
+      resampled_EAF_mean = mean(EAF, na.rm = TRUE),
+      resampled_EAF_sd = sd(EAF, na.rm = TRUE),
+      resampled_EAF_lower = quantile(EAF, (1 - confidence) / 2, na.rm = T),
+      resampled_EAF_upper = quantile(EAF, 1 - (1 - confidence) / 2, na.rm = T),
+      .by = feature_id
+    )
+
+
+  rbd <- rbd_observed |>
+    dplyr::left_join(rbd_resamples, by = "feature_id") |>
+    dplyr::arrange(desc(observed_ri))
+
+  # TODO make some sort of note about infinite values
+
+  return(rbd)
+}
+
+
+
+
+
+#' Summarize the observed and resampled EAF values
+#'
+#' Reports observed EAF value (`observed_EAF`) as well as the mean of the resampled
+#' values (`mean_resampled_EAF`) and the `lower` and `upper` confidence interval
+#' with a given `confidence` limit.
+#'
+#' The confidence interval uses the resampling method where it returns the quantile
+#' values from the resampled data. If `confidence = 0.9` (the default) then this
+#' function returns the 5% and 95% quantiles (representing 90% of the resampling)
+#' as the `lower` and `upper` results.
+#'
+#' @param qsip_data_object (*qsip_data*) A qsip_data object or list of qsip_data objects
+#' @param confidence (*numeric, default: 0.9*) The confidence level for the confidence interval
+#' @param quiet (*logical, default: FALSE*) Suppress messages
+#'
+#' @export
+#'
+#' @returns A `dataframe` with summarized observed and resampled EAF values
+
+summarize_EAF_values <- function(qsip_data_object, confidence = 0.9, quiet = FALSE) {
+  # confirm the confidence value is numeric and between 0-1
+  stopifnot("ERROR: confidence should be numeric" = is.numeric(confidence))
+  if (confidence >= 1 | confidence <= 0) {
+    stop("ERROR: confidence level should be between 0 and 1")
+  }
+
+  if (isFALSE(quiet)) {
+    message(glue::glue("Confidence level = {confidence}"))
+  }
+
+  # confirm qsip_data_object class is either qsip_data or list
+  if (is_qsip_data_list(qsip_data_object, error = FALSE)) {
+    lapply(qsip_data_object,
+           summarize_EAF_values_internal,
+           confidence = confidence
+    ) |>
+      dplyr::bind_rows(.id = "group")
+  } else if (is_qsip_data(qsip_data_object, error = FALSE)) {
+    summarize_EAF_values_internal(qsip_data_object,
+                                  confidence = confidence)
+  } else {
+    stop("ERROR: qsip_data_object must be of class <qsip_data> or <list> of qsip_data objects")
+  }
+}
+
+
+
+
+
+#' Internal function to summarize EAF values
+#'
+#' @param qsip_data_object (*qsip_data*) A qsip_data object
+#' @param confidence (*numeric, default: 0.9*) The confidence level for the confidence interval
+#'
+#' Called by `summarize_EAF_values` to calculate the resampled EAF values.
+
+summarize_EAF_values_internal <- function(qsip_data_object,
+                                          confidence = 0.9) {
+
+  is_qsip_filtered(qsip_data_object, error = TRUE)
+
+  feature_id <- EAF <- NULL
+
+  resamples <- qsip_data_object@EAF |>
+    dplyr::filter(observed == FALSE) |>
+    dplyr::group_by(feature_id) |>
+    dplyr::summarize(
+      mean_resampled_EAF = mean(EAF),
+      lower = quantile(EAF, (1 - confidence) / 2, na.rm = T),
+      upper = quantile(EAF, 1 - (1 - confidence) / 2, na.rm = T),
+      .groups = "drop"
+    )
+
+  observed <- qsip_data_object@EAF |>
+    dplyr::filter(observed == TRUE) |>
+    dplyr::select(feature_id, observed_EAF = EAF)
+
+  observed |>
+    dplyr::left_join(resamples, by = "feature_id") |>
+    dplyr::left_join(get_resample_counts(qsip_data_object), by = "feature_id") |>
+    dplyr::left_join(get_filtered_source_counts(qsip_data_object), by = "feature_id")
+}

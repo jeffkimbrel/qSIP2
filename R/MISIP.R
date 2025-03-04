@@ -38,8 +38,6 @@ remove_isotopolog_label <- function(data) {
 
 }
 
-
-
 #' Remove isotopolog label if needed
 #'
 #' The qSIP2 functions expect non-MISIP data. If running qSIP2 within KBase, then this function
