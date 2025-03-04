@@ -52,6 +52,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/fraction_results_message.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_N_total_it.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_all_by_isotope.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_comparison_groups.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_correction_compression.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_dataframe.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_feature_ids.html</loc></url>
@@ -63,7 +64,9 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_normalized_features.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_data.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_shared_ids.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_source_mat_ids.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_unshared_ids.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/ig_get_df_for_resampling.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/index.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/infer_source_data.html</loc></url>
