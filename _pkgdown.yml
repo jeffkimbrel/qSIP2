@@ -98,6 +98,9 @@ reference:
   - example_group_dataframe
   - example_qsip_growth_object
   - example_qsip_growth_t0
+  - isotope_palette
+  - source_palette
+  - jgi_mixes
 
 - title: internal
   contents:
