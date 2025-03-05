@@ -77,7 +77,9 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_filtered.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_growth.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_resampled.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/isotope_palette.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/jgi_feature_df.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/jgi_mixes.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/jgi_normalize_features.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/jgi_sample_df.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/jgi_source_df.html</loc></url>
@@ -116,6 +118,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/run_resampling.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/show_comparison_groups.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/show_unshared_ids.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/source_palette.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/source_results_message.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values_internal.html</loc></url>
