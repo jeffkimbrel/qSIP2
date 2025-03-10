@@ -111,7 +111,7 @@ get_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL)
   if (isTRUE(missing)) {
     message()
     message(glue::glue_col("{yellow ***Missing source_mat_ids/sample_ids have not been removed from the dataset***}"))
-    message(glue::glue_col("{yellow ***Run show_unshared_ids(<qsip_data_object>) to show IDs missing from datasets***}"))  }
+    message(glue::glue_col("{yellow ***Run get_unshared_ids(<qsip_data_object>) to show IDs missing from datasets***}"))  }
 
   return(shared)
 }

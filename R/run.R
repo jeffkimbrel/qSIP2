@@ -391,13 +391,13 @@ run_EAF_calculations <- function(qsip_data_object, gc_method = "MM", propO = 1) 
     dplyr::filter(source_mat_id %in% labeled_source_mat_ids) |>
     dplyr::filter(feature_id %in% qsip_data_object@filter_results$retained_features) |>
     dplyr::group_by(feature_id) |>
-    dplyr::summarize(W_lab_mean = mean(WAD))
+    dplyr::summarize(W_lab_mean = mean(WAD, na.rm = T))
 
   observed_unlabeled <- qsip_data_object@wads |>
     dplyr::filter(source_mat_id %in% unlabeled_source_mat_ids) |>
     dplyr::filter(feature_id %in% qsip_data_object@filter_results$retained_features) |>
     dplyr::group_by(feature_id) |>
-    dplyr::summarize(W_unlab_mean = mean(WAD))
+    dplyr::summarize(W_unlab_mean = mean(WAD, na.rm = T))
 
   observed <- observed_unlabeled |>
     dplyr::left_join(observed_labeled, by = "feature_id") |>
