@@ -19,3 +19,4 @@ value, not derived from the sequence itself.
 \details{
 This function corresponds to equation 6 from Hungate, 2015.
 }
+\keyword{internal}

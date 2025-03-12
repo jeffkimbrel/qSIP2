@@ -18,3 +18,4 @@ calculate_N_light_it(N_total_it, M_heavy, M_labeled, M)
 \description{
 This is equation 3 from Koch, 2018
 }
+\keyword{internal}

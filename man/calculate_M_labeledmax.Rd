@@ -21,3 +21,4 @@ calculate_M_labeledmax(M, atom_count, isotope, propO = 1)
 \description{
 This function corresponds to equation 7 from Hungate, 2015
 }
+\keyword{internal}

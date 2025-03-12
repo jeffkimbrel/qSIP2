@@ -12,3 +12,4 @@ fraction_results_message(by_fraction)
 \description{
 Filter features by fraction message formatting (internal)
 }
+\keyword{internal}

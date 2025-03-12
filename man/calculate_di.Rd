@@ -26,3 +26,4 @@ calculate_di(
 \description{
 Equation 6 from Koch, 2018
 }
+\keyword{internal}

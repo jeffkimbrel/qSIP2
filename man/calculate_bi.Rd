@@ -26,3 +26,4 @@ calculate_bi(
 \description{
 Equation 7 from Koch, 2018
 }
+\keyword{internal}

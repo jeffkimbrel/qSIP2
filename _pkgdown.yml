@@ -104,30 +104,32 @@ reference:
 
 - title: internal
   contents:
-  - multi_qsip_wrapper_launcher
-  - multi_qsip_wrapper
-  - summarize_EAF_values_internal
   - validate_abundances
-  - validate_standard_names
   - validate_gradient_pos_density
   - validate_gradient_position
   - validate_isotopes
   - validate_source_isotope
-  - completely_labeled_values
-  - get_isotope_designation
+  - validate_standard_names
+  - iq_get_wad_reference
+  - iq_get_df_for_resampling
+  - calculate_atoms
+  - calculate_EAF
+  - calculate_resampled_wads
   - calculate_tube_rel_abundance
   - calculate_wads
   - calculate_source_wads
+  - multi_qsip_wrapper_launcher
+  - multi_qsip_wrapper
+  - summarize_EAF_values_internal
+  - completely_labeled_values
+  - get_isotope_designation
   - calculate_gc_from_density
   - calculate_gc_from_sequence
-  - calculate_EAF
   - calculate_M
   - calculate_M_labeled
   - calculate_M_labeledmax
-  - calculate_atoms
   - fraction_results_message
   - source_results_message
-  - calculate_resampled_wads
   - calculate_Z
   - get_shared_ids
   - remove_isotopolog_label_check

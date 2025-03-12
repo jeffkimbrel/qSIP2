@@ -78,7 +78,7 @@ correct_gpd_bootstrap <- function(qsip_data_object,
     quiet = quiet
   )
 
-  df_for_resampling <- ig_get_df_for_resampling(qsip_data_object,
+  df_for_resampling <- iq_get_df_for_resampling(qsip_data_object,
     wad_reference,
     fraction_cutoff = fraction_cutoff,
     source_cutoff = source_cutoff
@@ -155,7 +155,7 @@ correct_gpd_rlm <- function(qsip_data_object,
     quiet = quiet
   )
 
-  df_for_resampling <- ig_get_df_for_resampling(qsip_data_object,
+  df_for_resampling <- iq_get_df_for_resampling(qsip_data_object,
     wad_reference,
     fraction_cutoff = fraction_cutoff,
     source_cutoff = source_cutoff
@@ -270,7 +270,7 @@ iq_get_wad_reference <- function(qsip_data_object,
 #'
 #' @keywords internal
 
-ig_get_df_for_resampling <- function(qsip_data_object,
+iq_get_df_for_resampling <- function(qsip_data_object,
                                      wad_reference,
                                      fraction_cutoff = 5,
                                      source_cutoff = 3) {

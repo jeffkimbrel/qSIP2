@@ -32,3 +32,4 @@ v0.10.3 updated this function to have different behavior for feature type 'norma
 This type should use the raw data in the feature table, putting those values into the
 \code{tube_rel_abundance} column.
 }
+\keyword{internal}

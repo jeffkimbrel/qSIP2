@@ -16,3 +16,4 @@ Called by \code{summarize_EAF_values} to calculate the resampled EAF values.}
 \description{
 Internal function to summarize EAF values
 }
+\keyword{internal}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate.R
 \name{calculate_gc_from_density}
 \alias{calculate_gc_from_density}
-\title{Calculate GC\% from density/WAD (internal)}
+\title{Calculate GC\% from density/WAD}
 \usage{
 calculate_gc_from_density(density, method = "MM")
 }

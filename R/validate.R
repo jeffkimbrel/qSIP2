@@ -175,9 +175,8 @@ is_qsip_growth <- function(object, error = FALSE) {
 #'
 #' @returns Returns `NULL` if the values are valid, or a printed error
 #'
-#' @export
-#'
 #' @keywords internal
+#' @export
 
 
 validate_abundances <- function(data,
@@ -236,9 +235,6 @@ validate_abundances <- function(data,
 #' @returns Returns `NULL` if the density values are valid, or a printed error
 #'
 #' @keywords internal
-#' @export
-
-
 
 validate_gradient_pos_density <- function(df, low = 1.55, high = 1.8) {
 
@@ -284,8 +280,6 @@ validate_gradient_pos_density <- function(df, low = 1.55, high = 1.8) {
 #' printed error
 #'
 #' @keywords internal
-#' @export
-
 
 validate_gradient_position <- function(gradient_position) {
   if (is.numeric(gradient_position)) {
@@ -317,7 +311,6 @@ validate_gradient_position <- function(gradient_position) {
 #' @keywords internal
 #'
 #' @note The isotope_list may change if isotopolog_label stays a thing. Only the "labeled" isotopes will be allowed.
-#' @export
 
 validate_isotopes <- function(isotope,
                               isotope_list = c("12C", "13C", "14N", "15N", "16O", "18O"),
@@ -356,7 +349,6 @@ validate_isotopes <- function(isotope,
 #' @keywords internal
 #'
 #' @returns TRUE (all match) or FALSE (some don't match)
-#' @export
 
 validate_source_isotope <- function(qsip_data_object, source_mat_ids, isotope_list) {
   source_mat_id <- isotope <- NULL
@@ -386,8 +378,6 @@ validate_source_isotope <- function(qsip_data_object, source_mat_ids, isotope_li
 #' @param type The type of data (source, sample, or feature)
 #'
 #' @keywords internal
-#'
-#' @export
 
 validate_standard_names = function(data, name, type) {
 

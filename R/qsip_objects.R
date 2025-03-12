@@ -163,7 +163,7 @@ qsip_source_data <- S7::new_class(
       stop("some source_mat_ids are duplicated", call. = FALSE)
     }
 
-    qSIP2::validate_isotopes(self@data |> dplyr::pull(isotope))
+    validate_isotopes(self@data |> dplyr::pull(isotope))
   }
 )
 
@@ -274,7 +274,7 @@ qsip_feature_data <- S7::new_class(
       stop(glue::glue("feature data type should be 'counts', 'coverage', 'normalized' or 'relative', not '{self@type}'"), call. = FALSE)
     }
 
-    qSIP2::validate_abundances(self@data, "feature_id", type = self@type)
+    validate_abundances(self@data, "feature_id", type = self@type)
   }
 )
 
@@ -404,8 +404,8 @@ qsip_sample_data <- S7::new_class(
     )
   },
   validator = function(self) {
-    qSIP2::validate_gradient_pos_density(self@data |> dplyr::select(gradient_position, gradient_pos_density))
-    qSIP2::validate_gradient_position(self@data |> dplyr::pull(gradient_position))
+    validate_gradient_pos_density(self@data |> dplyr::select(gradient_position, gradient_pos_density))
+    validate_gradient_position(self@data |> dplyr::pull(gradient_position))
   }
 )
 

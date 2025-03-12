@@ -19,3 +19,4 @@ calculate_M_labeled(M, W_lab_mean, W_unlab_mean)
 \description{
 Calculate molecular weight of the labeled feature (internal)
 }
+\keyword{internal}

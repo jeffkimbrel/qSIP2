@@ -2,8 +2,7 @@
 #'
 #' @param amplicon An amplicon matrix from KBase
 #'
-#' @export
-
+#' @keywords internal
 
 pivot_kbase_amplicon_matrix = function(amplicon) {
 

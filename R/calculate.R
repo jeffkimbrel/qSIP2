@@ -78,7 +78,8 @@ calculate_EAF <- function(M_labeled, M, M_labeledmax, isotope) {
 #'
 #' @returns The resampling data that will be boot in `@resamples`
 #'
-#' @export
+#' @keywords internal
+
 
 calculate_resampled_wads <- function(i, wad_data, type, allow_failures = FALSE) {
 
@@ -152,9 +153,10 @@ calculate_resampled_wads <- function(i, wad_data, type, allow_failures = FALSE) 
 #' @param sample_data (*qsip_sample_data*) A qSIP sample data object
 #' @param feature_data (*qsip_feature_data*) A qSIP feature data object
 #'
-#' @export
-#'
 #' @returns A long format dataframe with one row per `feature_id` per `sample_id`
+#'
+#' @keywords internal
+
 
 calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data) {
 
@@ -221,14 +223,14 @@ calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data)
 #'
 #' @param tube_rel_abundance (*dataframe*) Output from `calculate_tube_rel_abundance()`
 #'
-#' @export
-#'
 #' @returns A list with two objects, 1) a dataframe with WAD info for the feature_ids
 #' found in at least one sample, and 2) the fraction counts for all feature_ids,
 #' including those not found at all in some samples. It also prints a message to
 #' the screen with a count of feature_ids that are entirely missing from at least
 #' one sample.
 #'
+#' @keywords internal
+
 
 calculate_wads <- function(tube_rel_abundance) {
 
@@ -286,10 +288,10 @@ calculate_wads <- function(tube_rel_abundance) {
 #'
 #' @param sample_data (*qsip_sample_data*) Sample data object
 #'
-#' @export
-#'
 #' @returns A dataframe with two columns, 1) the source_mat_id and 2) the global
 #' WAD value for that source_mat_id
+#'
+#' @keywords internal
 
 calculate_source_wads <- function(sample_data) {
 
@@ -311,7 +313,7 @@ calculate_source_wads <- function(sample_data) {
 #'
 #' @param isotope The heavy isotope (13C, 15N or 18O)
 #'
-#' @export
+#' @keywords internal
 #'
 #' @returns A number representing the max labeling of a given isotope
 
@@ -343,7 +345,7 @@ completely_labeled_values <- function(isotope) {
 #'
 #' @returns `M` is the molecular weight of a sequence with `G` GC content
 #'
-#' @export
+#' @keywords internal
 
 calculate_M <- function(G) {
 
@@ -368,7 +370,7 @@ calculate_M <- function(G) {
 #'
 #' @returns `M_labeledmax` is the theoretical maximum molecular weight the labeled feature could be
 #'
-#' @export
+#' @keywords internal
 
 calculate_M_labeledmax <- function(M,
                                    atom_count,
@@ -415,7 +417,7 @@ calculate_M_labeledmax <- function(M,
 #'
 #' @returns `M_labeled` is the molecular weight of the labeled feature
 #'
-#' @export
+#' @keywords internal
 
 calculate_M_labeled <- function(M, W_lab_mean, W_unlab_mean) {
 
@@ -432,7 +434,7 @@ calculate_M_labeled <- function(M, W_lab_mean, W_unlab_mean) {
 
 
 
-#' Calculate GC% from density/WAD (internal)
+#' Calculate GC% from density/WAD
 #'
 #' This function takes a `density` value and an optional `method` and returns the
 #' predicted GC% content of a DNA sequence with that density.
@@ -467,7 +469,7 @@ calculate_gc_from_density <- function(density,
 
 
 
-#' Calculate GC% from a sequence (internal)
+#' Calculate GC% from a sequence
 #'
 #' This function takes a sequence and counts the number of G and C bases, and divides
 #' by the total sequence length.
@@ -507,7 +509,7 @@ calculate_gc_from_sequence <- function(sequence) {
 #'
 #' @returns a value for the difference between labeled and unlabeled
 #'
-#' @export
+#' @keywords internal
 
 calculate_Z <- function(labeled, unlabeled) {
   if (any(is.na(c(
@@ -567,7 +569,7 @@ qsip_object_size = function(qsip_data_object,
 #' @param propO (*numeric*) The proportion of oxygen coming from 18H2O versus other sources
 #' @param M (*numeric*) The mass of the molecule
 #'
-#' @export
+#' @keywords internal
 
 calculate_M_heavy <- function(propO, M) {
 
@@ -595,7 +597,7 @@ calculate_M_heavy <- function(propO, M) {
 #' @param M_labeled The molecular weight of the labeled sequence
 #' @param M The molecular weight of the unlabeled sequence
 #'
-#' @export
+#' @keywords internal
 
 calculate_N_light_it <- function(N_total_it, M_heavy, M_labeled, M) {
   N_Light_it <- N_total_it * ((M_heavy - M_labeled) / (M_heavy - M))
@@ -616,7 +618,7 @@ calculate_N_light_it <- function(N_total_it, M_heavy, M_labeled, M) {
 #' @param timepoint1 The timepoint that is being compared against
 #' @param growth_model (*character, default: exponential*) The growth model to use. Must be either "exponential" or "linear"
 #'
-#' @export
+#' @keywords internal
 
 
 calculate_di <- function(N_light_it,
@@ -651,7 +653,7 @@ calculate_di <- function(N_light_it,
 #' @param timepoint1 The timepoint that is being compared against
 #' @param growth_model (*character, default: exponential*) The growth model to use. Must be either "exponential" or "linear"
 #'
-#' @export
+#' @keywords internal
 
 calculate_bi <- function(N_total_it,
                          N_light_it,

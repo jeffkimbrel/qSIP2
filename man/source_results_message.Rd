@@ -12,3 +12,4 @@ source_results_message(by_source)
 \description{
 Filter features by source message formatting (internal)
 }
+\keyword{internal}

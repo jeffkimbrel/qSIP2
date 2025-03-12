@@ -12,3 +12,4 @@ pivot_kbase_amplicon_matrix(amplicon)
 \description{
 Pivot KBase amplicon matrix
 }
+\keyword{internal}

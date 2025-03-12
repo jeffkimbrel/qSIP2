@@ -19,3 +19,4 @@ one sample.
 \description{
 Calculate weighted average density (WAD) values (internal)
 }
+\keyword{internal}

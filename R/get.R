@@ -720,7 +720,7 @@ resample_seed <- function(qsip_data_object) {
 #'
 #' @param by_fraction by_fraction dataframe from run_feature_filter
 #'
-#' @export
+#' @keywords internal
 
 fraction_results_message <- function(by_fraction) {
 
@@ -764,7 +764,7 @@ fraction_results_message <- function(by_fraction) {
 #'
 #' @param by_source by_source dataframe from run_feature_filter
 #'
-#' @export
+#' @keywords internal
 
 source_results_message <- function(by_source) {
 
@@ -1057,6 +1057,8 @@ summarize_EAF_values <- function(qsip_data_object, confidence = 0.9, quiet = FAL
 #' @param confidence (*numeric, default: 0.9*) The confidence level for the confidence interval
 #'
 #' Called by `summarize_EAF_values` to calculate the resampled EAF values.
+#'
+#' @keywords internal
 
 summarize_EAF_values_internal <- function(qsip_data_object,
                                           confidence = 0.9) {

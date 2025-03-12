@@ -789,7 +789,7 @@ multi_qsip_wrapper = function(qsip_data_object,
 #' @param resamples The number of resamples to run
 #' @param seed The seed for the resampling
 #'
-#' @export
+#' @keywords internal
 
 multi_qsip_wrapper_launcher <- function(group,
                                         name,

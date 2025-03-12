@@ -15,3 +15,4 @@ A number representing the max labeling of a given isotope
 \description{
 Returns the max labeling of a given isotope (internal)
 }
+\keyword{internal}

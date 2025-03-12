@@ -22,7 +22,7 @@ remove_isotopolog_label <- function(data) {
   stopifnot("isotopolog_label column not found" = "isotopolog_label" %in% colnames(data))
 
   # must be a heavy isotope
-  qSIP2::validate_isotopes(data$isotope, isotope_list = c("13C", "15N", "18O"))
+  validate_isotopes(data$isotope, isotope_list = c("13C", "15N", "18O"))
 
   # bind variables
   isotope <- isotopolog_label <- NULL
@@ -53,7 +53,7 @@ remove_isotopolog_label <- function(data) {
 remove_isotopolog_label_check = function(df, isotope = "isotope") {
   if (all(df[[isotope]] %in% c("13C", "15N", "18O"))) {
     df |>
-      qSIP2::remove_isotopolog_label()
+      remove_isotopolog_label()
   } else {
     df
   }

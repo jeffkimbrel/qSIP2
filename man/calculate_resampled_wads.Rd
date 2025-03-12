@@ -21,3 +21,4 @@ The resampling data that will be boot in \verb{@resamples}
 \description{
 Designed as a purrr::map() function called by run_resampling.R
 }
+\keyword{internal}

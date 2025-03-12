@@ -20,3 +20,4 @@ This is just basic subtraction, so probably overkill to make a function!
 \details{
 This function corresponds to equation 4 from Hungate, 2015
 }
+\keyword{internal}

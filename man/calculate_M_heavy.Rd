@@ -14,3 +14,4 @@ calculate_M_heavy(propO, M)
 \description{
 This is equation 4 from Koch, 2018
 }
+\keyword{internal}

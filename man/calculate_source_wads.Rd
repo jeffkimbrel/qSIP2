@@ -16,3 +16,4 @@ WAD value for that source_mat_id
 \description{
 Calculate global weighted average density (WAD) value for a source_mat_id (internal)
 }
+\keyword{internal}
