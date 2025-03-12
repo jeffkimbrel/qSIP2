@@ -703,9 +703,16 @@ n_resamples <- function(qsip_data_object) {
 resample_seed <- function(qsip_data_object) {
   if (is_qsip_data(qsip_data_object)) {
     seed_used = qsip_data_object@resamples$seed
+    if (is.null(seed_used)) {
+      return(NA)
+    } else {
+      return(seed_used)
+    }
     return(seed_used)
   } else if (is_qsip_data_list(qsip_data_object)) {
-    seed_used = lapply(qsip_data_object, function(x) {x@resamples$seed}) |>
+    seed_used = lapply(qsip_data_object, function(x) {x@resamples$seed})
+    seed_used[sapply(seed_used, is.null)] <- NA
+    seed_used = seed_used |>
       unlist() |>
       tibble::enframe(name = "group", value = "seed")
     return(seed_used)

@@ -5,8 +5,8 @@ test_that("works correctly", {
   expect_equal(resample_seed(qsip_normal_strict_resampled), 43)
 })
 
-test_that("object not resampled returns NULL", {
-  expect_null(resample_seed(qsip_normal_strict_filtered))
+test_that("object not resampled returns NA", {
+  expect_equal(resample_seed(qsip_normal_strict_filtered), NA)
 })
 
 test_that("list object gives named dataframe", {
