@@ -9,7 +9,7 @@ be removed from validation checks'><meta property="og:image" content="https://je
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,8 +59,8 @@ be removed from validation checks</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">validate_isotopes</span><span class="op">(</span></span>
 <span>  <span class="va">isotope</span>,</span>
-<span>  isotope_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"12C"</span>, <span class="st">"13C"</span>, <span class="st">"14N"</span>, <span class="st">"15N"</span>, <span class="st">"16O"</span>, <span class="st">"18O"</span><span class="op">)</span>,</span>
-<span>  unfractionated_terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bulk"</span>, <span class="st">"unfractionated"</span>, <span class="st">"T0"</span>, <span class="st">"time0"</span>, <span class="st">"Time0"</span><span class="op">)</span></span>
+<span>  isotope_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">valid_isotope_names</span><span class="op">$</span><span class="va">unlabeled</span>, <span class="va">valid_isotope_names</span><span class="op">$</span><span class="va">labeled</span><span class="op">)</span>,</span>
+<span>  unfractionated_terms <span class="op">=</span> <span class="va">valid_isotope_names</span><span class="op">$</span><span class="va">unfractionated</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
