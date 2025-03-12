@@ -79,6 +79,7 @@ calculate_EAF <- function(M_labeled, M, M_labeledmax, isotope) {
 #' @returns The resampling data that will be boot in `@resamples`
 #'
 #' @keywords internal
+#' @export
 
 
 calculate_resampled_wads <- function(i, wad_data, type, allow_failures = FALSE) {

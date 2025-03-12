@@ -313,8 +313,8 @@ validate_gradient_position <- function(gradient_position) {
 #' @note The isotope_list may change if isotopolog_label stays a thing. Only the "labeled" isotopes will be allowed.
 
 validate_isotopes <- function(isotope,
-                              isotope_list = c("12C", "13C", "14N", "15N", "16O", "18O"),
-                              unfractionated_terms = c("bulk", "unfractionated", "T0", "time0", "Time0")) {
+                              isotope_list = c(valid_isotope_names$unlabeled, valid_isotope_names$labeled),
+                              unfractionated_terms = valid_isotope_names$unfractionated) {
 
   # if any unfractionated terms are found, print a message
   if (any(unfractionated_terms %in% isotope)) {

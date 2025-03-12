@@ -45,6 +45,13 @@ test_that("source_mat_ids with isotopes inconsistent with label designation fail
     ),
     "some of the labeled_source_mat_ids have a light isotope designation"
   )
+  expect_error(
+    run_feature_filter(example_qsip_growth_object,
+                       unlabeled_source_mat_ids = c("source_1", "source_11"), # source_1 is a time zero source
+                       labeled_source_mat_ids = c("source_12", "source_15")
+    ),
+    "some of the source_mat_ids appear to have invalid isotopes or bulk/unfractionated sources"
+  )
 })
 
 

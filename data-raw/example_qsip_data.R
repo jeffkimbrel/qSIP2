@@ -1,3 +1,9 @@
+valid_isotope_names = list("unlabeled" = c("12C", "14N", "16O"),
+                           "labeled" = c("13C", "15N", "18O"),
+                           "unfractionated" = c("bulk", "unfractionated", "T0", "time0", "Time0"))
+usethis::use_data(valid_isotope_names, overwrite = TRUE)
+
+
 minimal <- readxl::read_excel("~/OD/Soils_SFA/analysis/qSIP_refactor/qsip2_example_data/qSIP_example.xlsx") |>
   dplyr::filter(sample_id %in% c("149", "150", "151", "152", "178", "179", "180", "161", "162", "163", "164", "200", "201", "202", "203")) |>
   dplyr::mutate(Fraction = stringr::str_remove(Fraction, "F")) |>

@@ -67,18 +67,28 @@ run_feature_filter <- function(qsip_data_object,
     stop("Some given labeled_source_mat_ids are not found", call. = FALSE)
   }
 
+  # make sure source_mat_ids don't belong to unfractionated samples
+  if (isFALSE(validate_source_isotope(
+    qsip_data_object,
+    unlabeled_source_mat_ids,
+    c(valid_isotope_names$unlabeled, valid_isotope_names$labeled)
+  ))) {
+    stop("some of the source_mat_ids appear to have invalid isotopes or bulk/unfractionated sources", call. = FALSE)
+  }
+
   # make sure source_mat_ids match expected isotope types
   if (isFALSE(validate_source_isotope(
     qsip_data_object,
     unlabeled_source_mat_ids,
-    c("12C", "14N", "16O")
+    valid_isotope_names$unlabeled
   ))) {
     stop("some of the unlabeled_source_mat_ids have a heavy isotope designation", call. = FALSE)
   }
+
   if (isFALSE(validate_source_isotope(
     qsip_data_object,
     labeled_source_mat_ids,
-    c("13C", "15N", "18O")
+    valid_isotope_names$labeled
   ))) {
     stop("some of the labeled_source_mat_ids have a light isotope designation", call. = FALSE)
   }

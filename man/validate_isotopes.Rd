@@ -6,8 +6,8 @@
 \usage{
 validate_isotopes(
   isotope,
-  isotope_list = c("12C", "13C", "14N", "15N", "16O", "18O"),
-  unfractionated_terms = c("bulk", "unfractionated", "T0", "time0", "Time0")
+  isotope_list = c(valid_isotope_names$unlabeled, valid_isotope_names$labeled),
+  unfractionated_terms = valid_isotope_names$unfractionated
 )
 }
 \arguments{

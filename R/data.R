@@ -154,3 +154,11 @@
 #' @family "normalization"
 "jgi_mixes"
 
+#' Valid isotope names
+#'
+#' Used to make sure isotope names are valid
+#'
+#' @format ## `valid_isotope_names`
+#' a list of length 3
+#'
+"valid_isotope_names"

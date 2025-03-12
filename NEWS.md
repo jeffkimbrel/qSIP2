@@ -1,5 +1,3 @@
-# qSIP2 (development version)
-
 # qSIP2 0.20
 
 * prepping for v1.0
@@ -7,6 +5,8 @@
   * `show_comparison_groups()` to `get_comparison_groups()`
   * `find_shared_ids()` to `get_shared_ids()`
   * `show_unshared_ids()` to `get_unshared_ids()`
+* fixed isotope check bug (fixes #11)
+  * added `valid_isotope_names` list as data to document the valid terms
 
 # qSIP2 0.19
 
