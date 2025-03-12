@@ -101,6 +101,7 @@ reference:
   - isotope_palette
   - source_palette
   - jgi_mixes
+  - valid_isotope_names
 
 - title: internal
   contents:
