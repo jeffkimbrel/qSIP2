@@ -7,7 +7,7 @@
 
 is_qsip_data = function(object, error = FALSE) {
 
-  # object must be a logical
+  # error must be a logical
   if (!is.logical(error)) {
     stop("error must be a logical", call. = FALSE)
   }

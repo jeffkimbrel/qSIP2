@@ -711,7 +711,7 @@ resample_seed <- function(qsip_data_object) {
     return(seed_used)
   } else if (is_qsip_data_list(qsip_data_object)) {
     seed_used = lapply(qsip_data_object, function(x) {x@resamples$seed})
-    seed_used[sapply(seed_used, is.null)] <- NA
+    seed_used[sapply(seed_used, is.null)] <- NA # https://stackoverflow.com/questions/2991514/prevent-unlist-to-drop-null-values
     seed_used = seed_used |>
       unlist() |>
       tibble::enframe(name = "group", value = "seed")
