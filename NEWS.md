@@ -7,6 +7,8 @@
   * `show_unshared_ids()` to `get_unshared_ids()`
 * fixed isotope check bug (fixes #11)
   * added `valid_isotope_names` list as data to document the valid terms
+* added `qsip_clean()` to reduce the size of large qSIP objects
+* reworked the `is_x()` functions
 
 # qSIP2 0.19
 

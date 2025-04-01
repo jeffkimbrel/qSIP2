@@ -463,7 +463,9 @@ qsip_data <- S7::new_class(
     filter_results = S7::class_list,
     resamples = S7::class_list,
     EAF = S7::class_data.frame,
-    growth = S7::class_list
+    EAF_summary = S7::class_data.frame,
+    growth = S7::class_list,
+    status = S7::class_list
   ),
   constructor = function(source_data,
                          sample_data,
@@ -499,7 +501,13 @@ qsip_data <- S7::new_class(
       filter_results = list(),
       resamples = list(),
       EAF = data.frame(),
-      growth = list()
+      EAF_summary = data.frame(),
+      growth = list(),
+      status = list(filtered = F,
+                    resampled = F,
+                    EAF = F,
+                    growth = F,
+                    summarized = F)
     )
   },
   validator = function(self) {
@@ -635,3 +643,31 @@ S7::method(print, qsip_data) <- function(x, ...) {
                        EAF: {green {is_qsip_EAF(x)}}
                        growth: {green {is_qsip_growth(x)}}"))
 }
+
+
+#' Clean large data from qSIP object
+#'
+#' @export
+
+
+qsip_clean = function(qsip_data_object) {
+
+  is_qsip_EAF(qsip_data_object, error = T)
+
+  if (resample_seed(qsip_data_object) == "NA") {
+    warning("Resampling seed was not set, so resamples/EAF values can not be recovered if cleaned. Continue (y/n)?")
+    if (tolower(readline("Continue (y/n)?")) != "y") {
+      stop("Stopping")
+    }
+  }
+
+  qsip_data_object@resamples$u <- list()
+  qsip_data_object@resamples$l <- list()
+  qsip_data_object@EAF <- data.frame()
+
+  qsip_data_object
+}
+
+
+
+

@@ -69,7 +69,7 @@ is_qsip_filtered <- function(object, error = FALSE) {
   # first check if it is even a qsip object
   is_qsip_data(object, error = TRUE)
 
-  if (length(object@filtered_wad_data) == 0) {
+  if (isFALSE(S7::props(object)$status$filtered)) {
     if (isFALSE(error)) {
       return(FALSE)
     } else {
@@ -94,7 +94,7 @@ is_qsip_resampled <- function(object, error = FALSE) {
   # first check if it is even a qsip object
   is_qsip_data(object, error = TRUE)
 
-  if (length(object@resamples) == 0) {
+  if (isFALSE(S7::props(object)$status$resampled)) {
     if (isFALSE(error)) {
       return(FALSE)
     } else {
@@ -119,7 +119,7 @@ is_qsip_EAF <- function(object, error = FALSE) {
   # first check if it is even a qsip object
   is_qsip_data(object, error = TRUE)
 
-  if (!dim(object@EAF)[1] > 0) {
+  if (isFALSE(S7::props(object)$status$EAF)) {
     if (isFALSE(error)) {
       return(FALSE)
     } else {
@@ -144,7 +144,7 @@ is_qsip_growth <- function(object, error = FALSE) {
   # first check if it is even a qsip object
   is_qsip_data(object, error = TRUE)
 
-  if (is.null(object@growth$rates))  {
+  if (isFALSE(S7::props(object)$status$growth)) {
     if (isFALSE(error)) {
       return(FALSE)
     } else {

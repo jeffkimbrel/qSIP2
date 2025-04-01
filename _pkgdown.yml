@@ -53,6 +53,7 @@ reference:
   - is_qsip_EAF
   - is_qsip_growth
   - qsip_object_size
+  - qsip_clean
 
 - title: WAD Corrections
   contents:

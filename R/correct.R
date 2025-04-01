@@ -85,7 +85,7 @@ correct_gpd_bootstrap <- function(qsip_data_object,
   )
 
   corrections <- df_for_resampling |>
-    dplyr::mutate(b = purrr::map(.datadata, ~ rsample::bootstraps(
+    dplyr::mutate(b = purrr::map(data, ~rsample::bootstraps(
       . |>
         dplyr::select(difference_to_mean),
       times = bootstraps

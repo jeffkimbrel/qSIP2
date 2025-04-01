@@ -246,6 +246,9 @@ run_feature_filter <- function(qsip_data_object,
     dplyr::filter(source_mat_id %in% c(qsip_data_object@filter_results$labeled_source_mat_ids, qsip_data_object@filter_results$unlabeled_source_mat_ids)) |>
     dplyr::filter(feature_id %in% qsip_data_object@filter_results$retained_features)
 
+
+  qsip_data_object@status$filtered <- TRUE
+
   return(qsip_data_object)
 }
 
@@ -341,6 +344,9 @@ run_resampling <- function(qsip_data_object,
     "allow_failures" = allow_failures
   )
 
+  # set status
+  qsip_data_object@status$resampled <- TRUE
+
   if (isTRUE(allow_failures)) {
     failures <- get_resample_counts(qsip_data_object) |>
       tidyr::pivot_longer(cols = c("unlabeled_resamples", "labeled_resamples"),
@@ -358,6 +364,8 @@ run_resampling <- function(qsip_data_object,
       }
     }
   }
+
+
 
   # return the complete qsip_data object
   qsip_data_object
@@ -385,7 +393,7 @@ run_resampling <- function(qsip_data_object,
 run_EAF_calculations <- function(qsip_data_object, gc_method = "MM", propO = 1) {
 
   # make sure the right data type and has been filtered and resampled
-  is_qsip_filtered(qsip_data_object, error = TRUE)
+  is_qsip_resampled(qsip_data_object, error = TRUE)
 
   # bind variables
   source_mat_id <- feature_id <- WAD <- resample <- W_lab_mean <- W_unlab_mean <- Z <- G <- M <- atom_count <- M_labeledmax <- M_labeled <- NULL
@@ -456,6 +464,10 @@ run_EAF_calculations <- function(qsip_data_object, gc_method = "MM", propO = 1) 
 
   qsip_data_object@EAF <- EAF
   qsip_data_object@growth$propO <- propO
+
+  # set status
+  qsip_data_object@status$EAF <- TRUE
+
   qsip_data_object
 }
 
@@ -729,6 +741,9 @@ run_growth_calculations <- function(qsip_data_object,
 
 
   qsip_data_object@growth$rates <- rbd
+
+  # set status
+  qsip_data_object@status$growth <- TRUE
 
   return(qsip_data_object)
 }
