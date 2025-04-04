@@ -1,6 +1,6 @@
 Package: qSIP2
 Title: qSIP Analysis
-Version: 0.20.5
+Version: 0.20.5.9000
 Authors@R: 
     person("Jeff", "Kimbrel", , "kimbrel1@llnl.gov", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7213-9392"))
@@ -13,7 +13,14 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
-    readxl
+    rsample,
+    readr,
+    readxl,
+    recipes,
+    RobustLinearReg,
+    workflows,
+    yardstick,
+    parsnip
 Config/testthat/edition: 3
 Imports: 
     broom,
@@ -25,23 +32,16 @@ Imports:
     glue,
     lifecycle,
     methods,
-    parsnip,
     patchwork,
     purrr,
-    readr,
-    recipes,
     rlang,
-    RobustLinearReg,
-    rsample,
     S7,
     scales,
     stats,
     stringr,
     tibble,
     tidyr,
-    tidytext,
-    workflows,
-    yardstick
+    tidytext
 URL: https://github.com/jeffkimbrel/qSIP2,
     https://jeffkimbrel.github.io/qSIP2/
 BugReports: https://github.com/jeffkimbrel/qSIP2/issues

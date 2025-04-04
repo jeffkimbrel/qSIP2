@@ -9,6 +9,7 @@
   * added `valid_isotope_names` list as data to document the valid terms
 * added `qsip_clean()` to reduce the size of large qSIP objects
 * reworked the `is_x()` functions
+* moved some packages involved in normalizations and corrections to suggests, rather than imports
 
 # qSIP2 0.19
 
