@@ -131,17 +131,17 @@ source_palette = colorRampPalette(RColorBrewer::brewer.pal(8, "Dark2"))
 jgi_mixes <- readxl::read_excel("/Users/kimbrel1/Library/CloudStorage/OneDrive-LLNL/Documents/Soils_SFA/analysis/qSIP_refactor/JGI_mixes.xlsx") |>
   tidyr::pivot_longer(
     cols = tidyr::ends_with("stoichiometry"),
-    names_to = "MIX",
+    names_to = "mix_type",
     values_to = "STOICHIOMETRY"
   ) |>
   tidyr::drop_na(STOICHIOMETRY) |>
   dplyr::mutate(
-    MIX = stringr::str_remove(MIX, "_stoichiometry"),
-    MIX = stringr::str_remove(MIX, "MIX_")
+    mix_type = stringr::str_remove(mix_type, "_stoichiometry"),
+    mix_type = stringr::str_remove(mix_type, "MIX_")
   ) |>
-  dplyr::mutate(RATIO = STOICHIOMETRY / sum(STOICHIOMETRY), .by = MIX) |>
+  dplyr::mutate(RATIO = STOICHIOMETRY / sum(STOICHIOMETRY), .by = mix_type) |>
   dplyr::rename(feature_id = ID) |>
-  dplyr::arrange(MIX)
+  dplyr::arrange(mix_type)
 
 # save
 usethis::use_data(example_source_df, overwrite = TRUE)
