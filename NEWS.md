@@ -10,6 +10,7 @@
 * added `qsip_clean()` to reduce the size of large qSIP objects
 * reworked the `is_x()` functions
 * moved some packages involved in normalizations and corrections to suggests, rather than imports
+* added `convert_negatives` argument to `qsip_sample_data()` to convert negative `gradient_pos_amt` values to zero
 
 # qSIP2 0.19
 

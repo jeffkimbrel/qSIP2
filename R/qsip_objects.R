@@ -322,7 +322,8 @@ qsip_feature_data <- S7::new_class(
 #' qPCR copies or DNA
 #' @param gradient_pos_rel_amt (*string*) Column name with the relative fraction abundance
 #'  compared to the total
-#' @param overwrite (*boolean*) Whether or not to overwrite the gradient_pos_rel_amt values
+#' @param overwrite (*boolean, default: FALSE*) Whether or not to overwrite the gradient_pos_rel_amt values
+#' @param convert_negatives (*boolean, default: FALSE*) Whether or not to convert negative amounts to zero
 #'
 #' @export
 #' @family "qSIP Objects"
@@ -348,9 +349,29 @@ qsip_sample_data <- S7::new_class(
                          gradient_pos_density = "gradient_pos_density",
                          gradient_pos_amt = "gradient_pos_amt",
                          gradient_pos_rel_amt = "",
+                         convert_negatives = FALSE,
                          overwrite = FALSE) {
     # make sure data is correct
     stopifnot("data should be class <data.frame>" = "data.frame" %in% class(data))
+
+    # make sure columns are found
+    stopifnot("sample_id column not found" = sample_id %in% colnames(data))
+    stopifnot("source_mat_id column not found" = source_mat_id %in% colnames(data))
+    stopifnot("gradient_position column not found" = gradient_position %in% colnames(data))
+    stopifnot("gradient_pos_density column not found" = gradient_pos_density %in% colnames(data))
+    stopifnot("gradient_pos_amt column not found" = gradient_pos_amt %in% colnames(data))
+    #gradient_pos_rel_amt checked lower down
+
+
+    # if negative values
+    if (any(data[gradient_pos_amt] < 0)) {
+      if (convert_negatives) {
+        message(glue::glue("Converting negative values in {gradient_pos_amt} to 0"))
+        data[gradient_pos_amt][data[gradient_pos_amt] < 0] = 0
+      } else {
+        message(glue::glue("{gradient_pos_amt} has negative values. Set convert_negatives = TRUE to convert to 0"))
+      }
+    }
 
     # automagically make gradient_pos_rel_amt from gradient_pos_amt, if not specified
     if (gradient_pos_rel_amt == "") {
@@ -362,15 +383,6 @@ qsip_sample_data <- S7::new_class(
       gradient_pos_rel_amt = "gradient_pos_rel_amt"
     }
 
-
-
-
-    # make sure columns are found
-    stopifnot("sample_id column not found" = sample_id %in% colnames(data))
-    stopifnot("source_mat_id column not found" = source_mat_id %in% colnames(data))
-    stopifnot("gradient_position column not found" = gradient_position %in% colnames(data))
-    stopifnot("gradient_pos_density column not found" = gradient_pos_density %in% colnames(data))
-    stopifnot("gradient_pos_amt column not found" = gradient_pos_amt %in% colnames(data))
     stopifnot("gradient_pos_rel_amt column not found" = gradient_pos_rel_amt %in% colnames(data))
 
     # rename columns to standardized names

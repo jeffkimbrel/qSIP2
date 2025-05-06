@@ -93,3 +93,39 @@ test_that("duplicate sample_ids give error", {
                                    gradient_pos_rel_amt = "gradient_pos_rel_amt"
   ), "Some sample_ids are duplicated")
 })
+
+
+sample_data_rel_amt <- readRDS(test_path("fixtures", "sample_data_rel_amt.rds"))
+
+test_that("negative values get converted", {
+  correct_T = sample_data_rel_amt |>
+    dplyr::mutate(avg_16S_g_soil = avg_16S_g_soil - 300) |>
+    qsip_sample_data(sample_id = "sample",
+                   source_mat_id = "source",
+                   gradient_position = "Fraction",
+                   gradient_pos_density = "density_g_ml",
+                   gradient_pos_amt = "avg_16S_g_soil",
+                   gradient_pos_rel_amt = "gradient_pos_rel_amt",
+                   convert_negatives = T)
+  correct_F = sample_data_rel_amt |>
+    dplyr::mutate(avg_16S_g_soil = avg_16S_g_soil - 300) |>
+    qsip_sample_data(sample_id = "sample",
+                     source_mat_id = "source",
+                     gradient_position = "Fraction",
+                     gradient_pos_density = "density_g_ml",
+                     gradient_pos_amt = "avg_16S_g_soil",
+                     gradient_pos_rel_amt = "gradient_pos_rel_amt",
+                     convert_negatives = F)
+
+  expect_equal(get_dataframe(correct_T) |>
+                 dplyr::pull(gradient_pos_amt) |>
+                 min(),
+               0)
+  expect_lt(get_dataframe(correct_F) |>
+                 dplyr::pull(gradient_pos_amt) |>
+                 min(),
+               0)
+
+})
+
+
