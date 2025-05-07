@@ -11,6 +11,9 @@
 * reworked the `is_x()` functions
 * moved some packages involved in normalizations and corrections to suggests, rather than imports
 * added `convert_negatives` argument to `qsip_sample_data()` to convert negative `gradient_pos_amt` values to zero
+* `get_filter_results()` function gives tabular output of the filtering results
+  * can set `type` to `counts` to get the retained features as counts (default)
+  * or set to `feature_ids` to instead return nested vector of the feature IDs
 
 # qSIP2 0.19
 

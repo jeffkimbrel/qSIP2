@@ -390,6 +390,78 @@ get_filtered_source_counts = function(qsip_data_object) {
 }
 
 
+#' Tabular output summarizing filtering
+#'
+#' @param qsip_data_object (*qsip_data*) An object of `qsip_data` class that has been filtered
+#' @param type (*string, default: counts*) The type of output to return. Either "counts" or "feature_ids"
+#'
+#' @export
+get_filter_results <- function(qsip_data_object,
+                               type = "counts") {
+
+  is_qsip_filtered(qsip_data_object, error = TRUE)
+
+  # type must be either counts or feature_ids
+  if (type != "counts" & type != "feature_ids") {
+    stop("<type> must be either 'counts' or 'feature_ids'", call. = FALSE)
+  }
+
+  a <- qsip_data_object@filter_results$fraction_filtered |>
+    dplyr::summarize(
+      mean_tube_rel_abundance = sum(tube_rel_abundance),
+      features = list(unique(feature_id)),
+      .by = c(source_mat_id, type, fraction_call)
+    ) |>
+    dplyr::summarize(
+      mean_abundance = mean(mean_tube_rel_abundance),
+      features = list(unique(unlist(features))),
+      .by = c(type, fraction_call)
+    ) |>
+    dplyr::rename(filter_step = fraction_call)
+
+
+  b <- qsip_data_object@filter_results$source_filtered |>
+    dplyr::summarize(
+      features = list(unique(feature_id)),
+      mean_abundance = sum(mean_tube_rel_abundance), .by = c(type, source_call)
+    ) |>
+    dplyr::rename(filter_step = source_call)
+
+  c <- rbind(a, b) |>
+    dplyr::mutate(filter_step = forcats::fct_relevel(
+      filter_step, "Zero Fractions", "Fraction Filtered", "Fraction Passed", "Zero Sources", "Source Filtered",
+      "Source Passed"
+    )) |>
+    dplyr::mutate(mean_abundance = ifelse(is.na(mean_abundance), 0, mean_abundance)) |>
+    dplyr::arrange(filter_step, type) |>
+    tidyr::pivot_wider(names_from = type, values_from = c(mean_abundance, features), names_sep = "_") |>
+    dplyr::mutate(
+      union = purrr::map2(features_unlabeled, features_labeled, ~ union(.x, .y)),
+      intersect = purrr::map2(features_unlabeled, features_labeled, ~ intersect(.x, .y)),
+      labeled_only = purrr::map2(features_labeled, features_unlabeled, ~ setdiff(.x, .y)),
+      unlabeled_only = purrr::map2(features_unlabeled, features_labeled, ~ setdiff(.x, .y))
+    ) |>
+    dplyr::select(filter_step,
+                  features_unlabeled,
+                  features_labeled,
+                  union,
+                  intersect,
+                  unlabeled_only,
+                  labeled_only,
+                  mean_abundance_unlabeled,
+                  mean_abundance_labeled)
+
+  if (type == "counts") {
+    c |>
+      mutate(across(where(is.list), ~ map_int(., ~ ifelse(length(.) == 0, 0, length(.)))))
+  } else if (type == "feature_ids") {
+    c
+  }
+
+}
+
+
+
 #' Get dataframe of resampled growth data
 #'
 #' This function will return a dataframe of the resampled growth data embedded in a `qsip_data`
