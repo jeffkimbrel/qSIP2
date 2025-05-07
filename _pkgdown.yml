@@ -40,6 +40,7 @@ reference:
   - get_filtered_feature_summary
   - get_source_mat_ids
   - get_growth_data
+  - get_filter_results
   - resample_seed
   - n_resamples
   - add_gradient_pos_rel_amt
