@@ -359,7 +359,9 @@ run_resampling <- function(qsip_data_object,
 
     if (sum(failures > 0)) {
       if (isFALSE(quiet)) {
-        warning(glue::glue("{failures['unlabeled']} unlabeled and {failures['labeled']} labeled feature_ids had resampling failures. Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect."),
+        f_u = {ifelse(is.na(failures['unlabeled_resamples']), 0, failures['unlabeled_resamples'])}
+        f_l = {ifelse(is.na(failures['labeled_resamples']), 0, failures['labeled_resamples'])}
+        warning(glue::glue("{f_u} unlabeled and {f_l} labeled feature_ids had resampling failures. Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect."),
                 call. = FALSE)
       }
     }

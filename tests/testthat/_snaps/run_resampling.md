@@ -52,7 +52,7 @@
       Using random seed. For consistency, you can use the with_seed argument
     Condition
       Warning:
-      NA unlabeled and NA labeled feature_ids had resampling failures. Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect.
+      74 unlabeled and 74 labeled feature_ids had resampling failures. Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect.
     Output
       <qsip_data>
       group: none
