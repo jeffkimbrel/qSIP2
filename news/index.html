@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.5.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.5.9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,6 +68,11 @@
 <li>reworked the <code>is_x()</code> functions</li>
 <li>moved some packages involved in normalizations and corrections to suggests, rather than imports</li>
 <li>added <code>convert_negatives</code> argument to <code><a href="../reference/qsip_sample_data.html">qsip_sample_data()</a></code> to convert negative <code>gradient_pos_amt</code> values to zero</li>
+<li>
+<code><a href="../reference/get_filter_results.html">get_filter_results()</a></code> function gives tabular output of the filtering results
+<ul><li>can set <code>type</code> to <code>counts</code> to get the retained features as counts (default)</li>
+<li>or set to <code>feature_ids</code> to instead return nested vector of the feature IDs</li>
+</ul></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.19" id="qsip2-019">qSIP2 0.19<a class="anchor" aria-label="anchor" href="#qsip2-019"></a></h2>
