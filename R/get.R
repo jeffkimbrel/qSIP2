@@ -427,11 +427,11 @@ get_filter_results <- function(qsip_data_object,
     ) |>
     dplyr::rename(filter_step = source_call)
 
-  c <- rbind(a, b) |>
-    dplyr::mutate(filter_step = forcats::fct_relevel(
-      filter_step, "Zero Fractions", "Fraction Filtered", "Fraction Passed", "Zero Sources", "Source Filtered",
-      "Source Passed"
-    )) |>
+  c <- rbind(a, b)  |>
+    dplyr::mutate(filter_step = factor(filter_step,
+                                       levels = c("Zero Fractions", "Fraction Filtered", "Fraction Passed", "Zero Sources", "Source Filtered", "Source Passed"))) |>
+    tidyr::complete(filter_step, type, fill = list(mean_abundance = 0,
+                                                   features = c(NA))) |>
     dplyr::mutate(mean_abundance = ifelse(is.na(mean_abundance), 0, mean_abundance)) |>
     dplyr::arrange(filter_step, type) |>
     tidyr::pivot_wider(names_from = type, values_from = c(mean_abundance, features), names_sep = "_") |>
@@ -449,11 +449,15 @@ get_filter_results <- function(qsip_data_object,
                   unlabeled_only,
                   labeled_only,
                   mean_abundance_unlabeled,
-                  mean_abundance_labeled)
+                  mean_abundance_labeled) |>
+    dplyr::mutate(filter_step = forcats::fct_relevel(
+      filter_step, c("Zero Fractions", "Fraction Filtered", "Fraction Passed", "Zero Sources", "Source Filtered",
+                     "Source Passed")
+    ))
 
   if (type == "counts") {
     c |>
-      mutate(across(where(is.list), ~ map_int(., ~ ifelse(length(.) == 0, 0, length(.)))))
+      dplyr::mutate(across(where(is.list), ~ purrr::map_int(., ~ ifelse(length(.) == 0, 0, length(.)))))
   } else if (type == "feature_ids") {
     c
   }
