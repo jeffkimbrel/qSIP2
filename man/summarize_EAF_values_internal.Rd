@@ -4,10 +4,16 @@
 \alias{summarize_EAF_values_internal}
 \title{Internal function to summarize EAF values}
 \usage{
-summarize_EAF_values_internal(qsip_data_object, confidence = 0.9)
+summarize_EAF_values_internal(
+  qsip_data_object,
+  taxonomy = FALSE,
+  confidence = 0.9
+)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) A qsip_data object}
+
+\item{taxonomy}{(\emph{logical, default: FALSE}) If TRUE, add the taxonomy of the feature_id}
 
 \item{confidence}{(\emph{numeric, default: 0.9}) The confidence level for the confidence interval
 

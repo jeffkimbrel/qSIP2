@@ -13,7 +13,8 @@ plot_EAF_values(
   alpha = 0.3,
   zero_line = TRUE,
   shared_y = FALSE,
-  title = NULL
+  title = NULL,
+  taxonomy = NULL
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ plot_EAF_values(
 \item{shared_y}{(\emph{logical}) Use a shared y-axis for the facets}
 
 \item{title}{(\emph{character}) An optional title of the plot}
+
+\item{taxonomy}{(\emph{logical}) If TRUE, the taxonomy will be added to the plot}
 }
 \description{
 This function plots the observed EAF values for each feature in the dataset.

@@ -917,7 +917,7 @@ plot_filter_results <- function(qsip_data_object,
       .groups = "drop"
     ) |>
     dplyr::filter(fraction_call != "Zero Fractions") |>
-    dplyr::left_join(get_dataframe(qsip_data_object, type = "source"), by = join_by(source_mat_id))
+    dplyr::left_join(get_dataframe(qsip_data_object, type = "source"), by = dplyr::join_by(source_mat_id))
 
   by_abundance <- by_abundance_df |>
     ggplot2::ggplot(ggplot2::aes(
@@ -951,7 +951,7 @@ plot_filter_results <- function(qsip_data_object,
     dplyr::group_by(source_mat_id, fraction_call) |>
     dplyr::tally() |>
     dplyr::arrange(fraction_call) |>
-    dplyr::left_join(get_dataframe(qsip_data_object, type = "source"), by = join_by(source_mat_id))
+    dplyr::left_join(get_dataframe(qsip_data_object, type = "source"), by = dplyr::join_by(source_mat_id))
 
   by_count <- by_count_df |>
     ggplot2::ggplot(ggplot2::aes(

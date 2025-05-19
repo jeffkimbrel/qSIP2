@@ -4,12 +4,19 @@
 \alias{summarize_EAF_values}
 \title{Summarize the observed and resampled EAF values}
 \usage{
-summarize_EAF_values(qsip_data_object, confidence = 0.9, quiet = FALSE)
+summarize_EAF_values(
+  qsip_data_object,
+  confidence = 0.9,
+  taxonomy = FALSE,
+  quiet = FALSE
+)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) A qsip_data object or list of qsip_data objects}
 
 \item{confidence}{(\emph{numeric, default: 0.9}) The confidence level for the confidence interval}
+
+\item{taxonomy}{(\emph{logical, default: FALSE}) If TRUE, add the taxonomy of the feature_id}
 
 \item{quiet}{(\emph{logical, default: FALSE}) Suppress messages}
 }
