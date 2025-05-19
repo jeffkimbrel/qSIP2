@@ -644,7 +644,7 @@ S7::method(print, qsip_feature_data) <- function(x, ...) {
                        feature_id count: {green {dim(x@data)[1]}}
                        sample_id count: {green {dim(x@data)[2] - 1}}
                        data type: {green {x@type}}
-                       taxonomy: {green {!is_empty(x@taxonomy)}}"))
+                       taxonomy: {green {!rlang::is_empty(x@taxonomy)}}"))
 }
 
 
