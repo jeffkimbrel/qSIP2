@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.5.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.5.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,7 +89,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.20.5.9004'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.20.5.9005'</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="feature-counts-and-metadata">Feature Counts and Metadata<a class="anchor" aria-label="anchor" href="#feature-counts-and-metadata"></a>
 </h2>
@@ -211,7 +211,8 @@ the type is the default <code>counts</code>.</p>
 <span><span class="co">#&gt; &lt;qsip_feature_data&gt;</span></span>
 <span><span class="co">#&gt; feature_id count: <span style="color: #00BB00;">3</span></span></span>
 <span><span class="co">#&gt; sample_id count: <span style="color: #00BB00;">2</span></span></span>
-<span><span class="co">#&gt; data type: <span style="color: #00BB00;">coverage</span></span></span></code></pre></div>
+<span><span class="co">#&gt; data type: <span style="color: #00BB00;">coverage</span></span></span>
+<span><span class="co">#&gt; taxonomy: <span style="color: #00BB00;">FALSE</span></span></span></code></pre></div>
 <p>In theory, the slots can be overwritten, but this is not recommended.
 If you do, they will undergo the same validations and may fail.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -242,7 +243,8 @@ practice would be to convert prior to creating the object with a
 <span><span class="co">#&gt; &lt;qsip_feature_data&gt;</span></span>
 <span><span class="co">#&gt; feature_id count: <span style="color: #00BB00;">3</span></span></span>
 <span><span class="co">#&gt; sample_id count: <span style="color: #00BB00;">2</span></span></span>
-<span><span class="co">#&gt; data type: <span style="color: #00BB00;">counts</span></span></span></code></pre></div>
+<span><span class="co">#&gt; data type: <span style="color: #00BB00;">counts</span></span></span>
+<span><span class="co">#&gt; taxonomy: <span style="color: #00BB00;">FALSE</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="taxonomy-or-other-metadata">Taxonomy or other metadata<a class="anchor" aria-label="anchor" href="#taxonomy-or-other-metadata"></a>
@@ -267,7 +269,8 @@ it will live in the <code>@taxonomy</code> slot.</p>
 <span><span class="co">#&gt; &lt;qsip_feature_data&gt;</span></span>
 <span><span class="co">#&gt; feature_id count: <span style="color: #00BB00;">3</span></span></span>
 <span><span class="co">#&gt; sample_id count: <span style="color: #00BB00;">2</span></span></span>
-<span><span class="co">#&gt; data type: <span style="color: #00BB00;">counts</span></span></span></code></pre></div>
+<span><span class="co">#&gt; data type: <span style="color: #00BB00;">counts</span></span></span>
+<span><span class="co">#&gt; taxonomy: <span style="color: #00BB00;">TRUE</span></span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

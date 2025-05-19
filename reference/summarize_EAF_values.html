@@ -11,7 +11,7 @@ with a given confidence limit."><meta property="og:image" content="https://jeffk
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.5.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.5.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,12 @@ with a given <code>confidence</code> limit.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">summarize_EAF_values</span><span class="op">(</span><span class="va">qsip_data_object</span>, confidence <span class="op">=</span> <span class="fl">0.9</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">summarize_EAF_values</span><span class="op">(</span></span>
+<span>  <span class="va">qsip_data_object</span>,</span>
+<span>  confidence <span class="op">=</span> <span class="fl">0.9</span>,</span>
+<span>  taxonomy <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -73,6 +78,10 @@ with a given <code>confidence</code> limit.</p>
 
 <dt id="arg-confidence">confidence<a class="anchor" aria-label="anchor" href="#arg-confidence"></a></dt>
 <dd><p>(<em>numeric, default: 0.9</em>) The confidence level for the confidence interval</p></dd>
+
+
+<dt id="arg-taxonomy">taxonomy<a class="anchor" aria-label="anchor" href="#arg-taxonomy"></a></dt>
+<dd><p>(<em>logical, default: FALSE</em>) If TRUE, add the taxonomy of the feature_id</p></dd>
 
 
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
