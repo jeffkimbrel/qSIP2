@@ -374,6 +374,7 @@ plot_density_outliers <- function(sample_data,
 #' @param zero_line (*logical*) Add a line at EAF = 0
 #' @param shared_y (*logical*) Use a shared y-axis for the facets
 #' @param title (*character*) An optional title of the plot
+#' @param taxonomy (*logical*) If TRUE, the taxonomy will be added to the plot
 #'
 #' @export
 
@@ -385,7 +386,8 @@ plot_EAF_values <- function(qsip_data_object,
                             alpha = 0.3,
                             zero_line = TRUE,
                             shared_y = FALSE,
-                            title = NULL) {
+                            title = NULL,
+                            taxonomy = NULL) {
   # confirm qsip_data_object class is either qsip_data or list
 
   if (is_qsip_data_list(qsip_data_object, error = FALSE)) {
@@ -429,9 +431,21 @@ plot_EAF_values <- function(qsip_data_object,
   group <- observed_EAF <- feature_id <- labeled_resamples <- unlabeled_resamples <- resamples <- lower <- upper <- NULL
 
 
-  EAF <- summarize_EAF_values(qsip_data_object,
-                              confidence = confidence
-  )
+  if (is.null(taxonomy)) {
+    EAF <- summarize_EAF_values(qsip_data_object,
+                                confidence = confidence
+    )
+  } else {
+    EAF <- summarize_EAF_values(qsip_data_object,
+                                taxonomy = TRUE,
+                                confidence = confidence)
+
+    EAF = EAF |>
+      dplyr::select(-feature_id) |>
+      dplyr::rename(feature_id = all_of(taxonomy))
+  }
+
+
 
   # add number of attempted resamples
   if (object_type == "multiple") {
@@ -456,6 +470,10 @@ plot_EAF_values <- function(qsip_data_object,
       dplyr::slice_max(observed_EAF, n = top) |>
       dplyr::mutate(resamples = qsip_data_object@resamples$n)
   }
+
+
+
+
 
   p <- EAF |>
     dplyr::mutate(feature_id = forcats::fct_reorder(feature_id, observed_EAF)) |>
@@ -898,7 +916,8 @@ plot_filter_results <- function(qsip_data_object,
       tube_rel_abundance = sum(tube_rel_abundance),
       .groups = "drop"
     ) |>
-    dplyr::filter(fraction_call != "Zero Fractions")
+    dplyr::filter(fraction_call != "Zero Fractions") |>
+    dplyr::left_join(get_dataframe(qsip_data_object, type = "source"), by = join_by(source_mat_id))
 
   by_abundance <- by_abundance_df |>
     ggplot2::ggplot(ggplot2::aes(
@@ -924,13 +943,15 @@ plot_filter_results <- function(qsip_data_object,
     ggplot2::theme(axis.text.x = ggplot2::element_text(
       angle = 90, hjust = 1,
       vjust = 0.5
-    ))
+    )) +
+    ggplot2::facet_grid(~isotope, scales = "free_x", space = "free_x")
 
 
   by_count_df <- qsip_data_object@filter_results$fraction_filtered |>
     dplyr::group_by(source_mat_id, fraction_call) |>
     dplyr::tally() |>
-    dplyr::arrange(fraction_call)
+    dplyr::arrange(fraction_call) |>
+    dplyr::left_join(get_dataframe(qsip_data_object, type = "source"), by = join_by(source_mat_id))
 
   by_count <- by_count_df |>
     ggplot2::ggplot(ggplot2::aes(
@@ -952,7 +973,8 @@ plot_filter_results <- function(qsip_data_object,
     ggplot2::theme(axis.text.x = ggplot2::element_text(
       angle = 90, hjust = 1,
       vjust = 0.5
-    ))
+    )) +
+    ggplot2::facet_grid(~isotope, scales = "free_x", space = "free_x")
 
   if (return_type == "combined") {
     patchwork::wrap_plots(

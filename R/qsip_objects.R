@@ -637,12 +637,17 @@ S7::method(print, qsip_sample_data) <- function(x, ...) {
                        sample_id count: {green {length(unique(sd$sample_id))}}"))
 }
 
+
+
 S7::method(print, qsip_feature_data) <- function(x, ...) {
   print(glue::glue_col("<qsip_feature_data>
                        feature_id count: {green {dim(x@data)[1]}}
                        sample_id count: {green {dim(x@data)[2] - 1}}
-                       data type: {green {x@type}}"))
+                       data type: {green {x@type}}
+                       taxonomy: {green {!is_empty(x@taxonomy)}}"))
 }
+
+
 
 S7::method(print, qsip_data) <- function(x, ...) {
 

@@ -1098,13 +1098,17 @@ summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = 
 #'
 #' @param qsip_data_object (*qsip_data*) A qsip_data object or list of qsip_data objects
 #' @param confidence (*numeric, default: 0.9*) The confidence level for the confidence interval
+#' @param taxonomy (*logical, default: FALSE*) If TRUE, add the taxonomy of the feature_id
 #' @param quiet (*logical, default: FALSE*) Suppress messages
 #'
 #' @export
 #'
 #' @returns A `dataframe` with summarized observed and resampled EAF values
 
-summarize_EAF_values <- function(qsip_data_object, confidence = 0.9, quiet = FALSE) {
+summarize_EAF_values <- function(qsip_data_object,
+                                 confidence = 0.9,
+                                 taxonomy = FALSE,
+                                 quiet = FALSE) {
   # confirm the confidence value is numeric and between 0-1
   stopifnot("ERROR: confidence should be numeric" = is.numeric(confidence))
   if (confidence >= 1 | confidence <= 0) {
@@ -1119,11 +1123,13 @@ summarize_EAF_values <- function(qsip_data_object, confidence = 0.9, quiet = FAL
   if (is_qsip_data_list(qsip_data_object, error = FALSE)) {
     lapply(qsip_data_object,
            summarize_EAF_values_internal,
+           taxonomy = taxonomy,
            confidence = confidence
     ) |>
       dplyr::bind_rows(.id = "group")
   } else if (is_qsip_data(qsip_data_object, error = FALSE)) {
     summarize_EAF_values_internal(qsip_data_object,
+                                  taxonomy = taxonomy,
                                   confidence = confidence)
   } else {
     stop("ERROR: qsip_data_object must be of class <qsip_data> or <list> of qsip_data objects")
@@ -1137,6 +1143,7 @@ summarize_EAF_values <- function(qsip_data_object, confidence = 0.9, quiet = FAL
 #' Internal function to summarize EAF values
 #'
 #' @param qsip_data_object (*qsip_data*) A qsip_data object
+#' @param taxonomy (*logical, default: FALSE*) If TRUE, add the taxonomy of the feature_id
 #' @param confidence (*numeric, default: 0.9*) The confidence level for the confidence interval
 #'
 #' Called by `summarize_EAF_values` to calculate the resampled EAF values.
@@ -1144,6 +1151,7 @@ summarize_EAF_values <- function(qsip_data_object, confidence = 0.9, quiet = FAL
 #' @keywords internal
 
 summarize_EAF_values_internal <- function(qsip_data_object,
+                                          taxonomy = FALSE,
                                           confidence = 0.9) {
 
   is_qsip_filtered(qsip_data_object, error = TRUE)
@@ -1163,6 +1171,16 @@ summarize_EAF_values_internal <- function(qsip_data_object,
   observed <- qsip_data_object@EAF |>
     dplyr::filter(observed == TRUE) |>
     dplyr::select(feature_id, observed_EAF = EAF)
+
+  if (isTRUE(taxonomy)) {
+
+    if (!rlang::is_empty(qsip_data_object@feature_data@taxonomy)) {
+      observed = observed |>
+        dplyr::left_join(qsip_data_object@feature_data@taxonomy, by = "feature_id")
+    } else {
+      stop("qsip_object does not contain taxonomy information", call. = FALSE)
+    }
+  }
 
   observed |>
     dplyr::left_join(resamples, by = "feature_id") |>
