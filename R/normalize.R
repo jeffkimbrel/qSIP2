@@ -292,9 +292,9 @@ match_sequins = function(features, mix, mix_file = "jgi") {
 
   # get vector of sequin features in file
   sequin_features = features |>
-    filter(coverage > 0) |> # sometimes all sequins are present, even those with 0 coverage and aren't even in the mix
-    filter(feature_id %in% jgi_mixes$feature_id) |>
-    pull(feature_id)
+    dplyr::filter(coverage > 0) |> # sometimes all sequins are present, even those with 0 coverage and aren't even in the mix
+    dplyr::filter(feature_id %in% jgi_mixes$feature_id) |>
+    dplyr::pull(feature_id)
 
 
   # make sure all features are found in the mix that was used
@@ -302,9 +302,9 @@ match_sequins = function(features, mix, mix_file = "jgi") {
   # features identified of the wrong type
   extra_sequins = jgi_mixes |>
     dplyr::select(feature_id, mix_type) |>
-    summarize(mix_type = paste(mix_type, collapse = ""), .by = feature_id) |>
+    dplyr::summarize(mix_type = paste(mix_type, collapse = ""), .by = feature_id) |>
     dplyr::filter(feature_id %in% sequin_features) |>
-    dplyr::filter(!str_detect(mix_type, mix))
+    dplyr::filter(!stringr::str_detect(mix_type, mix))
 
   if (nrow(extra_sequins) > 0) {
     warning(paste0("The following sequins were found in the feature file, but not in the mix_type that was selected: ", paste(extra_sequins$feature_id, collapse = "\n")))
@@ -314,12 +314,12 @@ match_sequins = function(features, mix, mix_file = "jgi") {
   filter_jgi_mixes = jgi_mixes |>
     dplyr::filter(.data$mix_type == mix) |>
     dplyr::filter(feature_id %in% sequin_features) |>
-    select(feature_id, relative_abundance = STOICHIOMETRY)
+    dplyr::select(feature_id, relative_abundance = STOICHIOMETRY)
 
   features |>
     dplyr::filter(feature_id %in% sequin_features) |>
-    left_join(filter_jgi_mixes, by = join_by(feature_id)) |>
-    mutate(relative_abundance_log10 = log10(relative_abundance))
+    dplyr::left_join(filter_jgi_mixes, by = dplyr::join_by(feature_id)) |>
+    dplyr::mutate(relative_abundance_log10 = log10(relative_abundance))
 
 
 }
