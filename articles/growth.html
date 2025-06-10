@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.5.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,7 +88,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.20.5.9005'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.20.6'</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -636,26 +636,26 @@ intervals for the birth and death rates, as well as EAF.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summarize_growth_values.html">summarize_growth_values</a></span><span class="op">(</span><span class="va">q</span>, confidence <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">feature_id</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 351 × 28</span></span></span>
-<span><span class="co">#&gt;    feature_id timepoint1 timepoint2  N_total_i0 N_total_it     r_net observed_bi</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> taxon_1             0         10 <span style="text-decoration: underline;">1</span>595<span style="text-decoration: underline;">472</span>105. 148<span style="text-decoration: underline;">586</span>025.   -<span style="color: #BB0000;">1.45</span><span style="color: #949494;">e</span>9     0.010<span style="text-decoration: underline;">9</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> taxon_10            0         10    2<span style="text-decoration: underline;">793</span>486.   1<span style="text-decoration: underline;">058</span>203.   -<span style="color: #BB0000;">1.74</span><span style="color: #949494;">e</span>6     0.025<span style="text-decoration: underline;">0</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> taxon_100           0         10    4<span style="text-decoration: underline;">698</span>016.   1<span style="text-decoration: underline;">933</span>443.   -<span style="color: #BB0000;">2.76</span><span style="color: #949494;">e</span>6     0.047<span style="text-decoration: underline;">6</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> taxon_101           0         10    4<span style="text-decoration: underline;">359</span>459.   1<span style="text-decoration: underline;">617</span>996.   -<span style="color: #BB0000;">2.74</span><span style="color: #949494;">e</span>6     0.064<span style="text-decoration: underline;">2</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> taxon_102           0         10   45<span style="text-decoration: underline;">813</span>796.   6<span style="text-decoration: underline;">260</span>993.   -<span style="color: #BB0000;">3.96</span><span style="color: #949494;">e</span>7     0.004<span style="text-decoration: underline;">02</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> taxon_103           0         10    4<span style="text-decoration: underline;">639</span>329.    <span style="text-decoration: underline;">635</span>123.   -<span style="color: #BB0000;">4.00</span><span style="color: #949494;">e</span>6     0.003<span style="text-decoration: underline;">92</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> taxon_104           0         10   35<span style="text-decoration: underline;">390</span>036.   6<span style="text-decoration: underline;">306</span>709.   -<span style="color: #BB0000;">2.91</span><span style="color: #949494;">e</span>7     0.006<span style="text-decoration: underline;">18</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> taxon_105           0         10  381<span style="text-decoration: underline;">417</span>581.  64<span style="text-decoration: underline;">847</span>518.   -<span style="color: #BB0000;">3.17</span><span style="color: #949494;">e</span>8     0.005<span style="text-decoration: underline;">84</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> taxon_106           0         10    8<span style="text-decoration: underline;">761</span>701.   1<span style="text-decoration: underline;">541</span>086.   -<span style="color: #BB0000;">7.22</span><span style="color: #949494;">e</span>6     0.004<span style="text-decoration: underline;">77</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> taxon_107           0         10    3<span style="text-decoration: underline;">724</span>648.    <span style="text-decoration: underline;">338</span>098.   -<span style="color: #BB0000;">3.39</span><span style="color: #949494;">e</span>6     0.002<span style="text-decoration: underline;">31</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 351 × 29</span></span></span>
+<span><span class="co">#&gt;    feature_id timepoint1 timepoint2  N_total_i0 N_total_it N_light_it      r_net</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> taxon_1             0         10 <span style="text-decoration: underline;">1</span>595<span style="text-decoration: underline;">472</span>105. 148<span style="text-decoration: underline;">586</span>025. 133<span style="text-decoration: underline;">245</span>500.    -<span style="color: #BB0000;">1.45</span><span style="color: #949494;">e</span>9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> taxon_10            0         10    2<span style="text-decoration: underline;">793</span>486.   1<span style="text-decoration: underline;">058</span>203.    <span style="text-decoration: underline;">824</span>055.    -<span style="color: #BB0000;">1.74</span><span style="color: #949494;">e</span>6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> taxon_100           0         10    4<span style="text-decoration: underline;">698</span>016.   1<span style="text-decoration: underline;">933</span>443.   1<span style="text-decoration: underline;">200</span>882.    -<span style="color: #BB0000;">2.76</span><span style="color: #949494;">e</span>6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> taxon_101           0         10    4<span style="text-decoration: underline;">359</span>459.   1<span style="text-decoration: underline;">617</span>996.    <span style="text-decoration: underline;">851</span>569.    -<span style="color: #BB0000;">2.74</span><span style="color: #949494;">e</span>6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> taxon_102           0         10   45<span style="text-decoration: underline;">813</span>796.   6<span style="text-decoration: underline;">260</span>993.   6<span style="text-decoration: underline;">014</span>551.    -<span style="color: #BB0000;">3.96</span><span style="color: #949494;">e</span>7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> taxon_103           0         10    4<span style="text-decoration: underline;">639</span>329.    <span style="text-decoration: underline;">635</span>123.    <span style="text-decoration: underline;">610</span>699.    -<span style="color: #BB0000;">4.00</span><span style="color: #949494;">e</span>6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> taxon_104           0         10   35<span style="text-decoration: underline;">390</span>036.   6<span style="text-decoration: underline;">306</span>709.   5<span style="text-decoration: underline;">928</span>829.    -<span style="color: #BB0000;">2.91</span><span style="color: #949494;">e</span>7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> taxon_105           0         10  381<span style="text-decoration: underline;">417</span>581.  64<span style="text-decoration: underline;">847</span>518.  61<span style="text-decoration: underline;">168</span>473.    -<span style="color: #BB0000;">3.17</span><span style="color: #949494;">e</span>8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> taxon_106           0         10    8<span style="text-decoration: underline;">761</span>701.   1<span style="text-decoration: underline;">541</span>086.   1<span style="text-decoration: underline;">469</span>288.    -<span style="color: #BB0000;">7.22</span><span style="color: #949494;">e</span>6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> taxon_107           0         10    3<span style="text-decoration: underline;">724</span>648.    <span style="text-decoration: underline;">338</span>098.    <span style="text-decoration: underline;">330</span>391.    -<span style="color: #BB0000;">3.39</span><span style="color: #949494;">e</span>6</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 341 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 21 more variables: observed_di &lt;dbl&gt;, observed_ri &lt;dbl&gt;, successes &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   resampled_N_mean &lt;dbl&gt;, resampled_rnet_mean &lt;dbl&gt;, resampled_bi_mean &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   resampled_bi_sd &lt;dbl&gt;, resampled_bi_lower &lt;dbl&gt;, resampled_bi_upper &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   resampled_di_mean &lt;dbl&gt;, resampled_di_sd &lt;dbl&gt;, resampled_di_lower &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   resampled_di_upper &lt;dbl&gt;, resampled_ri_mean &lt;dbl&gt;, resampled_ri_sd &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   resampled_ri_lower &lt;dbl&gt;, resampled_ri_upper &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 22 more variables: observed_bi &lt;dbl&gt;, observed_di &lt;dbl&gt;, observed_ri &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   successes &lt;int&gt;, resampled_N_mean &lt;dbl&gt;, resampled_rnet_mean &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   resampled_bi_mean &lt;dbl&gt;, resampled_bi_sd &lt;dbl&gt;, resampled_bi_lower &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   resampled_bi_upper &lt;dbl&gt;, resampled_di_mean &lt;dbl&gt;, resampled_di_sd &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   resampled_di_lower &lt;dbl&gt;, resampled_di_upper &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   resampled_ri_mean &lt;dbl&gt;, resampled_ri_sd &lt;dbl&gt;, resampled_ri_lower &lt;dbl&gt;, …</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="growth-rate-plots">Growth rate plots<a class="anchor" aria-label="anchor" href="#growth-rate-plots"></a>
@@ -818,7 +818,7 @@ the remaining 972 were successful. This number is reflected in the
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
