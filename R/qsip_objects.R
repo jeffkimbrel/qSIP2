@@ -664,6 +664,8 @@ S7::method(print, qsip_data) <- function(x, ...) {
 
 #' Clean large data from qSIP object
 #'
+#' @param qsip_data_object (*qsip_data*) A qSIP data object
+#'
 #' @export
 
 

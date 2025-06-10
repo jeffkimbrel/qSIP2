@@ -6,6 +6,9 @@
 \usage{
 qsip_clean(qsip_data_object)
 }
+\arguments{
+\item{qsip_data_object}{(\emph{qsip_data}) A qSIP data object}
+}
 \description{
 Clean large data from qSIP object
 }

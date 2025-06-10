@@ -367,7 +367,6 @@ calculate_M <- function(G) {
 #' @param M (*numeric*) Molecular weight of the unlabeled feature
 #' @param atom_count (*numeric*) The count of the relevant atoms (C, N or O)
 #' @param isotope (*string*) The heavy isotope determining which calculation to run. Needs to be 13C, 15N or 18O
-#' @param propO (*numeric*) Proportion of oxygen atoms in DNA that come from environmental water
 #'
 #' @returns `M_labeledmax` is the theoretical maximum molecular weight the labeled feature could be
 #'
@@ -375,14 +374,9 @@ calculate_M <- function(G) {
 
 calculate_M_labeledmax <- function(M,
                                    atom_count,
-                                   isotope,
-                                   propO = 1) {
+                                   isotope) {
 
   validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
-
-  if (propO > 1 | propO < 0) {
-    stop("prop0 should be between 0 and 1", call. = FALSE)
-  }
 
   if (!is.numeric(M)) {
     stop(glue::glue("M should be <numeric>, not {class(M)}"), call. = FALSE)
@@ -403,7 +397,8 @@ calculate_M_labeledmax <- function(M,
   } else if (isotope == "18O") {
     # assumes unlabeled DNA already contains minute amounts of 18O and 17O
     # (at the natural abundance levels of those isotopes in VSMOW)
-    M_labeledmax <- M + (atom_count * propO * ((1.008665 * 2 * (1000000 / (1000000 + 379.9 + 2005.20))) + (1.008665 * 1 * (379.9 / (1000000 + 379.9 + 2005.20)))))
+    # propO term removed v0.20.6
+    M_labeledmax <- M + (atom_count * ((1.008665 * 2 * (1000000 / (1000000 + 379.9 + 2005.20))) + (1.008665 * 1 * (379.9 / (1000000 + 379.9 + 2005.20)))))
     return(M_labeledmax)
   }
 }
@@ -601,6 +596,7 @@ calculate_M_heavy <- function(propO, M) {
 #' @keywords internal
 
 calculate_N_light_it <- function(N_total_it, M_heavy, M_labeled, M) {
+
   N_Light_it <- N_total_it * ((M_heavy - M_labeled) / (M_heavy - M))
 
   return(N_Light_it)

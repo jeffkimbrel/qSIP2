@@ -385,14 +385,20 @@ run_resampling <- function(qsip_data_object,
 #'
 #' @param qsip_data_object (*qsip_data*) A qsip_data_object with resample information
 #' @param gc_method (*string*) The method to use for calculating the GC content from WAD
-#' @param propO (*numeric*) The proportion of heavy isotope in the labeled DNA. Only used for 18O.
+#' @param propO deprecated
 #'
 #' @export
 #'
 #' @returns Returns an updated `qsip_data_object` with final EAF and other values
 #' in the `@EAF` slot.
 
-run_EAF_calculations <- function(qsip_data_object, gc_method = "MM", propO = 1) {
+run_EAF_calculations <- function(qsip_data_object,
+                                 gc_method = "MM",
+                                 propO = lifecycle::deprecated()) {
+
+  if (lifecycle::is_present(propO)) {
+    lifecycle::deprecate_stop("0.20.6", details = "the propO term has been moved to run_growth_calculations()")
+  }
 
   # make sure the right data type and has been filtered and resampled
   is_qsip_resampled(qsip_data_object, error = TRUE)
@@ -460,12 +466,11 @@ run_EAF_calculations <- function(qsip_data_object, gc_method = "MM", propO = 1) 
     dplyr::mutate(G = calculate_gc_from_density(W_unlab_mean, method = gc_method)) |> # hungate equation 5
     dplyr::mutate(M = calculate_M(G)) |> # hungate equation 6
     dplyr::mutate(atom_count = calculate_atoms(G, isotope)) |>
-    dplyr::mutate(M_labeledmax = calculate_M_labeledmax(M, atom_count, isotope, propO = propO)) |>
+    dplyr::mutate(M_labeledmax = calculate_M_labeledmax(M, atom_count, isotope)) |>
     dplyr::mutate(M_labeled = calculate_M_labeled(M, W_lab_mean, W_unlab_mean)) |>
     dplyr::mutate(EAF = calculate_EAF(M_labeled = M_labeled, M = M, M_labeledmax = M_labeledmax, isotope = isotope))
 
   qsip_data_object@EAF <- EAF
-  qsip_data_object@growth$propO <- propO
 
   # set status
   qsip_data_object@status$EAF <- TRUE
@@ -599,6 +604,7 @@ run_comparison_groups <- function(groups,
 #' @param growth_model (*character, default: exponential*) The growth model to use. Must be either "exponential" or "linear"
 #' @param correct_copy_numbers (*character, default: filter*) If copy numbers are not logical (e.g. < 0), should they be filtered out or adjusted to 0?
 #' @param correct_EAF (*character, default: filter*) If EAF values are not logical (e.g. <0 or >1), should they be filtered out or adjusted to 0 or 1?
+#' @param propO (*numeric*) The proportion of heavy isotope in the labeled DNA. Only used for 18O.
 #'
 #' @export
 #'
@@ -608,7 +614,8 @@ run_growth_calculations <- function(qsip_data_object,
                                     growth_model = "exponential",
                                     timepoint = "timepoint",
                                     correct_copy_numbers = "filter",
-                                    correct_EAF = "filter") {
+                                    correct_EAF = "filter",
+                                    propO = 1) {
   # TODO validate arguments
   # TODO make @timepoint and @total_abundances are not null in @source_data@data. If
   # so, give error saying they must be declared in source_data to get growth
@@ -632,6 +639,15 @@ run_growth_calculations <- function(qsip_data_object,
   if (!timepoint %in% colnames(qsip_data_object@source_data@data)) {
     stop(glue::glue("timepoint column {timepoint} not found in source_data@data"), call. = FALSE)
   }
+
+  # propO should be between 0 and 1
+  if (propO < 0 || propO > 1) {
+    stop(glue::glue("propO must be between 0 and 1, not {propO}"), call. = FALSE)
+  } else {
+    qsip_data_object@growth$propO = propO
+  }
+
+
 
   # bind variables
   tube_rel_abundance <- feature_id <- source_mat_id <- REL <- total_abundance <- resample <- M <- timepoint1 <- M_heavy <- M_labeled <- N_light_it <- EAF <- N_heavy_it <- N_total_i0 <- di <- bi <- r_net <- ri <- NULL

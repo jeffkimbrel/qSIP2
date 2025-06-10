@@ -4,7 +4,7 @@
 \alias{calculate_M_labeledmax}
 \title{Calculate molecular weight of the labeled feature (internal)}
 \usage{
-calculate_M_labeledmax(M, atom_count, isotope, propO = 1)
+calculate_M_labeledmax(M, atom_count, isotope)
 }
 \arguments{
 \item{M}{(\emph{numeric}) Molecular weight of the unlabeled feature}
@@ -12,8 +12,6 @@ calculate_M_labeledmax(M, atom_count, isotope, propO = 1)
 \item{atom_count}{(\emph{numeric}) The count of the relevant atoms (C, N or O)}
 
 \item{isotope}{(\emph{string}) The heavy isotope determining which calculation to run. Needs to be 13C, 15N or 18O}
-
-\item{propO}{(\emph{numeric}) Proportion of oxygen atoms in DNA that come from environmental water}
 }
 \value{
 \code{M_labeledmax} is the theoretical maximum molecular weight the labeled feature could be

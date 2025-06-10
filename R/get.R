@@ -1033,6 +1033,7 @@ summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = 
                   timepoint2,
                   N_total_i0,
                   N_total_it,
+                  N_light_it,
                   r_net,
                   observed_bi = bi,
                   observed_di = di,

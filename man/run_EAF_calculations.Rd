@@ -4,14 +4,18 @@
 \alias{run_EAF_calculations}
 \title{Calculate EAF values}
 \usage{
-run_EAF_calculations(qsip_data_object, gc_method = "MM", propO = 1)
+run_EAF_calculations(
+  qsip_data_object,
+  gc_method = "MM",
+  propO = lifecycle::deprecated()
+)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) A qsip_data_object with resample information}
 
 \item{gc_method}{(\emph{string}) The method to use for calculating the GC content from WAD}
 
-\item{propO}{(\emph{numeric}) The proportion of heavy isotope in the labeled DNA. Only used for 18O.}
+\item{propO}{deprecated}
 }
 \value{
 Returns an updated \code{qsip_data_object} with final EAF and other values

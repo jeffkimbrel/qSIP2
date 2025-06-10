@@ -10,7 +10,8 @@ run_growth_calculations(
   growth_model = "exponential",
   timepoint = "timepoint",
   correct_copy_numbers = "filter",
-  correct_EAF = "filter"
+  correct_EAF = "filter",
+  propO = 1
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ run_growth_calculations(
 \item{correct_copy_numbers}{(\emph{character, default: filter}) If copy numbers are not logical (e.g. < 0), should they be filtered out or adjusted to 0?}
 
 \item{correct_EAF}{(\emph{character, default: filter}) If EAF values are not logical (e.g. <0 or >1), should they be filtered out or adjusted to 0 or 1?}
+
+\item{propO}{(\emph{numeric}) The proportion of heavy isotope in the labeled DNA. Only used for 18O.}
 }
 \description{
 Run growth calculations

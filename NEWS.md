@@ -14,6 +14,9 @@
 * `get_filter_results()` function gives tabular output of the filtering results
   * can set `type` to `counts` to get the retained features as counts (default)
   * or set to `feature_ids` to instead return nested vector of the feature IDs
+* `get_filtered_feature_summary()` now returns a tibble with the feature IDs and their filtering fate
+* Moved `propO` to `run_growth_calculations()`
+* Added `N_light_it` to `summarize_growth_values()` output
 
 # qSIP2 0.19
 
