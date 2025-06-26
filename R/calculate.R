@@ -644,8 +644,8 @@ calculate_di <- function(N_light_it,
 #'
 #' Equation 7 from Koch, 2018
 #'
-#' @param N_total_it The copy number of feature i at timepoint t
-#' @param N_light_it The copy number of feature i at timepoint 0 (or timepoint that is being compared against)
+#' @param N_total_it The total copy number of feature i at timepoint t
+#' @param N_light_it The unlabeled copy number of feature i at timepoint t
 #' @param timepoint The timepoint at which the copy number is being measured
 #' @param timepoint1 The timepoint that is being compared against
 #' @param growth_model (*character, default: exponential*) The growth model to use. Must be either "exponential" or "linear"

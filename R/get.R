@@ -668,6 +668,22 @@ get_resample_data <- function(qsip_data_object,
 
 
 
+#' Get EAF value for a qSIP object
+#'
+#' @param qsip_data_object
+#'
+#' @export
+
+get_EAF_data = function(qsip_data_object) {
+
+  is_qsip_EAF(qsip_data_object, error = TRUE)
+
+  methods::slot(qsip_list$Normal, "EAF") |>
+    dplyr::arrange(dplyr::desc(is.na(resample)), resample)
+
+}
+
+
 
 
 
