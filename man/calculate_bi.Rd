@@ -13,9 +13,9 @@ calculate_bi(
 )
 }
 \arguments{
-\item{N_total_it}{The copy number of feature i at timepoint t}
+\item{N_total_it}{The total copy number of feature i at timepoint t}
 
-\item{N_light_it}{The copy number of feature i at timepoint 0 (or timepoint that is being compared against)}
+\item{N_light_it}{The unlabeled copy number of feature i at timepoint t}
 
 \item{timepoint}{The timepoint at which the copy number is being measured}
 
