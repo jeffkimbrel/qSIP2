@@ -678,7 +678,7 @@ get_EAF_data = function(qsip_data_object) {
 
   is_qsip_EAF(qsip_data_object, error = TRUE)
 
-  methods::slot(qsip_list$Normal, "EAF") |>
+  methods::slot(qsip_data_object, "EAF") |>
     dplyr::arrange(dplyr::desc(is.na(resample)), resample)
 
 }

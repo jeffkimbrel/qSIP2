@@ -687,7 +687,9 @@ plot_feature_occurrence <- function(qsip_data_object,
     ) |>
     dplyr::left_join(qsip_data_object@wads,
                      by = dplyr::join_by(feature_id, source_mat_id)
-    )
+    ) |>
+    dplyr::mutate(isotope = as.factor(isotope)) |>
+    dplyr::mutate(source_mat_id = forcats::fct_reorder(source_mat_id, as.numeric(isotope)))
 
   # if scale = "source"
   if (scale == "source") {
@@ -739,7 +741,8 @@ plot_feature_occurrence <- function(qsip_data_object,
     ggplot2::facet_wrap(~feature_id) +
     ggplot2::scale_fill_manual(values = isotope_palette) +
     ggplot2::labs(title = title) +
-    ggplot2::theme(legend.position = legend.position)
+    ggplot2::theme(legend.position = legend.position) +
+    ggplot2::scale_y_discrete(limits = rev)
 }
 
 
@@ -798,14 +801,12 @@ plot_feature_resamplings <- function(qsip_data_object,
   unlabeled_data <- dplyr::bind_rows(qsip_data_object@resamples$u) |>
     tidyr::pivot_longer(cols = dplyr::starts_with("unlabeled_")) |>
     dplyr::filter(!is.na(value)) |>
-    dplyr::group_by(feature_id, resample, type) |>
-    dplyr::summarize(mean_resampled_WAD = mean(value))
+    dplyr::summarize(mean_resampled_WAD = mean(value), .by = c(feature_id, resample, type))
 
   labeled_data <- dplyr::bind_rows(qsip_data_object@resamples$l) |>
     tidyr::pivot_longer(cols = dplyr::starts_with("labeled_")) |>
     dplyr::filter(!is.na(value)) |>
-    dplyr::group_by(feature_id, resample, type) |>
-    dplyr::summarize(mean_resampled_WAD = mean(value))
+    dplyr::summarize(mean_resampled_WAD = mean(value), .by = c(feature_id, resample, type))
 
   combined_data <- rbind(unlabeled_data, labeled_data)
 

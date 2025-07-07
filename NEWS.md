@@ -1,3 +1,5 @@
+# qSIP2 (development version)
+
 # qSIP2 0.20
 
 * prepping for v1.0
@@ -17,6 +19,7 @@
 * `get_filtered_feature_summary()` now returns a tibble with the feature IDs and their filtering fate
 * Moved `propO` to `run_growth_calculations()`
 * Added `N_light_it` to `summarize_growth_values()` output
+* better sorting in `plot_feature_occurrence()`
 
 # qSIP2 0.19
 
