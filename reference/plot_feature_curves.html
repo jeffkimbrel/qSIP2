@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.7.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.7.9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,6 +58,8 @@
 <span>  <span class="va">qsip_data_object</span>,</span>
 <span>  <span class="va">feature_ids</span>,</span>
 <span>  source_mat_ids <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  scale <span class="op">=</span> <span class="st">"total"</span>,</span>
+<span>  color_by <span class="op">=</span> <span class="st">"source"</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -76,6 +78,14 @@
 
 <dt id="arg-source-mat-ids">source_mat_ids<a class="anchor" aria-label="anchor" href="#arg-source-mat-ids"></a></dt>
 <dd><p>(<em>string, defaults to all</em>) A list of source material ids</p></dd>
+
+
+<dt id="arg-scale">scale<a class="anchor" aria-label="anchor" href="#arg-scale"></a></dt>
+<dd><p>(<em>string</em>) A string indicating how to scale the y-axis. Options are "total" or "source"</p></dd>
+
+
+<dt id="arg-color-by">color_by<a class="anchor" aria-label="anchor" href="#arg-color-by"></a></dt>
+<dd><p>(<em>string</em>) A string indicating how to color the lines. Options are "source" or "isotope"</p></dd>
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
