@@ -551,6 +551,8 @@ plot_EAF_values <- function(qsip_data_object,
 #' @param feature_ids (*string*) Feature ids to be plotted on their own facet
 #' @param source_mat_ids (*string, defaults to all*) A list of source material ids
 #' @param title (*string*) An optional title for the plot
+#' @param scale (*string*) A string indicating how to scale the y-axis. Options are "total" or "source"
+#' @param color_by (*string*) A string indicating how to color the lines. Options are "source" or "isotope"
 #'
 #' @export
 #'
@@ -561,8 +563,20 @@ plot_EAF_values <- function(qsip_data_object,
 plot_feature_curves <- function(qsip_data_object,
                                 feature_ids,
                                 source_mat_ids = NULL,
+                                scale = "total",
+                                color_by = "source",
                                 title = NULL) {
   is_qsip_data(qsip_data_object, error = TRUE)
+
+  # scale must be "total", or "source"
+  if (!scale %in% c("total", "source")) {
+    stop("<scale> must be 'total', or 'source'", call. = F)
+  }
+
+  # color_by must be either "source" or "isotope"
+  if (!color_by %in% c("source", "isotope")) {
+    stop("<color_by> must be either 'source' or 'isotope'", call. = FALSE)
+  }
 
   # make sure all values in source_mat_ids are found in get_source_mat_ids(qsip_data_object)
   if (!is.null(source_mat_ids)) {
@@ -570,7 +584,6 @@ plot_feature_curves <- function(qsip_data_object,
       stop("some provided source_mat_ids are not found in the qsip_data object", call. = F)
     }
   }
-
 
   # get all source_mat_ids if NULL
   if (is.null(source_mat_ids)) {
@@ -589,23 +602,42 @@ plot_feature_curves <- function(qsip_data_object,
   s_data <- qsip_data_object@source_data@data |>
     dplyr::select(source_mat_id, isotope)
 
-  p <- qsip_data_object@tube_rel_abundance |>
+  df <- qsip_data_object@tube_rel_abundance |>
     dplyr::left_join(s_data, by = "source_mat_id") |>
     dplyr::filter(source_mat_id %in% source_mat_ids) |>
-    dplyr::filter(feature_id %in% feature_ids) |>
-    ggplot2::ggplot(ggplot2::aes(
+    dplyr::filter(feature_id %in% feature_ids)
+
+  if (scale == "source") {
+    df = df |>
+      dplyr::mutate(tube_rel_abundance = tube_rel_abundance/sum(tube_rel_abundance), .by = source_mat_id)
+  }
+
+  if (color_by == "isotope") {
+    p = df |> ggplot2::ggplot(ggplot2::aes(
       x = gradient_pos_density,
       y = tube_rel_abundance,
       color = isotope
     )) +
-    ggplot2::geom_line(ggplot2::aes(group = source_mat_id)) +
-    ggplot2::geom_point() +
-    ggplot2::facet_wrap(~feature_id, scales = "free_y") +
-    ggplot2::scale_color_manual(values = c(
-      "12C" = "#037bcf", "13C" = "#ff0000",
-      "14C" = "#037bcf", "15N" = "#ff0000",
-      "16O" = "#037bcf", "18O" = "#ff0000"
-    ))
+      ggplot2::geom_line(ggplot2::aes(group = source_mat_id)) +
+      ggplot2::geom_point() +
+      ggplot2::facet_wrap(~feature_id, scales = "free_y") +
+      ggplot2::scale_color_manual(values = c(
+        "12C" = "#037bcf", "13C" = "#ff0000",
+        "14C" = "#037bcf", "15N" = "#ff0000",
+        "16O" = "#037bcf", "18O" = "#ff0000"
+      ))
+  } else if (color_by == "source") {
+    p = df |> ggplot2::ggplot(ggplot2::aes(
+      x = gradient_pos_density,
+      y = tube_rel_abundance,
+      color = source_mat_id
+    )) +
+      ggplot2::geom_line(ggplot2::aes(group = source_mat_id,)) +
+      ggplot2::geom_point() +
+      ggplot2::facet_wrap(~feature_id, scales = "free_y") +
+      ggplot2::scale_color_viridis_d()
+
+  }
 
   if (!is.null(title)) {
     p <- p + ggplot2::labs(title = title)

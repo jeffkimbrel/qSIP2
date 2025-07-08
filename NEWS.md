@@ -18,6 +18,7 @@
 * Moved `propO` to `run_growth_calculations()`
 * Added `N_light_it` to `summarize_growth_values()` output
 * better sorting in `plot_feature_occurrence()`
+* Added `scale` and `color_by` options to `plot_feature_curves()` to better match other functions
 
 # qSIP2 0.19
 

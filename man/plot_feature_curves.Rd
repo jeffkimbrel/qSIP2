@@ -8,6 +8,8 @@ plot_feature_curves(
   qsip_data_object,
   feature_ids,
   source_mat_ids = NULL,
+  scale = "total",
+  color_by = "source",
   title = NULL
 )
 }
@@ -17,6 +19,10 @@ plot_feature_curves(
 \item{feature_ids}{(\emph{string}) Feature ids to be plotted on their own facet}
 
 \item{source_mat_ids}{(\emph{string, defaults to all}) A list of source material ids}
+
+\item{scale}{(\emph{string}) A string indicating how to scale the y-axis. Options are "total" or "source"}
+
+\item{color_by}{(\emph{string}) A string indicating how to color the lines. Options are "source" or "isotope"}
 
 \item{title}{(\emph{string}) An optional title for the plot}
 }
