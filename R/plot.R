@@ -609,7 +609,7 @@ plot_feature_curves <- function(qsip_data_object,
 
   if (scale == "source") {
     df = df |>
-      dplyr::mutate(tube_rel_abundance = tube_rel_abundance/sum(tube_rel_abundance), .by = source_mat_id)
+      dplyr::mutate(tube_rel_abundance = tube_rel_abundance/sum(tube_rel_abundance), .by = c(source_mat_id, feature_id))
   }
 
   if (color_by == "isotope") {
