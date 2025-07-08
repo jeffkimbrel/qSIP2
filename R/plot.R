@@ -551,7 +551,7 @@ plot_EAF_values <- function(qsip_data_object,
 #' @param feature_ids (*string*) Feature ids to be plotted on their own facet
 #' @param source_mat_ids (*string, defaults to all*) A list of source material ids
 #' @param title (*string*) An optional title for the plot
-#' @param scale (*string*) A string indicating how to scale the y-axis. Options are "total" or "source"
+#' @param scale (*string*) A string indicating how to scale the y-axis. Options are "feature" or "source"
 #' @param color_by (*string*) A string indicating how to color the lines. Options are "source" or "isotope"
 #'
 #' @export
@@ -563,14 +563,14 @@ plot_EAF_values <- function(qsip_data_object,
 plot_feature_curves <- function(qsip_data_object,
                                 feature_ids,
                                 source_mat_ids = NULL,
-                                scale = "total",
+                                scale = "source",
                                 color_by = "source",
                                 title = NULL) {
   is_qsip_data(qsip_data_object, error = TRUE)
 
-  # scale must be "total", or "source"
-  if (!scale %in% c("total", "source")) {
-    stop("<scale> must be 'total', or 'source'", call. = F)
+  # scale must be "feature", or "source"
+  if (!scale %in% c("feature", "source")) {
+    stop("<scale> must be 'feature', or 'source'", call. = F)
   }
 
   # color_by must be either "source" or "isotope"
@@ -607,7 +607,7 @@ plot_feature_curves <- function(qsip_data_object,
     dplyr::filter(source_mat_id %in% source_mat_ids) |>
     dplyr::filter(feature_id %in% feature_ids)
 
-  if (scale == "source") {
+  if (scale == "feature") {
     df = df |>
       dplyr::mutate(tube_rel_abundance = tube_rel_abundance/sum(tube_rel_abundance), .by = c(source_mat_id, feature_id))
   }
