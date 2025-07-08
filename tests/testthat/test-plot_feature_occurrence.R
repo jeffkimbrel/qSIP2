@@ -14,9 +14,9 @@ test_that("incorrect feature_ids gives error", {
 
 test_that("given scale argument OK", {
   expect_no_error(plot_feature_occurrence(example_qsip_object, feature_ids = "ASV_969", scale = "source"))
-  expect_no_error(plot_feature_occurrence(example_qsip_object, feature_ids = "ASV_969", scale = "total"))
+  expect_no_error(plot_feature_occurrence(example_qsip_object, feature_ids = "ASV_969", scale = "feature"))
   expect_error(plot_feature_occurrence(example_qsip_object, feature_ids = "ASV_969", scale = "not_valid"),
-               "scale must be 'none', 'total', or 'source'")
+               "scale must be 'none', 'feature', or 'source'")
 })
 
 test_that("show_wad should be a boolean", {

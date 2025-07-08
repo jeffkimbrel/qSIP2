@@ -149,7 +149,7 @@ The plot above does show that ASV_100 stops appearing in some labeled sources af
 plot_feature_occurrence(qsip_list$Drought, 
                         features,
                         show_wad = TRUE,
-                        scale = "source")
+                        scale = "feature")
 ```
 
 The above plot can also help identify additional potential issues. For example, ASV_72 was one of the features with the highest EAF values, but it looks like source S200 only has it in the extremely heavy fractions, and it has a calculated WAD that is much higher than the other 13C sources. When we ran `run_comparison_groups()` at the very beginning we didn't define a minimum number of fractions, so the default of 2 was used. We might, however, consider increasing the minimum number of labeled fractions required to remove sources with feature occurrences like ASV_72 in source S200.

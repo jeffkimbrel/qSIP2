@@ -683,9 +683,9 @@ plot_feature_occurrence <- function(qsip_data_object,
     stop("<feature_ids> argument must be NULL or a vector of strings", call. = FALSE)
   }
 
-  # scale must be "none", "total", or "source"
-  if (!scale %in% c("none", "total", "source")) {
-    stop("scale must be 'none', 'total', or 'source'", call. = F)
+  # scale must be "none", "feature", or "source"
+  if (!scale %in% c("none", "feature", "source")) {
+    stop("scale must be 'none', 'feature', or 'source'", call. = F)
   }
 
   # show_wad must be boolean
@@ -723,8 +723,8 @@ plot_feature_occurrence <- function(qsip_data_object,
     dplyr::mutate(isotope = as.factor(isotope)) |>
     dplyr::mutate(source_mat_id = forcats::fct_reorder(source_mat_id, as.numeric(isotope)))
 
-  # if scale = "source"
-  if (scale == "source") {
+  # if scale = "feature"
+  if (scale == "feature") {
     df <- df |>
       dplyr::mutate(
         tube_rel_abundance_source = tube_rel_abundance / sum(tube_rel_abundance),
@@ -747,13 +747,13 @@ plot_feature_occurrence <- function(qsip_data_object,
   }
 
   # choose which size to plot based on scale argument
-  if (scale == "total") {
+  if (scale == "source") {
     p <- p +
       ggplot2::geom_point(
         pch = 21, alpha = 0.9,
         ggplot2::aes(x = gradient_pos_density, size = tube_rel_abundance, fill = isotope)
       )
-  } else if (scale == "source") {
+  } else if (scale == "feature") {
     p <- p +
       ggplot2::geom_point(
         pch = 21, alpha = 0.9,
@@ -772,7 +772,9 @@ plot_feature_occurrence <- function(qsip_data_object,
   p +
     ggplot2::facet_wrap(~feature_id) +
     ggplot2::scale_fill_manual(values = isotope_palette) +
-    ggplot2::labs(title = title) +
+    ggplot2::labs(title = title,
+                  y = "source_mat_id",
+                  x = "gradient_pos_density") +
     ggplot2::theme(legend.position = legend.position) +
     ggplot2::scale_y_discrete(limits = rev)
 }

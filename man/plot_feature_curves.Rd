@@ -8,7 +8,7 @@ plot_feature_curves(
   qsip_data_object,
   feature_ids,
   source_mat_ids = NULL,
-  scale = "total",
+  scale = "source",
   color_by = "source",
   title = NULL
 )
@@ -20,7 +20,7 @@ plot_feature_curves(
 
 \item{source_mat_ids}{(\emph{string, defaults to all}) A list of source material ids}
 
-\item{scale}{(\emph{string}) A string indicating how to scale the y-axis. Options are "total" or "source"}
+\item{scale}{(\emph{string}) A string indicating how to scale the y-axis. Options are "feature" or "source"}
 
 \item{color_by}{(\emph{string}) A string indicating how to color the lines. Options are "source" or "isotope"}
 
