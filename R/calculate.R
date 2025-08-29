@@ -285,31 +285,6 @@ calculate_wads <- function(tube_rel_abundance) {
 
 
 
-#' Calculate global weighted average density (WAD) value for a source_mat_id (internal)
-#'
-#' @param sample_data (*qsip_sample_data*) Sample data object
-#'
-#' @returns A dataframe with two columns, 1) the source_mat_id and 2) the global
-#' WAD value for that source_mat_id
-#'
-#' @keywords internal
-
-calculate_source_wads <- function(sample_data) {
-
-  stopifnot("sample_data should be of class <qsip_sample_data>" = inherits(sample_data, qsip_sample_data))
-
-  # bind variables
-  source_mat_id <- gradient_pos_density <- gradient_pos_rel_amt <- NULL
-
-  sample_data@data |>
-    dplyr::group_by(source_mat_id) |>
-    dplyr::summarize(
-      WAD = weighted.mean(gradient_pos_density, gradient_pos_rel_amt),
-      .groups = "drop"
-    )
-}
-
-
 #' Returns the max labeling of a given isotope (internal)
 #'
 #' @param isotope The heavy isotope (13C, 15N or 18O)

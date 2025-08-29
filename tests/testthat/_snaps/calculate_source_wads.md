@@ -1,7 +1,7 @@
 # works correctly
 
     Code
-      calculate_source_wads(example_sample_object)
+      source_wads(example_qsip_object)
     Output
       # A tibble: 15 x 2
          source_mat_id   WAD

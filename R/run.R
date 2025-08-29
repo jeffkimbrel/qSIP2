@@ -239,9 +239,6 @@ run_feature_filter <- function(qsip_data_object,
     dplyr::filter(source_mat_id %in% c(qsip_data_object@filter_results$labeled_source_mat_ids, qsip_data_object@filter_results$unlabeled_source_mat_ids)) |>
     dplyr::filter(feature_id %in% qsip_data_object@filter_results$retained_features)
 
-  qsip_data_object@source_wads = qsip_data_object@source_wads |>
-    dplyr::filter(source_mat_id %in% c(qsip_data_object@filter_results$labeled_source_mat_ids, qsip_data_object@filter_results$unlabeled_source_mat_ids))
-
   qsip_data_object@fraction_counts = qsip_data_object@fraction_counts |>
     dplyr::filter(source_mat_id %in% c(qsip_data_object@filter_results$labeled_source_mat_ids, qsip_data_object@filter_results$unlabeled_source_mat_ids)) |>
     dplyr::filter(feature_id %in% qsip_data_object@filter_results$retained_features)

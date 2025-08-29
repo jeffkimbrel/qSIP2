@@ -468,7 +468,6 @@ qsip_data <- S7::new_class(
     shared = S7::class_list,
     tube_rel_abundance = S7::class_data.frame,
     wads = S7::class_data.frame,
-    source_wads = S7::class_data.frame,
     fraction_counts = S7::class_data.frame,
     filtered_feature_data = S7::class_data.frame,
     filtered_wad_data = S7::class_data.frame,
@@ -496,7 +495,6 @@ qsip_data <- S7::new_class(
     )
 
     wad_data <- calculate_wads(tube_rel_abundance)
-    source_wad <- calculate_source_wads(sample_data)
     shared <- get_shared_ids(source_data, sample_data, feature_data)
 
     S7::new_object(S7::S7_object(),
@@ -506,7 +504,6 @@ qsip_data <- S7::new_class(
       shared = shared,
       tube_rel_abundance = tube_rel_abundance,
       wads = wad_data$wads,
-      source_wads = source_wad,
       fraction_counts = wad_data$fraction_counts,
       filtered_feature_data = data.frame(),
       filtered_wad_data = data.frame(),
@@ -687,6 +684,40 @@ qsip_clean = function(qsip_data_object) {
   qsip_data_object
 }
 
+
+#method:
+
+source_wads <- S7::new_generic("source_wads", "x")
+
+#' Create a method for source_wads
+#'
+#' Calculate global weighted average density (WAD) value for all source_mat_id (internal)
+#' accounts for data that is not filtered or already filtered
+#'
+#' @returns A dataframe with two columns, 1) the source_mat_id and 2) the global
+#' WAD value for that source_mat_id
+#'
+#' @keywords internal
+
+S7::method(source_wads, qsip_data) <- function(x) {
+
+	  # bind variables
+	  source_mat_id <- gradient_pos_density <- gradient_pos_rel_amt <- NULL
+
+	  source_wads_df <- x@sample_data@data |>
+	    dplyr::group_by(source_mat_id) |>
+	    dplyr::summarize(
+	      WAD = weighted.mean(gradient_pos_density, gradient_pos_rel_amt),
+	      .groups = "drop"
+	    )
+
+		if(length(x@filter_results) != 0){
+			source_wads_df = source_wads_df |>
+		    dplyr::filter(source_mat_id %in% c(x@filter_results$labeled_source_mat_ids, x@filter_results$unlabeled_source_mat_ids))
+		}
+
+		source_wads_df
+}
 
 
 
