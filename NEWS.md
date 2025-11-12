@@ -1,6 +1,9 @@
+# qSIP2 0.21
+
+* Moving some stored data to dynamic functions
+
 # qSIP2 0.20
 
-* prepping for v1.0
 * changed name of some functions so they match the larger naming scheme
   * `show_comparison_groups()` to `get_comparison_groups()`
   * `find_shared_ids()` to `get_shared_ids()`
