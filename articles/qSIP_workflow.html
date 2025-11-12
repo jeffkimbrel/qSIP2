@@ -615,13 +615,13 @@ built-in functions.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_source_wads.html">plot_source_wads</a></span><span class="op">(</span><span class="va">qsip_object</span>, </span>
 <span>                 group <span class="op">=</span> <span class="st">"Moisture"</span>,</span>
 <span>                 title <span class="op">=</span> <span class="st">"WAD of each source, grouped by Moisture"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-15-1.png" width="576"></p>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" width="576"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_sample_curves.html">plot_sample_curves</a></span><span class="op">(</span><span class="va">qsip_object</span>,</span>
 <span>                   title <span class="op">=</span> <span class="st">"Normalized density curves for each sample"</span>,</span>
 <span>                   facet_by <span class="op">=</span> <span class="st">"isotope"</span>,</span>
 <span>                   show_wad <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-16-1.png" width="576"></p>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" width="576"></p>
 <p>Another sanity check is making sure the reported density values are
 on a reasonably straight line with the gradient position. This can be
 plotted, and then a Cook’s distance can be calculated to highlight any
@@ -629,7 +629,7 @@ outliers. Note, the ends of the gradient are often flagged as outliers,
 although this may not necessarily be the case.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_density_outliers.html">plot_density_outliers</a></span><span class="op">(</span><span class="va">qsip_object</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-17-1.png" width="576"></p>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-17-1.png" class="r-plt" width="576"></p>
 <div class="alert alert-primary">
 <p>The design of the <code>qsip_data</code> object is that it is
 contains “slots” for each new analysis step. Although you could create a
@@ -752,7 +752,7 @@ can visualize these results on a per-source basis with the
 <code><a href="../reference/plot_filter_results.html">plot_filter_results()</a></code> function.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_filter_results.html">plot_filter_results</a></span><span class="op">(</span><span class="va">qsip_normal</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-22-1.png" width="768"></p>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-22-1.png" class="r-plt" width="768"></p>
 <p>Although a large number of features were removed, we can tell that
 the 64 that remained actually still make up a large proportion of the
 total abundance in each sample. In <strong>A</strong> above, the
@@ -794,7 +794,7 @@ total.</p>
 <p>And only 89 features were retained in the Drought dataset.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_filter_results.html">plot_filter_results</a></span><span class="op">(</span><span class="va">qsip_drought</span><span class="op">)</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-24-1.png" width="768"></p>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-24-1.png" class="r-plt" width="768"></p>
 <p>Strictly speaking, there is no requirement to do strict filtering,
 and it is possible to execute <code><a href="../reference/run_feature_filter.html">run_feature_filter()</a></code> with all
 parameters set to <code>1</code>. Filtering was originally recommended
@@ -898,7 +898,7 @@ condition to each dataframe before we combine them.</p>
 <span>                error <span class="op">=</span> <span class="st">"ribbon"</span>,</span>
 <span>                title <span class="op">=</span> <span class="st">"Normal moisture"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-25-1.png" width="480"></p>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-25-1.png" class="r-plt" width="480"></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_drought</span>, </span>
 <span>                top <span class="op">=</span> <span class="fl">50</span>, </span>
@@ -906,7 +906,7 @@ condition to each dataframe before we combine them.</p>
 <span>                error <span class="op">=</span> <span class="st">"ribbon"</span>,</span>
 <span>                title <span class="op">=</span> <span class="st">"Drought moisture"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-26-1.png" width="480"></p>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-26-1.png" class="r-plt" width="480"></p>
 <p>The <code><a href="../reference/plot_feature_curves.html">plot_feature_curves()</a></code> function allows us to plot the
 tube relative abundances for specific feature IDs. Let’s look at two
 with high EAF values, and two with low values.</p>
@@ -915,7 +915,7 @@ with high EAF values, and two with low values.</p>
 <span>  feature_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ASV_55"</span>, <span class="st">"ASV_84"</span>, <span class="st">"ASV_41"</span>, <span class="st">"ASV_44"</span><span class="op">)</span>,</span>
 <span>  title <span class="op">=</span> <span class="st">"Density curves of selected features"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-27-1.png" width="576"></p>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-27-1.png" class="r-plt" width="576"></p>
 </div>
 </div>
 <div class="section level2">
@@ -1086,7 +1086,7 @@ functions.</p>
 <span>                confidence <span class="op">=</span> <span class="fl">0.9</span>, </span>
 <span>                error <span class="op">=</span> <span class="st">"bar"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
-<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-31-1.png" width="768"></p>
+<p><img src="qSIP_workflow_files/figure-html/unnamed-chunk-31-1.png" class="r-plt" width="768"></p>
 </div>
 <div class="section level2">
 <h2 id="piped-workflow">Piped Workflow<a class="anchor" aria-label="anchor" href="#piped-workflow"></a>
@@ -1119,7 +1119,7 @@ and have EAF values calculated in a single pipe.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

@@ -1,0 +1,224 @@
+# qSIP2
+
+The qSIP2 R package is a refactored and reimagined version of the
+[original qSIP
+pipeline](https://bitbucket.org/QuantitativeSIP/qsip_repo). More to
+come!
+
+## Installation
+
+You can install the development version of qSIP2 from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("jeffkimbrel/qSIP2")
+```
+
+# Package index
+
+## qSIP Data Objects
+
+- [`qsip_data()`](https://jeffkimbrel.github.io/qSIP2/reference/qsip_data.md)
+  : qSIP master data class
+- [`qsip_source_data()`](https://jeffkimbrel.github.io/qSIP2/reference/qsip_source_data.md)
+  : qSIP source data class
+- [`qsip_sample_data()`](https://jeffkimbrel.github.io/qSIP2/reference/qsip_sample_data.md)
+  : qSIP sample data class
+- [`qsip_feature_data()`](https://jeffkimbrel.github.io/qSIP2/reference/qsip_feature_data.md)
+  : qSIP feature table class
+
+## qSIP2 EAF Workflow
+
+- [`get_comparison_groups()`](https://jeffkimbrel.github.io/qSIP2/reference/get_comparison_groups.md)
+  : Get comparison groups
+- [`run_feature_filter()`](https://jeffkimbrel.github.io/qSIP2/reference/run_feature_filter.md)
+  : Filter features in a qSIP data object
+- [`run_resampling()`](https://jeffkimbrel.github.io/qSIP2/reference/run_resampling.md)
+  : Resample WAD values
+- [`run_EAF_calculations()`](https://jeffkimbrel.github.io/qSIP2/reference/run_EAF_calculations.md)
+  : Calculate EAF values
+- [`summarize_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.md)
+  : Summarize the observed and resampled EAF values
+- [`run_comparison_groups()`](https://jeffkimbrel.github.io/qSIP2/reference/run_comparison_groups.md)
+  : Run comparison groups
+
+## qSIP2 Growth Workflow
+
+- [`get_N_total_it()`](https://jeffkimbrel.github.io/qSIP2/reference/get_N_total_it.md)
+  : Calculate total abundances at timepoint t
+- [`run_growth_calculations()`](https://jeffkimbrel.github.io/qSIP2/reference/run_growth_calculations.md)
+  : Run growth calculations
+- [`summarize_growth_values()`](https://jeffkimbrel.github.io/qSIP2/reference/summarize_growth_values.md)
+  : Summarize growth values
+
+## Helper Functions
+
+- [`infer_source_data()`](https://jeffkimbrel.github.io/qSIP2/reference/infer_source_data.md)
+  : Generate a source data frame from a sample data frame
+- [`add_isotopolog_label()`](https://jeffkimbrel.github.io/qSIP2/reference/add_isotopolog_label.md)
+  : Add isotopolog_label to source data
+- [`remove_isotopolog_label()`](https://jeffkimbrel.github.io/qSIP2/reference/remove_isotopolog_label.md)
+  : Remove isotopolog_label from "MISIPified" data
+- [`get_all_by_isotope()`](https://jeffkimbrel.github.io/qSIP2/reference/get_all_by_isotope.md)
+  : Get source_mat_ids meeting certain isotope conditions
+- [`get_dataframe`](https://jeffkimbrel.github.io/qSIP2/reference/get_dataframe.md)
+  : Return the original dataframe from a qsip_feature_data object
+- [`get_resample_counts()`](https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.md)
+  : Get counts of successful resampling
+- [`get_resample_data()`](https://jeffkimbrel.github.io/qSIP2/reference/get_resample_data.md)
+  : Get dataframe of resampled data
+- [`get_feature_ids()`](https://jeffkimbrel.github.io/qSIP2/reference/get_feature_ids.md)
+  : Return the feature_ids in a qsip object
+- [`get_filtered_feature_summary()`](https://jeffkimbrel.github.io/qSIP2/reference/get_filtered_feature_summary.md)
+  : Return filtering info for a specific feature ID
+- [`get_source_mat_ids()`](https://jeffkimbrel.github.io/qSIP2/reference/get_source_mat_ids.md)
+  : Return the source_mat_ids in a qsip object
+- [`get_growth_data()`](https://jeffkimbrel.github.io/qSIP2/reference/get_growth_data.md)
+  : Get dataframe of resampled growth data
+- [`get_filter_results()`](https://jeffkimbrel.github.io/qSIP2/reference/get_filter_results.md)
+  : Tabular output summarizing filtering
+- [`get_EAF_data()`](https://jeffkimbrel.github.io/qSIP2/reference/get_EAF_data.md)
+  : Get EAF value for a qSIP object
+- [`resample_seed()`](https://jeffkimbrel.github.io/qSIP2/reference/resample_seed.md)
+  : Seed used in resampling
+- [`n_resamples()`](https://jeffkimbrel.github.io/qSIP2/reference/n_resamples.md)
+  : Number of resamples
+- [`add_gradient_pos_rel_amt()`](https://jeffkimbrel.github.io/qSIP2/reference/add_gradient_pos_rel_amt.md)
+  : Add gradient_pos_rel_amt to data
+- [`add_taxonomy()`](https://jeffkimbrel.github.io/qSIP2/reference/add_taxonomy.md)
+  : Add a taxonomy table to qSIP abundance data
+- [`correct_gradient_pos_density()`](https://jeffkimbrel.github.io/qSIP2/reference/correct_gradient_pos_density.md)
+  : Correct sample density values using gradient position information
+- [`get_unshared_ids()`](https://jeffkimbrel.github.io/qSIP2/reference/get_unshared_ids.md)
+  : Show missing source_mat_ids and sample_ids
+- [`is_qsip_data()`](https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_data.md)
+  : Check object is qsip_data type
+- [`is_qsip_data_list()`](https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_data_list.md)
+  : Validate a multi-qsip list object
+- [`is_qsip_filtered()`](https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_filtered.md)
+  : Validate a qsip object has been filtered
+- [`is_qsip_resampled()`](https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_resampled.md)
+  : Validate a qsip object has been resampled
+- [`is_qsip_EAF()`](https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_EAF.md)
+  : Validate a qsip object has EAF values
+- [`is_qsip_growth()`](https://jeffkimbrel.github.io/qSIP2/reference/is_qsip_growth.md)
+  : Validate a qsip object has been run through growth workflow
+- [`qsip_object_size()`](https://jeffkimbrel.github.io/qSIP2/reference/qsip_object_size.md)
+  : Return the size of qsip data objects or each slot
+- [`qsip_clean()`](https://jeffkimbrel.github.io/qSIP2/reference/qsip_clean.md)
+  : Clean large data from qSIP object
+
+## WAD Corrections
+
+- [`correct_gpd_bootstrap()`](https://jeffkimbrel.github.io/qSIP2/reference/correct_gpd_bootstrap.md)
+  : Correct gradient position density (gpd) values using bootstrapped
+  features
+- [`correct_gpd_rlm()`](https://jeffkimbrel.github.io/qSIP2/reference/correct_gpd_rlm.md)
+  : Correct gradient position density (gpd) values using linear
+  regression approach
+- [`plot_corrected_curves()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_corrected_curves.md)
+  : Plot curves of corrected sample curves versus reference
+- [`plot_correction_stats()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_correction_stats.md)
+  : Plot the correction statistics
+- [`plot_difference_to_mean()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_difference_to_mean.md)
+  : Plot difference between feature WAD and WAD reference
+- [`get_correction_compression()`](https://jeffkimbrel.github.io/qSIP2/reference/get_correction_compression.md)
+  : Get compression values from a rlm correction
+- [`plot_correction_compression()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_correction_compression.md)
+  : Plot correction compression
+
+## Plots and Visualizations
+
+- [`plot_sample_curves()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_sample_curves.md)
+  : Plot qSIP sample data density curves
+- [`plot_source_wads()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_source_wads.md)
+  : Plot the source WADs by isotope
+- [`plot_density_outliers()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_density_outliers.md)
+  : Cook's outlier detection on gradient positions vs densities
+- [`plot_feature_curves()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_curves.md)
+  : Plot qSIP feature data density curves
+- [`plot_filter_results()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_filter_results.md)
+  : Plot the results of filtering features
+- [`plot_feature_occurrence()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_occurrence.md)
+  : Plot occurrence of features in samples
+- [`plot_successful_resamples()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_successful_resamples.md)
+  : Plot the number of successful resamples for each feature_id
+- [`plot_feature_resamplings()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_resamplings.md)
+  : Plot the resampled EAFs for each feature
+- [`plot_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_EAF_values.md)
+  : Plot EAF and confidence intervals
+- [`plot_growth_values()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_growth_values.md)
+  : Plot growth values
+
+## Spike-In Controls
+
+- [`jgi_source_df()`](https://jeffkimbrel.github.io/qSIP2/reference/jgi_source_df.md)
+  : Make a source dataframe from JGI proposal file
+- [`jgi_sample_df()`](https://jeffkimbrel.github.io/qSIP2/reference/jgi_sample_df.md)
+  : Make a sample dataframe from JGI proposal file
+- [`jgi_feature_df()`](https://jeffkimbrel.github.io/qSIP2/reference/jgi_feature_df.md)
+  : Make a feature dataframe from a JGI coverage file
+- [`jgi_normalize_features()`](https://jeffkimbrel.github.io/qSIP2/reference/jgi_normalize_features.md)
+  : Normalize feature coverages according to spike-in controls with a
+  known ratio
+- [`get_normalized_features()`](https://jeffkimbrel.github.io/qSIP2/reference/get_normalized_features.md)
+  : Get normalized features from jgi_normalize_features
+- [`get_normalized_controls()`](https://jeffkimbrel.github.io/qSIP2/reference/get_normalized_controls.md)
+  : Get normalized controls from jgi_normalize_features
+
+## Datasets
+
+- [`example_source_df`](https://jeffkimbrel.github.io/qSIP2/reference/example_source_df.md)
+  : Example Source Dataframe
+- [`example_sample_df`](https://jeffkimbrel.github.io/qSIP2/reference/example_sample_df.md)
+  : Example Sample Dataframe
+- [`example_feature_df`](https://jeffkimbrel.github.io/qSIP2/reference/example_feature_df.md)
+  : Example Feature Abundance Dataframe
+- [`example_source_object`](https://jeffkimbrel.github.io/qSIP2/reference/example_source_object.md)
+  : Example qSIP Source Object
+- [`example_sample_object`](https://jeffkimbrel.github.io/qSIP2/reference/example_sample_object.md)
+  : Example qSIP Sample Object
+- [`example_feature_object`](https://jeffkimbrel.github.io/qSIP2/reference/example_feature_object.md)
+  : Example qSIP Feature Object
+- [`example_qsip_object`](https://jeffkimbrel.github.io/qSIP2/reference/example_qsip_object.md)
+  : Example qSIP Object
+- [`example_group_dataframe`](https://jeffkimbrel.github.io/qSIP2/reference/example_group_dataframe.md)
+  : Example data frame for run_comparison_groups()
+- [`example_qsip_growth_object`](https://jeffkimbrel.github.io/qSIP2/reference/example_qsip_growth_object.md)
+  : Example qSIP Growth Object
+- [`example_qsip_growth_t0`](https://jeffkimbrel.github.io/qSIP2/reference/example_qsip_growth_t0.md)
+  : Example qSIP Time Zero Growth Dataframe
+- [`isotope_palette`](https://jeffkimbrel.github.io/qSIP2/reference/isotope_palette.md)
+  : Color palettes for isotopes
+- [`source_palette`](https://jeffkimbrel.github.io/qSIP2/reference/source_palette.md)
+  : An expanding color palette
+- [`jgi_mixes`](https://jeffkimbrel.github.io/qSIP2/reference/jgi_mixes.md)
+  : JGI control sequences
+- [`valid_isotope_names`](https://jeffkimbrel.github.io/qSIP2/reference/valid_isotope_names.md)
+  : Valid isotope names
+
+# Articles
+
+### Learn qSIP
+
+- [Standard qSIP EAF
+  Workflow](https://jeffkimbrel.github.io/qSIP2/articles/qSIP_workflow.md):
+- [Filtering
+  Features](https://jeffkimbrel.github.io/qSIP2/articles/filtering.md):
+- [Resampling](https://jeffkimbrel.github.io/qSIP2/articles/resampling.md):
+- [EAF
+  Calculations](https://jeffkimbrel.github.io/qSIP2/articles/EAF.md):
+- [Growth
+  Workflow](https://jeffkimbrel.github.io/qSIP2/articles/growth.md):
+
+### Working with…
+
+- [Source
+  Data](https://jeffkimbrel.github.io/qSIP2/articles/source_data.md):
+- [Sample
+  Data](https://jeffkimbrel.github.io/qSIP2/articles/sample_data.md):
+- [Feature
+  Data](https://jeffkimbrel.github.io/qSIP2/articles/feature_data.md):
+- [Multiple qSIP
+  Objects](https://jeffkimbrel.github.io/qSIP2/articles/multiple_objects.md):

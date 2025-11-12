@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   EAF: EAF.html
@@ -11,7 +11,7 @@ articles:
   resampling: resampling.html
   sample_data: sample_data.html
   source_data: source_data.html
-last_built: 2025-07-08T23:45Z
+last_built: 2025-11-12T14:15Z
 urls:
   reference: https://jeffkimbrel.github.io/qSIP2/reference
   article: https://jeffkimbrel.github.io/qSIP2/articles

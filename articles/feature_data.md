@@ -1,0 +1,200 @@
+# Feature Data
+
+``` r
+library(dplyr)
+library(tibble)
+library(tidyr)
+library(qSIP2)
+packageVersion("qSIP2")
+#> [1] '0.20.8'
+```
+
+## Feature Counts and Metadata
+
+A feature table is a required file for the `qSIP2` pipeline. It is a
+typical ASV/OTU table where individual taxa are in rows, and sample
+names are in columns. The table is populated with raw sequencing counts
+from an amplicon workflow, or some other proxy for abundance (like
+mean/median depth of coverage) if working with MAGs, contigs or other
+data types.
+
+A “feature” refers to the names of your individual sequenced units
+(amplicons, taxa, vOTUs, MAGs, etc.) The feature data should be in a
+dataframe with a column designated as the `feature_id`. If you have a
+dataframe with `rownames` you can convert that to a column using the
+[`tibble::rownames_to_column()`](https://tibble.tidyverse.org/reference/rownames.html)
+function.
+
+``` r
+df_with_rownames <- data.frame(
+  row.names = c("feature1", "feature2", "feature3"),
+  sample1 = c(1, 2, 3),
+  sample2 = c(4, 5, 6)
+)
+
+# data has rownames
+rownames(df_with_rownames)
+#> [1] "feature1" "feature2" "feature3"
+df_with_rownames
+#>          sample1 sample2
+#> feature1       1       4
+#> feature2       2       5
+#> feature3       3       6
+
+# convert rownames to their own column
+df_with_rownames |>
+  tibble::rownames_to_column(var = "feature_id")
+#>   feature_id sample1 sample2
+#> 1   feature1       1       4
+#> 2   feature2       2       5
+#> 3   feature3       3       6
+```
+
+Each row corresponds to a `feature_id`, and the abundance of that
+feature in a certain sample lives in a column with that `sample_id` as
+the column header. The abundance values themselves can be one of several
+types, and the values are subject to different validation requirements
+based on the `type` of the data. Currently, the accepted types are
+`counts`, `coverage`, `normalized`, and `relative`.
+
+- `counts` is the default and what should be used in most cases where
+  you are giving raw sequencing counts. Here, the data is expected to be
+  integers equal to or greater than 0.
+- `coverage` is designed for use with MAGs or other data types where you
+  are using a proxy for abundance like mean/median depth of coverage.
+  Here, the data is expected to be numeric values equal to or greater
+  than 0.
+- `relative` is for situations where you might have lost the original
+  integer count data and only have relative abundance. If using this
+  option it expects fractional abundances (rather than percentages) so
+  each column must sum to 1 or less.
+- `normalized` is a special case where you have already pre-normalized
+  your counts using an internal spike-in or similar.
+
+## qSIP2 Feature Data Object
+
+The
+[`qsip_feature_data()`](https://jeffkimbrel.github.io/qSIP2/reference/qsip_feature_data.md)
+function creates the `qsip_feature_data` object. A `qSIP_feature_data`
+object holds validated abundance data for your features. It can be made
+by giving an already made dataframe, or by modifying a dataframe and
+piping directly into the function. There is an example dataframe in the
+`qSIP2` package called `example_feature_data`.
+
+``` r
+feature_data = qsip_feature_data(example_feature_df, 
+                                 feature_id = "ASV",
+                                 type = "counts")
+```
+
+### Structure of `qsip_feature_data`
+
+Like the other `qSIP2` objects, the `qsip_feature_data` object contains
+a `@data` slot to hold the feature table, but it isn’t intended to be
+worked with directly. The `@type` slot holds the type of data, and the
+`@feature_id` slot holds the name of the column with the feature ids.
+There is an additional slot for the taxonomy data, if you have it (see
+below).
+
+You can return the original dataframe with the
+[`get_dataframe()`](https://jeffkimbrel.github.io/qSIP2/reference/get_dataframe.md)
+method.
+
+``` r
+# not run
+get_dataframe(feature_data)
+```
+
+### Validation of `qsip_feature_data`
+
+Most of the validation checks depend on the chosen `type`. If you try to
+pass values that don’t match the type you specified, you will get an
+error. For example, fractional values are not allowed when the type is
+the default `counts`.
+
+``` r
+tibble(
+  feature_id = c("feature1", "feature2", "feature3"),
+  sample1 = c(0.1, 0.2, 0.3),
+  sample2 = c(0.4, 0.5, 0.6)
+) |>
+  qsip_feature_data()
+#> Error: Some data are not integers
+```
+
+But it is allowed with `type = "coverage"`.
+
+``` r
+tibble(
+  feature_id = c("feature1", "feature2", "feature3"),
+  sample1 = c(0.1, 0.2, 0.3),
+  sample2 = c(0.4, 0.5, 0.6)
+) |>
+  qsip_feature_data(type = "coverage")
+#> <qsip_feature_data>
+#> feature_id count: 3
+#> sample_id count: 2
+#> data type: coverage
+#> taxonomy: FALSE
+```
+
+In theory, the slots can be overwritten, but this is not recommended. If
+you do, they will undergo the same validations and may fail.
+
+``` r
+feature_data@type <- "relative"
+#> Error: Some columns have a total relative abundance sum greater than 1
+```
+
+## Special Considerations
+
+### NA Values
+
+If you have `NA` values in your abundance table, you will get an error
+when trying to make the feature object. In most cases a value of `NA`
+means an abundance of 0, and so the best practice would be to convert
+prior to creating the object with a `mutate` call and the `across`
+function from the `tidyr` package.
+
+``` r
+tibble(
+  feature_id = c("feature1", "feature2", "feature3"),
+  sample1 = c(1, 2, NA),
+  sample2 = c(4, 5, 6)
+) |>
+  mutate(across(everything(), ~ replace_na(.x, 0))) |>
+  qsip_feature_data()
+#> <qsip_feature_data>
+#> feature_id count: 3
+#> sample_id count: 2
+#> data type: counts
+#> taxonomy: FALSE
+```
+
+### Taxonomy or other metadata
+
+If you have further metadata for your features, such as a taxonomy
+table, you can add it with the
+[`add_taxonomy()`](https://jeffkimbrel.github.io/qSIP2/reference/add_taxonomy.md)
+function and it will live in the `@taxonomy` slot.
+
+``` r
+taxonomy <- tibble(
+  feature_id = c("feature1", "feature2", "feature3"),
+  genus = c("Marinobacter", "Devosia", "Pseudomonas"),
+  species = c("adhaerens", "insulae", "syringae")
+)
+
+tibble(
+  feature_id = c("feature1", "feature2", "feature3"),
+  sample1 = c(1, 2, 3),
+  sample2 = c(4, 5, 6)
+) |>
+  qsip_feature_data() |>
+  add_taxonomy(taxonomy, feature_id = "feature_id")
+#> <qsip_feature_data>
+#> feature_id count: 3
+#> sample_id count: 2
+#> data type: counts
+#> taxonomy: TRUE
+```
