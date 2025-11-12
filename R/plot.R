@@ -170,7 +170,7 @@ plot_sample_curves <- function(qsip_data_object,
     dplyr::filter(gradient_position > 0) |>
     dplyr::summarize(tube_rel_abundance = sum(tube_rel_abundance), .by = c(sample_id, source_mat_id, gradient_position, gradient_pos_density, isotope))
 
-  source_wads <- qsip_data_object@source_wads |>
+  source_wads <- source_wads(qsip_data_object) |>
     dplyr::filter(!is.na(WAD)) |>
     dplyr::left_join(qsip_data_object@source_data@data, by = "source_mat_id")
 
@@ -259,7 +259,7 @@ plot_source_wads <- function(qsip_data,
     stop("group must be a column name in source_data", call. = FALSE)
   }
 
-  p <- qsip_data@source_wads |>
+  p <- source_wads(qsip_data) |>
     dplyr::filter(!is.na(WAD)) |> # filter unfractionated
     dplyr::left_join(source_data@data, by = "source_mat_id") |>
     ggplot2::ggplot(ggplot2::aes(color = isotope)) +
