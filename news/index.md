@@ -1,8 +1,11 @@
 # Changelog
 
+## qSIP2 0.21
+
+- Moving some stored data to dynamic functions
+
 ## qSIP2 0.20
 
-- prepping for v1.0
 - changed name of some functions so they match the larger naming scheme
   - [`show_comparison_groups()`](https://jeffkimbrel.github.io/qSIP2/reference/show_comparison_groups.md)
     to
