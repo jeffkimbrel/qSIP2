@@ -56,6 +56,8 @@ devtools::install_github("jeffkimbrel/qSIP2")
 
 - [`infer_source_data()`](https://jeffkimbrel.github.io/qSIP2/reference/infer_source_data.md)
   : Generate a source data frame from a sample data frame
+- [`infer_source_feature_table()`](https://jeffkimbrel.github.io/qSIP2/reference/infer_source_feature_table.md)
+  : Infer source feature table from sample counts
 - [`add_isotopolog_label()`](https://jeffkimbrel.github.io/qSIP2/reference/add_isotopolog_label.md)
   : Add isotopolog_label to source data
 - [`remove_isotopolog_label()`](https://jeffkimbrel.github.io/qSIP2/reference/remove_isotopolog_label.md)

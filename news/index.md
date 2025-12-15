@@ -3,6 +3,11 @@
 ## qSIP2 0.21
 
 - Moving some stored data to dynamic functions
+- some fixes for ggplot v4.0
+- new function
+  [`infer_source_feature_table()`](https://jeffkimbrel.github.io/qSIP2/reference/infer_source_feature_table.md)
+  to make a source-level feature table using sample-level relative
+  abundances and source copy numbers
 
 ## qSIP2 0.20
 
