@@ -141,3 +141,56 @@ infer_source_data = function(sample_data, source_mat_id) {
     dplyr::select(source_mat_id, dplyr::all_of(cols_to_keep)) |>
     unique()
 }
+
+
+
+#' Infer source feature table from sample counts
+#'
+#' This function will convert the tube_relative_abundance data for each feature
+#' into a copy number that was measured for the source material. The resulting
+#' table will have values in the original units of the `copy_number_col` parameter.
+#' In other words, if the `copy_number_col` is "16S copies per g/soil", then the
+#' output will be in copies of each feature per g/soil.
+#'
+#' @param qsip_data_object (*qsip_data*) An object of `qsip_data` class
+#' @param copy_number_col (*string*) column in the original source metadata with feature copy number
+#'
+#' @returns a feature tibble
+#' @export
+
+infer_source_feature_table = function(qsip_data_object, copy_number_col) {
+
+  is_qsip_data(qsip_data_object, error = TRUE)
+
+  copies_df = get_dataframe(qsip_data_object, "source")
+  if (!copy_number_col %in% colnames(copies_df)) {
+
+    stop(
+      cli::format_error(
+        c(
+          "Invalid <copy_number_col> name.",
+          "Available columns:",
+          paste0("  ", colnames(copies_df))
+        )
+      ),
+      call. = FALSE
+    )
+
+  }
+
+  # internally rename the copy_number_col to .copy_number
+  copies_df = copies_df |>
+    dplyr::select(source_mat_id, .copy_number = copy_number_col)
+
+  asv_table = S7::prop(qsip_data_object, "tube_rel_abundance") |>
+    dplyr::select(feature_id, source_mat_id, tube_rel_abundance) |>
+    dplyr::summarise(abundance = sum(tube_rel_abundance), .by = c("feature_id", "source_mat_id")) |>
+    dplyr::left_join(copies_df, by = dplyr::join_by(source_mat_id)) |>
+    dplyr::mutate(.copy_number = abundance * .copy_number) |>
+    dplyr::select(feature_id, source_mat_id, .copy_number) |>
+    dplyr::mutate(.copy_number = floor(.copy_number)) |>
+    tidyr::pivot_wider(names_from = source_mat_id, values_from = .copy_number, values_fill = 0)
+
+  return(asv_table)
+
+}

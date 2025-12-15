@@ -30,6 +30,7 @@ reference:
 - title: Helper Functions
   contents:
   - infer_source_data
+  - infer_source_feature_table
   - add_isotopolog_label
   - remove_isotopolog_label
   - get_all_by_isotope

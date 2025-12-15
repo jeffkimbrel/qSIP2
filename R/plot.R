@@ -886,7 +886,7 @@ plot_feature_resamplings <- function(qsip_data_object,
 
   if (intervals == "bar") {
     p <- p +
-      ggplot2::geom_errorbarh(data = summary_statistics, ggplot2::aes(xmin = lower, xmax = upper, color = type), linewidth = 1, show.legend = F)
+      ggplot2::geom_errorbar(data = summary_statistics, ggplot2::aes(xmin = lower, xmax = upper, color = type), orientation = "y", linewidth = 1, show.legend = F)
   } else if (intervals == "line") {
     p <- p +
       ggplot2::geom_vline(data = summary_statistics, ggplot2::aes(xintercept = mean_resampled_WAD, color = type), show.legend = F) +

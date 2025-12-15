@@ -697,6 +697,8 @@ source_wads <- S7::new_generic("source_wads", "x")
 #' @returns A dataframe with two columns, 1) the source_mat_id and 2) the global
 #' WAD value for that source_mat_id
 #'
+#' @name source_wads
+#'
 #' @keywords internal
 
 S7::method(source_wads, qsip_data) <- function(x) {

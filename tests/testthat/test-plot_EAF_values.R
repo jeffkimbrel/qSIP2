@@ -6,20 +6,19 @@ test_that("fails if wrong object given", {
   expect_error(plot_EAF_values(example_feature_df), "qsip_data_object must be of class <qsip_data> or <list> of qsip_data objects")
 })
 
-# two below are commented out because ggplots are now stored at S7 objects, which broke these tests.
 
-# test_that("plot and layers look as expected", {
-#   p <- plot_EAF_values(normal_qsip)
-#   expect_equal(p$labels$x, "observed_EAF")
+test_that("plot and layers look as expected", {
+  p <- plot_EAF_values(normal_qsip)
+  expect_equal(ggplot2::ggplot_build(p)$plot$labels$x, "observed_EAF")
 
-#   p <- plot_EAF_values(multi_qsip)
-#   expect_equal(p$labels$x, "observed_EAF")
-# })
+  p <- plot_EAF_values(multi_qsip)
+  expect_equal(ggplot2::ggplot_build(p)$plot$labels$x, "observed_EAF")
+})
 
-# test_that("plot and layers look as expected when allow failures = t", {
-#   p <- plot_EAF_values(normal_qsip_failures)
-#   expect_equal(p$labels$x, "observed_EAF")
-# })
+test_that("plot and layers look as expected when allow failures = t", {
+  p <- plot_EAF_values(normal_qsip_failures)
+  expect_equal(ggplot2::ggplot_build(p)$plot$labels$x, "observed_EAF")
+})
 
 test_that("changing confidence changes message", {
   expect_message(plot_EAF_values(multi_qsip, confidence = 0.90), "Confidence level = 0.9")
