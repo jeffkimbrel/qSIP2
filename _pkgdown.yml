@@ -122,7 +122,6 @@ reference:
   - calculate_resampled_wads
   - calculate_tube_rel_abundance
   - calculate_wads
-  - calculate_source_wads
   - multi_qsip_wrapper_launcher
   - multi_qsip_wrapper
   - summarize_EAF_values_internal
