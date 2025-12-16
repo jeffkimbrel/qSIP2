@@ -188,7 +188,6 @@ infer_source_feature_table = function(qsip_data_object, copy_number_col) {
     dplyr::left_join(copies_df, by = dplyr::join_by(source_mat_id)) |>
     dplyr::mutate(.copy_number = abundance * .copy_number) |>
     dplyr::select(feature_id, source_mat_id, .copy_number) |>
-    dplyr::mutate(.copy_number = floor(.copy_number)) |>
     tidyr::pivot_wider(names_from = source_mat_id, values_from = .copy_number, values_fill = 0)
 
   return(asv_table)
