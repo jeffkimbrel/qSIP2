@@ -1,10 +1,9 @@
-# qSIP2 0.21.3
-
 # qSIP2 0.21
 
 * Moving some stored data to dynamic functions
 * some fixes for ggplot v4.0
 * new function `infer_source_feature_table()` to make a source-level feature table using sample-level relative abundances and source copy numbers 
+* switched from deprecated `dplyr::case_match()` to `dplyr::recode_values()` where appropriate
 
 # qSIP2 0.20
 
