@@ -170,15 +170,15 @@ calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data)
   feature_id <- raw_abundance <- sample_id <- source_mat_id <- rel_abundance <- gradient_pos_density <- gradient_pos_rel_amt <- tube_rel_abundance <- isotope <- tube_rel_abundance <- NULL
 
   # extract dataframes
-  feature_df <- feature_data@data
-  sample_df <- sample_data@data |>
+  feature_df <- S7::prop(feature_data, "data")
+  sample_df <- S7::prop(sample_data, "data") |>
     dplyr::select(-dplyr::any_of("isotope")) # remove isotope column if it exists (addresses issue #5)
-  source_df <- source_data@data
+  source_df <- S7::prop(source_data, "data")
 
   # make sure feature data type has compatible value
-  stopifnot("feature <type> is unknown" = feature_data@type %in% c("counts", "coverage", "normalized", "relative"))
+  stopifnot("feature <type> is unknown" = S7::prop(feature_data, "type") %in% c("counts", "coverage", "normalized", "relative"))
 
-  if (feature_data@type %in% c("counts", "coverage", "relative")) {
+  if (S7::prop(feature_data, "type") %in% c("counts", "coverage", "relative")) {
     feature_df |> # start with raw feature data
       tidyr::pivot_longer(
         cols = c(dplyr::everything(), -feature_id), # pivot longer
@@ -197,7 +197,7 @@ calculate_tube_rel_abundance <- function(source_data, sample_data, feature_data)
       dplyr::mutate(tube_rel_abundance = rel_abundance * gradient_pos_rel_amt) |> # takes the sample-adjusted abundances and gets the source-adjusted abundances
       dplyr::ungroup() |>
       dplyr::select(feature_id, sample_id, source_mat_id, tube_rel_abundance, gradient_pos_density, gradient_pos_rel_amt)
-  } else if (feature_data@type == "normalized") {
+  } else if (S7::prop(feature_data, "type") == "normalized") {
     message("normalized")
     feature_df |> # start with raw feature data
       tidyr::pivot_longer(

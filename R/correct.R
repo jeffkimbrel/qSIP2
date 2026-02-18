@@ -22,7 +22,7 @@ correct_gradient_pos_density <- function(sample_data,
   stopifnot("sensitivity should be a positive number" = is.numeric(sensitivity) & sensitivity > 0)
 
 
-  data <- sample_data@data |>
+  data <- S7::prop(sample_data, "data") |>
     dplyr::filter(gradient_position > 0)
 
   S <- data |>
@@ -108,8 +108,8 @@ correct_gpd_bootstrap <- function(qsip_data_object,
   if (return == "corrections") {
     return(corrections)
   } else if (return == "qsip_data_object") {
-    qf <- qsip_data_object@feature_data
-    qm <- qsip_data_object@source_data
+    qf <- S7::prop(qsip_data_object, "feature_data")
+    qm <- S7::prop(qsip_data_object, "source_data")
 
     qs <- get_dataframe(qsip_data_object, "sample") |>
       dplyr::left_join(corrections, by = "source_mat_id") |>
@@ -162,7 +162,7 @@ correct_gpd_rlm <- function(qsip_data_object,
   )
 
   if (method == "siegel") {
-    siegel <- qsip_data_object@wads |>
+    siegel <- S7::prop(qsip_data_object, "wads") |>
       dplyr::filter(feature_id %in% wad_reference$feature_id) |>
       dplyr::left_join(wad_reference, by = dplyr::join_by(feature_id)) |>
       dplyr::left_join(get_dataframe(qsip_data_object, type = "source"), by = dplyr::join_by(source_mat_id)) |>
@@ -181,8 +181,8 @@ correct_gpd_rlm <- function(qsip_data_object,
     if (return == "corrections") {
       return(corrections)
     } else if (return == "qsip_data_object") {
-      qf <- qsip_data_object@feature_data
-      qm <- qsip_data_object@source_data
+      qf <- S7::prop(qsip_data_object, "feature_data")
+      qm <- S7::prop(qsip_data_object, "source_data")
 
       qs <- corrections |>
         dplyr::select(-data.x, -data.y, -siegel) |>
@@ -234,7 +234,7 @@ iq_get_wad_reference <- function(qsip_data_object,
     stop("<source_cutoff> must be an integer greater than 0", call. = FALSE)
   }
 
-  wad_reference <- qsip_data_object@wads |>
+  wad_reference <- S7::prop(qsip_data_object, "wads") |>
     dplyr::filter(n_fractions >= fraction_cutoff) |>
     dplyr::left_join(get_dataframe(qsip_data_object, "source"), by = "source_mat_id") |>
     dplyr::filter(source_mat_id %in% get_all_by_isotope(qsip_data_object, "unlabeled", quiet = T)) |>
@@ -274,7 +274,7 @@ iq_get_df_for_resampling <- function(qsip_data_object,
                                      wad_reference,
                                      fraction_cutoff = 5,
                                      source_cutoff = 3) {
-  df_for_resampling <- qsip_data_object@wads |>
+  df_for_resampling <- S7::prop(qsip_data_object, "wads") |>
     dplyr::filter(feature_id %in% wad_reference$feature_id) |>
     dplyr::filter(n_fractions >= fraction_cutoff) |>
     dplyr::select(feature_id, source_mat_id, WAD, n_fractions) |>
@@ -311,7 +311,7 @@ plot_difference_to_mean <- function(qsip_data_object,
     quiet = quiet
   )
 
-  qsip_data_object@wads |>
+  S7::prop(qsip_data_object, "wads") |>
     dplyr::left_join(wad_reference, by = "feature_id") |>
     dplyr::filter(!is.na(WAD_reference_mean)) |>
     dplyr::left_join(get_dataframe(qsip_data_object, type = "source"), by = dplyr::join_by(source_mat_id)) |>
@@ -371,8 +371,8 @@ plot_corrected_curves <- function(reference, corrected) {
 plot_correction_stats <- function(reference, corrected, source_cutoff = 3, fraction_cutoff = 5, quiet = F) {
 
   l <- list(
-    "reference" = reference@wads,
-    "corrected" = corrected@wads
+    "reference" = S7::prop(reference, "wads"),
+    "corrected" = S7::prop(corrected, "wads")
   )
 
   wad_reference <- iq_get_wad_reference(reference, source_cutoff = source_cutoff, fraction_cutoff = fraction_cutoff, quiet = quiet)

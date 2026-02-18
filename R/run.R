@@ -530,22 +530,22 @@ run_comparison_groups <- function(groups,
 
   # make sure all source_mat_ids in the isotope columns are in the qsip_data_object
   ## first, fill in "wildcard" source_mat_ids
-  groups = groups |>
-    dplyr::mutate(unlabeled = dplyr::case_match(
+  groups <- groups |>
+    dplyr::mutate(unlabeled = dplyr::recode_values(
       unlabeled,
-      "unlabeled" ~ paste(get_all_by_isotope(qsip_data_object, "unlabeled", quiet = TRUE), collapse = ","),
-      "12C" ~ paste(get_all_by_isotope(qsip_data_object, "12C", quiet = TRUE), collapse = ","),
-      "14N" ~ paste(get_all_by_isotope(qsip_data_object, "14N", quiet = TRUE), collapse = ","),
-      "16O" ~ paste(get_all_by_isotope(qsip_data_object, "16O", quiet = TRUE), collapse = ","),
-      .default = unlabeled
-    ))  |>
-    dplyr::mutate(labeled = dplyr::case_match(
+        "unlabeled" ~ paste(get_all_by_isotope(qsip_data_object, "unlabeled", quiet = TRUE), collapse = ","),
+        "12C" ~ paste(get_all_by_isotope(qsip_data_object, "12C", quiet = TRUE), collapse = ","),
+        "14N" ~ paste(get_all_by_isotope(qsip_data_object, "14N", quiet = TRUE), collapse = ","),
+        "16O" ~ paste(get_all_by_isotope(qsip_data_object, "16O", quiet = TRUE), collapse = ","),
+      default = unlabeled
+    )) |>
+    dplyr::mutate(labeled = dplyr::recode_values(
       labeled,
-      "labeled" ~ paste(get_all_by_isotope(qsip_data_object, "labeled", quiet = TRUE), collapse = ","),
-      "13C" ~ paste(get_all_by_isotope(qsip_data_object, "13C", quiet = TRUE), collapse = ","),
-      "15N" ~ paste(get_all_by_isotope(qsip_data_object, "15N", quiet = TRUE), collapse = ","),
-      "18O" ~ paste(get_all_by_isotope(qsip_data_object, "18O", quiet = TRUE), collapse = ","),
-      .default = labeled
+        "labeled" ~ paste(get_all_by_isotope(qsip_data_object, "labeled", quiet = TRUE), collapse = ","),
+        "13C" ~ paste(get_all_by_isotope(qsip_data_object, "13C", quiet = TRUE), collapse = ","),
+        "15N" ~ paste(get_all_by_isotope(qsip_data_object, "15N", quiet = TRUE), collapse = ","),
+        "18O" ~ paste(get_all_by_isotope(qsip_data_object, "18O", quiet = TRUE), collapse = ","),
+      default = labeled
     ))
 
   # add optional parameters to overwrite the groups dataframe, or set values if not in the groups dataframe
