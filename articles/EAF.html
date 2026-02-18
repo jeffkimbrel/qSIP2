@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,7 +89,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.21.2'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.21.3'</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -126,7 +126,7 @@ comparisons.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
-<p><img src="EAF_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="672"></p>
+<p><img src="EAF_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="672"></p>
 <p>The 90% confidence interval is calculated by default, but this can be
 modified and added to the plot with the <code>confidence</code> and
 <code>error</code> arguments.</p>
@@ -136,7 +136,7 @@ modified and added to the plot with the <code>confidence</code> and
 <span>                error <span class="op">=</span> <span class="st">"ribbon"</span>,</span>
 <span>                title <span class="op">=</span> <span class="st">"95% CI"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.95</span></span></code></pre></div>
-<p><img src="EAF_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="672"></p>
+<p><img src="EAF_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="672"></p>
 <p>The number of features can be filtered to include the <em>n</em> with
 the highest EAF.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -145,7 +145,7 @@ the highest EAF.</p>
 <span>                error <span class="op">=</span> <span class="st">"bar"</span>,</span>
 <span>                title <span class="op">=</span> <span class="st">"95% CI"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
-<p><img src="EAF_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="672"></p>
+<p><img src="EAF_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="672"></p>
 <p>By default, the facets do not share the same y-axis so each
 comparison are sorted from highto low independently. But, if you want to
 compare the EAF values between the two comparisons, you can set
@@ -163,7 +163,7 @@ comparisons.</p>
 <span><span class="co">#&gt; there will likely be missing data in the plots if a feature is in the top n of</span></span>
 <span><span class="co">#&gt; one comparison, but not in the other.</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
-<p><img src="EAF_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="672"></p>
+<p><img src="EAF_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="672"></p>
 <div class="alert alert-danger">
 <p>As seen in the warning above, a current limitation when using
 <code>shared_y = TRUE</code> together with the <code>top</code> argument
@@ -385,7 +385,7 @@ values.</p>
 <span><span class="op">(</span><span class="va">a</span> <span class="op">/</span> <span class="va">b</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>axes <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html" class="external-link">plot_annotation</a></span><span class="op">(</span>tag_levels <span class="op">=</span> <span class="st">'A'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="EAF_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" width="960"></p>
+<p><img src="EAF_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="960"></p>
 <p>For ASV_7 and ASV_72, it is clear in “A” that the 13C labeled isotope
 has a nice shift compared to the unlabeled 12C sources. Indeed, the
 resampling results summarized in “B” also show a clear distinction with
@@ -406,7 +406,7 @@ or far from one another, and how the calculated WAD value is affected by
 these occurrences.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_occurrence.html">plot_feature_occurrence</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">$</span><span class="va">Drought</span>, <span class="va">features</span><span class="op">)</span></span></code></pre></div>
-<p><img src="EAF_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" width="960"></p>
+<p><img src="EAF_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="960"></p>
 <p>The plot above does show that ASV_100 stops appearing in some labeled
 sources after a density of ~1.7. With more arguments we can add the WAD
 and relative abundance values to the make the following figure. Here,
@@ -421,7 +421,7 @@ the values are in that most abundant fraction.</p>
 <span>                        <span class="va">features</span>,</span>
 <span>                        show_wad <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                        scale <span class="op">=</span> <span class="st">"feature"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="EAF_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" width="960"></p>
+<p><img src="EAF_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="960"></p>
 <p>The above plot can also help identify additional potential issues.
 For example, ASV_72 was one of the features with the highest EAF values,
 but it looks like source S200 only has it in the extremely heavy

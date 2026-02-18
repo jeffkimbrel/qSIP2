@@ -4,7 +4,7 @@
 library(dplyr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.21.2'
+#> [1] '0.21.3'
 ```
 
 ## Samples and Metadata
@@ -187,7 +187,8 @@ example_sample_df |>
     gradient_pos_amt = "avg_16S_g_soil"
   )
 #> <gradient_pos_rel_amt> not specified. Calculating using avg_16S_g_soil column
-#> Error in validate_gradient_pos_density(dplyr::select(self@data, gradient_position, : some gradient_pos_density values are lower than 1.55
+#> Error in `validate_gradient_pos_density()`:
+#> ! some gradient_pos_density values are lower than 1.55
 ```
 
 ## When to calculate the `gradient_pos_rel_amt` values?
@@ -247,7 +248,8 @@ add_gradient_pos_rel_amt(example_sample_df,
     source_mat_id = "source",
     amt = "avg_16S_g_soil"
   )
-#> Error: gradient_pos_rel_amt already exists! Set overwrite = TRUE if you want to overwrite
+#> Error:
+#> ! gradient_pos_rel_amt already exists! Set overwrite = TRUE if you want to overwrite
 ```
 
 ``` r

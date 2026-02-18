@@ -6,7 +6,7 @@ library(tibble)
 library(tidyr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.21.2'
+#> [1] '0.21.3'
 ```
 
 ## Feature Counts and Metadata
@@ -119,7 +119,8 @@ tibble(
   sample2 = c(0.4, 0.5, 0.6)
 ) |>
   qsip_feature_data()
-#> Error: Some data are not integers
+#> Error:
+#> ! Some data are not integers
 ```
 
 But it is allowed with `type = "coverage"`.
@@ -143,7 +144,8 @@ you do, they will undergo the same validations and may fail.
 
 ``` r
 feature_data@type <- "relative"
-#> Error: Some columns have a total relative abundance sum greater than 1
+#> Error:
+#> ! Some columns have a total relative abundance sum greater than 1
 ```
 
 ## Special Considerations

@@ -10,13 +10,13 @@
 Source:
 [`DESCRIPTION`](https://github.com/jeffkimbrel/qSIP2/blob/master/DESCRIPTION)
 
-Kimbrel J (2025). *qSIP2: qSIP Analysis*. R package version 0.21.2,
+Kimbrel J (2026). *qSIP2: qSIP Analysis*. R package version 0.21.3,
 <https://github.com/jeffkimbrel/qSIP2>.
 
     @Manual{,
       title = {qSIP2: qSIP Analysis},
       author = {Jeff Kimbrel},
-      year = {2025},
-      note = {R package version 0.21.2},
+      year = {2026},
+      note = {R package version 0.21.3},
       url = {https://github.com/jeffkimbrel/qSIP2},
     }

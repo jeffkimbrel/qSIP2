@@ -4,7 +4,7 @@
 library(dplyr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.21.2'
+#> [1] '0.21.3'
 ```
 
 ## Source Material and Metadata
@@ -188,7 +188,8 @@ example_source_df |>
     isotopolog = "isotopolog",
     source_mat_id = "source"
   )
-#> Error: some source_mat_ids are duplicated
+#> Error:
+#> ! some source_mat_ids are duplicated
 ```
 
 One benefit of the validation steps being embedded in the object itself
@@ -199,7 +200,8 @@ invalid object, e.g. changing an isotope to an invalid choice.
 ``` r
 source_object@data$isotope <- "13G"
 #> invalid isotope found: 13G
-#> Error: Please fix the isotope names and try again
+#> Error:
+#> ! Please fix the isotope names and try again
 ```
 
 ## MISIP
