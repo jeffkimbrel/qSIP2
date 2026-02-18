@@ -1,7 +1,5 @@
 # Changelog
 
-## qSIP2 0.21.3
-
 ## qSIP2 0.21
 
 - Moving some stored data to dynamic functions
@@ -10,6 +8,11 @@
   [`infer_source_feature_table()`](https://jeffkimbrel.github.io/qSIP2/reference/infer_source_feature_table.md)
   to make a source-level feature table using sample-level relative
   abundances and source copy numbers
+- switched from deprecated
+  [`dplyr::case_match()`](https://dplyr.tidyverse.org/reference/case_match.html)
+  to
+  [`dplyr::recode_values()`](https://dplyr.tidyverse.org/reference/recode-and-replace-values.html)
+  where appropriate
 
 ## qSIP2 0.20
 
