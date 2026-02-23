@@ -17,7 +17,7 @@
 #' Under the hood, for each feature_id this function subtracts the observed EAF
 #' in the "treatment" group from the "control" and saves this as the \eqn{\delta}
 #' value. Then, it pulls the data from `run_resampling()` and for each resampling
-#' \eqn{i} calculates the delta (so \eqn{\delta_i = control_i - treatment_i}) saving
+#' \eqn{i} calculates the delta (so \eqn{\delta_i = treatment_i - control_i}) saving
 #' these values as a vector of delta distributions. The `bs_pval` is calculated
 #' from this distribution, and `pval` is calculated from \eqn{\delta} and the
 #' standard deviation of the distribution.
@@ -214,7 +214,7 @@ get_delta_distributions = function(resampled_EAF, contrasts) {
         dplyr::transmute(
           resample,
           contrast = comp,
-          delta = .data[[a]] - .data[[b]]
+          delta = .data[[b]] - .data[[a]] # treatment - control
         )
     })
   }
@@ -254,7 +254,7 @@ get_delta_stats = function(delta_distributions, confidence = 0.95) {
       dplyr::filter(!is.na(resample)) |>
       dplyr::summarize(lower = quantile(delta, (1 - confidence) / 2, na.rm = T),
                        upper = quantile(delta, 1 - (1 - confidence) / 2, na.rm = T),
-                       sd = sd(delta),
+                       sd = sd(delta, na.rm = T),
                        .by = contrast)
 
     if (nrow(delta_distributions) == 0) {
