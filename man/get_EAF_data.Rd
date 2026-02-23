@@ -7,7 +7,7 @@
 get_EAF_data(qsip_data_object)
 }
 \arguments{
-\item{qsip_data_object}{}
+\item{qsip_data_object}{a qSIP2 object}
 }
 \description{
 Get EAF value for a qSIP object

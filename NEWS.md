@@ -1,3 +1,8 @@
+# qSIP2 0.22
+
+* New set of functions to calculate the delta EAF between groups of qSIP2 objects
+* Tools for making and validating a contrasts table for delta EAF calculations
+
 # qSIP2 0.21
 
 * Moving some stored data to dynamic functions

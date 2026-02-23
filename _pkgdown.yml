@@ -20,6 +20,10 @@ reference:
   - run_EAF_calculations
   - summarize_EAF_values
   - run_comparison_groups
+  - get_overlap_sizes
+  - run_delta_EAF_contrasts
+  - make_delta_EAF_contrasts
+  - validate_delta_EAF_contrasts
 
 - title: qSIP2 Growth Workflow
   contents:
@@ -147,6 +151,9 @@ reference:
   - find_shared_ids
   - show_unshared_ids
   - show_comparison_groups
+  - get_delta_distributions
+  - get_delta_stats
+  - calculate_bootstrap_pvalue
 
 articles:
 - title: Learn qSIP
