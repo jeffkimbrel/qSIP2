@@ -26,6 +26,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_Z.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_atoms.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_bi.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_bootstrap_pvalue.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_di.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_gc_from_density.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/calculate_gc_from_sequence.html</loc></url>
@@ -55,6 +56,8 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_comparison_groups.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_correction_compression.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_dataframe.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_delta_distributions.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_delta_stats.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_feature_ids.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_filter_results.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_filtered_feature_summary.html</loc></url>
@@ -63,6 +66,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_isotope_designation.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_normalized_controls.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_normalized_features.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_overlap_sizes.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_resample_data.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/get_shared_ids.html</loc></url>
@@ -85,6 +89,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/jgi_normalize_features.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/jgi_sample_df.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/jgi_source_df.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/make_delta_EAF_contrasts.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/multi_qsip_wrapper.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/multi_qsip_wrapper_launcher.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/n_resamples.html</loc></url>
@@ -116,6 +121,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/resample_seed.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/run_EAF_calculations.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/run_comparison_groups.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/run_delta_EAF_contrasts.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/run_feature_filter.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/run_growth_calculations.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/run_resampling.html</loc></url>
@@ -129,6 +135,7 @@
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/summarize_growth_values.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/valid_isotope_names.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_abundances.html</loc></url>
+<url><loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_delta_EAF_contrasts.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_gradient_pos_density.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_gradient_position.html</loc></url>
 <url><loc>https://jeffkimbrel.github.io/qSIP2/reference/validate_isotopes.html</loc></url>

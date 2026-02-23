@@ -11,3 +11,5 @@ get_EAF_data(qsip_data_object)
 ## Arguments
 
 - qsip_data_object:
+
+  a qSIP2 object

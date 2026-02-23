@@ -25,6 +25,14 @@
   : Summarize the observed and resampled EAF values
 - [`run_comparison_groups()`](https://jeffkimbrel.github.io/qSIP2/reference/run_comparison_groups.md)
   : Run comparison groups
+- [`get_overlap_sizes()`](https://jeffkimbrel.github.io/qSIP2/reference/get_overlap_sizes.md)
+  : Return the count of features present between different groups
+- [`run_delta_EAF_contrasts()`](https://jeffkimbrel.github.io/qSIP2/reference/run_delta_EAF_contrasts.md)
+  : Get delta EAF values between contrast groupings
+- [`make_delta_EAF_contrasts()`](https://jeffkimbrel.github.io/qSIP2/reference/make_delta_EAF_contrasts.md)
+  : Make an all-by-all contrasts table for delta EAF calculations
+- [`validate_delta_EAF_contrasts()`](https://jeffkimbrel.github.io/qSIP2/reference/validate_delta_EAF_contrasts.md)
+  : Validate a delta EAF contrasts table
 
 ## qSIP2 Growth Workflow
 
