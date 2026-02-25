@@ -35,7 +35,7 @@ groups are found in the qSIP2 object list), it must be validated through the
 Under the hood, for each feature_id this function subtracts the observed EAF
 in the "treatment" group from the "control" and saves this as the \eqn{\delta}
 value. Then, it pulls the data from \code{run_resampling()} and for each resampling
-\eqn{i} calculates the delta (so \eqn{\delta_i = control_i - treatment_i}) saving
+\eqn{i} calculates the delta (so \eqn{\delta_i = treatment_i - control_i}) saving
 these values as a vector of delta distributions. The \code{bs_pval} is calculated
 from this distribution, and \code{pval} is calculated from \eqn{\delta} and the
 standard deviation of the distribution.

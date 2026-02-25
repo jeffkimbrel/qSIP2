@@ -37,8 +37,8 @@ run_delta_EAF_contrasts = function(q, contrasts = NULL, confidence = 0.95, quiet
     cli::cli_alert_info("{.arg contrasts} not given so running all-by-all")
     contrasts = make_delta_EAF_contrasts(q)
 
-      } else if (!inherits(contrasts, "validated_contrasts")) {
-        cli::cli_abort("{.arg contrasts} must be a {.cls validated_contrasts} object.")
+  } else {
+    contrasts = validate_delta_EAF_contrasts(q = q, contrasts = contrasts)
   }
 
   if (!is.numeric(confidence)) {
