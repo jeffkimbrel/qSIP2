@@ -47,7 +47,7 @@ EAF in the "treatment" group from the "control" and saves this as the
 \\\delta\\ value. Then, it pulls the data from
 [`run_resampling()`](https://jeffkimbrel.github.io/qSIP2/reference/run_resampling.md)
 and for each resampling \\i\\ calculates the delta (so \\\delta_i =
-control_i - treatment_i\\) saving these values as a vector of delta
+treatment_i - control_i\\) saving these values as a vector of delta
 distributions. The `bs_pval` is calculated from this distribution, and
 `pval` is calculated from \\\delta\\ and the standard deviation of the
 distribution.
