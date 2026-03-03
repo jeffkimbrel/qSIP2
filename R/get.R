@@ -1184,6 +1184,7 @@ summarize_EAF_values_internal <- function(qsip_data_object,
       mean_resampled_EAF = mean(EAF),
       lower = quantile(EAF, (1 - confidence) / 2, na.rm = T),
       upper = quantile(EAF, 1 - (1 - confidence) / 2, na.rm = T),
+      pval = calculate_bootstrap_pvalue(EAF, 0)$bs_pval,
       .groups = "drop"
     )
 
