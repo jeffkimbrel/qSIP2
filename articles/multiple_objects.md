@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.22.3.9000'
+#> [1] '0.22.4'
 ```
 
 ## Background
@@ -79,14 +79,14 @@ summarize_EAF_values(qsip_list_1)
 
     #> Confidence level = 0.9
 
-| group   | feature_id | observed_EAF | mean_resampled_EAF |      lower |      upper | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
-|:--------|:-----------|-------------:|-------------------:|-----------:|-----------:|------------------:|--------------------:|----------------:|------------------:|
-| Normal  | ASV_1      |   -0.0153107 |         -0.0162090 | -0.0524399 |  0.0239385 |              1000 |                1000 |               3 |                 8 |
-| Drought | ASV_1      |   -0.0333856 |         -0.0322146 | -0.0792106 |  0.0219181 |              1000 |                1000 |               4 |                 8 |
-| Normal  | ASV_10     |    0.1126260 |          0.1116218 |  0.0823812 |  0.1405383 |              1000 |                1000 |               3 |                 8 |
-| Drought | ASV_10     |    0.0543136 |          0.0542462 |  0.0305884 |  0.0788885 |              1000 |                1000 |               4 |                 8 |
-| Drought | ASV_100    |   -0.0892684 |         -0.0885048 | -0.1485629 | -0.0283228 |              1000 |                1000 |               3 |                 7 |
-| Normal  | ASV_102    |   -0.0080214 |         -0.0090271 | -0.0746514 |  0.0546485 |              1000 |                1000 |               3 |                 8 |
+| group   | feature_id | observed_EAF | mean_resampled_EAF |      lower |      upper |  pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
+|:--------|:-----------|-------------:|-------------------:|-----------:|-----------:|------:|------------------:|--------------------:|----------------:|------------------:|
+| Normal  | ASV_1      |   -0.0153107 |         -0.0162090 | -0.0524399 |  0.0239385 | 0.472 |              1000 |                1000 |               3 |                 8 |
+| Drought | ASV_1      |   -0.0333856 |         -0.0322146 | -0.0792106 |  0.0219181 | 0.320 |              1000 |                1000 |               4 |                 8 |
+| Normal  | ASV_10     |    0.1126260 |          0.1116218 |  0.0823812 |  0.1405383 | 0.000 |              1000 |                1000 |               3 |                 8 |
+| Drought | ASV_10     |    0.0543136 |          0.0542462 |  0.0305884 |  0.0788885 | 0.000 |              1000 |                1000 |               4 |                 8 |
+| Drought | ASV_100    |   -0.0892684 |         -0.0885048 | -0.1485629 | -0.0283228 | 0.020 |              1000 |                1000 |               3 |                 7 |
+| Normal  | ASV_102    |   -0.0080214 |         -0.0090271 | -0.0746514 |  0.0546485 | 0.782 |              1000 |                1000 |               3 |                 8 |
 
 First few rows from
 [`summarize_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.md)
@@ -298,15 +298,15 @@ these columns.
 summarize_EAF_values(qsip_list_3) |>
   filter(feature_id == "ASV_1")
 #> Confidence level = 0.9
-#> # A tibble: 6 × 10
-#>   group              feature_id observed_EAF mean_resampled_EAF   lower    upper
-#>   <chr>              <chr>             <dbl>              <dbl>   <dbl>    <dbl>
-#> 1 Drought            ASV_1         -0.0492             -0.0489  -0.108   0.0113 
-#> 2 Drought against a… ASV_1         -0.0334             -0.0328  -0.0798  0.0195 
-#> 3 Normal             ASV_1          0.000455            0.00138 -0.0326  0.0357 
-#> 4 Normal_S178        ASV_1          0.0410              0.0421   0.0214  0.0606 
-#> 5 Normal_S179        ASV_1         -0.0256             -0.0251  -0.0454 -0.00603
-#> 6 Normal_S180        ASV_1         -0.0140             -0.0141  -0.0378  0.00564
+#> # A tibble: 6 × 11
+#>   group        feature_id observed_EAF mean_resampled_EAF   lower    upper  pval
+#>   <chr>        <chr>             <dbl>              <dbl>   <dbl>    <dbl> <dbl>
+#> 1 Drought      ASV_1         -0.0492             -0.0489  -0.108   0.0113  0.186
+#> 2 Drought aga… ASV_1         -0.0334             -0.0328  -0.0798  0.0195  0.306
+#> 3 Normal       ASV_1          0.000455            0.00138 -0.0326  0.0357  0.96 
+#> 4 Normal_S178  ASV_1          0.0410              0.0421   0.0214  0.0606  0.006
+#> 5 Normal_S179  ASV_1         -0.0256             -0.0251  -0.0454 -0.00603 0.008
+#> 6 Normal_S180  ASV_1         -0.0140             -0.0141  -0.0378  0.00564 0.276
 #> # ℹ 4 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
 #> #   labeled_sources <int>, unlabeled_sources <int>
 ```
@@ -320,13 +320,13 @@ certain comparisons. For example, ASV_311 only appears in the two
 summarize_EAF_values(qsip_list_3) |>
   filter(feature_id == "ASV_311")
 #> Confidence level = 0.9
-#> # A tibble: 2 × 10
-#>   group feature_id observed_EAF mean_resampled_EAF lower upper labeled_resamples
-#>   <chr> <chr>             <dbl>              <dbl> <dbl> <dbl>             <int>
-#> 1 Drou… ASV_311           0.906              0.903 0.650 1.14               1000
-#> 2 Drou… ASV_311           0.693              0.693 0.535 0.867              1000
-#> # ℹ 3 more variables: unlabeled_resamples <int>, labeled_sources <int>,
-#> #   unlabeled_sources <int>
+#> # A tibble: 2 × 11
+#>   group             feature_id observed_EAF mean_resampled_EAF lower upper  pval
+#>   <chr>             <chr>             <dbl>              <dbl> <dbl> <dbl> <dbl>
+#> 1 Drought           ASV_311           0.906              0.903 0.650 1.14      0
+#> 2 Drought against … ASV_311           0.693              0.693 0.535 0.867     0
+#> # ℹ 4 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
+#> #   labeled_sources <int>, unlabeled_sources <int>
 ```
 
 And although you can plot all together, more than a few objects might

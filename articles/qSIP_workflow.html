@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,7 +94,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.22.3.9000'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.22.4'</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -943,13 +943,14 @@ functions.</p>
 <col width="5%">
 <col width="7%">
 <col width="8%">
-<col width="13%">
-<col width="7%">
-<col width="7%">
 <col width="12%">
-<col width="13%">
+<col width="7%">
+<col width="7%">
+<col width="3%">
 <col width="11%">
-<col width="12%">
+<col width="13%">
+<col width="10%">
+<col width="11%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">group</th>
@@ -958,6 +959,7 @@ functions.</p>
 <th align="right">mean_resampled_EAF</th>
 <th align="right">lower</th>
 <th align="right">upper</th>
+<th align="right">pval</th>
 <th align="right">labeled_resamples</th>
 <th align="right">unlabeled_resamples</th>
 <th align="right">labeled_sources</th>
@@ -971,6 +973,7 @@ functions.</p>
 <td align="right">-0.0157044</td>
 <td align="right">-0.0516543</td>
 <td align="right">0.0236518</td>
+<td align="right">0.470</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">3</td>
@@ -983,6 +986,7 @@ functions.</p>
 <td align="right">-0.0330890</td>
 <td align="right">-0.0808509</td>
 <td align="right">0.0161212</td>
+<td align="right">0.284</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">4</td>
@@ -995,6 +999,7 @@ functions.</p>
 <td align="right">0.1121874</td>
 <td align="right">0.0848992</td>
 <td align="right">0.1400368</td>
+<td align="right">0.000</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">3</td>
@@ -1007,6 +1012,7 @@ functions.</p>
 <td align="right">0.0541364</td>
 <td align="right">0.0303215</td>
 <td align="right">0.0776436</td>
+<td align="right">0.000</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">4</td>
@@ -1019,6 +1025,7 @@ functions.</p>
 <td align="right">-0.0895131</td>
 <td align="right">-0.1488307</td>
 <td align="right">-0.0349891</td>
+<td align="right">0.016</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">3</td>
@@ -1031,6 +1038,7 @@ functions.</p>
 <td align="right">-0.0407609</td>
 <td align="right">-0.0907747</td>
 <td align="right">0.0088904</td>
+<td align="right">0.168</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">4</td>
@@ -1043,6 +1051,7 @@ functions.</p>
 <td align="right">0.3743849</td>
 <td align="right">0.3392976</td>
 <td align="right">0.4094196</td>
+<td align="right">0.000</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">3</td>
@@ -1055,6 +1064,7 @@ functions.</p>
 <td align="right">0.2622983</td>
 <td align="right">0.2041474</td>
 <td align="right">0.3099201</td>
+<td align="right">0.000</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">4</td>
@@ -1067,6 +1077,7 @@ functions.</p>
 <td align="right">0.1918100</td>
 <td align="right">0.1234247</td>
 <td align="right">0.2683575</td>
+<td align="right">0.000</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">3</td>
@@ -1079,6 +1090,7 @@ functions.</p>
 <td align="right">0.2167657</td>
 <td align="right">0.1304984</td>
 <td align="right">0.2998898</td>
+<td align="right">0.000</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">3</td>

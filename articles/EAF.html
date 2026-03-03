@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,7 +95,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.22.3.9000'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.22.4'</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -200,13 +200,14 @@ resampling step.</p>
 <col width="5%">
 <col width="7%">
 <col width="8%">
-<col width="13%">
-<col width="7%">
-<col width="7%">
 <col width="12%">
-<col width="13%">
+<col width="7%">
+<col width="7%">
+<col width="3%">
 <col width="11%">
-<col width="12%">
+<col width="13%">
+<col width="10%">
+<col width="11%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">group</th>
@@ -215,6 +216,7 @@ resampling step.</p>
 <th align="right">mean_resampled_EAF</th>
 <th align="right">lower</th>
 <th align="right">upper</th>
+<th align="right">pval</th>
 <th align="right">labeled_resamples</th>
 <th align="right">unlabeled_resamples</th>
 <th align="right">labeled_sources</th>
@@ -228,6 +230,7 @@ resampling step.</p>
 <td align="right">-0.0483554</td>
 <td align="right">-0.1082032</td>
 <td align="right">0.0087336</td>
+<td align="right">0.178</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">4</td>
@@ -240,6 +243,7 @@ resampling step.</p>
 <td align="right">0.0000135</td>
 <td align="right">-0.0325729</td>
 <td align="right">0.0356580</td>
+<td align="right">0.986</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">3</td>
@@ -252,6 +256,7 @@ resampling step.</p>
 <td align="right">0.0550897</td>
 <td align="right">0.0344674</td>
 <td align="right">0.0747572</td>
+<td align="right">0.000</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">4</td>
@@ -264,6 +269,7 @@ resampling step.</p>
 <td align="right">0.1116458</td>
 <td align="right">0.0713690</td>
 <td align="right">0.1506676</td>
+<td align="right">0.000</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">3</td>
@@ -276,6 +282,7 @@ resampling step.</p>
 <td align="right">-0.1110421</td>
 <td align="right">-0.1681262</td>
 <td align="right">-0.0503753</td>
+<td align="right">0.000</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">4</td>
@@ -288,6 +295,7 @@ resampling step.</p>
 <td align="right">0.0088377</td>
 <td align="right">-0.0523892</td>
 <td align="right">0.0703022</td>
+<td align="right">0.798</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">3</td>
@@ -311,18 +319,19 @@ values.</p>
 <span><span class="fu"><a href="../reference/summarize_EAF_values.html">summarize_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">$</span><span class="va">Drought</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">feature_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">features</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre>
-<table class="table">
+<table style="width:100%;" class="table">
 <caption>EAF results for 4 chosen features</caption>
 <colgroup>
-<col width="8%">
+<col width="7%">
 <col width="9%">
 <col width="13%">
-<col width="8%">
-<col width="8%">
+<col width="7%">
+<col width="7%">
+<col width="4%">
+<col width="12%">
 <col width="13%">
-<col width="14%">
 <col width="11%">
-<col width="13%">
+<col width="12%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">feature_id</th>
@@ -330,6 +339,7 @@ values.</p>
 <th align="right">mean_resampled_EAF</th>
 <th align="right">lower</th>
 <th align="right">upper</th>
+<th align="right">pval</th>
 <th align="right">labeled_resamples</th>
 <th align="right">unlabeled_resamples</th>
 <th align="right">labeled_sources</th>
@@ -342,6 +352,7 @@ values.</p>
 <td align="right">0.5246305</td>
 <td align="right">0.3529541</td>
 <td align="right">0.7072885</td>
+<td align="right">0.000</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">4</td>
@@ -353,6 +364,7 @@ values.</p>
 <td align="right">0.2307068</td>
 <td align="right">0.1799998</td>
 <td align="right">0.2823904</td>
+<td align="right">0.000</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">4</td>
@@ -364,6 +376,7 @@ values.</p>
 <td align="right">0.0318743</td>
 <td align="right">-0.0425104</td>
 <td align="right">0.0994295</td>
+<td align="right">0.448</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">4</td>
@@ -375,6 +388,7 @@ values.</p>
 <td align="right">-0.1110421</td>
 <td align="right">-0.1681262</td>
 <td align="right">-0.0503753</td>
+<td align="right">0.000</td>
 <td align="right">1000</td>
 <td align="right">1000</td>
 <td align="right">4</td>

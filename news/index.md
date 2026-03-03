@@ -2,10 +2,17 @@
 
 ## qSIP2 0.22
 
-- New set of functions to calculate the delta EAF between groups of
-  qSIP2 objects
-- Tools for making and validating a contrasts table for delta EAF
-  calculations
+- New function
+  [`run_delta_EAF_contrasts()`](https://jeffkimbrel.github.io/qSIP2/reference/run_delta_EAF_contrasts.md)
+  to calculate the delta EAF between groups of qSIP2 objects
+- Tools for making
+  ([`make_delta_EAF_contrasts()`](https://jeffkimbrel.github.io/qSIP2/reference/make_delta_EAF_contrasts.md))
+  and validating
+  ([`validate_delta_EAF_contrasts()`](https://jeffkimbrel.github.io/qSIP2/reference/validate_delta_EAF_contrasts.md))
+  a contrasts table for delta EAF calculations
+- P-values are calculated from the resamples in
+  [`summarize_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.md)
+  with a null hypothesis that the range of EAF values contain 0.
 
 ## qSIP2 0.21
 
