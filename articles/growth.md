@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.22.3'
+#> [1] '0.22.3.9000'
 ```
 
 ## Background
@@ -21,15 +21,15 @@ include
 
 Using the calculated EAF values from the standard workflow, we therefore
 can say an EAF of 0.5 means that 50% of the bacteria are labeled and the
-result of growth since time zero (i.e. “birth” or $b$). Further, using
+result of growth since time zero (i.e. “birth” or \\b\\). Further, using
 quantitative abundance values in both time zero and time point samples,
-we can estimate the death rate ($d$) of individual features by
+we can estimate the death rate (\\d\\) of individual features by
 calculating the decrease in unlabeled features. Together, we get at the
-growth rate using the equation $r_{i} = b_{i} + d_{i}$ for each feature
-$i$[¹](#fn1). This is one of the main advantages of qSIP where if $b$
-equals $d$ then traditional community analysis would detect no change in
-the community, whereas qSIP would detect growth and death of individual
-features.
+growth rate using the equation \\r_i = b_i + d_i\\ for each feature
+\\i\\[¹](#fn1). This is one of the main advantages of qSIP where if
+\\b\\ equals \\d\\ then traditional community analysis would detect no
+change in the community, whereas qSIP would detect growth and death of
+individual features.
 
 Growth analysis starts with calculations of EAF values, and therefore
 requires the standard workflow
@@ -179,11 +179,11 @@ plot_EAF_values(q,
 ### Time zero total abundances
 
 In addition to the EAF values stored in the `qsip_data` object, we also
-need a table with the $N_{TOTALi0}$ values for each feature $i$ at
-timepoint $t$, in this case time 0. This value is the *total* abundance
-of each feature and is the sum of both the labeled and unlabeled
-features (equation 2 from Koch, 2018[²](#fn2)). Note you don’t have to
-always compare against time zero. If you have a 7-day and 14-day
+need a table with the \\N\_{TOTALi0}\\ values for each feature \\i\\ at
+timepoint \\t\\, in this case time 0. This value is the *total*
+abundance of each feature and is the sum of both the labeled and
+unlabeled features (equation 2 from Koch, 2018[²](#fn2)). Note you don’t
+have to always compare against time zero. If you have a 7-day and 14-day
 timepoint you can set day 7 as the initial timepoint here.
 
 This table is created with the
@@ -269,9 +269,9 @@ for each feature `timepoint1`, `timepoint2`, `N_total_i0`, `N_total_it`,
   calculations. For this dataset, we are comparing day 10 to day 0, so
   the rates will be in units of “per day”.
 - `N_total_i0` is the total abundance of each feature at time 0, and
-  `N_total_it` is the total abundance of each feature at time $t$.
+  `N_total_it` is the total abundance of each feature at time \\t\\.
   `r_net` is just the copy number difference between the two time points
-  for each feature, or $N_{TOTALit} - N_{TOTALi0}$.
+  for each feature, or \\N\_{TOTALit} - N\_{TOTALi0}\\.
 - `ri` is the overall growth rate, where a negative value indicates more
   death than birth
 
@@ -282,7 +282,7 @@ substrate and those that remain unlabeled.
 - `N_light_it` comes from equation 3 of Koch, 2018[³](#fn3), and is the
   proportion of `N_total_it` that isn’t labeled.
 - `N_heavy_it` is the proportion of `N_total_it` that is labeled, and is
-  roughly $N_{TOTALit}*EAF$
+  roughly \\N\_{TOTALit} \* EAF\\
 - `bi` is the per-unit-of-time birth rate, `di` is the death rate
 
 ### Summarizing Growth Data
@@ -354,15 +354,15 @@ data.
 This is related to the warning we received above stating there were
 31862 resamplings that have “negative EAF values”. While negative EAF
 values can be common due to noise, it doesn’t make sense when
-calculating $N_{LIGHTit}$ and $N_{HEAVYit}$ values. This happens because
-$N_{LIGHTit}$ gets calculated to actually have more copies than
-$N_{TOTALit}$, which is impossible, and therefore $N_{HEAVYit}$ will be
-a negative number of copies, which is also impossible. Below is from the
-`q@growth$negative_labeled` dataframe for taxon_1 explaining the
-reasoning. Z (equation 4 from Hungate, 2015[⁴](#fn4)) is the difference
-between the labeled and unlabeled WAD value, so when Z is negative, it
-indicates the WAD values were lower for the labeled fractions, likely
-due to noise in the SIP process.
+calculating \\N\_{LIGHTit}\\ and \\N\_{HEAVYit}\\ values. This happens
+because \\N\_{LIGHTit}\\ gets calculated to actually have more copies
+than \\N\_{TOTALit}\\, which is impossible, and therefore
+\\N\_{HEAVYit}\\ will be a negative number of copies, which is also
+impossible. Below is from the `q@growth$negative_labeled` dataframe for
+taxon_1 explaining the reasoning. Z (equation 4 from Hungate,
+2015[⁴](#fn4)) is the difference between the labeled and unlabeled WAD
+value, so when Z is negative, it indicates the WAD values were lower for
+the labeled fractions, likely due to noise in the SIP process.
 
 ``` r
 q@growth$negative_labeled |> 

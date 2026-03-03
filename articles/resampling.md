@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.22.3'
+#> [1] '0.22.3.9000'
 ```
 
 ## Background
@@ -14,7 +14,7 @@ In `qSIP2` we use *resampling* of the weighted average densities (WADs)
 to obtain the confidence intervals of the WADs *within* replicates of a
 type (unlabeled vs labeled) as well as in the shift of average WADs
 *between* types. The resampling is a simple bootstrap procedure where
-the source WADs for each `feature_id` are sampled with replacement $n$
+the source WADs for each `feature_id` are sampled with replacement \\n\\
 times.
 
 ## Resampling in R
@@ -39,7 +39,7 @@ sample(WADs, replace = TRUE)
 
 We can wrap it in a
 [`purrr::map()`](https://purrr.tidyverse.org/reference/map.html)
-function to sample $n$ times. The output is a bit messy because each
+function to sample \\n\\ times. The output is a bit messy because each
 “.1” column name is shown, but there are still only 4 values per row
 after excluding the `NA` values.
 
@@ -283,7 +283,7 @@ The warning message here lets us know that there were no problems with
 the unlabeled resampling, but 4 features had failures for the labeled
 sources. We can see which features had failures by
 [`get_resample_counts()`](https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.md)
-and filtering for values of $n$ less than 1000 (our number of
+and filtering for values of \\n\\ less than 1000 (our number of
 resamples).
 
 ``` r
