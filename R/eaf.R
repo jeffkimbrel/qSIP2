@@ -15,11 +15,11 @@
 #' `validate_delta_EAF_contrasts()` function.
 #'
 #' Under the hood, for each feature_id this function subtracts the observed EAF
-#' in the "treatment" group from the "control" and saves this as the \eqn{\delta}
+#' in the "treatment" group from the "control" and saves this as the \eqn{\Delta}
 #' value. Then, it pulls the data from `run_resampling()` and for each resampling
-#' \eqn{i} calculates the delta (so \eqn{\delta_i = treatment_i - control_i}) saving
+#' \eqn{i} calculates the delta (so \eqn{\Delta_i = treatment_i - control_i}) saving
 #' these values as a vector of delta distributions. The `bs_pval` is calculated
-#' from this distribution, and `pval` is calculated from \eqn{\delta} and the
+#' from this distribution, and `pval` is calculated from \eqn{\Delta} and the
 #' standard deviation of the distribution.
 #'
 #' @param q a qSIP2 list object

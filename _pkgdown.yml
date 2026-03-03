@@ -3,6 +3,7 @@ url: https://jeffkimbrel.github.io/qSIP2/
 template:
   bootstrap: 5
   light-switch: true
+  math-rendering: mathjax
 
 reference:
 - title: qSIP Data Objects
