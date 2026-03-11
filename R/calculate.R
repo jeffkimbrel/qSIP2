@@ -10,21 +10,22 @@
 #'
 #' @keywords internal
 
-
 calculate_atoms <- function(G, isotope) {
 
   validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
 
   if (!is.numeric(G)) {
-    stop(glue::glue("G should be class <numeric>, not {class(G)[1]}"), call. = FALSE)
+    cli::cli_abort("{.arg G} should be class {.cls numeric}")
   }
 
   if (isotope == "13C") {
     C_atoms <- (-0.5 * G) + 10
     return(C_atoms)
+
   } else if (isotope == "15N") {
     N_atoms <- (0.5 * G) + 3.5
     return(N_atoms)
+
   } else if (isotope == "18O") {
     O_atoms <- 6
     return(O_atoms)
@@ -47,13 +48,14 @@ calculate_EAF <- function(M_labeled, M, M_labeledmax, isotope) {
 
   # make sure Ms are numerics
   if (!is.numeric(M)) {
-    stop(glue::glue("M should be class <numeric>, not {class(M)[1]}"), call. = FALSE)
-  } else if (!is.numeric(M_labeled)) {
-    stop(glue::glue("M_labeled should be class <numeric>, not {class(M_labeled)[1]}"), call. = FALSE)
-  } else if (!is.numeric(M_labeledmax)) {
-    stop(glue::glue("M_labeledmax should be class <numeric>, not {class(M_labeledmax)[1]}"), call. = FALSE)
-  }
+    cli::cli_abort("{.arg M} should be class {.cls numeric}")
 
+  } else if (!is.numeric(M_labeled)) {
+    cli::cli_abort("{.arg M_labeled} should be class {.cls numeric}")
+
+  } else if (!is.numeric(M_labeledmax)) {
+    cli::cli_abort("{.arg M_labeledmax} should be class {.cls numeric}")
+  }
 
   validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
 
@@ -61,11 +63,6 @@ calculate_EAF <- function(M_labeled, M, M_labeledmax, isotope) {
 
   return(EAF)
 }
-
-
-
-
-
 
 #' Internal function for resampling WAD values (internal)
 #'
@@ -79,13 +76,15 @@ calculate_EAF <- function(M_labeled, M, M_labeledmax, isotope) {
 #' @returns The resampling data that will be boot in `@resamples`
 #'
 #' @keywords internal
-#' @export
-
 
 calculate_resampled_wads <- function(i, wad_data, type, allow_failures = FALSE) {
 
   # make sure all data is numeric or NA
-  stopifnot("wad dataframe to resample from contains non-numeric data" = all(sapply(wad_data, is.numeric)))
+  if (!all(vapply(wad_data, is.numeric, logical(1)))) {
+    cli::cli_abort(
+      "The {.arg wad_data} data frame to resample from contains non-numeric columns."
+    )
+  }
 
   # bind variables
   feature_id <- NULL
@@ -104,7 +103,13 @@ calculate_resampled_wads <- function(i, wad_data, type, allow_failures = FALSE) 
     }
 
     if (identical(nrow(wad_data), wad_data_resampled_noNA_length) == FALSE) {
-      stop(("Something went wrong with resampling...\nIt is possible that some resampled features contained only <NA> WAD values leading to a failure in calculate_Z().\nTry increasing your filtering stringency to remove features not found in most sources"), call. = FALSE)
+      cli::cli_abort(c(
+        "Something went wrong with resampling.",
+        "i" = "It is possible that some resampled features contained only {.val NA} WAD values, leading to a failure in {.fn calculate_Z}.",
+        ">" = "Try increasing your filtering stringency to remove features not found in most sources.",
+        ">" = "Or, trying running with {.arg allow_failures = TRUE}"
+      ),
+      class = "resample_failure")
     }
   } else if (allow_failures == TRUE) {
     # just remove rows that are all NAs... this will reduce the number of successful resamples reported for this feature/type

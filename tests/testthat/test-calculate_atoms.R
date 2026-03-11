@@ -11,5 +11,5 @@ test_that("Invalid isotopes give error", {
 })
 
 test_that("GC given as string fails", {
-  expect_error(calculate_atoms("0.5", "13C"), "G should be class <numeric>, not character")
+  expect_error(calculate_atoms("0.5", "13C"), "`G` should be class <numeric>")
 })

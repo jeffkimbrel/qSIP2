@@ -10,7 +10,7 @@ test_that("resampling works correctly", {
 test_that("All values must be numeric or NA", {
   expect_error(
     calculate_resampled_wads(1, data.frame("A" = c(1.1, 1.2, "not_a_number")), type = "labeled"),
-    "wad dataframe to resample from contains non-numeric dat"
+    "The `wad_data` data frame to resample from contains non-numeric columns."
   )
 
   set.seed(200)
@@ -26,4 +26,13 @@ test_that("check weird edge case where if a row is entirely <NA> it should break
 
 test_that("dataframes with only one column still complete", {
   expect_snapshot(calculate_resampled_wads(1, data.frame("A" = c(1, 2.0, 1.7)), type = "labeled"))
+})
+
+test_that("resampling error", {
+
+  set.seed(2)
+  expect_error(
+    calculate_resampled_wads(1, data.frame("A" = c(1.1, 1.2, NA), "B" = c(2.1, 2.2, 2.3)), type = "labeled"),
+    class = "resample_failure"
+  )
 })
