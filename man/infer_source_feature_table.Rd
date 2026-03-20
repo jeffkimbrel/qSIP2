@@ -4,12 +4,18 @@
 \alias{infer_source_feature_table}
 \title{Infer source feature table from sample counts}
 \usage{
-infer_source_feature_table(qsip_data_object, copy_number_col)
+infer_source_feature_table(
+  qsip_data_object,
+  copy_number_col = NULL,
+  total_copies = NULL
+)
 }
 \arguments{
 \item{qsip_data_object}{(\emph{qsip_data}) An object of \code{qsip_data} class}
 
 \item{copy_number_col}{(\emph{string}) column in the original source metadata with feature copy number}
+
+\item{total_copies}{(\emph{integer}) Scale the copy numbers to this value (overwrites \code{copy_number_col})}
 }
 \value{
 a feature tibble

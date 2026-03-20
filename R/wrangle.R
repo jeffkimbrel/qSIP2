@@ -154,17 +154,29 @@ infer_source_data = function(sample_data, source_mat_id) {
 #'
 #' @param qsip_data_object (*qsip_data*) An object of `qsip_data` class
 #' @param copy_number_col (*string*) column in the original source metadata with feature copy number
+#' @param total_copies (*integer*) Scale the copy numbers to this value (overwrites `copy_number_col`)
 #'
 #' @returns a feature tibble
 #' @export
 
-infer_source_feature_table = function(qsip_data_object, copy_number_col) {
+infer_source_feature_table = function(qsip_data_object,
+                                      copy_number_col = NULL,
+                                      total_copies = NULL) {
 
   is_qsip_data(qsip_data_object, error = TRUE)
 
-  copies_df = get_dataframe(qsip_data_object, "source")
-  if (!copy_number_col %in% colnames(copies_df)) {
+  # validate: at least one must be provided
+  if (is.null(total_copies) && is.null(copy_number_col)) {
+    stop(
+      cli::format_error("Either <total_copies> or <copy_number_col> must be provided."),
+      call. = FALSE
+    )
+  }
 
+  copies_df = get_dataframe(qsip_data_object, "source")
+
+  # if using a column, validate it exists
+  if (!is.null(copy_number_col) && !copy_number_col %in% colnames(copies_df)) {
     stop(
       cli::format_error(
         c(
@@ -175,12 +187,17 @@ infer_source_feature_table = function(qsip_data_object, copy_number_col) {
       ),
       call. = FALSE
     )
-
   }
 
-  # internally rename the copy_number_col to .copy_number
-  copies_df = copies_df |>
-    dplyr::select(source_mat_id, .copy_number = copy_number_col)
+  # normalize to total_copies
+  copies_df <- copies_df |>
+    dplyr::mutate(
+      .copy_number = if (!is.null(total_copies)) {
+        total_copies
+      } else {
+        .data[[copy_number_col]]
+      }
+    )
 
   asv_table = S7::prop(qsip_data_object, "tube_rel_abundance") |>
     dplyr::select(feature_id, source_mat_id, tube_rel_abundance) |>
