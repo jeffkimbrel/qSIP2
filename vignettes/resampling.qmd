@@ -1,36 +1,38 @@
 ---
 title: "Resampling"
-output: rmarkdown::html_vignette
+format:
+  html:
+    toc: true
+    html-math-method: mathjax
 vignette: >
   %\VignetteIndexEntry{resampling}
   %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
+  %\VignetteEngine{quarto::html}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
-```{r setup, message=FALSE}
+```{r setup}
+#| label: setup
+#| message: false
+
 library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
 ```
 
-```{r, echo=FALSE}
-ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
-```
-
 # Background
 
 In `qSIP2` we use *resampling* of the weighted average densities (WADs) to obtain the confidence intervals of the WADs *within* replicates of a type (unlabeled vs labeled) as well as in the shift of average WADs *between* types. The resampling is a simple bootstrap procedure where the source WADs for each `feature_id` are sampled with replacement $n$ times. 
-
 
 # Resampling in R
 
@@ -42,18 +44,22 @@ WADs <- data.frame("A" = 1.679, "B" = 1.691, "C" = 1.692, "D" = 1.703)
 
 Sampling these 4 values with replacement will lead to some duplicates and some values missing. For example, below we see that *B* was sampled twice (denoted with the ".1") and *C* was not sampled at all.
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 sample(WADs, replace = TRUE)
 ```
 
-```{r, echo = FALSE}
+```{r}
+#| echo: false
 set.seed(17)
-sample(WADs, replace = TRUE) |> knitr::kable()
+sample(WADs, replace = TRUE) |> 
+  knitr::kable()
 ```
 
 We can wrap it in a `purrr::map()` function to sample $n$ times. The output is a bit messy because each ".1" column name is shown, but there are still only 4 values per row after excluding the `NA` values.
 
-```{r, eval=FALSE}
+```{r}
+#| eval: false
 n <- 5
 purrr::map_df(1:n, 
               ~sample(WADs, 
@@ -61,7 +67,8 @@ purrr::map_df(1:n,
                       size = 4))
 ```
 
-```{r, echo=FALSE}
+```{r}
+#| echo: false
 n <- 5
 set.seed(18)
 purrr::map_df(1:n, ~sample(WADs, replace = TRUE, size = 4)) |> 
@@ -92,16 +99,17 @@ q <- run_resampling(q,
 
 Setting `resamples = 1000` will give 1000 resamplings for each feature. The resampling is not a deterministic procedure, and so the use of a seed is recommended using the `with_seed` argument.
 
-
 ## Under the hood
 
 Internally, the `qSIP2` code has a function that is called that makes the resampling output a bit more tidy. It does this by removing the original names and prepending them with the *type*. So, if the data was the "labeled" type, then resampled values will be in columns *labeled_1*, *labeled_2*, etc. It will also keep the data tidy by adding additional columns that are useful. This function is not called directly by the user, so it is shown here just as an example of the resampling procedure.
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 purrr::map_df(1:n, \(i) qSIP2:::calculate_resampled_wads(i, WADs, "labeled"))
 ```
 
-```{r, echo = FALSE}
+```{r}
+#| echo: false
 purrr::map_df(1:n, \(i) qSIP2:::calculate_resampled_wads(i, WADs, "labeled")) |> knitr::kable(caption = "Example of resampling 4 WAD values 5 times")
 ```
 
@@ -128,7 +136,9 @@ get_resample_data(q)
 
 Rather than seeing all of the resampled data itself, you are often only interested in the range of the mean WAD values for each resampling iteration. You can leave the `feature_id` argument empty to see all of the features, or you can specify a single feature or a vector of features. Here, I will select 3 random feature_ids to show.
 
-```{r, fig.width = 8, fig.height = 3}
+```{r}
+#| fig-width: 8
+#| fig-height: 3
 random_features <- sample(get_feature_ids(q, filtered = T), 3)
 plot_feature_resamplings(q, 
                          feature_id = random_features)
@@ -136,7 +146,9 @@ plot_feature_resamplings(q,
 
 Additional arguments can be called to add the confidence intervals (as bars or lines) or with a different confidence limit (default = `0.9`). 
 
-```{r, fig.width = 8, fig.height = 3}
+```{r}
+#| fig-width: 8
+#| fig-height: 3
 plot_feature_resamplings(q, 
                          feature_id = random_features,
                          interval = "bar",
@@ -164,7 +176,8 @@ q2 <- run_feature_filter(example_qsip_object,
 ) # running with quiet = TRUE to suppress messages
 ```
 
-```{r, echo = FALSE}
+```{r}
+#| echo: false
 q2@wads |>
   filter(feature_id == "ASV_72") |>
   filter(source_mat_id %in% get_source_mat_ids(q, filtered = T)) |>
@@ -174,7 +187,8 @@ q2@wads |>
 
 But we now get an error when running the resampling step suggesting we increase our filtering stringency. 
 
-```{r, error=TRUE}
+```{r}
+#| error: true
 run_resampling(q2,
   resamples = 1000,
   with_seed = 19,
@@ -209,7 +223,9 @@ get_resample_counts(q2) |>
 
 Here, we see that indeed ASV_72 was only successful in 693 of 1000 resamplings. Statistically, you may conclude that 693 resamplings is still robust enough to accept the conclusion. But inspecting the plot for these 3 of these features show something strange with ASV_72 and we may still choose to remove it from our analysis.
 
-```{r, fig.width = 8, fig.height = 3}
+```{r}
+#| fig-width: 8
+#| fig-height: 3
 plot_feature_resamplings(q2, 
                          feature_id = c("ASV_72", "ASV_155", "ASV_161"), 
                          intervals = "bar")
@@ -217,7 +233,9 @@ plot_feature_resamplings(q2,
 
 We can further see the resampling successes for each feature with the `plot_successful_resamples()` function, and this histogram shows that most features do have 1000 successful resamplings.
 
-```{r, fig.width = 4, fig.height = 6}
+```{r}
+#| fig-width: 4
+#| fig-height: 6
 plot_successful_resamples(q2)
 ```
 
@@ -228,7 +246,9 @@ Suppose you want to overlay this success data on your final EAF plot so you can 
 
 Here, we can see that although most are green, ASV_72 does show up as highly enriched and with a confidence interval clear of 0. But, the red dot further flags it as suspect and warrants a deeper look.
 
-```{r, fig.width = 8, fig.height = 10}
+```{r}
+#| fig-width: 8
+#| fig-height: 10
 EAF = run_EAF_calculations(q2)
 
 plot_EAF_values(EAF, 
