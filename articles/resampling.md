@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.22.4.9002'
+#> [1] '0.22.4.9003'
 ```
 
 ## Background
@@ -177,7 +177,7 @@ plot_feature_resamplings(q,
 #> data's colour values.
 ```
 
-![](resampling_files/figure-html/unnamed-chunk-13-1.png)
+![](resampling_files/figure-html/unnamed-chunk-12-1.png)
 
 Additional arguments can be called to add the confidence intervals (as
 bars or lines) or with a different confidence limit (default = `0.9`).
@@ -190,7 +190,7 @@ plot_feature_resamplings(q,
   labs(title = "With confidence interval bars")
 ```
 
-![](resampling_files/figure-html/unnamed-chunk-14-1.png)
+![](resampling_files/figure-html/unnamed-chunk-13-1.png)
 
 ## When resampling goes wrong
 
@@ -313,7 +313,7 @@ plot_feature_resamplings(q2,
                          intervals = "bar")
 ```
 
-![](resampling_files/figure-html/unnamed-chunk-20-1.png)
+![](resampling_files/figure-html/unnamed-chunk-19-1.png)
 
 We can further see the resampling successes for each feature with the
 [`plot_successful_resamples()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_successful_resamples.md)
@@ -324,7 +324,7 @@ successful resamplings.
 plot_successful_resamples(q2)
 ```
 
-![](resampling_files/figure-html/unnamed-chunk-21-1.png)
+![](resampling_files/figure-html/unnamed-chunk-20-1.png)
 
 ### Using success results for further filtering
 
@@ -347,7 +347,7 @@ plot_EAF_values(EAF,
 #> Confidence level = 0.9
 ```
 
-![](resampling_files/figure-html/unnamed-chunk-22-1.png)
+![](resampling_files/figure-html/unnamed-chunk-21-1.png)
 
 ## Conclusion
 
