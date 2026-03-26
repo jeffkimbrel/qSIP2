@@ -5,7 +5,7 @@ format:
     toc: true
     html-math-method: mathjax
 vignette: >
-  %\VignetteIndexEntry{resampling}
+  %\VignetteIndexEntry{Resampling}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{quarto::html}
 ---
