@@ -10,7 +10,11 @@ feature per g/soil.
 ## Usage
 
 ``` r
-infer_source_feature_table(qsip_data_object, copy_number_col)
+infer_source_feature_table(
+  qsip_data_object,
+  copy_number_col = NULL,
+  total_copies = NULL
+)
 ```
 
 ## Arguments
@@ -23,6 +27,11 @@ infer_source_feature_table(qsip_data_object, copy_number_col)
 
   (*string*) column in the original source metadata with feature copy
   number
+
+- total_copies:
+
+  (*integer*) Scale the copy numbers to this value (overwrites
+  `copy_number_col`)
 
 ## Value
 

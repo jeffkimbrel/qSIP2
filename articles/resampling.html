@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.4.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,7 +94,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.22.4'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.22.4.9002'</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -235,7 +235,7 @@ the data tidy by adding additional columns that are useful. This
 function is not called directly by the user, so it is shown here just as
 an example of the resampling procedure.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_df</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span>, \<span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="../reference/calculate_resampled_wads.html">calculate_resampled_wads</a></span><span class="op">(</span><span class="va">i</span>, <span class="va">WADs</span>, <span class="st">"labeled"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_df</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span>, \<span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu">qSIP2</span><span class="fu">:::</span><span class="fu"><a href="../reference/calculate_resampled_wads.html">calculate_resampled_wads</a></span><span class="op">(</span><span class="va">i</span>, <span class="va">WADs</span>, <span class="st">"labeled"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <caption>Example of resampling 4 WAD values 5 times</caption>
 <colgroup>
@@ -463,10 +463,13 @@ we increase our filtering stringency.</p>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in `purrr::map()`:</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In index: 10.</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">Caused by error:</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Something went wrong with resampling...</span></span>
-<span><span class="co">#&gt; It is possible that some resampled features contained only &lt;NA&gt; WAD values leading to a failure in calculate_Z().</span></span>
-<span><span class="co">#&gt; Try increasing your filtering stringency to remove features not found in most sources</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Caused by error in `calculate_resampled_wads()`:</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Something went wrong with resampling.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> It is possible that some resampled features contained only <span style="color: #0000BB;">"NA"</span> WAD values,</span></span>
+<span><span class="co">#&gt;   leading to a failure in `calculate_Z()`.</span></span>
+<span><span class="co">#&gt; → Try increasing your filtering stringency to remove features not found in most</span></span>
+<span><span class="co">#&gt;   sources.</span></span>
+<span><span class="co">#&gt; → Or, trying running with `allow_failures = TRUE`</span></span></code></pre></div>
 <p>What is happening is that the resampling is done consistently across
 all feature_ids, so although there is only one labeled source for
 ASV_72, the other two sources (S179 and S180) are included in the

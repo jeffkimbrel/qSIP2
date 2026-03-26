@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.22.4'
+#> [1] '0.22.4.9002'
 ```
 
 ## Background
@@ -103,7 +103,7 @@ by the user, so it is shown here just as an example of the resampling
 procedure.
 
 ``` r
-purrr::map_df(1:n, \(i) calculate_resampled_wads(i, WADs, "labeled"))
+purrr::map_df(1:n, \(i) qSIP2:::calculate_resampled_wads(i, WADs, "labeled"))
 ```
 
 | feature_id | type    | resample | labeled_1 | labeled_2 | labeled_3 | labeled_4 |
@@ -239,10 +239,13 @@ run_resampling(q2,
 )
 #> Error in `purrr::map()`:
 #> ℹ In index: 10.
-#> Caused by error:
-#> ! Something went wrong with resampling...
-#> It is possible that some resampled features contained only <NA> WAD values leading to a failure in calculate_Z().
-#> Try increasing your filtering stringency to remove features not found in most sources
+#> Caused by error in `calculate_resampled_wads()`:
+#> ! Something went wrong with resampling.
+#> ℹ It is possible that some resampled features contained only "NA" WAD values,
+#>   leading to a failure in `calculate_Z()`.
+#> → Try increasing your filtering stringency to remove features not found in most
+#>   sources.
+#> → Or, trying running with `allow_failures = TRUE`
 ```
 
 What is happening is that the resampling is done consistently across all

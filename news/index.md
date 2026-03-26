@@ -13,6 +13,9 @@
 - P-values are calculated from the resamples in
   [`summarize_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.md)
   with a null hypothesis that the range of EAF values contain 0.
+- Updated
+  [`infer_source_feature_table()`](https://jeffkimbrel.github.io/qSIP2/reference/infer_source_feature_table.md)
+  to take a copy number total
 
 ## qSIP2 0.21
 

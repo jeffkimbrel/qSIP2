@@ -4,7 +4,7 @@
 library(dplyr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.22.4'
+#> [1] '0.22.4.9002'
 ```
 
 ## Samples and Metadata
