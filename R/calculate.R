@@ -64,7 +64,7 @@ calculate_EAF <- function(M_labeled, M, M_labeledmax, isotope) {
   return(EAF)
 }
 
-#' Internal function for resampling WAD values (internal)
+#' Internal function for resampling WAD values
 #'
 #' Designed as a purrr::map() function called by run_resampling.R
 #'

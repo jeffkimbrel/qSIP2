@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate.R
 \name{calculate_resampled_wads}
 \alias{calculate_resampled_wads}
-\title{Internal function for resampling WAD values (internal)}
+\title{Internal function for resampling WAD values}
 \usage{
 calculate_resampled_wads(i, wad_data, type, allow_failures = FALSE)
 }

@@ -98,11 +98,11 @@ Setting `resamples = 1000` will give 1000 resamplings for each feature. The resa
 Internally, the `qSIP2` code has a function that is called that makes the resampling output a bit more tidy. It does this by removing the original names and prepending them with the *type*. So, if the data was the "labeled" type, then resampled values will be in columns *labeled_1*, *labeled_2*, etc. It will also keep the data tidy by adding additional columns that are useful. This function is not called directly by the user, so it is shown here just as an example of the resampling procedure.
 
 ```{r, eval = FALSE}
-purrr::map_df(1:n, \(i) calculate_resampled_wads(i, WADs, "labeled"))
+purrr::map_df(1:n, \(i) qSIP2:::calculate_resampled_wads(i, WADs, "labeled"))
 ```
 
 ```{r, echo = FALSE}
-purrr::map_df(1:n, \(i) calculate_resampled_wads(i, WADs, "labeled")) |> knitr::kable(caption = "Example of resampling 4 WAD values 5 times")
+purrr::map_df(1:n, \(i) qSIP2:::calculate_resampled_wads(i, WADs, "labeled")) |> knitr::kable(caption = "Example of resampling 4 WAD values 5 times")
 ```
 
 
