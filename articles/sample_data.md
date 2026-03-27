@@ -4,7 +4,7 @@
 library(dplyr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.22.4.9003'
+#> [1] '0.22.5'
 ```
 
 ## Samples and Metadata
@@ -267,7 +267,7 @@ add_gradient_pos_rel_amt(example_sample_df,
 
 ------------------------------------------------------------------------
 
-1.  <https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1>
+1.  https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1
 
 2.  [The angel’s share and devil’s
     cut](https://www.visitlex.com/guides/post/common-geeky-bourbon-terms-explained/#:~:text=Angel's%20Share)

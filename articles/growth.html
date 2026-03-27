@@ -21,7 +21,10 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Growth Workflow">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="growth_files/libs/quarto-html/popper.min.js"></script><script src="growth_files/libs/quarto-html/tippy.umd.min.js"></script><link href="growth_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="growth_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Growth Workflow">
+<meta property="og:image" content="https://jeffkimbrel.github.io/qSIP2/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -31,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.4.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,229 +76,189 @@
 
 
   </div>
-</nav><div class="container template-article">
-
-
-
-
+</nav><div class="container template-quarto">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Growth Workflow</h1>
-            
-      
-      <small class="dont-index">Source: <a href="https://github.com/jeffkimbrel/qSIP2/blob/master/vignettes/growth.Rmd" class="external-link"><code>vignettes/growth.Rmd</code></a></small>
-      <div class="d-none name"><code>growth.Rmd</code></div>
+
+
+
+
+      <small class="dont-index">Source: <a href="https://github.com/jeffkimbrel/qSIP2/blob/master/vignettes/growth.qmd" class="external-link"><code>vignettes/growth.qmd</code></a></small>
+      <div class="d-none name"><code></code></div>
     </div>
 
-    
-    
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+
+
+
+
+
+    <div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.22.4.9003'</span></span></code></pre></div>
-<div class="section level2">
-<h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
+<span><span class="co">#&gt; [1] '0.22.5'</span></span></code></pre></div>
+</div>
+<section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
-<p>Using qSIP2, we can estimate the growth rate of individual features
-(i.e. bacteria) in a microbial community by fitting a growth model to
-the abundance of a labeled taxon over time. Assumptions for growth
-include</p>
-<ol style="list-style-type: decimal">
+<p>Using qSIP2, we can estimate the growth rate of individual features (i.e. bacteria) in a microbial community by fitting a growth model to the abundance of a labeled taxon over time. Assumptions for growth include</p>
+<ol type="1">
 <li>there is no isotopic labeling at time zero</li>
 <li>the pool of unlabeled features will not go up over time</li>
 <li>bacteria that incorporate the isotope are 100% labeled</li>
 </ol>
-<p>Using the calculated EAF values from the standard workflow, we
-therefore can say an EAF of 0.5 means that 50% of the bacteria are
-labeled and the result of growth since time zero (i.e. “birth” or <span class="math inline">\(b\)</span>). Further, using quantitative abundance
-values in both time zero and time point samples, we can estimate the
-death rate (<span class="math inline">\(d\)</span>) of individual
-features by calculating the decrease in unlabeled features. Together, we
-get at the growth rate using the equation <span class="math inline">\(r_i = b_i + d_i\)</span> for each feature <span class="math inline">\(i\)</span><a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090" class="external-link uri"&gt;https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a>. This is one of the main advantages of qSIP
-where if <span class="math inline">\(b\)</span> equals <span class="math inline">\(d\)</span> then traditional community analysis
-would detect no change in the community, whereas qSIP would detect
-growth and death of individual features.</p>
-<p>Growth analysis starts with calculations of EAF values, and therefore
-requires the standard workflow (<code><a href="../articles/qSIP_workflow.html">vignette("qSIP_workflow")</a></code>)
-to be run first with only slight modifications.</p>
-<p>For growth, three additional arguments are required for the
-<code>qsip_source_data</code> creation.</p>
-<ol style="list-style-type: decimal">
+<p>Using the calculated EAF values from the standard workflow, we therefore can say an EAF of 0.5 means that 50% of the bacteria are labeled and the result of growth since time zero (i.e. “birth” or <span class="math inline">\(b\)</span>). Further, using quantitative abundance values in both time zero and time point samples, we can estimate the death rate (<span class="math inline">\(d\)</span>) of individual features by calculating the decrease in unlabeled features. Together, we get at the growth rate using the equation <span class="math inline">\(r_i = b_i + d_i\)</span> for each feature <span class="math inline">\(i\)</span><a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090" class="external-link uri"&gt;https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a>. This is one of the main advantages of qSIP where if <span class="math inline">\(b\)</span> equals <span class="math inline">\(d\)</span> then traditional community analysis would detect no change in the community, whereas qSIP would detect growth and death of individual features.</p>
+<p>Growth analysis starts with calculations of EAF values, and therefore requires the standard workflow (<code><a href="../articles/qSIP_workflow.html">vignette("qSIP_workflow")</a></code>) to be run first with only slight modifications.</p>
+<p>For growth, three additional arguments are required for the <code>qsip_source_data</code> creation.</p>
+<ol type="1">
 <li>
-<code>timepoint</code> - a numerical value for the timepoint of the
-source material. There is often a <code>0</code> timepoint, but these
-can be any values and the growth rate will be calculated as the
-difference between time points. Further, these can be any units
-(e.g. days, hours, etc.), and the interpretation of the growth rate will
-depend on the units (e.g. “per day” or “per hour”).</li>
+<code>timepoint</code> - a numerical value for the timepoint of the source material. There is often a <code>0</code> timepoint, but these can be any values and the growth rate will be calculated as the difference between time points. Further, these can be any units (e.g. days, hours, etc.), and the interpretation of the growth rate will depend on the units (e.g. “per day” or “per hour”).</li>
 <li>
-<code>total_abundance</code> - a numerical value for the total
-abundance of the source material. Ideally, this is a copy number from
-qPCR using the same primers as the sequencing. Further, it should be
-standardized to some unit of starting material (e.g. copies per gram of
-soil). If it isn’t, then the next <code>volume</code> argument is
-important.</li>
+<code>total_abundance</code> - a numerical value for the total abundance of the source material. Ideally, this is a copy number from qPCR using the same primers as the sequencing. Further, it should be standardized to some unit of starting material (e.g. copies per gram of soil). If it isn’t, then the next <code>volume</code> argument is important.</li>
 <li>
-<code>volume</code> - a numerical value for the volume of the source
-material DNA that the copy number was derived from. Typically the volume
-is the same for all source material DNA extractions, but if your
-starting volume for qPCR was different then this parameter is
-important.</li>
-</ol>
-</div>
-<div class="section level2">
-<h2 id="growth-object">Growth Object<a class="anchor" aria-label="anchor" href="#growth-object"></a>
+<code>volume</code> - a numerical value for the volume of the source material DNA that the copy number was derived from. Typically the volume is the same for all source material DNA extractions, but if your starting volume for qPCR was different then this parameter is important.</li>
+</ol></section><section class="section level2"><h2 id="growth-object">Growth Object<a class="anchor" aria-label="anchor" href="#growth-object"></a>
 </h2>
-<p>An example growth object is provided with the <code>qSIP2</code>
-package called <code>example_qsip_growth_object</code>. We can check
-which columns contain the three additional arguments for growth, and
-pull out a table with the relevant columns.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>An example growth object is provided with the <code>qSIP2</code> package called <code>example_qsip_growth_object</code>. We can check which columns contain the three additional arguments for growth, and pull out a table with the relevant columns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_dataframe.html">get_dataframe</a></span><span class="op">(</span><span class="va">example_qsip_growth_object</span>, type <span class="op">=</span> <span class="st">"source"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">source_mat_id</span>, <span class="va">isotope</span>, <span class="va">timepoint</span>, <span class="va">total_abundance</span>, <span class="va">volume</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">timepoint</span>, <span class="va">isotope</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
 <thead><tr class="header">
-<th align="left">source_mat_id</th>
-<th align="left">isotope</th>
-<th align="right">timepoint</th>
-<th align="right">total_abundance</th>
-<th align="right">volume</th>
+<th style="text-align: left;">source_mat_id</th>
+<th style="text-align: left;">isotope</th>
+<th style="text-align: right;">timepoint</th>
+<th style="text-align: right;">total_abundance</th>
+<th style="text-align: right;">volume</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">source_1</td>
-<td align="left">Time0</td>
-<td align="right">0</td>
-<td align="right">20934337125</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_1</td>
+<td style="text-align: left;">Time0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">20934337125</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td align="left">source_10</td>
-<td align="left">Time0</td>
-<td align="right">0</td>
-<td align="right">56376407410</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_10</td>
+<td style="text-align: left;">Time0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">56376407410</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td align="left">source_13</td>
-<td align="left">Time0</td>
-<td align="right">0</td>
-<td align="right">7952816086</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_13</td>
+<td style="text-align: left;">Time0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">7952816086</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td align="left">source_4</td>
-<td align="left">Time0</td>
-<td align="right">0</td>
-<td align="right">38061061332</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_4</td>
+<td style="text-align: left;">Time0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">38061061332</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td align="left">source_7</td>
-<td align="left">Time0</td>
-<td align="right">0</td>
-<td align="right">28775383886</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_7</td>
+<td style="text-align: left;">Time0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">28775383886</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td align="left">source_11</td>
-<td align="left">16O</td>
-<td align="right">10</td>
-<td align="right">5053795437</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_11</td>
+<td style="text-align: left;">16O</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">5053795437</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td align="left">source_14</td>
-<td align="left">16O</td>
-<td align="right">10</td>
-<td align="right">219349821</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_14</td>
+<td style="text-align: left;">16O</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">219349821</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td align="left">source_2</td>
-<td align="left">16O</td>
-<td align="right">10</td>
-<td align="right">5006451196</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_2</td>
+<td style="text-align: left;">16O</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">5006451196</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td align="left">source_5</td>
-<td align="left">16O</td>
-<td align="right">10</td>
-<td align="right">5440927504</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_5</td>
+<td style="text-align: left;">16O</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">5440927504</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td align="left">source_8</td>
-<td align="left">16O</td>
-<td align="right">10</td>
-<td align="right">3000381981</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_8</td>
+<td style="text-align: left;">16O</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">3000381981</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td align="left">source_12</td>
-<td align="left">18O</td>
-<td align="right">10</td>
-<td align="right">5043787157</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_12</td>
+<td style="text-align: left;">18O</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">5043787157</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td align="left">source_15</td>
-<td align="left">18O</td>
-<td align="right">10</td>
-<td align="right">200708494</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_15</td>
+<td style="text-align: left;">18O</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">200708494</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td align="left">source_3</td>
-<td align="left">18O</td>
-<td align="right">10</td>
-<td align="right">5524820407</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_3</td>
+<td style="text-align: left;">18O</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">5524820407</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td align="left">source_6</td>
-<td align="left">18O</td>
-<td align="right">10</td>
-<td align="right">5242785770</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_6</td>
+<td style="text-align: left;">18O</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">5242785770</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td align="left">source_9</td>
-<td align="left">18O</td>
-<td align="right">10</td>
-<td align="right">3702908766</td>
-<td align="right">1</td>
+<td style="text-align: left;">source_9</td>
+<td style="text-align: left;">18O</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">3702908766</td>
+<td style="text-align: right;">1</td>
 </tr>
 </tbody>
 </table>
-<p>From this table, we can notice a few things. First, there are 15
-total samples - 5 with timepoint 0, and 5 each with 16O or 18O isotopes.
-Second, some sources do not have a standard <code>isotope</code>
-designation, but instead say “Time0”. This is a special allowed
-<code>isotope</code> type flagging these sources as unfractionated, and
-therefor no EAF value will be calculated for them. Third, the
-<code>volume</code> column is the same for all samples which indicates
-that the <code>total_abundance</code> is already standardized to the
-same volume. Indeed if we look at the column that
-<code>total_abundance</code> was derived from we can tell from the name
-that it is a copy number to a standardize amount of soil (16S copies per
-gram of soil).</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+</div>
+</div>
+<p>From this table, we can notice a few things. First, there are 15 total samples - 5 with timepoint 0, and 5 each with 16O or 18O isotopes. Second, some sources do not have a standard <code>isotope</code> designation, but instead say “Time0”. This is a special allowed <code>isotope</code> type flagging these sources as unfractionated, and therefor no EAF value will be calculated for them. Third, the <code>volume</code> column is the same for all samples which indicates that the <code>total_abundance</code> is already standardized to the same volume. Indeed if we look at the column that <code>total_abundance</code> was derived from we can tell from the name that it is a copy number to a standardize amount of soil (16S copies per gram of soil).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_qsip_growth_object</span><span class="op">@</span><span class="va">source_data</span><span class="op">@</span><span class="va">total_abundance</span></span>
 <span><span class="co">#&gt; [1] "qPCR.16S.copies.g.soil"</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="eaf-workflow">EAF Workflow<a class="anchor" aria-label="anchor" href="#eaf-workflow"></a>
+</section><section class="section level2"><h2 id="eaf-workflow">EAF Workflow<a class="anchor" aria-label="anchor" href="#eaf-workflow"></a>
 </h2>
-<p>As mentioned above, the growth workflow requires the EAF values to be
-calculated first. Note, we are running with
-<code>allow_failures = TRUE</code>, but still with a minimum of 4
-labeled and 4 unlabeled fractions.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>As mentioned above, the growth workflow requires the EAF values to be calculated first. Note, we are running with <code>allow_failures = TRUE</code>, but still with a minimum of 4 labeled and 4 unlabeled fractions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_feature_filter.html">run_feature_filter</a></span><span class="op">(</span><span class="va">example_qsip_growth_object</span>,</span>
 <span>  group <span class="op">=</span> <span class="st">"Day 10"</span>,</span>
 <span>  unlabeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"source_11"</span>, <span class="st">"source_14"</span>, <span class="st">"source_2"</span>, <span class="st">"source_5"</span>, <span class="st">"source_8"</span><span class="op">)</span>,</span>
@@ -314,343 +277,314 @@ labeled and 4 unlabeled fractions.</p>
 <span><span class="co">#&gt; 364 of these have abundance in at least one fraction of one source_mat_id</span></span>
 <span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
 <span><span class="co">#&gt; Filtering feature_ids by fraction...</span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">15</span> unlabeled and <span style="color: #BB0000;">11</span> labeled feature_ids were found in <span style="color: #BB0000;">zero fractions</span> in at least one source_mat_id</span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">70</span> unlabeled and <span style="color: #BB0000;">47</span> labeled feature_ids were found in <span style="color: #BB0000;">too few fractions</span> in at least one source_mat_id</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">364</span> unlabeled and <span style="color: #00BB00;">364</span> labeled feature_ids <span style="color: #00BB00;">passed</span> the fraction filter</span></span>
-<span><span class="co">#&gt; In total, <span style="color: #00BB00;">364</span> unique feature_ids <span style="color: #00BB00;">passed</span> the fraction filtering requirements...</span></span>
+<span><span class="co">#&gt; 15 unlabeled and 11 labeled feature_ids were found in zero fractions in at least one source_mat_id</span></span>
+<span><span class="co">#&gt; 70 unlabeled and 47 labeled feature_ids were found in too few fractions in at least one source_mat_id</span></span>
+<span><span class="co">#&gt; 364 unlabeled and 364 labeled feature_ids passed the fraction filter</span></span>
+<span><span class="co">#&gt; In total, 364 unique feature_ids passed the fraction filtering requirements...</span></span>
 <span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
 <span><span class="co">#&gt; Filtering feature_ids by source...</span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">6</span> unlabeled and <span style="color: #BB0000;">5</span> labeled feature_ids failed the source filter because they were found in <span style="color: #BB0000;">too few sources</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">358</span> unlabeled and <span style="color: #00BB00;">359</span> labeled feature_ids <span style="color: #00BB00;">passed</span> the source filter</span></span>
+<span><span class="co">#&gt; 6 unlabeled and 5 labeled feature_ids failed the source filter because they were found in too few sources</span></span>
+<span><span class="co">#&gt; 358 unlabeled and 359 labeled feature_ids passed the source filter</span></span>
 <span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
-<span><span class="co">#&gt; In total, <span style="color: #00BB00;">358</span> unique feature_ids <span style="color: #00BB00;">passed</span> all fraction and source filtering requirements</span></span>
+<span><span class="co">#&gt; In total, 358 unique feature_ids passed all fraction and source filtering requirements</span></span>
 <span><span class="co">#&gt; Warning: 8 unlabeled and 2 labeled feature_ids had resampling failures. Run</span></span>
 <span><span class="co">#&gt; `get_resample_counts()` or `plot_successful_resamples()` on your &lt;qsip_data&gt;</span></span>
 <span><span class="co">#&gt; object to inspect.</span></span></code></pre></div>
-<p>Overall, most features had robust resampling results, with only a few
-having less than 99% success in the labeled sources.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+</div>
+<p>Overall, most features had robust resampling results, with only a few having less than 99% success in the labeled sources.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_resample_counts.html">get_resample_counts</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">labeled_resamples</span> <span class="op">&lt;</span> <span class="fl">1000</span> <span class="op">|</span> <span class="va">unlabeled_resamples</span> <span class="op">&lt;</span> <span class="fl">1000</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 3</span></span></span>
+<span><span class="co">#&gt; # A tibble: 8 × 3</span></span>
 <span><span class="co">#&gt;   feature_id labeled_resamples unlabeled_resamples</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> taxon_113               <span style="text-decoration: underline;">1</span>000                 999</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> taxon_180               <span style="text-decoration: underline;">1</span>000                 999</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> taxon_234                996                 990</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> taxon_250                993                 990</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> taxon_278               <span style="text-decoration: underline;">1</span>000                 999</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> taxon_292               <span style="text-decoration: underline;">1</span>000                 999</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> taxon_327               <span style="text-decoration: underline;">1</span>000                 999</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> taxon_341               <span style="text-decoration: underline;">1</span>000                 999</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt;   &lt;chr&gt;                  &lt;int&gt;               &lt;int&gt;</span></span>
+<span><span class="co">#&gt; 1 taxon_113               1000                 999</span></span>
+<span><span class="co">#&gt; 2 taxon_180               1000                 999</span></span>
+<span><span class="co">#&gt; 3 taxon_234                996                 990</span></span>
+<span><span class="co">#&gt; 4 taxon_250                993                 990</span></span>
+<span><span class="co">#&gt; 5 taxon_278               1000                 999</span></span>
+<span><span class="co">#&gt; 6 taxon_292               1000                 999</span></span>
+<span><span class="co">#&gt; 7 taxon_327               1000                 999</span></span>
+<span><span class="co">#&gt; 8 taxon_341               1000                 999</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">q</span>,</span>
 <span>  confidence <span class="op">=</span> <span class="fl">0.9</span>,</span>
 <span>  error <span class="op">=</span> <span class="st">"ribbon"</span>,</span>
 <span>  success_ratio <span class="op">=</span> <span class="fl">0.9</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
-<p><img src="growth_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="576"></p>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="growth_files/figure-html/unnamed-chunk-7-1.png" width="576"></p>
+</figure>
 </div>
-<div class="section level2">
-<h2 id="growth-workflow">Growth Workflow<a class="anchor" aria-label="anchor" href="#growth-workflow"></a>
+</div>
+</div>
+</section><section class="section level2"><h2 id="growth-workflow">Growth Workflow<a class="anchor" aria-label="anchor" href="#growth-workflow"></a>
 </h2>
-<div class="section level3">
-<h3 id="time-zero-total-abundances">Time zero total abundances<a class="anchor" aria-label="anchor" href="#time-zero-total-abundances"></a>
+<section class="level2"><h3 id="time-zero-total-abundances">Time zero total abundances<a class="anchor" aria-label="anchor" href="#time-zero-total-abundances"></a>
 </h3>
-<p>In addition to the EAF values stored in the <code>qsip_data</code>
-object, we also need a table with the <span class="math inline">\(N_{TOTALi0}\)</span> values for each feature <span class="math inline">\(i\)</span> at timepoint <span class="math inline">\(t\)</span>, in this case time 0. This value is the
-<em>total</em> abundance of each feature and is the sum of both the
-labeled and unlabeled features (equation 2 from Koch, 2018<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090" class="external-link uri"&gt;https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a>). Note you don’t have
-to always compare against time zero. If you have a 7-day and 14-day
-timepoint you can set day 7 as the initial timepoint here.</p>
-<p>This table is created with the <code><a href="../reference/get_N_total_it.html">get_N_total_it()</a></code> function
-where you pass the original <code>qsip_data</code> object and the
-timepoint of interest.</p>
+<p>In addition to the EAF values stored in the <code>qsip_data</code> object, we also need a table with the <span class="math inline">\(N_{TOTALi0}\)</span> values for each feature <span class="math inline">\(i\)</span> at timepoint <span class="math inline">\(t\)</span>, in this case time 0. This value is the <em>total</em> abundance of each feature and is the sum of both the labeled and unlabeled features (equation 2 from Koch, 2018<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090" class="external-link uri"&gt;https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a>). Note you don’t have to always compare against time zero. If you have a 7-day and 14-day timepoint you can set day 7 as the initial timepoint here.</p>
+<p>This table is created with the <code><a href="../reference/get_N_total_it.html">get_N_total_it()</a></code> function where you pass the original <code>qsip_data</code> object and the timepoint of interest.</p>
 <div class="alert alert-primary">
-<p><code><a href="../reference/get_N_total_it.html">get_N_total_it()</a></code> should be run on the initial
-<code>qsip_data</code> object before any filtering or resampling has
-been done. This is because the unfractionated time zero sources will not
-be present in the filtered data.</p>
+<p><code><a href="../reference/get_N_total_it.html">get_N_total_it()</a></code> should be run on the initial <code>qsip_data</code> object before any filtering or resampling has been done. This is because the unfractionated time zero sources will not be present in the filtered data.</p>
 </div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">N_total_i0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_N_total_it.html">get_N_total_it</a></span><span class="op">(</span><span class="va">example_qsip_growth_object</span>, t <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: 1 feature_ids have zero abundance at time 0:</span></span>
 <span><span class="co">#&gt; Warning: taxon_194</span></span></code></pre></div>
-<p>Note we get a warning here that taxon_194 has zero abundance at
-<code>t = 0</code>. Therefore, this feature cannot have a growth rate
-calculated because any change in abundance would be considered infinite
-growth.</p>
-<table class="table">
+</div>
+<p>Note we get a warning here that taxon_194 has zero abundance at <code>t = 0</code>. Therefore, this feature cannot have a growth rate calculated because any change in abundance would be considered infinite growth.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
 <caption>First few rows of <code>N_total_i0</code>
 </caption>
 <thead><tr class="header">
-<th align="left">feature_id</th>
-<th align="right">N_total_i0</th>
-<th align="right">timepoint1</th>
+<th style="text-align: left;">feature_id</th>
+<th style="text-align: right;">N_total_i0</th>
+<th style="text-align: right;">timepoint1</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">taxon_1</td>
-<td align="right">1595472105</td>
-<td align="right">0</td>
+<td style="text-align: left;">taxon_1</td>
+<td style="text-align: right;">1595472105</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td align="left">taxon_2</td>
-<td align="right">64576684</td>
-<td align="right">0</td>
+<td style="text-align: left;">taxon_2</td>
+<td style="text-align: right;">64576684</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td align="left">taxon_3</td>
-<td align="right">4488930</td>
-<td align="right">0</td>
+<td style="text-align: left;">taxon_3</td>
+<td style="text-align: right;">4488930</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td align="left">taxon_4</td>
-<td align="right">2494463</td>
-<td align="right">0</td>
+<td style="text-align: left;">taxon_4</td>
+<td style="text-align: right;">2494463</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td align="left">taxon_5</td>
-<td align="right">9849881</td>
-<td align="right">0</td>
+<td style="text-align: left;">taxon_5</td>
+<td style="text-align: right;">9849881</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td align="left">taxon_6</td>
-<td align="right">697760597</td>
-<td align="right">0</td>
+<td style="text-align: left;">taxon_6</td>
+<td style="text-align: right;">697760597</td>
+<td style="text-align: right;">0</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="growth-rate-calculations">Growth rate calculations<a class="anchor" aria-label="anchor" href="#growth-rate-calculations"></a>
+</div>
+</section><section class="level2"><h3 id="growth-rate-calculations">Growth rate calculations<a class="anchor" aria-label="anchor" href="#growth-rate-calculations"></a>
 </h3>
-<p>Using the abundance values stored in <code>N_total_i0</code> and the
-resampled EAF values stored in <code>q</code>, we can calculate the
-growth rate for each feature. This is done with the
-<code><a href="../reference/run_growth_calculations.html">run_growth_calculations()</a></code> function where you pass the
-<code>qsip_data</code> object, the <code>N_total_i0</code> table, and
-the growth model to use. The growth model can be either “exponential” or
-“linear”.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p>Using the abundance values stored in <code>N_total_i0</code> and the resampled EAF values stored in <code>q</code>, we can calculate the growth rate for each feature. This is done with the <code><a href="../reference/run_growth_calculations.html">run_growth_calculations()</a></code> function where you pass the <code>qsip_data</code> object, the <code>N_total_i0</code> table, and the growth model to use. The growth model can be either “exponential” or “linear”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_growth_calculations.html">run_growth_calculations</a></span><span class="op">(</span><span class="va">q</span>,</span>
 <span>                               N_total_it <span class="op">=</span> <span class="va">example_qsip_growth_t0</span>,</span>
 <span>                               growth_model <span class="op">=</span> <span class="st">"exponential"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: 31862 resamplings have a negative EAF value or calculated labeled copy</span></span>
 <span><span class="co">#&gt; numbers less than 0. These values have been filtered out and added to</span></span>
 <span><span class="co">#&gt; @growth$negative_labeled</span></span></code></pre></div>
-<p>Note the warning message, which we will return to in a minute.</p>
 </div>
-<div class="section level3">
-<h3 id="growth-calculation-results">Growth calculation results<a class="anchor" aria-label="anchor" href="#growth-calculation-results"></a>
+<p>Note the warning message, which we will return to in a minute.</p>
+</section><section class="level2"><h3 id="growth-calculation-results">Growth calculation results<a class="anchor" aria-label="anchor" href="#growth-calculation-results"></a>
 </h3>
-<p>We can get a dataframe of the growth calculations with the
-<code><a href="../reference/get_growth_data.html">get_growth_data()</a></code> function. Here, we will also filter to
-just the data for the first resample.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>We can get a dataframe of the growth calculations with the <code><a href="../reference/get_growth_data.html">get_growth_data()</a></code> function. Here, we will also filter to just the data for the first resample.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_growth_data.html">get_growth_data</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">resample</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
 <caption>The first few rows of <code>get_growth_data(q)</code>
 </caption>
 <colgroup>
-<col width="7%">
-<col width="7%">
-<col width="7%">
-<col width="6%">
-<col width="7%">
-<col width="8%">
-<col width="8%">
-<col width="8%">
-<col width="6%">
-<col width="8%">
-<col width="6%">
-<col width="7%">
-<col width="7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 7%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">feature_id</th>
-<th align="right">timepoint1</th>
-<th align="right">timepoint2</th>
-<th align="left">resample</th>
-<th align="right">N_total_i0</th>
-<th align="right">N_total_it</th>
-<th align="right">N_light_it</th>
-<th align="right">N_heavy_it</th>
-<th align="right">EAF</th>
-<th align="right">r_net</th>
-<th align="right">bi</th>
-<th align="right">di</th>
-<th align="right">ri</th>
+<th style="text-align: left;">feature_id</th>
+<th style="text-align: right;">timepoint1</th>
+<th style="text-align: right;">timepoint2</th>
+<th style="text-align: left;">resample</th>
+<th style="text-align: right;">N_total_i0</th>
+<th style="text-align: right;">N_total_it</th>
+<th style="text-align: right;">N_light_it</th>
+<th style="text-align: right;">N_heavy_it</th>
+<th style="text-align: right;">EAF</th>
+<th style="text-align: right;">r_net</th>
+<th style="text-align: right;">bi</th>
+<th style="text-align: right;">di</th>
+<th style="text-align: right;">ri</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">taxon_1</td>
-<td align="right">0</td>
-<td align="right">10</td>
-<td align="left">1</td>
-<td align="right">1595472105</td>
-<td align="right">148586025.4</td>
-<td align="right">136810605.5</td>
-<td align="right">11775419.83</td>
-<td align="right">0.0790913</td>
-<td align="right">-1446886080</td>
-<td align="right">0.0082567</td>
-<td align="right">-0.2456327</td>
-<td align="right">-0.2373761</td>
+<td style="text-align: left;">taxon_1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">1595472105</td>
+<td style="text-align: right;">148586025.4</td>
+<td style="text-align: right;">136810605.5</td>
+<td style="text-align: right;">11775419.83</td>
+<td style="text-align: right;">0.0790913</td>
+<td style="text-align: right;">-1446886080</td>
+<td style="text-align: right;">0.0082567</td>
+<td style="text-align: right;">-0.2456327</td>
+<td style="text-align: right;">-0.2373761</td>
 </tr>
 <tr class="even">
-<td align="left">taxon_2</td>
-<td align="right">0</td>
-<td align="right">10</td>
-<td align="left">1</td>
-<td align="right">64576684</td>
-<td align="right">10029559.5</td>
-<td align="right">9050990.0</td>
-<td align="right">978569.49</td>
-<td align="right">0.0973733</td>
-<td align="right">-54547125</td>
-<td align="right">0.0102663</td>
-<td align="right">-0.1964979</td>
-<td align="right">-0.1862317</td>
+<td style="text-align: left;">taxon_2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">64576684</td>
+<td style="text-align: right;">10029559.5</td>
+<td style="text-align: right;">9050990.0</td>
+<td style="text-align: right;">978569.49</td>
+<td style="text-align: right;">0.0973733</td>
+<td style="text-align: right;">-54547125</td>
+<td style="text-align: right;">0.0102663</td>
+<td style="text-align: right;">-0.1964979</td>
+<td style="text-align: right;">-0.1862317</td>
 </tr>
 <tr class="odd">
-<td align="left">taxon_3</td>
-<td align="right">0</td>
-<td align="right">10</td>
-<td align="left">1</td>
-<td align="right">4488930</td>
-<td align="right">461034.7</td>
-<td align="right">400320.0</td>
-<td align="right">60714.77</td>
-<td align="right">0.1314289</td>
-<td align="right">-4027895</td>
-<td align="right">0.0141209</td>
-<td align="right">-0.2417106</td>
-<td align="right">-0.2275896</td>
+<td style="text-align: left;">taxon_3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">4488930</td>
+<td style="text-align: right;">461034.7</td>
+<td style="text-align: right;">400320.0</td>
+<td style="text-align: right;">60714.77</td>
+<td style="text-align: right;">0.1314289</td>
+<td style="text-align: right;">-4027895</td>
+<td style="text-align: right;">0.0141209</td>
+<td style="text-align: right;">-0.2417106</td>
+<td style="text-align: right;">-0.2275896</td>
 </tr>
 <tr class="even">
-<td align="left">taxon_4</td>
-<td align="right">0</td>
-<td align="right">10</td>
-<td align="left">1</td>
-<td align="right">2494463</td>
-<td align="right">379679.5</td>
-<td align="right">353589.2</td>
-<td align="right">26090.33</td>
-<td align="right">0.0685792</td>
-<td align="right">-2114784</td>
-<td align="right">0.0071192</td>
-<td align="right">-0.1953693</td>
-<td align="right">-0.1882501</td>
+<td style="text-align: left;">taxon_4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">2494463</td>
+<td style="text-align: right;">379679.5</td>
+<td style="text-align: right;">353589.2</td>
+<td style="text-align: right;">26090.33</td>
+<td style="text-align: right;">0.0685792</td>
+<td style="text-align: right;">-2114784</td>
+<td style="text-align: right;">0.0071192</td>
+<td style="text-align: right;">-0.1953693</td>
+<td style="text-align: right;">-0.1882501</td>
 </tr>
 <tr class="odd">
-<td align="left">taxon_5</td>
-<td align="right">0</td>
-<td align="right">10</td>
-<td align="left">1</td>
-<td align="right">9849881</td>
-<td align="right">3875688.9</td>
-<td align="right">2817314.3</td>
-<td align="right">1058374.58</td>
-<td align="right">0.2725340</td>
-<td align="right">-5974192</td>
-<td align="right">0.0318939</td>
-<td align="right">-0.1251675</td>
-<td align="right">-0.0932736</td>
+<td style="text-align: left;">taxon_5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">9849881</td>
+<td style="text-align: right;">3875688.9</td>
+<td style="text-align: right;">2817314.3</td>
+<td style="text-align: right;">1058374.58</td>
+<td style="text-align: right;">0.2725340</td>
+<td style="text-align: right;">-5974192</td>
+<td style="text-align: right;">0.0318939</td>
+<td style="text-align: right;">-0.1251675</td>
+<td style="text-align: right;">-0.0932736</td>
 </tr>
 <tr class="even">
-<td align="left">taxon_6</td>
-<td align="right">0</td>
-<td align="right">10</td>
-<td align="left">1</td>
-<td align="right">697760597</td>
-<td align="right">184676166.7</td>
-<td align="right">146843360.6</td>
-<td align="right">37832806.09</td>
-<td align="right">0.2044504</td>
-<td align="right">-513084430</td>
-<td align="right">0.0229237</td>
-<td align="right">-0.1558510</td>
-<td align="right">-0.1329272</td>
+<td style="text-align: left;">taxon_6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">697760597</td>
+<td style="text-align: right;">184676166.7</td>
+<td style="text-align: right;">146843360.6</td>
+<td style="text-align: right;">37832806.09</td>
+<td style="text-align: right;">0.2044504</td>
+<td style="text-align: right;">-513084430</td>
+<td style="text-align: right;">0.0229237</td>
+<td style="text-align: right;">-0.1558510</td>
+<td style="text-align: right;">-0.1329272</td>
 </tr>
 </tbody>
 </table>
-<p>Some columns contain important, but redundant information. For
-example, for each feature <code>timepoint1</code>,
-<code>timepoint2</code>, <code>N_total_i0</code>,
-<code>N_total_it</code>, <code>r_net</code> and <code>ri</code> are the
-same for all rows.</p>
+</div>
+</div>
+<p>Some columns contain important, but redundant information. For example, for each feature <code>timepoint1</code>, <code>timepoint2</code>, <code>N_total_i0</code>, <code>N_total_it</code>, <code>r_net</code> and <code>ri</code> are the same for all rows.</p>
 <ul>
 <li>
-<code>timepoint1</code> and <code>timepoint2</code> are the
-timepoints for the growth calculations. For this dataset, we are
-comparing day 10 to day 0, so the rates will be in units of “per
-day”.</li>
+<code>timepoint1</code> and <code>timepoint2</code> are the timepoints for the growth calculations. For this dataset, we are comparing day 10 to day 0, so the rates will be in units of “per day”.</li>
 <li>
-<code>N_total_i0</code> is the total abundance of each feature at
-time 0, and <code>N_total_it</code> is the total abundance of each
-feature at time <span class="math inline">\(t\)</span>.
-<code>r_net</code> is just the copy number difference between the two
-time points for each feature, or <span class="math inline">\(N_{TOTALit}
-- N_{TOTALi0}\)</span>.</li>
+<code>N_total_i0</code> is the total abundance of each feature at time 0, and <code>N_total_it</code> is the total abundance of each feature at time <span class="math inline">\(t\)</span>. <code>r_net</code> is just the copy number difference between the two time points for each feature, or <span class="math inline">\(N_{TOTALit} - N_{TOTALi0}\)</span>.</li>
 <li>
-<code>ri</code> is the overall growth rate, where a negative value
-indicates more death than birth</li>
+<code>ri</code> is the overall growth rate, where a negative value indicates more death than birth</li>
 </ul>
-<p>The remaining columns use the resampled EAF data to determine which
-portion of the <code>N_total_it</code> copies correspond to those taking
-up the substrate and those that remain unlabeled.</p>
+<p>The remaining columns use the resampled EAF data to determine which portion of the <code>N_total_it</code> copies correspond to those taking up the substrate and those that remain unlabeled.</p>
 <ul>
 <li>
-<code>N_light_it</code> comes from equation 3 of Koch, 2018<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090" class="external-link uri"&gt;https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090&lt;/a&gt;&lt;/p&gt;'><sup>3</sup></a>, and is
-the proportion of <code>N_total_it</code> that isn’t labeled.</li>
+<code>N_light_it</code> comes from equation 3 of Koch, 2018<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090" class="external-link uri"&gt;https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090&lt;/a&gt;&lt;/p&gt;'><sup>3</sup></a>, and is the proportion of <code>N_total_it</code> that isn’t labeled.</li>
 <li>
-<code>N_heavy_it</code> is the proportion of <code>N_total_it</code>
-that is labeled, and is roughly <span class="math inline">\(N_{TOTALit}
-* EAF\)</span>
+<code>N_heavy_it</code> is the proportion of <code>N_total_it</code> that is labeled, and is roughly <span class="math inline">\(N_{TOTALit} * EAF\)</span>
 </li>
 <li>
-<code>bi</code> is the per-unit-of-time birth rate, <code>di</code>
-is the death rate</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="summarizing-growth-data">Summarizing Growth Data<a class="anchor" aria-label="anchor" href="#summarizing-growth-data"></a>
+<code>bi</code> is the per-unit-of-time birth rate, <code>di</code> is the death rate</li>
+</ul></section><section class="level2"><h3 id="summarizing-growth-data">Summarizing Growth Data<a class="anchor" aria-label="anchor" href="#summarizing-growth-data"></a>
 </h3>
-<p>We can summarize the growth data at a specified
-<code>confidence</code> with the <code><a href="../reference/summarize_growth_values.html">summarize_growth_values()</a></code>
-function. This function will calculate the mean, sd and confidence
-intervals for the birth and death rates, as well as EAF.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p>We can summarize the growth data at a specified <code>confidence</code> with the <code><a href="../reference/summarize_growth_values.html">summarize_growth_values()</a></code> function. This function will calculate the mean, sd and confidence intervals for the birth and death rates, as well as EAF.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summarize_growth_values.html">summarize_growth_values</a></span><span class="op">(</span><span class="va">q</span>, confidence <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">feature_id</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 351 × 29</span></span></span>
+<span><span class="co">#&gt; # A tibble: 351 × 29</span></span>
 <span><span class="co">#&gt;    feature_id timepoint1 timepoint2  N_total_i0 N_total_it N_light_it      r_net</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> taxon_1             0         10 <span style="text-decoration: underline;">1</span>595<span style="text-decoration: underline;">472</span>105. 148<span style="text-decoration: underline;">586</span>025. 133<span style="text-decoration: underline;">245</span>500.    -<span style="color: #BB0000;">1.45</span><span style="color: #949494;">e</span>9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> taxon_10            0         10    2<span style="text-decoration: underline;">793</span>486.   1<span style="text-decoration: underline;">058</span>203.    <span style="text-decoration: underline;">824</span>055.    -<span style="color: #BB0000;">1.74</span><span style="color: #949494;">e</span>6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> taxon_100           0         10    4<span style="text-decoration: underline;">698</span>016.   1<span style="text-decoration: underline;">933</span>443.   1<span style="text-decoration: underline;">200</span>882.    -<span style="color: #BB0000;">2.76</span><span style="color: #949494;">e</span>6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> taxon_101           0         10    4<span style="text-decoration: underline;">359</span>459.   1<span style="text-decoration: underline;">617</span>996.    <span style="text-decoration: underline;">851</span>569.    -<span style="color: #BB0000;">2.74</span><span style="color: #949494;">e</span>6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> taxon_102           0         10   45<span style="text-decoration: underline;">813</span>796.   6<span style="text-decoration: underline;">260</span>993.   6<span style="text-decoration: underline;">014</span>551.    -<span style="color: #BB0000;">3.96</span><span style="color: #949494;">e</span>7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> taxon_103           0         10    4<span style="text-decoration: underline;">639</span>329.    <span style="text-decoration: underline;">635</span>123.    <span style="text-decoration: underline;">610</span>699.    -<span style="color: #BB0000;">4.00</span><span style="color: #949494;">e</span>6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> taxon_104           0         10   35<span style="text-decoration: underline;">390</span>036.   6<span style="text-decoration: underline;">306</span>709.   5<span style="text-decoration: underline;">928</span>829.    -<span style="color: #BB0000;">2.91</span><span style="color: #949494;">e</span>7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> taxon_105           0         10  381<span style="text-decoration: underline;">417</span>581.  64<span style="text-decoration: underline;">847</span>518.  61<span style="text-decoration: underline;">168</span>473.    -<span style="color: #BB0000;">3.17</span><span style="color: #949494;">e</span>8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> taxon_106           0         10    8<span style="text-decoration: underline;">761</span>701.   1<span style="text-decoration: underline;">541</span>086.   1<span style="text-decoration: underline;">469</span>288.    -<span style="color: #BB0000;">7.22</span><span style="color: #949494;">e</span>6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> taxon_107           0         10    3<span style="text-decoration: underline;">724</span>648.    <span style="text-decoration: underline;">338</span>098.    <span style="text-decoration: underline;">330</span>391.    -<span style="color: #BB0000;">3.39</span><span style="color: #949494;">e</span>6</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 341 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 22 more variables: observed_bi &lt;dbl&gt;, observed_di &lt;dbl&gt;, observed_ri &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   successes &lt;int&gt;, resampled_N_mean &lt;dbl&gt;, resampled_rnet_mean &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   resampled_bi_mean &lt;dbl&gt;, resampled_bi_sd &lt;dbl&gt;, resampled_bi_lower &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   resampled_bi_upper &lt;dbl&gt;, resampled_di_mean &lt;dbl&gt;, resampled_di_sd &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   resampled_di_lower &lt;dbl&gt;, resampled_di_upper &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   resampled_ri_mean &lt;dbl&gt;, resampled_ri_sd &lt;dbl&gt;, resampled_ri_lower &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<span><span class="co">#&gt;    &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 taxon_1             0         10 1595472105. 148586025. 133245500.    -1.45e9</span></span>
+<span><span class="co">#&gt;  2 taxon_10            0         10    2793486.   1058203.    824055.    -1.74e6</span></span>
+<span><span class="co">#&gt;  3 taxon_100           0         10    4698016.   1933443.   1200882.    -2.76e6</span></span>
+<span><span class="co">#&gt;  4 taxon_101           0         10    4359459.   1617996.    851569.    -2.74e6</span></span>
+<span><span class="co">#&gt;  5 taxon_102           0         10   45813796.   6260993.   6014551.    -3.96e7</span></span>
+<span><span class="co">#&gt;  6 taxon_103           0         10    4639329.    635123.    610699.    -4.00e6</span></span>
+<span><span class="co">#&gt;  7 taxon_104           0         10   35390036.   6306709.   5928829.    -2.91e7</span></span>
+<span><span class="co">#&gt;  8 taxon_105           0         10  381417581.  64847518.  61168473.    -3.17e8</span></span>
+<span><span class="co">#&gt;  9 taxon_106           0         10    8761701.   1541086.   1469288.    -7.22e6</span></span>
+<span><span class="co">#&gt; 10 taxon_107           0         10    3724648.    338098.    330391.    -3.39e6</span></span>
+<span><span class="co">#&gt; # ℹ 341 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 22 more variables: observed_bi &lt;dbl&gt;, observed_di &lt;dbl&gt;, observed_ri &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   successes &lt;int&gt;, resampled_N_mean &lt;dbl&gt;, resampled_rnet_mean &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   resampled_bi_mean &lt;dbl&gt;, resampled_bi_sd &lt;dbl&gt;, resampled_bi_lower &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   resampled_bi_upper &lt;dbl&gt;, resampled_di_mean &lt;dbl&gt;, resampled_di_sd &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   resampled_di_lower &lt;dbl&gt;, resampled_di_upper &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   resampled_ri_mean &lt;dbl&gt;, resampled_ri_sd &lt;dbl&gt;, resampled_ri_lower &lt;dbl&gt;, …</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="growth-rate-plots">Growth rate plots<a class="anchor" aria-label="anchor" href="#growth-rate-plots"></a>
+</section><section class="level2"><h3 id="growth-rate-plots">Growth rate plots<a class="anchor" aria-label="anchor" href="#growth-rate-plots"></a>
 </h3>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_growth_values.html">plot_growth_values</a></span><span class="op">(</span><span class="va">q</span>,</span>
 <span>                   confidence <span class="op">=</span> <span class="fl">0.9</span>,</span>
 <span>                   top <span class="op">=</span> <span class="fl">100</span>,</span>
@@ -658,143 +592,207 @@ intervals for the birth and death rates, as well as EAF.</p>
 <span>                   error <span class="op">=</span> <span class="st">"ribbon"</span></span>
 <span>                   <span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
-<p><img src="growth_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="" width="576"></p>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="growth_files/figure-html/unnamed-chunk-14-1.png" width="576"></p>
+</figure>
 </div>
-<div class="section level3">
-<h3 id="when-growth-cannot-be-calculated">When growth cannot be calculated<a class="anchor" aria-label="anchor" href="#when-growth-cannot-be-calculated"></a>
+</div>
+</div>
+</section><section class="level2"><h3 id="when-growth-cannot-be-calculated">When growth cannot be calculated<a class="anchor" aria-label="anchor" href="#when-growth-cannot-be-calculated"></a>
 </h3>
-<p>There are a few cases where growth cannot be calculated or the
-results can be non-sensical. Some cases result in the entire feature
-being unusable, while other cases just remove specific resamples for
-that feature while using the remaining features where possible.</p>
-<div class="section level4">
-<h4 id="no-time-zero-data">No time zero data<a class="anchor" aria-label="anchor" href="#no-time-zero-data"></a>
+<p>There are a few cases where growth cannot be calculated or the results can be non-sensical. Some cases result in the entire feature being unusable, while other cases just remove specific resamples for that feature while using the remaining features where possible.</p>
+<section class="level3"><h4 id="no-time-zero-data">No time zero data<a class="anchor" aria-label="anchor" href="#no-time-zero-data"></a>
 </h4>
-<p>As noted above, taxon_194 has zero abundance at time zero. Therefore,
-the growth rate cannot be calculated because any change in abundance
-would be considered infinite growth. The intermediate values for these
-features can be found in the <code><a href="../reference/get_growth_data.html">get_growth_data()</a></code> function,
-but the feature will be omitted entirely from the
-<code><a href="../reference/summarize_growth_values.html">summarize_growth_values()</a></code> data.</p>
-</div>
-<div class="section level4">
-<h4 id="negative-eaf-values">Negative EAF values<a class="anchor" aria-label="anchor" href="#negative-eaf-values"></a>
+<p>As noted above, taxon_194 has zero abundance at time zero. Therefore, the growth rate cannot be calculated because any change in abundance would be considered infinite growth. The intermediate values for these features can be found in the <code><a href="../reference/get_growth_data.html">get_growth_data()</a></code> function, but the feature will be omitted entirely from the <code><a href="../reference/summarize_growth_values.html">summarize_growth_values()</a></code> data.</p>
+</section><section class="level3"><h4 id="negative-eaf-values">Negative EAF values<a class="anchor" aria-label="anchor" href="#negative-eaf-values"></a>
 </h4>
-<p>This is related to the warning we received above stating there were
-31862 resamplings that have “negative EAF values”. While negative EAF
-values can be common due to noise, it doesn’t make sense when
-calculating <span class="math inline">\(N_{LIGHTit}\)</span> and <span class="math inline">\(N_{HEAVYit}\)</span> values. This happens because
-<span class="math inline">\(N_{LIGHTit}\)</span> gets calculated to
-actually have more copies than <span class="math inline">\(N_{TOTALit}\)</span>, which is impossible, and
-therefore <span class="math inline">\(N_{HEAVYit}\)</span> will be a
-negative number of copies, which is also impossible. Below is from the
-<code>q@growth$negative_labeled</code> dataframe for taxon_1 explaining
-the reasoning. Z (equation 4 from Hungate, 2015<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://journals.asm.org/doi/10.1128/aem.02280-15" class="external-link uri"&gt;https://journals.asm.org/doi/10.1128/aem.02280-15&lt;/a&gt;&lt;/p&gt;'><sup>4</sup></a>) is the difference
-between the labeled and unlabeled WAD value, so when Z is negative, it
-indicates the WAD values were lower for the labeled fractions, likely
-due to noise in the SIP process.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<p>This is related to the warning we received above stating there were 31862 resamplings that have “negative EAF values”. While negative EAF values can be common due to noise, it doesn’t make sense when calculating <span class="math inline">\(N_{LIGHTit}\)</span> and <span class="math inline">\(N_{HEAVYit}\)</span> values. This happens because <span class="math inline">\(N_{LIGHTit}\)</span> gets calculated to actually have more copies than <span class="math inline">\(N_{TOTALit}\)</span>, which is impossible, and therefore <span class="math inline">\(N_{HEAVYit}\)</span> will be a negative number of copies, which is also impossible. Below is from the <code>q@growth$negative_labeled</code> dataframe for taxon_1 explaining the reasoning. Z (equation 4 from Hungate, 2015<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;https://journals.asm.org/doi/10.1128/aem.02280-15&lt;/p&gt;"><sup>4</sup></a>) is the difference between the labeled and unlabeled WAD value, so when Z is negative, it indicates the WAD values were lower for the labeled fractions, likely due to noise in the SIP process.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q</span><span class="op">@</span><span class="va">growth</span><span class="op">$</span><span class="va">negative_labeled</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">feature_id</span> <span class="op">==</span> <span class="st">"taxon_1"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">feature_id</span>, <span class="va">N_total_it</span>, <span class="va">resample</span>, <span class="va">Z</span>, <span class="va">EAF</span>, <span class="va">N_light_it</span>, <span class="va">N_heavy_it</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top" style="width:100%;">
 <caption>First few rows for taxon_1</caption>
 <colgroup>
-<col width="14%">
-<col width="14%">
-<col width="11%">
-<col width="14%">
-<col width="14%">
-<col width="14%">
-<col width="14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">feature_id</th>
-<th align="right">N_total_it</th>
-<th align="left">resample</th>
-<th align="right">Z</th>
-<th align="right">EAF</th>
-<th align="right">N_light_it</th>
-<th align="right">N_heavy_it</th>
+<th style="text-align: left;">feature_id</th>
+<th style="text-align: right;">N_total_it</th>
+<th style="text-align: left;">resample</th>
+<th style="text-align: right;">Z</th>
+<th style="text-align: right;">EAF</th>
+<th style="text-align: right;">N_light_it</th>
+<th style="text-align: right;">N_heavy_it</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">taxon_1</td>
-<td align="right">148586025</td>
-<td align="left">40</td>
-<td align="right">-0.0020331</td>
-<td align="right">-0.0309272</td>
-<td align="right">153190583</td>
-<td align="right">-4604557.9</td>
+<td style="text-align: left;">taxon_1</td>
+<td style="text-align: right;">148586025</td>
+<td style="text-align: left;">40</td>
+<td style="text-align: right;">-0.0020331</td>
+<td style="text-align: right;">-0.0309272</td>
+<td style="text-align: right;">153190583</td>
+<td style="text-align: right;">-4604557.9</td>
 </tr>
 <tr class="even">
-<td align="left">taxon_1</td>
-<td align="right">148586025</td>
-<td align="left">56</td>
-<td align="right">-0.0023248</td>
-<td align="right">-0.0353985</td>
-<td align="right">153856294</td>
-<td align="right">-5270268.8</td>
+<td style="text-align: left;">taxon_1</td>
+<td style="text-align: right;">148586025</td>
+<td style="text-align: left;">56</td>
+<td style="text-align: right;">-0.0023248</td>
+<td style="text-align: right;">-0.0353985</td>
+<td style="text-align: right;">153856294</td>
+<td style="text-align: right;">-5270268.8</td>
 </tr>
 <tr class="odd">
-<td align="left">taxon_1</td>
-<td align="right">148586025</td>
-<td align="left">80</td>
-<td align="right">-0.0001851</td>
-<td align="right">-0.0028122</td>
-<td align="right">149004712</td>
-<td align="right">-418686.2</td>
+<td style="text-align: left;">taxon_1</td>
+<td style="text-align: right;">148586025</td>
+<td style="text-align: left;">80</td>
+<td style="text-align: right;">-0.0001851</td>
+<td style="text-align: right;">-0.0028122</td>
+<td style="text-align: right;">149004712</td>
+<td style="text-align: right;">-418686.2</td>
 </tr>
 <tr class="even">
-<td align="left">taxon_1</td>
-<td align="right">148586025</td>
-<td align="left">144</td>
-<td align="right">-0.0027846</td>
-<td align="right">-0.0422962</td>
-<td align="right">154883248</td>
-<td align="right">-6297222.6</td>
+<td style="text-align: left;">taxon_1</td>
+<td style="text-align: right;">148586025</td>
+<td style="text-align: left;">144</td>
+<td style="text-align: right;">-0.0027846</td>
+<td style="text-align: right;">-0.0422962</td>
+<td style="text-align: right;">154883248</td>
+<td style="text-align: right;">-6297222.6</td>
 </tr>
 <tr class="odd">
-<td align="left">taxon_1</td>
-<td align="right">148586025</td>
-<td align="left">145</td>
-<td align="right">-0.0003687</td>
-<td align="right">-0.0056138</td>
-<td align="right">149421834</td>
-<td align="right">-835808.9</td>
+<td style="text-align: left;">taxon_1</td>
+<td style="text-align: right;">148586025</td>
+<td style="text-align: left;">145</td>
+<td style="text-align: right;">-0.0003687</td>
+<td style="text-align: right;">-0.0056138</td>
+<td style="text-align: right;">149421834</td>
+<td style="text-align: right;">-835808.9</td>
 </tr>
 <tr class="even">
-<td align="left">taxon_1</td>
-<td align="right">148586025</td>
-<td align="left">290</td>
-<td align="right">-0.0007288</td>
-<td align="right">-0.0110860</td>
-<td align="right">150236552</td>
-<td align="right">-1650526.9</td>
+<td style="text-align: left;">taxon_1</td>
+<td style="text-align: right;">148586025</td>
+<td style="text-align: left;">290</td>
+<td style="text-align: right;">-0.0007288</td>
+<td style="text-align: right;">-0.0110860</td>
+<td style="text-align: right;">150236552</td>
+<td style="text-align: right;">-1650526.9</td>
 </tr>
 </tbody>
 </table>
-<p>taxon_1 had a total of 28 resamplings fall into this category, but
-the remaining 972 were successful. This number is reflected in the
-<code>successes</code> column of
-<code><a href="../reference/summarize_growth_values.html">summarize_growth_values()</a></code>.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+</div>
+</div>
+<p>taxon_1 had a total of 28 resamplings fall into this category, but the remaining 972 were successful. This number is reflected in the <code>successes</code> column of <code><a href="../reference/summarize_growth_values.html">summarize_growth_values()</a></code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summarize_growth_values.html">summarize_growth_values</a></span><span class="op">(</span><span class="va">q</span>, confidence <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">feature_id</span> <span class="op">==</span> <span class="st">"taxon_1"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">feature_id</span>, <span class="va">successes</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">#&gt; # A tibble: 1 × 2</span></span>
 <span><span class="co">#&gt;   feature_id successes</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> taxon_1          972</span></span></code></pre></div>
+<span><span class="co">#&gt;   &lt;chr&gt;          &lt;int&gt;</span></span>
+<span><span class="co">#&gt; 1 taxon_1          972</span></span></code></pre></div>
 </div>
-</div>
-</div>
-
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+</section></section></section><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
-
 
 
     <footer><div class="pkgdown-footer-left">

@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.22.4.9003'
+#> [1] '0.22.5'
 ```
 
 ## Background
@@ -101,7 +101,7 @@ plot_EAF_values(qsip_list_1,
 #> Confidence level = 0.9
 ```
 
-![](multiple_objects_files/figure-html/unnamed-chunk-6-1.png)
+![](multiple_objects_files/figure-html/unnamed-chunk-5-1.png)
 
 Other helper functions can be used on the list as well.
 
@@ -203,7 +203,7 @@ plot_EAF_values(qsip_list_2,
 #> Confidence level = 0.9
 ```
 
-![](multiple_objects_files/figure-html/unnamed-chunk-11-1.png)
+![](multiple_objects_files/figure-html/unnamed-chunk-10-1.png)
 
 ### Custom dataframe for ultimate control
 
@@ -342,4 +342,4 @@ plot_EAF_values(qsip_list_3[c("Drought", "Normal")],
 #> Confidence level = 0.9
 ```
 
-![](multiple_objects_files/figure-html/unnamed-chunk-18-1.png)
+![](multiple_objects_files/figure-html/unnamed-chunk-17-1.png)

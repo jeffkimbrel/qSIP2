@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.22.4.9003'
+#> [1] '0.22.5'
 ```
 
 ## Background
@@ -260,7 +260,7 @@ plot_source_wads(qsip_object,
                  title = "WAD of each source, grouped by Moisture")
 ```
 
-![](qSIP_workflow_files/figure-html/unnamed-chunk-15-1.png)
+![](qSIP_workflow_files/figure-html/unnamed-chunk-14-1.png)
 
 ``` r
 plot_sample_curves(qsip_object,
@@ -269,7 +269,7 @@ plot_sample_curves(qsip_object,
                    show_wad = F)
 ```
 
-![](qSIP_workflow_files/figure-html/unnamed-chunk-16-1.png)
+![](qSIP_workflow_files/figure-html/unnamed-chunk-15-1.png)
 
 Another sanity check is making sure the reported density values are on a
 reasonably straight line with the gradient position. This can be
@@ -281,7 +281,7 @@ although this may not necessarily be the case.
 plot_density_outliers(qsip_object)
 ```
 
-![](qSIP_workflow_files/figure-html/unnamed-chunk-17-1.png)
+![](qSIP_workflow_files/figure-html/unnamed-chunk-16-1.png)
 
 The design of the `qsip_data` object is that it is contains “slots” for
 each new analysis step. Although you could create a new object for each
@@ -402,7 +402,7 @@ function.
 plot_filter_results(qsip_normal)
 ```
 
-![](qSIP_workflow_files/figure-html/unnamed-chunk-22-1.png)
+![](qSIP_workflow_files/figure-html/unnamed-chunk-21-1.png)
 
 Although a large number of features were removed, we can tell that the
 64 that remained actually still make up a large proportion of the total
@@ -452,7 +452,7 @@ And only 89 features were retained in the Drought dataset.
 plot_filter_results(qsip_drought)
 ```
 
-![](qSIP_workflow_files/figure-html/unnamed-chunk-24-1.png)
+![](qSIP_workflow_files/figure-html/unnamed-chunk-23-1.png)
 
 Strictly speaking, there is no requirement to do strict filtering, and
 it is possible to execute
@@ -580,7 +580,7 @@ plot_EAF_values(qsip_normal,
 #> Confidence level = 0.9
 ```
 
-![](qSIP_workflow_files/figure-html/unnamed-chunk-25-1.png)
+![](qSIP_workflow_files/figure-html/unnamed-chunk-24-1.png)
 
 ``` r
 plot_EAF_values(qsip_drought, 
@@ -591,7 +591,7 @@ plot_EAF_values(qsip_drought,
 #> Confidence level = 0.9
 ```
 
-![](qSIP_workflow_files/figure-html/unnamed-chunk-26-1.png)
+![](qSIP_workflow_files/figure-html/unnamed-chunk-25-1.png)
 
 The
 [`plot_feature_curves()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_curves.md)
@@ -606,7 +606,7 @@ plot_feature_curves(qsip_normal,
 )
 ```
 
-![](qSIP_workflow_files/figure-html/unnamed-chunk-27-1.png)
+![](qSIP_workflow_files/figure-html/unnamed-chunk-26-1.png)
 
 ## Working with multiple qSIP objects (preview)
 
@@ -650,7 +650,7 @@ plot_EAF_values(qsip_list,
 #> Confidence level = 0.9
 ```
 
-![](qSIP_workflow_files/figure-html/unnamed-chunk-31-1.png)
+![](qSIP_workflow_files/figure-html/unnamed-chunk-30-1.png)
 
 ## Piped Workflow
 

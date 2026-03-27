@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.22.4.9003'
+#> [1] '0.22.5'
 ```
 
 ## Background
@@ -172,7 +172,7 @@ plot_EAF_values(q,
 #> Confidence level = 0.9
 ```
 
-![](growth_files/figure-html/unnamed-chunk-8-1.png)
+![](growth_files/figure-html/unnamed-chunk-7-1.png)
 
 ## Growth Workflow
 
@@ -329,7 +329,7 @@ plot_growth_values(q,
 #> Confidence level = 0.9
 ```
 
-![](growth_files/figure-html/unnamed-chunk-15-1.png)
+![](growth_files/figure-html/unnamed-chunk-14-1.png)
 
 ### When growth cannot be calculated
 
@@ -405,4 +405,4 @@ summarize_growth_values(q, confidence = 0.9) |>
 
 3.  <https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090>
 
-4.  <https://journals.asm.org/doi/10.1128/aem.02280-15>
+4.  https://journals.asm.org/doi/10.1128/aem.02280-15

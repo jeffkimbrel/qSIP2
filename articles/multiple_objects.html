@@ -21,7 +21,10 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multiple qSIP Objects">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="multiple_objects_files/libs/quarto-html/popper.min.js"></script><script src="multiple_objects_files/libs/quarto-html/tippy.umd.min.js"></script><link href="multiple_objects_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="multiple_objects_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multiple qSIP Objects">
+<meta property="og:image" content="https://jeffkimbrel.github.io/qSIP2/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -31,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.4.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,58 +76,42 @@
 
 
   </div>
-</nav><div class="container template-article">
-
-
-
-
+</nav><div class="container template-quarto">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Multiple qSIP Objects</h1>
-            
-      
-      <small class="dont-index">Source: <a href="https://github.com/jeffkimbrel/qSIP2/blob/master/vignettes/multiple_objects.Rmd" class="external-link"><code>vignettes/multiple_objects.Rmd</code></a></small>
-      <div class="d-none name"><code>multiple_objects.Rmd</code></div>
+
+
+
+
+      <small class="dont-index">Source: <a href="https://github.com/jeffkimbrel/qSIP2/blob/master/vignettes/multiple_objects.qmd" class="external-link"><code>vignettes/multiple_objects.qmd</code></a></small>
+      <div class="d-none name"><code></code></div>
     </div>
 
-    
-    
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+
+
+
+
+
+    <div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.22.4.9003'</span></span></code></pre></div>
-<div class="section level2">
-<h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
-</h2>
-<p>In <code>qSIP2</code>, you can run the standard EAF workflow with
-multiple <code>qsip_data</code> objects at the same time. This vignette
-will show you different ways to create and use multiple
-<code>qsip_data</code> objects in the same workflow.</p>
+<span><span class="co">#&gt; [1] '0.22.5'</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="multiple-object-structure">Multiple Object Structure<a class="anchor" aria-label="anchor" href="#multiple-object-structure"></a>
+<section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
-<p>The format for storing multiple <code>qsip_data</code> objects is a
-simple named list, where the names are a descriptive but succinct name
-for that comparison, and the value is the <code>qsip_data</code> object.
-The list can be created in a few different ways, including “by hand”, by
-formatting the <code><a href="../reference/get_comparison_groups.html">get_comparison_groups()</a></code> output, or providing
-a dataframe to the dedicated <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code>
-function. Each of these are detailed below.</p>
-</div>
-<div class="section level2">
-<h2 id="building-the-multi-qsip_data-object-by-hand">Building the multi <code>qsip_data</code> object “by hand”<a class="anchor" aria-label="anchor" href="#building-the-multi-qsip_data-object-by-hand"></a>
+<p>In <code>qSIP2</code>, you can run the standard EAF workflow with multiple <code>qsip_data</code> objects at the same time. This vignette will show you different ways to create and use multiple <code>qsip_data</code> objects in the same workflow.</p>
+</section><section class="section level2"><h2 id="multiple-object-structure">Multiple Object Structure<a class="anchor" aria-label="anchor" href="#multiple-object-structure"></a>
 </h2>
-<p>In the standard <code><a href="../articles/qSIP_workflow.html">vignette("qSIP_workflow")</a></code> vignette we
-filtered the example object to create “normal” and “drought” objects,
-and then proceeded through the workflow with these two objects
-independently. However, these two objects can instead be combined using
-<code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> to work with both simultaneously. We can run a
-validation function that will return <code>TRUE</code> if the list is
-correct.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>The format for storing multiple <code>qsip_data</code> objects is a simple named list, where the names are a descriptive but succinct name for that comparison, and the value is the <code>qsip_data</code> object. The list can be created in a few different ways, including “by hand”, by formatting the <code><a href="../reference/get_comparison_groups.html">get_comparison_groups()</a></code> output, or providing a dataframe to the dedicated <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> function. Each of these are detailed below.</p>
+</section><section class="section level2"><h2 id="building-the-multi-qsip_data-object-by-hand">Building the multi <code>qsip_data</code> object “by hand”<a class="anchor" aria-label="anchor" href="#building-the-multi-qsip_data-object-by-hand"></a>
+</h2>
+<p>In the standard <code><a href="../articles/qSIP_workflow.html">vignette("qSIP_workflow")</a></code> vignette we filtered the example object to create “normal” and “drought” objects, and then proceeded through the workflow with these two objects independently. However, these two objects can instead be combined using <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> to work with both simultaneously. We can run a validation function that will return <code>TRUE</code> if the list is correct.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qsip_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_feature_filter.html">run_feature_filter</a></span><span class="op">(</span><span class="va">example_qsip_object</span>,</span>
 <span>  unlabeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="../reference/get_all_by_isotope.html">get_all_by_isotope</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, <span class="st">"12C"</span><span class="op">)</span>,</span>
 <span>  labeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S178"</span>, <span class="st">"S179"</span>, <span class="st">"S180"</span><span class="op">)</span>,</span>
@@ -150,410 +137,476 @@ correct.</p>
 <span></span>
 <span><span class="fu"><a href="../reference/is_qsip_data_list.html">is_qsip_data_list</a></span><span class="op">(</span><span class="va">qsip_list_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
-<p>The list objects now holds both <code>qsip_data</code> objects, but
-each can be accessed by name (e.g. <code>qsip_list_1$Normal</code>) if
-needed. When building by hand, the main benefit of combining multiple
-objects together is that you get shared reporting with summary functions
-like <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> and
-<code><a href="../reference/plot_EAF_values.html">plot_EAF_values()</a></code>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+</div>
+<p>The list objects now holds both <code>qsip_data</code> objects, but each can be accessed by name (e.g. <code>qsip_list_1$Normal</code>) if needed. When building by hand, the main benefit of combining multiple objects together is that you get shared reporting with summary functions like <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> and <code><a href="../reference/plot_EAF_values.html">plot_EAF_values()</a></code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summarize_EAF_values.html">summarize_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list_1</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
 <pre><code><span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre>
-<table class="table">
-<caption>First few rows from
-<code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code>
+<div class="cell-output-display">
+<table class="table caption-top">
+<caption>First few rows from <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code>
 </caption>
 <colgroup>
-<col width="5%">
-<col width="7%">
-<col width="8%">
-<col width="12%">
-<col width="7%">
-<col width="7%">
-<col width="3%">
-<col width="11%">
-<col width="13%">
-<col width="10%">
-<col width="11%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 12%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 3%">
+<col style="width: 11%">
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 11%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">group</th>
-<th align="left">feature_id</th>
-<th align="right">observed_EAF</th>
-<th align="right">mean_resampled_EAF</th>
-<th align="right">lower</th>
-<th align="right">upper</th>
-<th align="right">pval</th>
-<th align="right">labeled_resamples</th>
-<th align="right">unlabeled_resamples</th>
-<th align="right">labeled_sources</th>
-<th align="right">unlabeled_sources</th>
+<th style="text-align: left;">group</th>
+<th style="text-align: left;">feature_id</th>
+<th style="text-align: right;">observed_EAF</th>
+<th style="text-align: right;">mean_resampled_EAF</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+<th style="text-align: right;">pval</th>
+<th style="text-align: right;">labeled_resamples</th>
+<th style="text-align: right;">unlabeled_resamples</th>
+<th style="text-align: right;">labeled_sources</th>
+<th style="text-align: right;">unlabeled_sources</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Normal</td>
-<td align="left">ASV_1</td>
-<td align="right">-0.0153107</td>
-<td align="right">-0.0162090</td>
-<td align="right">-0.0524399</td>
-<td align="right">0.0239385</td>
-<td align="right">0.472</td>
-<td align="right">1000</td>
-<td align="right">1000</td>
-<td align="right">3</td>
-<td align="right">8</td>
+<td style="text-align: left;">Normal</td>
+<td style="text-align: left;">ASV_1</td>
+<td style="text-align: right;">-0.0153107</td>
+<td style="text-align: right;">-0.0162090</td>
+<td style="text-align: right;">-0.0524399</td>
+<td style="text-align: right;">0.0239385</td>
+<td style="text-align: right;">0.472</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
 </tr>
 <tr class="even">
-<td align="left">Drought</td>
-<td align="left">ASV_1</td>
-<td align="right">-0.0333856</td>
-<td align="right">-0.0322146</td>
-<td align="right">-0.0792106</td>
-<td align="right">0.0219181</td>
-<td align="right">0.320</td>
-<td align="right">1000</td>
-<td align="right">1000</td>
-<td align="right">4</td>
-<td align="right">8</td>
+<td style="text-align: left;">Drought</td>
+<td style="text-align: left;">ASV_1</td>
+<td style="text-align: right;">-0.0333856</td>
+<td style="text-align: right;">-0.0322146</td>
+<td style="text-align: right;">-0.0792106</td>
+<td style="text-align: right;">0.0219181</td>
+<td style="text-align: right;">0.320</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
 </tr>
 <tr class="odd">
-<td align="left">Normal</td>
-<td align="left">ASV_10</td>
-<td align="right">0.1126260</td>
-<td align="right">0.1116218</td>
-<td align="right">0.0823812</td>
-<td align="right">0.1405383</td>
-<td align="right">0.000</td>
-<td align="right">1000</td>
-<td align="right">1000</td>
-<td align="right">3</td>
-<td align="right">8</td>
+<td style="text-align: left;">Normal</td>
+<td style="text-align: left;">ASV_10</td>
+<td style="text-align: right;">0.1126260</td>
+<td style="text-align: right;">0.1116218</td>
+<td style="text-align: right;">0.0823812</td>
+<td style="text-align: right;">0.1405383</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
 </tr>
 <tr class="even">
-<td align="left">Drought</td>
-<td align="left">ASV_10</td>
-<td align="right">0.0543136</td>
-<td align="right">0.0542462</td>
-<td align="right">0.0305884</td>
-<td align="right">0.0788885</td>
-<td align="right">0.000</td>
-<td align="right">1000</td>
-<td align="right">1000</td>
-<td align="right">4</td>
-<td align="right">8</td>
+<td style="text-align: left;">Drought</td>
+<td style="text-align: left;">ASV_10</td>
+<td style="text-align: right;">0.0543136</td>
+<td style="text-align: right;">0.0542462</td>
+<td style="text-align: right;">0.0305884</td>
+<td style="text-align: right;">0.0788885</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
 </tr>
 <tr class="odd">
-<td align="left">Drought</td>
-<td align="left">ASV_100</td>
-<td align="right">-0.0892684</td>
-<td align="right">-0.0885048</td>
-<td align="right">-0.1485629</td>
-<td align="right">-0.0283228</td>
-<td align="right">0.020</td>
-<td align="right">1000</td>
-<td align="right">1000</td>
-<td align="right">3</td>
-<td align="right">7</td>
+<td style="text-align: left;">Drought</td>
+<td style="text-align: left;">ASV_100</td>
+<td style="text-align: right;">-0.0892684</td>
+<td style="text-align: right;">-0.0885048</td>
+<td style="text-align: right;">-0.1485629</td>
+<td style="text-align: right;">-0.0283228</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">7</td>
 </tr>
 <tr class="even">
-<td align="left">Normal</td>
-<td align="left">ASV_102</td>
-<td align="right">-0.0080214</td>
-<td align="right">-0.0090271</td>
-<td align="right">-0.0746514</td>
-<td align="right">0.0546485</td>
-<td align="right">0.782</td>
-<td align="right">1000</td>
-<td align="right">1000</td>
-<td align="right">3</td>
-<td align="right">8</td>
+<td style="text-align: left;">Normal</td>
+<td style="text-align: left;">ASV_102</td>
+<td style="text-align: right;">-0.0080214</td>
+<td style="text-align: right;">-0.0090271</td>
+<td style="text-align: right;">-0.0746514</td>
+<td style="text-align: right;">0.0546485</td>
+<td style="text-align: right;">0.782</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
 </tr>
 </tbody>
 </table>
-<p>In the table above, you can see that the <code>feature_id</code>
-column is repeated for each group.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+</div>
+</div>
+<p>In the table above, you can see that the <code>feature_id</code> column is repeated for each group.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list_1</span>,</span>
 <span>                top <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>                error <span class="op">=</span> <span class="st">"ribbon"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
-<p><img src="multiple_objects_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="768"></p>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="multiple_objects_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>Other helper functions can be used on the list as well.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/n_resamples.html">n_resamples</a></span><span class="op">(</span><span class="va">qsip_list_1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 2</span></span>
 <span><span class="co">#&gt;   group   n_resamples</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Normal         <span style="text-decoration: underline;">1</span>000</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Drought        <span style="text-decoration: underline;">1</span>000</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;         &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Normal         1000</span></span>
+<span><span class="co">#&gt; 2 Drought        1000</span></span>
 <span><span class="fu"><a href="../reference/resample_seed.html">resample_seed</a></span><span class="op">(</span><span class="va">qsip_list_1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 2</span></span>
 <span><span class="co">#&gt;   group    seed</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Normal     49</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Drought    50</span></span></code></pre></div>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Normal     49</span></span>
+<span><span class="co">#&gt; 2 Drought    50</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="dataframe-based-multi-qsip_data-object">Dataframe-based multi <code>qsip_data</code> object<a class="anchor" aria-label="anchor" href="#dataframe-based-multi-qsip_data-object"></a>
+</section><section class="section level2"><h2 id="dataframe-based-multi-qsip_data-object">Dataframe-based multi <code>qsip_data</code> object<a class="anchor" aria-label="anchor" href="#dataframe-based-multi-qsip_data-object"></a>
 </h2>
-<p>Although building the list by hand can be useful in organizing the
-output, the functionality of the list structure really shines when you
-start with a dataframe of comparisons you want to make. This workflow
-will do all of the steps from the initial, unfiltered
-<code>qsip_data</code> objects without the need to manually build each
-comparison object.</p>
-<div class="section level3">
-<h3 id="dataframe-structure">Dataframe Structure<a class="anchor" aria-label="anchor" href="#dataframe-structure"></a>
+<p>Although building the list by hand can be useful in organizing the output, the functionality of the list structure really shines when you start with a dataframe of comparisons you want to make. This workflow will do all of the steps from the initial, unfiltered <code>qsip_data</code> objects without the need to manually build each comparison object.</p>
+<section class="level2"><h3 id="dataframe-structure">Dataframe Structure<a class="anchor" aria-label="anchor" href="#dataframe-structure"></a>
 </h3>
-<p>The dataframe has a simple structure, and requires at a minimum three
-columns. The <code>group</code> column is the name of the comparison
-group, and the <code>unlabeled</code> and <code>labeled</code> columns
-are vectors of the <code>source_material_id</code>s to use in the
-comparison. Each row of the dataframe will be a separate comparison
-group.</p>
-</div>
-<div class="section level3">
-<h3 id="modifying-get_comparison_groups-output">Modifying <code>get_comparison_groups()</code> output<a class="anchor" aria-label="anchor" href="#modifying-get_comparison_groups-output"></a>
+<p>The dataframe has a simple structure, and requires at a minimum three columns. The <code>group</code> column is the name of the comparison group, and the <code>unlabeled</code> and <code>labeled</code> columns are vectors of the <code>source_material_id</code>s to use in the comparison. Each row of the dataframe will be a separate comparison group.</p>
+</section><section class="level2"><h3 id="modifying-get_comparison_groups-output">Modifying <code>get_comparison_groups()</code> output<a class="anchor" aria-label="anchor" href="#modifying-get_comparison_groups-output"></a>
 </h3>
-<p>Recall that <code><a href="../reference/get_comparison_groups.html">get_comparison_groups()</a></code> attempts to guess
-the relevant comparison groups using the metadata. For the example qsip
-object, when grouping by “Moisture” we get</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>Recall that <code><a href="../reference/get_comparison_groups.html">get_comparison_groups()</a></code> attempts to guess the relevant comparison groups using the metadata. For the example qsip object, when grouping by “Moisture” we get</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_comparison_groups.html">get_comparison_groups</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, group <span class="op">=</span> <span class="st">"Moisture"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 3</span></span>
 <span><span class="co">#&gt;   Moisture `12C`                  `13C`                 </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Normal   S149, S150, S151, S152 S178, S179, S180      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Drought  S161, S162, S163, S164 S200, S201, S202, S203</span></span></code></pre></div>
-<p>The output is already in our desired format, and all that is needed
-is some slight tweaking of the column names using
-<code><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">dplyr::select()</a></code> (or <code><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">dplyr::rename()</a></code>).</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;                  &lt;chr&gt;                 </span></span>
+<span><span class="co">#&gt; 1 Normal   S149, S150, S151, S152 S178, S179, S180      </span></span>
+<span><span class="co">#&gt; 2 Drought  S161, S162, S163, S164 S200, S201, S202, S203</span></span></code></pre></div>
+</div>
+<p>The output is already in our desired format, and all that is needed is some slight tweaking of the column names using <code><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">dplyr::select()</a></code> (or <code><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">dplyr::rename()</a></code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_comparison_groups.html">get_comparison_groups</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, group <span class="op">=</span> <span class="st">"Moisture"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="st">"group"</span> <span class="op">=</span> <span class="va">Moisture</span>, <span class="st">"unlabeled"</span> <span class="op">=</span> <span class="st">"12C"</span>, <span class="st">"labeled"</span> <span class="op">=</span> <span class="st">"13C"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 3</span></span>
 <span><span class="co">#&gt;   group   unlabeled              labeled               </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Normal  S149, S150, S151, S152 S178, S179, S180      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Drought S161, S162, S163, S164 S200, S201, S202, S203</span></span></code></pre></div>
-<p>This dataframe can be passed directly to
-<code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> to create the multi
-<code>qsip_data</code> object. <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code>
-requires the dataframe and a <code>qsip_data</code> object as the first
-two arguments. It has three additional optional arguments that globally
-apply to all comparisons: <code>allow_failures</code>
-(<em>boolean</em>), <code>seed</code> (<em>integer</em>), and
-<code>resamples</code> (<em>integer</em>).</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;                 </span></span>
+<span><span class="co">#&gt; 1 Normal  S149, S150, S151, S152 S178, S179, S180      </span></span>
+<span><span class="co">#&gt; 2 Drought S161, S162, S163, S164 S200, S201, S202, S203</span></span></code></pre></div>
+</div>
+<p>This dataframe can be passed directly to <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> to create the multi <code>qsip_data</code> object. <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> requires the dataframe and a <code>qsip_data</code> object as the first two arguments. It has three additional optional arguments that globally apply to all comparisons: <code>allow_failures</code> (<em>boolean</em>), <code>seed</code> (<em>integer</em>), and <code>resamples</code> (<em>integer</em>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qsip_list_2</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_comparison_groups.html">get_comparison_groups</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, group <span class="op">=</span> <span class="st">"Moisture"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="st">"group"</span> <span class="op">=</span> <span class="va">Moisture</span>, <span class="st">"unlabeled"</span> <span class="op">=</span> <span class="st">"12C"</span>, <span class="st">"labeled"</span> <span class="op">=</span> <span class="st">"13C"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/run_comparison_groups.html">run_comparison_groups</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, </span>
 <span>                        seed <span class="op">=</span> <span class="fl">99</span>,</span>
 <span>                        allow_failures <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50%</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■■■■■■■■■■■                  50%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100%</span></span>
 <span><span class="co">#&gt; </span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/is_qsip_data_list.html">is_qsip_data_list</a></span><span class="op">(</span><span class="va">qsip_list_2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
-<p>Plotting the values here should give almost identical results (within
-sampling error) to the previous plot, but this time we have enabled the
-<code>allow_failures</code> option so we get resampling success as
-well.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+</div>
+<p>Plotting the values here should give almost identical results (within sampling error) to the previous plot, but this time we have enabled the <code>allow_failures</code> option so we get resampling success as well.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list_2</span>,</span>
 <span>                top <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>                success_ratio <span class="op">=</span> <span class="fl">0.99</span>,</span>
 <span>                error <span class="op">=</span> <span class="st">"ribbon"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
-<p><img src="multiple_objects_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="768"></p>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="multiple_objects_files/figure-html/unnamed-chunk-10-1.png" width="768"></p>
+</figure>
 </div>
-<div class="section level3">
-<h3 id="custom-dataframe-for-ultimate-control">Custom dataframe for ultimate control<a class="anchor" aria-label="anchor" href="#custom-dataframe-for-ultimate-control"></a>
+</div>
+</div>
+</section><section class="level2"><h3 id="custom-dataframe-for-ultimate-control">Custom dataframe for ultimate control<a class="anchor" aria-label="anchor" href="#custom-dataframe-for-ultimate-control"></a>
 </h3>
-<p>It is possible to make a dataframe from scratch (e.g. as an excel
-spreadsheet) to give even more fine-grain control over each comparison.
-Here, rather than setting parameters that will be treated as identical
-for all comparisons (like <code>seed = 99</code> above), here additional
-columns can be used to set the values independently per row. An example
-dataframe is included in the <code>qSIP2</code> package called
-<code>example_group_dataframe</code>. This dataframe is shown below, but
-with some columns temporarily removed for brevity (those columns will be
-discussed later).</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>It is possible to make a dataframe from scratch (e.g. as an excel spreadsheet) to give even more fine-grain control over each comparison. Here, rather than setting parameters that will be treated as identical for all comparisons (like <code>seed = 99</code> above), here additional columns can be used to set the values independently per row. An example dataframe is included in the <code>qSIP2</code> package called <code>example_group_dataframe</code>. This dataframe is shown below, but with some columns temporarily removed for brevity (those columns will be discussed later).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_group_dataframe</span></span></code></pre></div>
-<table class="table">
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
 <caption>Example dataframe with some columns removed</caption>
 <colgroup>
-<col width="20%">
-<col width="23%">
-<col width="23%">
-<col width="15%">
-<col width="10%">
-<col width="5%">
+<col style="width: 20%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 15%">
+<col style="width: 10%">
+<col style="width: 5%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">group</th>
-<th align="left">unlabeled</th>
-<th align="left">labeled</th>
-<th align="left">allow_failures</th>
-<th align="right">resamples</th>
-<th align="right">seed</th>
+<th style="text-align: left;">group</th>
+<th style="text-align: left;">unlabeled</th>
+<th style="text-align: left;">labeled</th>
+<th style="text-align: left;">allow_failures</th>
+<th style="text-align: right;">resamples</th>
+<th style="text-align: right;">seed</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Normal</td>
-<td align="left">S149, S150, S151, S152</td>
-<td align="left">S178, S179, S180</td>
-<td align="left">T</td>
-<td align="right">500</td>
-<td align="right">100</td>
+<td style="text-align: left;">Normal</td>
+<td style="text-align: left;">S149, S150, S151, S152</td>
+<td style="text-align: left;">S178, S179, S180</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">100</td>
 </tr>
 <tr class="even">
-<td align="left">Drought</td>
-<td align="left">S161, S162, S163, S164</td>
-<td align="left">S200, S201, S202, S203</td>
-<td align="left">T</td>
-<td align="right">1000</td>
-<td align="right">101</td>
+<td style="text-align: left;">Drought</td>
+<td style="text-align: left;">S161, S162, S163, S164</td>
+<td style="text-align: left;">S200, S201, S202, S203</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">101</td>
 </tr>
 <tr class="odd">
-<td align="left">Drought against all</td>
-<td align="left">12C</td>
-<td align="left">S200, S201, S202, S203</td>
-<td align="left">T</td>
-<td align="right">1000</td>
-<td align="right">102</td>
+<td style="text-align: left;">Drought against all</td>
+<td style="text-align: left;">12C</td>
+<td style="text-align: left;">S200, S201, S202, S203</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">102</td>
 </tr>
 <tr class="even">
-<td align="left">Normal_S178</td>
-<td align="left">S149, S150, S151, S152</td>
-<td align="left">S178</td>
-<td align="left">T</td>
-<td align="right">1000</td>
-<td align="right">103</td>
+<td style="text-align: left;">Normal_S178</td>
+<td style="text-align: left;">S149, S150, S151, S152</td>
+<td style="text-align: left;">S178</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">103</td>
 </tr>
 <tr class="odd">
-<td align="left">Normal_S179</td>
-<td align="left">S149, S150, S151, S152</td>
-<td align="left">S179</td>
-<td align="left">T</td>
-<td align="right">1000</td>
-<td align="right">104</td>
+<td style="text-align: left;">Normal_S179</td>
+<td style="text-align: left;">S149, S150, S151, S152</td>
+<td style="text-align: left;">S179</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">104</td>
 </tr>
 <tr class="even">
-<td align="left">Normal_S180</td>
-<td align="left">S149, S150, S151, S152</td>
-<td align="left">S180</td>
-<td align="left">T</td>
-<td align="right">1000</td>
-<td align="right">105</td>
+<td style="text-align: left;">Normal_S180</td>
+<td style="text-align: left;">S149, S150, S151, S152</td>
+<td style="text-align: left;">S180</td>
+<td style="text-align: left;">T</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">105</td>
 </tr>
 </tbody>
 </table>
-<p>This dataframe shows the customizability of the format, including
-retaining the ability to use isotope terms like “12C” to grab all source
-material IDs with that isotope.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+</div>
+</div>
+<p>This dataframe shows the customizability of the format, including retaining the ability to use isotope terms like “12C” to grab all source material IDs with that isotope.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qsip_list_3</span> <span class="op">=</span> <span class="va">example_group_dataframe</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/run_comparison_groups.html">run_comparison_groups</a></span><span class="op">(</span><span class="va">example_qsip_object</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■                          </span>  17%</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  33%</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50%</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  67%</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  83%</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■                            17%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■■■■■■                       33%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■■■■■■■■■■■                  50%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■■■■■■■■■■■■■■■■             67%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■■■■■■■■■■■■■■■■■■■■■        83%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100%</span></span>
 <span><span class="co">#&gt; </span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/resample_seed.html">resample_seed</a></span><span class="op">(</span><span class="va">qsip_list_3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 2</span></span>
 <span><span class="co">#&gt;   group                seed</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Drought               101</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Drought against all   102</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Normal                100</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Normal_S178           103</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Normal_S179           104</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Normal_S180           105</span></span></code></pre></div>
-<p>If you use the additional arguments in
-<code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> then they will override the values
-in the dataframe.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt;   &lt;chr&gt;               &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Drought               101</span></span>
+<span><span class="co">#&gt; 2 Drought against all   102</span></span>
+<span><span class="co">#&gt; 3 Normal                100</span></span>
+<span><span class="co">#&gt; 4 Normal_S178           103</span></span>
+<span><span class="co">#&gt; 5 Normal_S179           104</span></span>
+<span><span class="co">#&gt; 6 Normal_S180           105</span></span></code></pre></div>
+</div>
+<p>If you use the additional arguments in <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> then they will override the values in the dataframe.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qsip_list_4</span> <span class="op">=</span> <span class="va">example_group_dataframe</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/run_comparison_groups.html">run_comparison_groups</a></span><span class="op">(</span><span class="va">example_qsip_object</span>,</span>
 <span>                        seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■                          </span>  17%</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■■■■■■                     </span>  33%</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50%</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  67%</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  83%</span></span>
-<span><span class="co">#&gt; Finished groups <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■                            17%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■■■■■■                       33%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■■■■■■■■■■■                  50%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■■■■■■■■■■■■■■■■             67%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■■■■■■■■■■■■■■■■■■■■■        83%</span></span>
+<span><span class="co">#&gt; Finished groups ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100%</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="fu"><a href="../reference/resample_seed.html">resample_seed</a></span><span class="op">(</span><span class="va">qsip_list_4</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 2</span></span>
 <span><span class="co">#&gt;   group                seed</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Drought                42</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Drought against all    42</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Normal                 42</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Normal_S178            42</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Normal_S179            42</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Normal_S180            42</span></span></code></pre></div>
-<p>The are 4 additional dataframe columns that
-<code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> will accept:
-<code>min_unlabeled_sources</code>, <code>min_labeled_sources</code>,
-<code>min_unlabeled_fractions</code>, and
-<code>min_labeled_fractions</code>. These columns are used to set the
-minimum number of sources and fractions required for each comparison.
-The full example dataframe does additionally contain these columns.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt;   &lt;chr&gt;               &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Drought                42</span></span>
+<span><span class="co">#&gt; 2 Drought against all    42</span></span>
+<span><span class="co">#&gt; 3 Normal                 42</span></span>
+<span><span class="co">#&gt; 4 Normal_S178            42</span></span>
+<span><span class="co">#&gt; 5 Normal_S179            42</span></span>
+<span><span class="co">#&gt; 6 Normal_S180            42</span></span></code></pre></div>
+</div>
+<p>The are 4 additional dataframe columns that <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> will accept: <code>min_unlabeled_sources</code>, <code>min_labeled_sources</code>, <code>min_unlabeled_fractions</code>, and <code>min_labeled_fractions</code>. These columns are used to set the minimum number of sources and fractions required for each comparison. The full example dataframe does additionally contain these columns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summarize_EAF_values.html">summarize_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list_3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">feature_id</span> <span class="op">==</span> <span class="st">"ASV_1"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 11</span></span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 11</span></span>
 <span><span class="co">#&gt;   group        feature_id observed_EAF mean_resampled_EAF   lower    upper  pval</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Drought      ASV_1         -<span style="color: #BB0000;">0.049</span><span style="color: #BB0000; text-decoration: underline;">2</span>             -<span style="color: #BB0000;">0.048</span><span style="color: #BB0000; text-decoration: underline;">9</span>  -<span style="color: #BB0000;">0.108</span>   0.011<span style="text-decoration: underline;">3</span>  0.186</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Drought aga… ASV_1         -<span style="color: #BB0000;">0.033</span><span style="color: #BB0000; text-decoration: underline;">4</span>             -<span style="color: #BB0000;">0.032</span><span style="color: #BB0000; text-decoration: underline;">8</span>  -<span style="color: #BB0000;">0.079</span><span style="color: #BB0000; text-decoration: underline;">8</span>  0.019<span style="text-decoration: underline;">5</span>  0.306</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Normal       ASV_1          0.000<span style="text-decoration: underline;">455</span>            0.001<span style="text-decoration: underline;">38</span> -<span style="color: #BB0000;">0.032</span><span style="color: #BB0000; text-decoration: underline;">6</span>  0.035<span style="text-decoration: underline;">7</span>  0.96 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Normal_S178  ASV_1          0.041<span style="text-decoration: underline;">0</span>              0.042<span style="text-decoration: underline;">1</span>   0.021<span style="text-decoration: underline;">4</span>  0.060<span style="text-decoration: underline;">6</span>  0.006</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Normal_S179  ASV_1         -<span style="color: #BB0000;">0.025</span><span style="color: #BB0000; text-decoration: underline;">6</span>             -<span style="color: #BB0000;">0.025</span><span style="color: #BB0000; text-decoration: underline;">1</span>  -<span style="color: #BB0000;">0.045</span><span style="color: #BB0000; text-decoration: underline;">4</span> -<span style="color: #BB0000;">0.006</span><span style="color: #BB0000; text-decoration: underline;">03</span> 0.008</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Normal_S180  ASV_1         -<span style="color: #BB0000;">0.014</span><span style="color: #BB0000; text-decoration: underline;">0</span>             -<span style="color: #BB0000;">0.014</span><span style="color: #BB0000; text-decoration: underline;">1</span>  -<span style="color: #BB0000;">0.037</span><span style="color: #BB0000; text-decoration: underline;">8</span>  0.005<span style="text-decoration: underline;">64</span> 0.276</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: labeled_resamples &lt;int&gt;, unlabeled_resamples &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   labeled_sources &lt;int&gt;, unlabeled_sources &lt;int&gt;</span></span></span></code></pre></div>
-<p>But, keep in mind that each row of the dataframe will be filtered
-differently, and therefore some <code>feature_id</code>s could be
-missing from certain comparisons. For example, ASV_311 only appears in
-the two “Drought” comparisons.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;             &lt;dbl&gt;              &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Drought      ASV_1         -0.0492             -0.0489  -0.108   0.0113  0.186</span></span>
+<span><span class="co">#&gt; 2 Drought aga… ASV_1         -0.0334             -0.0328  -0.0798  0.0195  0.306</span></span>
+<span><span class="co">#&gt; 3 Normal       ASV_1          0.000455            0.00138 -0.0326  0.0357  0.96 </span></span>
+<span><span class="co">#&gt; 4 Normal_S178  ASV_1          0.0410              0.0421   0.0214  0.0606  0.006</span></span>
+<span><span class="co">#&gt; 5 Normal_S179  ASV_1         -0.0256             -0.0251  -0.0454 -0.00603 0.008</span></span>
+<span><span class="co">#&gt; 6 Normal_S180  ASV_1         -0.0140             -0.0141  -0.0378  0.00564 0.276</span></span>
+<span><span class="co">#&gt; # ℹ 4 more variables: labeled_resamples &lt;int&gt;, unlabeled_resamples &lt;int&gt;,</span></span>
+<span><span class="co">#&gt; #   labeled_sources &lt;int&gt;, unlabeled_sources &lt;int&gt;</span></span></code></pre></div>
+</div>
+<p>But, keep in mind that each row of the dataframe will be filtered differently, and therefore some <code>feature_id</code>s could be missing from certain comparisons. For example, ASV_311 only appears in the two “Drought” comparisons.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summarize_EAF_values.html">summarize_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list_3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">feature_id</span> <span class="op">==</span> <span class="st">"ASV_311"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 11</span></span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 11</span></span>
 <span><span class="co">#&gt;   group             feature_id observed_EAF mean_resampled_EAF lower upper  pval</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Drought           ASV_311           0.906              0.903 0.650 1.14      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Drought against … ASV_311           0.693              0.693 0.535 0.867     0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: labeled_resamples &lt;int&gt;, unlabeled_resamples &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   labeled_sources &lt;int&gt;, unlabeled_sources &lt;int&gt;</span></span></span></code></pre></div>
-<p>And although you can plot all together, more than a few objects might
-make the plots harder to read. But, because it is a simple list you can
-always still access the individual objects if needed using the
-<code>$</code> operator (e.g. <code>qsip_list_3$Drought</code>) or
-<code>[]</code> brackets
-(e.g. <code>qsip_list_3[c("Drought", "Normal")]</code>).</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt;   &lt;chr&gt;             &lt;chr&gt;             &lt;dbl&gt;              &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Drought           ASV_311           0.906              0.903 0.650 1.14      0</span></span>
+<span><span class="co">#&gt; 2 Drought against … ASV_311           0.693              0.693 0.535 0.867     0</span></span>
+<span><span class="co">#&gt; # ℹ 4 more variables: labeled_resamples &lt;int&gt;, unlabeled_resamples &lt;int&gt;,</span></span>
+<span><span class="co">#&gt; #   labeled_sources &lt;int&gt;, unlabeled_sources &lt;int&gt;</span></span></code></pre></div>
+</div>
+<p>And although you can plot all together, more than a few objects might make the plots harder to read. But, because it is a simple list you can always still access the individual objects if needed using the <code>$</code> operator (e.g. <code>qsip_list_3$Drought</code>) or <code>[]</code> brackets (e.g. <code>qsip_list_3[c("Drought", "Normal")]</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list_3</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Drought"</span>, <span class="st">"Normal"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>                error <span class="op">=</span> <span class="st">"ribbon"</span>,</span>
 <span>                top <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
-<p><img src="multiple_objects_files/figure-html/unnamed-chunk-18-1.png" class="r-plt" alt="" width="768"></p>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="multiple_objects_files/figure-html/unnamed-chunk-17-1.png" width="768"></p>
+</figure>
 </div>
 </div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+</div>
+</section></section><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
-
 
 
     <footer><div class="pkgdown-footer-left">

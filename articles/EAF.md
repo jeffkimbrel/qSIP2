@@ -6,7 +6,7 @@ library(ggplot2)
 library(patchwork)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.22.4.9003'
+#> [1] '0.22.5'
 ```
 
 ## Background
@@ -50,7 +50,7 @@ plot_EAF_values(qsip_list)
 #> Confidence level = 0.9
 ```
 
-![](EAF_files/figure-html/unnamed-chunk-4-1.png)
+![](EAF_files/figure-html/unnamed-chunk-3-1.png)
 
 The 90% confidence interval is calculated by default, but this can be
 modified and added to the plot with the `confidence` and `error`
@@ -64,7 +64,7 @@ plot_EAF_values(qsip_list,
 #> Confidence level = 0.95
 ```
 
-![](EAF_files/figure-html/unnamed-chunk-5-1.png)
+![](EAF_files/figure-html/unnamed-chunk-4-1.png)
 
 The number of features can be filtered to include the *n* with the
 highest EAF.
@@ -77,7 +77,7 @@ plot_EAF_values(qsip_list,
 #> Confidence level = 0.9
 ```
 
-![](EAF_files/figure-html/unnamed-chunk-6-1.png)
+![](EAF_files/figure-html/unnamed-chunk-5-1.png)
 
 By default, the facets do not share the same y-axis so each comparison
 are sorted from highto low independently. But, if you want to compare
@@ -98,14 +98,14 @@ plot_EAF_values(qsip_list,
 #> Confidence level = 0.9
 ```
 
-![](EAF_files/figure-html/unnamed-chunk-7-1.png)
+![](EAF_files/figure-html/unnamed-chunk-6-1.png)
 
-As seen in the warning above, a current limitation when using
-`shared_y = TRUE` together with the `top` argument is that only the top
-*n* will be shown per facet, giving a blank value for any features that
-are not in the top *n* for that comparison. But, this doesn’t mean they
-don’t have EAF values or that the feature was not found. I hope to fix
-this limitation in the future.
+> **Warning:** As seen in the warning above, a current limitation when
+> using `shared_y = TRUE` together with the `top` argument is that only
+> the top *n* will be shown per facet, giving a blank value for any
+> features that are not in the top *n* for that comparison. This does
+> not mean they lack EAF values or were not found. This limitation may
+> be addressed in the future.
 
 As a reminder from the resampling vignette, the “successess” in the
 legend and colors refer to whether the resampling was successful above a
@@ -175,7 +175,7 @@ b = plot_feature_resamplings(qsip_list$Drought, features, intervals = "bar", con
   plot_annotation(tag_levels = 'A')
 ```
 
-![](EAF_files/figure-html/unnamed-chunk-12-1.png)
+![](EAF_files/figure-html/unnamed-chunk-11-1.png)
 
 For ASV_7 and ASV_72, it is clear in “A” that the 13C labeled isotope
 has a nice shift compared to the unlabeled 12C sources. Indeed, the
@@ -203,7 +203,7 @@ WAD value is affected by these occurrences.
 plot_feature_occurrence(qsip_list$Drought, features)
 ```
 
-![](EAF_files/figure-html/unnamed-chunk-13-1.png)
+![](EAF_files/figure-html/unnamed-chunk-12-1.png)
 
 The plot above does show that ASV_100 stops appearing in some labeled
 sources after a density of ~1.7. With more arguments we can add the WAD
@@ -222,7 +222,7 @@ plot_feature_occurrence(qsip_list$Drought,
                         scale = "feature")
 ```
 
-![](EAF_files/figure-html/unnamed-chunk-14-1.png)
+![](EAF_files/figure-html/unnamed-chunk-13-1.png)
 
 The above plot can also help identify additional potential issues. For
 example, ASV_72 was one of the features with the highest EAF values, but
@@ -237,4 +237,4 @@ feature occurrences like ASV_72 in source S200.
 
 ------------------------------------------------------------------------
 
-1.  <https://journals.asm.org/doi/10.1128/aem.02280-15>
+1.  https://journals.asm.org/doi/10.1128/aem.02280-15

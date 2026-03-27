@@ -4,7 +4,7 @@
 library(dplyr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.22.4.9003'
+#> [1] '0.22.5'
 ```
 
 ## Source Material and Metadata
@@ -179,7 +179,6 @@ and are added as exceptions in the
 helper function.
 
 ``` r
-
 # artificially doubling the rows will give an error from duplicate source_mat_ids
 example_source_df |>
   rbind(example_source_df) |>
@@ -301,4 +300,4 @@ column has the MISIP standard `isotope` name retained.
 
 ------------------------------------------------------------------------
 
-1.  <https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1>
+1.  https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1

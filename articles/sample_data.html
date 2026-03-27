@@ -21,7 +21,10 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Sample Data">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="sample_data_files/libs/quarto-html/popper.min.js"></script><script src="sample_data_files/libs/quarto-html/tippy.umd.min.js"></script><link href="sample_data_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="sample_data_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Sample Data">
+<meta property="og:image" content="https://jeffkimbrel.github.io/qSIP2/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -31,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.4.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.22.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,189 +76,125 @@
 
 
   </div>
-</nav><div class="container template-article">
-
-
-
-
+</nav><div class="container template-quarto">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Sample Data</h1>
-            
-      
-      <small class="dont-index">Source: <a href="https://github.com/jeffkimbrel/qSIP2/blob/master/vignettes/sample_data.Rmd" class="external-link"><code>vignettes/sample_data.Rmd</code></a></small>
-      <div class="d-none name"><code>sample_data.Rmd</code></div>
+
+
+
+
+      <small class="dont-index">Source: <a href="https://github.com/jeffkimbrel/qSIP2/blob/master/vignettes/sample_data.qmd" class="external-link"><code>vignettes/sample_data.qmd</code></a></small>
+      <div class="d-none name"><code></code></div>
     </div>
 
-    
-    
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+
+
+
+
+
+    <div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.22.4.9003'</span></span></code></pre></div>
-<div class="section level2">
-<h2 id="samples-and-metadata">Samples and Metadata<a class="anchor" aria-label="anchor" href="#samples-and-metadata"></a>
-</h2>
-<p>In <code>qSIP2</code>, “sample data” refers to any metadata
-associated with the individual fractions or their sequencing data. This
-is the second level of metadata - more granular than “source data”, but
-at a higher-level than the “feature data”.</p>
-<div class="alert alert-primary">
-<p>The word <strong>sample</strong> typically refers to the biological
-or environmental entity the DNA was isolated (aka the <strong>source
-material</strong>). In qSIP, however, because there are multiple
-sequencing runs per <strong>source</strong>, the term
-<strong>sample</strong> has historically been reserved for sequencing of
-each fraction. In practice, this means you will have many
-<strong>samples</strong> for each single <strong>source</strong>. To
-keep with the proposed MISIP<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1" class="external-link uri"&gt;https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a> standards, the source material is coded
-with the <code>source_mat_id</code>, and each sequencing run/fraction is
-coded with the <code>sample_id</code>.</p>
+<span><span class="co">#&gt; [1] '0.22.5'</span></span></code></pre></div>
 </div>
-<p>The sample data has the most requirements to pass validation of the
-three <code>qSIP2</code> input types. To standardize these requirements
-the column names should adhere as closely to MISIP standards where
-possible. Absolute requirements are slightly different than the official
-MISIP standards, and for the <code>qSIP2</code> package would be the
-<code>source_mat_id</code>, <code>sample_id</code>,
-<code>gradient_position</code>, <code>gradient_pos_density</code> and
-<code>gradient_pos_rel_amt</code> fields.</p>
-<div class="section level3">
-<h3 id="source_mat_id-and-sample_id-columns">
+<section class="section level2"><h2 id="samples-and-metadata">Samples and Metadata<a class="anchor" aria-label="anchor" href="#samples-and-metadata"></a>
+</h2>
+<p>In <code>qSIP2</code>, “sample data” refers to any metadata associated with the individual fractions or their sequencing data. This is the second level of metadata - more granular than “source data”, but at a higher-level than the “feature data”.</p>
+<p>The word <strong>sample</strong> typically refers to the biological or environmental entity the DNA was isolated (aka the <strong>source material</strong>). In qSIP, however, because there are multiple sequencing runs per <strong>source</strong>, the term <strong>sample</strong> has historically been reserved for sequencing of each fraction. In practice, this means you will have many <strong>samples</strong> for each single <strong>source</strong>. To keep with the proposed MISIP<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1&lt;/p&gt;"><sup>1</sup></a> standards, the source material is coded with the <code>source_mat_id</code>, and each sequencing run/fraction is coded with the <code>sample_id</code>.</p>
+<p>The sample data has the most requirements to pass validation of the three <code>qSIP2</code> input types. To standardize these requirements the column names should adhere as closely to MISIP standards where possible. Absolute requirements are slightly different than the official MISIP standards, and for the <code>qSIP2</code> package would be the <code>source_mat_id</code>, <code>sample_id</code>, <code>gradient_position</code>, <code>gradient_pos_density</code> and <code>gradient_pos_rel_amt</code> fields.</p>
+<section class="level2"><h3 id="source_mat_id-and-sample_id-columns">
 <code>source_mat_id</code> and <code>sample_id</code> columns<a class="anchor" aria-label="anchor" href="#source_mat_id-and-sample_id-columns"></a>
 </h3>
-<p>One column of the metadata should contain a unique
-<code>sample_id</code> that is associated with a
-<code>source_mat_id</code> that matches one row on the
-<code>qsip_source_data</code> dataframe. Although the
-<code>sample_id</code> should be unique for each row, it is expected
-that the <code>source_mat_id</code> will be duplicated creating a
-<strong>many-to-one</strong> relationship. The format of the
-<code>sample_id</code> doesn’t matter, as long as it is unique. A
-popular choice might be the <code>source_mat_id</code> appended with the
-gradient position.</p>
-</div>
-<div class="section level3">
-<h3 id="gradient_position-and-gradient_pos_density-columns">
-<code>gradient_position</code> and <code>gradient_pos_density</code>
-columns<a class="anchor" aria-label="anchor" href="#gradient_position-and-gradient_pos_density-columns"></a>
+<p>One column of the metadata should contain a unique <code>sample_id</code> that is associated with a <code>source_mat_id</code> that matches one row on the <code>qsip_source_data</code> dataframe. Although the <code>sample_id</code> should be unique for each row, it is expected that the <code>source_mat_id</code> will be duplicated creating a <strong>many-to-one</strong> relationship. The format of the <code>sample_id</code> doesn’t matter, as long as it is unique. A popular choice might be the <code>source_mat_id</code> appended with the gradient position.</p>
+</section><section class="level2"><h3 id="gradient_position-and-gradient_pos_density-columns">
+<code>gradient_position</code> and <code>gradient_pos_density</code> columns<a class="anchor" aria-label="anchor" href="#gradient_position-and-gradient_pos_density-columns"></a>
 </h3>
-<p>These are the required columns to describe the position and density
-values for each <code>sample_id</code>. <code>gradient_position</code>
-is typically numbered by decreasing density, so the heaviest will be
-<code>1</code>, second heaviest will be <code>2</code>, etc. To pass
-<code>qSIP2</code> validation the <code>gradient_position</code> must be
-a positive integer, but <code>-1</code> will also be accepted to
-designate a “bulk” or other “unfractionated” sample (e.g. when doing
-growth analysis). <code>gradient_position</code> is not used directly in
-<code>qSIP2</code> calculations but can be useful for quality control.
-<code>gradient_pos_density</code> is reported as g/ml with as much
-decimal place precision as your method allows.</p>
-</div>
-<div class="section level3">
-<h3 id="gradient_pos_amt-and-gradient_pos_rel_amt-columns">
-<code>gradient_pos_amt</code> and <code>gradient_pos_rel_amt</code>
-columns<a class="anchor" aria-label="anchor" href="#gradient_pos_amt-and-gradient_pos_rel_amt-columns"></a>
+<p>These are the required columns to describe the position and density values for each <code>sample_id</code>. <code>gradient_position</code> is typically numbered by decreasing density, so the heaviest will be <code>1</code>, second heaviest will be <code>2</code>, etc. To pass <code>qSIP2</code> validation the <code>gradient_position</code> must be a positive integer, but <code>-1</code> will also be accepted to designate a “bulk” or other “unfractionated” sample (e.g. when doing growth analysis). <code>gradient_position</code> is not used directly in <code>qSIP2</code> calculations but can be useful for quality control. <code>gradient_pos_density</code> is reported as g/ml with as much decimal place precision as your method allows.</p>
+</section><section class="level2"><h3 id="gradient_pos_amt-and-gradient_pos_rel_amt-columns">
+<code>gradient_pos_amt</code> and <code>gradient_pos_rel_amt</code> columns<a class="anchor" aria-label="anchor" href="#gradient_pos_amt-and-gradient_pos_rel_amt-columns"></a>
 </h3>
-<p>A requirement for qSIP is the <code>gradient_pos_rel_amt</code>
-field, which gives the percent amount that a fraction has of the whole.
-The preferred method is given in qPCR copy numbers per volume of source
-material, but DNA totals/concentrations can be used as well.</p>
-<p>The <code>gradient_pos_rel_amt</code> column is required for MISIP
-standards, but for <code>qSIP2</code> we also require an additional
-<code>gradient_pos_amt</code> column with the “raw” abundance values for
-each sample. This requirement is because typically a qSIP workflow will
-produce the <code>gradient_pos_amt</code> values, and the
-<code>gradient_pos_rel_amt</code> can be derived from it using the
-<code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code> function. This function simply
-totals up the <code>gradient_pos_amt</code> for each sample in a source,
-and then divides by the total. This math is the same whether using qPCR
-amplicon copies or total DNA isolated.</p>
-<p>For example, if there are 100,000 total 16S copies in a source as
-determined by qPCR, and 15,000 copies in fraction 7, then the
-<code>gradient_pos_rel_amt</code> value for fraction 7 would be 0.15
-(15,000 / 100,000). Similarly, if you had 25ng total DNA used for
-density separation, and fraction 7 had 3.75 ng DNA recovered, then
-<code>gradient_pos_rel_amt</code> would also be 0.15 (3.75 / 25).</p>
-<p>See below for cases where it might make sense for the totals to not
-add up to 100%, and how to work with those cases in
-<code>qSIP2</code>.</p>
-<p>An example sample dataframe is included in the <code>qSIP2</code>
-package to demonstrate the possible columns.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>A requirement for qSIP is the <code>gradient_pos_rel_amt</code> field, which gives the percent amount that a fraction has of the whole. The preferred method is given in qPCR copy numbers per volume of source material, but DNA totals/concentrations can be used as well.</p>
+<p>The <code>gradient_pos_rel_amt</code> column is required for MISIP standards, but for <code>qSIP2</code> we also require an additional <code>gradient_pos_amt</code> column with the “raw” abundance values for each sample. This requirement is because typically a qSIP workflow will produce the <code>gradient_pos_amt</code> values, and the <code>gradient_pos_rel_amt</code> can be derived from it using the <code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code> function. This function simply totals up the <code>gradient_pos_amt</code> for each sample in a source, and then divides by the total. This math is the same whether using qPCR amplicon copies or total DNA isolated.</p>
+<p>For example, if there are 100,000 total 16S copies in a source as determined by qPCR, and 15,000 copies in fraction 7, then the <code>gradient_pos_rel_amt</code> value for fraction 7 would be 0.15 (15,000 / 100,000). Similarly, if you had 25ng total DNA used for density separation, and fraction 7 had 3.75 ng DNA recovered, then <code>gradient_pos_rel_amt</code> would also be 0.15 (3.75 / 25).</p>
+<p>See below for cases where it might make sense for the totals to not add up to 100%, and how to work with those cases in <code>qSIP2</code>.</p>
+<p>An example sample dataframe is included in the <code>qSIP2</code> package to demonstrate the possible columns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_sample_df</span></span></code></pre></div>
-<table class="table">
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
 <caption>First few rows of formatted sample data</caption>
 <thead><tr class="header">
-<th align="left">sample</th>
-<th align="left">source</th>
-<th align="right">Fraction</th>
-<th align="right">density_g_ml</th>
-<th align="right">dna_conc</th>
-<th align="right">avg_16S_g_soil</th>
+<th style="text-align: left;">sample</th>
+<th style="text-align: left;">source</th>
+<th style="text-align: right;">Fraction</th>
+<th style="text-align: right;">density_g_ml</th>
+<th style="text-align: right;">dna_conc</th>
+<th style="text-align: right;">avg_16S_g_soil</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">149_F1</td>
-<td align="left">S149</td>
-<td align="right">1</td>
-<td align="right">1.778855</td>
-<td align="right">0.0000000</td>
-<td align="right">4473.7081</td>
+<td style="text-align: left;">149_F1</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.778855</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">4473.7081</td>
 </tr>
 <tr class="even">
-<td align="left">149_F2</td>
-<td align="left">S149</td>
-<td align="right">2</td>
-<td align="right">1.773391</td>
-<td align="right">0.0000000</td>
-<td align="right">986.6581</td>
+<td style="text-align: left;">149_F2</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.773391</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">986.6581</td>
 </tr>
 <tr class="odd">
-<td align="left">149_F3</td>
-<td align="left">S149</td>
-<td align="right">3</td>
-<td align="right">1.765742</td>
-<td align="right">0.0000000</td>
-<td align="right">4002.7026</td>
+<td style="text-align: left;">149_F3</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.765742</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">4002.7026</td>
 </tr>
 <tr class="even">
-<td align="left">149_F4</td>
-<td align="left">S149</td>
-<td align="right">4</td>
-<td align="right">1.759185</td>
-<td align="right">0.0000000</td>
-<td align="right">3959.7283</td>
+<td style="text-align: left;">149_F4</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1.759185</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">3959.7283</td>
 </tr>
 <tr class="odd">
-<td align="left">149_F5</td>
-<td align="left">S149</td>
-<td align="right">5</td>
-<td align="right">1.752629</td>
-<td align="right">0.0012413</td>
-<td align="right">5725.7319</td>
+<td style="text-align: left;">149_F5</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.752629</td>
+<td style="text-align: right;">0.0012413</td>
+<td style="text-align: right;">5725.7319</td>
 </tr>
 <tr class="even">
-<td align="left">149_F6</td>
-<td align="left">S149</td>
-<td align="right">6</td>
-<td align="right">1.746072</td>
-<td align="right">0.0128156</td>
-<td align="right">7566.2722</td>
+<td style="text-align: left;">149_F6</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.746072</td>
+<td style="text-align: right;">0.0128156</td>
+<td style="text-align: right;">7566.2722</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="section level2">
-<h2 id="qsip2-sample-data-object">qSIP2 Sample Data Object<a class="anchor" aria-label="anchor" href="#qsip2-sample-data-object"></a>
+</section></section><section class="section level2"><h2 id="qsip2-sample-data-object">qSIP2 Sample Data Object<a class="anchor" aria-label="anchor" href="#qsip2-sample-data-object"></a>
 </h2>
-<p>The <code><a href="../reference/qsip_sample_data.html">qsip_sample_data()</a></code> constructor builds a sample data
-object from the dataframe. Like the source data object, the sample data
-object is built by providing column names to the appropriate
-parameters.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<p>The <code><a href="../reference/qsip_sample_data.html">qsip_sample_data()</a></code> constructor builds a sample data object from the dataframe. Like the source data object, the sample data object is built by providing column names to the appropriate parameters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sample_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qsip_sample_data.html">qsip_sample_data</a></span><span class="op">(</span><span class="va">example_sample_df</span>,</span>
 <span>  sample_id <span class="op">=</span> <span class="st">"sample"</span>,</span>
 <span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
@@ -264,20 +203,14 @@ parameters.</p>
 <span>  gradient_pos_amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;gradient_pos_rel_amt&gt; not specified. Calculating using avg_16S_g_soil column</span></span></code></pre></div>
-<div class="alert alert-primary">
-<p>Notice our dataframe did not contain the required
-<code>gradient_pos_rel_amt</code> column, but the function was able to
-calculate it using the data in the <code>gradient_pos_amt</code> column.
-See below for reasons why you might want to pre-calculate this value
-rather than having the function calculate it for you.</p>
 </div>
-<div class="section level3">
-<h3 id="structure-of-qsip_sample_data">Structure of <code>qsip_sample_data</code><a class="anchor" aria-label="anchor" href="#structure-of-qsip_sample_data"></a>
+<p>Notice our dataframe did not contain the required <code>gradient_pos_rel_amt</code> column, but the function was able to calculate it using the data in the <code>gradient_pos_amt</code> column. See below for reasons why you might want to pre-calculate this value rather than having the function calculate it for you.</p>
+<section class="level2"><h3 id="structure-of-qsip_sample_data">Structure of <code>qsip_sample_data</code>
+<a class="anchor" aria-label="anchor" href="#structure-of-qsip_sample_data"></a>
 </h3>
-<p>Like other <code>qSIP2</code> objects, the
-<code>qsip_sample_data</code> object is a list with a few key
-components, but not meant to be inspected directly.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>Like other <code>qSIP2</code> objects, the <code>qsip_sample_data</code> object is a list with a few key components, but not meant to be inspected directly.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">sample_object</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;qSIP2::qsip_sample_data&gt;</span></span>
 <span><span class="co">#&gt;  @ data                : tibble [284 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
@@ -294,98 +227,100 @@ components, but not meant to be inspected directly.</p>
 <span><span class="co">#&gt;  @ gradient_pos_density: chr "density_g_ml"</span></span>
 <span><span class="co">#&gt;  @ gradient_pos_amt    : chr "avg_16S_g_soil"</span></span>
 <span><span class="co">#&gt;  @ gradient_pos_rel_amt: chr "gradient_pos_rel_amt"</span></span></code></pre></div>
-<p>The dataframe can be returned from the object using the
-<code><a href="../reference/get_dataframe.html">get_dataframe()</a></code> function.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+</div>
+<p>The dataframe can be returned from the object using the <code><a href="../reference/get_dataframe.html">get_dataframe()</a></code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_dataframe.html">get_dataframe</a></span><span class="op">(</span><span class="va">sample_object</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
 <caption>First few rows of formatted sample data</caption>
 <colgroup>
-<col width="9%">
-<col width="12%">
-<col width="16%">
-<col width="18%">
-<col width="15%">
-<col width="18%">
-<col width="9%">
+<col style="width: 9%">
+<col style="width: 12%">
+<col style="width: 16%">
+<col style="width: 18%">
+<col style="width: 15%">
+<col style="width: 18%">
+<col style="width: 9%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">sample_id</th>
-<th align="left">source_mat_id</th>
-<th align="right">gradient_position</th>
-<th align="right">gradient_pos_density</th>
-<th align="right">gradient_pos_amt</th>
-<th align="right">gradient_pos_rel_amt</th>
-<th align="right">dna_conc</th>
+<th style="text-align: left;">sample_id</th>
+<th style="text-align: left;">source_mat_id</th>
+<th style="text-align: right;">gradient_position</th>
+<th style="text-align: right;">gradient_pos_density</th>
+<th style="text-align: right;">gradient_pos_amt</th>
+<th style="text-align: right;">gradient_pos_rel_amt</th>
+<th style="text-align: right;">dna_conc</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">149_F1</td>
-<td align="left">S149</td>
-<td align="right">1</td>
-<td align="right">1.778855</td>
-<td align="right">4473.7081</td>
-<td align="right">0.0001284</td>
-<td align="right">0.0000000</td>
+<td style="text-align: left;">149_F1</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.778855</td>
+<td style="text-align: right;">4473.7081</td>
+<td style="text-align: right;">0.0001284</td>
+<td style="text-align: right;">0.0000000</td>
 </tr>
 <tr class="even">
-<td align="left">149_F2</td>
-<td align="left">S149</td>
-<td align="right">2</td>
-<td align="right">1.773391</td>
-<td align="right">986.6581</td>
-<td align="right">0.0000283</td>
-<td align="right">0.0000000</td>
+<td style="text-align: left;">149_F2</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.773391</td>
+<td style="text-align: right;">986.6581</td>
+<td style="text-align: right;">0.0000283</td>
+<td style="text-align: right;">0.0000000</td>
 </tr>
 <tr class="odd">
-<td align="left">149_F3</td>
-<td align="left">S149</td>
-<td align="right">3</td>
-<td align="right">1.765742</td>
-<td align="right">4002.7026</td>
-<td align="right">0.0001149</td>
-<td align="right">0.0000000</td>
+<td style="text-align: left;">149_F3</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.765742</td>
+<td style="text-align: right;">4002.7026</td>
+<td style="text-align: right;">0.0001149</td>
+<td style="text-align: right;">0.0000000</td>
 </tr>
 <tr class="even">
-<td align="left">149_F4</td>
-<td align="left">S149</td>
-<td align="right">4</td>
-<td align="right">1.759185</td>
-<td align="right">3959.7283</td>
-<td align="right">0.0001137</td>
-<td align="right">0.0000000</td>
+<td style="text-align: left;">149_F4</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1.759185</td>
+<td style="text-align: right;">3959.7283</td>
+<td style="text-align: right;">0.0001137</td>
+<td style="text-align: right;">0.0000000</td>
 </tr>
 <tr class="odd">
-<td align="left">149_F5</td>
-<td align="left">S149</td>
-<td align="right">5</td>
-<td align="right">1.752629</td>
-<td align="right">5725.7319</td>
-<td align="right">0.0001643</td>
-<td align="right">0.0012413</td>
+<td style="text-align: left;">149_F5</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.752629</td>
+<td style="text-align: right;">5725.7319</td>
+<td style="text-align: right;">0.0001643</td>
+<td style="text-align: right;">0.0012413</td>
 </tr>
 <tr class="even">
-<td align="left">149_F6</td>
-<td align="left">S149</td>
-<td align="right">6</td>
-<td align="right">1.746072</td>
-<td align="right">7566.2722</td>
-<td align="right">0.0002172</td>
-<td align="right">0.0128156</td>
+<td style="text-align: left;">149_F6</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.746072</td>
+<td style="text-align: right;">7566.2722</td>
+<td style="text-align: right;">0.0002172</td>
+<td style="text-align: right;">0.0128156</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="validation-of-qsip_sample_data">Validation of <code>qsip_sample_data</code><a class="anchor" aria-label="anchor" href="#validation-of-qsip_sample_data"></a>
+</div>
+</section><section class="level2"><h3 id="validation-of-qsip_sample_data">Validation of <code>qsip_sample_data</code>
+<a class="anchor" aria-label="anchor" href="#validation-of-qsip_sample_data"></a>
 </h3>
-<p>A valid <code>qsip_sample_data</code> object will have the required
-columns, <code>sample_id</code> will contain unique values, and
-<code>gradient_position</code> will be positive integers or
-<code>-1</code>.</p>
-<p>Additionally, the <code>density_g_ml</code> values should be in a
-reasonable range (between 1.55 and 1.8)</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p>A valid <code>qsip_sample_data</code> object will have the required columns, <code>sample_id</code> will contain unique values, and <code>gradient_position</code> will be positive integers or <code>-1</code>.</p>
+<p>Additionally, the <code>density_g_ml</code> values should be in a reasonable range (between 1.55 and 1.8)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># modifying density_g_ml to be too low will give an error</span></span>
 <span><span class="va">example_sample_df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>density_g_ml <span class="op">=</span> <span class="va">density_g_ml</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -397,122 +332,105 @@ reasonable range (between 1.55 and 1.8)</p>
 <span>    gradient_pos_amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;gradient_pos_rel_amt&gt; not specified. Calculating using avg_16S_g_soil column</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in `validate_gradient_pos_density()`:</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> some gradient_pos_density values are lower than 1.55</span></span></code></pre></div>
+<span><span class="co">#&gt; Error in `validate_gradient_pos_density()`:</span></span>
+<span><span class="co">#&gt; ! some gradient_pos_density values are lower than 1.55</span></span></code></pre></div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="when-to-calculate-the-gradient_pos_rel_amt-values">When to calculate the <code>gradient_pos_rel_amt</code> values?<a class="anchor" aria-label="anchor" href="#when-to-calculate-the-gradient_pos_rel_amt-values"></a>
+</section></section><section class="section level2"><h2 id="when-to-calculate-the-gradient_pos_rel_amt-values">When to calculate the <code>gradient_pos_rel_amt</code> values?<a class="anchor" aria-label="anchor" href="#when-to-calculate-the-gradient_pos_rel_amt-values"></a>
 </h2>
-<p>Typically all of the <code>gradient_pos_rel_amt</code> for a given
-<code>source_mat_id</code> should add up to 1 (i.e. 100%), but there are
-situations where it might be less than 1 (although never greater than).
-For example, if you removed some fractions because they didn’t sequence
-well or there was some other reason to remove a fraction. If those
-removed fractions were 5% of the total data in that
-<code>source_mat_id</code>, then you would expect the total of all
-fractions to be 0.95 rather than 1. Another situation would be that
-although you added 25ng to a centrifugation, you only recovered 20ng and
-the rest was lost<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;&lt;a href=&quot;https://www.visitlex.com/guides/post/common-geeky-bourbon-terms-explained/#:~:text=Angel's%20Share&quot; class=&quot;external-link&quot;&gt;The
-angel’s share and devil’s cut&lt;/a&gt;&lt;/p&gt;"><sup>2</sup></a>.</p>
-<p>This matters because if you run the
-<code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code> function on your dataframe then
-the totals will add up to 1. You can then remove the rows from the
-dataframe that you don’t want to include in the analysis, and sum of the
-<code>gradient_pos_rel_amt</code> values will equal the appropriately
-adjusted amount. But, if you remove the bad rows from the dataframe
-first, and then let the <code><a href="../reference/qsip_sample_data.html">qsip_sample_data()</a></code> function create
-the <code>gradient_pos_rel_amt</code> values, then they will be
-artificially higher than they should be.</p>
-<p>You can use a total abundance (qPCR or DNA concentrations) to
-calculate the <code>gradient_pos_rel_amt</code> column.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>Typically all of the <code>gradient_pos_rel_amt</code> for a given <code>source_mat_id</code> should add up to 1 (i.e. 100%), but there are situations where it might be less than 1 (although never greater than). For example, if you removed some fractions because they didn’t sequence well or there was some other reason to remove a fraction. If those removed fractions were 5% of the total data in that <code>source_mat_id</code>, then you would expect the total of all fractions to be 0.95 rather than 1. Another situation would be that although you added 25ng to a centrifugation, you only recovered 20ng and the rest was lost<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;&lt;a href=&quot;https://www.visitlex.com/guides/post/common-geeky-bourbon-terms-explained/#:~:text=Angel's%20Share&quot; class=&quot;external-link&quot;&gt;The angel’s share and devil’s cut&lt;/a&gt;&lt;/p&gt;"><sup>2</sup></a>.</p>
+<p>This matters because if you run the <code><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt()</a></code> function on your dataframe then the totals will add up to 1. You can then remove the rows from the dataframe that you don’t want to include in the analysis, and sum of the <code>gradient_pos_rel_amt</code> values will equal the appropriately adjusted amount. But, if you remove the bad rows from the dataframe first, and then let the <code><a href="../reference/qsip_sample_data.html">qsip_sample_data()</a></code> function create the <code>gradient_pos_rel_amt</code> values, then they will be artificially higher than they should be.</p>
+<p>You can use a total abundance (qPCR or DNA concentrations) to calculate the <code>gradient_pos_rel_amt</code> column.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span><span class="va">example_sample_df</span>,</span>
 <span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
 <span>  amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<table class="table">
-<caption>sample data with <code>gradient_pos_rel_amt</code>
-added</caption>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
+<caption>sample data with <code>gradient_pos_rel_amt</code> added</caption>
 <colgroup>
-<col width="8%">
-<col width="8%">
-<col width="10%">
-<col width="15%">
-<col width="12%">
-<col width="18%">
-<col width="25%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 15%">
+<col style="width: 12%">
+<col style="width: 18%">
+<col style="width: 25%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">sample</th>
-<th align="left">source</th>
-<th align="right">Fraction</th>
-<th align="right">density_g_ml</th>
-<th align="right">dna_conc</th>
-<th align="right">avg_16S_g_soil</th>
-<th align="right">gradient_pos_rel_amt</th>
+<th style="text-align: left;">sample</th>
+<th style="text-align: left;">source</th>
+<th style="text-align: right;">Fraction</th>
+<th style="text-align: right;">density_g_ml</th>
+<th style="text-align: right;">dna_conc</th>
+<th style="text-align: right;">avg_16S_g_soil</th>
+<th style="text-align: right;">gradient_pos_rel_amt</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">149_F1</td>
-<td align="left">S149</td>
-<td align="right">1</td>
-<td align="right">1.778855</td>
-<td align="right">0.0000000</td>
-<td align="right">4473.7081</td>
-<td align="right">0.0001284</td>
+<td style="text-align: left;">149_F1</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.778855</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">4473.7081</td>
+<td style="text-align: right;">0.0001284</td>
 </tr>
 <tr class="even">
-<td align="left">149_F2</td>
-<td align="left">S149</td>
-<td align="right">2</td>
-<td align="right">1.773391</td>
-<td align="right">0.0000000</td>
-<td align="right">986.6581</td>
-<td align="right">0.0000283</td>
+<td style="text-align: left;">149_F2</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.773391</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">986.6581</td>
+<td style="text-align: right;">0.0000283</td>
 </tr>
 <tr class="odd">
-<td align="left">149_F3</td>
-<td align="left">S149</td>
-<td align="right">3</td>
-<td align="right">1.765742</td>
-<td align="right">0.0000000</td>
-<td align="right">4002.7026</td>
-<td align="right">0.0001149</td>
+<td style="text-align: left;">149_F3</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.765742</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">4002.7026</td>
+<td style="text-align: right;">0.0001149</td>
 </tr>
 <tr class="even">
-<td align="left">149_F4</td>
-<td align="left">S149</td>
-<td align="right">4</td>
-<td align="right">1.759185</td>
-<td align="right">0.0000000</td>
-<td align="right">3959.7283</td>
-<td align="right">0.0001137</td>
+<td style="text-align: left;">149_F4</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1.759185</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">3959.7283</td>
+<td style="text-align: right;">0.0001137</td>
 </tr>
 <tr class="odd">
-<td align="left">149_F5</td>
-<td align="left">S149</td>
-<td align="right">5</td>
-<td align="right">1.752629</td>
-<td align="right">0.0012413</td>
-<td align="right">5725.7319</td>
-<td align="right">0.0001643</td>
+<td style="text-align: left;">149_F5</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1.752629</td>
+<td style="text-align: right;">0.0012413</td>
+<td style="text-align: right;">5725.7319</td>
+<td style="text-align: right;">0.0001643</td>
 </tr>
 <tr class="even">
-<td align="left">149_F6</td>
-<td align="left">S149</td>
-<td align="right">6</td>
-<td align="right">1.746072</td>
-<td align="right">0.0128156</td>
-<td align="right">7566.2722</td>
-<td align="right">0.0002172</td>
+<td style="text-align: left;">149_F6</td>
+<td style="text-align: left;">S149</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.746072</td>
+<td style="text-align: right;">0.0128156</td>
+<td style="text-align: right;">7566.2722</td>
+<td style="text-align: right;">0.0002172</td>
 </tr>
 </tbody>
 </table>
-<p>Trying to run this function on a dataframe with an existing
-<code>gradient_pos_rel_amt</code> will give an error, but it can be
-overridden with the <code>overwrite = T</code> flag.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+</div>
+</div>
+<p>Trying to run this function on a dataframe with an existing <code>gradient_pos_rel_amt</code> will give an error, but it can be overridden with the <code>overwrite = T</code> flag.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span><span class="va">example_sample_df</span>,</span>
 <span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
 <span>  amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span></span>
@@ -521,9 +439,11 @@ overridden with the <code>overwrite = T</code> flag.</p>
 <span>    source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
 <span>    amt <span class="op">=</span> <span class="st">"avg_16S_g_soil"</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;">:</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> gradient_pos_rel_amt already exists! Set overwrite = TRUE if you want to overwrite</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; Error:</span></span>
+<span><span class="co">#&gt; ! gradient_pos_rel_amt already exists! Set overwrite = TRUE if you want to overwrite</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># set overwrite = TRUE to override the error, although this is a silly example here</span></span>
 <span><span class="fu"><a href="../reference/add_gradient_pos_rel_amt.html">add_gradient_pos_rel_amt</a></span><span class="op">(</span><span class="va">example_sample_df</span>,</span>
 <span>  source_mat_id <span class="op">=</span> <span class="st">"source"</span>,</span>
@@ -535,11 +455,92 @@ overridden with the <code>overwrite = T</code> flag.</p>
 <span>    overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
-
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+</section><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
-
 
 
     <footer><div class="pkgdown-footer-left">

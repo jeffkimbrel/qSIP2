@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.22.4.9003'
+#> [1] '0.22.5'
 ```
 
 ## Background
@@ -142,10 +142,10 @@ So, 64 features pass the more restrictive criteria, but we get 257 by
 relaxing the criteria a little bit. The function messages are rather
 verbose, but they try to summarize the results of each step.
 
-Note, relaxing the criteria too much can lead to errors later during
+**Note:** Relaxing the criteria too much can lead to errors later during
 resampling. See
 [`vignette("resampling")`](https://jeffkimbrel.github.io/qSIP2/articles/resampling.md)
-for more information or how to use the `allow_failures = TRUE` argument.
+for more information, or use the `allow_failures = TRUE` argument.
 
 We can get a list of the features using
 [`get_feature_ids()`](https://jeffkimbrel.github.io/qSIP2/reference/get_feature_ids.md),
@@ -280,7 +280,7 @@ b = plot_filter_results(restrictive) + ggtitle("Restrictive")
 a / b
 ```
 
-![](filtering_files/figure-html/unnamed-chunk-10-1.png)
+![](filtering_files/figure-html/unnamed-chunk-9-1.png)
 
 In the top plots, the blue is much larger than it is in the bottom
 plots, indicating more (obviously) made it through the loose filtering.
