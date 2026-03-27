@@ -1,31 +1,35 @@
 ---
 title: "Feature Data"
-output: rmarkdown::html_vignette
+format:
+  html:
+    toc: true
+    html-math-method: mathjax
 vignette: >
-  %\VignetteIndexEntry{feature_data}
+  %\VignetteIndexEntry{Feature Data}
   %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
+  %\VignetteEngine{quarto::html}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
-```{r setup, message=FALSE, warning=FALSE}
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
 library(dplyr)
 library(tibble)
 library(tidyr)
 library(qSIP2)
 packageVersion("qSIP2")
-```
-
-```{r, echo=FALSE}
-ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
 # Feature Counts and Metadata
@@ -84,7 +88,8 @@ get_dataframe(feature_data)
 
 Most of the validation checks depend on the chosen `type`. If you try to pass values that don't match the type you specified, you will get an error. For example, fractional values are not allowed when the type is the default `counts`.
 
-```{r, error=TRUE}
+```{r}
+#| error: true
 tibble(
   feature_id = c("feature1", "feature2", "feature3"),
   sample1 = c(0.1, 0.2, 0.3),
@@ -95,7 +100,9 @@ tibble(
 
 But it is allowed with `type = "coverage"`.
 
-```{r, error=TRUE}
+```{r}
+#| error: true
+
 tibble(
   feature_id = c("feature1", "feature2", "feature3"),
   sample1 = c(0.1, 0.2, 0.3),
@@ -106,7 +113,8 @@ tibble(
 
 In theory, the slots can be overwritten, but this is not recommended. If you do, they will undergo the same validations and may fail.
 
-```{r, error = TRUE}
+```{r}
+#| error: true
 feature_data@type <- "relative"
 ```
 

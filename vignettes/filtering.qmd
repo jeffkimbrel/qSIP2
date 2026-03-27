@@ -1,30 +1,31 @@
 ---
 title: "Filtering Features"
-output: rmarkdown::html_vignette
+format:
+  html:
+    toc: true
+    html-math-method: mathjax
 vignette: >
-  %\VignetteIndexEntry{filtering}
+  %\VignetteIndexEntry{Filtering Features}
   %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
+  %\VignetteEngine{quarto::html}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
-```{r setup, message=FALSE}
+```{r setup}
+#| message: false
 library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-```
-
-```{r, echo=FALSE}
-ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
 # Background
@@ -81,9 +82,9 @@ loose <- run_feature_filter(example_qsip_object,
 
 So, 64 features pass the more restrictive criteria, but we get 257 by relaxing the criteria a little bit. The function messages are rather verbose, but they try to summarize the results of each step. 
 
-::: {.alert .alert-primary}
-Note, relaxing the criteria too much can lead to errors later during resampling. See `vignette("resampling")` for more information or how to use the `allow_failures = TRUE` argument.
-:::
+**Note:** Relaxing the criteria too much can lead to errors later during
+resampling. See `vignette("resampling")` for more information, or use the
+`allow_failures = TRUE` argument.
 
 We can get a list of the features using `get_feature_ids()`, and to restrict it to the post-filtering results we add the `filtered = TRUE` argument. 
 
@@ -153,7 +154,10 @@ merge(
 
 Although there is a dramatic difference in the number of retained features between the two conditions, we can see how prevalent the features that are different are by plotting the fraction count distributions. 
 
-```{r, fig.width=8, fig.height=12}
+```{r}
+#| fig-width: 8
+#| fig-height: 12
+
 library(patchwork)
 a = plot_filter_results(loose) + ggtitle("Loose")
 b = plot_filter_results(restrictive) + ggtitle("Restrictive")

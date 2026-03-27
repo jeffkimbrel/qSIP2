@@ -1,30 +1,35 @@
 ---
 title: "Source Data"
-output: rmarkdown::html_vignette
+format:
+  html:
+    toc: true
+    html-math-method: mathjax
 vignette: >
-  %\VignetteIndexEntry{source_data}
+  %\VignetteIndexEntry{Source Data}
   %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
+  %\VignetteEngine{quarto::html}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
-```{r setup, message=FALSE, warning=FALSE}
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
 library(dplyr)
 library(qSIP2)
 packageVersion("qSIP2")
 ```
 
-```{r, echo=FALSE}
-ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
-```
 
 # Source Material and Metadata
 
@@ -34,7 +39,8 @@ There are a few required columns for valid source data including a unique ID (th
 
 An example source dataframe is included in the `qSIP2` package called `example_source_df`. It includes a 13C glucose addition study with two different moisture treatments ("normal" and "drought") in quadruplicate, with one only in triplicate. Each experiment contains both unlabeled 12C and labeled 13C source material, but you may have an experiment where different 13C treatments share the same 12C source material. For example, a split experiment where you have one 12C data set that is split into many experimental conditions each with a different isotopolog. 
 
-```{r, echo=FALSE}
+```{r}
+#| echo: false
 example_source_df |>
   head() |>
   knitr::kable(caption = "The first few rows of `example_source_df`")
@@ -54,9 +60,8 @@ source_object <- qsip_source_data(example_source_df,
 class(source_object)
 ```
 
-::: {.alert .alert-primary}
+
 While these three columns are required for the EAF workflow, there are additional columns required for the growth workflow (`timepoint`, `total_abundance` and `volume`). These can remain empty/unassigned for this vignette, and will be detailed in a forthcoming growth workflow vignette.
-:::
 
 Note, your column names in the dataframe don't have to specifically be the required column names, so no need to edit your original table headers if they don't match. For example, if you're `isotopolog` column is titled "substrate", it isn't necessary to rename your column. If your column names are already standardized names, then there is no need to assign while creating the object. For example, the `isotopolog` column is already title "isotopolog", so if it is omitted from the object creation then the column will still be identified and used.
 
@@ -112,7 +117,8 @@ get_dataframe(source_object, original_headers = T) |>
 
 While constructing a `qsip_source_data` object there are a few validation checks that are performed. For now, the only checks are that the `source_mat_id` is unique for each row, and that the `isotope` field is an appropriate value. This doesn't just mean it is a value that makes sense, but also that it is one of the isotopes that `qSIP2` knows how to calculate atom fraction values from. This is currently limited to 12C/13C, 14N/15N and 16O/18O. There are some "non-isotopic" names allowed as well for source material that might be unfractionated. These additional options are "bulk", "unfractionated", "T0", "time0", "Time0", and are added as exceptions in the `validate_isotopes()` helper function. 
 
-```{r, error = TRUE}
+```{r}
+#| error: true
 
 # artificially doubling the rows will give an error from duplicate source_mat_ids
 example_source_df |>
@@ -126,7 +132,8 @@ example_source_df |>
 
 One benefit of the validation steps being embedded in the object itself is that these validations are automatically run when the object is modified. This makes it impossible to modify the data later to an invalid object, e.g. changing an isotope to an invalid choice.
 
-```{r, error = TRUE}
+```{r}
+#| error: true
 source_object@data$isotope <- "13G"
 ```
 

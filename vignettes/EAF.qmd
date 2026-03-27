@@ -1,31 +1,35 @@
 ---
 title: "EAF Calculations"
-output: rmarkdown::html_vignette
+format:
+  html:
+    toc: true
+    html-math-method: mathjax
 vignette: >
-  %\VignetteIndexEntry{EAF}
+  %\VignetteIndexEntry{EAF Calculations}
   %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
+  %\VignetteEngine{quarto::html}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
-```{r setup, message=FALSE, warning=FALSE}
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
 library(dplyr)
 library(ggplot2)
 library(patchwork)
 library(qSIP2)
 packageVersion("qSIP2")
-```
-
-```{r, echo=FALSE}
-ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
 # Background
@@ -48,13 +52,18 @@ qsip_list = get_comparison_groups(example_qsip_object, group = "Moisture") |>
 
 Plotting the results shows a wide range of EAF values between the two comparisons.
 
-```{r, fig.width=7, fig.height=7}
+```{r}
+#| fig-width: 7
+#| fig-height: 7
+
 plot_EAF_values(qsip_list)
 ```
 
 The 90% confidence interval is calculated by default, but this can be modified and added to the plot with the `confidence` and `error` arguments.
 
-```{r, fig.width=7, fig.height=7}
+```{r}
+#| fig-width: 7
+#| fig-height: 7
 plot_EAF_values(qsip_list, 
                 confidence = 0.95, 
                 error = "ribbon",
@@ -63,7 +72,9 @@ plot_EAF_values(qsip_list,
 
 The number of features can be filtered to include the *n* with the highest EAF. 
 
-```{r, fig.width=7, fig.height=5}
+```{r}
+#| fig-width: 7
+#| fig-height: 5
 plot_EAF_values(qsip_list, 
                 top = 50, 
                 error = "bar",
@@ -72,7 +83,9 @@ plot_EAF_values(qsip_list,
 
 By default, the facets do not share the same y-axis so each comparison are sorted from highto low independently. But, if you want to compare the EAF values between the two comparisons, you can set `shared_y = TRUE`. Keep in mind that the top *n* is calculated for each, so you may end up with more than *n* features in the plot if there isn't much overlap between the two comparisons.
 
-```{r, fig.width=7, fig.height=5}
+```{r}
+#| fig-width: 7
+#| fig-height: 5
 plot_EAF_values(qsip_list, 
                 top = 50,
                 shared_y = TRUE,
@@ -80,9 +93,11 @@ plot_EAF_values(qsip_list,
                 title = "Y-axis shared for both comparisons")
 ```
 
-::: {.alert .alert-danger}
-As seen in the warning above, a current limitation when using `shared_y = TRUE` together with the `top` argument is that only the top *n* will be shown per facet, giving a blank value for any features that are not in the top *n* for that comparison. But, this doesn't mean they don't have EAF values or that the feature was not found. I hope to fix this limitation in the future.
-:::
+> **Warning:** As seen in the warning above, a current limitation when using
+> `shared_y = TRUE` together with the `top` argument is that only the top *n*
+> will be shown per facet, giving a blank value for any features that are not
+> in the top *n* for that comparison. This does not mean they lack EAF values
+> or were not found. This limitation may be addressed in the future.
 
 As a reminder from the resampling vignette, the "successess" in the legend and colors refer to whether the resampling was successful above a certain threshold. The plot will display whether they pass/fail if the `allow_failures` argument is set to `TRUE` in the resampling step. 
 
@@ -90,11 +105,13 @@ As a reminder from the resampling vignette, the "successess" in the legend and c
 
 You can also return the results as a dataframe using `summarize_EAF_values()` and a desired confidence (default is 90%).
 
-```{r, eval=FALSE}
+```{r}
+#| eval: false
 summarize_EAF_values(qsip_list)
 ```
 
-```{r, echo=FALSE}
+```{r}
+#| echo: false
 summarize_EAF_values(qsip_list) |>
   arrange(feature_id) |>
   head() |>
@@ -125,7 +142,10 @@ summarize_EAF_values(qsip_list$Drought) |>
 
 Using a combination of `plot_feature_curves()` and `plot_feature_resamplings()` we can plot these 4 features (with some help from the `patchwork` library).
 
-```{r, fig.width=10, fig.height=5}
+```{r}
+#| fig-width: 10
+#| fig-height: 5
+
 a = plot_feature_curves(qsip_list$Drought, features) + facet_wrap(~feature_id, nrow = 1, scales = "free")
 b = plot_feature_resamplings(qsip_list$Drought, features, intervals = "bar", confidence = 0.95) + facet_wrap(~feature_id, nrow = 1, scales = "free")
 (a / b) + 
@@ -145,7 +165,9 @@ plot_feature_occurrence(qsip_list$Drought, features)
 
 The plot above does show that ASV_100 stops appearing in some labeled sources after a density of ~1.7. With more arguments we can add the WAD and relative abundance values to the make the following figure. Here, the size of the circle represents the relative abundance of the feature in the sample, and for ASV_100 we see the most abundant fraction does heavily influence the calculated WAD value (vertical bar). So, although missing data on the "right side" of the curve may lead to issues, it doesn't seem to affect the WAD value for ASV_100, assuming the peak of the values are in that most abundant fraction.
 
-```{r, fig.width=10, fig.height=5}
+```{r}
+#| fig-width: 10
+#| fig-height: 5
 plot_feature_occurrence(qsip_list$Drought, 
                         features,
                         show_wad = TRUE,

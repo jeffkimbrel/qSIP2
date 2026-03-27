@@ -1,30 +1,34 @@
 ---
 title: "Multiple qSIP Objects"
-output: rmarkdown::html_vignette
+format:
+  html:
+    toc: true
+    html-math-method: mathjax
 vignette: >
-  %\VignetteIndexEntry{multiple_objects}
+  %\VignetteIndexEntry{Multiple qSIP Objects}
   %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
+  %\VignetteEngine{quarto::html}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
-```{r setup, message=FALSE, warning=FALSE}
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
 library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-```
-
-```{r, echo=FALSE}
-ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
 # Background

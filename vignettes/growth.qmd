@@ -1,30 +1,34 @@
 ---
 title: "Growth Workflow"
-output: rmarkdown::html_vignette
+format:
+  html:
+    toc: true
+    html-math-method: mathjax
 vignette: >
-  %\VignetteIndexEntry{growth}
+  %\VignetteIndexEntry{Growth Workflow}
   %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
+  %\VignetteEngine{quarto::html}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
-```{r setup, message=FALSE, warning=FALSE}
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
 library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-```
-
-```{r, echo=FALSE}
-ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
 # Background
@@ -100,7 +104,10 @@ get_resample_counts(q) |>
   filter(labeled_resamples < 1000 | unlabeled_resamples < 1000)
 ```
 
-```{r, fig.height=8, fig.width=6}
+```{r}
+#| fig-height: 8
+#| fig-width: 6
+
 plot_EAF_values(q,
   confidence = 0.9,
   error = "ribbon",
@@ -183,7 +190,9 @@ summarize_growth_values(q, confidence = 0.9) |> arrange(feature_id)
 
 ## Growth rate plots
 
-```{r, fig.height=8, fig.width=6}
+```{r}
+#| fig-height: 8
+#| fig-width: 6
 plot_growth_values(q,
                    confidence = 0.9,
                    top = 100,

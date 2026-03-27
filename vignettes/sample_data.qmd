@@ -1,38 +1,40 @@
 ---
 title: "Sample Data"
-output: rmarkdown::html_vignette
+format:
+  html:
+    toc: true
+    html-math-method: mathjax
 vignette: >
-  %\VignetteIndexEntry{sample_data}
+  %\VignetteIndexEntry{Sample Data}
   %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
+  %\VignetteEngine{quarto::html}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
-```{r setup, message=FALSE, warning=FALSE}
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
 library(dplyr)
 library(qSIP2)
 packageVersion("qSIP2")
-```
-
-```{r, echo=FALSE}
-ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
 # Samples and Metadata
 
 In `qSIP2`, "sample data" refers to any metadata associated with the individual fractions or their sequencing data. This is the second level of metadata - more granular than "source data", but at a higher-level than the "feature data". 
 
-::: {.alert .alert-primary}
 The word **sample** typically refers to the biological or environmental entity the DNA was isolated (aka the **source material**). In qSIP, however, because there are multiple sequencing runs per **source**, the term **sample** has historically been reserved for sequencing of each fraction. In practice, this means you will have many **samples** for each single **source**. To keep with the proposed MISIP^[https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1] standards, the source material is coded with the `source_mat_id`, and each sequencing run/fraction is coded with the `sample_id`.
-:::
 
 The sample data has the most requirements to pass validation of the three `qSIP2` input types. To standardize these requirements the column names should adhere as closely to MISIP standards where possible. Absolute requirements are slightly different than the official MISIP standards, and for the `qSIP2` package would be the `source_mat_id`, `sample_id`, `gradient_position`, `gradient_pos_density` and `gradient_pos_rel_amt` fields.
 
@@ -62,11 +64,13 @@ See below for cases where it might make sense for the totals to not add up to 10
 
 An example sample dataframe is included in the `qSIP2` package to demonstrate the possible columns. 
 
-```{r, eval=FALSE}
+```{r}
+#| eval: false
 example_sample_df
 ```
 
-```{r, echo=FALSE}
+```{r}
+#| echo: false
 example_sample_df |>
   head() |>
   knitr::kable(caption = "First few rows of formatted sample data")
@@ -77,7 +81,8 @@ example_sample_df |>
 
 The `qsip_sample_data()` constructor builds a sample data object from the dataframe. Like the source data object, the sample data object is built by providing column names to the appropriate parameters. 
 
-```{r, error=TRUE}
+```{r}
+#| error: true
 sample_object <- qsip_sample_data(example_sample_df,
   sample_id = "sample",
   source_mat_id = "source",
@@ -87,9 +92,7 @@ sample_object <- qsip_sample_data(example_sample_df,
 )
 ```
 
-::: {.alert .alert-primary}
 Notice our dataframe did not contain the required `gradient_pos_rel_amt` column, but the function was able to calculate it using the data in the `gradient_pos_amt` column. See below for reasons why you might want to pre-calculate this value rather than having the function calculate it for you. 
-:::
 
 ## Structure of `qsip_sample_data`
 
@@ -121,7 +124,8 @@ A valid `qsip_sample_data` object will have the required columns, `sample_id` wi
 
 Additionally, the `density_g_ml` values should be in a reasonable range (between 1.55 and 1.8)
 
-```{r, error = TRUE}
+```{r}
+#| error: true
 # modifying density_g_ml to be too low will give an error
 example_sample_df |>
   mutate(density_g_ml = density_g_ml / 2) |>
@@ -152,7 +156,8 @@ add_gradient_pos_rel_amt(example_sample_df,
 )
 ```
 
-```{r, echo=FALSE}
+```{r}
+#| echo: false
 add_gradient_pos_rel_amt(example_sample_df,
   source_mat_id = "source",
   amt = "avg_16S_g_soil") |>
@@ -162,7 +167,8 @@ add_gradient_pos_rel_amt(example_sample_df,
 
 Trying to run this function on a dataframe with an existing `gradient_pos_rel_amt` will give an error, but it can be overridden with the `overwrite = T` flag.
 
-```{r, error=TRUE}
+```{r}
+#| error: true
 add_gradient_pos_rel_amt(example_sample_df,
   source_mat_id = "source",
   amt = "avg_16S_g_soil"
@@ -173,7 +179,8 @@ add_gradient_pos_rel_amt(example_sample_df,
   )
 ```
 
-```{r, eval=FALSE}
+```{r}
+#| eval: false
 # set overwrite = TRUE to override the error, although this is a silly example here
 add_gradient_pos_rel_amt(example_sample_df,
   source_mat_id = "source",
