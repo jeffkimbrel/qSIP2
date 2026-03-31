@@ -52,7 +52,7 @@ process.
 For growth calculations there are three additional requirements:
 `timepoint`, `total_abundance` and `volume`. These are not necessary for
 the standard EAF workflow and will instead be addressed in the [growth
-vignette](https://jeffkimbrel.github.io/qSIP2/articles/vignettes/growth.md).
+vignette](https://jeffkimbrel.github.io/qSIP2/articles/articles/growth.md).
 
 Once the dataframe is ready, the next step is to convert it to a
 `qsip_source_data` object. This is one of the main `qSIP2` objects to
@@ -106,7 +106,7 @@ df <- get_dataframe(source_object, original_headers = TRUE)
 | 12C     | glucose    | S162   |           49402713 |  94.21217 | Drought  |
 
 See the [source data
-vignette](https://jeffkimbrel.github.io/qSIP2/articles/vignettes/source_data.md)
+vignette](https://jeffkimbrel.github.io/qSIP2/articles/articles/source_data.md)
 for more details.
 
 ### Sample Data
@@ -182,7 +182,7 @@ class(sample_object)
 ```
 
 See the [sample data
-vignette](https://jeffkimbrel.github.io/qSIP2/articles/vignettes/sample_data.md)
+vignette](https://jeffkimbrel.github.io/qSIP2/articles/articles/sample_data.md)
 for more information including the built-in validations.
 
 ### Feature Data
@@ -222,7 +222,7 @@ class(feature_object)
 ```
 
 See the [feature data
-vignette](https://jeffkimbrel.github.io/qSIP2/articles/vignettes/feature_data.md)
+vignette](https://jeffkimbrel.github.io/qSIP2/articles/articles/feature_data.md)
 for more details.
 
 ## The `qsip_data` Object
@@ -393,7 +393,7 @@ output into the
 [`run_comparison_groups()`](https://jeffkimbrel.github.io/qSIP2/reference/run_comparison_groups.md)
 function. This more advanced use in detailed in the [Multiple qSIP
 Objects
-vignette](https://jeffkimbrel.github.io/qSIP2/articles/vignettes/multiple_objects.md).
+vignette](https://jeffkimbrel.github.io/qSIP2/articles/articles/multiple_objects.md).
 
 ### Filter Features
 
@@ -508,7 +508,7 @@ step can provide an alternative way of deciding which features to keep,
 rather than just their prevalence amongst sources/samples. More
 information is provided in the resampling section below, or the
 [resampling
-vignette](https://jeffkimbrel.github.io/qSIP2/articles/vignettes/resampling.md).
+vignette](https://jeffkimbrel.github.io/qSIP2/articles/articles/resampling.md).
 
 Importantly, since the relative abundances have already been calculated
 for each feature, the subsequent steps in the qSIP pipeline keep each
@@ -573,7 +573,7 @@ qsip_drought <- run_resampling(qsip_drought,
 
 It is possible to get a resampling error if your filtering is too
 strict. If so, consult the [resampling
-vignette](https://jeffkimbrel.github.io/qSIP2/articles/vignettes/resampling.md)
+vignette](https://jeffkimbrel.github.io/qSIP2/articles/articles/resampling.md)
 and consider running with `allow_failures = T`.
 
 ### EAF Calculations
@@ -592,7 +592,7 @@ can take a little longer, allowing different parameters to be tried in
 [`summarize_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.md)
 without having to recalculate everything. More more information see the
 [EAF
-vignette](https://jeffkimbrel.github.io/qSIP2/articles/vignettes/EAF.md).
+vignette](https://jeffkimbrel.github.io/qSIP2/articles/articles/EAF.md).
 
 We’ll also
 [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) to add
@@ -650,7 +650,7 @@ Figure 7: Density curves of selected features
 To determine if there are any differences in how a feature responds in
 different treatments, we can run the delta EAF workflow. This workflow
 is detailed in the [delta EAF
-vignette](https://jeffkimbrel.github.io/qSIP2/articles/vignettes/delta_EAF.md).
+vignette](https://jeffkimbrel.github.io/qSIP2/articles/articles/delta_EAF.md).
 
 The trick is to make a [`list()`](https://rdrr.io/r/base/list.html) of
 multiple objects with a name that reflects their grouping.
@@ -694,7 +694,7 @@ that the true delta is approximately zero.
 
 It is possible to work with multiple `qsip_data` objects if they are in
 a list. This is detailed in the [multiple objects
-vignette](https://jeffkimbrel.github.io/qSIP2/articles/vignettes/multiple_objects.md),
+vignette](https://jeffkimbrel.github.io/qSIP2/articles/articles/multiple_objects.md),
 but here is a sneak peak where we can use the existing
 [`summarize_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.md)
 or
@@ -738,7 +738,7 @@ This version of the workflow still requires running each comparison
 separately. A cleaner workflow, and the recommended route, is to define
 your comparisons upstream, even in an Excel file, and run that dataframe
 through the workflow. Details can be found in the [Multiple qSIP Objects
-vignette](https://jeffkimbrel.github.io/qSIP2/articles/vignettes/multiple_objects.md).
+vignette](https://jeffkimbrel.github.io/qSIP2/articles/articles/multiple_objects.md).
 
 ## Piped Workflow
 
