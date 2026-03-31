@@ -1,3 +1,7 @@
+# qSIP2 0.23
+
+* Updating vignettes
+
 # qSIP2 0.22
 
 * New function `run_delta_EAF_contrasts()` to calculate the delta EAF between groups of qSIP2 objects

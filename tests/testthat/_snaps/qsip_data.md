@@ -3,8 +3,8 @@
     Code
       qsip_data(example_source_object, example_sample_object, example_feature_object)
     Message
-      There are 15 source_mat_ids, and they are all shared between the source and sample objects
-      There are 284 sample_ids, and they are all shared between the sample and feature objects
+      v There are 15 source_mat_ids, and they are all shared between the source and sample objects.
+      v There are 284 sample_ids, and they are all shared between the sample and feature objects.
     Output
       <qsip_data>
       group: none

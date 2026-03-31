@@ -656,6 +656,7 @@ S7::method(print, qsip_data) <- function(x, ...) {
                        resampled: {green {is_qsip_resampled(x)}}
                        EAF: {green {is_qsip_EAF(x)}}
                        growth: {green {is_qsip_growth(x)}}"))
+
 }
 
 
