@@ -1,5 +1,9 @@
 # Changelog
 
+## qSIP2 0.23
+
+- Updating vignettes
+
 ## qSIP2 0.22
 
 - New function
