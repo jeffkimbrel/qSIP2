@@ -33,13 +33,13 @@ packageVersion("qSIP2")
 
 A complete quantitative stable isotope probing (qSIP) workflow using the `qSIP2` package starts with three input files and ends with calculated excess atom fraction (EAF) values along with a ton of intermediate data. This vignette will be a high-level walk through of the major steps with links to more specific vignettes where more detail is appropriate.
 
-# The Input Files
+# The input files
 
 Preparing and formatting the input files is often the most tedious part of any analysis. Our goal with the rigid (and opinionated) requirements imposed by `qSIP2` will hopefully streamline the creation of these files, and automated validation checks can remove many of the common sources of error or confusion. Where appropriate, `qSIP2` and this documentation uses MISIP terminology[^MISIP].
 
 [^MISIP]: [Simpson, et al, 2024](https://academic.oup.com/gigascience/article/doi/10.1093/gigascience/giae071/7817747)
 
-## Source Data
+## Source data
 
 The source data is the highest level of metadata with a row corresponding to each original experimental or source material object. An example source dataframe is included in the `qSIP2` package called `example_source_df`.
 
@@ -89,7 +89,7 @@ head(df) |> knitr::kable()
 
 See the [source data vignette](source_data.html) for more details.
 
-## Sample Data
+## Sample data
 
 The sample metadata is the next level of detail with one row for each fraction, or one row for each set of fastq files that were sequenced. If you have "bulk" or unfractionated sequenced reads, these are also considered *samples*. Basically, anything that lives as columns in your ASV/feature table are considered samples. 
 
@@ -140,7 +140,7 @@ class(sample_object)
 
 See the [sample data vignette](sample_data.html) for more information including the built-in validations.
 
-## Feature Data
+## Feature data
 
 Finally, the last of the three necessary input files is a feature abundance table, aka "OTU table" or "ASV table". The format of this dataframe has the unique feature IDs in the first column, and an additional column for each sample. Each row then contains the whole number (non-normalized) counts of each feature in each sample. If your features are MAGs, then you may instead of coverages or some other pre-normalized value in your feature table instead of sequence counts. 
 
@@ -165,7 +165,7 @@ class(feature_object)
 
 See the [feature data vignette](feature_data.html) for more details.
 
-# The `qsip_data` Object
+# The `qsip_data` object
 
 The `qsip_data` class is the main workhorse object in the `qSIP2` package. It is built from validated versions of the three previous objects, and is meant to be a self-contained object with all of the necessary information for analysis.
 
@@ -224,11 +224,11 @@ print(qsip_object)
 
 
 
-# Main Workflow
+# Main workflow
 
 Now that we have a validated `qsip_data` object, we can start the main workflow consisting of comparison grouping, filtering, resampling and finally calculating EAF values. Note that this workflow explicitly (and laboriously) runs through all of the steps individually, but the preferred workflow is either piping them all together, or ideally running the multiple objects workflow. Both of these are previewed below with links to the full vignette. 
 
-## Comparison Grouping
+## Comparison grouping
 
 Your `qsip_data` object likely contains all of your data, but you may only want to run comparisons on certain subsets. The `get_comparison_groups()` function attempts to identify and suggest the sources you may want to compare.
 
@@ -265,7 +265,7 @@ get_all_by_isotope(qsip_object, "12C")
 
 The `get_comparison_groups()` function is entirely informational, but it is possible to pipe this output into the `run_comparison_groups()` function. This more advanced use in detailed in the [Multiple qSIP Objects vignette](multiple_objects.html).
 
-## Filter Features
+## Filter features
 
 The filter features step does two things. First, it is where the set of labeled and unlabeled sources are defined for a specific comparison. Second, it is where you can explicitly say how prevalent a feature must be to be considered "present" in a source. In other words, you define the parameters that a feature must be found enough of the replicate sources, and in enough samples that you can calculate an accurate WAD value for it. 
 
@@ -383,7 +383,7 @@ qsip_drought <- run_resampling(qsip_drought,
 
 It is possible to get a resampling error if your filtering is too strict. If so, consult the [resampling vignette](resampling.html) and consider running with `allow_failures = T`. 
 
-## EAF Calculations
+## EAF calculations
 
 And we are finally at the last main step, calculating and summarizing the excess atom fraction (EAF) values. There are two functions to run, the first (`run_EAF_calculations()`) that calculate EAF for the observed data and all resamplings, and the second (`summarize_EAF_values()`) that summarizes that data at a chosen confidence interval. These are split into two functions simply because the `run_EAF_calculations()` can take a little longer, allowing different parameters to be tried in `summarize_EAF_values()` without having to recalculate everything. More more information see the [EAF vignette](EAF.html).
 
@@ -478,7 +478,7 @@ plot_EAF_values(qsip_list,
 
 This version of the workflow still requires running each comparison separately. A cleaner workflow, and the recommended route, is to define your comparisons upstream, even in an Excel file, and run that dataframe through the workflow. Details can be found in the [Multiple qSIP Objects vignette](multiple_objects.html).
 
-# Piped Workflow
+# Piped workflow
 
 Although the workflow is often easier to understand and troubleshoot when broken into individual steps, it is possible to run the entire workflow in a single pipe. 
 

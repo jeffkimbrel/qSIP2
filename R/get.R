@@ -682,16 +682,18 @@ get_resample_data <- function(qsip_data_object,
 
 #' Get EAF value for a qSIP object
 #'
-#' @param qsip_data_object a qSIP2 object
+#' @param qsip_data_object a (list of) qSIP2 object
 #'
 #' @export
 
 get_EAF_data = function(qsip_data_object) {
 
-  is_qsip_EAF(qsip_data_object, error = TRUE)
-
-  methods::slot(qsip_data_object, "EAF") |>
-    dplyr::arrange(dplyr::desc(is.na(resample)), resample)
+  if (is_qsip_data_list(qsip_data_object)) {
+    purrr::imap_dfr(qsip_data_object, ~ methods::slot(.x, "EAF"), .id = "group")
+  } else if (is_qsip_EAF(qsip_data_object, error = TRUE)) {
+    methods::slot(qsip_data_object, "EAF") |>
+      dplyr::arrange(dplyr::desc(is.na(resample)), resample)
+  }
 
 }
 

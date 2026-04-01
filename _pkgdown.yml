@@ -164,6 +164,7 @@ articles:
   - filtering
   - resampling
   - EAF
+  - delta_EAF
   - growth
 
 - title: Working with...
