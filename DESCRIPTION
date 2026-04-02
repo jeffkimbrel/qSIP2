@@ -22,7 +22,8 @@ Suggests:
     yardstick,
     parsnip,
     quarto,
-    ggupset
+    ggupset,
+    ggbeeswarm
 Config/testthat/edition: 3
 Imports: 
     broom,
