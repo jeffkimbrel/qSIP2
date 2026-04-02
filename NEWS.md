@@ -1,7 +1,7 @@
 # qSIP2 0.23
 
 * Updating vignettes
-* [New vignette](delta_EAF.html) for delta EAF calculations 
+* New vignette for delta EAF calculations 
 
 # qSIP2 0.22
 

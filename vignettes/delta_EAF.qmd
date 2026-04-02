@@ -62,10 +62,13 @@ q <- tribble(
 
 Importantly, the idea of a "Delta EAF" implies we are looking to quantify the differences between treatments, and so therefore for a certain feature it must have an EAF value in both of those treatments. Since each original EAF calculation is done on a different set of source material, a feature may pass the filtering in one comparison, but not the other. In @tbl-overlaps we run a check to count just how many features are even comparable between all treatments. 
 
-```{r}
+```{r, echo = 1}
 #| label: tbl-overlaps
 
-get_overlap_sizes(q)
+overlaps = get_overlap_sizes(q)
+
+overlaps |>
+  knitr::kable()
 ```
 
 Although not yet a stand alone `qSIP2` function, we can make an upset plot showing a similar idea (@fig-upset_plot).
@@ -172,7 +175,7 @@ Our results are stored in the `delta_EAF` dataframe. We can pick an example feat
 
 ## ASV_10
 
-```{r}
+```{r, echo = 1}
 #| label: tbl-ASV_10
 ASV_10 = delta_EAF |>
   filter(feature_id == "ASV_10")
@@ -191,11 +194,11 @@ We can plot the `delta` values for each contrast together. In @fig-violin it is 
 
 ```{r}
 #| fig-height: 7
-#| fig-width: 6
+#| fig-width: 9
 #| label: fig-violin
 #| warning: false
 #| echo: false
-#| 
+
 sig_pval = 0.05
 eaf_diff = 0.05
 
@@ -234,6 +237,10 @@ One way to show this data that fits intuitively with transcriptomics results is 
 #| fig-width: 10
 #| fig-height: 4
 #| label: fig-volcano
+
+sig_pval = 0.05
+eaf_diff = 0.05
+
 delta_EAF |>
   mutate(sig = case_when(
     abs(delta) >= eaf_diff & bs_pval < sig_pval ~ TRUE,
@@ -263,10 +270,12 @@ The second case is when we use `allow_failures = TRUE` during the resampling ste
 ```{r}
 #| label: tbl-bs_pval_message
 #| tbl-cap: Three random instances of a bs_pval_message warning
+#| echo: false
 delta_EAF |>
   filter(!is.na(bs_pval_message)) |>
   slice_sample(n = 3) |>
-  select(feature_id, contrast, bs_pval, bs_pval_message)
+  select(feature_id, contrast, bs_pval, bs_pval_message) |>
+  knitr::kable()
 ```
 
 The warning in the `bs_pval` column is just telling us how many of the resamples were skipped because a delta couldn't be calculated. 
@@ -278,7 +287,7 @@ Under the hood, the delta EAF calculations use the same resampled EAF values alr
 
 ## Resampled EAF distributions
 
-```{r}
+```{r, echo = 1}
 #| label: tbl-get_EAF_data
 #| tbl-cap: The first few lines of ASV_10_EAF, ordered by resample number
 ASV_10_EAF = get_EAF_data(q) |>
@@ -298,6 +307,7 @@ Plotting those values on a density plot shows the overall shape of the 4 distrib
 #| fig-cap: Distribution of 1000 resampled EAF values for feature ASV_10.
 #| fig-height: 4
 #| fig-width: 4
+#| echo: false
 ASV_10_EAF |>
   ggplot(aes(x = EAF, color = group)) +
     geom_density() +
@@ -329,6 +339,7 @@ ASV_10_EAF |>
 
 ```{r}
 #| label: fig-ASV_10_results
+#| echo: false
 ASV_10_values = delta_EAF |> 
   filter(feature_id == "ASV_10") |> 
   filter(contrast == "Normal minus Drought")
