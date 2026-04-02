@@ -8,7 +8,7 @@ library(tidyr)
 library(tibble)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.1'
+#> [1] '0.23.2'
 ```
 
 ## Background
@@ -75,17 +75,17 @@ the other. In [Table 1](#tbl-overlaps) we run a check to count just how
 many features are even comparable between all treatments.
 
 ``` r
-get_overlap_sizes(q)
-#> # A tibble: 6 × 3
-#>   group1      group2      overlapping_features
-#>   <chr>       <chr>                      <int>
-#> 1 Drought     Drought_all                  211
-#> 2 Drought     Normal                       162
-#> 3 Drought     Normal_all                   173
-#> 4 Drought_all Normal                       168
-#> 5 Drought_all Normal_all                   179
-#> 6 Normal      Normal_all                   170
+overlaps = get_overlap_sizes(q)
 ```
+
+| group1      | group2      | overlapping_features |
+|:------------|:------------|---------------------:|
+| Drought     | Drought_all |                  211 |
+| Drought     | Normal      |                  162 |
+| Drought     | Normal_all  |                  173 |
+| Drought_all | Normal      |                  168 |
+| Drought_all | Normal_all  |                  179 |
+| Normal      | Normal_all  |                  170 |
 
 Table 1
 
@@ -195,7 +195,8 @@ delta_EAF = run_delta_EAF_contrasts(q,
                                     contrasts = contrasts,
                                     confidence = 0.95) 
 #> ℹ Confidence level = 0.95
-#> step 2/2: summarizing delta statistics ■■■■■■■■■■■■■■■■                  50% | …
+#> step 1/2: calculating deltas... ■■■■■■■■■■■■■■                    43% |  ETA:  …
+#> step 2/2: summarizing delta statistics ■■■■■■■■■■■                       32% | …
 #> ! there were 74 contrast and 66 bs_pval result messages
 ```
 
@@ -244,9 +245,6 @@ example feature_id to look at, so let’s pick `ASV_10` because it was
 ``` r
 ASV_10 = delta_EAF |>
   filter(feature_id == "ASV_10")
-
-ASV_10 |>
-  knitr::kable()
 ```
 
 | feature_id | contrast                     |      delta |      lower |     upper |        sd | bs_pval | bs_pval_message |      pval | contrast_message |
@@ -295,6 +293,9 @@ y-axis displays the “significance”, here as the negative log10 of
 `bs_pval`.
 
 ``` r
+sig_pval = 0.05
+eaf_diff = 0.05
+
 delta_EAF |>
   mutate(sig = case_when(
     abs(delta) >= eaf_diff & bs_pval < sig_pval ~ TRUE,
@@ -334,18 +335,11 @@ vignette](https://jeffkimbrel.github.io/qSIP2/articles/resampling.md)).
 Here, although there may be 1000 resamples in both groups, there may be
 sporadic `NA` values filled in when the resampling failed.
 
-``` r
-delta_EAF |>
-  filter(!is.na(bs_pval_message)) |>
-  slice_sample(n = 3) |>
-  select(feature_id, contrast, bs_pval, bs_pval_message)
-#> # A tibble: 3 × 4
-#>   feature_id contrast                  bs_pval bs_pval_message                  
-#>   <chr>      <chr>                       <dbl> <chr>                            
-#> 1 ASV_118    Normal minus Drought        0.939 Removed 3 NA bootstrap replicate…
-#> 2 ASV_55     Normal minus Drought        0.344 Removed 1 NA bootstrap replicate…
-#> 3 ASV_130    Drought_all minus Drought   0.855 Removed 6 NA bootstrap replicate…
-```
+| feature_id | contrast                  |   bs_pval | bs_pval_message                                    |
+|:-----------|:--------------------------|----------:|:---------------------------------------------------|
+| ASV_118    | Normal minus Drought      | 0.9388164 | Removed 3 NA bootstrap replicate(s) of 1000 (0.3%) |
+| ASV_55     | Normal minus Drought      | 0.3443443 | Removed 1 NA bootstrap replicate(s) of 1000 (0.1%) |
+| ASV_130    | Drought_all minus Drought | 0.8551308 | Removed 6 NA bootstrap replicate(s) of 1000 (0.6%) |
 
 Table 5: Three random instances of a bs_pval_message warning
 
@@ -374,11 +368,6 @@ of our example `ASV_10` in different groups (comparisons).
 ASV_10_EAF = get_EAF_data(q) |>
   filter(feature_id == "ASV_10") |>
   filter(!is.na(resample))
-
-ASV_10_EAF |>
-  arrange(resample) |>
-  head(8) |>
-  knitr::kable()
 ```
 
 | group       | feature_id | resample | W_lab_mean | W_unlab_mean | observed |         Z |         G |        M | atom_count | M_labeledmax | M_labeled |       EAF |
@@ -396,13 +385,6 @@ Table 6: The first few lines of ASV_10_EAF, ordered by resample number
 
 Plotting those values on a density plot shows the overall shape of the 4
 distributions. Remember, each feature_id will have it’s own shapes.
-
-``` r
-ASV_10_EAF |>
-  ggplot(aes(x = EAF, color = group)) +
-    geom_density() +
-    scale_color_viridis_d()
-```
 
 ![](delta_EAF_files/figure-html/fig-ASV_10_dist-1.png)
 
@@ -432,18 +414,6 @@ distribution of that contrast. Again, delta is calculated as
 
 Table 7: The first few rows of the delta calculations for ASV_10 for
 just the “Normal minus Drought” contrast
-
-``` r
-ASV_10_values = delta_EAF |> 
-  filter(feature_id == "ASV_10") |> 
-  filter(contrast == "Normal minus Drought")
-
-ASV_10_EAF |>
-  pivot_longer(cols = c(-contrast, -resample), names_to = "type") |>
-  ggplot(aes(x = value, color = type)) +
-    geom_density() +
-    scale_color_viridis_d()
-```
 
 ![](delta_EAF_files/figure-html/fig-ASV_10_results-1.png)
 

@@ -3,8 +3,7 @@
 ## qSIP2 0.23
 
 - Updating vignettes
-- [New vignette](https://jeffkimbrel.github.io/qSIP2/news/delta_EAF.md)
-  for delta EAF calculations
+- New vignette for delta EAF calculations
 
 ## qSIP2 0.22
 
