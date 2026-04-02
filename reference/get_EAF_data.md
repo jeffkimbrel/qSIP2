@@ -12,4 +12,4 @@ get_EAF_data(qsip_data_object)
 
 - qsip_data_object:
 
-  a qSIP2 object
+  a (list of) qSIP2 object

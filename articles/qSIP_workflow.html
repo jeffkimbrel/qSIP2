@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +51,7 @@
     <li><a class="dropdown-item" href="../articles/filtering.html">Filtering Features</a></li>
     <li><a class="dropdown-item" href="../articles/resampling.html">Resampling</a></li>
     <li><a class="dropdown-item" href="../articles/EAF.html">EAF Calculations</a></li>
+    <li><a class="dropdown-item" href="../articles/delta_EAF.html">Delta EAF Workflow</a></li>
     <li><a class="dropdown-item" href="../articles/growth.html">Growth Workflow</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/index.html">More articles...</a></li>
@@ -99,15 +100,15 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.23.0'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.23.1'</span></span></code></pre></div>
 </div>
 <section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
 <p>A complete quantitative stable isotope probing (qSIP) workflow using the <code>qSIP2</code> package starts with three input files and ends with calculated excess atom fraction (EAF) values along with a ton of intermediate data. This vignette will be a high-level walk through of the major steps with links to more specific vignettes where more detail is appropriate.</p>
-</section><section class="section level2"><h2 id="the-input-files">The Input Files<a class="anchor" aria-label="anchor" href="#the-input-files"></a>
+</section><section class="section level2"><h2 id="the-input-files">The input files<a class="anchor" aria-label="anchor" href="#the-input-files"></a>
 </h2>
 <p>Preparing and formatting the input files is often the most tedious part of any analysis. Our goal with the rigid (and opinionated) requirements imposed by <code>qSIP2</code> will hopefully streamline the creation of these files, and automated validation checks can remove many of the common sources of error or confusion. Where appropriate, <code>qSIP2</code> and this documentation uses MISIP terminology<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://academic.oup.com/gigascience/article/doi/10.1093/gigascience/giae071/7817747" class="external-link"&gt;Simpson, et al, 2024&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a>.</p>
-<section class="level2"><h3 id="source-data">Source Data<a class="anchor" aria-label="anchor" href="#source-data"></a>
+<section class="level2"><h3 id="source-data">Source data<a class="anchor" aria-label="anchor" href="#source-data"></a>
 </h3>
 <p>The source data is the highest level of metadata with a row corresponding to each original experimental or source material object. An example source dataframe is included in the <code>qSIP2</code> package called <code>example_source_df</code>.</p>
 <div class="cell">
@@ -301,7 +302,7 @@ Table 1: The first few rows of <code>example_source_df</code>
 </div>
 </div>
 <p>See the <a href="source_data.html">source data vignette</a> for more details.</p>
-</section><section class="level2"><h3 id="sample-data">Sample Data<a class="anchor" aria-label="anchor" href="#sample-data"></a>
+</section><section class="level2"><h3 id="sample-data">Sample data<a class="anchor" aria-label="anchor" href="#sample-data"></a>
 </h3>
 <p>The sample metadata is the next level of detail with one row for each fraction, or one row for each set of fastq files that were sequenced. If you have “bulk” or unfractionated sequenced reads, these are also considered <em>samples</em>. Basically, anything that lives as columns in your ASV/feature table are considered samples.</p>
 <div class="cell">
@@ -486,7 +487,7 @@ Table 3: Additional <code>gradient_pos_rel_amt</code> column added
 <span><span class="co">#&gt; [1] "qSIP2::qsip_sample_data" "S7_object"</span></span></code></pre></div>
 </div>
 <p>See the <a href="sample_data.html">sample data vignette</a> for more information including the built-in validations.</p>
-</section><section class="level2"><h3 id="feature-data">Feature Data<a class="anchor" aria-label="anchor" href="#feature-data"></a>
+</section><section class="level2"><h3 id="feature-data">Feature data<a class="anchor" aria-label="anchor" href="#feature-data"></a>
 </h3>
 <p>Finally, the last of the three necessary input files is a feature abundance table, aka “OTU table” or “ASV table”. The format of this dataframe has the unique feature IDs in the first column, and an additional column for each sample. Each row then contains the whole number (non-normalized) counts of each feature in each sample. If your features are MAGs, then you may instead of coverages or some other pre-normalized value in your feature table instead of sequence counts.</p>
 <p>For now, the validation step defaults to requiring all values be <code>counts</code> (positive integers), but other <code>type</code> options include <code>coverage</code> (for working with MAGs or metagenomes), <code>relative</code> if you already have relative abundances and <code>normalized</code> if you have spike-ins or another method that determines the correct abundance in each sample.</p>
@@ -571,7 +572,7 @@ Table 4: First bit of <code>example_feature_df</code>
 <span><span class="co">#&gt; [1] "qSIP2::qsip_feature_data" "S7_object"</span></span></code></pre></div>
 </div>
 <p>See the <a href="feature_data.html">feature data vignette</a> for more details.</p>
-</section></section><section class="section level2"><h2 id="the-qsip_data-object">The <code>qsip_data</code> Object<a class="anchor" aria-label="anchor" href="#the-qsip_data-object"></a>
+</section></section><section class="section level2"><h2 id="the-qsip_data-object">The <code>qsip_data</code> object<a class="anchor" aria-label="anchor" href="#the-qsip_data-object"></a>
 </h2>
 <p>The <code>qsip_data</code> class is the main workhorse object in the <code>qSIP2</code> package. It is built from validated versions of the three previous objects, and is meant to be a self-contained object with all of the necessary information for analysis.</p>
 <div class="cell">
@@ -652,10 +653,10 @@ Figure 3
 <span><span class="co">#&gt; EAF: FALSE</span></span>
 <span><span class="co">#&gt; growth: FALSE</span></span></code></pre></div>
 </div>
-</section></section><section class="section level2"><h2 id="main-workflow">Main Workflow<a class="anchor" aria-label="anchor" href="#main-workflow"></a>
+</section></section><section class="section level2"><h2 id="main-workflow">Main workflow<a class="anchor" aria-label="anchor" href="#main-workflow"></a>
 </h2>
 <p>Now that we have a validated <code>qsip_data</code> object, we can start the main workflow consisting of comparison grouping, filtering, resampling and finally calculating EAF values. Note that this workflow explicitly (and laboriously) runs through all of the steps individually, but the preferred workflow is either piping them all together, or ideally running the multiple objects workflow. Both of these are previewed below with links to the full vignette.</p>
-<section class="level2"><h3 id="comparison-grouping">Comparison Grouping<a class="anchor" aria-label="anchor" href="#comparison-grouping"></a>
+<section class="level2"><h3 id="comparison-grouping">Comparison grouping<a class="anchor" aria-label="anchor" href="#comparison-grouping"></a>
 </h3>
 <p>Your <code>qsip_data</code> object likely contains all of your data, but you may only want to run comparisons on certain subsets. The <code><a href="../reference/get_comparison_groups.html">get_comparison_groups()</a></code> function attempts to identify and suggest the sources you may want to compare.</p>
 <div id="tbl-get_comparison_groups" class="cell quarto-float quarto-figure quarto-figure-center">
@@ -695,7 +696,7 @@ Table 5: Output of <code><a href="../reference/get_comparison_groups.html">get_
 <span><span class="co">#&gt; [1] "S149" "S150" "S151" "S152" "S161" "S162" "S163" "S164"</span></span></code></pre></div>
 </div>
 <p>The <code><a href="../reference/get_comparison_groups.html">get_comparison_groups()</a></code> function is entirely informational, but it is possible to pipe this output into the <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> function. This more advanced use in detailed in the <a href="multiple_objects.html">Multiple qSIP Objects vignette</a>.</p>
-</section><section class="level2"><h3 id="filter-features">Filter Features<a class="anchor" aria-label="anchor" href="#filter-features"></a>
+</section><section class="level2"><h3 id="filter-features">Filter features<a class="anchor" aria-label="anchor" href="#filter-features"></a>
 </h3>
 <p>The filter features step does two things. First, it is where the set of labeled and unlabeled sources are defined for a specific comparison. Second, it is where you can explicitly say how prevalent a feature must be to be considered “present” in a source. In other words, you define the parameters that a feature must be found enough of the replicate sources, and in enough samples that you can calculate an accurate WAD value for it.</p>
 <p>The <code><a href="../reference/run_feature_filter.html">run_feature_filter()</a></code> function takes a <code>qsip_data</code> object and these different parameters allowing you to precisely tailor your filtering results. The more strict the filtering, the fewer features that will pass the filter.</p>
@@ -905,7 +906,7 @@ Figure 5: Per-source filtering results for the “drought” dataset.
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>It is possible to get a resampling error if your filtering is too strict. If so, consult the <a href="resampling.html">resampling vignette</a> and consider running with <code>allow_failures = T</code>.</p>
-</section><section class="level2"><h3 id="eaf-calculations">EAF Calculations<a class="anchor" aria-label="anchor" href="#eaf-calculations"></a>
+</section><section class="level2"><h3 id="eaf-calculations">EAF calculations<a class="anchor" aria-label="anchor" href="#eaf-calculations"></a>
 </h3>
 <p>And we are finally at the last main step, calculating and summarizing the excess atom fraction (EAF) values. There are two functions to run, the first (<code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code>) that calculate EAF for the observed data and all resamplings, and the second (<code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code>) that summarizes that data at a chosen confidence interval. These are split into two functions simply because the <code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code> can take a little longer, allowing different parameters to be tried in <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> without having to recalculate everything. More more information see the <a href="EAF.html">EAF vignette</a>.</p>
 <p>We’ll also <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code> to add the original Moisture condition to each dataframe before we combine them. Note, there is a better way to run and get results with multiple <code>qSIP2</code> objects - more details below.</p>
@@ -1266,7 +1267,7 @@ Figure 7: Density curves of selected features
 </div>
 </div>
 <p>This version of the workflow still requires running each comparison separately. A cleaner workflow, and the recommended route, is to define your comparisons upstream, even in an Excel file, and run that dataframe through the workflow. Details can be found in the <a href="multiple_objects.html">Multiple qSIP Objects vignette</a>.</p>
-</section><section class="section level2"><h2 id="piped-workflow">Piped Workflow<a class="anchor" aria-label="anchor" href="#piped-workflow"></a>
+</section><section class="section level2"><h2 id="piped-workflow">Piped workflow<a class="anchor" aria-label="anchor" href="#piped-workflow"></a>
 </h2>
 <p>Although the workflow is often easier to understand and troubleshoot when broken into individual steps, it is possible to run the entire workflow in a single pipe.</p>
 <p>For example, the normal moisture data could be filtered, resampled and have EAF values calculated in a single pipe.</p>

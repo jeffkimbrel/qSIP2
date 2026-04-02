@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.0'
+#> [1] '0.23.1'
 ```
 
 ## Background
@@ -16,7 +16,7 @@ excess atom fraction (EAF) values along with a ton of intermediate data.
 This vignette will be a high-level walk through of the major steps with
 links to more specific vignettes where more detail is appropriate.
 
-## The Input Files
+## The input files
 
 Preparing and formatting the input files is often the most tedious part
 of any analysis. Our goal with the rigid (and opinionated) requirements
@@ -25,7 +25,7 @@ files, and automated validation checks can remove many of the common
 sources of error or confusion. Where appropriate, `qSIP2` and this
 documentation uses MISIP terminology[¹](#fn1).
 
-### Source Data
+### Source data
 
 The source data is the highest level of metadata with a row
 corresponding to each original experimental or source material object.
@@ -109,7 +109,7 @@ See the [source data
 vignette](https://jeffkimbrel.github.io/qSIP2/articles/source_data.md)
 for more details.
 
-### Sample Data
+### Sample data
 
 The sample metadata is the next level of detail with one row for each
 fraction, or one row for each set of fastq files that were sequenced. If
@@ -185,7 +185,7 @@ See the [sample data
 vignette](https://jeffkimbrel.github.io/qSIP2/articles/sample_data.md)
 for more information including the built-in validations.
 
-### Feature Data
+### Feature data
 
 Finally, the last of the three necessary input files is a feature
 abundance table, aka “OTU table” or “ASV table”. The format of this
@@ -225,7 +225,7 @@ See the [feature data
 vignette](https://jeffkimbrel.github.io/qSIP2/articles/feature_data.md)
 for more details.
 
-## The `qsip_data` Object
+## The `qsip_data` object
 
 The `qsip_data` class is the main workhorse object in the `qSIP2`
 package. It is built from validated versions of the three previous
@@ -317,7 +317,7 @@ print(qsip_object)
 #> growth: FALSE
 ```
 
-## Main Workflow
+## Main workflow
 
 Now that we have a validated `qsip_data` object, we can start the main
 workflow consisting of comparison grouping, filtering, resampling and
@@ -327,7 +327,7 @@ preferred workflow is either piping them all together, or ideally
 running the multiple objects workflow. Both of these are previewed below
 with links to the full vignette.
 
-### Comparison Grouping
+### Comparison grouping
 
 Your `qsip_data` object likely contains all of your data, but you may
 only want to run comparisons on certain subsets. The
@@ -395,7 +395,7 @@ function. This more advanced use in detailed in the [Multiple qSIP
 Objects
 vignette](https://jeffkimbrel.github.io/qSIP2/articles/multiple_objects.md).
 
-### Filter Features
+### Filter features
 
 The filter features step does two things. First, it is where the set of
 labeled and unlabeled sources are defined for a specific comparison.
@@ -576,7 +576,7 @@ strict. If so, consult the [resampling
 vignette](https://jeffkimbrel.github.io/qSIP2/articles/resampling.md)
 and consider running with `allow_failures = T`.
 
-### EAF Calculations
+### EAF calculations
 
 And we are finally at the last main step, calculating and summarizing
 the excess atom fraction (EAF) values. There are two functions to run,
@@ -739,7 +739,7 @@ your comparisons upstream, even in an Excel file, and run that dataframe
 through the workflow. Details can be found in the [Multiple qSIP Objects
 vignette](https://jeffkimbrel.github.io/qSIP2/articles/multiple_objects.md).
 
-## Piped Workflow
+## Piped workflow
 
 Although the workflow is often easier to understand and troubleshoot
 when broken into individual steps, it is possible to run the entire

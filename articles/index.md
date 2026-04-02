@@ -9,6 +9,8 @@
 - [Resampling](https://jeffkimbrel.github.io/qSIP2/articles/resampling.md):
 - [EAF
   Calculations](https://jeffkimbrel.github.io/qSIP2/articles/EAF.md):
+- [Delta EAF
+  Workflow](https://jeffkimbrel.github.io/qSIP2/articles/delta_EAF.md):
 - [Growth
   Workflow](https://jeffkimbrel.github.io/qSIP2/articles/growth.md):
 
