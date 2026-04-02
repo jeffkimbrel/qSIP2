@@ -21,7 +21,8 @@ Suggests:
     workflows,
     yardstick,
     parsnip,
-    quarto
+    quarto,
+    ggupset
 Config/testthat/edition: 3
 Imports: 
     broom,
