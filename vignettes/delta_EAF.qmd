@@ -101,6 +101,8 @@ The `make_delta_EAF_contrasts()` will make a tibble of contrasts for you from yo
 
 ```{r, echo = 1}
 #| label: tbl-default_contrasts
+#| tbl-cap: The default contrasts are just best guesses and may not be relevant control/treatment combinations, or may not accurately pick which is the control
+
 contrasts = make_delta_EAF_contrasts(q)
 
 contrasts |>
@@ -111,6 +113,8 @@ For example, it is interesting to compare the drought to normal, and maybe each 
 
 ```{r, echo = 1}
 #| label: tbl-better_contrasts
+#| tbl-cap: The contrasts table can be modified to make it more useful, or you can create one from scratch using tribble or an excel file.
+
 contrasts = make_delta_EAF_contrasts(q) |>
   dplyr::filter(!contrast %in% c("Drought vs Normal_all", "Drought_all vs Normal")) |>
   mutate(contrast = paste(treatment, control, sep = " minus "))
@@ -246,6 +250,28 @@ delta_EAF |>
            fill = glue::glue("Significant at p-val < {sig_pval} and EAF diff > {eaf_diff}"))
 ```
 
+## bs_pval error message
+
+The delta EAF workflow produces a dataframe with two columns that collect error/warning messages. The `contrast_message` was explained previously, and here the `bs_pval_message` is explained. 
+
+Because calculating delta requires pairing the EAF values based on their resample number, this can fail in two cases. 
+
+The first is simply if the two groups did a different number of resamples, say 1000 in group A and 500 in group B, then obviously we can only pair up resamples 1-500 and have to skip 501-1000 for group A. 
+
+The second case is when we use `allow_failures = TRUE` during the resampling step (see the [resampling vignette](resampling.html)). Here, although there may be 1000 resamples in both groups, there may be sporadic `NA` values filled in when the resampling failed. 
+
+```{r}
+#| label: tbl-bs_pval_message
+#| tbl-cap: Three random instances of a bs_pval_message warning
+delta_EAF |>
+  filter(!is.na(bs_pval_message)) |>
+  slice_sample(n = 3) |>
+  select(feature_id, contrast, bs_pval, bs_pval_message)
+```
+
+The warning in the `bs_pval` column is just telling us how many of the resamples were skipped because a delta couldn't be calculated. 
+
+
 # The delta EAF calculations
 
 Under the hood, the delta EAF calculations use the same resampled EAF values already used to calculate both the EAF and the EAF confidence intervals reported in `summarize_EAF_values()`. During these calculations, within an original `qSIP2` object each feature will have a collection of 1,000 resampled EAF values, together making up a distribution of resampled EAF values. This data can be accessed via the `get_EAF_data()` function. The `resample` column contains the number of that specific resampling, and the "real" data is also stored here with a `resample` value of `NA`... so we can remove that. Below, we get the 1000 resamples of our example `ASV_10` in different groups (comparisons). 
@@ -305,7 +331,7 @@ ASV_10_EAF |>
 #| label: fig-ASV_10_results
 ASV_10_values = delta_EAF |> 
   filter(feature_id == "ASV_10") |> 
-  filter(contrast == "Normal minus Drought") |> dput()
+  filter(contrast == "Normal minus Drought")
 
 ASV_10_EAF |>
   pivot_longer(cols = c(-contrast, -resample), names_to = "type") |>
@@ -315,29 +341,3 @@ ASV_10_EAF |>
 ```
 
 In @fig-ASV_10_results, the green line represents the delta EAF distribution, which is the yellow line minus the purple line. This delta distribution is still literally just the final EAF values from the control group subtracted from the treatment group, but the confidence intervals and `bs_pval` are derived from this distribution of delta values. The 95% CI has the value for the 2.5% and 97.5% values in the distribution.
-
-
-
-# Session Info
-
-## Environment
-
-```{r}
-#| echo: false
-#| label: tbl-env_platform
-#| tbl-cap: Computer and system information
-
-# note, rstudio and pandoc output behaves differently when running here vs rendering
-
-get_session_info()
-```
-
-## Packages
-
-```{r}
-#| echo: false
-#| label: tbl-env_packages
-#| tbl-cap: Installed and attached packages
-
-get_package_info(attached = TRUE)
-```
