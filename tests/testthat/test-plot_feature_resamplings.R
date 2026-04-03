@@ -21,11 +21,11 @@ test_that("wrong type of feature_ids not accepted", {
                "Some of the features in feature_ids were not found in the <qsip_data_object>")
 })
 
-test_that("area expects boolean", {
-  expect_no_error(plot_feature_resamplings(filtered, area = TRUE))
-  expect_no_error(plot_feature_resamplings(filtered, area = FALSE))
-  expect_error(plot_feature_resamplings(filtered, area = "YES"))
-})
+# test_that("area expects boolean", {
+#   expect_no_error(plot_feature_resamplings(filtered, area = TRUE))
+#   expect_no_error(plot_feature_resamplings(filtered, area = FALSE))
+#   expect_error(plot_feature_resamplings(filtered, area = "YES"))
+# })
 
 test_that("selected intervals work", {
   expect_no_error(plot_feature_resamplings(filtered, interval = "bar"))

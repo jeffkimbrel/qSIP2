@@ -792,7 +792,6 @@ plot_feature_occurrence <- function(qsip_data_object,
 #'
 #' @param qsip_data_object (*qsip_data*) A qsip data object that has been resampled
 #' @param feature_ids (*character vector*) A vector of feature ids to filter on
-#' @param area (*boolean*) Whether to plot the area under the curve or not (default: TRUE)
 #' @param confidence (*numeric*) The confidence interval to plot
 #' @param intervals (*character*) Whether to plot the confidence interval as a bar, line or not at all (default)
 #'
@@ -802,7 +801,6 @@ plot_feature_occurrence <- function(qsip_data_object,
 
 plot_feature_resamplings <- function(qsip_data_object,
                                      feature_ids = NULL,
-                                     area = TRUE,
                                      confidence = 0.9,
                                      intervals = "") {
   if (isFALSE(is_qsip_resampled(qsip_data_object, error = FALSE))) {
@@ -812,11 +810,6 @@ plot_feature_resamplings <- function(qsip_data_object,
   # feature_ids must be null or a vector of strings
   if (!is.null(feature_ids) & !is.character(feature_ids)) {
     stop("<feature_ids> argument must be NULL or a vector of strings", call. = FALSE)
-  }
-
-  # area must be true or false
-  if (!isTRUE(area) & !isFALSE(area)) {
-    stop("<area> argument must be TRUE or FALSE", call. = FALSE)
   }
 
   # confidence must be between 0 and including 1
@@ -863,15 +856,14 @@ plot_feature_resamplings <- function(qsip_data_object,
 
   p <- combined_data |>
     ggplot2::ggplot(ggplot2::aes(x = mean_resampled_WAD, y = type)) +
+    ggridges::geom_density_ridges(ggplot2::aes(fill = type,
+                                               height = ggplot2::after_stat(density)),
+                                  alpha = 0.8,
+                                  stat = "density") +
     ggplot2::facet_wrap(~feature_id, scales = "free_x") +
-    ggplot2::scale_color_manual(values = c("labeled" = "#ff0000", "unlabeled" = "#037bcf")) +
-    ggplot2::scale_fill_manual(values = c("labeled" = "#FF000055", "unlabeled" = "#037bcf55")) +
-    ggplot2::labs(x = "Resampled WAD Values")
-
-  if (isTRUE(area)) {
-    p <- p +
-      ggridges::geom_density_ridges(ggplot2::aes(fill = type, height = ggplot2::after_stat(density)), stat = "density")
-  }
+    ggplot2::scale_fill_manual(values = c("labeled" = "#FF0000", "unlabeled" = "#037bcf")) +
+    ggplot2::labs(x = "Resampled WAD Values") +
+    ggplot2::theme(legend.position = "none")
 
   # options to add confidence interval data
   summary_statistics <- combined_data |>
@@ -886,12 +878,15 @@ plot_feature_resamplings <- function(qsip_data_object,
 
   if (intervals == "bar") {
     p <- p +
-      ggplot2::geom_errorbar(data = summary_statistics, ggplot2::aes(xmin = lower, xmax = upper, color = type), orientation = "y", linewidth = 1, show.legend = F)
+      ggplot2::geom_errorbar(data = summary_statistics, ggplot2::aes(xmin = lower, xmax = upper, color = type), orientation = "y", linewidth = 1, show.legend = F) +
+      ggplot2::scale_color_manual(values = c("labeled" = "#FF0000", "unlabeled" = "#037bcf"))
   } else if (intervals == "line") {
     p <- p +
       ggplot2::geom_vline(data = summary_statistics, ggplot2::aes(xintercept = mean_resampled_WAD, color = type), show.legend = F) +
       ggplot2::geom_vline(data = summary_statistics, ggplot2::aes(xintercept = lower, color = type), linetype = 2, show.legend = F) +
-      ggplot2::geom_vline(data = summary_statistics, ggplot2::aes(xintercept = upper, color = type), linetype = 2, show.legend = F)
+      ggplot2::geom_vline(data = summary_statistics, ggplot2::aes(xintercept = upper, color = type), linetype = 2, show.legend = F) +
+      ggplot2::scale_color_manual(values = c("labeled" = "#FF0000", "unlabeled" = "#037bcf"))
+
   }
 
   p

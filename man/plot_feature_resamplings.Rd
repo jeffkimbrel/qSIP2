@@ -7,7 +7,6 @@
 plot_feature_resamplings(
   qsip_data_object,
   feature_ids = NULL,
-  area = TRUE,
   confidence = 0.9,
   intervals = ""
 )
@@ -16,8 +15,6 @@ plot_feature_resamplings(
 \item{qsip_data_object}{(\emph{qsip_data}) A qsip data object that has been resampled}
 
 \item{feature_ids}{(\emph{character vector}) A vector of feature ids to filter on}
-
-\item{area}{(\emph{boolean}) Whether to plot the area under the curve or not (default: TRUE)}
 
 \item{confidence}{(\emph{numeric}) The confidence interval to plot}
 
