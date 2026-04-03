@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.2.9000'
+#> [1] '0.23.3'
 ```
 
 ## Background
@@ -323,8 +323,8 @@ summarize_EAF_values(qsip_list_3) |>
 #> # A tibble: 2 × 11
 #>   group             feature_id observed_EAF mean_resampled_EAF lower upper  pval
 #>   <chr>             <chr>             <dbl>              <dbl> <dbl> <dbl> <dbl>
-#> 1 Drought           ASV_311           0.906              0.903 0.650 1.14      0
-#> 2 Drought against … ASV_311           0.693              0.693 0.535 0.867     0
+#> 1 Drought           ASV_311           0.906              0.903 0.706 1.10      0
+#> 2 Drought against … ASV_311           0.693              0.693 0.543 0.850     0
 #> # ℹ 4 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
 #> #   labeled_sources <int>, unlabeled_sources <int>
 ```

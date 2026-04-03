@@ -8,7 +8,7 @@ library(tidyr)
 library(tibble)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.2.9000'
+#> [1] '0.23.3'
 ```
 
 ## Background
@@ -195,9 +195,8 @@ delta_EAF = run_delta_EAF_contrasts(q,
                                     contrasts = contrasts,
                                     confidence = 0.95) 
 #> ℹ Confidence level = 0.95
-#> step 1/2: calculating deltas... ■■■■■■■■■■■■■                     39% |  ETA:  …
-#> step 2/2: summarizing delta statistics ■■■■■■■■■■                        29% | …
-#> ! there were 74 contrast and 66 bs_pval result messages
+#> step 2/2: summarizing delta statistics ■■■■■■■■■■■                       33% | …
+#> ! there were 74 contrast and 127 bs_pval result messages
 ```
 
 Here, we get a warning that there were “74 contrast” and “66 `bs_pval`”
@@ -335,11 +334,11 @@ vignette](https://jeffkimbrel.github.io/qSIP2/articles/resampling.md)).
 Here, although there may be 1000 resamples in both groups, there may be
 sporadic `NA` values filled in when the resampling failed.
 
-| feature_id | contrast                  |   bs_pval | bs_pval_message                                    |
-|:-----------|:--------------------------|----------:|:---------------------------------------------------|
-| ASV_118    | Normal minus Drought      | 0.9388164 | Removed 3 NA bootstrap replicate(s) of 1000 (0.3%) |
-| ASV_55     | Normal minus Drought      | 0.3443443 | Removed 1 NA bootstrap replicate(s) of 1000 (0.1%) |
-| ASV_130    | Drought_all minus Drought | 0.8551308 | Removed 6 NA bootstrap replicate(s) of 1000 (0.6%) |
+| feature_id | contrast                  |   bs_pval | bs_pval_message                                       |
+|:-----------|:--------------------------|----------:|:------------------------------------------------------|
+| ASV_34     | Normal minus Drought      | 0.0129450 | Removed 691 NA bootstrap replicate(s) of 1000 (69.1%) |
+| ASV_117    | Drought_all minus Drought | 0.6761364 | Removed 648 NA bootstrap replicate(s) of 1000 (64.8%) |
+| ASV_55     | Normal minus Drought      | 0.2392027 | Removed 699 NA bootstrap replicate(s) of 1000 (69.9%) |
 
 Table 5: Three random instances of a bs_pval_message warning
 

@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,7 +100,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.23.2.9000'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.23.3'</span></span></code></pre></div>
 </div>
 <section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -219,7 +219,10 @@
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  with_seed <span class="op">=</span> <span class="fl">19</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: 7 unlabeled and 0 labeled feature_ids had resampling failures.</span></span>
+<span><span class="co">#&gt; ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your</span></span>
+<span><span class="co">#&gt;   &lt;qsip_data&gt; object to inspect.</span></span></code></pre></div>
 </div>
 <p>Setting <code>resamples = 1000</code> will give 1000 resamplings for each feature. The resampling is not a deterministic procedure, and so the use of a seed is recommended using the <code>with_seed</code> argument.</p>
 <section class="level2"><h3 id="under-the-hood">Under the hood<a class="anchor" aria-label="anchor" href="#under-the-hood"></a>
@@ -473,22 +476,35 @@
 <span>  allow_failures <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: 0 unlabeled and 4 labeled feature_ids had resampling failures. Run</span></span>
-<span><span class="co">#&gt; `get_resample_counts()` or `plot_successful_resamples()` on your &lt;qsip_data&gt;</span></span>
-<span><span class="co">#&gt; object to inspect.</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: 17 unlabeled and 4 labeled feature_ids had resampling failures.</span></span>
+<span><span class="co">#&gt; ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your</span></span>
+<span><span class="co">#&gt;   &lt;qsip_data&gt; object to inspect.</span></span></code></pre></div>
 </div>
 <p>The warning message here lets us know that there were no problems with the unlabeled resampling, but 4 features had failures for the labeled sources. We can see which features had failures by <code><a href="../reference/get_resample_counts.html">get_resample_counts()</a></code> and filtering for values of <span class="math inline">\(n\)</span> less than 1000 (our number of resamples).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_resample_counts.html">get_resample_counts</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">labeled_resamples</span> <span class="op">&lt;</span> <span class="fl">1000</span> <span class="op">|</span> <span class="va">unlabeled_resamples</span> <span class="op">&lt;</span> <span class="fl">1000</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 4 × 3</span></span>
-<span><span class="co">#&gt;   feature_id labeled_resamples unlabeled_resamples</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                  &lt;int&gt;               &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 ASV_149                  961                1000</span></span>
-<span><span class="co">#&gt; 2 ASV_155                  968                1000</span></span>
-<span><span class="co">#&gt; 3 ASV_161                  961                1000</span></span>
-<span><span class="co">#&gt; 4 ASV_72                   693                1000</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 17 × 3</span></span>
+<span><span class="co">#&gt;    feature_id labeled_resamples unlabeled_resamples</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                  &lt;int&gt;               &lt;int&gt;</span></span>
+<span><span class="co">#&gt;  1 ASV_113                 1000                 334</span></span>
+<span><span class="co">#&gt;  2 ASV_117                 1000                 345</span></span>
+<span><span class="co">#&gt;  3 ASV_126                 1000                 345</span></span>
+<span><span class="co">#&gt;  4 ASV_130                 1000                 334</span></span>
+<span><span class="co">#&gt;  5 ASV_149                  292                 123</span></span>
+<span><span class="co">#&gt;  6 ASV_155                  307                 345</span></span>
+<span><span class="co">#&gt;  7 ASV_157                 1000                 100</span></span>
+<span><span class="co">#&gt;  8 ASV_161                  292                 364</span></span>
+<span><span class="co">#&gt;  9 ASV_162                 1000                 323</span></span>
+<span><span class="co">#&gt; 10 ASV_220                 1000                 100</span></span>
+<span><span class="co">#&gt; 11 ASV_34                  1000                 364</span></span>
+<span><span class="co">#&gt; 12 ASV_45                  1000                 100</span></span>
+<span><span class="co">#&gt; 13 ASV_49                  1000                 364</span></span>
+<span><span class="co">#&gt; 14 ASV_52                  1000                 334</span></span>
+<span><span class="co">#&gt; 15 ASV_61                  1000                 334</span></span>
+<span><span class="co">#&gt; 16 ASV_72                    32                 345</span></span>
+<span><span class="co">#&gt; 17 ASV_74                  1000                 345</span></span></code></pre></div>
 </div>
 <p>Here, we see that indeed ASV_72 was only successful in 693 of 1000 resamplings. Statistically, you may conclude that 693 resamplings is still robust enough to accept the conclusion. But inspecting the plot for these 3 of these features show something strange with ASV_72 and we may still choose to remove it from our analysis.</p>
 <div class="cell">

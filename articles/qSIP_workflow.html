@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,7 +100,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.23.2.9000'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.23.3'</span></span></code></pre></div>
 </div>
 <section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -875,7 +875,10 @@ Figure 5: Per-source filtering results for the “drought” dataset.
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  with_seed <span class="op">=</span> <span class="fl">17</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: 1 unlabeled and 0 labeled feature_ids had resampling failures.</span></span>
+<span><span class="co">#&gt; ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your</span></span>
+<span><span class="co">#&gt;   &lt;qsip_data&gt; object to inspect.</span></span></code></pre></div>
 </div>
 <p>As this step requires some random sampling it is good practice to set the “seed”. Rather than doing this outside of the function, you can pass the seed as an argument. If you leave blank, it will generate a random seed. The seed will generate the same results each time you run the resampling process.</p>
 <div class="cell">
@@ -885,6 +888,9 @@ Figure 5: Per-source filtering results for the “drought” dataset.
 <span>  with_seed <span class="op">=</span> <span class="fl">17</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: 1 unlabeled and 0 labeled feature_ids had resampling failures.</span></span>
+<span><span class="co">#&gt; ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your</span></span>
+<span><span class="co">#&gt;   &lt;qsip_data&gt; object to inspect.</span></span>
 <span></span>
 <span><span class="co"># two runs are identical</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">qsip_normal</span>, <span class="va">qsip_normal_17_again</span><span class="op">)</span></span>
@@ -903,7 +909,10 @@ Figure 5: Per-source filtering results for the “drought” dataset.
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  with_seed <span class="op">=</span> <span class="fl">17</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: 3 unlabeled and 0 labeled feature_ids had resampling failures.</span></span>
+<span><span class="co">#&gt; ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your</span></span>
+<span><span class="co">#&gt;   &lt;qsip_data&gt; object to inspect.</span></span></code></pre></div>
 </div>
 <p>It is possible to get a resampling error if your filtering is too strict. If so, consult the <a href="resampling.html">resampling vignette</a> and consider running with <code>allow_failures = T</code>.</p>
 </section><section class="level2"><h3 id="eaf-calculations">EAF calculations<a class="anchor" aria-label="anchor" href="#eaf-calculations"></a>
@@ -976,7 +985,7 @@ Figure 7: Density curves of selected features
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="../reference/run_delta_EAF_contrasts.html">run_delta_EAF_contrasts</a></span><span class="op">(</span><span class="va">qsip_list</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ `contrasts` not given so running all-by-all</span></span>
 <span><span class="co">#&gt; ℹ Confidence level = 0.95</span></span>
-<span><span class="co">#&gt; ! there were 0 contrast and 0 bs_pval result messages</span></span></code></pre></div>
+<span><span class="co">#&gt; ! there were 0 contrast and 1 bs_pval result messages</span></span></code></pre></div>
 <div class="cell-output-display">
 <table class="table caption-top">
 <colgroup>

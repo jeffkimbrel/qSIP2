@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.2.9000'
+#> [1] '0.23.3'
 ```
 
 ## Background
@@ -139,9 +139,9 @@ q <- run_feature_filter(example_qsip_growth_object,
 #> 358 unlabeled and 359 labeled feature_ids passed the source filter
 #> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 #> In total, 358 unique feature_ids passed all fraction and source filtering requirements
-#> Warning: 8 unlabeled and 2 labeled feature_ids had resampling failures. Run
-#> `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data>
-#> object to inspect.
+#> Warning: 9 unlabeled and 6 labeled feature_ids had resampling failures.
+#> ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your
+#>   <qsip_data> object to inspect.
 ```
 
 Overall, most features had robust resampling results, with only a few
@@ -150,17 +150,20 @@ having less than 99% success in the labeled sources.
 ``` r
 get_resample_counts(q) |>
   filter(labeled_resamples < 1000 | unlabeled_resamples < 1000)
-#> # A tibble: 8 × 3
-#>   feature_id labeled_resamples unlabeled_resamples
-#>   <chr>                  <int>               <int>
-#> 1 taxon_113               1000                 999
-#> 2 taxon_180               1000                 999
-#> 3 taxon_234                996                 990
-#> 4 taxon_250                993                 990
-#> 5 taxon_278               1000                 999
-#> 6 taxon_292               1000                 999
-#> 7 taxon_327               1000                 999
-#> 8 taxon_341               1000                 999
+#> # A tibble: 11 × 3
+#>    feature_id labeled_resamples unlabeled_resamples
+#>    <chr>                  <int>               <int>
+#>  1 taxon_113               1000                 324
+#>  2 taxon_180               1000                 324
+#>  3 taxon_233               1000                 336
+#>  4 taxon_234                 88                  53
+#>  5 taxon_245                353                1000
+#>  6 taxon_250                 89                  76
+#>  7 taxon_278               1000                 324
+#>  8 taxon_292                307                 324
+#>  9 taxon_327                353                 324
+#> 10 taxon_341               1000                 324
+#> 11 taxon_74                 307                1000
 ```
 
 ``` r
@@ -231,7 +234,7 @@ and the growth model to use. The growth model can be either
 q <- run_growth_calculations(q,
                                N_total_it = example_qsip_growth_t0,
                                growth_model = "exponential")
-#> Warning: 31862 resamplings have a negative EAF value or calculated labeled copy
+#> Warning: 31327 resamplings have a negative EAF value or calculated labeled copy
 #> numbers less than 0. These values have been filtered out and added to
 #> @growth$negative_labeled
 ```

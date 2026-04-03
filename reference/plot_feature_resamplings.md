@@ -14,7 +14,8 @@ plot_feature_resamplings(
   qsip_data_object,
   feature_ids = NULL,
   confidence = 0.9,
-  intervals = ""
+  intervals = "",
+  points = FALSE
 )
 ```
 
@@ -36,6 +37,10 @@ plot_feature_resamplings(
 
   (*character*) Whether to plot the confidence interval as a bar, line
   or not at all (default)
+
+- points:
+
+  (*boolean*) Whether to show the points or not
 
 ## Value
 

@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.2.9000'
+#> [1] '0.23.3'
 ```
 
 ## Background
@@ -85,6 +85,9 @@ q <- run_resampling(q,
   with_seed = 19,
   progress = FALSE
 )
+#> Warning: 7 unlabeled and 0 labeled feature_ids had resampling failures.
+#> ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your
+#>   <qsip_data> object to inspect.
 ```
 
 Setting `resamples = 1000` will give 1000 resamplings for each feature.
@@ -275,9 +278,9 @@ q2 <- run_resampling(q2,
   allow_failures = TRUE,
   progress = FALSE
 )
-#> Warning: 0 unlabeled and 4 labeled feature_ids had resampling failures. Run
-#> `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data>
-#> object to inspect.
+#> Warning: 17 unlabeled and 4 labeled feature_ids had resampling failures.
+#> ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your
+#>   <qsip_data> object to inspect.
 ```
 
 The warning message here lets us know that there were no problems with
@@ -290,13 +293,26 @@ resamples).
 ``` r
 get_resample_counts(q2) |> 
   filter(labeled_resamples < 1000 | unlabeled_resamples < 1000)
-#> # A tibble: 4 × 3
-#>   feature_id labeled_resamples unlabeled_resamples
-#>   <chr>                  <int>               <int>
-#> 1 ASV_149                  961                1000
-#> 2 ASV_155                  968                1000
-#> 3 ASV_161                  961                1000
-#> 4 ASV_72                   693                1000
+#> # A tibble: 17 × 3
+#>    feature_id labeled_resamples unlabeled_resamples
+#>    <chr>                  <int>               <int>
+#>  1 ASV_113                 1000                 334
+#>  2 ASV_117                 1000                 345
+#>  3 ASV_126                 1000                 345
+#>  4 ASV_130                 1000                 334
+#>  5 ASV_149                  292                 123
+#>  6 ASV_155                  307                 345
+#>  7 ASV_157                 1000                 100
+#>  8 ASV_161                  292                 364
+#>  9 ASV_162                 1000                 323
+#> 10 ASV_220                 1000                 100
+#> 11 ASV_34                  1000                 364
+#> 12 ASV_45                  1000                 100
+#> 13 ASV_49                  1000                 364
+#> 14 ASV_52                  1000                 334
+#> 15 ASV_61                  1000                 334
+#> 16 ASV_72                    32                 345
+#> 17 ASV_74                  1000                 345
 ```
 
 Here, we see that indeed ASV_72 was only successful in 693 of 1000

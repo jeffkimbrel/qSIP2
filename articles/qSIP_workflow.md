@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.2.9000'
+#> [1] '0.23.3'
 ```
 
 ## Background
@@ -532,6 +532,9 @@ qsip_normal <- run_resampling(qsip_normal,
   with_seed = 17,
   progress = FALSE
 )
+#> Warning: 1 unlabeled and 0 labeled feature_ids had resampling failures.
+#> ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your
+#>   <qsip_data> object to inspect.
 ```
 
 As this step requires some random sampling it is good practice to set
@@ -546,6 +549,9 @@ qsip_normal_17_again <- run_resampling(qsip_normal,
   with_seed = 17,
   progress = FALSE
 )
+#> Warning: 1 unlabeled and 0 labeled feature_ids had resampling failures.
+#> ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your
+#>   <qsip_data> object to inspect.
 
 # two runs are identical
 identical(qsip_normal, qsip_normal_17_again)
@@ -569,6 +575,9 @@ qsip_drought <- run_resampling(qsip_drought,
   with_seed = 17,
   progress = FALSE
 )
+#> Warning: 3 unlabeled and 0 labeled feature_ids had resampling failures.
+#> ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your
+#>   <qsip_data> object to inspect.
 ```
 
 It is possible to get a resampling error if your filtering is too
@@ -669,7 +678,7 @@ See the vignette for more control over these decisions.
 df = run_delta_EAF_contrasts(qsip_list, confidence = 0.95)
 #> ℹ `contrasts` not given so running all-by-all
 #> ℹ Confidence level = 0.95
-#> ! there were 0 contrast and 0 bs_pval result messages
+#> ! there were 0 contrast and 1 bs_pval result messages
 ```
 
 | feature_id | contrast          |      delta |      lower |     upper |        sd | bs_pval | bs_pval_message |      pval | contrast_message |
