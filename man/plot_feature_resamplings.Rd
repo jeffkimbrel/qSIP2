@@ -8,7 +8,8 @@ plot_feature_resamplings(
   qsip_data_object,
   feature_ids = NULL,
   confidence = 0.9,
-  intervals = ""
+  intervals = "",
+  points = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ plot_feature_resamplings(
 \item{confidence}{(\emph{numeric}) The confidence interval to plot}
 
 \item{intervals}{(\emph{character}) Whether to plot the confidence interval as a bar, line or not at all (default)}
+
+\item{points}{(\emph{boolean}) Whether to show the points or not}
 }
 \value{
 A ggplot object

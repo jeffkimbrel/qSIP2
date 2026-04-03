@@ -16,11 +16,21 @@ test_that("wrong input types fail", {
 })
 
 test_that("same seed gives same result", {
-  expect_identical(run_resampling(qsip_normal_strict_filtered, resamples = 10, with_seed = 22),
-                   run_resampling(qsip_normal_strict_filtered, resamples = 10, with_seed = 22))
+  res1 <- suppressWarnings(
+    run_resampling(qsip_normal_strict_filtered, resamples = 10, with_seed = 22)
+  )
+  res2 <- suppressWarnings(
+    run_resampling(qsip_normal_strict_filtered, resamples = 10, with_seed = 22)
+  )
+
+  expect_identical(res1, res2)
 })
 
 test_that("resample number is correct", {
-  expect_equal(length(run_resampling(qsip_normal_strict_filtered, resamples = 10, with_seed = 22)@resamples$u), 10)
-  expect_equal(length(run_resampling(qsip_normal_strict_filtered, resamples = 10, with_seed = 22)@resamples$l), 10)})
+  expect_warning(
+    res <- run_resampling(qsip_normal_strict_filtered, resamples = 10, with_seed = 22)
+  )
 
+  expect_equal(length(res@resamples$u), 10)
+  expect_equal(length(res@resamples$l), 10)
+})

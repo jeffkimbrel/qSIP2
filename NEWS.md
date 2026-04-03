@@ -1,7 +1,8 @@
 # qSIP2 0.23
 
 * Updating vignettes
-* New vignette for delta EAF calculations 
+  * New vignette for delta EAF calculations 
+* Big change to handling NA values. Previously, a resampling "failure" was if all WAD values were NA. But now a failure is defined as any NA in the list of WADs. You may notice more warnings during resampling, and lower "success"  counts.
 * Fixed legend and color palette issues for `plot_feature_resamplings()`
 
 # qSIP2 0.22

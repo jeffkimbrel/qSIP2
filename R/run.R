@@ -344,24 +344,27 @@ run_resampling <- function(qsip_data_object,
   # set status
   qsip_data_object@status$resampled <- TRUE
 
-  if (isTRUE(allow_failures)) {
-    failures <- get_resample_counts(qsip_data_object) |>
-      tidyr::pivot_longer(cols = c("unlabeled_resamples", "labeled_resamples"),
-                          names_to = "type",
-                          values_to = "n") |>
-      dplyr::filter(n < 1000) |>
-      dplyr::group_by(type) |>
-      dplyr::count() |>
-      tibble::deframe()
+  # if (isTRUE(allow_failures)) {
+  failures <- get_resample_counts(qsip_data_object) |>
+    tidyr::pivot_longer(cols = c("unlabeled_resamples", "labeled_resamples"),
+                        names_to = "type",
+                        values_to = "n") |>
+    dplyr::filter(n < resamples) |>
+    dplyr::group_by(type) |>
+    dplyr::count() |>
+    tibble::deframe()
 
-    if (sum(failures > 0)) {
-      if (isFALSE(quiet)) {
-        failures['unlabeled_resamples'] = ifelse(is.na(failures['unlabeled_resamples']), 0, failures['unlabeled_resamples'])
-        failures['labeled_resamples'] = ifelse(is.na(failures['labeled_resamples']), 0, failures['labeled_resamples'])
-        warning(glue::glue("{failures['unlabeled_resamples']} unlabeled and {failures['labeled_resamples']} labeled feature_ids had resampling failures. Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect."),
-                call. = FALSE)
-      }
+  if (sum(failures > 0)) {
+    if (isFALSE(quiet)) {
+      failures['unlabeled_resamples'] = ifelse(is.na(failures['unlabeled_resamples']), 0, failures['unlabeled_resamples'])
+      failures['labeled_resamples'] = ifelse(is.na(failures['labeled_resamples']), 0, failures['labeled_resamples'])
+
+      cli::cli_warn(c(
+        "{failures['unlabeled_resamples']} unlabeled and {failures['labeled_resamples']} labeled feature_ids had resampling failures.",
+        "i" = "Run {.fn get_resample_counts} or {.fn plot_successful_resamples} on your {.cls qsip_data} object to inspect."
+      ))
     }
+    # }
   }
 
 
@@ -432,31 +435,34 @@ run_EAF_calculations <- function(qsip_data_object,
   p <- dplyr::bind_rows(qsip_data_object@resamples$l, .id = "resample")
   p <- dplyr::mutate(p,
                      W_lab_mean = rowMeans(dplyr::select(p, dplyr::starts_with("labeled_")),
-                                           na.rm = TRUE
+                                           na.rm = FALSE
                      )
   ) |>
-    dplyr::select(feature_id, resample, W_lab_mean)
+    dplyr::select(feature_id, resample, W_lab_mean) |>
+    dplyr::filter(!is.na(W_lab_mean))
 
   # unlabeled
   p2 <- dplyr::bind_rows(qsip_data_object@resamples$u, .id = "resample")
   p2 <- dplyr::mutate(p2,
                       W_unlab_mean = rowMeans(dplyr::select(p2, dplyr::starts_with("unlabeled_")),
-                                              na.rm = TRUE
+                                              na.rm = FALSE
                       )
   ) |>
-    dplyr::select(feature_id, resample, W_unlab_mean)
+    dplyr::select(feature_id, resample, W_unlab_mean) |>
+    dplyr::filter(!is.na(W_unlab_mean))
 
   p3 = p |>
     dplyr::left_join(p2, by = c("feature_id", "resample"))
 
   # remove bad values if allow resampling failures is true
-  if (isTRUE(qsip_data_object@resamples$allow_failures)) {
-    p3 = p3 |>
-      dplyr::filter(!is.na(W_unlab_mean)) |>
-      dplyr::filter(!is.na(W_lab_mean))
-  }
+  #if (isTRUE(qsip_data_object@resamples$allow_failures)) {
+  p3 = p3 |>
+    dplyr::filter(!is.na(W_unlab_mean)) |>
+    dplyr::filter(!is.na(W_lab_mean))
+  #}
 
   EAF <- p3 |>
+    tidyr::drop_na() |>
     dplyr::mutate(observed = F) |>
     rbind(observed) |>
     dplyr::mutate(Z = calculate_Z(W_lab_mean, W_unlab_mean)) |> # hungate equation 4

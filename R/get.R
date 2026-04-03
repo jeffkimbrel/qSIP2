@@ -591,11 +591,13 @@ get_resample_counts = function(qsip_data_object,
   # bind variables
   feature_id <- type <- n_counts <- labeled <- unlabeled <- NULL
 
-  u = dplyr::bind_rows(qsip_data_object@resamples$u, .id = "resample")
+  u = dplyr::bind_rows(qsip_data_object@resamples$u, .id = "resample") |>
+    tidyr::drop_na()
   u = u[rowSums(is.na(u)) != ncol(u) - 3, ] |>
     dplyr::select(feature_id, type)
 
-  l = dplyr::bind_rows(qsip_data_object@resamples$l, .id = "resample")
+  l = dplyr::bind_rows(qsip_data_object@resamples$l, .id = "resample") |>
+    tidyr::drop_na()
   l = l[rowSums(is.na(l)) != ncol(l) - 3, ] |>
     dplyr::select(feature_id, type)
 

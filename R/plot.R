@@ -794,6 +794,7 @@ plot_feature_occurrence <- function(qsip_data_object,
 #' @param feature_ids (*character vector*) A vector of feature ids to filter on
 #' @param confidence (*numeric*) The confidence interval to plot
 #' @param intervals (*character*) Whether to plot the confidence interval as a bar, line or not at all (default)
+#' @param points (*boolean*) Whether to show the points or not
 #'
 #' @export
 #'
@@ -802,7 +803,8 @@ plot_feature_occurrence <- function(qsip_data_object,
 plot_feature_resamplings <- function(qsip_data_object,
                                      feature_ids = NULL,
                                      confidence = 0.9,
-                                     intervals = "") {
+                                     intervals = "",
+                                     points = FALSE) {
   if (isFALSE(is_qsip_resampled(qsip_data_object, error = FALSE))) {
     stop("This function requires a qsip object that has been run through run_resampling()", call. = FALSE)
   }
@@ -822,18 +824,24 @@ plot_feature_resamplings <- function(qsip_data_object,
     stop("<intervals> argument must be 'bar' or 'line'", call. = FALSE)
   }
 
+  if (!is.logical(points)) {
+    stop("<points> should be TRUE/FALSE", call. = F)
+  }
+
   # bind variables
   value <- feature_id <- resample <- type <- mean_resampled_WAD <- mean_resampled_WAD2 <- lower <- upper <- NULL
 
   unlabeled_data <- dplyr::bind_rows(qsip_data_object@resamples$u) |>
     tidyr::pivot_longer(cols = dplyr::starts_with("unlabeled_")) |>
-    dplyr::filter(!is.na(value)) |>
-    dplyr::summarize(mean_resampled_WAD = mean(value), .by = c(feature_id, resample, type))
+    #dplyr::filter(!is.na(value)) |>
+    dplyr::summarize(mean_resampled_WAD = mean(value), .by = c(feature_id, resample, type)) |>
+    tidyr::drop_na()
 
   labeled_data <- dplyr::bind_rows(qsip_data_object@resamples$l) |>
     tidyr::pivot_longer(cols = dplyr::starts_with("labeled_")) |>
-    dplyr::filter(!is.na(value)) |>
-    dplyr::summarize(mean_resampled_WAD = mean(value), .by = c(feature_id, resample, type))
+    #dplyr::filter(!is.na(value)) |>
+    dplyr::summarize(mean_resampled_WAD = mean(value), .by = c(feature_id, resample, type)) |>
+    tidyr::drop_na()
 
   combined_data <- rbind(unlabeled_data, labeled_data)
 
@@ -888,6 +896,15 @@ plot_feature_resamplings <- function(qsip_data_object,
       ggplot2::scale_color_manual(values = c("labeled" = "#FF0000", "unlabeled" = "#037bcf"))
 
   }
+
+  if (isTRUE(points)) {
+    p = p +
+      geom_point(position = position_jitter(height = 0.05, width = 0), aes(fill = type), pch = 21) +
+      ggplot2::scale_fill_manual(values = c("labeled" = "#FF0000", "unlabeled" = "#037bcf"))
+
+
+  }
+
 
   p
 }
