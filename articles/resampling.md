@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.2'
+#> [1] '0.23.2.9000'
 ```
 
 ## Background
@@ -173,8 +173,6 @@ features. Here, I will select 3 random feature_ids to show.
 random_features <- sample(get_feature_ids(q, filtered = T), 3)
 plot_feature_resamplings(q, 
                          feature_id = random_features)
-#> Warning: No shared levels found between `names(values)` of the manual scale and the
-#> data's colour values.
 ```
 
 ![](resampling_files/figure-html/unnamed-chunk-12-1.png)

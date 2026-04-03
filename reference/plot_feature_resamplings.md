@@ -13,7 +13,6 @@ TRUE).
 plot_feature_resamplings(
   qsip_data_object,
   feature_ids = NULL,
-  area = TRUE,
   confidence = 0.9,
   intervals = ""
 )
@@ -28,11 +27,6 @@ plot_feature_resamplings(
 - feature_ids:
 
   (*character vector*) A vector of feature ids to filter on
-
-- area:
-
-  (*boolean*) Whether to plot the area under the curve or not (default:
-  TRUE)
 
 - confidence:
 

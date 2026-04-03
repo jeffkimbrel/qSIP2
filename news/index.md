@@ -4,6 +4,8 @@
 
 - Updating vignettes
 - New vignette for delta EAF calculations
+- Fixed legend and color palette issues for
+  [`plot_feature_resamplings()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_resamplings.md)
 
 ## qSIP2 0.22
 
