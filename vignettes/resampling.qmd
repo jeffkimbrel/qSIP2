@@ -162,7 +162,7 @@ Rather than seeing all of the resampled data itself, you are often only interest
 ```{r}
 #| fig-width: 8
 #| fig-height: 3
-#| label: fig-plot_feature_resamplings1
+#| label: fig-plot_feature_resamplings
 #| fig-cap: Feature resampling results of 3 random features plotted with plot_feature_resamplings()
 
 set.seed(52)
@@ -190,7 +190,7 @@ When sampling 3 values with replacement, there are only a few distinct combinati
 - (1, 10, 10) → mean = 7  
 - (10, 10, 10) → mean = 10  
 
-Even if we generate 1,000 bootstrap replicates, the means can only take on these few values (see the points in @fig-plot_feature_resamplings2). As a result, the distribution of bootstrap means is not smooth, but instead shows **discrete spikes** at these values.
+Even if we generate 1,000 bootstrap replicates, the means can only take on these few values (see the points in @fig-plot_feature_resamplings). As a result, the distribution of bootstrap means is not smooth, but instead shows **discrete spikes** at these values.
 
 This same behavior appears in the WAD data. Each feature in @tbl-wad_values has only three observed values:
 
@@ -224,7 +224,7 @@ plot_feature_resamplings(q,
                          points = TRUE)
 ```
 
-In general, this effect diminishes as the number of observations increases: with more values, there are many more possible resampled combinations, and the bootstrap distribution becomes smoother. Just to further drive it home, @fig-plot_feature_resamplings2 shows some spikiness for ASV_24, even in the blue unlabeled histogram with 8 values used in the bootstrapping. If we make a plot of the WAD values used for bootstrapping, we can see an outlier in that one feature (@fig-geom_beeswarm), and that one outlier is enough to introduce spikiness in the histogram. The benefits of the bootstrapping are also apparent here because although that outlier is up near a density of 1.78 g/mL, none of the mean WAD values approach that high, unrealistic value. 
+In general, this effect diminishes as the number of observations increases: with more values, there are many more possible resampled combinations, and the bootstrap distribution becomes smoother. Just to further drive it home, @fig-plot_feature_resamplings3 shows some spikiness for ASV_24, even in the blue unlabeled histogram with 8 values used in the bootstrapping. If we make a plot of the WAD values used for bootstrapping, we can see an outlier in that one feature (@fig-geom_beeswarm), and that one outlier is enough to introduce spikiness in the histogram. The benefits of the bootstrapping are also apparent here because although that outlier is up near a density of 1.78 g/mL, none of the mean WAD values approach that high, unrealistic value. 
 
 ```{r}
 #| echo: false
