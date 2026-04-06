@@ -45,7 +45,7 @@ jgi_normalize_features <- function(features, samples, method = "lm") {
 
 
   # make a three column nested dataframe, one for for each sample, and then nested dataframes for log coverages of the EXP and CONTROL features
-  features_nested <- features %>%
+  features_nested <- features |>
     tidyr::pivot_longer(cols = -feature_id, names_to = "sample_id", values_to = "COVERAGE") |>
     dplyr::left_join(samples, by = "sample_id") |>
     dplyr::select(sample_id, feature_id, COVERAGE, MIX, sequins_pg) |>

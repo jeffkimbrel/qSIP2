@@ -527,7 +527,7 @@ qsip_object_size = function(qsip_data_object,
   purrr::map_df(l, function(x) {
     tibble::tibble(
       size_raw = object.size(x),
-      size = size_raw %>% format(units = units)
+      size = size_raw |> format(units = units)
     )
   }) |>
     #cbind("@slot" = names(j)) |>

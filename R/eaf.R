@@ -25,6 +25,7 @@
 #' @param q a qSIP2 list object
 #' @param contrasts A validated contrasts table
 #' @param confidence (numeric, default: 0.95) confidence interval
+#' @param quiet (*boolean*) If `TRUE`, suppresses messages
 #'
 #' @returns a tibble
 #' @export
@@ -42,10 +43,10 @@ run_delta_EAF_contrasts = function(q, contrasts = NULL, confidence = 0.95, quiet
   }
 
   if (!is.numeric(confidence)) {
-    cli_abort("{.arg confidence} must be numeric, not {.cls {class(confidence)}}.")
+    cli::cli_abort("{.arg confidence} must be numeric, not {.cls {class(confidence)}}.")
   }
   if (confidence <= 0 | confidence >= 1) {
-    cli_abort("{.arg confidence} must be between 0 and 1, not {.val {confidence}}.")
+    cli::cli_abort("{.arg confidence} must be between 0 and 1, not {.val {confidence}}.")
   }
 
   if (isFALSE(quiet)) {
@@ -270,7 +271,7 @@ get_delta_stats = function(delta_distributions, confidence = 0.95) {
     delta |>
       dplyr::left_join(delta_dist, by = dplyr::join_by(contrast)) |>
       dplyr::left_join(bs_pval, by = dplyr::join_by(contrast)) |>
-      dplyr::mutate(pval = 2 * pnorm(-abs(delta / sd)))
+      dplyr::mutate(pval = 2 * stats::pnorm(-abs(delta / sd)))
   }
 
   return(delta_stats)
@@ -315,7 +316,7 @@ calculate_bootstrap_pvalue <- function(bs_distribution, null_value = 0) {
   }
 
   n0 <- length(bs_distribution)
-  if (n0 == 0L) cli_abort("{.arg bs_distribution} must not be empty.")
+  if (n0 == 0L) cli::cli_abort("{.arg bs_distribution} must not be empty.")
 
   n_na <- sum(is.na(bs_distribution))
   if (n_na > 0L) {

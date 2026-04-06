@@ -469,7 +469,7 @@ get_filter_results <- function(qsip_data_object,
 
   if (type == "counts") {
     c |>
-      dplyr::mutate(across(where(is.list), ~ purrr::map_int(., ~ ifelse(length(.) == 0, 0, length(.)))))
+      dplyr::mutate(across(dplyr::where(is.list), ~ purrr::map_int(., ~ ifelse(length(.) == 0, 0, length(.)))))
   } else if (type == "feature_ids") {
     c
   }
@@ -1047,10 +1047,10 @@ summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = 
 
   # confirm the confidence value is numeric and between 0-1
   if (!is.numeric(confidence)) {
-    cli_abort("{.arg confidence} must be numeric, not {.cls {class(confidence)}}.")
+    cli::cli_abort("{.arg confidence} must be numeric, not {.cls {class(confidence)}}.")
   }
   if (confidence <= 0 | confidence >= 1) {
-    cli_abort("{.arg confidence} must be between 0 and 1, not {.val {confidence}}.")
+    cli::cli_abort("{.arg confidence} must be between 0 and 1, not {.val {confidence}}.")
   }
 
   observed <- feature_id <- timepoint1 <- timepoint2 <- N_total_i0 <- N_total_it <- r_net <- bi <- di <- ri <- EAF <- desc <- observed_ri <- NULL

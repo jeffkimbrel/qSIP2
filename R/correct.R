@@ -343,8 +343,8 @@ plot_difference_to_mean <- function(qsip_data_object,
 
 plot_corrected_curves <- function(reference, corrected) {
   l <- list(
-    "reference" = dplyr::left_join(slot(reference, "wads"), slot(reference, "tube_rel_abundance"), by = dplyr::join_by(feature_id, source_mat_id)),
-    "corrected" = dplyr::left_join(slot(corrected, "wads"), slot(corrected, "tube_rel_abundance"), by = dplyr::join_by(feature_id, source_mat_id))
+    "reference" = dplyr::left_join(methods::slot(reference, "wads"), methods::slot(reference, "tube_rel_abundance"), by = dplyr::join_by(feature_id, source_mat_id)),
+    "corrected" = dplyr::left_join(methods::slot(corrected, "wads"), methods::slot(corrected, "tube_rel_abundance"), by = dplyr::join_by(feature_id, source_mat_id))
   )
 
   dplyr::bind_rows(l, .id = "correction_method") |>
@@ -419,9 +419,9 @@ plot_correction_compression = function(corrections) {
   corrections |>
     dplyr::left_join(correction_values, by = "source_mat_id") |>
     ggplot2::ggplot(ggplot2::aes(x = WAD, y = .fitted)) +
-    ggplot2::geom_point(aes(color = compression)) +
+    ggplot2::geom_point(ggplot2::aes(color = compression)) +
     ggplot2::scale_color_viridis_c() +
     ggplot2::facet_wrap(~source_mat_id) +
-    geom_abline(intercept = 0, slope = 1, linetype = 3) +
-    labs(x = "original WAD", y = "corrected WAD")
+    ggplot2::geom_abline(intercept = 0, slope = 1, linetype = 3) +
+    ggplot2::labs(x = "original WAD", y = "corrected WAD")
 }

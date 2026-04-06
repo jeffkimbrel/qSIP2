@@ -12,6 +12,8 @@ run_delta_EAF_contrasts(q, contrasts = NULL, confidence = 0.95, quiet = FALSE)
 \item{contrasts}{A validated contrasts table}
 
 \item{confidence}{(numeric, default: 0.95) confidence interval}
+
+\item{quiet}{(\emph{boolean}) If \code{TRUE}, suppresses messages}
 }
 \value{
 a tibble

@@ -28,7 +28,7 @@ example_sample_df <- minimal |>
 asv_table <- readr::read_tsv("~/OD/Soils_SFA/analysis/qSIP_refactor/qsip2_example_data/table.txt")
 
 example_feature_df <- asv_table |>
-  dplyr::select(ASV, all_of(minimal$sample)) |>
+  dplyr::select(ASV, dplyr::all_of(minimal$sample)) |>
   tidyr::pivot_longer(cols = c(everything(), -ASV)) |>
   dplyr::filter(value > 20) |>
   tidyr::pivot_wider(values_fill = 0) |>

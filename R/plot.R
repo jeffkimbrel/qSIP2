@@ -442,7 +442,7 @@ plot_EAF_values <- function(qsip_data_object,
 
     EAF = EAF |>
       dplyr::select(-feature_id) |>
-      dplyr::rename(feature_id = all_of(taxonomy))
+      dplyr::rename(feature_id = dplyr::all_of(taxonomy))
   }
 
 
@@ -899,7 +899,7 @@ plot_feature_resamplings <- function(qsip_data_object,
 
   if (isTRUE(points)) {
     p = p +
-      geom_point(position = position_jitter(height = 0.05, width = 0), aes(fill = type), pch = 21) +
+      ggplot2::geom_point(position = position_jitter(height = 0.05, width = 0), ggplot2::aes(fill = type), pch = 21) +
       ggplot2::scale_fill_manual(values = c("labeled" = "#FF0000", "unlabeled" = "#037bcf"))
 
 
@@ -1097,8 +1097,8 @@ plot_resampling_convergence <- function(qsip_data_object) {
       formula = "y ~ x",
       method = "loess"
     ) +
-    # geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.1) +
-    ggplot2::geom_hline(aes(yintercept = observed_EAF), color = "red") +
+    # geom_errorbar(ggplot2::aes(ymin = lower, ymax = upper), width = 0.1) +
+    ggplot2::geom_hline(ggplot2::aes(yintercept = observed_EAF), color = "red") +
     ggplot2::geom_boxplot(ggplot2::aes(group = unlabeled_resamples))
 }
 
