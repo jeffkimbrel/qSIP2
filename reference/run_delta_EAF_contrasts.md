@@ -25,6 +25,10 @@ run_delta_EAF_contrasts(q, contrasts = NULL, confidence = 0.95, quiet = FALSE)
 
   (numeric, default: 0.95) confidence interval
 
+- quiet:
+
+  (*boolean*) If `TRUE`, suppresses messages
+
 ## Value
 
 a tibble

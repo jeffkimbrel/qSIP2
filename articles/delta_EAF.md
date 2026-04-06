@@ -8,7 +8,7 @@ library(tidyr)
 library(tibble)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.3'
+#> [1] '0.23.4'
 ```
 
 ## Background
@@ -195,7 +195,8 @@ delta_EAF = run_delta_EAF_contrasts(q,
                                     contrasts = contrasts,
                                     confidence = 0.95) 
 #> ℹ Confidence level = 0.95
-#> step 2/2: summarizing delta statistics ■■■■■■■■■■■                       33% | …
+#> step 2/2: summarizing delta statistics ■■■■■■■■■                         26% | …
+#> step 2/2: summarizing delta statistics ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     92% | …
 #> ! there were 74 contrast and 127 bs_pval result messages
 ```
 
