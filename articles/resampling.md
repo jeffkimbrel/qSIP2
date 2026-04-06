@@ -178,7 +178,7 @@ plot_feature_resamplings(q,
                          confidence = 0.95)
 ```
 
-![](resampling_files/figure-html/fig-plot_feature_resamplings1-1.png)
+![](resampling_files/figure-html/fig-plot_feature_resamplings-1.png)
 
 Figure 1: Feature resampling results of 3 random features plotted with
 plot_feature_resamplings()
@@ -207,9 +207,9 @@ combinations (ignoring order):
 
 Even if we generate 1,000 bootstrap replicates, the means can only take
 on these few values (see the points in
-**?@fig-plot_feature_resamplings2**). As a result, the distribution of
-bootstrap means is not smooth, but instead shows **discrete spikes** at
-these values.
+[Figure 1](#fig-plot_feature_resamplings)). As a result, the
+distribution of bootstrap means is not smooth, but instead shows
+**discrete spikes** at these values.
 
 This same behavior appears in the WAD data. Each feature in
 [Table 5](#tbl-wad_values) has only three observed values:
@@ -247,10 +247,10 @@ with points = TRUE
 In general, this effect diminishes as the number of observations
 increases: with more values, there are many more possible resampled
 combinations, and the bootstrap distribution becomes smoother. Just to
-further drive it home, **?@fig-plot_feature_resamplings2** shows some
-spikiness for ASV_24, even in the blue unlabeled histogram with 8 values
-used in the bootstrapping. If we make a plot of the WAD values used for
-bootstrapping, we can see an outlier in that one feature
+further drive it home, [Figure 2](#fig-plot_feature_resamplings3) shows
+some spikiness for ASV_24, even in the blue unlabeled histogram with 8
+values used in the bootstrapping. If we make a plot of the WAD values
+used for bootstrapping, we can see an outlier in that one feature
 ([Figure 3](#fig-geom_beeswarm)), and that one outlier is enough to
 introduce spikiness in the histogram. The benefits of the bootstrapping
 are also apparent here because although that outlier is up near a

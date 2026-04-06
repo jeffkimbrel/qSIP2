@@ -444,11 +444,11 @@ Table 4: The first few lines of the unlabeled resampling results. There were 8 
 <span>                         interval <span class="op">=</span> <span class="st">"bar"</span>,</span>
 <span>                         confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
-<div id="fig-plot_feature_resamplings1" class="quarto-float quarto-figure quarto-figure-center">
-<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-plot_feature_resamplings1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="resampling_files/figure-html/fig-plot_feature_resamplings1-1.png" width="768">
+<div id="fig-plot_feature_resamplings" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-plot_feature_resamplings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resampling_files/figure-html/fig-plot_feature_resamplings-1.png" width="768">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot_feature_resamplings1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot_feature_resamplings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure 1: Feature resampling results of 3 random features plotted with plot_feature_resamplings()
 </figcaption></figure>
 </div>
@@ -469,7 +469,7 @@ Figure 1: Feature resampling results of 3 random features plotted with plot_fea
 </li>
 <li>(10, 10, 10) → mean = 10</li>
 </ul>
-<p>Even if we generate 1,000 bootstrap replicates, the means can only take on these few values (see the points in <strong>?@fig-plot_feature_resamplings2</strong>). As a result, the distribution of bootstrap means is not smooth, but instead shows <strong>discrete spikes</strong> at these values.</p>
+<p>Even if we generate 1,000 bootstrap replicates, the means can only take on these few values (see the points in <a href="#fig-plot_feature_resamplings" class="quarto-xref">Figure 1</a>). As a result, the distribution of bootstrap means is not smooth, but instead shows <strong>discrete spikes</strong> at these values.</p>
 <p>This same behavior appears in the WAD data. Each feature in <a href="#tbl-wad_values" class="quarto-xref">Table 5</a> has only three observed values:</p>
 <div class="cell">
 <div id="tbl-wad_values" class="cell quarto-float quarto-figure quarto-figure-center">
@@ -531,7 +531,7 @@ Figure 2: Feature resampling results of 3 random features with 95% CI, with poi
 </div>
 </div>
 </div>
-<p>In general, this effect diminishes as the number of observations increases: with more values, there are many more possible resampled combinations, and the bootstrap distribution becomes smoother. Just to further drive it home, <strong>?@fig-plot_feature_resamplings2</strong> shows some spikiness for ASV_24, even in the blue unlabeled histogram with 8 values used in the bootstrapping. If we make a plot of the WAD values used for bootstrapping, we can see an outlier in that one feature (<a href="#fig-geom_beeswarm" class="quarto-xref">Figure 3</a>), and that one outlier is enough to introduce spikiness in the histogram. The benefits of the bootstrapping are also apparent here because although that outlier is up near a density of 1.78 g/mL, none of the mean WAD values approach that high, unrealistic value.</p>
+<p>In general, this effect diminishes as the number of observations increases: with more values, there are many more possible resampled combinations, and the bootstrap distribution becomes smoother. Just to further drive it home, <a href="#fig-plot_feature_resamplings3" class="quarto-xref">Figure 2</a> shows some spikiness for ASV_24, even in the blue unlabeled histogram with 8 values used in the bootstrapping. If we make a plot of the WAD values used for bootstrapping, we can see an outlier in that one feature (<a href="#fig-geom_beeswarm" class="quarto-xref">Figure 3</a>), and that one outlier is enough to introduce spikiness in the histogram. The benefits of the bootstrapping are also apparent here because although that outlier is up near a density of 1.78 g/mL, none of the mean WAD values approach that high, unrealistic value.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-geom_beeswarm" class="quarto-float quarto-figure quarto-figure-center">
