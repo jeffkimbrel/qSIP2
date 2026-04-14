@@ -3,7 +3,7 @@ normal_qsip_failures <- readRDS(test_path("fixtures", "qsip_normal_failures_EAF.
 multi_qsip <- readRDS(test_path("fixtures", "multi_qsip_EAF.rds"))
 
 test_that("fails if wrong object given", {
-  expect_error(plot_EAF_values(example_feature_df), "qsip_data_object must be of class <qsip_data> or <list> of qsip_data objects")
+  expect_error(plot_EAF_values(example_feature_df), class = "qsip_bad_object")
 })
 
 
@@ -34,22 +34,25 @@ test_that("top n works", {
 })
 
 test_that("confidence interval within range", {
-  expect_error(plot_EAF_values(normal_qsip, confidence = 1.1), "confidence level should be between 0 and 1")
-  expect_error(plot_EAF_values(normal_qsip, confidence = 0), "confidence level should be between 0 and 1")
+  expect_error(plot_EAF_values(normal_qsip, confidence = "not_a_number"), class = "non_numeric_confidence")
+  expect_error(plot_EAF_values(normal_qsip, confidence = 1.1), class = "confidence_out_of_range")
+  expect_error(plot_EAF_values(normal_qsip, confidence = 0), class = "confidence_out_of_range")
 })
 
 test_that("success_ratio within range", {
-  expect_error(plot_EAF_values(normal_qsip, success_ratio = 1.1), "success_ratio should be between 0 and 1")
-  expect_error(plot_EAF_values(normal_qsip, success_ratio = 0), "success_ratio should be between 0 and 1")
+  expect_error(plot_EAF_values(normal_qsip, success_ratio = "not_a_number"), class = "non_numeric_success")
+  expect_error(plot_EAF_values(normal_qsip, success_ratio = 1.1), class = "success_out_of_range")
+  expect_error(plot_EAF_values(normal_qsip, success_ratio = 0), class = "success_out_of_range")
 })
 
 test_that("alpha within range", {
-  expect_error(plot_EAF_values(normal_qsip, alpha = 1.1), "alpha level should be between 0 and 1")
-  expect_error(plot_EAF_values(normal_qsip, alpha = 0), "alpha level should be between 0 and 1")
+  expect_error(plot_EAF_values(normal_qsip, alpha = "not_a_number"), class = "non_numeric_alpha")
+  expect_error(plot_EAF_values(normal_qsip, alpha = 1.1), class = "alpha_out_of_range")
+  expect_error(plot_EAF_values(normal_qsip, alpha = 0), class = "alpha_out_of_range")
 })
 
 test_that("error type is correct", {
-  expect_error(plot_EAF_values(normal_qsip, error = "foo"), "<error> should be 'none', 'bar' or 'ribbon', not foo")
+  expect_error(plot_EAF_values(normal_qsip, error = "foo"), class = "wrong_error_string")
   expect_no_error(plot_EAF_values(normal_qsip, error = "bar"))
   expect_no_error(plot_EAF_values(normal_qsip, error = "ribbon"))
   expect_no_error(plot_EAF_values(normal_qsip, error = "none"))

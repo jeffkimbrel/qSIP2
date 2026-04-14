@@ -3,7 +3,7 @@
     Code
       get_growth_data(qsip_growth_rates)
     Output
-      # A tibble: 31,805 x 13
+      # A tibble: 31,103 x 13
          feature_id timepoint1 timepoint2 resample  N_total_i0 N_total_it N_light_it
          <chr>           <dbl>      <dbl> <chr>          <dbl>      <dbl>      <dbl>
        1 taxon_1             0         10 1        1595472105. 148586025. 135320570.
@@ -16,7 +16,7 @@
        8 taxon_1             0         10 8        1595472105. 148586025. 122989598.
        9 taxon_1             0         10 9        1595472105. 148586025. 117552963.
       10 taxon_1             0         10 10       1595472105. 148586025. 116707736.
-      # i 31,795 more rows
+      # i 31,093 more rows
       # i 6 more variables: N_heavy_it <dbl>, EAF <dbl>, r_net <dbl>, bi <dbl>,
       #   di <dbl>, ri <dbl>
 

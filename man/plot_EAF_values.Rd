@@ -11,8 +11,8 @@ plot_EAF_values(
   top = Inf,
   error = "none",
   alpha = 0.3,
-  zero_line = TRUE,
   shared_y = FALSE,
+  color_by = NULL,
   title = NULL,
   taxonomy = NULL
 )
@@ -30,9 +30,9 @@ plot_EAF_values(
 
 \item{alpha}{(\emph{numeric}) The transparency of the error bar/ribbon}
 
-\item{zero_line}{(\emph{logical}) Add a line at EAF = 0}
-
 \item{shared_y}{(\emph{logical}) Use a shared y-axis for the facets}
+
+\item{color_by}{(\emph{string}) Choose how to color the points, blue by default, or by \emph{success} ratio or \emph{pval}}
 
 \item{title}{(\emph{character}) An optional title of the plot}
 

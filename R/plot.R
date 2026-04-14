@@ -369,9 +369,9 @@ plot_density_outliers <- function(sample_data,
 #' @param confidence (*numeric*) The confidence level for the confidence interval
 #' @param success_ratio (*numeric*) The ratio of successful resamples to total resamples
 #' @param top (*numeric*) The number of top features to plot. Use `Inf` for all
+#' @param color_by (*string*) Choose how to color the points, blue by default, or by *success* ratio or *pval*
 #' @param error (*character*) The type of error bars to plot. Options are 'none', 'bar', 'ribbon'
 #' @param alpha (*numeric*) The transparency of the error bar/ribbon
-#' @param zero_line (*logical*) Add a line at EAF = 0
 #' @param shared_y (*logical*) Use a shared y-axis for the facets
 #' @param title (*character*) An optional title of the plot
 #' @param taxonomy (*logical*) If TRUE, the taxonomy will be added to the plot
@@ -384,8 +384,8 @@ plot_EAF_values <- function(qsip_data_object,
                             top = Inf,
                             error = "none",
                             alpha = 0.3,
-                            zero_line = TRUE,
                             shared_y = FALSE,
+                            color_by = NULL,
                             title = NULL,
                             taxonomy = NULL) {
   # confirm qsip_data_object class is either qsip_data or list
@@ -395,41 +395,52 @@ plot_EAF_values <- function(qsip_data_object,
   } else if (is_qsip_data(qsip_data_object, error = FALSE)) {
     object_type <- "single"
   } else {
-    stop("ERROR: qsip_data_object must be of class <qsip_data> or <list> of qsip_data objects")
+    cli::cli_abort("{.arg qsip_data_object} must be a {.cls qsip_data} object or a {.cls list} of {.cls qsip_data} objects.",
+                   class = "qsip_bad_object")
   }
 
   # confirm the confidence value is numeric and between 0-1
-  stopifnot("ERROR: confidence should be numeric" = is.numeric(confidence))
-  if (confidence >= 1 | confidence <= 0) {
-    stop("ERROR: confidence level should be between 0 and 1")
+  if (!is.numeric(confidence)) {
+    cli::cli_abort("{.arg confidence} must be numeric, not {.cls {class(confidence)}}.",
+                   class = "non_numeric_confidence")
+  }
+  if (confidence <= 0 || confidence >= 1) {
+    cli::cli_abort("{.arg confidence} must be between 0 and 1, not {.val {confidence}}.",
+                   class = "confidence_out_of_range")
   }
 
   # confirm the success_ratio value is numeric and between 0-1
-  stopifnot("ERROR: success_ratio should be numeric" = is.numeric(success_ratio))
-  if (success_ratio > 1 | success_ratio <= 0) {
-    stop("ERROR: success_ratio should be between 0 and 1")
+  if (!is.numeric(success_ratio)) {
+    cli::cli_abort("{.arg success_ratio} must be numeric, not {.cls {class(success_ratio)}}.",
+                   class = "non_numeric_success")
+  }
+  if (success_ratio <= 0 || success_ratio > 1) {
+    cli::cli_abort("{.arg success_ratio} must be between 0 and 1, not {.val {success_ratio}}.",
+                   class = "success_out_of_range")
   }
 
   # confirm the alpha value is numeric and between 0-1
-  stopifnot("ERROR: alpha should be numeric" = is.numeric(alpha))
-  if (alpha > 1 | alpha <= 0) {
-    stop("ERROR: alpha level should be between 0 and 1")
+  if (!is.numeric(alpha)) {
+    cli::cli_abort("{.arg alpha} must be numeric, not {.cls {class(alpha)}}.",
+                   class = "non_numeric_alpha")
+  }
+  if (alpha <= 0 || alpha > 1) {
+    cli::cli_abort("{.arg alpha} must be between 0 and 1, not {.val {alpha}}.",
+                   class = "alpha_out_of_range")
   }
 
   if (!error %in% c("none", "bar", "ribbon")) {
-    stop(glue::glue("<error> should be 'none', 'bar' or 'ribbon', not {error}"), call. = FALSE)
+    cli::cli_abort("{.arg error} must be {.val none}, {.val bar}, or {.val ribbon}, not {.val {error}}.",
+                   class = "wrong_error_string")
   }
 
   # print warning that data may be missing if shared_y = TRUE and top != NULL
-  if (isTRUE(shared_y) & top < Inf) {
-    warning("When setting <shared_y> to TRUE and also passing a value to <top>, there will likely be missing data in the plots if a feature is in the top n of one comparison, but not in the other.", call. = FALSE)
+  if (isTRUE(shared_y) && top < Inf) {
+    cli::cli_warn("When {.arg shared_y} is {.val TRUE} and {.arg top} is set, data may be missing from plots if a feature ranks in the top {top} of one comparison but not another.")
   }
-
-
 
   # bind variables
   group <- observed_EAF <- feature_id <- labeled_resamples <- unlabeled_resamples <- resamples <- lower <- upper <- NULL
-
 
   if (is.null(taxonomy)) {
     EAF <- summarize_EAF_values(qsip_data_object,
@@ -445,72 +456,52 @@ plot_EAF_values <- function(qsip_data_object,
       dplyr::rename(feature_id = dplyr::all_of(taxonomy))
   }
 
-
-
-  # add number of attempted resamples
+  # select top_n, if set
   if (object_type == "multiple") {
     EAF <- EAF |>
-      dplyr::group_by(group) |>
-      dplyr::slice_max(observed_EAF, n = top) |>
-      dplyr::ungroup()
+      dplyr::slice_max(observed_EAF, n = top, by = group)
 
     if (isFALSE(shared_y)) {
       EAF <- EAF |>
         dplyr::mutate(feature_id = tidytext::reorder_within(feature_id, observed_EAF, within = group))
     }
 
-    EAF <- EAF |>
-      dplyr::left_join(
-        sapply(qsip_data_object, n_resamples) |>
-          tibble::enframe(name = "group", value = "resamples"),
-        by = "group"
-      )
   } else {
     EAF <- EAF |>
-      dplyr::slice_max(observed_EAF, n = top) |>
-      dplyr::mutate(resamples = qsip_data_object@resamples$n)
+      dplyr::slice_max(observed_EAF, n = top)
   }
 
 
+  # add resample number, if color by is success
+  if (object_type == "multiple") {
+    EAF <- EAF |>
+      dplyr::left_join(n_resamples(qsip_data_object),
+                       by = dplyr::join_by(group))
+  } else {
+    EAF <- EAF |>
+      dplyr::mutate(n_resamples = n_resamples(qsip_data_object))
+  }
 
 
-
+  # make base object
   p <- EAF |>
     dplyr::mutate(feature_id = forcats::fct_reorder(feature_id, observed_EAF)) |>
     ggplot2::ggplot(ggplot2::aes(y = feature_id, x = observed_EAF)) +
-    ggplot2::geom_point(
-      pch = 21,
-      size = 2,
-      ggplot2::aes(fill = ifelse((labeled_resamples + unlabeled_resamples) > resamples * 2 * success_ratio,
-                                 "Passed",
-                                 "Failed"
-      ))
+    ggplot2::geom_vline(xintercept = 0, linetype = "dashed", color = "black") +
+    ggplot2::labs(
+      y = "feature_ids reordered by observed_EAF",
     )
 
-  # color and label differently depending on allow_failures
-  ## first, make variable for if any of the qsip objects have allow_failures true
+  # facet if multiple
   if (object_type == "multiple") {
-    allow_failures <- any(sapply(qsip_data_object, function(x) x@resamples$allow_failures))
-  } else if (object_type == "single") {
-    allow_failures <- qsip_data_object@resamples$allow_failures
-  } else {
-    allow_failures <- FALSE
-  }
-
-  if (isTRUE(allow_failures)) {
-    p <- p +
-      ggplot2::scale_fill_manual(values = c("Passed" = "#00ff0066", "Failed" = "red")) +
-      ggplot2::labs(
-        fill = glue::glue(">{success_ratio * 100}% successes"),
-        y = "feature_ids reordered by observed_EAF"
-      )
-  } else {
-    p <- p +
-      ggplot2::scale_fill_manual(values = c("Passed" = "#037bcf", "Failed" = "#037bcf")) +
-      ggplot2::labs(
-        y = "feature_ids reordered by observed_EAF"
-      ) +
-      ggplot2::guides(fill = "none")
+    if (isFALSE(shared_y)) {
+      p <- p +
+        tidytext::scale_y_reordered() +
+        ggplot2::facet_wrap(~group, scales = "free_y")
+    } else {
+      p <- p +
+        ggplot2::facet_wrap(~group)
+    }
   }
 
   # control the CI display
@@ -521,20 +512,43 @@ plot_EAF_values <- function(qsip_data_object,
       ggplot2::geom_ribbon(ggplot2::aes(xmin = lower, xmax = upper, group = 1), alpha = alpha)
   }
 
-  if (isTRUE(zero_line)) {
-    p <- p +
-      ggplot2::geom_vline(xintercept = 0, linetype = "dashed", color = "black")
-  }
+  # control point coloring
+  if (is.null(color_by)) {
 
-  if (object_type == "multiple") {
-    if (isFALSE(shared_y)) {
-      p <- p +
-        tidytext::scale_y_reordered() +
-        ggplot2::facet_wrap(~group, scales = "free_y")
-    } else {
-      p <- p +
-        ggplot2::facet_wrap(~group)
-    }
+    p <- p +
+      ggplot2::geom_point(
+        pch = 21,
+        size = 2,
+        fill = "#037bcf"
+      )
+
+  } else if (color_by == "success") {
+
+    p <- p +
+      ggplot2::geom_point(
+        pch = 21,
+        size = 2,
+        ggplot2::aes(fill = ifelse((labeled_resamples + unlabeled_resamples) > n_resamples * 2 * success_ratio,
+                                   "Passed",
+                                   "Failed"
+        ))
+      ) +
+      ggplot2::scale_fill_manual(values = c("Passed" = "#00ff0066", "Failed" = "red")) +
+      ggplot2::labs(
+        fill = sprintf(">%g%% successes", success_ratio * 100)
+      )
+  } else if (color_by == "pval") {
+
+    p <- p +
+      ggplot2::geom_point(
+        pch = 21,
+        size = 2,
+        ggplot2::aes(fill = ifelse(pval == 0, Inf, -log(pval)))
+      ) +
+      ggplot2::scale_fill_viridis_c(na.value = "#FDE725") +
+      ggplot2::labs(
+        fill = "-log(pvalue)"
+      )
   }
 
   if (!is.null(title)) {

@@ -38,7 +38,7 @@ After your `qsip_data` object has been filtered and resampled, the last step is 
 
 # Getting EAF values
 
-We can start by making a `qsip_data` object with multiple comparisons using code from the `vignette("multiple_objects)` vignette. This will make two comparisons ("Normal" and "Drought") that include the output from `run_EAF_calculations()`.
+We can start by making a `qsip_data` object with multiple comparisons using code from the `vignette("multiple_objects)` vignette. This will make two comparisons ("Normal" and "Drought") that include the output from `run_EAF_calculations()`. 
 
 ```{r}
 qsip_list = get_comparison_groups(example_qsip_object, group = "Moisture") |> 

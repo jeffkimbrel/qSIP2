@@ -3,7 +3,7 @@
     Code
       summarize_EAF_values(normal_qsip)
     Message
-      Confidence level = 0.9
+      i Confidence level = 0.9
     Output
       # A tibble: 74 x 10
          feature_id observed_EAF mean_resampled_EAF   lower  upper  pval
@@ -27,7 +27,7 @@
     Code
       summarize_EAF_values(normal_qsip, confidence = 0.95)
     Message
-      Confidence level = 0.95
+      i Confidence level = 0.95
     Output
       # A tibble: 74 x 10
          feature_id observed_EAF mean_resampled_EAF   lower  upper  pval
@@ -51,7 +51,7 @@
     Code
       summarize_EAF_values(multi_qsip)
     Message
-      Confidence level = 0.9
+      i Confidence level = 0.9
     Output
       # A tibble: 155 x 11
          group  feature_id observed_EAF mean_resampled_EAF   lower  upper  pval

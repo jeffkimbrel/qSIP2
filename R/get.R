@@ -1151,7 +1151,7 @@ summarize_EAF_values <- function(qsip_data_object,
   }
 
   if (isFALSE(quiet)) {
-    message(glue::glue("Confidence level = {confidence}"))
+    cli::cli_alert_info("Confidence level = {confidence}")
   }
 
   # confirm qsip_data_object class is either qsip_data or list

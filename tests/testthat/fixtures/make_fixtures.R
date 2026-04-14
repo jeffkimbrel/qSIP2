@@ -126,11 +126,11 @@ readRDS(file = "tests/testthat/fixtures/qsip_growth_filtered.rds") |>
   saveRDS(file = "tests/testthat/fixtures/qsip_growth_resampled.rds")
 
 readRDS(file = "tests/testthat/fixtures/qsip_growth_resampled.rds") |>
-  run_EAF_calculations(propO = 0.6) |>
+  run_EAF_calculations() |>
   saveRDS(file = "tests/testthat/fixtures/qsip_growth_EAF.rds")
 
 readRDS(file = "tests/testthat/fixtures/qsip_growth_EAF.rds") |>
-  run_growth_calculations(readRDS(file = "tests/testthat/fixtures/N_total_i0.rds")) |>
+  run_growth_calculations(readRDS(file = "tests/testthat/fixtures/N_total_i0.rds"), propO = 0.6) |>
   saveRDS(file = "tests/testthat/fixtures/qsip_growth_rates.rds")
 
 # Sample Data ##############
