@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.4'
+#> [1] '0.23.5'
 ```
 
 ## Background
@@ -77,7 +77,7 @@ and
 summarize_EAF_values(qsip_list_1)
 ```
 
-    #> Confidence level = 0.9
+    #> ℹ Confidence level = 0.9
 
 | group   | feature_id | observed_EAF | mean_resampled_EAF |      lower |      upper |  pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
 |:--------|:-----------|-------------:|-------------------:|-----------:|-----------:|------:|------------------:|--------------------:|----------------:|------------------:|
@@ -98,7 +98,7 @@ for each group.
 plot_EAF_values(qsip_list_1,
                 top = 50,
                 error = "ribbon")
-#> Confidence level = 0.9
+#> ℹ Confidence level = 0.9
 ```
 
 ![](multiple_objects_files/figure-html/unnamed-chunk-5-1.png)
@@ -200,7 +200,7 @@ plot_EAF_values(qsip_list_2,
                 top = 50,
                 success_ratio = 0.99,
                 error = "ribbon")
-#> Confidence level = 0.9
+#> ℹ Confidence level = 0.9
 ```
 
 ![](multiple_objects_files/figure-html/unnamed-chunk-10-1.png)
@@ -297,7 +297,7 @@ these columns.
 ``` r
 summarize_EAF_values(qsip_list_3) |>
   filter(feature_id == "ASV_1")
-#> Confidence level = 0.9
+#> ℹ Confidence level = 0.9
 #> # A tibble: 6 × 11
 #>   group        feature_id observed_EAF mean_resampled_EAF   lower    upper  pval
 #>   <chr>        <chr>             <dbl>              <dbl>   <dbl>    <dbl> <dbl>
@@ -319,7 +319,7 @@ certain comparisons. For example, ASV_311 only appears in the two
 ``` r
 summarize_EAF_values(qsip_list_3) |>
   filter(feature_id == "ASV_311")
-#> Confidence level = 0.9
+#> ℹ Confidence level = 0.9
 #> # A tibble: 2 × 11
 #>   group             feature_id observed_EAF mean_resampled_EAF lower upper  pval
 #>   <chr>             <chr>             <dbl>              <dbl> <dbl> <dbl> <dbl>
@@ -339,7 +339,7 @@ operator (e.g. `qsip_list_3$Drought`) or `[]` brackets
 plot_EAF_values(qsip_list_3[c("Drought", "Normal")],
                 error = "ribbon",
                 top = 50)
-#> Confidence level = 0.9
+#> ℹ Confidence level = 0.9
 ```
 
 ![](multiple_objects_files/figure-html/unnamed-chunk-17-1.png)

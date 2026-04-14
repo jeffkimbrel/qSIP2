@@ -14,8 +14,8 @@ plot_EAF_values(
   top = Inf,
   error = "none",
   alpha = 0.3,
-  zero_line = TRUE,
   shared_y = FALSE,
+  color_by = NULL,
   title = NULL,
   taxonomy = NULL
 )
@@ -48,13 +48,14 @@ plot_EAF_values(
 
   (*numeric*) The transparency of the error bar/ribbon
 
-- zero_line:
-
-  (*logical*) Add a line at EAF = 0
-
 - shared_y:
 
   (*logical*) Use a shared y-axis for the facets
+
+- color_by:
+
+  (*string*) Choose how to color the points, blue by default, or by
+  *success* ratio or *pval*
 
 - title:
 

@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,7 +100,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.23.4'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.23.5'</span></span></code></pre></div>
 </div>
 <section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -926,11 +926,11 @@ Figure 5: Per-source filtering results for the “drought” dataset.
 <span></span>
 <span><span class="va">normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize_EAF_values.html">summarize_EAF_values</a></span><span class="op">(</span><span class="va">qsip_normal</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Moisture <span class="op">=</span> <span class="st">"Normal"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Confidence level = 0.95</span></span>
+<span><span class="co">#&gt; ℹ Confidence level = 0.95</span></span>
 <span></span>
 <span><span class="va">drought</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize_EAF_values.html">summarize_EAF_values</a></span><span class="op">(</span><span class="va">qsip_drought</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Moisture <span class="op">=</span> <span class="st">"Drought"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Confidence level = 0.95</span></span>
+<span><span class="co">#&gt; ℹ Confidence level = 0.95</span></span>
 <span></span>
 <span><span class="va">eaf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">normal</span>, <span class="va">drought</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -941,7 +941,7 @@ Figure 5: Per-source filtering results for the “drought” dataset.
 <span>                top <span class="op">=</span> <span class="fl">50</span>, </span>
 <span>                confidence <span class="op">=</span> <span class="fl">0.95</span>, </span>
 <span>                error <span class="op">=</span> <span class="st">"ribbon"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Confidence level = 0.95</span></span></code></pre></div>
+<span><span class="co">#&gt; ℹ Confidence level = 0.95</span></span></code></pre></div>
 <div class="cell-output-display">
 <div id="fig-plot_EAF_values_top50" class="quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-plot_EAF_values_top50-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1097,7 +1097,7 @@ Figure 7: Density curves of selected features
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="../reference/summarize_EAF_values.html">summarize_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
+<span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre></div>
 <div class="cell-output-display">
 <table class="table caption-top">
 <colgroup>
@@ -1267,7 +1267,7 @@ Figure 7: Density curves of selected features
 <span>                confidence <span class="op">=</span> <span class="fl">0.9</span>, </span>
 <span>                shared_y <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                error <span class="op">=</span> <span class="st">"bar"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
+<span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure><p><img src="qSIP_workflow_files/figure-html/plot_EAF_values_list-1.png" width="768"></p>

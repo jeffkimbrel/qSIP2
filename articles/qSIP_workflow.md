@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.4'
+#> [1] '0.23.5'
 ```
 
 ## Background
@@ -614,11 +614,11 @@ qsip_drought <- run_EAF_calculations(qsip_drought)
 
 normal <- summarize_EAF_values(qsip_normal, confidence = 0.95) |>
   mutate(Moisture = "Normal")
-#> Confidence level = 0.95
+#> ℹ Confidence level = 0.95
 
 drought <- summarize_EAF_values(qsip_drought, confidence = 0.95) |>
   mutate(Moisture = "Drought")
-#> Confidence level = 0.95
+#> ℹ Confidence level = 0.95
 
 eaf <- rbind(normal, drought)
 ```
@@ -630,7 +630,7 @@ plot_EAF_values(qsip_normal,
                 top = 50, 
                 confidence = 0.95, 
                 error = "ribbon")
-#> Confidence level = 0.95
+#> ℹ Confidence level = 0.95
 ```
 
 ![](qSIP_workflow_files/figure-html/fig-plot_EAF_values_top50-1.png)
@@ -714,7 +714,7 @@ Like above in the delta EAF section, this also involves using a list of
 
 ``` r
 df = summarize_EAF_values(qsip_list) 
-#> Confidence level = 0.9
+#> ℹ Confidence level = 0.9
 ```
 
 | group   | feature_id | observed_EAF | mean_resampled_EAF |      lower |      upper |  pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
@@ -735,7 +735,7 @@ plot_EAF_values(qsip_list,
                 confidence = 0.9, 
                 shared_y = TRUE,
                 error = "bar")
-#> Confidence level = 0.9
+#> ℹ Confidence level = 0.9
 ```
 
 ![](qSIP_workflow_files/figure-html/plot_EAF_values_list-1.png)

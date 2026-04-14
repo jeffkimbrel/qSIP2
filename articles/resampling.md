@@ -8,7 +8,7 @@ library(ggplot2)
 library(patchwork)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.4'
+#> [1] '0.23.5'
 ```
 
 ## Background
@@ -465,7 +465,7 @@ plot_EAF_values(EAF,
                 error = "ribbon",
                 confidence = 0.95,
                 success_ratio = 0.5)
-#> Confidence level = 0.95
+#> ℹ Confidence level = 0.95
 ```
 
 ![](resampling_files/figure-html/unnamed-chunk-12-1.png)

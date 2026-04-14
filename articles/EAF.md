@@ -6,7 +6,7 @@ library(ggplot2)
 library(patchwork)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.4'
+#> [1] '0.23.5'
 ```
 
 ## Background
@@ -47,7 +47,7 @@ comparisons.
 
 ``` r
 plot_EAF_values(qsip_list)
-#> Confidence level = 0.9
+#> ℹ Confidence level = 0.9
 ```
 
 ![](EAF_files/figure-html/unnamed-chunk-3-1.png)
@@ -61,7 +61,7 @@ plot_EAF_values(qsip_list,
                 confidence = 0.95, 
                 error = "ribbon",
                 title = "95% CI")
-#> Confidence level = 0.95
+#> ℹ Confidence level = 0.95
 ```
 
 ![](EAF_files/figure-html/unnamed-chunk-4-1.png)
@@ -74,7 +74,7 @@ plot_EAF_values(qsip_list,
                 top = 50, 
                 error = "bar",
                 title = "95% CI")
-#> Confidence level = 0.9
+#> ℹ Confidence level = 0.9
 ```
 
 ![](EAF_files/figure-html/unnamed-chunk-5-1.png)
@@ -92,10 +92,9 @@ plot_EAF_values(qsip_list,
                 shared_y = TRUE,
                 error = "bar",
                 title = "Y-axis shared for both comparisons")
-#> Warning: When setting <shared_y> to TRUE and also passing a value to <top>,
-#> there will likely be missing data in the plots if a feature is in the top n of
-#> one comparison, but not in the other.
-#> Confidence level = 0.9
+#> Warning: When `shared_y` is "TRUE" and `top` is set, data may be missing from plots if a
+#> feature ranks in the top 50 of one comparison but not another.
+#> ℹ Confidence level = 0.9
 ```
 
 ![](EAF_files/figure-html/unnamed-chunk-6-1.png)
@@ -122,7 +121,7 @@ and a desired confidence (default is 90%).
 summarize_EAF_values(qsip_list)
 ```
 
-    #> Confidence level = 0.9
+    #> ℹ Confidence level = 0.9
 
 | group   | feature_id | observed_EAF | mean_resampled_EAF |      lower |      upper |  pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
 |:--------|:-----------|-------------:|-------------------:|-----------:|-----------:|------:|------------------:|--------------------:|----------------:|------------------:|
@@ -149,7 +148,7 @@ summarize_EAF_values(qsip_list$Drought) |>
   filter(feature_id %in% features)
 ```
 
-    #> Confidence level = 0.9
+    #> ℹ Confidence level = 0.9
 
 | feature_id | observed_EAF | mean_resampled_EAF |      lower |      upper |  pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
 |:-----------|-------------:|-------------------:|-----------:|-----------:|------:|------------------:|--------------------:|----------------:|------------------:|

@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,8 +60,10 @@
 <ul><li>New vignette for delta EAF calculations</li>
 </ul></li>
 <li>Big change to handling NA values. Previously, a resampling “failure” was if all WAD values were NA. But now a failure is defined as any NA in the list of WADs. You may notice more warnings during resampling, and lower “success” counts.</li>
+<li>Simplified <code><a href="../reference/plot_EAF_values.html">plot_EAF_values()</a></code> while also adding a <code>color_by</code> parameter to color the points by nothing (blue by default), success ratio or p-val</li>
 <li>Fixed legend and color palette issues for <code><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings()</a></code>
 </li>
+<li>Behind the scenes, rebuilt the including data objects to the newest specifications, and updated the tests</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.22" id="qsip2-022">qSIP2 0.22<a class="anchor" aria-label="anchor" href="#qsip2-022"></a></h2>

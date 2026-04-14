@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.4'
+#> [1] '0.23.5'
 ```
 
 ## Background
@@ -172,7 +172,7 @@ plot_EAF_values(q,
   error = "ribbon",
   success_ratio = 0.9
 )
-#> Confidence level = 0.9
+#> ℹ Confidence level = 0.9
 ```
 
 ![](growth_files/figure-html/unnamed-chunk-7-1.png)

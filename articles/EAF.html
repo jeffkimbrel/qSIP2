@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,7 +101,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.23.4'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.23.5'</span></span></code></pre></div>
 </div>
 <section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -126,7 +126,7 @@
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
+<span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure><p><img src="EAF_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
@@ -141,7 +141,7 @@
 <span>                confidence <span class="op">=</span> <span class="fl">0.95</span>, </span>
 <span>                error <span class="op">=</span> <span class="st">"ribbon"</span>,</span>
 <span>                title <span class="op">=</span> <span class="st">"95% CI"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Confidence level = 0.95</span></span></code></pre></div>
+<span><span class="co">#&gt; ℹ Confidence level = 0.95</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure><p><img src="EAF_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
@@ -156,7 +156,7 @@
 <span>                top <span class="op">=</span> <span class="fl">50</span>, </span>
 <span>                error <span class="op">=</span> <span class="st">"bar"</span>,</span>
 <span>                title <span class="op">=</span> <span class="st">"95% CI"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
+<span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure><p><img src="EAF_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
@@ -172,10 +172,9 @@
 <span>                shared_y <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                error <span class="op">=</span> <span class="st">"bar"</span>,</span>
 <span>                title <span class="op">=</span> <span class="st">"Y-axis shared for both comparisons"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: When setting &lt;shared_y&gt; to TRUE and also passing a value to &lt;top&gt;,</span></span>
-<span><span class="co">#&gt; there will likely be missing data in the plots if a feature is in the top n of</span></span>
-<span><span class="co">#&gt; one comparison, but not in the other.</span></span>
-<span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: When `shared_y` is "TRUE" and `top` is set, data may be missing from plots if a</span></span>
+<span><span class="co">#&gt; feature ranks in the top 50 of one comparison but not another.</span></span>
+<span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure><p><img src="EAF_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
@@ -195,7 +194,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summarize_EAF_values.html">summarize_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<pre><code><span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre>
 <div class="cell-output-display">
 <table class="table caption-top">
 <caption>The first few lines of output</caption>
@@ -319,7 +318,7 @@
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">feature_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">features</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
-<pre><code><span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre>
 <div class="cell-output-display">
 <table class="table caption-top" style="width:100%;">
 <caption>EAF results for 4 chosen features</caption>
