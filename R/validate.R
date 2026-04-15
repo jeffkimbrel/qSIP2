@@ -326,14 +326,16 @@ validate_isotopes <- function(isotope,
   # remove unfractionated terms from isotope
   isotope = isotope[!isotope %in% unfractionated_terms]
 
-  if (length(setdiff(isotope, isotope_list)) == 0) {
-    return(NULL)
-  } else {
-    for (error in setdiff(isotope, isotope_list)) {
-      cli::cli_warn("invalid isotope found: {.val {error}}", class = "qsip_isotope_warning")
-    }
-    stop("Please fix the isotope names and try again", call. = FALSE)
-  }
+  bad <- setdiff(isotope, isotope_list)
+
+  if (length(bad) == 0) return(NULL)
+
+  cli::cli_abort(
+    c("Invalid isotope{?s} found: {.val {bad}}",
+      "i" = "Valid isotopes are: {.val {isotope_list}}",
+      "i" = "Please fix the isotope names and try again."),
+    class = "qsip_invalid_isotope"
+  )
 }
 
 

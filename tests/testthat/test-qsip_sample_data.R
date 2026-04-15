@@ -107,7 +107,7 @@ test_that("negative values get converted", {
                    gradient_pos_amt = "avg_16S_g_soil",
                    gradient_pos_rel_amt = "gradient_pos_rel_amt",
                    convert_negatives = T)
-  correct_F = sample_data_rel_amt |>
+  correct_F = suppressWarnings(sample_data_rel_amt |> # suppressing the warning
     dplyr::mutate(avg_16S_g_soil = avg_16S_g_soil - 300) |>
     qsip_sample_data(sample_id = "sample",
                      source_mat_id = "source",
@@ -115,7 +115,7 @@ test_that("negative values get converted", {
                      gradient_pos_density = "density_g_ml",
                      gradient_pos_amt = "avg_16S_g_soil",
                      gradient_pos_rel_amt = "gradient_pos_rel_amt",
-                     convert_negatives = F)
+                     convert_negatives = F))
 
   expect_equal(get_dataframe(correct_T) |>
                  dplyr::pull(gradient_pos_amt) |>

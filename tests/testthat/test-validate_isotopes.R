@@ -3,8 +3,8 @@ test_that("valid isotopes pass", {
 })
 
 test_that("invalid isotopes fail and give message", {
-  expect_error(validate_isotopes(isotope = c("12")))
-  expect_error(validate_isotopes(isotope = 12))
+  expect_error(validate_isotopes(isotope = c("12")), class = "qsip_invalid_isotope")
+  expect_error(validate_isotopes(isotope = 12), class = "qsip_invalid_isotope")
 })
 
 test_that("Typical unfractionated terms give message but don't fail", {
