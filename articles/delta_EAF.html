@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.6.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,7 +103,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.23.6'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.23.6.9000'</span></span></code></pre></div>
 </div>
 <section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -323,7 +323,9 @@ Table 3: The contrasts table can be modified to make it more useful, or you can
 <span>                                    contrasts <span class="op">=</span> <span class="va">contrasts</span>,</span>
 <span>                                    confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; ℹ Confidence level = 0.95</span></span>
-<span><span class="co">#&gt; step 2/2: summarizing delta statistics ■■■■■■■■■■■■■■■■■■■■■■■           72% | …</span></span>
+<span><span class="co">#&gt; step 1/2: calculating deltas... ■■■■■■■■■■■■                      35% |  ETA:  …</span></span>
+<span><span class="co">#&gt; step 2/2: summarizing delta statistics ■■■■■                             14% | …</span></span>
+<span><span class="co">#&gt; step 2/2: summarizing delta statistics ■■■■■■■■■■■■■■■■■■■■■■■■■         79% | …</span></span>
 <span><span class="co">#&gt; ! there were 74 contrast and 127 bs_pval result messages</span></span></code></pre></div>
 </div>
 <p>Here, we get a warning that there were “74 contrast” and “66 <code>bs_pval</code>” warnings. I’ll explain the contrast warnings now, but save the second message explanation for later down. Simply put, the first warning is telling us that 74 feature_ids weren’t able to have a delta EAF calculated for all contrasts because it was filtered out of either or both of the groupings used for that contrast. So, normally there would be 4 rows per feature_id (because our contrasts table had 4 contrasts), but some feature_ids will have less. Looking at a histogram of features and their contrast count (<a href="#fig-contrast_warnings" class="quarto-xref">Figure 2</a>) we see that 162 are indeed found in all 4 contrasts, but 40 are found in only one contrast, and 17 are found in only 2.</p>

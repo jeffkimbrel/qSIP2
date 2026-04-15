@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.6.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,7 +99,7 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.23.6'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.23.6.9000'</span></span></code></pre></div>
 </div>
 <section class="section level2"><h2 id="source-material-and-metadata">Source Material and Metadata<a class="anchor" aria-label="anchor" href="#source-material-and-metadata"></a>
 </h2>
@@ -410,9 +410,10 @@
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">source_object</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">isotope</span> <span class="op">&lt;-</span> <span class="st">"13G"</span></span>
-<span><span class="co">#&gt; Warning: invalid isotope found: "13G"</span></span>
-<span><span class="co">#&gt; Error:</span></span>
-<span><span class="co">#&gt; ! Please fix the isotope names and try again</span></span></code></pre></div>
+<span><span class="co">#&gt; Error in `validate_isotopes()`:</span></span>
+<span><span class="co">#&gt; ! Invalid isotope found: "13G"</span></span>
+<span><span class="co">#&gt; ℹ Valid isotopes are: "12C", "14N", "16O", "13C", "15N", and "18O"</span></span>
+<span><span class="co">#&gt; ℹ Please fix the isotope names and try again.</span></span></code></pre></div>
 </div>
 </section></section><section class="section level2"><h2 id="misip">MISIP<a class="anchor" aria-label="anchor" href="#misip"></a>
 </h2>
