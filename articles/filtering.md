@@ -6,7 +6,7 @@ library(ggplot2)
 library(stringr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.5'
+#> [1] '0.23.5.9000'
 ```
 
 ## Background

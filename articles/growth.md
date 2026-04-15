@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.5'
+#> [1] '0.23.5.9000'
 ```
 
 ## Background
@@ -201,8 +201,7 @@ sources will not be present in the filtered data.
 
 ``` r
 N_total_i0 <- get_N_total_it(example_qsip_growth_object, t = 0)
-#> Warning: 1 feature_ids have zero abundance at time 0:
-#> Warning: taxon_194
+#> Warning: 1 feature_id have zero abundance at time 0: "taxon_194"
 ```
 
 Note we get a warning here that taxon_194 has zero abundance at `t = 0`.
