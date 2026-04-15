@@ -845,25 +845,21 @@ fraction_results_message <- function(by_fraction) {
     tidyr::pivot_wider(names_from = type, values_from = counts, values_fill = 0) |>
     tibble::column_to_rownames("fraction_call")
 
-  if (!is.na(fraction_results["Zero Fractions", "unlabeled"])) {
-    message(glue::glue_col('{red {fraction_results["Zero Fractions","unlabeled"]}} unlabeled and {red {fraction_results["Zero Fractions","labeled"]}} labeled feature_ids were found in {red zero fractions} in at least one source_mat_id'))
-  }
-
-  if (!is.na(fraction_results["Fraction Filtered", "unlabeled"])) {
-    message(glue::glue_col('{red {fraction_results["Fraction Filtered","unlabeled"]}} unlabeled and {red {fraction_results["Fraction Filtered","labeled"]}} labeled feature_ids were found in {red too few fractions} in at least one source_mat_id'))
-  }
-
-  if (!is.na(fraction_results["Fraction Passed", "unlabeled"])) {
-    message(glue::glue_col('{green {fraction_results["Fraction Passed","unlabeled"]}} unlabeled and {green {fraction_results["Fraction Passed","labeled"]}} labeled feature_ids {green passed} the fraction filter'))
-  }
-
   fraction_passed <- by_fraction |>
     dplyr::filter(fraction_call == "Fraction Passed") |>
     dplyr::pull(feature_id) |>
     unique() |>
     length()
 
-  message(glue::glue_col("In total, {green {fraction_passed}} unique feature_ids {green passed} the fraction filtering requirements..."))
+  cli::cli_inform(c(
+    if (!is.na(fraction_results["Zero Fractions", "unlabeled"]))
+      c("x" = '{fraction_results["Zero Fractions","unlabeled"]} unlabeled and {fraction_results["Zero Fractions","labeled"]} labeled feature_ids found in zero fractions in at least one source_mat_id'),
+    if (!is.na(fraction_results["Fraction Filtered", "unlabeled"]))
+      c("x" = '{fraction_results["Fraction Filtered","unlabeled"]} unlabeled and {fraction_results["Fraction Filtered","labeled"]} labeled feature_ids found in too few fractions in at least one source_mat_id'),
+    if (!is.na(fraction_results["Fraction Passed", "unlabeled"]))
+      c("v" = '{fraction_results["Fraction Passed","unlabeled"]} unlabeled and {fraction_results["Fraction Passed","labeled"]} labeled feature_ids passed the fraction filter'),
+    "i" = "In total, {fraction_passed} unique feature_ids passed the fraction filtering requirements"
+  ))
 
 }
 
@@ -889,18 +885,6 @@ source_results_message <- function(by_source) {
     tidyr::pivot_wider(names_from = type, values_from = counts, values_fill = 0) |>
     tibble::column_to_rownames("source_call")
 
-  if (!is.na(source_results["Zero Sources", "unlabeled"])) {
-    message(glue::glue_col('{red {source_results["Zero Sources","unlabeled"]}} unlabeled and {red {source_results["Zero Sources","labeled"]}} labeled feature_ids failed the source filter because they were found in {red zero sources}'))
-  }
-
-  if (!is.na(source_results["Source Filtered", "unlabeled"])) {
-    message(glue::glue_col('{red {source_results["Source Filtered","unlabeled"]}} unlabeled and {red {source_results["Source Filtered","labeled"]}} labeled feature_ids failed the source filter because they were found in {red too few sources}'))
-  }
-
-  if (!is.na(source_results["Source Passed", "unlabeled"])) {
-    message(glue::glue_col('{green {source_results["Source Passed","unlabeled"]}} unlabeled and {green {source_results["Source Passed","labeled"]}} labeled feature_ids {green passed} the source filter'))
-  }
-
   total_passed <- by_source |>
     dplyr::select(feature_id, type, source_call) |>
     tidyr::pivot_wider(names_from = type, values_from = source_call) |>
@@ -909,9 +893,15 @@ source_results_message <- function(by_source) {
     unique() |>
     length()
 
-  message(rep("=+", 25))
-
-  message(glue::glue_col("In total, {green {total_passed}} unique feature_ids {green passed} all fraction and source filtering requirements"))
+  cli::cli_inform(c(
+    if (!is.na(source_results["Zero Sources", "unlabeled"]))
+      c("x" = '{source_results["Zero Sources","unlabeled"]} unlabeled and {source_results["Zero Sources","labeled"]} labeled feature_ids failed the source filter because they were found in zero sources'),
+    if (!is.na(source_results["Source Filtered", "unlabeled"]))
+      c("x" = '{source_results["Source Filtered","unlabeled"]} unlabeled and {source_results["Source Filtered","labeled"]} labeled feature_ids failed the source filter because they were found in too few sources'),
+    if (!is.na(source_results["Source Passed", "unlabeled"]))
+      c("v" = '{source_results["Source Passed","unlabeled"]} unlabeled and {source_results["Source Passed","labeled"]} labeled feature_ids passed the source filter'),
+    "i" = "In total, {total_passed} unique feature_ids passed all fraction and source filtering requirements"
+  ))
 }
 
 

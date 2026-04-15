@@ -9,17 +9,16 @@
       1705 of these have abundance in at least one fraction of one source_mat_id
       =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
       Filtering feature_ids by fraction...
-      1519 unlabeled and 1417 labeled feature_ids were found in zero fractions in at least one source_mat_id
-      1210 unlabeled and 584 labeled feature_ids were found in too few fractions in at least one source_mat_id
-      780 unlabeled and 497 labeled feature_ids passed the fraction filter
-      In total, 870 unique feature_ids passed the fraction filtering requirements...
+      x 1519 unlabeled and 1417 labeled feature_ids found in zero fractions in at least one source_mat_id
+      x 1210 unlabeled and 584 labeled feature_ids found in too few fractions in at least one source_mat_id
+      v 780 unlabeled and 497 labeled feature_ids passed the fraction filter
+      i In total, 870 unique feature_ids passed the fraction filtering requirements
       =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
       Filtering feature_ids by source...
-      90 unlabeled and 373 labeled feature_ids failed the source filter because they were found in zero sources
-      245 unlabeled and 189 labeled feature_ids failed the source filter because they were found in too few sources
-      535 unlabeled and 308 labeled feature_ids passed the source filter
-      =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-      In total, 257 unique feature_ids passed all fraction and source filtering requirements
+      x 90 unlabeled and 373 labeled feature_ids failed the source filter because they were found in zero sources
+      x 245 unlabeled and 189 labeled feature_ids failed the source filter because they were found in too few sources
+      v 535 unlabeled and 308 labeled feature_ids passed the source filter
+      i In total, 257 unique feature_ids passed all fraction and source filtering requirements
     Output
       <qsip_data>
       group: none
