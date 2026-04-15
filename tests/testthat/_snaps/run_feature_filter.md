@@ -21,11 +21,11 @@
       i In total, 257 unique feature_ids passed all fraction and source filtering requirements
     Output
       <qsip_data>
-      group: none
-      feature_id count: 257 of 2030
-      sample_id count: 284
-      filtered: TRUE
-      resampled: FALSE
-      EAF: FALSE
-      growth: FALSE
+      group: none 
+      feature_id count: 257 of 2030 
+      sample_id count: 284 
+      filtered: TRUE 
+      resampled: FALSE 
+      EAF: FALSE 
+      growth: FALSE 
 

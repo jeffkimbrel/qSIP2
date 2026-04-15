@@ -6,8 +6,8 @@
         gradient_pos_amt = "avg_16S_g_soil", gradient_pos_rel_amt = "gradient_pos_rel_amt")
     Output
       <qsip_sample_data>
-      source_material_id count: 15
-      sample_id count: 284
+      source_material_id count: 15 
+      sample_id count: 284 
 
 # no gradient_pos_rel_amt given will autocalculate
 
@@ -19,6 +19,6 @@
       `gradient_pos_rel_amt` not specified. Calculating using `avg_16S_g_soil` column
     Output
       <qsip_sample_data>
-      source_material_id count: 15
-      sample_id count: 284
+      source_material_id count: 15 
+      sample_id count: 284 
 

@@ -343,7 +343,7 @@ plot_density_outliers <- function(sample_data,
     ggplot2::facet_wrap(~source_mat_id) +
     ggplot2::labs(
       title = "Cook's Distance Outlier Detection",
-      subtitle = glue::glue("sensitivity = {sensitivity}")
+      subtitle = paste0("sensitivity = ", sensitivity)
     )
 }
 
@@ -1081,7 +1081,7 @@ plot_filter_gradient_position <- function(qsip_data_object,
 #' @param qsip_data_object (*qsip_data*) A qsip data object that has been resampled
 
 plot_resampling_convergence <- function(qsip_data_object) {
-  message(glue::glue_col("{red This is an alpha function and is undergoing testing!}"))
+  cli::cli_warn("This is an alpha function and is undergoing testing!", class = "qsip_alpha_warning")
 
   # bind variables
   mean_resampled_EAF <- lower <- upper <- L <- U <- n <- value <- name <- NULL

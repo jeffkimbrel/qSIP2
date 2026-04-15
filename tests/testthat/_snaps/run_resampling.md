@@ -8,13 +8,13 @@
       i Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect.
     Output
       <qsip_data>
-      group: none
-      feature_id count: 74 of 2030
-      sample_id count: 284
-      filtered: TRUE
-      resampled: TRUE
-      EAF: FALSE
-      growth: FALSE
+      group: none 
+      feature_id count: 74 of 2030 
+      sample_id count: 284 
+      filtered: TRUE 
+      resampled: TRUE 
+      EAF: FALSE 
+      growth: FALSE 
 
 ---
 
@@ -28,13 +28,13 @@
       i Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect.
     Output
       <qsip_data>
-      group: none
-      feature_id count: 74 of 2030
-      sample_id count: 284
-      filtered: TRUE
-      resampled: TRUE
-      EAF: FALSE
-      growth: FALSE
+      group: none 
+      feature_id count: 74 of 2030 
+      sample_id count: 284 
+      filtered: TRUE 
+      resampled: TRUE 
+      EAF: FALSE 
+      growth: FALSE 
 
 ---
 
@@ -48,13 +48,13 @@
       i Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect.
     Output
       <qsip_data>
-      group: none
-      feature_id count: 74 of 2030
-      sample_id count: 284
-      filtered: TRUE
-      resampled: TRUE
-      EAF: FALSE
-      growth: FALSE
+      group: none 
+      feature_id count: 74 of 2030 
+      sample_id count: 284 
+      filtered: TRUE 
+      resampled: TRUE 
+      EAF: FALSE 
+      growth: FALSE 
 
 ---
 
@@ -68,11 +68,11 @@
       i Run `get_resample_counts()` or `plot_successful_resamples()` on your <qsip_data> object to inspect.
     Output
       <qsip_data>
-      group: none
-      feature_id count: 74 of 2030
-      sample_id count: 284
-      filtered: TRUE
-      resampled: TRUE
-      EAF: FALSE
-      growth: FALSE
+      group: none 
+      feature_id count: 74 of 2030 
+      sample_id count: 284 
+      filtered: TRUE 
+      resampled: TRUE 
+      EAF: FALSE 
+      growth: FALSE 
 

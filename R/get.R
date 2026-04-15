@@ -1208,3 +1208,46 @@ summarize_EAF_values_internal <- function(qsip_data_object,
     dplyr::left_join(get_resample_counts(qsip_data_object), by = "feature_id") |>
     dplyr::left_join(get_filtered_source_counts(qsip_data_object), by = "feature_id")
 }
+
+
+
+#' Summarize a qSIP S7 object or named list of qSIP S7 objects
+#'
+#' @param x A qSIP S7 object, or a named list of qSIP S7 objects of the same type.
+#'
+#' @return For a single object, a tibble with `name` and `value` columns. For a
+#'   named list, a tibble with a `name` column and one column per list element,
+#'   named after the list elements.
+#'
+#' @export
+
+get_object_summary <- function(x) {
+  if (inherits(x, "S7_object")) {
+    vec <- .get_object_summary_vec(x)
+    col_name <- if ("group" %in% names(vec)) vec[["group"]] else "value"
+    vec <- vec[names(vec) != "group"]
+    tibble::enframe(vec, name = "metric", value = col_name)
+  } else if (is.list(x)) {
+    if (is.null(names(x))) {
+      cli::cli_abort("{.arg x} must be a named list.")
+    }
+    types <- vapply(x, function(obj) class(obj)[1], character(1))
+    if (length(unique(types)) > 1) {
+      cli::cli_abort("All list elements must be the same S7 object type, not {.val {unique(types)}}.")
+    }
+    vecs <- lapply(x, .get_object_summary_vec)
+    col_names <- vapply(names(vecs), function(nm) {
+      vec <- vecs[[nm]]
+      if ("group" %in% names(vec)) vec[["group"]] else nm
+    }, character(1))
+    col_names <- make.unique(col_names, sep = "_")
+    vecs <- lapply(vecs, function(vec) vec[names(vec) != "group"])
+    df <- tibble::tibble(metric = names(vecs[[1]]))
+    for (i in seq_along(vecs)) {
+      df[[col_names[[i]]]] <- unname(vecs[[i]])
+    }
+    df
+  } else {
+    cli::cli_abort("{.arg x} must be a qSIP S7 object or a named list of qSIP S7 objects.")
+  }
+}

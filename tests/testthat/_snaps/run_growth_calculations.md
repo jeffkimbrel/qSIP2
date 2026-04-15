@@ -7,11 +7,11 @@
       3913 resamplings have a negative EAF value or calculated labeled copy numbers less than 0. Filtered out and added to @growth$negative_labeled
     Output
       <qsip_data>
-      group: Day 10
-      feature_id count: 358 of 364
-      sample_id count: 106
-      filtered: TRUE
-      resampled: TRUE
-      EAF: TRUE
-      growth: TRUE
+      group: Day 10 
+      feature_id count: 358 of 364 
+      sample_id count: 106 
+      filtered: TRUE 
+      resampled: TRUE 
+      EAF: TRUE 
+      growth: TRUE 
 

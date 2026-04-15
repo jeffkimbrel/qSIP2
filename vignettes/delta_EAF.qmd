@@ -210,7 +210,7 @@ delta_EAF |>
   )) |>
   ggplot(aes(x = contrast, y = delta)) +
     ggbeeswarm::geom_beeswarm(aes(fill = sig), pch = 21) +
-    labs(y = "delta EAF", x = "Contrast", fill = glue::glue("Significant at p-val < {sig_pval}")) +
+    labs(y = "delta EAF", x = "Contrast", fill = paste0("Significant at p-val < ", sig_pval)) +
     geom_violin(width = 1.5, fill = NA)
 ```
 
@@ -254,7 +254,7 @@ delta_EAF |>
       scale_fill_viridis_d() +
       geom_vline(xintercept = 0, linetype = "dashed", color = "gray50") +
       labs(x = "delta EAF",
-           fill = glue::glue("Significant at p-val < {sig_pval} and EAF diff > {eaf_diff}"))
+           fill = paste0("Significant at p-val < ", sig_pval, " and EAF diff > ", eaf_diff))
 ```
 
 ## bs_pval error message

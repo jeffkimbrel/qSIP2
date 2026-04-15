@@ -7,11 +7,11 @@
       v There are 284 sample_ids, and they are all shared between the sample and feature objects.
     Output
       <qsip_data>
-      group: none
-      feature_id count: 2030 of 2030
-      sample_id count: 284
-      filtered: FALSE
-      resampled: FALSE
-      EAF: FALSE
-      growth: FALSE
+      group: none 
+      feature_id count: 2030 of 2030 
+      sample_id count: 284 
+      filtered: FALSE 
+      resampled: FALSE 
+      EAF: FALSE 
+      growth: FALSE 
 

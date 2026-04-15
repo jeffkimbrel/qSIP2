@@ -8,6 +8,7 @@
 * Behind the scenes
   * rebuilt the included data objects to the newest specifications, and updated the tests
   * switched many of the error/warnings/messages to use the `cli` package
+* new `get_object_summary()` function to make a dataframe out of the older print output
 
 # qSIP2 0.22
 

@@ -622,41 +622,78 @@ S7::method(get_dataframe, qsip_data) <- function(x, type, original_headers = FAL
 # extending print methods
 
 S7::method(print, qsip_source_data) <- function(x, ...) {
-  sd = S7::prop(x, "data")
-  print(glue::glue_col("<qsip_source_data>
-                       source_material_id count: {green {length(unique(sd$source_mat_id))}}"))
+  sd <- S7::prop(x, "data")
+  cat("<qsip_source_data>\n")
+  cat("source_material_id count:", length(unique(sd$source_mat_id)), "\n")
 }
 
 S7::method(print, qsip_sample_data) <- function(x, ...) {
-  sd = x@data
-  print(glue::glue_col("<qsip_sample_data>
-                       source_material_id count: {green {length(unique(sd$source_mat_id))}}
-                       sample_id count: {green {length(unique(sd$sample_id))}}"))
+  sd <- x@data
+  cat("<qsip_sample_data>\n")
+  cat("source_material_id count:", length(unique(sd$source_mat_id)), "\n")
+  cat("sample_id count:", length(unique(sd$sample_id)), "\n")
 }
-
-
 
 S7::method(print, qsip_feature_data) <- function(x, ...) {
-  print(glue::glue_col("<qsip_feature_data>
-                       feature_id count: {green {dim(x@data)[1]}}
-                       sample_id count: {green {dim(x@data)[2] - 1}}
-                       data type: {green {x@type}}
-                       taxonomy: {green {!rlang::is_empty(x@taxonomy)}}"))
+  cat("<qsip_feature_data>\n")
+  cat("feature_id count:", dim(x@data)[1], "\n")
+  cat("sample_id count:", dim(x@data)[2] - 1, "\n")
+  cat("data type:", x@type, "\n")
+  cat("taxonomy:", !rlang::is_empty(x@taxonomy), "\n")
+}
+
+S7::method(print, qsip_data) <- function(x, ...) {
+  cat("<qsip_data>\n")
+  cat("group:", ifelse(is.null(x@filter_results$group), "none", x@filter_results$group), "\n")
+  cat("feature_id count:", length(get_feature_ids(x, filtered = is_qsip_filtered(x))), "of", dim(x@feature_data@data)[1], "\n")
+  cat("sample_id count:", length(unique(x@sample_data@data$sample_id)), "\n")
+  cat("filtered:", is_qsip_filtered(x), "\n")
+  cat("resampled:", is_qsip_resampled(x), "\n")
+  cat("EAF:", is_qsip_EAF(x), "\n")
+  cat("growth:", is_qsip_growth(x), "\n")
 }
 
 
+# .get_object_summary_vec -------------------------------------------------------
 
-S7::method(print, qsip_data) <- function(x, ...) {
+.get_object_summary_vec <- S7::new_generic(".get_object_summary_vec", "x")
 
-  print(glue::glue_col("<qsip_data>
-                       group: {green {ifelse(is.null(x@filter_results$group), 'none', x@filter_results$group)}}
-                       feature_id count: {green {length(get_feature_ids(x, filtered = is_qsip_filtered(x)))} of {dim(x@feature_data@data)[1]}}
-                       sample_id count: {green {length(unique(x@sample_data@data$sample_id))}}
-                       filtered: {green {is_qsip_filtered(x)}}
-                       resampled: {green {is_qsip_resampled(x)}}
-                       EAF: {green {is_qsip_EAF(x)}}
-                       growth: {green {is_qsip_growth(x)}}"))
+S7::method(.get_object_summary_vec, qsip_source_data) <- function(x, ...) {
+  sd <- S7::prop(x, "data")
+  c(source_material_id_count = as.character(length(unique(sd$source_mat_id))))
+}
 
+S7::method(.get_object_summary_vec, qsip_sample_data) <- function(x, ...) {
+  sd <- x@data
+  c(
+    source_material_id_count = as.character(length(unique(sd$source_mat_id))),
+    sample_id_count = as.character(length(unique(sd$sample_id)))
+  )
+}
+
+S7::method(.get_object_summary_vec, qsip_feature_data) <- function(x, ...) {
+  c(
+    feature_id_count = as.character(dim(x@data)[1]),
+    sample_id_count = as.character(dim(x@data)[2] - 1),
+    data_type = as.character(x@type),
+    taxonomy = as.character(!rlang::is_empty(x@taxonomy))
+  )
+}
+
+S7::method(.get_object_summary_vec, qsip_data) <- function(x, ...) {
+  c(
+    group = ifelse(is.null(x@filter_results$group), "none", x@filter_results$group),
+    feature_id_count = paste(
+      length(get_feature_ids(x, filtered = is_qsip_filtered(x))),
+      "of",
+      dim(x@feature_data@data)[1]
+    ),
+    sample_id_count = as.character(length(unique(x@sample_data@data$sample_id))),
+    filtered = as.character(is_qsip_filtered(x)),
+    resampled = as.character(is_qsip_resampled(x)),
+    eaf = as.character(is_qsip_EAF(x)),
+    growth = as.character(is_qsip_growth(x))
+  )
 }
 
 
