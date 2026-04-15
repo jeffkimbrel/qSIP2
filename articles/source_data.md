@@ -4,7 +4,7 @@
 library(dplyr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.5.9000'
+#> [1] '0.23.6'
 ```
 
 ## Source Material and Metadata
@@ -198,7 +198,7 @@ invalid object, e.g. changing an isotope to an invalid choice.
 
 ``` r
 source_object@data$isotope <- "13G"
-#> invalid isotope found: 13G
+#> Warning: invalid isotope found: "13G"
 #> Error:
 #> ! Please fix the isotope names and try again
 ```

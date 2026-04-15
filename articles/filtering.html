@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.5.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,7 +101,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.23.5.9000'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.23.6'</span></span></code></pre></div>
 </div>
 <section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -178,17 +178,29 @@ Table 1: get_comparison_groups() correctly identifies two comparisons
 <span><span class="co">#&gt; There are initially 2030 unique feature_ids</span></span>
 <span><span class="co">#&gt; 1705 of these have abundance in at least one fraction of one source_mat_id</span></span>
 <span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Filtering feature_ids by fraction...</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 1519 unlabeled and 1417 labeled feature_ids were found in zero fractions in at least one source_mat_id</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 1210 unlabeled and 584 labeled feature_ids were found in too few fractions in at least one source_mat_id</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 780 unlabeled and 497 labeled feature_ids passed the fraction filter</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; In total, 870 unique feature_ids passed the fraction filtering requirements...</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Filtering feature_ids by source...</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 90 unlabeled and 373 labeled feature_ids failed the source filter because they were found in zero sources</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 245 unlabeled and 189 labeled feature_ids failed the source filter because they were found in too few sources</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 535 unlabeled and 308 labeled feature_ids passed the source filter</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; In total, 257 unique feature_ids passed all fraction and source filtering requirements</span></span>
 <span></span>
 <span><span class="va">restrictive</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_feature_filter.html">run_feature_filter</a></span><span class="op">(</span><span class="va">example_qsip_object</span>,</span>
@@ -202,17 +214,29 @@ Table 1: get_comparison_groups() correctly identifies two comparisons
 <span><span class="co">#&gt; There are initially 2030 unique feature_ids</span></span>
 <span><span class="co">#&gt; 1705 of these have abundance in at least one fraction of one source_mat_id</span></span>
 <span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Filtering feature_ids by fraction...</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 1519 unlabeled and 1417 labeled feature_ids were found in zero fractions in at least one source_mat_id</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 1440 unlabeled and 830 labeled feature_ids were found in too few fractions in at least one source_mat_id</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 299 unlabeled and 209 labeled feature_ids passed the fraction filter</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; In total, 346 unique feature_ids passed the fraction filtering requirements...</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Filtering feature_ids by source...</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 47 unlabeled and 137 labeled feature_ids failed the source filter because they were found in zero sources</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 196 unlabeled and 127 labeled feature_ids failed the source filter because they were found in too few sources</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 103 unlabeled and 82 labeled feature_ids passed the source filter</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; In total, 64 unique feature_ids passed all fraction and source filtering requirements</span></span></code></pre></div>
 </div>
 <p>Here, only 64 features pass the more restrictive criteria, but we get 257 by relaxing the criteria a little bit. The function messages are rather verbose, but they try to summarize the results of each step.</p>

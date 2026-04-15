@@ -6,7 +6,7 @@ library(ggplot2)
 library(stringr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.5.9000'
+#> [1] '0.23.6'
 ```
 
 ## Background
@@ -126,17 +126,29 @@ loose <- run_feature_filter(example_qsip_object,
 #> There are initially 2030 unique feature_ids
 #> 1705 of these have abundance in at least one fraction of one source_mat_id
 #> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+#> 
 #> Filtering feature_ids by fraction...
+#> 
 #> 1519 unlabeled and 1417 labeled feature_ids were found in zero fractions in at least one source_mat_id
+#> 
 #> 1210 unlabeled and 584 labeled feature_ids were found in too few fractions in at least one source_mat_id
+#> 
 #> 780 unlabeled and 497 labeled feature_ids passed the fraction filter
+#> 
 #> In total, 870 unique feature_ids passed the fraction filtering requirements...
+#> 
 #> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+#> 
 #> Filtering feature_ids by source...
+#> 
 #> 90 unlabeled and 373 labeled feature_ids failed the source filter because they were found in zero sources
+#> 
 #> 245 unlabeled and 189 labeled feature_ids failed the source filter because they were found in too few sources
+#> 
 #> 535 unlabeled and 308 labeled feature_ids passed the source filter
+#> 
 #> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+#> 
 #> In total, 257 unique feature_ids passed all fraction and source filtering requirements
 
 restrictive <- run_feature_filter(example_qsip_object,
@@ -150,17 +162,29 @@ restrictive <- run_feature_filter(example_qsip_object,
 #> There are initially 2030 unique feature_ids
 #> 1705 of these have abundance in at least one fraction of one source_mat_id
 #> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+#> 
 #> Filtering feature_ids by fraction...
+#> 
 #> 1519 unlabeled and 1417 labeled feature_ids were found in zero fractions in at least one source_mat_id
+#> 
 #> 1440 unlabeled and 830 labeled feature_ids were found in too few fractions in at least one source_mat_id
+#> 
 #> 299 unlabeled and 209 labeled feature_ids passed the fraction filter
+#> 
 #> In total, 346 unique feature_ids passed the fraction filtering requirements...
+#> 
 #> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+#> 
 #> Filtering feature_ids by source...
+#> 
 #> 47 unlabeled and 137 labeled feature_ids failed the source filter because they were found in zero sources
+#> 
 #> 196 unlabeled and 127 labeled feature_ids failed the source filter because they were found in too few sources
+#> 
 #> 103 unlabeled and 82 labeled feature_ids passed the source filter
+#> 
 #> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+#> 
 #> In total, 64 unique feature_ids passed all fraction and source filtering requirements
 ```
 

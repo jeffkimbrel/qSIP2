@@ -4,7 +4,7 @@
 library(dplyr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.5.9000'
+#> [1] '0.23.6'
 ```
 
 ## Samples and Metadata
@@ -114,7 +114,7 @@ sample_object <- qsip_sample_data(example_sample_df,
   gradient_pos_density = "density_g_ml",
   gradient_pos_amt = "avg_16S_g_soil"
 )
-#> <gradient_pos_rel_amt> not specified. Calculating using avg_16S_g_soil column
+#> `gradient_pos_rel_amt` not specified. Calculating using `avg_16S_g_soil` column
 ```
 
 Notice our dataframe did not contain the required `gradient_pos_rel_amt`
@@ -186,9 +186,9 @@ example_sample_df |>
     gradient_pos_density = "density_g_ml",
     gradient_pos_amt = "avg_16S_g_soil"
   )
-#> <gradient_pos_rel_amt> not specified. Calculating using avg_16S_g_soil column
+#> `gradient_pos_rel_amt` not specified. Calculating using `avg_16S_g_soil` column
 #> Error in `validate_gradient_pos_density()`:
-#> ! some gradient_pos_density values are lower than 1.55
+#> ! some `gradient_pos_density` values are lower than 1.55
 ```
 
 ## When to calculate the `gradient_pos_rel_amt` values?

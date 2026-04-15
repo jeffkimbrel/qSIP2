@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.5.9000'
+#> [1] '0.23.6'
 ```
 
 ## Background
@@ -128,16 +128,27 @@ q <- run_feature_filter(example_qsip_growth_object,
 #> There are initially 364 unique feature_ids
 #> 364 of these have abundance in at least one fraction of one source_mat_id
 #> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+#> 
 #> Filtering feature_ids by fraction...
+#> 
 #> 15 unlabeled and 11 labeled feature_ids were found in zero fractions in at least one source_mat_id
+#> 
 #> 70 unlabeled and 47 labeled feature_ids were found in too few fractions in at least one source_mat_id
+#> 
 #> 364 unlabeled and 364 labeled feature_ids passed the fraction filter
+#> 
 #> In total, 364 unique feature_ids passed the fraction filtering requirements...
+#> 
 #> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+#> 
 #> Filtering feature_ids by source...
+#> 
 #> 6 unlabeled and 5 labeled feature_ids failed the source filter because they were found in too few sources
+#> 
 #> 358 unlabeled and 359 labeled feature_ids passed the source filter
+#> 
 #> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+#> 
 #> In total, 358 unique feature_ids passed all fraction and source filtering requirements
 #> Warning: 9 unlabeled and 6 labeled feature_ids had resampling failures.
 #> ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your
@@ -233,9 +244,8 @@ and the growth model to use. The growth model can be either
 q <- run_growth_calculations(q,
                                N_total_it = example_qsip_growth_t0,
                                growth_model = "exponential")
-#> Warning: 31327 resamplings have a negative EAF value or calculated labeled copy
-#> numbers less than 0. These values have been filtered out and added to
-#> @growth$negative_labeled
+#> Warning: 31327 resamplings have a negative EAF value or calculated labeled copy numbers
+#> less than 0. Filtered out and added to @growth$negative_labeled
 ```
 
 Note the warning message, which we will return to in a minute.

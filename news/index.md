@@ -14,8 +14,11 @@
   nothing (blue by default), success ratio or p-val
 - Fixed legend and color palette issues for
   [`plot_feature_resamplings()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_feature_resamplings.md)
-- Behind the scenes, rebuilt the including data objects to the newest
-  specifications, and updated the tests
+- Behind the scenes
+  - rebuilt the included data objects to the newest specifications, and
+    updated the tests
+  - switched many of the error/warnings/messages to use the `cli`
+    package
 
 ## qSIP2 0.22
 
