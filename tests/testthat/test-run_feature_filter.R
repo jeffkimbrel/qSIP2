@@ -18,7 +18,7 @@ test_that("minimums larger than possible give error", {
       labeled_source_mat_ids = c("S178", "S179", "S180"),
       min_unlabeled_sources = 10
     ),
-    "min_unlabeled_sources is set to 10 but unlabeled_source_mat_ids only has 8"
+    class = "qsip_invalid_argument"
   )
   expect_error(
     run_feature_filter(example_qsip_object,
@@ -26,7 +26,7 @@ test_that("minimums larger than possible give error", {
       labeled_source_mat_ids = c("S178", "S179", "S180"),
       min_labeled_sources = 5
     ),
-    "min_labeled_sources is set to 5 but labeled_source_mat_ids only has 3"
+    class = "qsip_invalid_argument"
   )
 })
 

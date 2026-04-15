@@ -16,7 +16,7 @@ is_qsip_data = function(object, error = FALSE) {
     if (isFALSE(error)) {
       return(FALSE)
     } else {
-      stop(glue::glue("object must be a <qsip_data> object, not <{class(object)[1]}>"), call. = FALSE)
+      cli::cli_abort("object must be a {.cls qsip_data} object, not {.cls {class(object)[1]}}", class = "qsip_wrong_class")
     }
   } else {
     return(TRUE)
@@ -50,7 +50,7 @@ is_qsip_data_list <- function(object, error = FALSE) {
     if (isFALSE(error)) {
       return(FALSE)
     } else {
-      stop(glue::glue("object must be a <qsip_data> object, not <{class(object)[1]}>"), call. = FALSE)
+      cli::cli_abort("object must be a {.cls qsip_data} object, not {.cls {class(object)[1]}}", class = "qsip_wrong_class")
     }
   }
 }
@@ -73,7 +73,7 @@ is_qsip_filtered <- function(object, error = FALSE) {
     if (isFALSE(error)) {
       return(FALSE)
     } else {
-      stop(glue::glue("object is a non-filtered <qsip_data> object"), call. = FALSE)
+      cli::cli_abort("object is a non-filtered {.cls qsip_data} object", class = "qsip_wrong_state")
     }
   } else {
     return(TRUE)
@@ -98,7 +98,7 @@ is_qsip_resampled <- function(object, error = FALSE) {
     if (isFALSE(error)) {
       return(FALSE)
     } else {
-      stop(glue::glue("object is a non-resampled <qsip_data> object"), call. = FALSE)
+      cli::cli_abort("object is a non-resampled {.cls qsip_data} object", class = "qsip_wrong_state")
     }
   } else {
     return(TRUE)
@@ -123,7 +123,7 @@ is_qsip_EAF <- function(object, error = FALSE) {
     if (isFALSE(error)) {
       return(FALSE)
     } else {
-      stop(glue::glue("<qsip_data> object does not have EAF calculations"), call. = FALSE)
+      cli::cli_abort("{.cls qsip_data} object does not have EAF calculations", class = "qsip_wrong_state")
     }
   } else {
     return(TRUE)
@@ -148,7 +148,7 @@ is_qsip_growth <- function(object, error = FALSE) {
     if (isFALSE(error)) {
       return(FALSE)
     } else {
-      stop(glue::glue("<object> has not been run through the growth calculations"), call. = FALSE)
+      cli::cli_abort("object has not been run through the growth calculations", class = "qsip_wrong_state")
     }
   } else {
     return(TRUE)
@@ -257,9 +257,9 @@ validate_gradient_pos_density <- function(df, low = 1.55, high = 1.8) {
   stopifnot("some gradient_pos_density values are non-numeric" = is.numeric(gradient_pos_density))
 
   if (any(gradient_pos_density > high)) {
-    stop(glue::glue("some gradient_pos_density values are higher than {high}"))
+    cli::cli_abort("some {.arg gradient_pos_density} values are higher than {.val {high}}", class = "qsip_density_out_of_range")
   } else if (any(gradient_pos_density < low)) {
-    stop(glue::glue("some gradient_pos_density values are lower than {low}"))
+    cli::cli_abort("some {.arg gradient_pos_density} values are lower than {.val {low}}", class = "qsip_density_out_of_range")
   } else {
     return(NULL)
   }
@@ -319,7 +319,7 @@ validate_isotopes <- function(isotope,
   # if any unfractionated terms are found, print a message
   if (any(unfractionated_terms %in% isotope)) {
     for (term in intersect(isotope, unfractionated_terms)) {
-      message(glue::glue("Isotope value found that matches typical unfractionated terms: {term}"))
+      cli::cli_inform("Isotope value found that matches typical unfractionated terms: {.val {term}}", class = "qsip_isotope_info")
     }
   }
 
@@ -330,7 +330,7 @@ validate_isotopes <- function(isotope,
     return(NULL)
   } else {
     for (error in setdiff(isotope, isotope_list)) {
-      message(glue::glue("invalid isotope found: {error}"))
+      cli::cli_warn("invalid isotope found: {.val {error}}", class = "qsip_isotope_warning")
     }
     stop("Please fix the isotope names and try again", call. = FALSE)
   }
@@ -388,17 +388,14 @@ validate_standard_names = function(data, name, type) {
   } else if (type == "feature") {
     standard = "feature_id"
   } else {
-    stop(glue::glue("The 'type' argument must be one of 'source', 'sample', or 'feature'. You passed <{type}>."), call. = FALSE)
+    cli::cli_abort("The {.arg type} argument must be one of {.val source}, {.val sample}, or {.val feature}, not {.val {type}}", class = "qsip_invalid_argument")
   }
 
   if (!name == standard & standard %in% colnames(data)) {
-    stop(glue::glue("You are trying to pass the <{name}> column as the '{standard}',
-                    but a '{standard}' column already exists in your {type} dataframe.
-
-                    If you really want to use the <{name}> column, it is recommended to
-                    rename the existing '{standard}' column, or completely remove it from
-                    your dataframe first to avoid collision issues.
-
-                    Sorry for the inconvenience."), call. = FALSE)
+    cli::cli_abort(c(
+      "Column {.arg {name}} cannot be used as {.val {standard}} in the {.val {type}} dataframe.",
+      "i" = "A {.val {standard}} column already exists.",
+      "i" = "Rename or remove the existing {.val {standard}} column to avoid collision."
+    ), class = "qsip_column_collision")
   }
 }

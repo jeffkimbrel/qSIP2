@@ -3,12 +3,12 @@ add_taxonomy_testdf_with_error <- readRDS(test_path("fixtures", "add_taxonomy_te
 
 test_that("feature wrong type produces error", {
   expect_error(add_taxonomy(example_feature_df, add_taxonomy_testdf, feature_id = "ASV"),
-               "feature_object should be class <qsip_feature_data>, not tbl_df)")
+               class = "qsip_wrong_class")
 })
 
 test_that("feature column not found produce error", {
   expect_error(add_taxonomy(example_feature_object, add_taxonomy_testdf, feature_id = "not_found"),
-               "not_found column not found in taxonomy dataframe")
+               class = "qsip_column_not_found")
 })
 
 test_that("duplicate feature_ids produce error", {

@@ -16,7 +16,7 @@
         gradient_position = "Fraction", gradient_pos_density = "density_g_ml",
         gradient_pos_amt = "avg_16S_g_soil")
     Message
-      <gradient_pos_rel_amt> not specified. Calculating using avg_16S_g_soil column
+      `gradient_pos_rel_amt` not specified. Calculating using `avg_16S_g_soil` column
     Output
       <qsip_sample_data>
       source_material_id count: 15

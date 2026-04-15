@@ -10,16 +10,16 @@ test_that("works as expected", {
 
 test_that("wrong qsip_object gives error", {
   expect_error(run_comparison_groups(df, "a string"),
-               "object must be a <qsip_data> object, not <character>")
+               class = "qsip_wrong_class")
 })
 
 test_that("missing expected column names fail", {
   expect_error(run_comparison_groups(dplyr::rename(df, BAD_NAME = group), example_qsip_object),
-               "Missing required column names in groups dataframe: group")
+               class = "qsip_column_not_found")
   expect_error(run_comparison_groups(dplyr::rename(df, BAD_NAME = unlabeled), example_qsip_object),
-               "Missing required column names in groups dataframe: unlabeled")
+               class = "qsip_column_not_found")
   expect_error(run_comparison_groups(dplyr::rename(df, BAD_NAME = labeled), example_qsip_object),
-               "Missing required column names in groups dataframe: labeled")
+               class = "qsip_column_not_found")
 })
 
 test_that("group names not unique", {

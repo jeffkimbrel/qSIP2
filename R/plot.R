@@ -299,7 +299,7 @@ plot_density_outliers <- function(sample_data,
   } else if (inherits(sample_data, qsip_sample_data)) {
     data <- sample_data@data
   } else {
-    stop(glue::glue("sample_data should be class <qsip_sample_data> or <qsip_data>, not {class(sample_data)[1]}"), call. = FALSE)
+    cli::cli_abort("sample_data should be class {.cls qsip_sample_data} or {.cls qsip_data}, not {.cls {class(sample_data)[1]}}", class = "qsip_wrong_class")
   }
 
   stopifnot("sensitivity should be a <numeric>" = is.numeric(sensitivity))
@@ -959,7 +959,7 @@ plot_filter_results <- function(qsip_data_object,
   }
 
   if (!return_type %in% c("combined", "individual", "dataframe")) {
-    stop(glue::glue("return_type should be either one of 'combined', 'individual' or 'dataframe'"))
+    cli::cli_abort("{.arg return_type} should be {.val combined}, {.val individual}, or {.val dataframe}", class = "qsip_invalid_argument")
   }
 
   # bind variables

@@ -28,10 +28,10 @@ add_gradient_pos_rel_amt <- function(data,
 
   # make sure column names exist
   if (!amt %in% colnames(data)) {
-    stop(glue::glue("{amt} not found in dataframe"), call. = FALSE)
+    cli::cli_abort("{.arg {amt}} not found in dataframe", class = "qsip_column_not_found")
   }
   if (!source_mat_id %in% colnames(data)) {
-    stop(glue::glue("{source_mat_id} not found in dataframe"), call. = FALSE)
+    cli::cli_abort("{.arg {source_mat_id}} not found in dataframe", class = "qsip_column_not_found")
   }
 
 
@@ -78,7 +78,7 @@ add_taxonomy <- function(feature_object, taxa, feature_id) {
 
   # make sure feature_object is the right type
   if (!inherits(feature_object, qsip_feature_data)) {
-    stop(glue::glue("feature_object should be class <qsip_feature_data>, not {class(feature_object)[1]})"), call. = FALSE)
+    cli::cli_abort("feature_object should be class {.cls qsip_feature_data}, not {.cls {class(feature_object)[1]}}", class = "qsip_wrong_class")
   }
 
 
@@ -87,7 +87,7 @@ add_taxonomy <- function(feature_object, taxa, feature_id) {
     taxa <- taxa |>
       dplyr::rename("feature_id" := feature_id)
   } else {
-    stop(glue::glue("{feature_id} column not found in taxonomy dataframe"), call. = FALSE)
+    cli::cli_abort("{.arg {feature_id}} column not found in taxonomy dataframe", class = "qsip_column_not_found")
   }
 
   feature_object_ids <- feature_object@data["feature_id"] |> dplyr::pull(feature_id)

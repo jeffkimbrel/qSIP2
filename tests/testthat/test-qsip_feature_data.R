@@ -1,15 +1,15 @@
 test_that("incorrect input types give errors", {
   expect_error(
     qsip_feature_data(example_feature_object, feature_id = "ASV"),
-    "data must be class <dataframe>, not qSIP2::qsip_feature_data"
+    class = "qsip_wrong_class"
   )
   expect_error(
     qsip_feature_data(example_feature_df, feature_id = "not_found"),
-    "not_found not found in dataframe"
+    class = "qsip_column_not_found"
   )
   expect_error(
     qsip_feature_data(example_feature_df, feature_id = "ASV", type = "not_a_valid_type"),
-    "feature data type should be 'counts', 'coverage', 'normalized' or 'relative', not 'not_a_valid_type'"
+    class = "qsip_invalid_argument"
   )
 })
 
@@ -32,6 +32,6 @@ test_that("Duplicate feature ids give error", {
   test_df$ASV <- sample(test_df$ASV, replace = T)
   expect_error(
     qsip_feature_data(test_df, feature_id = "ASV"),
-    "There appear to be duplicate ids in the ASV column"
+    class = "qsip_duplicate_ids"
   )
 })

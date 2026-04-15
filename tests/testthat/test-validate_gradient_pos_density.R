@@ -13,6 +13,6 @@ test_that("densities given as strings fail", {
 })
 
 test_that("densities outside of the valid range fail", {
-  expect_error(validate_gradient_pos_density(gradient_pos_density_df, high = 1.79), "some gradient_pos_density values are higher than 1.79")
-  expect_error(validate_gradient_pos_density(gradient_pos_density_df, low = 1.61), "some gradient_pos_density values are lower than 1.61")
+  expect_error(validate_gradient_pos_density(gradient_pos_density_df, high = 1.79), class = "qsip_density_out_of_range")
+  expect_error(validate_gradient_pos_density(gradient_pos_density_df, low = 1.61), class = "qsip_density_out_of_range")
 })

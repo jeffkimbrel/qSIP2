@@ -355,7 +355,7 @@ get_filtered_feature_summary = function(qsip_data_object, feature_id) {
   is_qsip_filtered(qsip_data_object, error = TRUE)
 
   if (!feature_id %in% get_feature_ids(qsip_data_object)) {
-    stop(glue::glue("{feature_id} is not a valid feature_id"), call. = FALSE)
+    cli::cli_abort("{.val {feature_id}} is not a valid feature_id", class = "qsip_invalid_argument")
   }
 
   A = qsip_data_object@filter_results$fraction_filtered |>
@@ -965,14 +965,14 @@ get_N_total_it <- function(qsip_data_object,
 
   # make sure there are values of t in the dataframe
   if (!t %in% N_total_i0$timepoint) {
-    stop(glue::glue("no source_mat_ids with a 't = {t}' timepoint were found in <qsip_data>"), call. = FALSE)
+    cli::cli_abort("no source_mat_ids with a timepoint of {.val {t}} were found in {.cls qsip_data}", class = "qsip_invalid_argument")
   }
 
   # group can be NULL, or should be a column in N_total_i0
   if (!is.null(group)) {
 
     if (!group %in% colnames(N_total_i0)) {
-      stop(glue::glue("grouping variable {group} not found in source_data"), call. = FALSE)
+      cli::cli_abort("grouping variable {.arg {group}} not found in source_data", class = "qsip_column_not_found")
     }
   }
 
@@ -1052,7 +1052,7 @@ summarize_growth_values <- function(qsip_data_object, confidence = 0.9, quiet = 
 
 
   if (isFALSE(quiet)) {
-    message(glue::glue("Confidence level = {confidence}"))
+    cli::cli_inform("Confidence level = {.val {confidence}}", class = "qsip_progress")
   }
 
   rbd_observed <- qsip_data_object@growth$rates |>

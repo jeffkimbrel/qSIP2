@@ -8,8 +8,8 @@ test_that("works correctly", {
 })
 
 test_that("wrong input types fail", {
-  expect_error(run_resampling(example_feature_object), "object must be a <qsip_data> object, not <qSIP2::qsip_feature_data>")
-  expect_error(run_resampling(example_qsip_object), "object is a non-filtered <qsip_data> object")
+  expect_error(run_resampling(example_feature_object), class = "qsip_wrong_class")
+  expect_error(run_resampling(example_qsip_object), class = "qsip_wrong_state")
   expect_error(run_resampling(qsip_normal_strict_filtered, resamples = 0), "resamples should be positive")
   expect_error(run_resampling(qsip_normal_strict_filtered, resamples = "not_a_number"), "resamples should be class <numeric>")
   expect_error(run_resampling(qsip_normal_strict_filtered, progress = "not_an_option"), "progress must be either TRUE of FALSE")

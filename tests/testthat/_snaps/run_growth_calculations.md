@@ -4,7 +4,7 @@
       run_growth_calculations(qsip_growth_EAF, N_total_it = example_qsip_growth_t0)
     Condition
       Warning:
-      3913 resamplings have a negative EAF value or calculated labeled copy numbers less than 0. These values have been filtered out and added to @growth$negative_labeled
+      3913 resamplings have a negative EAF value or calculated labeled copy numbers less than 0. Filtered out and added to @growth$negative_labeled
     Output
       <qsip_data>
       group: Day 10

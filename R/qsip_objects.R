@@ -71,17 +71,17 @@ qsip_source_data <- S7::new_class(
 
     # verify column names exist
     if (!isotope %in% colnames(data)) {
-      stop(glue::glue("isotope column '{isotope}' is not found"), call. = FALSE)
+      cli::cli_abort("{.arg {isotope}} column is not found", class = "qsip_column_not_found")
     } else if (!isotopolog %in% colnames(data)) {
-      stop(glue::glue("isotopolog column '{isotopolog}' is not found"), call. = FALSE)
+      cli::cli_abort("{.arg {isotopolog}} column is not found", class = "qsip_column_not_found")
     } else if (!source_mat_id %in% colnames(data)) {
-      stop(glue::glue("source_mat_id column '{source_mat_id}' is not found"), call. = FALSE)
+      cli::cli_abort("{.arg {source_mat_id}} column is not found", class = "qsip_column_not_found")
     } else if (timepoint != "NULL" & !timepoint %in% colnames(data)) {
-      stop(glue::glue("timepoint column '{timepoint}' is not found"), call. = FALSE)
+      cli::cli_abort("{.arg {timepoint}} column is not found", class = "qsip_column_not_found")
     } else if (total_abundance != "NULL" & !total_abundance %in% colnames(data)) {
-      stop(glue::glue("total_abundance column '{total_abundance}' is not found"), call. = FALSE)
+      cli::cli_abort("{.arg {total_abundance}} column is not found", class = "qsip_column_not_found")
     } else if (volume != "NULL" & !volume %in% colnames(data)) {
-      stop(glue::glue("volume column '{volume}' is not found"), call. = FALSE)
+      cli::cli_abort("{.arg {volume}} column is not found", class = "qsip_column_not_found")
     }
 
 
@@ -110,7 +110,7 @@ qsip_source_data <- S7::new_class(
 
       # verify that timepoint in data is a numeric column
       if (!is.numeric(data$timepoint)) {
-        stop(glue::glue("timepoint column '{timepoint}' must be numeric"), call. = FALSE)
+        cli::cli_abort("{.arg {timepoint}} column must be numeric", class = "qsip_wrong_type")
       }
     }
 
@@ -125,7 +125,7 @@ qsip_source_data <- S7::new_class(
       } else {
         # verify that volume in data is a numeric column
         if (!is.numeric(data$volume)) {
-          stop(glue::glue("volume column '{volume}' must be numeric"), call. = FALSE)
+          cli::cli_abort("{.arg {volume}} column must be numeric", class = "qsip_wrong_type")
         }
         message("Scaling the <total_abundance> values according to the <volume> column.")
 
@@ -142,7 +142,7 @@ qsip_source_data <- S7::new_class(
       # verify that total_abundance in data is a numeric column
 
       if (!is.numeric(data$total_abundance)) {
-        stop(glue::glue("abundance column '{total_abundance}' must be numeric"), call. = FALSE)
+        cli::cli_abort("{.arg {total_abundance}} column must be numeric", class = "qsip_wrong_type")
       }
     }
 
@@ -240,11 +240,11 @@ qsip_feature_data <- S7::new_class(
                          feature_id = "feature_id",
                          type = "counts") {
     if (!"data.frame" %in% class(data)) {
-      stop(glue::glue("data must be class <dataframe>, not {class(data)[1]}"), call. = FALSE)
+      cli::cli_abort("data must be class {.cls data.frame}, not {.cls {class(data)[1]}}", class = "qsip_wrong_class")
     }
 
     if (!feature_id %in% colnames(data)) {
-      stop(glue::glue("{feature_id} not found in dataframe"), call. = FALSE)
+      cli::cli_abort("{.arg {feature_id}} not found in dataframe", class = "qsip_column_not_found")
     }
 
     # rename columns to standardized names
@@ -267,11 +267,11 @@ qsip_feature_data <- S7::new_class(
   },
   validator = function(self) {
     if (any(duplicated(self@data["feature_id"]))) {
-      stop(glue::glue("There appear to be duplicate ids in the {self@feature_id} column"), call. = FALSE)
+      cli::cli_abort("There appear to be duplicate ids in the {.arg {self@feature_id}} column", class = "qsip_duplicate_ids")
     }
 
     if (!self@type %in% c("counts", "coverage", "normalized", "relative")) {
-      stop(glue::glue("feature data type should be 'counts', 'coverage', 'normalized' or 'relative', not '{self@type}'"), call. = FALSE)
+      cli::cli_abort("feature data type should be {.val counts}, {.val coverage}, {.val normalized}, or {.val relative}, not {.val {self@type}}", class = "qsip_invalid_argument")
     }
 
     validate_abundances(self@data, "feature_id", type = self@type)
@@ -366,16 +366,16 @@ qsip_sample_data <- S7::new_class(
     # if negative values
     if (any(data[gradient_pos_amt] < 0)) {
       if (convert_negatives) {
-        message(glue::glue("Converting negative values in {gradient_pos_amt} to 0"))
+        cli::cli_inform("Converting negative values in {.arg {gradient_pos_amt}} to 0", class = "qsip_negative_values")
         data[gradient_pos_amt][data[gradient_pos_amt] < 0] = 0
       } else {
-        message(glue::glue("{gradient_pos_amt} has negative values. Set convert_negatives = TRUE to convert to 0"))
+        cli::cli_warn("{.arg {gradient_pos_amt}} has negative values. Set {.arg convert_negatives} = TRUE to convert to 0", class = "qsip_negative_values")
       }
     }
 
     # automagically make gradient_pos_rel_amt from gradient_pos_amt, if not specified
     if (gradient_pos_rel_amt == "") {
-      message(glue::glue("<gradient_pos_rel_amt> not specified. Calculating using {gradient_pos_amt} column"))
+      cli::cli_inform("{.arg gradient_pos_rel_amt} not specified. Calculating using {.arg {gradient_pos_amt}} column", class = "qsip_auto_calculate")
       data = data |>
         add_gradient_pos_rel_amt(source_mat_id = source_mat_id,
                                  amt = gradient_pos_amt,
@@ -536,7 +536,7 @@ S7::method(get_dataframe, qsip_source_data) <- function(x, original_headers = FA
 
   # if is not boolean
   if (!is.logical(original_headers)) {
-    stop(glue::glue("original_headers should be TRUE/FALSE, not {class(original_headers)[1]}"))
+    cli::cli_abort("{.arg original_headers} should be {.cls logical}, not {.cls {class(original_headers)[1]}}", class = "qsip_wrong_type")
   }
 
   if (isTRUE(original_headers)) {
@@ -555,7 +555,7 @@ S7::method(get_dataframe, qsip_source_data) <- function(x, original_headers = FA
 S7::method(get_dataframe, qsip_sample_data) <- function(x, original_headers = FALSE) {
   # if is not boolean
   if (!is.logical(original_headers)) {
-    stop(glue::glue("original_headers should be TRUE/FALSE, not {class(original_headers)[1]}"))
+    cli::cli_abort("{.arg original_headers} should be {.cls logical}, not {.cls {class(original_headers)[1]}}", class = "qsip_wrong_type")
   }
 
   if (isTRUE(original_headers)) {
@@ -587,7 +587,7 @@ S7::method(get_dataframe, qsip_sample_data) <- function(x, original_headers = FA
 S7::method(get_dataframe, qsip_feature_data) <- function(x, original_headers = FALSE) {
   # if is not boolean
   if (!is.logical(original_headers)) {
-    stop(glue::glue("original_headers should be TRUE/FALSE, not {class(original_headers)[1]}"))
+    cli::cli_abort("{.arg original_headers} should be {.cls logical}, not {.cls {class(original_headers)[1]}}", class = "qsip_wrong_type")
   }
 
   if (isTRUE(original_headers)) {
@@ -610,7 +610,7 @@ S7::method(get_dataframe, qsip_data) <- function(x, type, original_headers = FAL
   } else if (type == "feature") {
     d <- x@feature_data
   } else {
-    stop(glue::glue("<type> should be 'source', 'sample' or 'feature', not {type}"), call. = FALSE)
+    cli::cli_abort("{.arg type} should be {.val source}, {.val sample}, or {.val feature}, not {.val {type}}", class = "qsip_invalid_argument")
   }
   # print(d)
   get_dataframe(d, original_headers = original_headers)

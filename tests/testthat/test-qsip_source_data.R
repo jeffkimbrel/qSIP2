@@ -11,17 +11,17 @@ test_that("Missing columns throw errors", {
 
   expect_error(
     qsip_source_data(df, isotope = "not_found", isotopolog = "isotopolog", source_mat_id = "source"),
-    "isotope column 'not_found' is not found"
+    class = "qsip_column_not_found"
   )
 
   expect_error(
     qsip_source_data(df, isotope = "Isotope", isotopolog = "not_found", source_mat_id = "source"),
-    "isotopolog column 'not_found' is not found"
+    class = "qsip_column_not_found"
   )
 
   expect_error(
     qsip_source_data(df, isotope = "Isotope", isotopolog = "isotopolog", source_mat_id = "not_found"),
-    "source_mat_id column 'not_found' is not found"
+    class = "qsip_column_not_found"
   )
 })
 

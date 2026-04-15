@@ -27,7 +27,7 @@ test_that("no gradient_pos_rel_amt given will autocalculate", {
       gradient_pos_density = "density_g_ml",
       gradient_pos_amt = "avg_16S_g_soil"
     ),
-    "<gradient_pos_rel_amt> not specified. Calculating using avg_16S_g_soil column"
+    class = "qsip_auto_calculate"
   )
 })
 

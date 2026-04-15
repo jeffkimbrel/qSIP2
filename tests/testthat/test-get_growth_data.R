@@ -7,9 +7,9 @@ test_that("works as expected", {
 
 
 test_that("errors if given a non-growth qsip object", {
-  expect_error(get_growth_data(qsip_growth_EAF), "<object> has not been run through the growth calculations")
+  expect_error(get_growth_data(qsip_growth_EAF), class = "qsip_wrong_state")
 })
 
 test_that("errors if given a non qsip object", {
-  expect_error(get_growth_data(example_feature_df), "object must be a <qsip_data> object, not <tbl_df>")
+  expect_error(get_growth_data(example_feature_df), class = "qsip_wrong_class")
 })

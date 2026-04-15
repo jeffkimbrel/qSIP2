@@ -23,14 +23,14 @@ test_that("Missing column names produce error", {
       example_sample_df,
       amt = "not_found",
       source_mat_id = "source"
-    ), "not_found not found in dataframe"
+    ), class = "qsip_column_not_found"
   )
   expect_error(
     add_gradient_pos_rel_amt(
       example_sample_df,
       amt = "avg_16S_g_soil",
       source_mat_id = "not_found"
-    ), "not_found not found in dataframe"
+    ), class = "qsip_column_not_found"
   )
 })
 

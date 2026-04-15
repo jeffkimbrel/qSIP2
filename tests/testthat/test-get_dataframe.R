@@ -8,7 +8,7 @@ test_that("correct dataframes are returned", {
 })
 
 test_that("unknown type gives error", {
-  expect_error(get_dataframe(example_qsip_object, type = "features"), "<type> should be 'source', 'sample' or 'feature', not features")
-  expect_error(get_dataframe(example_qsip_object, type = "samples"), "<type> should be 'source', 'sample' or 'feature', not samples")
-  expect_error(get_dataframe(example_qsip_object, type = "sources"), "<type> should be 'source', 'sample' or 'feature', not sources")
+  expect_error(get_dataframe(example_qsip_object, type = "features"), class = "qsip_invalid_argument")
+  expect_error(get_dataframe(example_qsip_object, type = "samples"), class = "qsip_invalid_argument")
+  expect_error(get_dataframe(example_qsip_object, type = "sources"), class = "qsip_invalid_argument")
 })

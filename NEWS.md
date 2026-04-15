@@ -5,7 +5,9 @@
 * Big change to handling NA values. Previously, a resampling "failure" was if all WAD values were NA. But now a failure is defined as any NA in the list of WADs. You may notice more warnings during resampling, and lower "success"  counts.
 * Simplified `plot_EAF_values()` while also adding a `color_by` parameter to color the points by nothing (blue by default), success ratio or p-val
 * Fixed legend and color palette issues for `plot_feature_resamplings()`
-* Behind the scenes, rebuilt the including data objects to the newest specifications, and updated the tests
+* Behind the scenes
+  * rebuilt the included data objects to the newest specifications, and updated the tests
+  * switched many of the error/warnings/messages to use the `cli` package
 
 # qSIP2 0.22
 

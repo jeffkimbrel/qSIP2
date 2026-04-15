@@ -53,11 +53,11 @@ run_feature_filter <- function(qsip_data_object,
 
   # make sure minimums are not bigger than possible
   if (min_labeled_sources > length(labeled_source_mat_ids)) {
-    stop(glue::glue("min_labeled_sources is set to {min_labeled_sources} but labeled_source_mat_ids only has {length(labeled_source_mat_ids)}"))
+    cli::cli_abort("{.arg min_labeled_sources} is set to {.val {min_labeled_sources}} but {.arg labeled_source_mat_ids} only has {length(labeled_source_mat_ids)}", class = "qsip_invalid_argument")
   }
 
   if (min_unlabeled_sources > length(unlabeled_source_mat_ids)) {
-    stop(glue::glue("min_unlabeled_sources is set to {min_unlabeled_sources} but unlabeled_source_mat_ids only has {length(unlabeled_source_mat_ids)}"))
+    cli::cli_abort("{.arg min_unlabeled_sources} is set to {.val {min_unlabeled_sources}} but {.arg unlabeled_source_mat_ids} only has {length(unlabeled_source_mat_ids)}", class = "qsip_invalid_argument")
   }
 
   # make sure all given source_mat_ids are found in sample_data
@@ -105,7 +105,7 @@ run_feature_filter <- function(qsip_data_object,
     length()
 
   if (isFALSE(quiet)) {
-    message(glue::glue("There are initially {initial_feature_id_count} unique feature_ids"))
+    cli::cli_inform("There are initially {.val {initial_feature_id_count}} unique feature_ids", class = "qsip_progress")
   }
 
   # get long table and subset to only included source_mat_ids
@@ -118,7 +118,7 @@ run_feature_filter <- function(qsip_data_object,
     length()
 
   if (isFALSE(quiet)) {
-    message(glue::glue("{secondary_feature_id_count} of these have abundance in at least one fraction of one source_mat_id"))
+    cli::cli_inform("{.val {secondary_feature_id_count}} of these have abundance in at least one fraction of one source_mat_id", class = "qsip_progress")
   }
 
   if (isFALSE(quiet)) {
@@ -523,7 +523,7 @@ run_comparison_groups <- function(groups,
   # groups dataframe should contain group, unlabeled and labeled columns, and there can be others
   required_cols <- c("group", "unlabeled", "labeled")
   if (!all(required_cols %in% colnames(groups))) {
-    stop(glue::glue("Missing required column names in groups dataframe: {setdiff(required_cols, colnames(groups))}"), call. = F)
+    cli::cli_abort("Missing required column names in groups dataframe: {.val {setdiff(required_cols, colnames(groups))}}", class = "qsip_column_not_found")
   }
 
   # groups$group column should be unique
@@ -627,25 +627,25 @@ run_growth_calculations <- function(qsip_data_object,
 
   # growth_model must be either "exponential" or "linear"
   if (!growth_model %in% c("exponential", "linear")) {
-    stop(glue::glue("growth_model must be either 'exponential' or 'linear', not {growth_model}"), call. = FALSE)
+    cli::cli_abort("{.arg growth_model} must be {.val exponential} or {.val linear}, not {.val {growth_model}}", class = "qsip_invalid_argument")
   }
 
   if (!correct_copy_numbers %in% c("filter", "adjust")) {
-    stop(glue::glue("correct_copy_numbers must be either 'filter' or 'adjust', not {correct_copy_numbers}"), call. = FALSE)
+    cli::cli_abort("{.arg correct_copy_numbers} must be {.val filter} or {.val adjust}, not {.val {correct_copy_numbers}}", class = "qsip_invalid_argument")
   }
 
   if (!correct_EAF %in% c("filter", "adjust")) {
-    stop(glue::glue("correct_EAF must be either 'filter' or 'adjust', not {correct_EAF}"), call. = FALSE)
+    cli::cli_abort("{.arg correct_EAF} must be {.val filter} or {.val adjust}, not {.val {correct_EAF}}", class = "qsip_invalid_argument")
   }
 
   # error if there is no timepoint column
   if (!timepoint %in% colnames(qsip_data_object@source_data@data)) {
-    stop(glue::glue("timepoint column {timepoint} not found in source_data@data"), call. = FALSE)
+    cli::cli_abort("{.arg {timepoint}} column not found in source_data", class = "qsip_column_not_found")
   }
 
   # propO should be between 0 and 1
   if (propO < 0 || propO > 1) {
-    stop(glue::glue("propO must be between 0 and 1, not {propO}"), call. = FALSE)
+    cli::cli_abort("{.arg propO} must be between 0 and 1, not {.val {propO}}", class = "qsip_invalid_argument")
   } else {
     qsip_data_object@growth$propO = propO
   }
@@ -690,7 +690,7 @@ run_growth_calculations <- function(qsip_data_object,
     dplyr::filter(!feature_id %in% EAFs$feature_id)
 
   if (nrow(no_EAF_values) > 0) {
-    warning(glue::glue("{nrow(no_EAF_values)} feature_ids have zero abundance at this timepoint and have no EAF values. These values have been filtered out and added to @growth$no_EAF_values"), call. = FALSE)
+    cli::cli_warn("{.val {nrow(no_EAF_values)}} feature_ids have zero abundance at this timepoint and have no EAF values. Filtered out and added to @growth$no_EAF_values", class = "qsip_filtered_values")
     qsip_data_object@growth$no_EAF_values <- no_EAF_values
   }
 
@@ -712,12 +712,12 @@ run_growth_calculations <- function(qsip_data_object,
     dplyr::filter(N_heavy_it <= 0 | EAF < 0)
 
   if (nrow(negative_unlabeled) > 0) {
-    warning(glue::glue("{nrow(negative_unlabeled)} calculated values of unlabeled samples are negative. These values have been filtered out and added to @growth$negative_unlabeled"), call. = FALSE)
+    cli::cli_warn("{.val {nrow(negative_unlabeled)}} calculated values of unlabeled samples are negative. Filtered out and added to @growth$negative_unlabeled", class = "qsip_filtered_values")
     qsip_data_object@growth$negative_unlabeled <- negative_unlabeled
   }
 
   if (nrow(negative_labeled) > 0) {
-    warning(glue::glue("{nrow(negative_labeled)} resamplings have a negative EAF value or calculated labeled copy numbers less than 0. These values have been filtered out and added to @growth$negative_labeled"), call. = FALSE)
+    cli::cli_warn("{.val {nrow(negative_labeled)}} resamplings have a negative EAF value or calculated labeled copy numbers less than 0. Filtered out and added to @growth$negative_labeled", class = "qsip_filtered_values")
     qsip_data_object@growth$negative_labeled <- negative_labeled
   }
 

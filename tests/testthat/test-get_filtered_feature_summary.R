@@ -12,5 +12,5 @@ test_that("is the right size", {
 
 
 test_that("unknown feature throws error", {
-  expect_error(get_filtered_feature_summary(qsip_normal_strict_filtered, feature_id = "not_a_feature"), "not_a_feature is not a valid feature_id")
+  expect_error(get_filtered_feature_summary(qsip_normal_strict_filtered, feature_id = "not_a_feature"), class = "qsip_invalid_argument")
 })
