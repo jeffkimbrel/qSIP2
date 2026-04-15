@@ -4,9 +4,7 @@
       get_N_total_it(example_qsip_growth_object, t = 0)
     Condition
       Warning:
-      1 feature_ids have zero abundance at time 0:
-      Warning:
-      taxon_194
+      1 feature_id have zero abundance at time 0: "taxon_194"
     Output
       # A tibble: 364 x 3
          feature_id  N_total_i0 timepoint1
@@ -29,9 +27,7 @@
       get_N_total_it(example_qsip_growth_object, t = 0, group = "isotopolog")
     Condition
       Warning:
-      1 feature_ids have zero abundance at time 0:
-      Warning:
-      taxon_194
+      1 feature_id have zero abundance at time 0: "taxon_194"
     Output
       # A tibble: 364 x 4
          feature_id isotopolog  N_total_i0 timepoint1

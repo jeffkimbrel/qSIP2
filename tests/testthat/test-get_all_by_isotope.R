@@ -22,14 +22,14 @@ test_that("multiple isotopes work", {
 test_that("no hits returned gives an error", {
   expect_error(
     get_all_by_isotope(example_qsip_object, "14N"),
-    "No source_mat_ids found with isotopes 14N"
+    class = "qsip_isotope_not_found_in_source_mat_ids"
   )
 })
 
-test_that("some isotopes not found give a message, but don't fail", {
-  expect_message(
+test_that("some isotopes not found give a warning, but don't fail", {
+  expect_warning(
     get_all_by_isotope(example_qsip_object, c("12C", "14N")),
-    "WARNING: 14N not found in data"
+    class = "qsip_isotope_not_found"
   )
 })
 

@@ -4,6 +4,6 @@ test_that("works correctly", {
 
 test_that("Missing isotope column gives error", {
   expect_error(add_isotopolog_label(example_source_df, isotope = "not_found"),
-               "not_found column not found")
+  class = "qsip_isotope_not_found")
 })
 

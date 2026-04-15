@@ -272,16 +272,6 @@ calculate_wads <- function(tube_rel_abundance) {
     ) |>
     dplyr::arrange(feature_id)
 
-  # missing_feature_ids <- fraction_counts |>
-  #   dplyr::filter(is.na(n_fractions)) |>
-  #   dplyr::count(feature_id, name = feature_count) |>
-  #   dplyr::arrange(feature_count) |>
-  #   dplyr::count(feature_count, name = "counts") |>
-  #   dplyr::summarize(S = sum(counts)) |>
-  #   dplyr::pull(S)
-
-  #message(glue::glue_col("WARNING: {red {missing_feature_ids}} feature_ids have no counts in one or more source_mat_ids"))
-
   return(list(
     "wads" = wads,
     "fraction_counts" = fraction_counts
@@ -331,7 +321,8 @@ completely_labeled_values <- function(isotope) {
 calculate_M <- function(G) {
 
   if (!is.numeric(G)) {
-    stop(glue::glue("G should be class <numeric>, not {class(G)}"), call. = FALSE)
+    cli::cli_abort("{.arg G} must be numeric, not {.cls {class(G)}}.",
+            class = "qsip_bad_GC_format")
   }
 
   M <- (G * 0.496) + 307.691
@@ -359,18 +350,17 @@ calculate_M_labeledmax <- function(M,
   validate_isotopes(isotope, isotope_list = c("13C", "15N", "18O"))
 
   if (!is.numeric(M)) {
-    stop(glue::glue("M should be <numeric>, not {class(M)}"), call. = FALSE)
+    cli::cli_abort("{.arg M} must be {.cls numeric}, not {.cls {class(M)}}.",
+            class = "qsip_bad_MW_value")
   }
 
   if (isotope == "13C") {
-    # assumes unlabeled DNA already contains a minute amount of 13C (at the
-    # natural abundance level of VPDB)
+    # assumes unlabeled DNA already contains a minute amount of 13C (at the natural abundance level of VPDB)
     M_labeledmax <- M + (atom_count * (1.008665 * (1000000 / (1000000 + 11237.2))))
     return(M_labeledmax)
 
   } else if (isotope == "15N") {
-    # assumes unlabeled DNA already contains minute amounts of 15N (at the
-    # natural abundance level of AIR-N2)
+    # assumes unlabeled DNA already contains minute amounts of 15N (at the natural abundance level of AIR-N2)
     M_labeledmax <- M + (atom_count * (1.008665 * (1000000 / (1000000 + (1000000 / 272)))))
     return(M_labeledmax)
 
@@ -439,7 +429,8 @@ calculate_gc_from_density <- function(density,
     G <- (1 / 0.098) * (density - 1.66)
     return(G)
   } else {
-    stop(glue::glue("ERROR: {method} is not a valid method for GC% calculation. Options are MM (default) or S."))
+    cli::cli_abort("{.arg method} must be {.val MM} or {.val S}, not {.val {method}}.",
+      class = "bad_gc_method")
   }
 }
 
@@ -604,7 +595,10 @@ calculate_di <- function(N_light_it,
                          timepoint1,
                          growth_model = "exponential") {
   if (!growth_model %in% c("exponential", "linear")) {
-    stop(glue::glue("growth_model must be either 'exponential' or 'linear', not {growth_model}"), call. = FALSE)
+    cli::cli_abort(
+      "{.arg growth_model} must be {.val exponential} or {.val linear}, not {.val {growth_model}}.",
+      class = "qsip_invalid_growth_model"
+    )
   }
 
   if (growth_model == "exponential") {
@@ -638,9 +632,12 @@ calculate_bi <- function(N_total_it,
                          timepoint1,
                          growth_model = "exponential") {
   if (!growth_model %in% c("exponential", "linear")) {
-    stop(glue::glue("growth_model must be either 'exponential' or 'linear', not {growth_model}"), call. = FALSE)
+    cli::cli_abort(
+      "{.arg growth_model} must be {.val exponential} or {.val linear}, not {.val {growth_model}}.",
+      class = "qsip_invalid_growth_model"
+    )
   }
-
+  
   if (growth_model == "exponential") {
     bi <- log(N_total_it / N_light_it) * (1 / (timepoint - timepoint1))
   } else if (growth_model == "linear") {

@@ -78,7 +78,7 @@ add_isotopolog_label <- function(data, isotope = "isotope") {
 
   # verify isotope column is found in data
   if (!isotope %in% colnames(data)) {
-    stop(glue::glue("{isotope} column not found"), call. = FALSE)
+    cli::cli_abort("Column {.val {isotope}} not found in data.", class = "qsip_isotope_not_found")
   }
 
   data |>

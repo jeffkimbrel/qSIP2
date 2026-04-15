@@ -37,8 +37,12 @@ get_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL)
   }
 
   # and make sure these objects are of the correct type, whether passed to the function or created above
-  stopifnot("sample_data should be of class <qsip_sample_data>" = inherits(sample_data, qsip_sample_data))
-  stopifnot("feature_data should be of class <qsip_feature_data>" = inherits(feature_data, qsip_feature_data))
+  if (!inherits(sample_data, qsip_sample_data)) {
+    cli::cli_abort("{.arg sample_data} must be a {.cls qsip_sample_data} object, not {.cls {class(sample_data)}}.")
+  }
+  if (!inherits(feature_data, qsip_feature_data)) {
+    cli::cli_abort("{.arg feature_data} must be a {.cls qsip_feature_data} object, not {.cls {class(feature_data)}}.")
+  }
 
 
   # bind variables
@@ -71,7 +75,6 @@ get_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL)
       cli::cli_alert_warning(
         "source_data has {length(setdiff(source_source_mat_id, sample_source_mat_id))} source_mat_id(s) that are missing from the sample_data."
       )
-      # message(glue::glue_col("{yellow --> {paste(setdiff(source_source_mat_id, sample_source_mat_id), collapse = ', ')}}"))
       shared$source_mat_ids$source_data <- setdiff(source_source_mat_id, sample_source_mat_id)
       missing <- TRUE
     }
@@ -80,7 +83,6 @@ get_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL)
       cli::cli_alert_warning(
         "sample_data has {length(setdiff(sample_source_mat_id, source_source_mat_id))} source_mat_id(s) that are missing from the source_data."
       )
-      # message(glue::glue_col("{yellow --> {paste(setdiff(sample_source_mat_id, source_source_mat_id), collapse = ', ')}}"))
       shared$source_mat_ids$sample_data <- setdiff(sample_source_mat_id, source_source_mat_id)
       missing <- TRUE
     }
@@ -105,7 +107,6 @@ get_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL)
       cli::cli_alert_warning(
         "sample_data has {length(setdiff(sample_sample_id, feature_sample_id))} sample_id(s) that are missing from the feature_data."
       )
-      # message(glue::glue_col("{yellow --> {paste(setdiff(sample_sample_id, feature_sample_id), collapse = ', ')}}"))
       shared$sample_ids$sample_data <- setdiff(sample_sample_id, feature_sample_id)
       missing <- TRUE
     }
@@ -114,16 +115,15 @@ get_shared_ids <- function(source_data, sample_data = NULL, feature_data = NULL)
       cli::cli_alert_warning(
         "feature_data has {length(setdiff(feature_sample_id, sample_sample_id))} sample_id(s) that are missing from the sample_data."
       )
-      # message(glue::glue_col("{yellow --> {paste(setdiff(feature_sample_id, sample_sample_id), collapse = ', ')}}"))
       shared$sample_ids$feature_data <- setdiff(feature_sample_id, sample_sample_id)
       missing <- TRUE
     }
   }
 
   if (isTRUE(missing)) {
-    message()
-    message(glue::glue_col("{yellow ***Missing source_mat_ids/sample_ids have not been removed from the dataset***}"))
-    message(glue::glue_col("{yellow ***Run get_unshared_ids(<qsip_data_object>) to show IDs missing from datasets***}"))  }
+    cli::cli_alert_warning("Missing source_mat_ids/sample_ids have not been removed from the dataset.")
+    cli::cli_alert_warning("Run {.fn get_unshared_ids} on your {.cls qsip_data} object to show IDs missing from datasets.")
+  }
 
   return(shared)
 }
@@ -220,8 +220,7 @@ get_comparison_groups <- function(source_data = NULL,
   } else if (inherits(source_data, "data.frame")) {
     df <- source_data
   } else {
-    class(source_data)
-    stop(glue::glue("ERROR: source_data is an unexpected type ({class(source_data)[1]})... it must be class data.frame, qsip_source_data or qsip_data"))
+    cli::cli_abort("{.arg source_data} must be a {.cls data.frame}, {.cls qsip_source_data}, or {.cls qsip_data}, not {.cls {class(source_data)[1]}}.")
   }
 
   stopifnot("ERROR: Please provide the column name with the source_mat_id" = source_mat_id %in% colnames(df))
@@ -229,7 +228,7 @@ get_comparison_groups <- function(source_data = NULL,
 
   for (g in group) {
     if (!g %in% colnames(df)) {
-      stop(glue::glue("ERROR: grouping column '{g}' not found"))
+      cli::cli_abort("Grouping column {.val {g}} not found in data.", class = "qsip_group_not_found")
     }
   }
 
@@ -324,16 +323,13 @@ get_all_by_isotope <- function(qsip_data_object,
 
   # error if no source_mat_ids are found that match the criteria
   if (isFALSE(quiet)) {
-
     if (nrow(source_mat_ids) == 0) {
-      i <- paste(isotopes, collapse = ", ")
-      stop(glue::glue_col("No source_mat_ids found with isotopes {red {i}}"))
+      cli::cli_abort("No source_mat_ids found with isotope{?s} {.val {isotopes}}.", class = "qsip_isotope_not_found_in_source_mat_ids")
     }
-
-    # print a message for each isotope that didn't have any hits. This is FYI and doesn't stop the function
+  
     for (isotope in isotopes) {
       if (!isotope %in% source_mat_ids$isotope) {
-        message(glue::glue("WARNING: {isotope} not found in data"))
+        cli::cli_warn("Isotope {.val {isotope}} not found in data.", class = "qsip_isotope_not_found")
       }
     }
   }
@@ -1017,8 +1013,7 @@ get_N_total_it <- function(qsip_data_object,
     dplyr::filter(N_total_i0 == 0)
 
   if (nrow(no_abundance) > 0) {
-    warning(glue::glue("{nrow(no_abundance)} feature_ids have zero abundance at time {t}:"), call. = F)
-    warning(paste(no_abundance$feature_id, collapse = ", "), call. = F)
+    cli::cli_warn("{nrow(no_abundance)} feature_id{?s} have zero abundance at time {.val {t}}: {.val {no_abundance$feature_id}}")
   }
 
 

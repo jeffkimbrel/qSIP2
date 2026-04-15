@@ -13,10 +13,9 @@ test_that("works correctly", {
   )
 })
 
-
 test_that("Passing a string produces an error", {
   expect_error(
     calculate_M(".5"),
-    "G should be class <numeric>, not character"
+    class = "qsip_bad_GC_format"
   )
 })

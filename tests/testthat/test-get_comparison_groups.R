@@ -35,5 +35,5 @@ test_that("Wrong input types fail", {
     group = "not_found",
     source_mat_id = "source",
     isotope = "Isotope"
-  ), "ERROR: grouping column 'not_found' not found")
+  ), class = "qsip_group_not_found")
 })
