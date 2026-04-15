@@ -131,25 +131,21 @@ q <- run_feature_filter(example_qsip_growth_object,
 #> 
 #> Filtering feature_ids by fraction...
 #> 
-#> 15 unlabeled and 11 labeled feature_ids were found in zero fractions in at least one source_mat_id
-#> 
-#> 70 unlabeled and 47 labeled feature_ids were found in too few fractions in at least one source_mat_id
-#> 
-#> 364 unlabeled and 364 labeled feature_ids passed the fraction filter
-#> 
-#> In total, 364 unique feature_ids passed the fraction filtering requirements...
-#> 
+#> ✖ 15 unlabeled and 11 labeled feature_ids found in zero fractions in at least
+#>   one source_mat_id
+#> ✖ 70 unlabeled and 47 labeled feature_ids found in too few fractions in at
+#>   least one source_mat_id
+#> ✔ 364 unlabeled and 364 labeled feature_ids passed the fraction filter
+#> ℹ In total, 364 unique feature_ids passed the fraction filtering requirements
 #> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 #> 
 #> Filtering feature_ids by source...
 #> 
-#> 6 unlabeled and 5 labeled feature_ids failed the source filter because they were found in too few sources
-#> 
-#> 358 unlabeled and 359 labeled feature_ids passed the source filter
-#> 
-#> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-#> 
-#> In total, 358 unique feature_ids passed all fraction and source filtering requirements
+#> ✖ 6 unlabeled and 5 labeled feature_ids failed the source filter because they
+#>   were found in too few sources
+#> ✔ 358 unlabeled and 359 labeled feature_ids passed the source filter
+#> ℹ In total, 358 unique feature_ids passed all fraction and source filtering
+#>   requirements
 #> Warning: 9 unlabeled and 6 labeled feature_ids had resampling failures.
 #> ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your
 #>   <qsip_data> object to inspect.

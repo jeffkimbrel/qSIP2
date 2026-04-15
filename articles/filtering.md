@@ -129,27 +129,23 @@ loose <- run_feature_filter(example_qsip_object,
 #> 
 #> Filtering feature_ids by fraction...
 #> 
-#> 1519 unlabeled and 1417 labeled feature_ids were found in zero fractions in at least one source_mat_id
-#> 
-#> 1210 unlabeled and 584 labeled feature_ids were found in too few fractions in at least one source_mat_id
-#> 
-#> 780 unlabeled and 497 labeled feature_ids passed the fraction filter
-#> 
-#> In total, 870 unique feature_ids passed the fraction filtering requirements...
-#> 
+#> ✖ 1519 unlabeled and 1417 labeled feature_ids found in zero fractions in at
+#>   least one source_mat_id
+#> ✖ 1210 unlabeled and 584 labeled feature_ids found in too few fractions in at
+#>   least one source_mat_id
+#> ✔ 780 unlabeled and 497 labeled feature_ids passed the fraction filter
+#> ℹ In total, 870 unique feature_ids passed the fraction filtering requirements
 #> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 #> 
 #> Filtering feature_ids by source...
 #> 
-#> 90 unlabeled and 373 labeled feature_ids failed the source filter because they were found in zero sources
-#> 
-#> 245 unlabeled and 189 labeled feature_ids failed the source filter because they were found in too few sources
-#> 
-#> 535 unlabeled and 308 labeled feature_ids passed the source filter
-#> 
-#> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-#> 
-#> In total, 257 unique feature_ids passed all fraction and source filtering requirements
+#> ✖ 90 unlabeled and 373 labeled feature_ids failed the source filter because
+#>   they were found in zero sources
+#> ✖ 245 unlabeled and 189 labeled feature_ids failed the source filter because
+#>   they were found in too few sources
+#> ✔ 535 unlabeled and 308 labeled feature_ids passed the source filter
+#> ℹ In total, 257 unique feature_ids passed all fraction and source filtering
+#>   requirements
 
 restrictive <- run_feature_filter(example_qsip_object,
   unlabeled_source_mat_ids = get_all_by_isotope(example_qsip_object, "12C"),
@@ -165,27 +161,23 @@ restrictive <- run_feature_filter(example_qsip_object,
 #> 
 #> Filtering feature_ids by fraction...
 #> 
-#> 1519 unlabeled and 1417 labeled feature_ids were found in zero fractions in at least one source_mat_id
-#> 
-#> 1440 unlabeled and 830 labeled feature_ids were found in too few fractions in at least one source_mat_id
-#> 
-#> 299 unlabeled and 209 labeled feature_ids passed the fraction filter
-#> 
-#> In total, 346 unique feature_ids passed the fraction filtering requirements...
-#> 
+#> ✖ 1519 unlabeled and 1417 labeled feature_ids found in zero fractions in at
+#>   least one source_mat_id
+#> ✖ 1440 unlabeled and 830 labeled feature_ids found in too few fractions in at
+#>   least one source_mat_id
+#> ✔ 299 unlabeled and 209 labeled feature_ids passed the fraction filter
+#> ℹ In total, 346 unique feature_ids passed the fraction filtering requirements
 #> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 #> 
 #> Filtering feature_ids by source...
 #> 
-#> 47 unlabeled and 137 labeled feature_ids failed the source filter because they were found in zero sources
-#> 
-#> 196 unlabeled and 127 labeled feature_ids failed the source filter because they were found in too few sources
-#> 
-#> 103 unlabeled and 82 labeled feature_ids passed the source filter
-#> 
-#> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-#> 
-#> In total, 64 unique feature_ids passed all fraction and source filtering requirements
+#> ✖ 47 unlabeled and 137 labeled feature_ids failed the source filter because
+#>   they were found in zero sources
+#> ✖ 196 unlabeled and 127 labeled feature_ids failed the source filter because
+#>   they were found in too few sources
+#> ✔ 103 unlabeled and 82 labeled feature_ids passed the source filter
+#> ℹ In total, 64 unique feature_ids passed all fraction and source filtering
+#>   requirements
 ```
 
 Here, only 64 features pass the more restrictive criteria, but we get
