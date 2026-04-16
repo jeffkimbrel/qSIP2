@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.6.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,7 +100,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.23.6.9000'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.23.8'</span></span></code></pre></div>
 </div>
 <section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -234,7 +234,7 @@ Table 1: The first few rows of <code>example_source_df</code>
 </div>
 </div>
 <p>If the column names in the dataframe already match the expected standard names, then you can skip assigning them and they should be identified correctly.</p>
-<p>A dataframe with the original headers can be recovered using the <code><a href="../reference/get_dataframe.html">get_dataframe()</a></code> method with the <code>original_headers = T</code> option.</p>
+<p>A dataframe with the original headers can be recovered using the <code><a href="../reference/get_dataframe.html">get_dataframe()</a></code> method with the <code>original_headers = TRUE</code> option.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_dataframe.html">get_dataframe</a></span><span class="op">(</span><span class="va">source_object</span>, original_headers <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -489,7 +489,7 @@ Table 3: Additional <code>gradient_pos_rel_amt</code> column added
 <p>See the <a href="sample_data.html">sample data vignette</a> for more information including the built-in validations.</p>
 </section><section class="level2"><h3 id="feature-data">Feature data<a class="anchor" aria-label="anchor" href="#feature-data"></a>
 </h3>
-<p>Finally, the last of the three necessary input files is a feature abundance table, aka “OTU table” or “ASV table”. The format of this dataframe has the unique feature IDs in the first column, and an additional column for each sample. Each row then contains the whole number (non-normalized) counts of each feature in each sample. If your features are MAGs, then you may instead of coverages or some other pre-normalized value in your feature table instead of sequence counts.</p>
+<p>Finally, the last of the three necessary input files is a feature abundance table, aka “OTU table” or “ASV table”. The format of this dataframe has the unique feature IDs in the first column, and an additional column for each sample. Each row then contains the whole number (non-normalized) counts of each feature in each sample. If your features are MAGs, then you may use coverages or some other pre-normalized value in your feature table instead of sequence counts.</p>
 <p>For now, the validation step defaults to requiring all values be <code>counts</code> (positive integers), but other <code>type</code> options include <code>coverage</code> (for working with MAGs or metagenomes), <code>relative</code> if you already have relative abundances and <code>normalized</code> if you have spike-ins or another method that determines the correct abundance in each sample.</p>
 <div class="cell">
 <div id="tbl-example_feature_df" class="cell quarto-float quarto-figure quarto-figure-center">
@@ -602,7 +602,7 @@ Table 4: First bit of <code>example_feature_df</code>
 <img src="qSIP_workflow_files/figure-html/fig-plot_source_wads-1.png" width="576">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot_source_wads-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure 1: WAD of each source, grouped by Moisture. Note that for this example dataset the 13C just happens to have source-level WAD values greater than the 12C, but it is generally not a concern if the 12C and 13C values are intermingled.
+Figure 1: WAD of each source, grouped by Moisture. Note that for this example dataset the <sup>13</sup>C just happens to have source-level WAD values greater than the <sup>12</sup>C, but it is generally not a concern if the <sup>12</sup>C and <sup>13</sup>C values are intermingled.
 </figcaption></figure>
 </div>
 </div>
@@ -611,7 +611,7 @@ Figure 1: WAD of each source, grouped by Moisture. Note that for this example d
 <div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_sample_curves.html">plot_sample_curves</a></span><span class="op">(</span><span class="va">qsip_object</span>,</span>
 <span>                   facet_by <span class="op">=</span> <span class="st">"isotope"</span>,</span>
-<span>                   show_wad <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+<span>                   show_wad <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div id="fig-plot_sample_curves" class="quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-plot_sample_curves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -628,29 +628,29 @@ Figure 2: Normalized density curves for each source_mat_id. The y-axis is scale
 <div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_density_outliers.html">plot_density_outliers</a></span><span class="op">(</span><span class="va">qsip_object</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
-<div id="fig-plot_density_outliers" class="quarto-float quarto-figure quarto-figure-center" width="576">
+<div id="fig-plot_density_outliers" class="quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-plot_density_outliers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="qSIP_workflow_files/figure-html/fig-plot_density_outliers-1.png" id="fig-plot_density_outliers" width="576">
+<img src="qSIP_workflow_files/figure-html/fig-plot_density_outliers-1.png" width="576">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-plot_density_outliers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure 3
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot_density_outliers-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 3: Density vs. gradient position for each source, with Cook’s distance used to highlight outliers in red.
 </figcaption></figure>
 </div>
 </div>
 </div>
 </section><section class="level2"><h3 id="an-important-note-about-qsip_data-objects">An important note about qsip_data objects<a class="anchor" aria-label="anchor" href="#an-important-note-about-qsip_data-objects"></a>
 </h3>
-<p>The design of the <code>qsip_data</code> object is that it is contains “slots” for each new analysis step. Although you could create a new object for each step of the workflow, you can assign the output of each step back to the original object in order to keep everything together. “Printing” the <code>qsip_data</code> object will give some summary data as well as TRUE/FALSE flags for which steps have been done on that object.</p>
+<p>The design of the <code>qsip_data</code> object is that it contains “slots” for each new analysis step. Although you could create a new object for each step of the workflow, you can assign the output of each step back to the original object in order to keep everything together. Printing the <code>qsip_data</code> object will give some summary data as well as <code>TRUE</code>/<code>FALSE</code> flags for which steps have been done on that object. For a more structured view, <code><a href="../reference/get_object_summary.html">get_object_summary()</a></code> returns the same information as a tibble, which is useful for programmatic access or working with multiple objects at once.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">qsip_object</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;qsip_data&gt;</span></span>
-<span><span class="co">#&gt; group: none</span></span>
-<span><span class="co">#&gt; feature_id count: 2030 of 2030</span></span>
-<span><span class="co">#&gt; sample_id count: 284</span></span>
-<span><span class="co">#&gt; filtered: FALSE</span></span>
-<span><span class="co">#&gt; resampled: FALSE</span></span>
-<span><span class="co">#&gt; EAF: FALSE</span></span>
+<span><span class="co">#&gt; group: none </span></span>
+<span><span class="co">#&gt; feature_id count: 2030 of 2030 </span></span>
+<span><span class="co">#&gt; sample_id count: 284 </span></span>
+<span><span class="co">#&gt; filtered: FALSE </span></span>
+<span><span class="co">#&gt; resampled: FALSE </span></span>
+<span><span class="co">#&gt; EAF: FALSE </span></span>
 <span><span class="co">#&gt; growth: FALSE</span></span></code></pre></div>
 </div>
 </section></section><section class="section level2"><h2 id="main-workflow">Main workflow<a class="anchor" aria-label="anchor" href="#main-workflow"></a>
@@ -688,14 +688,14 @@ Table 5: Output of <code><a href="../reference/get_comparison_groups.html">get_
 <span>    source_mat_id <span class="op">=</span> <span class="st">"source_mat_id"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
-<p>The <code>isotope</code> argument is what defines the labeled and unlabeled values for the comparisons. This can be more complex, particularly if you have more than one isotopolog. For example, a study with some 13C sources, other 15N sources, and a shared 12C/14N natural abundance source material. Please reach out via <code>qSIP2</code> github issues for more complex study designs.</p>
+<p>The <code>isotope</code> argument is what defines the labeled and unlabeled values for the comparisons. This can be more complex, particularly if you have more than one isotopolog. For example, a study with some <sup>13</sup>C sources, other <sup>15</sup>N sources, and a shared <sup>12</sup>C/<sup>14</sup>N natural abundance source material. Please reach out via <code>qSIP2</code> github issues for more complex study designs.</p>
 <p>The first row shows what “Normal” moisture groups we likely want to use for unlabeled (S149, S150, S151 and S152) to compare to the labeled (S178, S179 and S180). Sometimes you may also want to compare the specific labeled samples in a group to <em>all</em> unlabeled. The <code>qSIP2</code> package has a convenient way to get those by using the <code><a href="../reference/get_all_by_isotope.html">get_all_by_isotope()</a></code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_all_by_isotope.html">get_all_by_isotope</a></span><span class="op">(</span><span class="va">qsip_object</span>, <span class="st">"12C"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "S149" "S150" "S151" "S152" "S161" "S162" "S163" "S164"</span></span></code></pre></div>
 </div>
-<p>The <code><a href="../reference/get_comparison_groups.html">get_comparison_groups()</a></code> function is entirely informational, but it is possible to pipe this output into the <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> function. This more advanced use in detailed in the <a href="multiple_objects.html">Multiple qSIP Objects vignette</a>.</p>
+<p>The <code><a href="../reference/get_comparison_groups.html">get_comparison_groups()</a></code> function is entirely informational, but it is possible to pipe this output into the <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> function. This more advanced use is detailed in the <a href="multiple_objects.html">Multiple qSIP Objects vignette</a>.</p>
 </section><section class="level2"><h3 id="filter-features">Filter features<a class="anchor" aria-label="anchor" href="#filter-features"></a>
 </h3>
 <p>The filter features step does two things. First, it is where the set of labeled and unlabeled sources are defined for a specific comparison. Second, it is where you can explicitly say how prevalent a feature must be to be considered “present” in a source. In other words, you define the parameters that a feature must be found enough of the replicate sources, and in enough samples that you can calculate an accurate WAD value for it.</p>
@@ -712,7 +712,7 @@ Table 5: Output of <code><a href="../reference/get_comparison_groups.html">get_
 <span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>Note, although I said earlier you can overwrite your <code>qsip_data</code> objects as you go, here it might make sense to create two versions for the moisture treatments. We’ll take the original <code>qsip_object</code> and save the filtered Normal dataset to <code>qsip_normal', and the Drought to</code>qsip_drought`.</p>
+<p>Note, although I said earlier you can overwrite your <code>qsip_data</code> objects as you go, here it might make sense to create two versions for the moisture treatments. We’ll take the original <code>qsip_object</code> and save the filtered Normal dataset to <code>qsip_normal</code>, and the Drought to <code>qsip_drought</code>.</p>
 <p>Of the 1,705 features found in the “Normal” data, we can see our rather strict filtering removed all but 64 features from the dataset.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
@@ -834,8 +834,8 @@ Figure 4: Per-source filtering results for the “normal” dataset.
 </div>
 </div>
 </div>
-<p>Although a large number of features were removed, we can tell that the 64 that remained actually still make up a large proportion of the total abundance in each sample. In <strong>A</strong> above, the retained features (in blue) make up ~75-85% of the total data, while the removed data (orange) is the remaining ~15-25%.</p>
-<p>In <strong>B</strong>, we can see that a surprisingly large number of features are found 0 times in many sources (gray) and will therefore never be present regardless of our filtering choices. And although there are are ~100-200 features that passed the filtering requirements (blue), our requirement that <code>min_unlabeled_sources = 6</code> and <code>min_labeled_sources = 3</code> means that only the features present in many of the blue slices will be retained, leaving only 64 total.</p>
+<p>Although a large number of features were removed, we can tell that the 64 that remained actually still make up a large proportion of the total abundance in each sample. In panel A of <a href="#fig-plot_filter_results1" class="quarto-xref">Figure 4</a>, the retained features (in blue) make up ~75-85% of the total data, while the removed data (orange) is the remaining ~15-25%.</p>
+<p>In panel B, we can see that a surprisingly large number of features are found 0 times in many sources (gray) and will therefore never be present regardless of our filtering choices. And although there are ~100-200 features that passed the filtering requirements (blue), our requirement that <code>min_unlabeled_sources = 6</code> and <code>min_labeled_sources = 3</code> means that only the features present in many of the blue slices will be retained, leaving only 64 total.</p>
 <p>Let’s do the same comparison with the drought samples.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
@@ -880,31 +880,12 @@ Figure 5: Per-source filtering results for the “drought” dataset.
 <span><span class="co">#&gt; ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your</span></span>
 <span><span class="co">#&gt;   &lt;qsip_data&gt; object to inspect.</span></span></code></pre></div>
 </div>
-<p>As this step requires some random sampling it is good practice to set the “seed”. Rather than doing this outside of the function, you can pass the seed as an argument. If you leave blank, it will generate a random seed. The seed will generate the same results each time you run the resampling process.</p>
+<blockquote>
+<p><strong>Note:</strong> <code><a href="../reference/run_resampling.html">run_resampling()</a></code> accepts a <code>with_seed</code> argument to make results reproducible — passing the same seed will always produce identical output. If omitted, a random seed is generated. See the <a href="resampling.html">resampling vignette</a> for more detail.</p>
+</blockquote>
+<p>Resampling of the drought dataset. Notice at this step we are overwriting the original <code>qsip_drought</code> with the results of <code><a href="../reference/run_resampling.html">run_resampling()</a></code>, rather than creating new objects.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">qsip_normal_17_again</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_resampling.html">run_resampling</a></span><span class="op">(</span><span class="va">qsip_normal</span>,</span>
-<span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>  with_seed <span class="op">=</span> <span class="fl">17</span>,</span>
-<span>  progress <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: 1 unlabeled and 0 labeled feature_ids had resampling failures.</span></span>
-<span><span class="co">#&gt; ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your</span></span>
-<span><span class="co">#&gt;   &lt;qsip_data&gt; object to inspect.</span></span>
-<span></span>
-<span><span class="co"># two runs are identical</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">qsip_normal</span>, <span class="va">qsip_normal_17_again</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">qsip_normal</span><span class="op">@</span><span class="va">resamples</span><span class="op">$</span><span class="va">l</span><span class="op">[[</span><span class="fl">334</span><span class="op">]</span><span class="op">]</span>, <span class="va">qsip_normal_17_again</span><span class="op">@</span><span class="va">resamples</span><span class="op">$</span><span class="va">l</span><span class="op">[[</span><span class="fl">334</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span></span>
-<span><span class="co"># but individual resamplings within are different</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">qsip_normal</span><span class="op">@</span><span class="va">resamples</span><span class="op">$</span><span class="va">l</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">qsip_normal</span><span class="op">@</span><span class="va">resamples</span><span class="op">$</span><span class="va">l</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
-</div>
-<p>Ressampling of the drought dataset. Notice at this step we are overwriting the original <code>qsip_drought</code> with the results of <code><a href="../reference/run_resampling.html">run_resampling()</a></code>, rather than creating new objects.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qsip_drought</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_resampling.html">run_resampling</a></span><span class="op">(</span><span class="va">qsip_drought</span>,</span>
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  with_seed <span class="op">=</span> <span class="fl">17</span>,</span>
@@ -914,13 +895,13 @@ Figure 5: Per-source filtering results for the “drought” dataset.
 <span><span class="co">#&gt; ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your</span></span>
 <span><span class="co">#&gt;   &lt;qsip_data&gt; object to inspect.</span></span></code></pre></div>
 </div>
-<p>It is possible to get a resampling error if your filtering is too strict. If so, consult the <a href="resampling.html">resampling vignette</a> and consider running with <code>allow_failures = T</code>.</p>
+<p>It is possible to get a resampling error if your filtering is too strict. If so, consult the <a href="resampling.html">resampling vignette</a> and consider running with <code>allow_failures = TRUE</code>.</p>
 </section><section class="level2"><h3 id="eaf-calculations">EAF calculations<a class="anchor" aria-label="anchor" href="#eaf-calculations"></a>
 </h3>
-<p>And we are finally at the last main step, calculating and summarizing the excess atom fraction (EAF) values. There are two functions to run, the first (<code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code>) that calculate EAF for the observed data and all resamplings, and the second (<code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code>) that summarizes that data at a chosen confidence interval. These are split into two functions simply because the <code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code> can take a little longer, allowing different parameters to be tried in <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> without having to recalculate everything. More more information see the <a href="EAF.html">EAF vignette</a>.</p>
-<p>We’ll also <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code> to add the original Moisture condition to each dataframe before we combine them. Note, there is a better way to run and get results with multiple <code>qSIP2</code> objects - more details below.</p>
+<p>And we are finally at the last main step, calculating and summarizing the excess atom fraction (EAF) values. There are two functions to run, the first (<code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code>) that calculate EAF for the observed data and all resamplings, and the second (<code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code>) that summarizes that data at a chosen confidence interval. These are split into two functions simply because the <code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code> can take a little longer, allowing different parameters to be tried in <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> without having to recalculate everything. For more information see the <a href="EAF.html">EAF vignette</a>.</p>
+<p>We’ll also <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code> to add the original Moisture condition to each dataframe before we combine them. Note, there is a better way to run and get results with multiple <code>qSIP2</code> objects — more details below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qsip_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_EAF_calculations.html">run_EAF_calculations</a></span><span class="op">(</span><span class="va">qsip_normal</span><span class="op">)</span></span>
 <span><span class="va">qsip_drought</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_EAF_calculations.html">run_EAF_calculations</a></span><span class="op">(</span><span class="va">qsip_drought</span><span class="op">)</span></span>
 <span></span>
@@ -936,7 +917,7 @@ Figure 5: Per-source filtering results for the “drought” dataset.
 </div>
 <p>We can plot the top 50 by each moisture condition.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_normal</span>, </span>
 <span>                top <span class="op">=</span> <span class="fl">50</span>, </span>
 <span>                confidence <span class="op">=</span> <span class="fl">0.95</span>, </span>
@@ -955,7 +936,7 @@ Figure 6: EAF of the top 50 features in the Normal moisture dataset
 </div>
 <p>The <code><a href="../reference/plot_feature_curves.html">plot_feature_curves()</a></code> function allows us to plot the tube relative abundances for specific feature IDs. Let’s look at two with high EAF values, and two with low values.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_curves.html">plot_feature_curves</a></span><span class="op">(</span><span class="va">qsip_normal</span>,</span>
 <span>  feature_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ASV_55"</span>, <span class="st">"ASV_84"</span>, <span class="st">"ASV_41"</span>, <span class="st">"ASV_44"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -975,19 +956,23 @@ Figure 7: Density curves of selected features
 <p>To determine if there are any differences in how a feature responds in different treatments, we can run the delta EAF workflow. This workflow is detailed in the <a href="delta_EAF.html">delta EAF vignette</a>.</p>
 <p>The trick is to make a <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> of multiple objects with a name that reflects their grouping.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qsip_list</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"Normal"</span> <span class="op">=</span> <span class="va">qsip_normal</span>,</span>
 <span>                 <span class="st">"Drought"</span> <span class="op">=</span> <span class="va">qsip_drought</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>Then, the <code><a href="../reference/run_delta_EAF_contrasts.html">run_delta_EAF_contrasts()</a></code> function will infer the proper contrasts (there is only one in this case) and will assign which is the control and which is the treatment. See the vignette for more control over these decisions.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="../reference/run_delta_EAF_contrasts.html">run_delta_EAF_contrasts</a></span><span class="op">(</span><span class="va">qsip_list</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ `contrasts` not given so running all-by-all</span></span>
 <span><span class="co">#&gt; ℹ Confidence level = 0.95</span></span>
 <span><span class="co">#&gt; ! there were 0 contrast and 1 bs_pval result messages</span></span></code></pre></div>
+<div id="tbl-delta-eaf" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-delta-eaf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 7: First few rows of delta EAF contrast results.
+</figcaption><div aria-describedby="tbl-delta-eaf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table caption-top">
+<table class="table cell caption-top">
 <colgroup>
 <col style="width: 9%">
 <col style="width: 14%">
@@ -1089,17 +1074,24 @@ Figure 7: Density curves of selected features
 </table>
 </div>
 </div>
+</figure>
+</div>
+</div>
 <p>Just looking at a few of these, the delta is the difference in EAF value for those features. Since the function “guessed” the contrasts and set as “Drought vs Normal”, this is saying “Drought” is the control, and the delta is reported as <span class="math inline">\(Normal - Drought\)</span>, so a positive number means higher in the Normal. The lower/upper values are the 95% CI of the bootstrap values, and <code>bs_pval</code> is the p-value under the null hypothesis that the true delta is approximately zero.</p>
 </section></section><section class="section level2"><h2 id="working-with-multiple-qsip-objects">Working with multiple qSIP objects<a class="anchor" aria-label="anchor" href="#working-with-multiple-qsip-objects"></a>
 </h2>
-<p>It is possible to work with multiple <code>qsip_data</code> objects if they are in a list. This is detailed in the <a href="multiple_objects.html">multiple objects vignette</a>, but here is a sneak peak where we can use the existing <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> or <code><a href="../reference/plot_EAF_values.html">plot_EAF_values()</a></code> functions.</p>
+<p>It is possible to work with multiple <code>qsip_data</code> objects if they are in a list. This is detailed in the <a href="multiple_objects.html">multiple objects vignette</a>, but here is a sneak peek where we can use the existing <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> or <code><a href="../reference/plot_EAF_values.html">plot_EAF_values()</a></code> functions.</p>
 <p>Like above in the delta EAF section, this also involves using a list of <code>qsip_data</code> objects.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="../reference/summarize_EAF_values.html">summarize_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">)</span> </span>
+<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="../reference/summarize_EAF_values.html">summarize_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre></div>
+<div id="tbl-eaf-list" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-eaf-list-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 8: First 10 rows of EAF results across both moisture comparisons.
+</figcaption><div aria-describedby="tbl-eaf-list-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table caption-top">
+<table class="table cell caption-top">
 <colgroup>
 <col style="width: 5%">
 <col style="width: 7%">
@@ -1261,27 +1253,34 @@ Figure 7: Density curves of selected features
 </table>
 </div>
 </div>
+</figure>
+</div>
+</div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span>, </span>
 <span>                confidence <span class="op">=</span> <span class="fl">0.9</span>, </span>
 <span>                shared_y <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                error <span class="op">=</span> <span class="st">"bar"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure><p><img src="qSIP_workflow_files/figure-html/plot_EAF_values_list-1.png" width="768"></p>
-<figcaption>Both treatments shown together with a shared Y axis.</figcaption></figure>
+<div id="fig-plot_EAF_values_list" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-plot_EAF_values_list-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="qSIP_workflow_files/figure-html/fig-plot_EAF_values_list-1.png" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot_EAF_values_list-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 8: Both treatments shown together with a shared y-axis.
+</figcaption></figure>
 </div>
 </div>
 </div>
-<p>This version of the workflow still requires running each comparison separately. A cleaner workflow, and the recommended route, is to define your comparisons upstream, even in an Excel file, and run that dataframe through the workflow. Details can be found in the <a href="multiple_objects.html">Multiple qSIP Objects vignette</a>.</p>
+<p>This version of the workflow still requires running each comparison separately. A cleaner workflow, and the recommended route, is to define your comparisons upstream using <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> — even from an Excel file — and pipe that directly through the workflow. Details can be found in the <a href="multiple_objects.html">multiple objects vignette</a>.</p>
 </section><section class="section level2"><h2 id="piped-workflow">Piped workflow<a class="anchor" aria-label="anchor" href="#piped-workflow"></a>
 </h2>
 <p>Although the workflow is often easier to understand and troubleshoot when broken into individual steps, it is possible to run the entire workflow in a single pipe.</p>
 <p>For example, the normal moisture data could be filtered, resampled and have EAF values calculated in a single pipe.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># example code, not executed. Default values are not shown.</span></span>
 <span></span>
 <span><span class="va">qsip_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_feature_filter.html">run_feature_filter</a></span><span class="op">(</span><span class="va">qsip_object</span>,</span>
@@ -1292,7 +1291,7 @@ Figure 7: Density curves of selected features
 <span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/run_resampling.html">run_resampling</a></span><span class="op">(</span>with_seed <span class="op">=</span> <span class="fl">44</span>, </span>
-<span>                 progress <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>                 progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/run_EAF_calculations.html">run_EAF_calculations</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 </section><script id="quarto-html-after-body" type="application/javascript">

@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.6.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,7 +103,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.23.6.9000'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.23.8'</span></span></code></pre></div>
 </div>
 <section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -120,7 +120,7 @@
 <div class="cell">
 <div id="tbl-resample_example_single" class="cell quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-resample_example_single-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table 1: An single example of bootstrap draws where B is drawn twice, and C is not drawn at all.
+Table 1: A single example of bootstrap draws where B is drawn twice, and C is not drawn at all.
 </figcaption><div aria-describedby="tbl-resample_example_single-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="table cell caption-top">
@@ -201,38 +201,13 @@ Table 2: An example of 5 resamplings of A-D
 </div>
 </div>
 <p>Each row represents one bootstrap replicate, and each column (<code>draw_1</code>–<code>draw_4</code>) corresponds to a draw from the original data. This format makes it clear that resampling is simply repeated random sampling with replacement, where duplicates can occur naturally.</p>
-</section><section class="section level2"><h2 id="qsip2-resampling">qSIP2 resampling<a class="anchor" aria-label="anchor" href="#qsip2-resampling"></a>
-</h2>
-<p>The <code>qSIP2</code> package has a function called <code><a href="../reference/run_resampling.html">run_resampling()</a></code> that will perform the resampling procedure on a filtered <code>qSIP_data</code> object. This object must first be filtered with the <code><a href="../reference/run_feature_filter.html">run_feature_filter()</a></code> function, and we’ll come back to how this filtering affects the resampling in a bit.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_feature_filter.html">run_feature_filter</a></span><span class="op">(</span><span class="va">example_qsip_object</span>,</span>
-<span>  unlabeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="../reference/get_all_by_isotope.html">get_all_by_isotope</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, <span class="st">"12C"</span><span class="op">)</span>,</span>
-<span>  labeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S178"</span>, <span class="st">"S179"</span>, <span class="st">"S180"</span><span class="op">)</span>,</span>
-<span>  min_unlabeled_sources <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>  min_labeled_sources <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>  min_unlabeled_fractions <span class="op">=</span> <span class="fl">6</span>,</span>
-<span>  min_labeled_fractions <span class="op">=</span> <span class="fl">6</span>,</span>
-<span>  quiet <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># running with quiet = TRUE to suppress messages</span></span>
-<span><span class="op">)</span> </span>
-<span></span>
-<span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_resampling.html">run_resampling</a></span><span class="op">(</span><span class="va">q</span>,</span>
-<span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>  with_seed <span class="op">=</span> <span class="fl">19</span>,</span>
-<span>  progress <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: 7 unlabeled and 0 labeled feature_ids had resampling failures.</span></span>
-<span><span class="co">#&gt; ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your</span></span>
-<span><span class="co">#&gt;   &lt;qsip_data&gt; object to inspect.</span></span></code></pre></div>
-</div>
-<p>Setting <code>resamples = 1000</code> will give 1000 resamplings for each feature. The resampling is not a deterministic procedure, and so the use of a seed is recommended using the <code>with_seed</code> argument.</p>
 <section class="level2"><h3 id="under-the-hood">Under the hood<a class="anchor" aria-label="anchor" href="#under-the-hood"></a>
 </h3>
-<p>Internally, the <code>qSIP2</code> code has a function that is called that makes the resampling output a bit more tidy. It does this by removing the original names and prepending them with the <em>type</em>. So, if the data was the “labeled” type, then resampled values will be in columns <em>labeled_1</em>, <em>labeled_2</em>, etc. It will also keep the data tidy by adding additional columns that are useful.</p>
+<p>Internally, <code>qSIP2</code> reformats the resampling output to be tidy by replacing the original source names with positional column names prefixed by <em>type</em>. So if the data is the “labeled” type, the resampled columns become <em>labeled_1</em>, <em>labeled_2</em>, etc., with additional columns appended for downstream calculations.</p>
 <div class="cell">
 <div id="tbl-calculate_resampled_wads" class="cell quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-calculate_resampled_wads-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table 3: The labeled and unlabeled WAD values for each feature under go separate resamplings
+Table 3: Output format of one bootstrap replicate applied to the toy WAD values, showing the positional column naming used internally by qSIP2.
 </figcaption><div aria-describedby="tbl-calculate_resampled_wads-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="table cell caption-top">
@@ -259,46 +234,46 @@ Table 3: The labeled and unlabeled WAD values for each feature under go separat
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">labeled</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">1.692</td>
-<td style="text-align: right;">1.692</td>
-<td style="text-align: right;">1.692</td>
+<td style="text-align: right;">1.691</td>
 <td style="text-align: right;">1.679</td>
+<td style="text-align: right;">1.691</td>
+<td style="text-align: right;">1.691</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">labeled</td>
 <td style="text-align: right;">2</td>
+<td style="text-align: right;">1.679</td>
+<td style="text-align: right;">1.679</td>
 <td style="text-align: right;">1.692</td>
-<td style="text-align: right;">1.692</td>
-<td style="text-align: right;">1.691</td>
-<td style="text-align: right;">1.692</td>
+<td style="text-align: right;">1.679</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">labeled</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">1.692</td>
-<td style="text-align: right;">1.679</td>
-<td style="text-align: right;">1.692</td>
+<td style="text-align: right;">1.691</td>
+<td style="text-align: right;">1.703</td>
+<td style="text-align: right;">1.691</td>
 <td style="text-align: right;">1.691</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">labeled</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">1.691</td>
 <td style="text-align: right;">1.692</td>
 <td style="text-align: right;">1.692</td>
-<td style="text-align: right;">1.691</td>
+<td style="text-align: right;">1.703</td>
+<td style="text-align: right;">1.692</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">labeled</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: right;">1.691</td>
-<td style="text-align: right;">1.691</td>
+<td style="text-align: right;">1.679</td>
 <td style="text-align: right;">1.692</td>
-<td style="text-align: right;">1.691</td>
+<td style="text-align: right;">1.679</td>
 </tr>
 </tbody>
 </table>
@@ -307,12 +282,54 @@ Table 3: The labeled and unlabeled WAD values for each feature under go separat
 </figure>
 </div>
 </div>
+<blockquote>
 <p><strong>Note:</strong> Each resampling produces a different set of draws, but within a given resample the same draws are applied to all features. For example, if resample #1 yields <code>A A C D</code>, those same WAD values are used for every feature in that resample. This behavior can have consequences, discussed below.</p>
-</section></section><section class="section level2"><h2 id="inspect-resample-results">Inspect resample results<a class="anchor" aria-label="anchor" href="#inspect-resample-results"></a>
+</blockquote>
+</section></section><section class="section level2"><h2 id="qsip2-resampling">qSIP2 resampling<a class="anchor" aria-label="anchor" href="#qsip2-resampling"></a>
+</h2>
+<p>The <code>qSIP2</code> package has a function called <code><a href="../reference/run_resampling.html">run_resampling()</a></code> that will perform the resampling procedure on a filtered <code>qsip_data</code> object. This object must first be filtered with the <code><a href="../reference/run_feature_filter.html">run_feature_filter()</a></code> function, and we’ll come back to how this filtering affects the resampling in a bit.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_feature_filter.html">run_feature_filter</a></span><span class="op">(</span><span class="va">example_qsip_object</span>,</span>
+<span>  unlabeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="../reference/get_all_by_isotope.html">get_all_by_isotope</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, <span class="st">"12C"</span><span class="op">)</span>,</span>
+<span>  labeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S178"</span>, <span class="st">"S179"</span>, <span class="st">"S180"</span><span class="op">)</span>,</span>
+<span>  min_unlabeled_sources <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  min_labeled_sources <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  min_unlabeled_fractions <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  min_labeled_fractions <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_resampling.html">run_resampling</a></span><span class="op">(</span><span class="va">q</span>,</span>
+<span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  with_seed <span class="op">=</span> <span class="fl">19</span>,</span>
+<span>  progress <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: 7 unlabeled and 0 labeled feature_ids had resampling failures.</span></span>
+<span><span class="co">#&gt; ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your</span></span>
+<span><span class="co">#&gt;   &lt;qsip_data&gt; object to inspect.</span></span></code></pre></div>
+</div>
+<p>Setting <code>resamples = 1000</code> will give 1000 resamplings for each feature. The resampling is not a deterministic procedure, and so the use of a seed is recommended using the <code>with_seed</code> argument.</p>
+<p>The warning above indicates that 7 unlabeled features had resampling failures. We’ll return to this in the <a href="#when-resampling-goes-wrong">When resampling goes wrong</a> section to determine whether these failures are severe enough to be a concern.</p>
+<p>After resampling, <code><a href="../reference/get_object_summary.html">get_object_summary()</a></code> confirms the updated state of the object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_object_summary.html">get_object_summary</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 2</span></span>
+<span><span class="co">#&gt;   metric           none      </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;     </span></span>
+<span><span class="co">#&gt; 1 feature_id_count 74 of 2030</span></span>
+<span><span class="co">#&gt; 2 sample_id_count  284       </span></span>
+<span><span class="co">#&gt; 3 filtered         TRUE      </span></span>
+<span><span class="co">#&gt; 4 resampled        TRUE      </span></span>
+<span><span class="co">#&gt; 5 eaf              FALSE     </span></span>
+<span><span class="co">#&gt; 6 growth           FALSE</span></span></code></pre></div>
+</div>
+</section><section class="section level2"><h2 id="inspect-resample-results">Inspect resample results<a class="anchor" aria-label="anchor" href="#inspect-resample-results"></a>
 </h2>
 <p>The resampling results are stored in the <code>qSIP_data</code> object in the <code>@resamples</code> slot, but they are not necessarily intended to be worked with directly. Instead, the <code>qSIP_data</code> object has helper functions like <code><a href="../reference/n_resamples.html">n_resamples()</a></code> and <code><a href="../reference/resample_seed.html">resample_seed()</a></code> that will return the number of resamples that were performed and the seed that was used, respectively.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/n_resamples.html">n_resamples</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1000</span></span>
 <span><span class="fu"><a href="../reference/resample_seed.html">resample_seed</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span></span>
@@ -320,7 +337,7 @@ Table 3: The labeled and unlabeled WAD values for each feature under go separat
 </div>
 <p>If you want the data itself, you can access it with the <code><a href="../reference/get_resample_data.html">get_resample_data()</a></code> function and appropriate arguments (<a href="#tbl-get_resample_data" class="quarto-xref">Table 4</a>). Note, if you set <code>pivot = TRUE</code> the dataframe can be quite large and take a while to assemble/display.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">resamples</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_resample_data.html">get_resample_data</a></span><span class="op">(</span><span class="va">q</span>, type <span class="op">=</span> <span class="st">"unlabeled"</span><span class="op">)</span></span></code></pre></div>
 <div id="tbl-get_resample_data" class="cell quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-get_resample_data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -436,12 +453,12 @@ Table 4: The first few lines of the unlabeled resampling results. There were 8 
 </h3>
 <p>Rather than seeing all of the resampled data itself, you are often only interested in the range of the mean WAD values for each resampling iteration. You can leave the <code>feature_id</code> argument empty to see all of the features, or you can specify a single feature or a vector of features. Here, I will select 3 random feature_ids to show.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">52</span><span class="op">)</span></span>
-<span><span class="va">random_features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_feature_ids.html">get_feature_ids</a></span><span class="op">(</span><span class="va">q</span>, filtered <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings</a></span><span class="op">(</span><span class="va">q</span>, </span>
+<span><span class="va">random_features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_feature_ids.html">get_feature_ids</a></span><span class="op">(</span><span class="va">q</span>, filtered <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings</a></span><span class="op">(</span><span class="va">q</span>,</span>
 <span>                         feature_id <span class="op">=</span> <span class="va">random_features</span>,</span>
-<span>                         interval <span class="op">=</span> <span class="st">"bar"</span>,</span>
+<span>                         intervals <span class="op">=</span> <span class="st">"bar"</span>,</span>
 <span>                         confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div id="fig-plot_feature_resamplings" class="quarto-float quarto-figure quarto-figure-center">
@@ -512,10 +529,10 @@ Table 5: Actual WAD values for the three ASVs
 </div>
 <p>Because bootstrap replicates are built from just these three values, the resulting means can only take on a limited set of possibilities. When plotted as a histogram with <code>points = TRUE</code>, this leads to the “spiky” appearance where the resampled values stack in more discrete locations rather than smoothly. Each point is mean WAD value for one of the 1000 successful resamplings.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings</a></span><span class="op">(</span><span class="va">q</span>, </span>
+<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings</a></span><span class="op">(</span><span class="va">q</span>,</span>
 <span>                         feature_id <span class="op">=</span> <span class="va">random_features</span>,</span>
-<span>                         interval <span class="op">=</span> <span class="st">"bar"</span>,</span>
+<span>                         intervals <span class="op">=</span> <span class="st">"bar"</span>,</span>
 <span>                         confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>                         points <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Scale for fill is already present.</span></span>
@@ -544,13 +561,13 @@ Figure 3: Feature resampling results of 3 random features with 95% CI
 </div>
 </div>
 </div>
-<p>The outlier here is from source S151 (<a href="#fig-geom_beeswarm" class="quarto-xref">Figure 3</a>), in which ASV_24 is found in only one fraction. This brings up an important point that although in the filtering we required a feature to be found in at least 6 fractions in at least 3 source_mat_ids, the data is still used from all sources if a feature passes. So, although ASV_24 was not found in 6 fractions in S150 and S151, and ASV_56 also didn’t have enough fractions in S151, the WAD values for these cases are still used because these overall these features passed the filtering criteria.</p>
+<p>The outlier here is from source S151 (<a href="#fig-geom_beeswarm" class="quarto-xref">Figure 3</a>), in which ASV_24 is found in only one fraction. This brings up an important point that although in the filtering we required a feature to be found in at least 6 fractions in at least 3 source_mat_ids, the data is still used from all sources if a feature passes. So, although ASV_24 was not found in 6 fractions in S150 and S151, and ASV_56 also didn’t have enough fractions in S151, the WAD values for these cases are still used because these features overall passed the filtering criteria.</p>
 </section></section><section class="section level2"><h2 id="when-resampling-goes-wrong">When resampling goes wrong<a class="anchor" aria-label="anchor" href="#when-resampling-goes-wrong"></a>
 </h2>
 <p>The resampling procedure is a simple bootstrap procedure, and so it is not without its limitations. The most common issue is when there are more sources than your filtering requires, and you end up with WADs that contain <code>NA</code> values.</p>
 <p>Take ASV_72 as an example, it is found in only 1 of the labeled sources (S178) above the fraction threshold, so it was removed from the previous filtering step. But, if your filtering requirements were less strict as before (e.g. by setting <code>min_labeled_sources = 1</code>), then this feature could make it through the filtering.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_feature_filter.html">run_feature_filter</a></span><span class="op">(</span><span class="va">example_qsip_object</span>,</span>
 <span>  unlabeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="../reference/get_all_by_isotope.html">get_all_by_isotope</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, <span class="st">"12C"</span><span class="op">)</span>,</span>
 <span>  labeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S178"</span>, <span class="st">"S179"</span>, <span class="st">"S180"</span><span class="op">)</span>,</span>
@@ -559,11 +576,15 @@ Figure 3: Feature resampling results of 3 random features with 95% CI
 <span>  min_unlabeled_fractions <span class="op">=</span> <span class="fl">6</span>,</span>
 <span>  min_labeled_fractions <span class="op">=</span> <span class="fl">6</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span> <span class="co"># running with quiet = TRUE to suppress messages</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
+<div id="tbl-asv72-wads" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-asv72-wads-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 6: WAD values for ASV_72, showing NaN for labeled sources where it did not meet the fraction threshold.
+</figcaption><div aria-describedby="tbl-asv72-wads-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table caption-top">
+<table class="table cell caption-top">
 <thead><tr class="header">
 <th style="text-align: left;">feature_id</th>
 <th style="text-align: left;">source_mat_id</th>
@@ -623,9 +644,12 @@ Figure 3: Feature resampling results of 3 random features with 95% CI
 </table>
 </div>
 </div>
+</figure>
+</div>
+</div>
 <p>But we now get an error when running the resampling step suggesting we increase our filtering stringency.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/run_resampling.html">run_resampling</a></span><span class="op">(</span><span class="va">q2</span>,</span>
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  with_seed <span class="op">=</span> <span class="fl">19</span>,</span>
@@ -641,8 +665,8 @@ Figure 3: Feature resampling results of 3 random features with 95% CI
 <span><span class="co">#&gt;   sources.</span></span>
 <span><span class="co">#&gt; → Or, trying running with `allow_failures = TRUE`</span></span></code></pre></div>
 </div>
-<section class="level3"><h4 id="handling-missing-values-during-bootstrap-resampling">Handling missing values during bootstrap resampling<a class="anchor" aria-label="anchor" href="#handling-missing-values-during-bootstrap-resampling"></a>
-</h4>
+<section class="level2"><h3 id="handling-missing-values-during-bootstrap-resampling">Handling missing values during bootstrap resampling<a class="anchor" aria-label="anchor" href="#handling-missing-values-during-bootstrap-resampling"></a>
+</h3>
 <p>Bootstrap resampling in <code>qSIP2</code> is performed at the level of samples (i.e., columns). For each bootstrap replicate, a set of columns is sampled with replacement, and this same set of sampled columns is applied to all features. In this way, each bootstrap replicate represents a resampled version of the original experiment.</p>
 <p>Because the same sampled columns are used for all features, missing values (<code>NA</code>/<code>NaN</code>) are carried along in the resampling. For example, consider <em>ASV_72</em>, which has three potential source values but only one observed (non-missing) value. The remaining sources (S179 and S180) are included in the resampling but have values of <code>NaN</code>.</p>
 <p>In this case, bootstrap replicates frequently include one or more <code>NaN</code> values. When all sampled values for a replicate are <code>NaN</code>, the mean is undefined for that feature and replicate. Rather than modifying the sampled columns on a feature-by-feature basis (e.g., by dropping columns with missing values), we retain the original resampling scheme and record the result as <code>NA</code>.</p>
@@ -652,7 +676,7 @@ Figure 3: Feature resampling results of 3 random features with 95% CI
 </h3>
 <p>Although increasing the stringency can remove the error, it will also remove features from the dataset. If you want to keep the features (e.g. you didn’t want <em>ASV_72</em> removed), you can set <code>allow_failures = TRUE</code> in the <code><a href="../reference/run_resampling.html">run_resampling()</a></code> function. This will allow the resampling to continue, but it will also return a warning message that the resampling failed for some iterations of some features.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_resampling.html">run_resampling</a></span><span class="op">(</span><span class="va">q2</span>,</span>
 <span>  resamples <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  with_seed <span class="op">=</span> <span class="fl">19</span>,</span>
@@ -663,56 +687,148 @@ Figure 3: Feature resampling results of 3 random features with 95% CI
 <span><span class="co">#&gt; ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your</span></span>
 <span><span class="co">#&gt;   &lt;qsip_data&gt; object to inspect.</span></span></code></pre></div>
 </div>
-<p>The warning message here lets us know that there were no problems with the unlabeled resampling, but several features had failures for the labeled sources. We can see which features had failures by <code><a href="../reference/get_resample_counts.html">get_resample_counts()</a></code> and filtering for values of <span class="math inline">\(n\)</span> less than 1000 (our number of resamples).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_resample_counts.html">get_resample_counts</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">labeled_resamples</span> <span class="op">&lt;</span> <span class="fl">1000</span> <span class="op">|</span> <span class="va">unlabeled_resamples</span> <span class="op">&lt;</span> <span class="fl">1000</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 17 × 3</span></span>
-<span><span class="co">#&gt;    feature_id labeled_resamples unlabeled_resamples</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;                  &lt;int&gt;               &lt;int&gt;</span></span>
-<span><span class="co">#&gt;  1 ASV_113                 1000                 334</span></span>
-<span><span class="co">#&gt;  2 ASV_117                 1000                 345</span></span>
-<span><span class="co">#&gt;  3 ASV_126                 1000                 345</span></span>
-<span><span class="co">#&gt;  4 ASV_130                 1000                 334</span></span>
-<span><span class="co">#&gt;  5 ASV_149                  292                 123</span></span>
-<span><span class="co">#&gt;  6 ASV_155                  307                 345</span></span>
-<span><span class="co">#&gt;  7 ASV_157                 1000                 100</span></span>
-<span><span class="co">#&gt;  8 ASV_161                  292                 364</span></span>
-<span><span class="co">#&gt;  9 ASV_162                 1000                 323</span></span>
-<span><span class="co">#&gt; 10 ASV_220                 1000                 100</span></span>
-<span><span class="co">#&gt; 11 ASV_34                  1000                 364</span></span>
-<span><span class="co">#&gt; 12 ASV_45                  1000                 100</span></span>
-<span><span class="co">#&gt; 13 ASV_49                  1000                 364</span></span>
-<span><span class="co">#&gt; 14 ASV_52                  1000                 334</span></span>
-<span><span class="co">#&gt; 15 ASV_61                  1000                 334</span></span>
-<span><span class="co">#&gt; 16 ASV_72                    32                 345</span></span>
-<span><span class="co">#&gt; 17 ASV_74                  1000                 345</span></span></code></pre></div>
-</div>
-<p>Here, we see that indeed ASV_72 was only successful in 32 and 345 of 1000 resamplings for the labeled and unlabeled, respectively. Statistically, you may conclude that 32 resamplings is still robust enough to accept the conclusion. But inspecting the plot for these 3 of these features show something strange with ASV_72 and we may still choose to remove it from our analysis.</p>
+<p>The warning message here indicates failures in both the unlabeled and labeled resampling — 17 unlabeled and several labeled features had failures. This is similar in kind to the 7 unlabeled failures we saw in the initial <code>q</code> object, but more pronounced due to the relaxed filtering in <code>q2</code>. We can see which specific features had failures using <code><a href="../reference/get_resample_counts.html">get_resample_counts()</a></code>, filtering for values of <span class="math inline">\(n\)</span> less than 1000 (our number of resamples).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings</a></span><span class="op">(</span><span class="va">q2</span>, </span>
-<span>                         feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ASV_72"</span>, <span class="st">"ASV_155"</span>, <span class="st">"ASV_161"</span><span class="op">)</span>, </span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_resample_counts.html">get_resample_counts</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">labeled_resamples</span> <span class="op">&lt;</span> <span class="fl">1000</span> <span class="op">|</span> <span class="va">unlabeled_resamples</span> <span class="op">&lt;</span> <span class="fl">1000</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div id="tbl-resample-counts" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-resample-counts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 7: Features with fewer than 1000 successful resamples, indicating resampling failures.
+</figcaption><div aria-describedby="tbl-resample-counts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table cell caption-top">
+<thead><tr class="header">
+<th style="text-align: left;">feature_id</th>
+<th style="text-align: right;">labeled_resamples</th>
+<th style="text-align: right;">unlabeled_resamples</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ASV_113</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">334</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ASV_117</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">345</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ASV_126</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">345</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ASV_130</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">334</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ASV_149</td>
+<td style="text-align: right;">292</td>
+<td style="text-align: right;">123</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ASV_155</td>
+<td style="text-align: right;">307</td>
+<td style="text-align: right;">345</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ASV_157</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">100</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ASV_161</td>
+<td style="text-align: right;">292</td>
+<td style="text-align: right;">364</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ASV_162</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">323</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ASV_220</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ASV_34</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">364</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ASV_45</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ASV_49</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">364</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ASV_52</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">334</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ASV_61</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">334</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ASV_72</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">345</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ASV_74</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">345</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Here, we see that indeed ASV_72 was only successful in 32 and 345 of 1000 resamplings for the labeled and unlabeled, respectively. Statistically, you may conclude that 32 resamplings is still robust enough to accept the conclusion. But inspecting the plot for these 3 features shows something strange with ASV_72 and we may still choose to remove it from our analysis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings</a></span><span class="op">(</span><span class="va">q2</span>,</span>
+<span>                         feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ASV_72"</span>, <span class="st">"ASV_155"</span>, <span class="st">"ASV_161"</span><span class="op">)</span>,</span>
 <span>                         intervals <span class="op">=</span> <span class="st">"bar"</span>,</span>
 <span>                         points <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Scale for fill is already present.</span></span>
 <span><span class="co">#&gt; Adding another scale for fill, which will replace the existing scale.</span></span></code></pre></div>
 <div class="cell-output-display">
-<div>
-<figure><p><img src="resampling_files/figure-html/unnamed-chunk-10-1.png" width="768"></p>
-</figure>
+<div id="fig-resamplings-failures" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-resamplings-failures-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resampling_files/figure-html/fig-resamplings-failures-1.png" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resamplings-failures-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 4: Resampling distributions for three features including ASV_72, which had many resampling failures.
+</figcaption></figure>
 </div>
 </div>
 </div>
 <p>We can further see the resampling successes for each feature with the <code><a href="../reference/plot_successful_resamples.html">plot_successful_resamples()</a></code> function, and this histogram shows that most features do have 1000 successful resamplings.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_successful_resamples.html">plot_successful_resamples</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
-<div>
-<figure><p><img src="resampling_files/figure-html/unnamed-chunk-11-1.png" width="384"></p>
-</figure>
+<div id="fig-successful-resamples" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-successful-resamples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resampling_files/figure-html/fig-successful-resamples-1.png" width="384">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-successful-resamples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 5: Distribution of successful resampling counts per feature, showing that most features achieved all 1000 resamples.
+</figcaption></figure>
 </div>
 </div>
 </div>
@@ -721,24 +837,29 @@ Figure 3: Feature resampling results of 3 random features with 95% CI
 <p>Suppose you want to overlay this success data on your final EAF plot so you can decide you have enough resampling support to trust the EAF value you obtain. This is easy to do, and you can modify the point color based on passing a threshold. We will use a success rate of 90% (i.e. 900 of 1000 resamples) as our threshold here.</p>
 <p>Here, we can see that although most are green, ASV_72 does show up as highly enriched and with a confidence interval clear of 0. But, the red dot further flags it as suspect and warrants a deeper look.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">EAF</span> <span class="op">=</span> <span class="fu"><a href="../reference/run_EAF_calculations.html">run_EAF_calculations</a></span><span class="op">(</span><span class="va">q2</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">EAF</span>, </span>
+<span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">EAF</span>,</span>
 <span>                error <span class="op">=</span> <span class="st">"ribbon"</span>,</span>
 <span>                confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>                success_ratio <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span>                success_ratio <span class="op">=</span> <span class="fl">0.9</span>,</span>
+<span>                color_by <span class="op">=</span> <span class="st">"success"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Confidence level = 0.95</span></span></code></pre></div>
 <div class="cell-output-display">
-<div>
-<figure><p><img src="resampling_files/figure-html/unnamed-chunk-12-1.png" width="768"></p>
-</figure>
+<div id="fig-eaf-success" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-eaf-success-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="resampling_files/figure-html/fig-eaf-success-1.png" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eaf-success-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 6: EAF values colored by resampling success rate, with ASV_72 flagged in red as failing the 90% success threshold.
+</figcaption></figure>
 </div>
 </div>
 </div>
 </section></section><section class="section level2"><h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
 </h2>
-<p>In conclusion, instead of pre-filtering your data based on the number of sources or fractions, you can use the resampling procedure to determine if your data is robust enough to proceed. This is especially useful when you have a large dataset and you want to ensure that you are not removing features that could be informative.</p>
+<p>Resampling is the mechanism by which <code>qSIP2</code> propagates uncertainty from WAD values through to EAF confidence intervals. Strict upfront filtering reduces the likelihood of resampling failures, but the <code>allow_failures = TRUE</code> approach offers a flexible alternative — letting the resampling step itself reveal which features have sufficient data support. In either case, <code><a href="../reference/plot_successful_resamples.html">plot_successful_resamples()</a></code> and <code><a href="../reference/get_resample_counts.html">get_resample_counts()</a></code> are useful tools for evaluating whether the resampling results are trustworthy. Once you are confident in the resampling quality, the next step is <a href="EAF.html">EAF calculations</a>, where the resampled WAD distributions are used to estimate isotope incorporation for each feature.</p>
 </section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);

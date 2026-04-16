@@ -53,6 +53,8 @@
   : Add isotopolog_label to source data
 - [`remove_isotopolog_label()`](https://jeffkimbrel.github.io/qSIP2/reference/remove_isotopolog_label.md)
   : Remove isotopolog_label from "MISIPified" data
+- [`get_object_summary()`](https://jeffkimbrel.github.io/qSIP2/reference/get_object_summary.md)
+  : Summarize a qSIP S7 object or named list of qSIP S7 objects
 - [`get_all_by_isotope()`](https://jeffkimbrel.github.io/qSIP2/reference/get_all_by_isotope.md)
   : Get source_mat_ids meeting certain isotope conditions
 - [`get_dataframe`](https://jeffkimbrel.github.io/qSIP2/reference/get_dataframe.md)

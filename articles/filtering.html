@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.6.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,10 +98,11 @@
 <div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.23.6.9000'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.23.8'</span></span></code></pre></div>
 </div>
 <section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -118,7 +119,7 @@
 <section class="level2"><h3 id="step-1---define-the-sources-for-a-comparison">Step 1 - define the sources for a comparison<a class="anchor" aria-label="anchor" href="#step-1---define-the-sources-for-a-comparison"></a>
 </h3>
 <p>The first step in filtering is to identify the relevant source_mat_id values for a specific comparison. The <code><a href="../reference/run_feature_filter.html">run_feature_filter()</a></code> arguments most important for this step are <code>unlabeled_source_mat_ids</code> and <code>labeled_source_mat_ids.</code> These are vectors of source_mat_id values that are used to filter the features. These can be explicitly stated (e.g. <code>unlabeled_source_mat_ids = c("source1", "source2")</code>), or they can be identified by using some key terms that will identify all sources satisfying that criteria (e.g. <code>get_all_by_isotope(qsip_object, "12C")</code> or <code>get_all_by_isotope(qsip_object, "unlabeled")</code>).</p>
-<p>There are internal validations for this step to make sure the sources provided to a given argument make sense with the isotope designation in the source data. For example, if you try to give a 13C source to the <code>unlabeled_source_mat_ids</code> then there will be an error. If you try sources with a mixture of heavy isotopes (e.g. 13C and 15N) to the <code>labeled_source_mat_ids</code> then there will be an error. This can happen either explicitly by providing the wrong source_mat_id values, or if you have a mixture and choose “labeled” for <code>labeled_source_mat_ids</code>. Having a mixture of unlabeled source isotopes (e.g. 12C and 14N), however, is allowed and will not give an error.</p>
+<p>There are internal validations for this step to make sure the sources provided to a given argument make sense with the isotope designation in the source data. For example, if you try to give a <sup>13</sup>C source to the <code>unlabeled_source_mat_ids</code> then there will be an error. If you try sources with a mixture of heavy isotopes (e.g. <sup>13</sup>C and <sup>15</sup>N) to the <code>labeled_source_mat_ids</code> then there will be an error. This can happen either explicitly by providing the wrong source_mat_id values, or if you have a mixture and choose “labeled” for <code>labeled_source_mat_ids</code>. Having a mixture of unlabeled source isotopes (e.g. <sup>12</sup>C and <sup>14</sup>N), however, is allowed and will not give an error.</p>
 <p>The group argument is optional (but recommended) and provides a place for a description of that particular comparison (e.g. <code>group = "7 day drought treatment"</code>).</p>
 </section><section class="level2"><h3 id="step-2---score-features-as-present-in-a-source">Step 2 - score features as “present” in a source<a class="anchor" aria-label="anchor" href="#step-2---score-features-as-present-in-a-source"></a>
 </h3>
@@ -127,7 +128,10 @@
 <p>The minimum fraction count can be defined differently for the unlabeled and labeled samples using the <code>min_unlabeled_fractions</code> and <code>min_labeled_fractions</code> arguments, respectively. The function uses these values to define a feature as “present” in a source if it is found in at least that many samples (fractions).</p>
 </section><section class="level2"><h3 id="step-3---remove-features-that-are-not-present-in-enough-sources">Step 3 - remove features that are not present in enough sources<a class="anchor" aria-label="anchor" href="#step-3---remove-features-that-are-not-present-in-enough-sources"></a>
 </h3>
-<p>The results of the last filtering step are used in this step to make a final call for a <code>feature_id</code> in that comparison. If a feature is found in at lesat the number of sources defined in <code>min_unlabeled_sources</code> and <code>min_labeled_sources</code>, then it will survive the filtering step and move on to resampling/EAF calculations.</p>
+<p>The results of the last filtering step are used in this step to make a final call for a <code>feature_id</code> in that comparison. If a feature is found in at least the number of sources defined in <code>min_unlabeled_sources</code> and <code>min_labeled_sources</code>, then it will survive the filtering step and move on to resampling/EAF calculations.</p>
+<blockquote>
+<p><strong>Note:</strong> When a <code>qsip_data</code> object is first created, tube relative abundances are calculated for all features together — this normalization step requires all features to be present at once. After that point, however, each feature’s WAD calculation and subsequent EAF values are computed entirely independently. Filtering out one feature has no effect on the results of any other. The filtered object carries the same WAD values as the original; filtering simply determines which features proceed to resampling and EAF calculations.</p>
+</blockquote>
 </section></section><section class="section level2"><h2 id="filtering-example">Filtering example<a class="anchor" aria-label="anchor" href="#filtering-example"></a>
 </h2>
 <p>As detailed in the <a href="qSIP_workflow.html">main vignette</a>, we can use the <code><a href="../reference/get_comparison_groups.html">get_comparison_groups()</a></code> function to see the available comparisons (this is just a prediction though!). We can run a few with the test dataset (<code>example_qsip_object</code>) and see how the text result changes to allow less through as we get more restrictive.</p>
@@ -173,31 +177,9 @@ Table 1: get_comparison_groups() correctly identifies two comparisons
 <span>  min_unlabeled_sources <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  min_labeled_sources <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  min_unlabeled_fractions <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>  min_labeled_fractions <span class="op">=</span> <span class="fl">2</span></span>
+<span>  min_labeled_fractions <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; There are initially 2030 unique feature_ids</span></span>
-<span><span class="co">#&gt; 1705 of these have abundance in at least one fraction of one source_mat_id</span></span>
-<span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Filtering feature_ids by fraction...</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ✖ 1519 unlabeled and 1417 labeled feature_ids found in zero fractions in at</span></span>
-<span><span class="co">#&gt;   least one source_mat_id</span></span>
-<span><span class="co">#&gt; ✖ 1210 unlabeled and 584 labeled feature_ids found in too few fractions in at</span></span>
-<span><span class="co">#&gt;   least one source_mat_id</span></span>
-<span><span class="co">#&gt; ✔ 780 unlabeled and 497 labeled feature_ids passed the fraction filter</span></span>
-<span><span class="co">#&gt; ℹ In total, 870 unique feature_ids passed the fraction filtering requirements</span></span>
-<span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Filtering feature_ids by source...</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ✖ 90 unlabeled and 373 labeled feature_ids failed the source filter because</span></span>
-<span><span class="co">#&gt;   they were found in zero sources</span></span>
-<span><span class="co">#&gt; ✖ 245 unlabeled and 189 labeled feature_ids failed the source filter because</span></span>
-<span><span class="co">#&gt;   they were found in too few sources</span></span>
-<span><span class="co">#&gt; ✔ 535 unlabeled and 308 labeled feature_ids passed the source filter</span></span>
-<span><span class="co">#&gt; ℹ In total, 257 unique feature_ids passed all fraction and source filtering</span></span>
-<span><span class="co">#&gt;   requirements</span></span>
 <span></span>
 <span><span class="va">restrictive</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_feature_filter.html">run_feature_filter</a></span><span class="op">(</span><span class="va">example_qsip_object</span>,</span>
 <span>  unlabeled_source_mat_ids <span class="op">=</span> <span class="fu"><a href="../reference/get_all_by_isotope.html">get_all_by_isotope</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, <span class="st">"12C"</span><span class="op">)</span>,</span>
@@ -205,34 +187,14 @@ Table 1: get_comparison_groups() correctly identifies two comparisons
 <span>  min_unlabeled_sources <span class="op">=</span> <span class="fl">6</span>,</span>
 <span>  min_labeled_sources <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  min_unlabeled_fractions <span class="op">=</span> <span class="fl">6</span>,</span>
-<span>  min_labeled_fractions <span class="op">=</span> <span class="fl">6</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; There are initially 2030 unique feature_ids</span></span>
-<span><span class="co">#&gt; 1705 of these have abundance in at least one fraction of one source_mat_id</span></span>
-<span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Filtering feature_ids by fraction...</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ✖ 1519 unlabeled and 1417 labeled feature_ids found in zero fractions in at</span></span>
-<span><span class="co">#&gt;   least one source_mat_id</span></span>
-<span><span class="co">#&gt; ✖ 1440 unlabeled and 830 labeled feature_ids found in too few fractions in at</span></span>
-<span><span class="co">#&gt;   least one source_mat_id</span></span>
-<span><span class="co">#&gt; ✔ 299 unlabeled and 209 labeled feature_ids passed the fraction filter</span></span>
-<span><span class="co">#&gt; ℹ In total, 346 unique feature_ids passed the fraction filtering requirements</span></span>
-<span><span class="co">#&gt; =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Filtering feature_ids by source...</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ✖ 47 unlabeled and 137 labeled feature_ids failed the source filter because</span></span>
-<span><span class="co">#&gt;   they were found in zero sources</span></span>
-<span><span class="co">#&gt; ✖ 196 unlabeled and 127 labeled feature_ids failed the source filter because</span></span>
-<span><span class="co">#&gt;   they were found in too few sources</span></span>
-<span><span class="co">#&gt; ✔ 103 unlabeled and 82 labeled feature_ids passed the source filter</span></span>
-<span><span class="co">#&gt; ℹ In total, 64 unique feature_ids passed all fraction and source filtering</span></span>
-<span><span class="co">#&gt;   requirements</span></span></code></pre></div>
+<span>  min_labeled_fractions <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>Here, only 64 features pass the more restrictive criteria, but we get 257 by relaxing the criteria a little bit. The function messages are rather verbose, but they try to summarize the results of each step.</p>
-<p><strong>Note:</strong> Relaxing the criteria too much can lead to errors later during resampling. See <code><a href="../articles/resampling.html">vignette("resampling")</a></code> for more information, or use the <code>allow_failures = TRUE</code> argument.</p>
+<p>Here, only 64 features pass the more restrictive criteria, but we get 257 by relaxing the criteria a little bit. By default, <code><a href="../reference/run_feature_filter.html">run_feature_filter()</a></code> prints a verbose summary of each filtering step — use <code>quiet = TRUE</code> to suppress this.</p>
+<blockquote>
+<p><strong>Note:</strong> Relaxing the criteria too much can lead to errors later during resampling. An alternative approach is to set all <code>min_*</code> parameters to <code>1</code> (effectively no upfront filtering) and use <code>allow_failures = TRUE</code> in the resampling step to handle features that fail there instead. This can be a flexible way to let the data determine which features are usable, though the statistical implications of this approach have not been thoroughly evaluated. See the <a href="resampling.html">resampling vignette</a> for more detail.</p>
+</blockquote>
 <section class="level2"><h3 id="inspecting-the-filter-results">Inspecting the filter results<a class="anchor" aria-label="anchor" href="#inspecting-the-filter-results"></a>
 </h3>
 <p>A tabular view of the filtering results can be made with the <code><a href="../reference/get_filter_results.html">get_filter_results()</a></code> function. The first column is the step of the filtering process. The Zero Fractions/Sources and Source/Fraction Filtered rows can be confusing/misleading because they may not be reflected in the actual filtering results. This is because you may have features missing entirely from one source, but if you are only requiring it to be found in 3 out of 4 sources then it will survive the filtering. The Fraction/Source Passed rows are more informative, and <a href="#tbl-get_filter_results_loose" class="quarto-xref">Table 2</a> only shows these rows. The numbers shown in the <code><a href="../reference/run_feature_filter.html">run_feature_filter()</a></code> output include the union of “Fraction Passed”, and the intersection of “Source Passed” is the final feature count after filtering.</p>
@@ -338,16 +300,31 @@ Table 3: Results of get_filter_results(restrictive), subsetting for some column
 </figure>
 </div>
 </div>
+<p>By passing <code>type = "feature_ids"</code> to <code><a href="../reference/get_filter_results.html">get_filter_results()</a></code>, you can retrieve the actual feature IDs that passed or failed at each step rather than counts — useful for identifying specific features to investigate further.</p>
+<p>After filtering, <code><a href="../reference/get_object_summary.html">get_object_summary()</a></code> gives a quick structured view of the object state, confirming the feature count and that the filtering step has been completed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_object_summary.html">get_object_summary</a></span><span class="op">(</span><span class="va">restrictive</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 2</span></span>
+<span><span class="co">#&gt;   metric           none      </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;     </span></span>
+<span><span class="co">#&gt; 1 feature_id_count 64 of 2030</span></span>
+<span><span class="co">#&gt; 2 sample_id_count  284       </span></span>
+<span><span class="co">#&gt; 3 filtered         TRUE      </span></span>
+<span><span class="co">#&gt; 4 resampled        FALSE     </span></span>
+<span><span class="co">#&gt; 5 eaf              FALSE     </span></span>
+<span><span class="co">#&gt; 6 growth           FALSE</span></span></code></pre></div>
+</div>
 </section><section class="level2"><h3 id="following-the-fate-of-a-certain-feature">Following the fate of a certain feature<a class="anchor" aria-label="anchor" href="#following-the-fate-of-a-certain-feature"></a>
 </h3>
 <p>You can see the “fate” of a specific feature to see why it was or wasn’t included in the resulting object. First, we can get a few feature_ids that had different fates between the different filtering conditions.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diff_features</span> <span class="op">=</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_feature_ids.html">get_feature_ids</a></span><span class="op">(</span><span class="va">loose</span>, filtered <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="fu"><a href="../reference/get_feature_ids.html">get_feature_ids</a></span><span class="op">(</span><span class="va">restrictive</span>, filtered <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p><code>ASV_100</code> is the first on the list that was present in the loose filtering, but remove in the restrictive filtering. We can use the <code><a href="../reference/get_filtered_feature_summary.html">get_filtered_feature_summary()</a></code> function to look at the filtering parameters affected the fate of <code>ASV_100</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ASV_100_restrictive</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_filtered_feature_summary.html">get_filtered_feature_summary</a></span><span class="op">(</span><span class="va">restrictive</span>, feature_id <span class="op">=</span> <span class="st">"ASV_100"</span><span class="op">)</span></span>
 <span><span class="va">ASV_100_loose</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_filtered_feature_summary.html">get_filtered_feature_summary</a></span><span class="op">(</span><span class="va">loose</span>, feature_id <span class="op">=</span> <span class="st">"ASV_100"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -362,7 +339,7 @@ Table 3: Results of get_filter_results(restrictive), subsetting for some column
 </ul>
 <p>As expected (because we picked <code>ASV_100</code> as an example of differential filtering), the <code>retained</code> slot is <code>FALSE</code> for the restrictive filtering and <code>TRUE</code> for the loose filtering.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ASV_100_loose</span><span class="op">$</span><span class="va">retained</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
 <span><span class="va">ASV_100_restrictive</span><span class="op">$</span><span class="va">retained</span></span>
@@ -371,11 +348,11 @@ Table 3: Results of get_filter_results(restrictive), subsetting for some column
 <p>We can look at the fraction count summary for the feature in the two filtering conditions in the <code>$fraction_filter_summary</code> slot. This code combines the two sets of results, but just the last two columns are of importance.</p>
 <div class="cell">
 <div id="tbl-fraction_results" class="cell quarto-float quarto-figure quarto-figure-center">
-<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-fraction_results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table 4
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-fraction_results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 4: Fraction-level filter results for ASV_100 under loose and restrictive filtering.
 </figcaption><div aria-describedby="tbl-fraction_results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table caption-top">
+<table class="table cell caption-top">
 <colgroup>
 <col style="width: 17%">
 <col style="width: 12%">
@@ -479,11 +456,11 @@ Table 4
 <p>Therefore, the sample (fraction) count filtering came to different conclusions…</p>
 <div class="cell">
 <div id="tbl-source_results" class="cell quarto-float quarto-figure quarto-figure-center">
-<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-source_results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table 5
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-source_results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 5: Source-level filter results for ASV_100 under loose and restrictive filtering.
 </figcaption><div aria-describedby="tbl-source_results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table caption-top">
+<table class="table cell caption-top">
 <colgroup>
 <col style="width: 10%">
 <col style="width: 9%">
@@ -528,20 +505,26 @@ Table 5
 </h3>
 <p>Although there is a dramatic difference in the number of retained features between the two conditions, we can see how prevalent the features that are different are by plotting the fraction count distributions.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
-<span><span class="va">a</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_filter_results.html">plot_filter_results</a></span><span class="op">(</span><span class="va">loose</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Loose"</span><span class="op">)</span></span>
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_filter_results.html">plot_filter_results</a></span><span class="op">(</span><span class="va">loose</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Loose"</span><span class="op">)</span></span>
 <span><span class="va">b</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_filter_results.html">plot_filter_results</a></span><span class="op">(</span><span class="va">restrictive</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Restrictive"</span><span class="op">)</span></span>
 <span><span class="va">a</span> <span class="op">/</span> <span class="va">b</span></span></code></pre></div>
 <div class="cell-output-display">
-<div>
-<figure><p><img src="filtering_files/figure-html/unnamed-chunk-6-1.png" width="768"></p>
-</figure>
+<div id="fig-filter-comparison" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-filter-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="filtering_files/figure-html/fig-filter-comparison-1.png" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-filter-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 1: Per-source filtering results for loose (top) and restrictive (bottom) filtering thresholds.
+</figcaption></figure>
 </div>
 </div>
 </div>
 <p>In the top plots, the blue is much larger than it is in the bottom plots, indicating more (obviously) made it through the loose filtering. But, even though there are 4x more features in the loose dataset, it is only about a 15-20% increase in terms of the abundance of features in the original dataset. Also notice the gray bars will not change with different filtering because they are absent from those sources.</p>
-</section></section><script id="quarto-html-after-body" type="application/javascript">
+</section></section><section class="section level2"><h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h2>
+<p>Filtering determines which features carry forward into the analysis. The thresholds you choose here directly affect both the reliability of downstream WAD estimates and the number of features available for EAF calculations — stricter filtering produces fewer but more trustworthy results. Once you are satisfied with your filtered object, the next step is <a href="resampling.html">resampling</a>, where bootstrap resampling of WAD values is used to estimate confidence intervals for each feature.</p>
+</section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);

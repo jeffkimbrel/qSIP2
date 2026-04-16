@@ -19,6 +19,9 @@
     updated the tests
   - switched many of the error/warnings/messages to use the `cli`
     package
+- new
+  [`get_object_summary()`](https://jeffkimbrel.github.io/qSIP2/reference/get_object_summary.md)
+  function to make a dataframe out of the older print output
 
 ## qSIP2 0.22
 

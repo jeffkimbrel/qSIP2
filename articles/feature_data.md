@@ -6,7 +6,7 @@ library(tibble)
 library(tidyr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.6.9000'
+#> [1] '0.23.8'
 ```
 
 ## Feature Counts and Metadata
@@ -133,9 +133,9 @@ tibble(
 ) |>
   qsip_feature_data(type = "coverage")
 #> <qsip_feature_data>
-#> feature_id count: 3
-#> sample_id count: 2
-#> data type: coverage
+#> feature_id count: 3 
+#> sample_id count: 2 
+#> data type: coverage 
 #> taxonomy: FALSE
 ```
 
@@ -167,9 +167,9 @@ tibble(
   mutate(across(everything(), ~ replace_na(.x, 0))) |>
   qsip_feature_data()
 #> <qsip_feature_data>
-#> feature_id count: 3
-#> sample_id count: 2
-#> data type: counts
+#> feature_id count: 3 
+#> sample_id count: 2 
+#> data type: counts 
 #> taxonomy: FALSE
 ```
 
@@ -195,8 +195,8 @@ tibble(
   qsip_feature_data() |>
   add_taxonomy(taxonomy, feature_id = "feature_id")
 #> <qsip_feature_data>
-#> feature_id count: 3
-#> sample_id count: 2
-#> data type: counts
+#> feature_id count: 3 
+#> sample_id count: 2 
+#> data type: counts 
 #> taxonomy: TRUE
 ```

@@ -8,44 +8,42 @@ library(tidyr)
 library(tibble)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.6.9000'
+#> [1] '0.23.8'
 ```
 
 ## Background
 
-This is a demo of the delta EAF method introduced in `qSIP2 v0.22`. The
-idea behind delta EAF is to answer the question “does my feature have a
-different level of incorporation in this treatment vs that treatment?”
-The tricky part about this calculation using raw EAF values is that you
-only get one per treatment - all replicates and any original idea of
-obtaining sample variance goes out the window, and you’re left asking
-“is 4.3% different than 8.1%?”, which is a difficult question.
+### What is delta EAF?
 
-We did, however, at one point have replicates… and what about those
-bootstraps?
+Delta EAF quantifies the difference in isotope incorporation between two
+experimental treatments at the feature level. Standard EAF analysis
+yields a single per-feature value per comparison, with confidence
+intervals derived from bootstrap resampling. When comparing treatments
+directly — “does this feature incorporate more label in Treatment A than
+Treatment B?” — those point estimates alone are insufficient for
+inference. Delta EAF addresses this by using the same bootstrap
+resamples already computed during EAF calculations to build a
+distribution of pairwise differences, from which a confidence interval
+and p-value can be derived.
 
-So, let’s dive in to this delta EAF calculation and see if and how it
-overcomes the initial limitations.
+### Terminology
 
-Note, through `qSIP2` the term “comparisons” is meant to imply the
-original idea of which labeled sources do you want to *compare* with
-which unlabeled sources. For delta EAF, the term *contrast* is used to
-say which comparison is *contrasted* with another comparison. Hopefully
-this terminology doesn’t trip anyone up or lead to confusion. Not
-helping things, the idea of a *group* is really referring to a
-comparison.
+> **Note:** Throughout this vignette, a *comparison* refers to a
+> specific pairing of labeled and unlabeled sources — one EAF
+> calculation. A *contrast* refers to the comparison of two comparisons:
+> which is the treatment and which is the control. A *group* is the
+> label assigned to a comparison. The delta is always calculated as
+> \\treatment - control\\, so positive values indicate higher
+> incorporation in the treatment.
 
-### Build qSIP2 list
+## Building a comparison list
 
-The delta EAF function require a `qSIP2` list, so we will make that
-here. Like any other qSIP2 list object, each *group* will give an EAF
-value for any features that pass that groups independent filtering
-steps. This means you can use the list to compare between experimental
-treatments, but also see how different filtering parameters or other
-decision affect the outcome. Here, we will make an object for drought
-and normal treatments using the built in object compared just to their
-12C sample pairs, or against *all* 12C samples, giving us 4 total
-groups.
+The delta EAF functions require a named list of `qsip_data` objects —
+one per comparison group. Each group runs its own independent filtering
+and EAF calculations, so the same feature may pass in one group but not
+another. Here, we build four comparison groups: Normal and Drought each
+paired against their matched ¹²C sources, and both again paired against
+*all* ¹²C sources.
 
 ``` r
 q <- tribble(
@@ -56,7 +54,7 @@ q <- tribble(
   "Drought_all", "12C",                    "S200, S201, S202, S203", 6
 ) |>
   run_comparison_groups(example_qsip_object,
-    allow_failures = T,
+    allow_failures = TRUE,
     seed = 41
   )
 #> Finished groups ■■■■■■■■■                         25%
@@ -66,13 +64,13 @@ q <- tribble(
 #> 
 ```
 
-Importantly, the idea of a “Delta EAF” implies we are looking to
-quantify the differences between treatments, and so therefore for a
-certain feature it must have an EAF value in both of those treatments.
-Since each original EAF calculation is done on a different set of source
-material, a feature may pass the filtering in one comparison, but not
-the other. In [Table 1](#tbl-overlaps) we run a check to count just how
-many features are even comparable between all treatments.
+Because delta EAF requires a feature to have an EAF value in both groups
+of a contrast, features that pass filtering in one group but not another
+cannot be used for that contrast.
+[`get_overlap_sizes()`](https://jeffkimbrel.github.io/qSIP2/reference/get_overlap_sizes.md)
+counts how many features are shared across groups
+([Table 1](#tbl-overlaps)), and an upset plot gives a visual breakdown
+of the overlaps ([Figure 1](#fig-upset_plot)).
 
 ``` r
 overlaps = get_overlap_sizes(q)
@@ -87,30 +85,26 @@ overlaps = get_overlap_sizes(q)
 | Drought_all | Normal_all  |                  179 |
 | Normal      | Normal_all  |                  170 |
 
-Table 1
-
-Although not yet a stand alone `qSIP2` function, we can make an upset
-plot showing a similar idea ([Figure 1](#fig-upset_plot)).
+Table 1: Number of features with EAF values shared across each
+combination of comparison groups.
 
 ``` r
 lapply(q, get_EAF_data) |>
-  bind_rows(.id = "group") |> 
+  bind_rows(.id = "group") |>
   filter(is.na(resample)) |>
   select(group, feature_id) |>
   summarize(group = list(group), .by = feature_id) |>
-  ggplot(aes(x = group)) +  
-    geom_bar() +  
+  ggplot(aes(x = group)) +
+    geom_bar() +
     ggupset::scale_x_upset() +
-    geom_bar(fill = "#216AD0") +  
+    geom_bar(fill = "#216AD0") +
     geom_text(stat='count', aes(label=after_stat(count)), vjust=-0.3, color = "gray30")
 ```
 
 ![](delta_EAF_files/figure-html/fig-upset_plot-1.png)
 
-Figure 1: Filtered feature_ids shared between groups
-
-Again, these are just some checks to see which feature_ids it is even
-possible to get a delta EAF for.
+Figure 1: Feature overlap across comparison groups, showing how many
+features have EAF values in each combination.
 
 ## Delta EAF
 
@@ -120,14 +114,12 @@ To run the delta EAF calculations, you must first define your
 *contrasts*. If you don’t define the contrasts up front the function
 will do an *all-by-all* comparison, but this may not be ideal because 1)
 not all contrasts are meaningful, and 2) you can’t determine which is
-the *treatment* and which is the *control*. We’ll go over the details of
-the delta EAF function below, but at a high level the *delta* of delta
-EAF is looking at the differences in some distribution of EAF values
-between the treatment and the control. This delta is \\treatment -
-control\\, and so positive values indicate a higher EAF in the the
-treatment, and negative values indicate a higher EAF in the control. In
-your contrasts, knowing which is the treatment and which is the control
-is critical for interpretation.
+the *treatment* and which is the *control*. At a high level, the *delta*
+is the difference in resampled EAF distributions between the treatment
+and the control — calculated as \\treatment - control\\ — so positive
+values indicate higher EAF in the treatment and negative values indicate
+higher EAF in the control. Knowing which group plays which role is
+critical for interpretation.
 
 The
 [`make_delta_EAF_contrasts()`](https://jeffkimbrel.github.io/qSIP2/reference/make_delta_EAF_contrasts.md)
@@ -148,9 +140,9 @@ contrasts = make_delta_EAF_contrasts(q)
 | Drought_all | Normal_all  | Drought_all vs Normal_all |
 | Normal      | Normal_all  | Normal vs Normal_all      |
 
-Table 2: The default contrasts are just best guesses and may not be
-relevant control/treatment combinations, or may not accurately pick
-which is the control
+Table 2: Default contrasts generated by make_delta_EAF_contrasts(),
+which uses an all-by-all approach and may not reflect the intended
+control/treatment pairings.
 
 For example, it is interesting to compare the drought to normal, and
 maybe each of those treatments against their “\_all” counterpart… but
@@ -176,8 +168,9 @@ contrasts = make_delta_EAF_contrasts(q) |>
 | Drought_all | Normal_all  | Normal_all minus Drought_all |
 | Normal      | Normal_all  | Normal_all minus Normal      |
 
-Table 3: The contrasts table can be modified to make it more useful, or
-you can create one from scratch using tribble or an excel file.
+Table 3: Filtered and renamed contrasts table. The default output can
+also be replaced entirely by creating a custom tibble with tribble() or
+reading from an Excel file.
 
 ### Run delta EAF contrasts
 
@@ -195,52 +188,48 @@ delta_EAF = run_delta_EAF_contrasts(q,
                                     contrasts = contrasts,
                                     confidence = 0.95) 
 #> ℹ Confidence level = 0.95
-#> step 1/2: calculating deltas... ■■■■■■■■■■■■■■■■■■■■■■■■■         80% |  ETA:  …
-#> step 2/2: summarizing delta statistics ■■■■■■■■■■■■■■                    43% | …
+#> step 2/2: summarizing delta statistics ■■■■■■■■■■■■■■■■■■■■■■■■■         81% | …
 #> ! there were 74 contrast and 127 bs_pval result messages
 ```
 
-Here, we get a warning that there were “74 contrast” and “66 `bs_pval`”
-warnings. I’ll explain the contrast warnings now, but save the second
-message explanation for later down. Simply put, the first warning is
-telling us that 74 feature_ids weren’t able to have a delta EAF
-calculated for all contrasts because it was filtered out of either or
-both of the groupings used for that contrast. So, normally there would
-be 4 rows per feature_id (because our contrasts table had 4 contrasts),
-but some feature_ids will have less. Looking at a histogram of features
-and their contrast count ([Figure 2](#fig-contrast_warnings)) we see
-that 162 are indeed found in all 4 contrasts, but 40 are found in only
-one contrast, and 17 are found in only 2.
+The output includes two warnings — “74 contrast” and “66 `bs_pval`” —
+which are addressed in turn. The contrast warning indicates that 74
+features could not have a delta EAF calculated for all contrasts,
+because they were filtered out of one or both groups used in a given
+contrast. With 4 contrasts, each feature would normally produce 4 rows,
+but features missing from any group will have fewer.
+[Figure 2](#fig-contrast_warnings) shows that 162 features appear in all
+4 contrasts, 40 appear in only one, and 17 appear in only two.
 
 ![](delta_EAF_files/figure-html/fig-contrast_warnings-1.png)
 
-Figure 2
+Figure 2: Distribution of features by the number of contrasts in which
+they appear, out of a maximum of 4.
 
-That “17” gets counted twice for `17+17+40 = 74` to get us to count in
-the warning. For now, in each *successful* contrast that message gets
-printed. For example, `ASV_167` had two successful contrasts, and two
-failed… so the same message was printed in both successful contrasts
-listing the failed contrasts. This is intentional friction to make it
-clear when you are looking at either of these rows - only some of the
-contrasts were successful.
+The 17 features appearing in two contrasts each contribute two failed
+contrasts, giving `17+17+40 = 74`. The message is printed once per
+*successful* contrast — so for `ASV_167`, which had two successful and
+two failed contrasts, the same message appears twice. This is
+intentional: when viewing either successful row for that feature, the
+message makes clear that not all contrasts succeeded.
 
 | feature_id | contrast_message                                                             |
 |:-----------|:-----------------------------------------------------------------------------|
 | ASV_167    | skipped 2 missing contrast(s): Normal minus Drought, Normal_all minus Normal |
 | ASV_167    | skipped 2 missing contrast(s): Normal minus Drought, Normal_all minus Normal |
 
-Note, you’ll only get a warning for features that are valid in at least
-one contrast. For example, if there is a feature present only in the
-“drought_all” group, it won’t be valid in any of the contrasts and
-therefore won’t be present in the output table nor generate a warning.
+> **Note:** Warnings are only generated for features that appear in at
+> least one contrast. A feature present in only one group — and
+> therefore not valid in any contrast — will be absent from the output
+> table entirely and will not generate a warning.
 
 ## Inspecting results
 
-Our results are stored in the `delta_EAF` dataframe. We can pick an
-example feature_id to look at, so let’s pick `ASV_10` because it was
-“significant” in some contrasts, but not others.
+The results are stored in the `delta_EAF` dataframe, with one row per
+feature per contrast. `ASV_10` is a useful example because it reaches
+significance in some contrasts but not others.
 
-### ASV_10
+### Example feature: ASV_10
 
 ``` r
 ASV_10 = delta_EAF |>
@@ -254,7 +243,7 @@ ASV_10 = delta_EAF |>
 | ASV_10     | Normal_all minus Drought_all |  0.0583124 |  0.0144726 | 0.1051709 | 0.0226059 |   0.004 | NA              | 0.0098938 | NA               |
 | ASV_10     | Normal_all minus Normal      |  0.0004449 | -0.0438587 | 0.0455810 | 0.0231538 |   0.956 | NA              | 0.9846679 | NA               |
 
-Table 4
+Table 4: Delta EAF results for ASV_10 across all four contrasts.
 
 Two of the 4 `bs_pval` p-values (explained below) are “significant”, and
 two are not. Interestingly, the non-significant values come from
@@ -263,24 +252,38 @@ contrasts comparing the “in-treatment” unlabeled sources vs. using
 values, they were not deemed significantly different via the delta EAF
 method.
 
-The two significant differences were between both types of Drought vs
-Normal, with Normal having a higher EAF than Drought, for this feature.
-I’ll explain how the `bs_pval` value gets calculated later, but briefly
-the null hypothesis is whether the true delta EAF value is approximately
-zero, and there is evidence for these two contrasts that it is not zero.
+The two significant differences are between both types of Drought vs
+Normal comparisons, with Normal having higher EAF than Drought for this
+feature. The `bs_pval` calculation is explained further below, but
+briefly: the null hypothesis is that the true delta EAF is approximately
+zero, and these two contrasts provide evidence against that.
+
+> **Note:** The output contains two p-values. `bs_pval` is a bootstrap
+> percentile p-value derived directly from the empirical distribution of
+> resampled delta values — it asks what proportion of the bootstrap
+> deltas fall on each side of zero and computes a two-sided p-value from
+> that. `pval` is a Wald z-test calculated as \\2 \times \Phi(-\|\Delta
+> / \text{SD}\|)\\, where \\\Delta\\ is the observed delta EAF and
+> \\\text{SD}\\ is the standard deviation of the bootstrap delta
+> distribution. `bs_pval` is recommended for most purposes: the
+> distribution of resampled deltas can be non-normal, particularly with
+> few replicates, and `bs_pval` makes no parametric assumptions. `pval`
+> is retained as an alternative for cases where a parametric test is
+> preferred.
 
 ### A more global look
 
-We can plot the `delta` values for each contrast together. In
-[Figure 3](#fig-violin) it is clear that the widest part of the plots
-for each is near zero, indicating many of the features don’t have a
-strong different in their EAF values. But in some cases there are clear
-global shifts, for example normal_all seems to have more overall
-enrichment than drought_all.
+Plotting the `delta` values for each contrast together shows that most
+features cluster near zero, indicating little difference in
+incorporation between treatments ([Figure 3](#fig-violin)). But in some
+cases there are clear global shifts — for example, Normal_all appears to
+have more overall enrichment than Drought_all.
 
 ![](delta_EAF_files/figure-html/fig-violin-1.png)
 
-Figure 3
+Figure 3: Delta EAF distributions for all features across the four
+contrasts, with points colored by Benjamini-Hochberg adjusted
+significance.
 
 #### Volcano plots
 
@@ -309,18 +312,20 @@ delta_EAF |>
       scale_fill_viridis_d() +
       geom_vline(xintercept = 0, linetype = "dashed", color = "gray50") +
       labs(x = "delta EAF",
-           fill = glue::glue("Significant at p-val < {sig_pval} and EAF diff > {eaf_diff}"))
+           fill = paste0("Significant at p-val < ", sig_pval, " and EAF diff > ", eaf_diff))
 ```
 
 ![](delta_EAF_files/figure-html/fig-volcano-1.png)
 
-Figure 4
+Figure 4: Volcano plot of delta EAF values across contrasts. Features
+meeting both the significance and effect size thresholds are
+highlighted.
 
 ### bs_pval error message
 
-The delta EAF workflow produces a dataframe with two columns that
-collect error/warning messages. The `contrast_message` was explained
-previously, and here the `bs_pval_message` is explained.
+The delta EAF output includes two message columns. The
+`contrast_message` column was covered above; `bs_pval_message` is
+explained here.
 
 Because calculating delta requires pairing the EAF values based on their
 resample number, this can fail in two cases.
@@ -341,26 +346,23 @@ sporadic `NA` values filled in when the resampling failed.
 | ASV_117    | Drought_all minus Drought | 0.6761364 | Removed 648 NA bootstrap replicate(s) of 1000 (64.8%) |
 | ASV_55     | Normal minus Drought      | 0.2392027 | Removed 699 NA bootstrap replicate(s) of 1000 (69.9%) |
 
-Table 5: Three random instances of a bs_pval_message warning
+Table 5: Three randomly sampled rows with a bs_pval_message, showing how
+many resamples were skipped for each.
 
-The warning in the `bs_pval` column is just telling us how many of the
-resamples were skipped because a delta couldn’t be calculated.
+The `bs_pval_message` records how many resamples were skipped because a
+pairwise delta could not be computed.
 
 ## The delta EAF calculations
 
-Under the hood, the delta EAF calculations use the same resampled EAF
-values already used to calculate both the EAF and the EAF confidence
-intervals reported in
-[`summarize_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.md).
-During these calculations, within an original `qSIP2` object each
-feature will have a collection of 1,000 resampled EAF values, together
-making up a distribution of resampled EAF values. This data can be
-accessed via the
-[`get_EAF_data()`](https://jeffkimbrel.github.io/qSIP2/reference/get_EAF_data.md)
-function. The `resample` column contains the number of that specific
-resampling, and the “real” data is also stored here with a `resample`
-value of `NA`… so we can remove that. Below, we get the 1000 resamples
-of our example `ASV_10` in different groups (comparisons).
+The delta EAF calculations reuse the same bootstrap distributions
+already computed during EAF calculations. Within each `qsip_data`
+object, every feature has a collection of resampled EAF values
+accessible via
+[`get_EAF_data()`](https://jeffkimbrel.github.io/qSIP2/reference/get_EAF_data.md).
+The `resample` column identifies each bootstrap iteration; the observed
+(non-resampled) value is stored with `resample = NA` and can be
+excluded. Below, the 1000 resampled EAF values for `ASV_10` are
+retrieved across all four comparison groups.
 
 ### Resampled EAF distributions
 
@@ -381,10 +383,12 @@ ASV_10_EAF = get_EAF_data(q) |>
 | Normal      | ASV_10     | 10       |   1.718697 |     1.711796 | FALSE    | 0.0069010 | 0.7872345 | 308.0815 |   9.606383 |     317.6634 |  309.3235 | 0.1281786 |
 | Normal_all  | ASV_10     | 10       |   1.718697 |     1.713259 | FALSE    | 0.0054378 | 0.8047561 | 308.0902 |   9.597622 |     317.6634 |  309.0680 | 0.1010105 |
 
-Table 6: The first few lines of ASV_10_EAF, ordered by resample number
+Table 6: The first few rows of resampled EAF values for ASV_10 across
+all four comparison groups, ordered by resample number.
 
 Plotting those values on a density plot shows the overall shape of the 4
-distributions. Remember, each feature_id will have it’s own shapes.
+distributions. Remember, each feature will have its own distribution
+shape.
 
 ![](delta_EAF_files/figure-html/fig-ASV_10_dist-1.png)
 
@@ -392,12 +396,12 @@ Figure 5: Distribution of 1000 resampled EAF values for feature ASV_10.
 
 ### Delta distributions
 
-The first step in calculating the singular *delta* value is getting the
-resampled delta values for each contrast. This is a pairwise comparison
-of resample 1 in both groups, then resample 2, etc, until all we have a
-distribution of delta EAF values the same length as the smallest
-distribution of that contrast. Again, delta is calculated as
-`treatment - control`.
+The first step in calculating the *delta* value is constructing the
+resampled delta distribution for each contrast. This is done by pairing
+resample 1 from the treatment with resample 1 from the control, then
+resample 2, and so on, producing a distribution of delta EAF values with
+length equal to the smaller of the two distributions. Delta is always
+calculated as `treatment - control`.
 
 | contrast             | resample | treatment |   control |     delta |
 |:---------------------|:---------|----------:|----------:|----------:|
@@ -412,12 +416,14 @@ distribution of that contrast. Again, delta is calculated as
 | Normal minus Drought | 9        | 0.1438040 | 0.0594652 | 0.0843387 |
 | Normal minus Drought | 10       | 0.1281786 | 0.0505972 | 0.0775814 |
 
-Table 7: The first few rows of the delta calculations for ASV_10 for
-just the “Normal minus Drought” contrast
+Table 7: Pairwise delta calculations for ASV_10 in the ‘Normal minus
+Drought’ contrast, showing treatment, control, and delta EAF for each
+resample.
 
 ![](delta_EAF_files/figure-html/fig-ASV_10_results-1.png)
 
-Figure 6
+Figure 6: Resampled EAF distributions for the treatment (Normal),
+control (Drought), and their pairwise delta for ASV_10.
 
 In [Figure 6](#fig-ASV_10_results), the green line represents the delta
 EAF distribution, which is the yellow line minus the purple line. This
@@ -426,3 +432,17 @@ control group subtracted from the treatment group, but the confidence
 intervals and `bs_pval` are derived from this distribution of delta
 values. The 95% CI has the value for the 2.5% and 97.5% values in the
 distribution.
+
+## Conclusion
+
+Delta EAF extends the standard EAF workflow by leveraging existing
+bootstrap resamples to test whether isotope incorporation differs
+meaningfully between experimental treatments. The
+[`make_delta_EAF_contrasts()`](https://jeffkimbrel.github.io/qSIP2/reference/make_delta_EAF_contrasts.md)
+and
+[`run_delta_EAF_contrasts()`](https://jeffkimbrel.github.io/qSIP2/reference/run_delta_EAF_contrasts.md)
+functions provide a flexible way to define and run contrasts, and the
+`bs_pval` and confidence intervals give a principled basis for
+interpretation. For studies with the necessary data, the [growth
+vignette](https://jeffkimbrel.github.io/qSIP2/articles/growth.md) covers
+an additional workflow step for estimating per-capita growth rates.

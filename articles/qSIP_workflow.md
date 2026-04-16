@@ -5,7 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.6.9000'
+#> [1] '0.23.8'
 ```
 
 ## Background
@@ -90,7 +90,7 @@ correctly.
 
 A dataframe with the original headers can be recovered using the
 [`get_dataframe()`](https://jeffkimbrel.github.io/qSIP2/reference/get_dataframe.md)
-method with the `original_headers = T` option.
+method with the `original_headers = TRUE` option.
 
 ``` r
 df <- get_dataframe(source_object, original_headers = TRUE)
@@ -192,7 +192,7 @@ abundance table, aka “OTU table” or “ASV table”. The format of this
 dataframe has the unique feature IDs in the first column, and an
 additional column for each sample. Each row then contains the whole
 number (non-normalized) counts of each feature in each sample. If your
-features are MAGs, then you may instead of coverages or some other
+features are MAGs, then you may use coverages or some other
 pre-normalized value in your feature table instead of sequence counts.
 
 For now, the validation step defaults to requiring all values be
@@ -267,14 +267,14 @@ plot_source_wads(qsip_object,
 ![](qSIP_workflow_files/figure-html/fig-plot_source_wads-1.png)
 
 Figure 1: WAD of each source, grouped by Moisture. Note that for this
-example dataset the 13C just happens to have source-level WAD values
-greater than the 12C, but it is generally not a concern if the 12C and
-13C values are intermingled.
+example dataset the ¹³C just happens to have source-level WAD values
+greater than the ¹²C, but it is generally not a concern if the ¹²C and
+¹³C values are intermingled.
 
 ``` r
 plot_sample_curves(qsip_object,
                    facet_by = "isotope",
-                   show_wad = F)
+                   show_wad = FALSE)
 ```
 
 ![](qSIP_workflow_files/figure-html/fig-plot_sample_curves-1.png)
@@ -294,26 +294,31 @@ plot_density_outliers(qsip_object)
 
 ![](qSIP_workflow_files/figure-html/fig-plot_density_outliers-1.png)
 
-Figure 3
+Figure 3: Density vs. gradient position for each source, with Cook’s
+distance used to highlight outliers in red.
 
 ### An important note about qsip_data objects
 
-The design of the `qsip_data` object is that it is contains “slots” for
+The design of the `qsip_data` object is that it contains “slots” for
 each new analysis step. Although you could create a new object for each
 step of the workflow, you can assign the output of each step back to the
-original object in order to keep everything together. “Printing” the
-`qsip_data` object will give some summary data as well as TRUE/FALSE
-flags for which steps have been done on that object.
+original object in order to keep everything together. Printing the
+`qsip_data` object will give some summary data as well as `TRUE`/`FALSE`
+flags for which steps have been done on that object. For a more
+structured view,
+[`get_object_summary()`](https://jeffkimbrel.github.io/qSIP2/reference/get_object_summary.md)
+returns the same information as a tibble, which is useful for
+programmatic access or working with multiple objects at once.
 
 ``` r
 print(qsip_object)
 #> <qsip_data>
-#> group: none
-#> feature_id count: 2030 of 2030
-#> sample_id count: 284
-#> filtered: FALSE
-#> resampled: FALSE
-#> EAF: FALSE
+#> group: none 
+#> feature_id count: 2030 of 2030 
+#> sample_id count: 284 
+#> filtered: FALSE 
+#> resampled: FALSE 
+#> EAF: FALSE 
 #> growth: FALSE
 ```
 
@@ -368,8 +373,8 @@ qsip_object |>
 
 The `isotope` argument is what defines the labeled and unlabeled values
 for the comparisons. This can be more complex, particularly if you have
-more than one isotopolog. For example, a study with some 13C sources,
-other 15N sources, and a shared 12C/14N natural abundance source
+more than one isotopolog. For example, a study with some ¹³C sources,
+other ¹⁵N sources, and a shared ¹²C/¹⁴N natural abundance source
 material. Please reach out via `qSIP2` github issues for more complex
 study designs.
 
@@ -391,7 +396,7 @@ The
 function is entirely informational, but it is possible to pipe this
 output into the
 [`run_comparison_groups()`](https://jeffkimbrel.github.io/qSIP2/reference/run_comparison_groups.md)
-function. This more advanced use in detailed in the [Multiple qSIP
+function. This more advanced use is detailed in the [Multiple qSIP
 Objects
 vignette](https://jeffkimbrel.github.io/qSIP2/articles/multiple_objects.md).
 
@@ -426,8 +431,8 @@ qsip_normal <- run_feature_filter(qsip_object,
 Note, although I said earlier you can overwrite your `qsip_data` objects
 as you go, here it might make sense to create two versions for the
 moisture treatments. We’ll take the original `qsip_object` and save the
-filtered Normal dataset to
-`qsip_normal', and the Drought to`qsip_drought\`.
+filtered Normal dataset to `qsip_normal`, and the Drought to
+`qsip_drought`.
 
 Of the 1,705 features found in the “Normal” data, we can see our rather
 strict filtering removed all but 64 features from the dataset.
@@ -461,13 +466,14 @@ Figure 4: Per-source filtering results for the “normal” dataset.
 
 Although a large number of features were removed, we can tell that the
 64 that remained actually still make up a large proportion of the total
-abundance in each sample. In **A** above, the retained features (in
-blue) make up ~75-85% of the total data, while the removed data (orange)
-is the remaining ~15-25%.
+abundance in each sample. In panel A of
+[Figure 4](#fig-plot_filter_results1), the retained features (in blue)
+make up ~75-85% of the total data, while the removed data (orange) is
+the remaining ~15-25%.
 
-In **B**, we can see that a surprisingly large number of features are
+In panel B, we can see that a surprisingly large number of features are
 found 0 times in many sources (gray) and will therefore never be present
-regardless of our filtering choices. And although there are are ~100-200
+regardless of our filtering choices. And although there are ~100-200
 features that passed the filtering requirements (blue), our requirement
 that `min_unlabeled_sources = 6` and `min_labeled_sources = 3` means
 that only the features present in many of the blue slices will be
@@ -537,34 +543,15 @@ qsip_normal <- run_resampling(qsip_normal,
 #>   <qsip_data> object to inspect.
 ```
 
-As this step requires some random sampling it is good practice to set
-the “seed”. Rather than doing this outside of the function, you can pass
-the seed as an argument. If you leave blank, it will generate a random
-seed. The seed will generate the same results each time you run the
-resampling process.
+> **Note:**
+> [`run_resampling()`](https://jeffkimbrel.github.io/qSIP2/reference/run_resampling.md)
+> accepts a `with_seed` argument to make results reproducible — passing
+> the same seed will always produce identical output. If omitted, a
+> random seed is generated. See the [resampling
+> vignette](https://jeffkimbrel.github.io/qSIP2/articles/resampling.md)
+> for more detail.
 
-``` r
-qsip_normal_17_again <- run_resampling(qsip_normal,
-  resamples = 1000,
-  with_seed = 17,
-  progress = FALSE
-)
-#> Warning: 1 unlabeled and 0 labeled feature_ids had resampling failures.
-#> ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your
-#>   <qsip_data> object to inspect.
-
-# two runs are identical
-identical(qsip_normal, qsip_normal_17_again)
-#> [1] TRUE
-identical(qsip_normal@resamples$l[[334]], qsip_normal_17_again@resamples$l[[334]])
-#> [1] TRUE
-
-# but individual resamplings within are different
-identical(qsip_normal@resamples$l[[1]], qsip_normal@resamples$l[[2]])
-#> [1] FALSE
-```
-
-Ressampling of the drought dataset. Notice at this step we are
+Resampling of the drought dataset. Notice at this step we are
 overwriting the original `qsip_drought` with the results of
 [`run_resampling()`](https://jeffkimbrel.github.io/qSIP2/reference/run_resampling.md),
 rather than creating new objects.
@@ -583,7 +570,7 @@ qsip_drought <- run_resampling(qsip_drought,
 It is possible to get a resampling error if your filtering is too
 strict. If so, consult the [resampling
 vignette](https://jeffkimbrel.github.io/qSIP2/articles/resampling.md)
-and consider running with `allow_failures = T`.
+and consider running with `allow_failures = TRUE`.
 
 ### EAF calculations
 
@@ -599,14 +586,14 @@ split into two functions simply because the
 [`run_EAF_calculations()`](https://jeffkimbrel.github.io/qSIP2/reference/run_EAF_calculations.md)
 can take a little longer, allowing different parameters to be tried in
 [`summarize_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.md)
-without having to recalculate everything. More more information see the
+without having to recalculate everything. For more information see the
 [EAF vignette](https://jeffkimbrel.github.io/qSIP2/articles/EAF.md).
 
 We’ll also
 [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) to add
 the original Moisture condition to each dataframe before we combine
 them. Note, there is a better way to run and get results with multiple
-`qSIP2` objects - more details below.
+`qSIP2` objects — more details below.
 
 ``` r
 qsip_normal <- run_EAF_calculations(qsip_normal)
@@ -690,6 +677,8 @@ df = run_delta_EAF_contrasts(qsip_list, confidence = 0.95)
 | ASV_12     | Drought vs Normal |  0.0482223 |  0.0031208 | 0.0895461 | 0.0225526 |   0.036 | NA              | 0.0324997 | NA               |
 | ASV_13     | Drought vs Normal |  0.0482378 |  0.0001856 | 0.0936535 | 0.0235292 |   0.048 | NA              | 0.0403524 | NA               |
 
+Table 7: First few rows of delta EAF contrast results.
+
 Just looking at a few of these, the delta is the difference in EAF value
 for those features. Since the function “guessed” the contrasts and set
 as “Drought vs Normal”, this is saying “Drought” is the control, and the
@@ -703,7 +692,7 @@ that the true delta is approximately zero.
 It is possible to work with multiple `qsip_data` objects if they are in
 a list. This is detailed in the [multiple objects
 vignette](https://jeffkimbrel.github.io/qSIP2/articles/multiple_objects.md),
-but here is a sneak peak where we can use the existing
+but here is a sneak peek where we can use the existing
 [`summarize_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.md)
 or
 [`plot_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_EAF_values.md)
@@ -713,7 +702,7 @@ Like above in the delta EAF section, this also involves using a list of
 `qsip_data` objects.
 
 ``` r
-df = summarize_EAF_values(qsip_list) 
+df = summarize_EAF_values(qsip_list)
 #> ℹ Confidence level = 0.9
 ```
 
@@ -730,6 +719,8 @@ df = summarize_EAF_values(qsip_list)
 | Normal  | ASV_114    |    0.1926455 |          0.1918100 |  0.1234247 |  0.2683575 | 0.000 |              1000 |                1000 |               3 |                 7 |
 | Drought | ASV_114    |    0.2160639 |          0.2167657 |  0.1304984 |  0.2998898 | 0.000 |              1000 |                1000 |               3 |                 7 |
 
+Table 8: First 10 rows of EAF results across both moisture comparisons.
+
 ``` r
 plot_EAF_values(qsip_list, 
                 confidence = 0.9, 
@@ -738,14 +729,16 @@ plot_EAF_values(qsip_list,
 #> ℹ Confidence level = 0.9
 ```
 
-![](qSIP_workflow_files/figure-html/plot_EAF_values_list-1.png)
+![](qSIP_workflow_files/figure-html/fig-plot_EAF_values_list-1.png)
 
-Both treatments shown together with a shared Y axis.
+Figure 8: Both treatments shown together with a shared y-axis.
 
 This version of the workflow still requires running each comparison
 separately. A cleaner workflow, and the recommended route, is to define
-your comparisons upstream, even in an Excel file, and run that dataframe
-through the workflow. Details can be found in the [Multiple qSIP Objects
+your comparisons upstream using
+[`run_comparison_groups()`](https://jeffkimbrel.github.io/qSIP2/reference/run_comparison_groups.md)
+— even from an Excel file — and pipe that directly through the workflow.
+Details can be found in the [multiple objects
 vignette](https://jeffkimbrel.github.io/qSIP2/articles/multiple_objects.md).
 
 ## Piped workflow
@@ -768,7 +761,7 @@ qsip_normal <- run_feature_filter(qsip_object,
   quiet = TRUE
 ) |>
   run_resampling(with_seed = 44, 
-                 progress = F) |>
+                 progress = FALSE) |>
   run_EAF_calculations()
 ```
 

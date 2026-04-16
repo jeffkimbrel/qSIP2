@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.6.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,18 +101,27 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.23.6.9000'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.23.8'</span></span></code></pre></div>
 </div>
 <section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
-<p>After your <code>qsip_data</code> object has been filtered and resampled, the last step is to calculate the excess atom fraction (EAF) values for each feature. The EAF is a measure of the proportion of a feature that is derived from the labeled substrate. For each of the resamples, the <code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code> runs equations from Hungate et al. 2015<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;https://journals.asm.org/doi/10.1128/aem.02280-15&lt;/p&gt;"><sup>1</sup></a> to calculate EAF values, and the <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> function calculates the mean and confidence intervals for each feature.</p>
-</section><section class="section level2"><h2 id="getting-eaf-values">Getting EAF values<a class="anchor" aria-label="anchor" href="#getting-eaf-values"></a>
+<section class="level2"><h3 id="what-is-eaf">What is EAF?<a class="anchor" aria-label="anchor" href="#what-is-eaf"></a>
+</h3>
+<p>The excess atom fraction (EAF) quantifies isotope incorporation at the level of individual features (e.g. ASVs, MAGs). It represents the proportion of a feature’s biomass that was synthesized from the labeled substrate during the incubation period. EAF values are calculated from the shift in weighted average density (WAD) between unlabeled and labeled samples, following the equations in Hungate et al. 2015<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Hungate et al. 2015, &lt;em&gt;Applied and Environmental Microbiology&lt;/em&gt;. &lt;a href="https://journals.asm.org/doi/10.1128/aem.02280-15" class="external-link uri"&gt;https://journals.asm.org/doi/10.1128/aem.02280-15&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a>.</p>
+<p>EAF values range from 0 to 1, where 0 indicates no incorporation of the label and 1 indicates that all biomass was derived from the labeled substrate. Negative EAF values are mathematically possible and typically indicate that a feature is slightly denser in the unlabeled treatment than the labeled — usually a result of natural variation rather than true incorporation.</p>
+</section><section class="level2"><h3 id="how-eaf-is-calculated">How EAF is calculated<a class="anchor" aria-label="anchor" href="#how-eaf-is-calculated"></a>
+</h3>
+<p><code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code> applies the Hungate et al. equations to each bootstrap resample independently, producing a distribution of EAF estimates per feature. <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> then collapses that distribution into a mean and confidence interval. This resampling-based approach is what allows <code>qSIP2</code> to propagate uncertainty from the WAD estimates through to the final EAF values.</p>
+</section><section class="level2"><h3 id="working-with-multiple-comparisons">Working with multiple comparisons<a class="anchor" aria-label="anchor" href="#working-with-multiple-comparisons"></a>
+</h3>
+<p>This vignette uses a list of <code>qsip_data</code> objects representing different experimental comparisons (e.g. “Normal” vs. “Drought” moisture treatments). The list-based workflow is covered in the <a href="multiple_objects.html">multiple objects vignette</a> — here we focus on the EAF calculations and how to interpret and visualize the results.</p>
+</section></section><section class="section level2"><h2 id="getting-eaf-values">Getting EAF values<a class="anchor" aria-label="anchor" href="#getting-eaf-values"></a>
 </h2>
-<p>We can start by making a <code>qsip_data</code> object with multiple comparisons using code from the <code>vignette("multiple_objects)</code> vignette. This will make two comparisons (“Normal” and “Drought”) that include the output from <code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code>.</p>
+<p>The following code builds two comparisons — “Normal” and “Drought” — using <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code>, which internally calls <code><a href="../reference/run_EAF_calculations.html">run_EAF_calculations()</a></code> on each.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qsip_list</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_comparison_groups.html">get_comparison_groups</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, group <span class="op">=</span> <span class="st">"Moisture"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="st">"group"</span> <span class="op">=</span> <span class="va">Moisture</span>, <span class="st">"unlabeled"</span> <span class="op">=</span> <span class="st">"12C"</span>, <span class="st">"labeled"</span> <span class="op">=</span> <span class="st">"13C"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="st">"group"</span> <span class="op">=</span> <span class="va">Moisture</span>, <span class="st">"unlabeled"</span> <span class="op">=</span> <span class="st">"12C"</span>, <span class="st">"labeled"</span> <span class="op">=</span> <span class="st">"13C"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/run_comparison_groups.html">run_comparison_groups</a></span><span class="op">(</span><span class="va">example_qsip_object</span>, </span>
 <span>                        seed <span class="op">=</span> <span class="fl">99</span>,</span>
 <span>                        allow_failures <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -122,71 +131,84 @@
 </div>
 <section class="level2"><h3 id="plotting">Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a>
 </h3>
-<p>Plotting the results shows a wide range of EAF values between the two comparisons.</p>
+<p>Plotting the results shows a wide range of EAF values between the two comparisons (<a href="#fig-eaf-default" class="quarto-xref">Figure 1</a>).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre></div>
 <div class="cell-output-display">
-<div>
-<figure><p><img src="EAF_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
-</figure>
+<div id="fig-eaf-default" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-eaf-default-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="EAF_files/figure-html/fig-eaf-default-1.png" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eaf-default-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 1: EAF values for the Normal and Drought comparisons using default settings (90% confidence interval).
+</figcaption></figure>
 </div>
 </div>
 </div>
-<p>The 90% confidence interval is calculated by default, but this can be modified and added to the plot with the <code>confidence</code> and <code>error</code> arguments.</p>
+<p>The <code>color_by</code> argument controls how features are colored. By default features are colored blue, but <code>color_by = "pval"</code> colors by significance and <code>color_by = "success"</code> colors by whether features meet the threshold set by the <code>success_ratio</code> parameter — which is only meaningful if <code>allow_failures = TRUE</code> was set during resampling. The <code>confidence</code> and <code>error</code> arguments control the interval style.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span>, </span>
-<span>                confidence <span class="op">=</span> <span class="fl">0.95</span>, </span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span>,</span>
+<span>                confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>                error <span class="op">=</span> <span class="st">"ribbon"</span>,</span>
-<span>                title <span class="op">=</span> <span class="st">"95% CI"</span><span class="op">)</span></span>
+<span>                color_by <span class="op">=</span> <span class="st">"pval"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Confidence level = 0.95</span></span></code></pre></div>
 <div class="cell-output-display">
-<div>
-<figure><p><img src="EAF_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
-</figure>
+<div id="fig-eaf-ribbon" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-eaf-ribbon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="EAF_files/figure-html/fig-eaf-ribbon-1.png" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eaf-ribbon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 2: EAF values colored by p-value significance, compared to the default blue coloring in <a href="#fig-eaf-default" class="quarto-xref">Figure 1</a>. A 95% confidence interval is shown as a ribbon.
+</figcaption></figure>
 </div>
 </div>
 </div>
 <p>The number of features can be filtered to include the <em>n</em> with the highest EAF.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span>, </span>
-<span>                top <span class="op">=</span> <span class="fl">50</span>, </span>
-<span>                error <span class="op">=</span> <span class="st">"bar"</span>,</span>
-<span>                title <span class="op">=</span> <span class="st">"95% CI"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span>,</span>
+<span>                top <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>                error <span class="op">=</span> <span class="st">"bar"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre></div>
 <div class="cell-output-display">
-<div>
-<figure><p><img src="EAF_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
-</figure>
+<div id="fig-eaf-top50" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-eaf-top50-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="EAF_files/figure-html/fig-eaf-top50-1.png" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eaf-top50-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 3: Top 50 features by EAF value with 90% confidence intervals shown as error bars.
+</figcaption></figure>
 </div>
 </div>
 </div>
-<p>By default, the facets do not share the same y-axis so each comparison are sorted from highto low independently. But, if you want to compare the EAF values between the two comparisons, you can set <code>shared_y = TRUE</code>. Keep in mind that the top <em>n</em> is calculated for each, so you may end up with more than <em>n</em> features in the plot if there isn’t much overlap between the two comparisons.</p>
+<p>By default, the facets do not share the same y-axis so each comparison is sorted from high to low independently. But, if you want to compare the EAF values between the two comparisons, you can set <code>shared_y = TRUE</code>. Keep in mind that the top <em>n</em> is calculated for each, so you may end up with more than <em>n</em> features in the plot if there isn’t much overlap between the two comparisons.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span>, </span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">qsip_list</span>,</span>
 <span>                top <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>                shared_y <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                error <span class="op">=</span> <span class="st">"bar"</span>,</span>
-<span>                title <span class="op">=</span> <span class="st">"Y-axis shared for both comparisons"</span><span class="op">)</span></span>
+<span>                error <span class="op">=</span> <span class="st">"bar"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: When `shared_y` is "TRUE" and `top` is set, data may be missing from plots if a</span></span>
 <span><span class="co">#&gt; feature ranks in the top 50 of one comparison but not another.</span></span>
 <span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre></div>
 <div class="cell-output-display">
-<div>
-<figure><p><img src="EAF_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
-</figure>
+<div id="fig-eaf-shared-y" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-eaf-shared-y-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="EAF_files/figure-html/fig-eaf-shared-y-1.png" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eaf-shared-y-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 4: Top 50 features with a shared y-axis across both comparisons.
+</figcaption></figure>
 </div>
 </div>
 </div>
 <blockquote>
 <p><strong>Warning:</strong> As seen in the warning above, a current limitation when using <code>shared_y = TRUE</code> together with the <code>top</code> argument is that only the top <em>n</em> will be shown per facet, giving a blank value for any features that are not in the top <em>n</em> for that comparison. This does not mean they lack EAF values or were not found. This limitation may be addressed in the future.</p>
 </blockquote>
-<p>As a reminder from the resampling vignette, the “successess” in the legend and colors refer to whether the resampling was successful above a certain threshold. The plot will display whether they pass/fail if the <code>allow_failures</code> argument is set to <code>TRUE</code> in the resampling step.</p>
-</section><section class="level2"><h3 id="dataframe">Dataframe<a class="anchor" aria-label="anchor" href="#dataframe"></a>
+</section><section class="level2"><h3 id="returning-results-as-a-data-frame">Returning results as a data frame<a class="anchor" aria-label="anchor" href="#returning-results-as-a-data-frame"></a>
 </h3>
 <p>You can also return the results as a dataframe using <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code> and a desired confidence (default is 90%).</p>
 <div class="cell">
@@ -195,9 +217,12 @@
 </div>
 <div class="cell">
 <pre><code><span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre>
+<div id="tbl-eaf-summary" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-eaf-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 1: The first few rows of EAF results across all comparisons.
+</figcaption><div aria-describedby="tbl-eaf-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table caption-top">
-<caption>The first few lines of output</caption>
+<table class="table cell caption-top">
 <colgroup>
 <col style="width: 5%">
 <col style="width: 7%">
@@ -307,9 +332,13 @@
 </table>
 </div>
 </div>
-</section></section><section class="section level2"><h2 id="more-details">More details<a class="anchor" aria-label="anchor" href="#more-details"></a>
+</figure>
+</div>
+</div>
+</section></section><section class="section level2"><h2 id="exploring-individual-features">Exploring individual features<a class="anchor" aria-label="anchor" href="#exploring-individual-features"></a>
 </h2>
-<p>Individual features can be inspected further to help understand why their EAF values were calculated as they were. As an example, we will pick 4 features that had a range of EAF values for the “Drought” comparison, one each with high, medium, low, and negative EAF values.</p>
+<p>EAF values alone don’t always tell the full story. A feature might have a surprisingly high or negative EAF, and understanding why requires looking at the underlying data — how the density curves are shaped, whether the resampling distributions overlap, and how consistently the feature appears across fractions. <code>qSIP2</code> provides several functions for this kind of exploration, and it’s worth using them to QC results before drawing conclusions.</p>
+<p>As an example, we will pick 4 features spanning the range of EAF values in the “Drought” comparison — one each with high, medium, low, and negative EAF values — and use <code><a href="../reference/summarize_EAF_values.html">summarize_EAF_values()</a></code>, <code><a href="../reference/plot_feature_curves.html">plot_feature_curves()</a></code>, <code><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings()</a></code>, and <code><a href="../reference/plot_feature_occurrence.html">plot_feature_occurrence()</a></code> to understand what’s driving each result.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">features</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ASV_72"</span>, <span class="st">"ASV_7"</span>, <span class="st">"ASV_180"</span>, <span class="st">"ASV_100"</span><span class="op">)</span></span>
@@ -319,9 +348,12 @@
 </div>
 <div class="cell">
 <pre><code><span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre>
+<div id="tbl-feature-eaf" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-feature-eaf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 2: EAF results for 4 chosen features from the Drought comparison, ordered by decreasing mean EAF.
+</figcaption><div aria-describedby="tbl-feature-eaf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table caption-top" style="width:100%;">
-<caption>EAF results for 4 chosen features</caption>
+<table class="table cell caption-top" style="width:100%;">
 <colgroup>
 <col style="width: 7%">
 <col style="width: 9%">
@@ -399,49 +431,67 @@
 </table>
 </div>
 </div>
+</figure>
+</div>
+</div>
 <p>Using a combination of <code><a href="../reference/plot_feature_curves.html">plot_feature_curves()</a></code> and <code><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings()</a></code> we can plot these 4 features (with some help from the <code>patchwork</code> library).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">a</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_feature_curves.html">plot_feature_curves</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">$</span><span class="va">Drought</span>, <span class="va">features</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">feature_id</span>, nrow <span class="op">=</span> <span class="fl">1</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span></span>
 <span><span class="va">b</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_feature_resamplings.html">plot_feature_resamplings</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">$</span><span class="va">Drought</span>, <span class="va">features</span>, intervals <span class="op">=</span> <span class="st">"bar"</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">feature_id</span>, nrow <span class="op">=</span> <span class="fl">1</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span></span>
-<span><span class="op">(</span><span class="va">a</span> <span class="op">/</span> <span class="va">b</span><span class="op">)</span> <span class="op">+</span> </span>
+<span><span class="op">(</span><span class="va">a</span> <span class="op">/</span> <span class="va">b</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html" class="external-link">plot_layout</a></span><span class="op">(</span>axes <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html" class="external-link">plot_annotation</a></span><span class="op">(</span>tag_levels <span class="op">=</span> <span class="st">'A'</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
-<div>
-<figure><p><img src="EAF_files/figure-html/unnamed-chunk-11-1.png" width="960"></p>
-</figure>
+<div id="fig-feature-curves" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-feature-curves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="EAF_files/figure-html/fig-feature-curves-1.png" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-feature-curves-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 5: Density curves (A) and resampling distributions (B) for four example features from the Drought comparison.
+</figcaption></figure>
 </div>
 </div>
 </div>
-<p>For ASV_7 and ASV_72, it is clear in “A” that the 13C labeled isotope has a nice shift compared to the unlabeled 12C sources. Indeed, the resampling results summarized in “B” also show a clear distinction with non-overlapping confidence intervals. ASV_180, which had an EAF value close to zero shows a much smaller density shift between the unlabeled and labeled samples, and the resampling results show overlapping confidence intervals.</p>
-<p>ASV_100, on the other hand, shows a negative EAF value. In “A” we can see the peaks of the 13C do appear shifted left of the 12C, and although the confidence intervals do not overlap, we don’t expect to see lower 13C density values compared to 12C. In “A”, it appears two of the 13C lines abruptly end, which may be a sign that ASV_100 doesn’t occur in as many fractions as necessary.</p>
+<p>For ASV_7 and ASV_72, it is clear in panel A of <a href="#fig-feature-curves" class="quarto-xref">Figure 5</a> that the <sup>13</sup>C labeled isotope has a nice shift compared to the unlabeled <sup>12</sup>C sources. Indeed, the resampling results summarized in panel B also show a clear distinction with non-overlapping confidence intervals. ASV_180, which had an EAF value close to zero shows a much smaller density shift between the unlabeled and labeled samples, and the resampling results show overlapping confidence intervals.</p>
+<p>ASV_100, on the other hand, shows a negative EAF value. In panel A we can see the peaks of the <sup>13</sup>C do appear shifted left of the <sup>12</sup>C, and although the confidence intervals do not overlap, we don’t expect to see lower <sup>13</sup>C density values compared to <sup>12</sup>C. In panel A, it appears two of the <sup>13</sup>C lines abruptly end, which may be a sign that ASV_100 doesn’t occur in as many fractions as necessary.</p>
 <p>The <code><a href="../reference/plot_feature_occurrence.html">plot_feature_occurrence()</a></code> function can be used to see how often a feature occurs in the samples and give some idea about whether they span the range of densities, are found in fractions close or far from one another, and how the calculated WAD value is affected by these occurrences.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_occurrence.html">plot_feature_occurrence</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">$</span><span class="va">Drought</span>, <span class="va">features</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
-<div>
-<figure><p><img src="EAF_files/figure-html/unnamed-chunk-12-1.png" width="960"></p>
-</figure>
+<div id="fig-feature-occurrence" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-feature-occurrence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="EAF_files/figure-html/fig-feature-occurrence-1.png" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-feature-occurrence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 6: Feature occurrence across density fractions for the four example features from the Drought comparison.
+</figcaption></figure>
 </div>
 </div>
 </div>
-<p>The plot above does show that ASV_100 stops appearing in some labeled sources after a density of ~1.7. With more arguments we can add the WAD and relative abundance values to the make the following figure. Here, the size of the circle represents the relative abundance of the feature in the sample, and for ASV_100 we see the most abundant fraction does heavily influence the calculated WAD value (vertical bar). So, although missing data on the “right side” of the curve may lead to issues, it doesn’t seem to affect the WAD value for ASV_100, assuming the peak of the values are in that most abundant fraction.</p>
+<p><a href="#fig-feature-occurrence" class="quarto-xref">Figure 6</a> shows that ASV_100 stops appearing in some labeled sources after a density of ~1.7. With <code>show_wad = TRUE</code> and <code>scale = "feature"</code> we can overlay the WAD values and relative abundance (<a href="#fig-feature-occurrence-wad" class="quarto-xref">Figure 7</a>). Here, the size of the circle represents the relative abundance of the feature in the sample, and for ASV_100 we see the most abundant fraction does heavily influence the calculated WAD value (vertical bar). So, although missing data on the “right side” of the curve may lead to issues, it doesn’t seem to affect the WAD value for ASV_100, assuming the peak of the values are in that most abundant fraction.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_occurrence.html">plot_feature_occurrence</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">$</span><span class="va">Drought</span>, </span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_feature_occurrence.html">plot_feature_occurrence</a></span><span class="op">(</span><span class="va">qsip_list</span><span class="op">$</span><span class="va">Drought</span>,</span>
 <span>                        <span class="va">features</span>,</span>
 <span>                        show_wad <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                        scale <span class="op">=</span> <span class="st">"feature"</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
-<div>
-<figure><p><img src="EAF_files/figure-html/unnamed-chunk-13-1.png" width="960"></p>
-</figure>
+<div id="fig-feature-occurrence-wad" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-feature-occurrence-wad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="EAF_files/figure-html/fig-feature-occurrence-wad-1.png" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-feature-occurrence-wad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 7: Feature occurrence with WAD values (vertical bar) and relative abundance (circle size) overlaid.
+</figcaption></figure>
 </div>
 </div>
 </div>
-<p>The above plot can also help identify additional potential issues. For example, ASV_72 was one of the features with the highest EAF values, but it looks like source S200 only has it in the extremely heavy fractions, and it has a calculated WAD that is much higher than the other 13C sources. When we ran <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> at the very beginning we didn’t define a minimum number of fractions, so the default of 2 was used. We might, however, consider increasing the minimum number of labeled fractions required to remove sources with feature occurrences like ASV_72 in source S200.</p>
+<p><a href="#fig-feature-occurrence-wad" class="quarto-xref">Figure 7</a> can also help identify additional potential issues. For example, ASV_72 was one of the features with the highest EAF values, but it looks like source S200 only has it in the extremely heavy fractions, and it has a calculated WAD that is much higher than the other <sup>13</sup>C sources. When we ran <code><a href="../reference/run_comparison_groups.html">run_comparison_groups()</a></code> at the very beginning we didn’t define a minimum number of fractions, so the default of 2 was used. We might, however, consider increasing the minimum number of labeled fractions required to remove sources with feature occurrences like ASV_72 in source S200.</p>
+</section><section class="section level2"><h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h2>
+<p>EAF values quantify isotope incorporation at the feature level, and the exploration tools shown here — density curves, resampling distributions, and occurrence plots — are valuable for understanding what drives any given result before drawing biological conclusions. The next step in the workflow is <a href="delta_EAF.html">delta EAF</a>, which extends this framework to compare EAF values between experimental groups.</p>
 </section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);

@@ -3,10 +3,11 @@
 ``` r
 library(dplyr)
 library(ggplot2)
+library(patchwork)
 library(stringr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.6.9000'
+#> [1] '0.23.8'
 ```
 
 ## Background
@@ -44,13 +45,13 @@ or `get_all_by_isotope(qsip_object, "unlabeled")`).
 
 There are internal validations for this step to make sure the sources
 provided to a given argument make sense with the isotope designation in
-the source data. For example, if you try to give a 13C source to the
+the source data. For example, if you try to give a ¹³C source to the
 `unlabeled_source_mat_ids` then there will be an error. If you try
-sources with a mixture of heavy isotopes (e.g. 13C and 15N) to the
+sources with a mixture of heavy isotopes (e.g. ¹³C and ¹⁵N) to the
 `labeled_source_mat_ids` then there will be an error. This can happen
 either explicitly by providing the wrong source_mat_id values, or if you
 have a mixture and choose “labeled” for `labeled_source_mat_ids`. Having
-a mixture of unlabeled source isotopes (e.g. 12C and 14N), however, is
+a mixture of unlabeled source isotopes (e.g. ¹²C and ¹⁴N), however, is
 allowed and will not give an error.
 
 The group argument is optional (but recommended) and provides a place
@@ -83,9 +84,18 @@ least that many samples (fractions).
 
 The results of the last filtering step are used in this step to make a
 final call for a `feature_id` in that comparison. If a feature is found
-in at lesat the number of sources defined in `min_unlabeled_sources` and
+in at least the number of sources defined in `min_unlabeled_sources` and
 `min_labeled_sources`, then it will survive the filtering step and move
 on to resampling/EAF calculations.
+
+> **Note:** When a `qsip_data` object is first created, tube relative
+> abundances are calculated for all features together — this
+> normalization step requires all features to be present at once. After
+> that point, however, each feature’s WAD calculation and subsequent EAF
+> values are computed entirely independently. Filtering out one feature
+> has no effect on the results of any other. The filtered object carries
+> the same WAD values as the original; filtering simply determines which
+> features proceed to resampling and EAF calculations.
 
 ## Filtering example
 
@@ -121,31 +131,9 @@ loose <- run_feature_filter(example_qsip_object,
   min_unlabeled_sources = 2,
   min_labeled_sources = 2,
   min_unlabeled_fractions = 2,
-  min_labeled_fractions = 2
+  min_labeled_fractions = 2,
+  quiet = TRUE
 )
-#> There are initially 2030 unique feature_ids
-#> 1705 of these have abundance in at least one fraction of one source_mat_id
-#> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-#> 
-#> Filtering feature_ids by fraction...
-#> 
-#> ✖ 1519 unlabeled and 1417 labeled feature_ids found in zero fractions in at
-#>   least one source_mat_id
-#> ✖ 1210 unlabeled and 584 labeled feature_ids found in too few fractions in at
-#>   least one source_mat_id
-#> ✔ 780 unlabeled and 497 labeled feature_ids passed the fraction filter
-#> ℹ In total, 870 unique feature_ids passed the fraction filtering requirements
-#> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-#> 
-#> Filtering feature_ids by source...
-#> 
-#> ✖ 90 unlabeled and 373 labeled feature_ids failed the source filter because
-#>   they were found in zero sources
-#> ✖ 245 unlabeled and 189 labeled feature_ids failed the source filter because
-#>   they were found in too few sources
-#> ✔ 535 unlabeled and 308 labeled feature_ids passed the source filter
-#> ℹ In total, 257 unique feature_ids passed all fraction and source filtering
-#>   requirements
 
 restrictive <- run_feature_filter(example_qsip_object,
   unlabeled_source_mat_ids = get_all_by_isotope(example_qsip_object, "12C"),
@@ -153,41 +141,27 @@ restrictive <- run_feature_filter(example_qsip_object,
   min_unlabeled_sources = 6,
   min_labeled_sources = 3,
   min_unlabeled_fractions = 6,
-  min_labeled_fractions = 6
+  min_labeled_fractions = 6,
+  quiet = TRUE
 )
-#> There are initially 2030 unique feature_ids
-#> 1705 of these have abundance in at least one fraction of one source_mat_id
-#> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-#> 
-#> Filtering feature_ids by fraction...
-#> 
-#> ✖ 1519 unlabeled and 1417 labeled feature_ids found in zero fractions in at
-#>   least one source_mat_id
-#> ✖ 1440 unlabeled and 830 labeled feature_ids found in too few fractions in at
-#>   least one source_mat_id
-#> ✔ 299 unlabeled and 209 labeled feature_ids passed the fraction filter
-#> ℹ In total, 346 unique feature_ids passed the fraction filtering requirements
-#> =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-#> 
-#> Filtering feature_ids by source...
-#> 
-#> ✖ 47 unlabeled and 137 labeled feature_ids failed the source filter because
-#>   they were found in zero sources
-#> ✖ 196 unlabeled and 127 labeled feature_ids failed the source filter because
-#>   they were found in too few sources
-#> ✔ 103 unlabeled and 82 labeled feature_ids passed the source filter
-#> ℹ In total, 64 unique feature_ids passed all fraction and source filtering
-#>   requirements
 ```
 
 Here, only 64 features pass the more restrictive criteria, but we get
-257 by relaxing the criteria a little bit. The function messages are
-rather verbose, but they try to summarize the results of each step.
+257 by relaxing the criteria a little bit. By default,
+[`run_feature_filter()`](https://jeffkimbrel.github.io/qSIP2/reference/run_feature_filter.md)
+prints a verbose summary of each filtering step — use `quiet = TRUE` to
+suppress this.
 
-**Note:** Relaxing the criteria too much can lead to errors later during
-resampling. See
-[`vignette("resampling")`](https://jeffkimbrel.github.io/qSIP2/articles/resampling.md)
-for more information, or use the `allow_failures = TRUE` argument.
+> **Note:** Relaxing the criteria too much can lead to errors later
+> during resampling. An alternative approach is to set all `min_*`
+> parameters to `1` (effectively no upfront filtering) and use
+> `allow_failures = TRUE` in the resampling step to handle features that
+> fail there instead. This can be a flexible way to let the data
+> determine which features are usable, though the statistical
+> implications of this approach have not been thoroughly evaluated. See
+> the [resampling
+> vignette](https://jeffkimbrel.github.io/qSIP2/articles/resampling.md)
+> for more detail.
 
 ### Inspecting the filter results
 
@@ -221,6 +195,30 @@ columns and rows
 
 Table 3: Results of get_filter_results(restrictive), subsetting for some
 columns and rows
+
+By passing `type = "feature_ids"` to
+[`get_filter_results()`](https://jeffkimbrel.github.io/qSIP2/reference/get_filter_results.md),
+you can retrieve the actual feature IDs that passed or failed at each
+step rather than counts — useful for identifying specific features to
+investigate further.
+
+After filtering,
+[`get_object_summary()`](https://jeffkimbrel.github.io/qSIP2/reference/get_object_summary.md)
+gives a quick structured view of the object state, confirming the
+feature count and that the filtering step has been completed.
+
+``` r
+get_object_summary(restrictive)
+#> # A tibble: 6 × 2
+#>   metric           none      
+#>   <chr>            <chr>     
+#> 1 feature_id_count 64 of 2030
+#> 2 sample_id_count  284       
+#> 3 filtered         TRUE      
+#> 4 resampled        FALSE     
+#> 5 eaf              FALSE     
+#> 6 growth           FALSE
+```
 
 ### Following the fate of a certain feature
 
@@ -283,7 +281,8 @@ importance.
 | S179          | labeled   |           5 | Fraction Filtered         | Fraction Passed     |
 | S180          | labeled   |           7 | Fraction Passed           | Fraction Passed     |
 
-Table 4
+Table 4: Fraction-level filter results for ASV_100 under loose and
+restrictive filtering.
 
 Above, you can see that in the unlabeled samples, only S149 had a
 difference between restrictive and loose, but 2 of the 3 labeled samples
@@ -297,7 +296,8 @@ conclusions…
 | ASV_100    | labeled   |                     1 | Source Filtered         |               3 | Source Passed     |
 | ASV_100    | unlabeled |                     7 | Source Passed           |               8 | Source Passed     |
 
-Table 5
+Table 5: Source-level filter results for ASV_100 under loose and
+restrictive filtering.
 
 ### Plotting the results
 
@@ -307,13 +307,15 @@ features that are different are by plotting the fraction count
 distributions.
 
 ``` r
-library(patchwork)
 a = plot_filter_results(loose) + ggtitle("Loose")
 b = plot_filter_results(restrictive) + ggtitle("Restrictive")
 a / b
 ```
 
-![](filtering_files/figure-html/unnamed-chunk-6-1.png)
+![](filtering_files/figure-html/fig-filter-comparison-1.png)
+
+Figure 1: Per-source filtering results for loose (top) and restrictive
+(bottom) filtering thresholds.
 
 In the top plots, the blue is much larger than it is in the bottom
 plots, indicating more (obviously) made it through the loose filtering.
@@ -321,3 +323,15 @@ But, even though there are 4x more features in the loose dataset, it is
 only about a 15-20% increase in terms of the abundance of features in
 the original dataset. Also notice the gray bars will not change with
 different filtering because they are absent from those sources.
+
+## Conclusion
+
+Filtering determines which features carry forward into the analysis. The
+thresholds you choose here directly affect both the reliability of
+downstream WAD estimates and the number of features available for EAF
+calculations — stricter filtering produces fewer but more trustworthy
+results. Once you are satisfied with your filtered object, the next step
+is
+[resampling](https://jeffkimbrel.github.io/qSIP2/articles/resampling.md),
+where bootstrap resampling of WAD values is used to estimate confidence
+intervals for each feature.

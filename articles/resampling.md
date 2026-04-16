@@ -8,7 +8,7 @@ library(ggplot2)
 library(patchwork)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.6.9000'
+#> [1] '0.23.8'
 ```
 
 ## Background
@@ -38,8 +38,8 @@ For example, a single bootstrap replicate might look like this:
 |:-------|:-------|:-------|:-------|
 | B      | D      | A      | B      |
 
-Table 1: An single example of bootstrap draws where B is drawn twice,
-and C is not drawn at all.
+Table 1: A single example of bootstrap draws where B is drawn twice, and
+C is not drawn at all.
 
 We can repeat this process \\n\\ times to generate multiple bootstrap
 replicates:
@@ -59,11 +59,36 @@ Each row represents one bootstrap replicate, and each column
 format makes it clear that resampling is simply repeated random sampling
 with replacement, where duplicates can occur naturally.
 
+### Under the hood
+
+Internally, `qSIP2` reformats the resampling output to be tidy by
+replacing the original source names with positional column names
+prefixed by *type*. So if the data is the “labeled” type, the resampled
+columns become *labeled_1*, *labeled_2*, etc., with additional columns
+appended for downstream calculations.
+
+| feature_id | type    | resample | labeled_1 | labeled_2 | labeled_3 | labeled_4 |
+|:-----------|:--------|---------:|----------:|----------:|----------:|----------:|
+| 1          | labeled |        1 |     1.691 |     1.679 |     1.691 |     1.691 |
+| 1          | labeled |        2 |     1.679 |     1.679 |     1.692 |     1.679 |
+| 1          | labeled |        3 |     1.691 |     1.703 |     1.691 |     1.691 |
+| 1          | labeled |        4 |     1.692 |     1.692 |     1.703 |     1.692 |
+| 1          | labeled |        5 |     1.691 |     1.679 |     1.692 |     1.679 |
+
+Table 3: Output format of one bootstrap replicate applied to the toy WAD
+values, showing the positional column naming used internally by qSIP2.
+
+> **Note:** Each resampling produces a different set of draws, but
+> within a given resample the same draws are applied to all features.
+> For example, if resample \#1 yields `A A C D`, those same WAD values
+> are used for every feature in that resample. This behavior can have
+> consequences, discussed below.
+
 ## qSIP2 resampling
 
 The `qSIP2` package has a function called
 [`run_resampling()`](https://jeffkimbrel.github.io/qSIP2/reference/run_resampling.md)
-that will perform the resampling procedure on a filtered `qSIP_data`
+that will perform the resampling procedure on a filtered `qsip_data`
 object. This object must first be filtered with the
 [`run_feature_filter()`](https://jeffkimbrel.github.io/qSIP2/reference/run_feature_filter.md)
 function, and we’ll come back to how this filtering affects the
@@ -77,8 +102,8 @@ q <- run_feature_filter(example_qsip_object,
   min_labeled_sources = 3,
   min_unlabeled_fractions = 6,
   min_labeled_fractions = 6,
-  quiet = TRUE # running with quiet = TRUE to suppress messages
-) 
+  quiet = TRUE
+)
 
 q <- run_resampling(q,
   resamples = 1000,
@@ -94,31 +119,27 @@ Setting `resamples = 1000` will give 1000 resamplings for each feature.
 The resampling is not a deterministic procedure, and so the use of a
 seed is recommended using the `with_seed` argument.
 
-### Under the hood
+The warning above indicates that 7 unlabeled features had resampling
+failures. We’ll return to this in the [When resampling goes
+wrong](#when-resampling-goes-wrong) section to determine whether these
+failures are severe enough to be a concern.
 
-Internally, the `qSIP2` code has a function that is called that makes
-the resampling output a bit more tidy. It does this by removing the
-original names and prepending them with the *type*. So, if the data was
-the “labeled” type, then resampled values will be in columns
-*labeled_1*, *labeled_2*, etc. It will also keep the data tidy by adding
-additional columns that are useful.
+After resampling,
+[`get_object_summary()`](https://jeffkimbrel.github.io/qSIP2/reference/get_object_summary.md)
+confirms the updated state of the object.
 
-| feature_id | type    | resample | labeled_1 | labeled_2 | labeled_3 | labeled_4 |
-|:-----------|:--------|---------:|----------:|----------:|----------:|----------:|
-| 1          | labeled |        1 |     1.692 |     1.692 |     1.692 |     1.679 |
-| 1          | labeled |        2 |     1.692 |     1.692 |     1.691 |     1.692 |
-| 1          | labeled |        3 |     1.692 |     1.679 |     1.692 |     1.691 |
-| 1          | labeled |        4 |     1.691 |     1.692 |     1.692 |     1.691 |
-| 1          | labeled |        5 |     1.691 |     1.691 |     1.692 |     1.691 |
-
-Table 3: The labeled and unlabeled WAD values for each feature under go
-separate resamplings
-
-**Note:** Each resampling produces a different set of draws, but within
-a given resample the same draws are applied to all features. For
-example, if resample \#1 yields `A A C D`, those same WAD values are
-used for every feature in that resample. This behavior can have
-consequences, discussed below.
+``` r
+get_object_summary(q)
+#> # A tibble: 6 × 2
+#>   metric           none      
+#>   <chr>            <chr>     
+#> 1 feature_id_count 74 of 2030
+#> 2 sample_id_count  284       
+#> 3 filtered         TRUE      
+#> 4 resampled        TRUE      
+#> 5 eaf              FALSE     
+#> 6 growth           FALSE
+```
 
 ## Inspect resample results
 
@@ -171,10 +192,10 @@ features. Here, I will select 3 random feature_ids to show.
 
 ``` r
 set.seed(52)
-random_features <- sample(get_feature_ids(q, filtered = T), 3)
-plot_feature_resamplings(q, 
+random_features <- sample(get_feature_ids(q, filtered = TRUE), 3)
+plot_feature_resamplings(q,
                          feature_id = random_features,
-                         interval = "bar",
+                         intervals = "bar",
                          confidence = 0.95)
 ```
 
@@ -230,9 +251,9 @@ rather than smoothly. Each point is mean WAD value for one of the 1000
 successful resamplings.
 
 ``` r
-plot_feature_resamplings(q, 
+plot_feature_resamplings(q,
                          feature_id = random_features,
-                         interval = "bar",
+                         intervals = "bar",
                          confidence = 0.95,
                          points = TRUE)
 #> Scale for fill is already present.
@@ -268,7 +289,7 @@ be found in at least 6 fractions in at least 3 source_mat_ids, the data
 is still used from all sources if a feature passes. So, although ASV_24
 was not found in 6 fractions in S150 and S151, and ASV_56 also didn’t
 have enough fractions in S151, the WAD values for these cases are still
-used because these overall these features passed the filtering criteria.
+used because these features overall passed the filtering criteria.
 
 ## When resampling goes wrong
 
@@ -292,7 +313,7 @@ q2 <- run_feature_filter(example_qsip_object,
   min_unlabeled_fractions = 6,
   min_labeled_fractions = 6,
   quiet = TRUE
-) # running with quiet = TRUE to suppress messages
+)
 ```
 
 | feature_id | source_mat_id |      WAD | n_fractions |
@@ -305,6 +326,9 @@ q2 <- run_feature_filter(example_qsip_object,
 | ASV_72     | S162          | 1.713647 |          18 |
 | ASV_72     | S163          | 1.713918 |          19 |
 | ASV_72     | S164          | 1.714959 |          19 |
+
+Table 6: WAD values for ASV_72, showing NaN for labeled sources where it
+did not meet the fraction threshold.
 
 But we now get an error when running the resampling step suggesting we
 increase our filtering stringency.
@@ -326,7 +350,7 @@ run_resampling(q2,
 #> → Or, trying running with `allow_failures = TRUE`
 ```
 
-#### Handling missing values during bootstrap resampling
+### Handling missing values during bootstrap resampling
 
 Bootstrap resampling in `qSIP2` is performed at the level of samples
 (i.e., columns). For each bootstrap replicate, a set of columns is
@@ -385,55 +409,63 @@ q2 <- run_resampling(q2,
 #>   <qsip_data> object to inspect.
 ```
 
-The warning message here lets us know that there were no problems with
-the unlabeled resampling, but several features had failures for the
-labeled sources. We can see which features had failures by
-[`get_resample_counts()`](https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.md)
-and filtering for values of \\n\\ less than 1000 (our number of
-resamples).
+The warning message here indicates failures in both the unlabeled and
+labeled resampling — 17 unlabeled and several labeled features had
+failures. This is similar in kind to the 7 unlabeled failures we saw in
+the initial `q` object, but more pronounced due to the relaxed filtering
+in `q2`. We can see which specific features had failures using
+[`get_resample_counts()`](https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.md),
+filtering for values of \\n\\ less than 1000 (our number of resamples).
 
 ``` r
-get_resample_counts(q2) |> 
-  filter(labeled_resamples < 1000 | unlabeled_resamples < 1000)
-#> # A tibble: 17 × 3
-#>    feature_id labeled_resamples unlabeled_resamples
-#>    <chr>                  <int>               <int>
-#>  1 ASV_113                 1000                 334
-#>  2 ASV_117                 1000                 345
-#>  3 ASV_126                 1000                 345
-#>  4 ASV_130                 1000                 334
-#>  5 ASV_149                  292                 123
-#>  6 ASV_155                  307                 345
-#>  7 ASV_157                 1000                 100
-#>  8 ASV_161                  292                 364
-#>  9 ASV_162                 1000                 323
-#> 10 ASV_220                 1000                 100
-#> 11 ASV_34                  1000                 364
-#> 12 ASV_45                  1000                 100
-#> 13 ASV_49                  1000                 364
-#> 14 ASV_52                  1000                 334
-#> 15 ASV_61                  1000                 334
-#> 16 ASV_72                    32                 345
-#> 17 ASV_74                  1000                 345
+get_resample_counts(q2) |>
+  filter(labeled_resamples < 1000 | unlabeled_resamples < 1000) |>
+  knitr::kable()
 ```
+
+| feature_id | labeled_resamples | unlabeled_resamples |
+|:-----------|------------------:|--------------------:|
+| ASV_113    |              1000 |                 334 |
+| ASV_117    |              1000 |                 345 |
+| ASV_126    |              1000 |                 345 |
+| ASV_130    |              1000 |                 334 |
+| ASV_149    |               292 |                 123 |
+| ASV_155    |               307 |                 345 |
+| ASV_157    |              1000 |                 100 |
+| ASV_161    |               292 |                 364 |
+| ASV_162    |              1000 |                 323 |
+| ASV_220    |              1000 |                 100 |
+| ASV_34     |              1000 |                 364 |
+| ASV_45     |              1000 |                 100 |
+| ASV_49     |              1000 |                 364 |
+| ASV_52     |              1000 |                 334 |
+| ASV_61     |              1000 |                 334 |
+| ASV_72     |                32 |                 345 |
+| ASV_74     |              1000 |                 345 |
+
+Table 7: Features with fewer than 1000 successful resamples, indicating
+resampling failures.
 
 Here, we see that indeed ASV_72 was only successful in 32 and 345 of
 1000 resamplings for the labeled and unlabeled, respectively.
 Statistically, you may conclude that 32 resamplings is still robust
-enough to accept the conclusion. But inspecting the plot for these 3 of
-these features show something strange with ASV_72 and we may still
-choose to remove it from our analysis.
+enough to accept the conclusion. But inspecting the plot for these 3
+features shows something strange with ASV_72 and we may still choose to
+remove it from our analysis.
 
 ``` r
-plot_feature_resamplings(q2, 
-                         feature_id = c("ASV_72", "ASV_155", "ASV_161"), 
+plot_feature_resamplings(q2,
+                         feature_id = c("ASV_72", "ASV_155", "ASV_161"),
                          intervals = "bar",
                          points = TRUE)
 #> Scale for fill is already present.
 #> Adding another scale for fill, which will replace the existing scale.
 ```
 
-![](resampling_files/figure-html/unnamed-chunk-10-1.png)
+![](resampling_files/figure-html/fig-resamplings-failures-1.png)
+
+Figure 4: Resampling distributions for three features including ASV_72,
+which had many resampling failures.
 
 We can further see the resampling successes for each feature with the
 [`plot_successful_resamples()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_successful_resamples.md)
@@ -444,7 +476,10 @@ successful resamplings.
 plot_successful_resamples(q2)
 ```
 
-![](resampling_files/figure-html/unnamed-chunk-11-1.png)
+![](resampling_files/figure-html/fig-successful-resamples-1.png)
+
+Figure 5: Distribution of successful resampling counts per feature,
+showing that most features achieved all 1000 resamples.
 
 ### Using success results for further filtering
 
@@ -461,19 +496,33 @@ dot further flags it as suspect and warrants a deeper look.
 ``` r
 EAF = run_EAF_calculations(q2)
 
-plot_EAF_values(EAF, 
+plot_EAF_values(EAF,
                 error = "ribbon",
                 confidence = 0.95,
-                success_ratio = 0.5)
+                success_ratio = 0.9,
+                color_by = "success")
 #> ℹ Confidence level = 0.95
 ```
 
-![](resampling_files/figure-html/unnamed-chunk-12-1.png)
+![](resampling_files/figure-html/fig-eaf-success-1.png)
+
+Figure 6: EAF values colored by resampling success rate, with ASV_72
+flagged in red as failing the 90% success threshold.
 
 ## Conclusion
 
-In conclusion, instead of pre-filtering your data based on the number of
-sources or fractions, you can use the resampling procedure to determine
-if your data is robust enough to proceed. This is especially useful when
-you have a large dataset and you want to ensure that you are not
-removing features that could be informative.
+Resampling is the mechanism by which `qSIP2` propagates uncertainty from
+WAD values through to EAF confidence intervals. Strict upfront filtering
+reduces the likelihood of resampling failures, but the
+`allow_failures = TRUE` approach offers a flexible alternative — letting
+the resampling step itself reveal which features have sufficient data
+support. In either case,
+[`plot_successful_resamples()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_successful_resamples.md)
+and
+[`get_resample_counts()`](https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.md)
+are useful tools for evaluating whether the resampling results are
+trustworthy. Once you are confident in the resampling quality, the next
+step is [EAF
+calculations](https://jeffkimbrel.github.io/qSIP2/articles/EAF.md),
+where the resampled WAD distributions are used to estimate isotope
+incorporation for each feature.
