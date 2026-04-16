@@ -20,10 +20,13 @@ knitr::opts_chunk$set(
 ggplot2::theme_set(ggplot2::theme_bw(base_family = "helvetica"))
 ```
 
-```{r setup}
+```{r}
+#| label: setup
 #| message: false
+#| warning: false
 library(dplyr)
 library(ggplot2)
+library(patchwork)
 library(stringr)
 library(qSIP2)
 packageVersion("qSIP2")
@@ -47,7 +50,7 @@ Each step is detailed in the following sections.
 
 The first step in filtering is to identify the relevant source_mat_id values for a specific comparison. The `run_feature_filter()` arguments most important for this step are `unlabeled_source_mat_ids` and `labeled_source_mat_ids.` These are vectors of source_mat_id values that are used to filter the features. These can be explicitly stated (e.g. `unlabeled_source_mat_ids = c("source1", "source2")`), or they can be identified by using some key terms that will identify all sources satisfying that criteria (e.g. `get_all_by_isotope(qsip_object, "12C")` or `get_all_by_isotope(qsip_object, "unlabeled")`).
 
-There are internal validations for this step to make sure the sources provided to a given argument make sense with the isotope designation in the source data. For example, if you try to give a 13C source to the `unlabeled_source_mat_ids` then there will be an error. If you try sources with a mixture of heavy isotopes (e.g. 13C and 15N) to the `labeled_source_mat_ids` then there will be an error. This can happen either explicitly by providing the wrong source_mat_id values, or if you have a mixture and choose "labeled" for `labeled_source_mat_ids`. Having a mixture of unlabeled source isotopes (e.g. 12C and 14N), however, is allowed and will not give an error.
+There are internal validations for this step to make sure the sources provided to a given argument make sense with the isotope designation in the source data. For example, if you try to give a ^13^C source to the `unlabeled_source_mat_ids` then there will be an error. If you try sources with a mixture of heavy isotopes (e.g. ^13^C and ^15^N) to the `labeled_source_mat_ids` then there will be an error. This can happen either explicitly by providing the wrong source_mat_id values, or if you have a mixture and choose "labeled" for `labeled_source_mat_ids`. Having a mixture of unlabeled source isotopes (e.g. ^12^C and ^14^N), however, is allowed and will not give an error.
 
 The group argument is optional (but recommended) and provides a place for a description of that particular comparison (e.g. `group = "7 day drought treatment"`).
 
@@ -61,7 +64,9 @@ The minimum fraction count can be defined differently for the unlabeled and labe
 
 ## Step 3 - remove features that are not present in enough sources
 
-The results of the last filtering step are used in this step to make a final call for a `feature_id` in that comparison. If a feature is found in at lesat the number of sources defined in `min_unlabeled_sources` and `min_labeled_sources`, then it will survive the filtering step and move on to resampling/EAF calculations. 
+The results of the last filtering step are used in this step to make a final call for a `feature_id` in that comparison. If a feature is found in at least the number of sources defined in `min_unlabeled_sources` and `min_labeled_sources`, then it will survive the filtering step and move on to resampling/EAF calculations.
+
+> **Note:** When a `qsip_data` object is first created, tube relative abundances are calculated for all features together — this normalization step requires all features to be present at once. After that point, however, each feature's WAD calculation and subsequent EAF values are computed entirely independently. Filtering out one feature has no effect on the results of any other. The filtered object carries the same WAD values as the original; filtering simply determines which features proceed to resampling and EAF calculations.
 
 # Filtering example
 
@@ -87,7 +92,8 @@ loose <- run_feature_filter(example_qsip_object,
   min_unlabeled_sources = 2,
   min_labeled_sources = 2,
   min_unlabeled_fractions = 2,
-  min_labeled_fractions = 2
+  min_labeled_fractions = 2,
+  quiet = TRUE
 )
 
 restrictive <- run_feature_filter(example_qsip_object,
@@ -96,13 +102,14 @@ restrictive <- run_feature_filter(example_qsip_object,
   min_unlabeled_sources = 6,
   min_labeled_sources = 3,
   min_unlabeled_fractions = 6,
-  min_labeled_fractions = 6
+  min_labeled_fractions = 6,
+  quiet = TRUE
 )
 ```
 
-Here, only 64 features pass the more restrictive criteria, but we get 257 by relaxing the criteria a little bit. The function messages are rather verbose, but they try to summarize the results of each step. 
+Here, only 64 features pass the more restrictive criteria, but we get 257 by relaxing the criteria a little bit. By default, `run_feature_filter()` prints a verbose summary of each filtering step — use `quiet = TRUE` to suppress this.
 
-**Note:** Relaxing the criteria too much can lead to errors later during resampling. See `vignette("resampling")` for more information, or use the `allow_failures = TRUE` argument.
+> **Note:** Relaxing the criteria too much can lead to errors later during resampling. An alternative approach is to set all `min_*` parameters to `1` (effectively no upfront filtering) and use `allow_failures = TRUE` in the resampling step to handle features that fail there instead. This can be a flexible way to let the data determine which features are usable, though the statistical implications of this approach have not been thoroughly evaluated. See the [resampling vignette](resampling.html) for more detail.
 
 ## Inspecting the filter results
 
@@ -123,9 +130,17 @@ get_filter_results(loose) |>
 #| tbl-cap: Results of get_filter_results(restrictive), subsetting for some columns and rows
 #| echo: false
 get_filter_results(restrictive) |>
-  filter(str_detect(filter_step, "Passed")) |> 
+  filter(str_detect(filter_step, "Passed")) |>
   select(-contains("abundance")) |>
   knitr::kable()
+```
+
+By passing `type = "feature_ids"` to `get_filter_results()`, you can retrieve the actual feature IDs that passed or failed at each step rather than counts — useful for identifying specific features to investigate further.
+
+After filtering, `get_object_summary()` gives a quick structured view of the object state, confirming the feature count and that the filtering step has been completed.
+
+```{r}
+get_object_summary(restrictive)
 ```
 
 ## Following the fate of a certain feature
@@ -161,6 +176,7 @@ We can look at the fraction count summary for the feature in the two filtering c
 ```{r}
 #| label: tbl-fraction_results
 #| echo: false
+#| tbl-cap: "Fraction-level filter results for ASV_100 under loose and restrictive filtering."
 merge(
   ASV_100_restrictive$fraction_filter_summary,
   ASV_100_loose$fraction_filter_summary,
@@ -178,7 +194,7 @@ Therefore, the sample (fraction) count filtering came to different conclusions..
 ```{r}
 #| label: tbl-source_results
 #| echo: false
-
+#| tbl-cap: "Source-level filter results for ASV_100 under loose and restrictive filtering."
 merge(
   ASV_100_restrictive$source_filter_summary,
   ASV_100_loose$source_filter_summary,
@@ -194,13 +210,17 @@ merge(
 Although there is a dramatic difference in the number of retained features between the two conditions, we can see how prevalent the features that are different are by plotting the fraction count distributions. 
 
 ```{r}
+#| label: fig-filter-comparison
 #| fig-width: 8
 #| fig-height: 12
-
-library(patchwork)
+#| fig-cap: "Per-source filtering results for loose (top) and restrictive (bottom) filtering thresholds."
 a = plot_filter_results(loose) + ggtitle("Loose")
 b = plot_filter_results(restrictive) + ggtitle("Restrictive")
 a / b
 ```
 
 In the top plots, the blue is much larger than it is in the bottom plots, indicating more (obviously) made it through the loose filtering. But, even though there are 4x more features in the loose dataset, it is only about a 15-20% increase in terms of the abundance of features in the original dataset. Also notice the gray bars will not change with different filtering because they are absent from those sources.
+
+# Conclusion
+
+Filtering determines which features carry forward into the analysis. The thresholds you choose here directly affect both the reliability of downstream WAD estimates and the number of features available for EAF calculations — stricter filtering produces fewer but more trustworthy results. Once you are satisfied with your filtered object, the next step is [resampling](resampling.html), where bootstrap resampling of WAD values is used to estimate confidence intervals for each feature.

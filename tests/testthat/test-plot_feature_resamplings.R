@@ -28,9 +28,10 @@ test_that("wrong type of feature_ids not accepted", {
 # })
 
 test_that("selected intervals work", {
-  expect_no_error(plot_feature_resamplings(filtered, interval = "bar"))
-  expect_no_error(plot_feature_resamplings(filtered, interval = "line"))
-  expect_error(plot_feature_resamplings(filtered, interval = "ribbon"), "<intervals> argument must be 'bar' or 'line'")
+  expect_no_error(plot_feature_resamplings(filtered, intervals = "bar"))
+  expect_no_error(plot_feature_resamplings(filtered, intervals = "line"))
+  expect_no_error(plot_feature_resamplings(filtered, intervals = ""))
+  expect_error(plot_feature_resamplings(filtered, intervals = "ribbon"), "<intervals> argument must be 'bar' or 'line'")
 })
 
 test_that("confidence interval within range", {

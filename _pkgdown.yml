@@ -38,6 +38,7 @@ reference:
   - infer_source_feature_table
   - add_isotopolog_label
   - remove_isotopolog_label
+  - get_object_summary
   - get_all_by_isotope
   - get_dataframe
   - get_resample_counts

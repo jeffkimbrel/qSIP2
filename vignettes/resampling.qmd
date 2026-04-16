@@ -53,7 +53,7 @@ For example, a single bootstrap replicate might look like this:
 ```{r}
 #| echo: false
 #| label: tbl-resample_example_single
-#| tbl-cap: An single example of bootstrap draws where B is drawn twice, and C is not drawn at all. 
+#| tbl-cap: "A single example of bootstrap draws where B is drawn twice, and C is not drawn at all."
 set.seed(17)
 
 draws <- sample(names(WADs), size = 4, replace = TRUE)
@@ -93,9 +93,23 @@ boot_samples |>
 
 Each row represents one bootstrap replicate, and each column (`draw_1`–`draw_4`) corresponds to a draw from the original data. This format makes it clear that resampling is simply repeated random sampling with replacement, where duplicates can occur naturally.
 
+## Under the hood
+
+Internally, `qSIP2` reformats the resampling output to be tidy by replacing the original source names with positional column names prefixed by *type*. So if the data is the "labeled" type, the resampled columns become *labeled_1*, *labeled_2*, etc., with additional columns appended for downstream calculations.
+
+```{r}
+#| label: tbl-calculate_resampled_wads
+#| tbl-cap: "Output format of one bootstrap replicate applied to the toy WAD values, showing the positional column naming used internally by qSIP2."
+#| echo: false
+purrr::map_df(1:n, \(i) qSIP2:::calculate_resampled_wads(i, as.data.frame(t(WADs)), "labeled")) |>
+  knitr::kable()
+```
+
+> **Note:** Each resampling produces a different set of draws, but within a given resample the same draws are applied to all features. For example, if resample #1 yields `A A C D`, those same WAD values are used for every feature in that resample. This behavior can have consequences, discussed below.
+
 # qSIP2 resampling
 
-The `qSIP2` package has a function called `run_resampling()` that will perform the resampling procedure on a filtered `qSIP_data` object. This object must first be filtered with the `run_feature_filter()` function, and we'll come back to how this filtering affects the resampling in a bit. 
+The `qSIP2` package has a function called `run_resampling()` that will perform the resampling procedure on a filtered `qsip_data` object. This object must first be filtered with the `run_feature_filter()` function, and we'll come back to how this filtering affects the resampling in a bit.
 
 ```{r}
 q <- run_feature_filter(example_qsip_object,
@@ -105,8 +119,8 @@ q <- run_feature_filter(example_qsip_object,
   min_labeled_sources = 3,
   min_unlabeled_fractions = 6,
   min_labeled_fractions = 6,
-  quiet = TRUE # running with quiet = TRUE to suppress messages
-) 
+  quiet = TRUE
+)
 
 q <- run_resampling(q,
   resamples = 1000,
@@ -117,21 +131,13 @@ q <- run_resampling(q,
 
 Setting `resamples = 1000` will give 1000 resamplings for each feature. The resampling is not a deterministic procedure, and so the use of a seed is recommended using the `with_seed` argument.
 
+The warning above indicates that 7 unlabeled features had resampling failures. We'll return to this in the [When resampling goes wrong](#when-resampling-goes-wrong) section to determine whether these failures are severe enough to be a concern.
 
-
-## Under the hood
-
-Internally, the `qSIP2` code has a function that is called that makes the resampling output a bit more tidy. It does this by removing the original names and prepending them with the *type*. So, if the data was the "labeled" type, then resampled values will be in columns *labeled_1*, *labeled_2*, etc. It will also keep the data tidy by adding additional columns that are useful.
+After resampling, `get_object_summary()` confirms the updated state of the object.
 
 ```{r}
-#| label: tbl-calculate_resampled_wads
-#| tbl-cap: The labeled and unlabeled WAD values for each feature under go separate resamplings
-#| echo: false
-purrr::map_df(1:n, \(i) qSIP2:::calculate_resampled_wads(i, as.data.frame(t(WADs)), "labeled")) |>
-  knitr::kable()
+get_object_summary(q)
 ```
-
-**Note:** Each resampling produces a different set of draws, but within a given resample the same draws are applied to all features. For example, if resample #1 yields `A A C D`, those same WAD values are used for every feature in that resample. This behavior can have consequences, discussed below.
 
 # Inspect resample results
 
@@ -166,10 +172,10 @@ Rather than seeing all of the resampled data itself, you are often only interest
 #| fig-cap: Feature resampling results of 3 random features plotted with plot_feature_resamplings()
 
 set.seed(52)
-random_features <- sample(get_feature_ids(q, filtered = T), 3)
-plot_feature_resamplings(q, 
+random_features <- sample(get_feature_ids(q, filtered = TRUE), 3)
+plot_feature_resamplings(q,
                          feature_id = random_features,
-                         interval = "bar",
+                         intervals = "bar",
                          confidence = 0.95)
 ```
 
@@ -217,9 +223,9 @@ Because bootstrap replicates are built from just these three values, the resulti
 #| label: fig-plot_feature_resamplings3
 #| fig-cap: Feature resampling results of 3 random features with 95% CI, with points = TRUE
 
-plot_feature_resamplings(q, 
+plot_feature_resamplings(q,
                          feature_id = random_features,
-                         interval = "bar",
+                         intervals = "bar",
                          confidence = 0.95,
                          points = TRUE)
 ```
@@ -245,7 +251,7 @@ a = q@wads  |>
     theme(legend.position = "none")
 
 b = plot_feature_occurrence(q, random_features,
-                        show_wad = T,
+                        show_wad = TRUE,
                         scale = "feature")
 
 a / b +
@@ -253,7 +259,7 @@ a / b +
   plot_annotation(tag_levels = "A")
 ```
 
-The outlier here is from source S151 (@fig-geom_beeswarm), in which ASV_24 is found in only one fraction. This brings up an important point that although in the filtering we required a feature to be found in at least 6 fractions in at least 3 source_mat_ids, the data is still used from all sources if a feature passes. So, although ASV_24 was not found in 6 fractions in S150 and S151, and ASV_56 also didn't have enough fractions in S151, the WAD values for these cases are still used because these overall these features passed the filtering criteria.
+The outlier here is from source S151 (@fig-geom_beeswarm), in which ASV_24 is found in only one fraction. This brings up an important point that although in the filtering we required a feature to be found in at least 6 fractions in at least 3 source_mat_ids, the data is still used from all sources if a feature passes. So, although ASV_24 was not found in 6 fractions in S150 and S151, and ASV_56 also didn't have enough fractions in S151, the WAD values for these cases are still used because these features overall passed the filtering criteria.
 
 # When resampling goes wrong
 
@@ -270,15 +276,16 @@ q2 <- run_feature_filter(example_qsip_object,
   min_unlabeled_fractions = 6,
   min_labeled_fractions = 6,
   quiet = TRUE
-) # running with quiet = TRUE to suppress messages
+)
 ```
 
 ```{r}
+#| label: tbl-asv72-wads
 #| echo: false
+#| tbl-cap: "WAD values for ASV_72, showing NaN for labeled sources where it did not meet the fraction threshold."
 q2@wads |>
   filter(feature_id == "ASV_72") |>
-  filter(source_mat_id %in% get_source_mat_ids(q, filtered = T)) |>
-  #filter(n_fractions >= 6) |>
+  filter(source_mat_id %in% get_source_mat_ids(q, filtered = TRUE)) |>
   knitr::kable()
 ```
 
@@ -293,7 +300,7 @@ run_resampling(q2,
 )
 ```
 
-### Handling missing values during bootstrap resampling
+## Handling missing values during bootstrap resampling
 
 Bootstrap resampling in `qSIP2` is performed at the level of samples (i.e., columns). For each bootstrap replicate, a set of columns is sampled with replacement, and this same set of sampled columns is applied to all features. In this way, each bootstrap replicate represents a resampled version of the original experiment.
 
@@ -318,20 +325,25 @@ q2 <- run_resampling(q2,
 )
 ```
 
-The warning message here lets us know that there were no problems with the unlabeled resampling, but several features had failures for the labeled sources. We can see which features had failures by `get_resample_counts()` and filtering for values of $n$ less than 1000 (our number of resamples).
+The warning message here indicates failures in both the unlabeled and labeled resampling — 17 unlabeled and several labeled features had failures. This is similar in kind to the 7 unlabeled failures we saw in the initial `q` object, but more pronounced due to the relaxed filtering in `q2`. We can see which specific features had failures using `get_resample_counts()`, filtering for values of $n$ less than 1000 (our number of resamples).
 
 ```{r}
-get_resample_counts(q2) |> 
-  filter(labeled_resamples < 1000 | unlabeled_resamples < 1000)
+#| label: tbl-resample-counts
+#| tbl-cap: "Features with fewer than 1000 successful resamples, indicating resampling failures."
+get_resample_counts(q2) |>
+  filter(labeled_resamples < 1000 | unlabeled_resamples < 1000) |>
+  knitr::kable()
 ```
 
-Here, we see that indeed ASV_72 was only successful in 32 and 345 of 1000 resamplings for the labeled and unlabeled, respectively. Statistically, you may conclude that 32 resamplings is still robust enough to accept the conclusion. But inspecting the plot for these 3 of these features show something strange with ASV_72 and we may still choose to remove it from our analysis.
+Here, we see that indeed ASV_72 was only successful in 32 and 345 of 1000 resamplings for the labeled and unlabeled, respectively. Statistically, you may conclude that 32 resamplings is still robust enough to accept the conclusion. But inspecting the plot for these 3 features shows something strange with ASV_72 and we may still choose to remove it from our analysis.
 
 ```{r}
+#| label: fig-resamplings-failures
 #| fig-width: 8
 #| fig-height: 3
-plot_feature_resamplings(q2, 
-                         feature_id = c("ASV_72", "ASV_155", "ASV_161"), 
+#| fig-cap: "Resampling distributions for three features including ASV_72, which had many resampling failures."
+plot_feature_resamplings(q2,
+                         feature_id = c("ASV_72", "ASV_155", "ASV_161"),
                          intervals = "bar",
                          points = TRUE)
 ```
@@ -339,8 +351,10 @@ plot_feature_resamplings(q2,
 We can further see the resampling successes for each feature with the `plot_successful_resamples()` function, and this histogram shows that most features do have 1000 successful resamplings.
 
 ```{r}
+#| label: fig-successful-resamples
 #| fig-width: 4
 #| fig-height: 6
+#| fig-cap: "Distribution of successful resampling counts per feature, showing that most features achieved all 1000 resamples."
 plot_successful_resamples(q2)
 ```
 
@@ -351,16 +365,19 @@ Suppose you want to overlay this success data on your final EAF plot so you can 
 Here, we can see that although most are green, ASV_72 does show up as highly enriched and with a confidence interval clear of 0. But, the red dot further flags it as suspect and warrants a deeper look.
 
 ```{r}
+#| label: fig-eaf-success
 #| fig-width: 8
 #| fig-height: 10
+#| fig-cap: "EAF values colored by resampling success rate, with ASV_72 flagged in red as failing the 90% success threshold."
 EAF = run_EAF_calculations(q2)
 
-plot_EAF_values(EAF, 
+plot_EAF_values(EAF,
                 error = "ribbon",
                 confidence = 0.95,
-                success_ratio = 0.5)
+                success_ratio = 0.9,
+                color_by = "success")
 ```
 
 # Conclusion
 
-In conclusion, instead of pre-filtering your data based on the number of sources or fractions, you can use the resampling procedure to determine if your data is robust enough to proceed. This is especially useful when you have a large dataset and you want to ensure that you are not removing features that could be informative.
+Resampling is the mechanism by which `qSIP2` propagates uncertainty from WAD values through to EAF confidence intervals. Strict upfront filtering reduces the likelihood of resampling failures, but the `allow_failures = TRUE` approach offers a flexible alternative — letting the resampling step itself reveal which features have sufficient data support. In either case, `plot_successful_resamples()` and `get_resample_counts()` are useful tools for evaluating whether the resampling results are trustworthy. Once you are confident in the resampling quality, the next step is [EAF calculations](EAF.html), where the resampled WAD distributions are used to estimate isotope incorporation for each feature.
