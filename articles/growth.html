@@ -104,15 +104,15 @@
 </div>
 <section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
-<p>Using qSIP2, we can estimate the growth rate of individual features (i.e. bacteria) in a microbial community by fitting a growth model to the abundance of a labeled taxon over time. Assumptions for growth include</p>
+<p>The growth workflow extends the standard qSIP approach to estimate birth and death rates of individual features over time. This vignette walks through the additional data requirements, the growth calculation procedure, and how to interpret and troubleshoot growth results. Growth analysis starts with EAF calculations, so you should be familiar with the <a href="qSIP_workflow.html">standard qSIP workflow</a> before proceeding.</p>
+<p>Using qSIP2, we can estimate the growth rate of individual features (i.e. bacteria) in a microbial community by fitting a growth model to the abundance of a labeled taxon over time. Assumptions for growth include:</p>
 <ol type="1">
-<li>there is no isotopic labeling at time zero</li>
-<li>the pool of unlabeled features will not go up over time</li>
-<li>bacteria that incorporate the isotope are 100% labeled</li>
+<li>There is no isotopic labeling at time zero</li>
+<li>The pool of unlabeled features will not increase over time</li>
+<li>Bacteria that incorporate the isotope are 100% labeled</li>
 </ol>
-<p>Using the calculated EAF values from the standard workflow, we therefore can say an EAF of 0.5 means that 50% of the bacteria are labeled and the result of growth since time zero (i.e. “birth” or <span class="math inline">\(b\)</span>). Further, using quantitative abundance values in both time zero and time point samples, we can estimate the death rate (<span class="math inline">\(d\)</span>) of individual features by calculating the decrease in unlabeled features. Together, we get at the growth rate using the equation <span class="math inline">\(r_i = b_i + d_i\)</span> for each feature <span class="math inline">\(i\)</span><a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090" class="external-link uri"&gt;https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a>. This is one of the main advantages of qSIP where if <span class="math inline">\(b\)</span> equals <span class="math inline">\(d\)</span> then traditional community analysis would detect no change in the community, whereas qSIP would detect growth and death of individual features.</p>
-<p>Growth analysis starts with calculations of EAF values, and therefore requires the standard workflow (<code><a href="../articles/qSIP_workflow.html">vignette("qSIP_workflow")</a></code>) to be run first with only slight modifications.</p>
-<p>For growth, three additional arguments are required for the <code>qsip_source_data</code> creation.</p>
+<p>Using the calculated EAF values from the standard workflow, we therefore can say an EAF of 0.5 means that 50% of the bacteria are labeled and the result of growth since time zero (i.e. “birth” or <span class="math inline">\(b_i\)</span>). Further, using quantitative abundance values in both time zero and time point samples, we can estimate the death rate (<span class="math inline">\(d_i\)</span>) of individual features by calculating the decrease in unlabeled features. Together, we get at the growth rate using the equation <span class="math inline">\(r_i = b_i + d_i\)</span> for each feature <span class="math inline">\(i\)</span><a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Koch et al. 2018, &lt;em&gt;Ecosphere&lt;/em&gt;. &lt;a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090" class="external-link uri"&gt;https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a>. This is one of the main advantages of qSIP: if <span class="math inline">\(b\)</span> equals <span class="math inline">\(d\)</span> then traditional community analysis would detect no change in the community, whereas qSIP would detect growth and death of individual features.</p>
+<p>For growth, three additional arguments are required for the <code>qsip_source_data</code> creation:</p>
 <ol type="1">
 <li>
 <code>timepoint</code> - a numerical value for the timepoint of the source material. There is often a <code>0</code> timepoint, but these can be any values and the growth rate will be calculated as the difference between time points. Further, these can be any units (e.g. days, hours, etc.), and the interpretation of the growth rate will depend on the units (e.g. “per day” or “per hour”).</li>
@@ -122,7 +122,7 @@
 <code>volume</code> - a numerical value for the volume of the source material DNA that the copy number was derived from. Typically the volume is the same for all source material DNA extractions, but if your starting volume for qPCR was different then this parameter is important.</li>
 </ol></section><section class="section level2"><h2 id="growth-object">Growth Object<a class="anchor" aria-label="anchor" href="#growth-object"></a>
 </h2>
-<p>An example growth object is provided with the <code>qSIP2</code> package called <code>example_qsip_growth_object</code>. We can check which columns contain the three additional arguments for growth, and pull out a table with the relevant columns.</p>
+<p>An example growth object is provided with the <code>qSIP2</code> package called <code>example_qsip_growth_object</code>. Before running the workflow, it’s useful to inspect this object to understand how the additional growth-related columns are structured. We can pull out a table with the relevant columns to verify the data is formatted correctly.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_dataframe.html">get_dataframe</a></span><span class="op">(</span><span class="va">example_qsip_growth_object</span>, type <span class="op">=</span> <span class="st">"source"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -130,8 +130,12 @@
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">timepoint</span>, <span class="va">isotope</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
+<div id="tbl-growth-source-data" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-growth-source-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 1: Source data for the growth object showing timepoint, isotope, total abundance, and volume information.
+</figcaption><div aria-describedby="tbl-growth-source-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table caption-top">
+<table class="table cell caption-top">
 <thead><tr class="header">
 <th style="text-align: left;">source_mat_id</th>
 <th style="text-align: left;">isotope</th>
@@ -249,7 +253,10 @@
 </table>
 </div>
 </div>
-<p>From this table, we can notice a few things. First, there are 15 total samples - 5 with timepoint 0, and 5 each with 16O or 18O isotopes. Second, some sources do not have a standard <code>isotope</code> designation, but instead say “Time0”. This is a special allowed <code>isotope</code> type flagging these sources as unfractionated, and therefor no EAF value will be calculated for them. Third, the <code>volume</code> column is the same for all samples which indicates that the <code>total_abundance</code> is already standardized to the same volume. Indeed if we look at the column that <code>total_abundance</code> was derived from we can tell from the name that it is a copy number to a standardize amount of soil (16S copies per gram of soil).</p>
+</figure>
+</div>
+</div>
+<p>From <a href="#tbl-growth-source-data" class="quarto-xref">Table 1</a>, we can notice a few things. First, there are 15 total samples - 5 with timepoint 0, and 5 each with <sup>16</sup>O or <sup>18</sup>O isotopes. Second, some sources do not have a standard <code>isotope</code> designation, but instead say “Time0”. This is a special allowed <code>isotope</code> type flagging these sources as unfractionated, and therefore no EAF value will be calculated for them. Third, the <code>volume</code> column is the same for all samples which indicates that the <code>total_abundance</code> is already standardized to the same volume. Indeed if we look at the column that <code>total_abundance</code> was derived from we can tell from the name that it is a copy number standardized to a consistent amount of soil (16S copies per gram of soil).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_qsip_growth_object</span><span class="op">@</span><span class="va">source_data</span><span class="op">@</span><span class="va">total_abundance</span></span>
@@ -257,7 +264,7 @@
 </div>
 </section><section class="section level2"><h2 id="eaf-workflow">EAF Workflow<a class="anchor" aria-label="anchor" href="#eaf-workflow"></a>
 </h2>
-<p>As mentioned above, the growth workflow requires the EAF values to be calculated first. Note, we are running with <code>allow_failures = TRUE</code>, but still with a minimum of 4 labeled and 4 unlabeled fractions.</p>
+<p>As mentioned above, the growth workflow requires the EAF values to be calculated first. The workflow follows the same pattern as the <a href="qSIP_workflow.html">standard qSIP workflow</a>: filter features, run resampling, and calculate EAF values. Note that we are running with <code>allow_failures = TRUE</code>, but still with a minimum of 4 labeled and 4 unlabeled fractions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_feature_filter.html">run_feature_filter</a></span><span class="op">(</span><span class="va">example_qsip_growth_object</span>,</span>
@@ -299,8 +306,11 @@
 <span><span class="co">#&gt; ℹ Run `get_resample_counts()` or `plot_successful_resamples()` on your</span></span>
 <span><span class="co">#&gt;   &lt;qsip_data&gt; object to inspect.</span></span></code></pre></div>
 </div>
-<p>Overall, most features had robust resampling results, with only a few having less than 99% success in the labeled sources.</p>
-<div class="cell">
+<p>Overall, most features had robust resampling results, with only a few having less than 99% success in the labeled sources (<a href="#tbl-resample-counts-eaf" class="quarto-xref">Table 2</a>).</p>
+<div id="tbl-resample-counts-eaf" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-resample-counts-eaf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 2: Features with fewer than 1000 successful resamples during EAF calculation.
+</figcaption><div aria-describedby="tbl-resample-counts-eaf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_resample_counts.html">get_resample_counts</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">labeled_resamples</span> <span class="op">&lt;</span> <span class="fl">1000</span> <span class="op">|</span> <span class="va">unlabeled_resamples</span> <span class="op">&lt;</span> <span class="fl">1000</span><span class="op">)</span></span>
@@ -319,6 +329,8 @@
 <span><span class="co">#&gt; 10 taxon_341               1000                 324</span></span>
 <span><span class="co">#&gt; 11 taxon_74                 307                1000</span></span></code></pre></div>
 </div>
+</figure>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_EAF_values.html">plot_EAF_values</a></span><span class="op">(</span><span class="va">q</span>,</span>
@@ -328,32 +340,39 @@
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Confidence level = 0.9</span></span></code></pre></div>
 <div class="cell-output-display">
-<div>
-<figure><p><img src="growth_files/figure-html/unnamed-chunk-7-1.png" width="576"></p>
-</figure>
+<div id="fig-eaf-values" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-eaf-values-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="growth_files/figure-html/fig-eaf-values-1.png" width="576">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eaf-values-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 1: EAF values for Day 10 timepoint with 90% confidence intervals shown as ribbons.
+</figcaption></figure>
 </div>
 </div>
 </div>
+<p>Overall, most features had robust resampling results. Now that we have EAF values, we can proceed to the growth calculations.</p>
 </section><section class="section level2"><h2 id="growth-workflow">Growth Workflow<a class="anchor" aria-label="anchor" href="#growth-workflow"></a>
 </h2>
 <section class="level2"><h3 id="time-zero-total-abundances">Time zero total abundances<a class="anchor" aria-label="anchor" href="#time-zero-total-abundances"></a>
 </h3>
-<p>In addition to the EAF values stored in the <code>qsip_data</code> object, we also need a table with the <span class="math inline">\(N_{TOTALi0}\)</span> values for each feature <span class="math inline">\(i\)</span> at timepoint <span class="math inline">\(t\)</span>, in this case time 0. This value is the <em>total</em> abundance of each feature and is the sum of both the labeled and unlabeled features (equation 2 from Koch, 2018<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090" class="external-link uri"&gt;https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a>). Note you don’t have to always compare against time zero. If you have a 7-day and 14-day timepoint you can set day 7 as the initial timepoint here.</p>
+<p>In addition to the EAF values stored in the <code>qsip_data</code> object, we also need a table with the <span class="math inline">\(N_{TOTALi0}\)</span> values for each feature <span class="math inline">\(i\)</span> at timepoint <span class="math inline">\(t\)</span>, in this case time 0. This value is the <em>total</em> abundance of each feature and is the sum of both the labeled and unlabeled features (equation 2 from Koch et al. 2018<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Koch et al. 2018, &lt;em&gt;Ecosphere&lt;/em&gt;. &lt;a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090" class="external-link uri"&gt;https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a>). Note you don’t have to always compare against time zero. If you have a 7-day and 14-day timepoint you can set day 7 as the initial timepoint here.</p>
 <p>This table is created with the <code><a href="../reference/get_N_total_it.html">get_N_total_it()</a></code> function where you pass the original <code>qsip_data</code> object and the timepoint of interest.</p>
-<div class="alert alert-primary">
-<p><code><a href="../reference/get_N_total_it.html">get_N_total_it()</a></code> should be run on the initial <code>qsip_data</code> object before any filtering or resampling has been done. This is because the unfractionated time zero sources will not be present in the filtered data.</p>
-</div>
+<blockquote>
+<p><strong>Note:</strong> <code><a href="../reference/get_N_total_it.html">get_N_total_it()</a></code> should be run on the initial <code>qsip_data</code> object before any filtering or resampling has been done. This is because the unfractionated time zero sources will not be present in the filtered data.</p>
+</blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">N_total_i0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_N_total_it.html">get_N_total_it</a></span><span class="op">(</span><span class="va">example_qsip_growth_object</span>, t <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: 1 feature_id have zero abundance at time 0: "taxon_194"</span></span></code></pre></div>
 </div>
-<p>Note we get a warning here that taxon_194 has zero abundance at <code>t = 0</code>. Therefore, this feature cannot have a growth rate calculated because any change in abundance would be considered infinite growth.</p>
+<p>Note we get a warning here that taxon_194 has zero abundance at <code>t = 0</code>. Therefore, this feature cannot have a growth rate calculated because any change in abundance would be considered infinite growth. We’ll see how this is handled in the <a href="#when-growth-cannot-be-calculated">When growth cannot be calculated</a> section below.</p>
 <div class="cell">
+<div id="tbl-n-total-i0" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-n-total-i0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 3: First few rows of N_total_i0 showing total abundance at time zero for each feature.
+</figcaption><div aria-describedby="tbl-n-total-i0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table caption-top">
-<caption>First few rows of <code>N_total_i0</code>
-</caption>
+<table class="table cell caption-top">
 <thead><tr class="header">
 <th style="text-align: left;">feature_id</th>
 <th style="text-align: right;">N_total_i0</th>
@@ -394,6 +413,9 @@
 </table>
 </div>
 </div>
+</figure>
+</div>
+</div>
 </section><section class="level2"><h3 id="growth-rate-calculations">Growth rate calculations<a class="anchor" aria-label="anchor" href="#growth-rate-calculations"></a>
 </h3>
 <p>Using the abundance values stored in <code>N_total_i0</code> and the resampled EAF values stored in <code>q</code>, we can calculate the growth rate for each feature. This is done with the <code><a href="../reference/run_growth_calculations.html">run_growth_calculations()</a></code> function where you pass the <code>qsip_data</code> object, the <code>N_total_i0</code> table, and the growth model to use. The growth model can be either “exponential” or “linear”.</p>
@@ -405,20 +427,22 @@
 <span><span class="co">#&gt; Warning: 31327 resamplings have a negative EAF value or calculated labeled copy numbers</span></span>
 <span><span class="co">#&gt; less than 0. Filtered out and added to @growth$negative_labeled</span></span></code></pre></div>
 </div>
-<p>Note the warning message, which we will return to in a minute.</p>
+<p>Note the warning message indicating 31862 resamplings with negative EAF values. We will return to this in the <a href="#when-growth-cannot-be-calculated">When growth cannot be calculated</a> section below to understand what this means and how it affects results.</p>
 </section><section class="level2"><h3 id="growth-calculation-results">Growth calculation results<a class="anchor" aria-label="anchor" href="#growth-calculation-results"></a>
 </h3>
-<p>We can get a dataframe of the growth calculations with the <code><a href="../reference/get_growth_data.html">get_growth_data()</a></code> function. Here, we will also filter to just the data for the first resample.</p>
+<p>We can get a dataframe of the growth calculations with the <code><a href="../reference/get_growth_data.html">get_growth_data()</a></code> function. Here, we will filter to just the data for the first resample to see the structure of the output.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_growth_data.html">get_growth_data</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">resample</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
+<div id="tbl-growth-data" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-growth-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 4: The first few rows of get_growth_data(q) for resample 1, showing birth and death rate calculations.
+</figcaption><div aria-describedby="tbl-growth-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table caption-top">
-<caption>The first few rows of <code>get_growth_data(q)</code>
-</caption>
+<table class="table cell caption-top">
 <colgroup>
 <col style="width: 7%">
 <col style="width: 7%">
@@ -544,7 +568,10 @@
 </table>
 </div>
 </div>
-<p>Some columns contain important, but redundant information. For example, for each feature <code>timepoint1</code>, <code>timepoint2</code>, <code>N_total_i0</code>, <code>N_total_it</code>, <code>r_net</code> and <code>ri</code> are the same for all rows.</p>
+</figure>
+</div>
+</div>
+<p>As shown in <a href="#tbl-growth-data" class="quarto-xref">Table 4</a>, some columns contain important but redundant information. For example, for each feature <code>timepoint1</code>, <code>timepoint2</code>, <code>N_total_i0</code>, <code>N_total_it</code>, <code>r_net</code> and <code>ri</code> are the same for all rows.</p>
 <ul>
 <li>
 <code>timepoint1</code> and <code>timepoint2</code> are the timepoints for the growth calculations. For this dataset, we are comparing day 10 to day 0, so the rates will be in units of “per day”.</li>
@@ -553,19 +580,22 @@
 <li>
 <code>ri</code> is the overall growth rate, where a negative value indicates more death than birth</li>
 </ul>
-<p>The remaining columns use the resampled EAF data to determine which portion of the <code>N_total_it</code> copies correspond to those taking up the substrate and those that remain unlabeled.</p>
+<p>The remaining columns use the resampled EAF data to determine which portion of the <code>N_total_it</code> copies correspond to those taking up the substrate and those that remain unlabeled:</p>
 <ul>
 <li>
-<code>N_light_it</code> comes from equation 3 of Koch, 2018<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090" class="external-link uri"&gt;https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090&lt;/a&gt;&lt;/p&gt;'><sup>3</sup></a>, and is the proportion of <code>N_total_it</code> that isn’t labeled.</li>
+<code>N_light_it</code> comes from equation 3 of Koch et al. 2018<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Koch et al. 2018, &lt;em&gt;Ecosphere&lt;/em&gt;. &lt;a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090" class="external-link uri"&gt;https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090&lt;/a&gt;&lt;/p&gt;'><sup>3</sup></a>, and is the proportion of <code>N_total_it</code> that isn’t labeled.</li>
 <li>
-<code>N_heavy_it</code> is the proportion of <code>N_total_it</code> that is labeled, and is roughly <span class="math inline">\(N_{TOTALit} * EAF\)</span>
+<code>N_heavy_it</code> is the proportion of <code>N_total_it</code> that is labeled, and is roughly <span class="math inline">\(N_{TOTALit} \times EAF\)</span>
 </li>
 <li>
 <code>bi</code> is the per-unit-of-time birth rate, <code>di</code> is the death rate</li>
 </ul></section><section class="level2"><h3 id="summarizing-growth-data">Summarizing Growth Data<a class="anchor" aria-label="anchor" href="#summarizing-growth-data"></a>
 </h3>
 <p>We can summarize the growth data at a specified <code>confidence</code> with the <code><a href="../reference/summarize_growth_values.html">summarize_growth_values()</a></code> function. This function will calculate the mean, sd and confidence intervals for the birth and death rates, as well as EAF.</p>
-<div class="cell">
+<div id="tbl-summarize-growth" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summarize-growth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 5: Summary of growth values showing mean and confidence intervals for birth and death rates.
+</figcaption><div aria-describedby="tbl-summarize-growth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summarize_growth_values.html">summarize_growth_values</a></span><span class="op">(</span><span class="va">q</span>, confidence <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">feature_id</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span>
@@ -590,8 +620,12 @@
 <span><span class="co">#&gt; #   resampled_di_lower &lt;dbl&gt;, resampled_di_upper &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   resampled_ri_mean &lt;dbl&gt;, resampled_ri_sd &lt;dbl&gt;, resampled_ri_lower &lt;dbl&gt;, …</span></span></code></pre></div>
 </div>
+</figure>
+</div>
+<p>The <code>successes</code> column indicates how many of the 1000 resamplings produced valid growth estimates. Features with fewer successes may have less reliable confidence intervals.</p>
 </section><section class="level2"><h3 id="growth-rate-plots">Growth rate plots<a class="anchor" aria-label="anchor" href="#growth-rate-plots"></a>
 </h3>
+<p>We can visualize the birth and death rates using <code><a href="../reference/plot_growth_values.html">plot_growth_values()</a></code> (<a href="#fig-growth-values" class="quarto-xref">Figure 2</a>), which shows features ordered by their net growth rate.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_growth_values.html">plot_growth_values</a></span><span class="op">(</span><span class="va">q</span>,</span>
@@ -602,21 +636,25 @@
 <span>                   <span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span></code></pre></div>
 <div class="cell-output-display">
-<div>
-<figure><p><img src="growth_files/figure-html/unnamed-chunk-14-1.png" width="576"></p>
-</figure>
+<div id="fig-growth-values" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-growth-values-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="growth_files/figure-html/fig-growth-values-1.png" width="576">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-growth-values-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 2: Growth values for the top 100 features showing birth and death rates with 90% confidence intervals.
+</figcaption></figure>
 </div>
 </div>
 </div>
-</section><section class="level2"><h3 id="when-growth-cannot-be-calculated">When growth cannot be calculated<a class="anchor" aria-label="anchor" href="#when-growth-cannot-be-calculated"></a>
+</section></section><section class="section level2"><h2 id="when-growth-cannot-be-calculated">When growth cannot be calculated<a class="anchor" aria-label="anchor" href="#when-growth-cannot-be-calculated"></a>
+</h2>
+<p>There are a few cases where growth cannot be calculated or the results can be non-sensical. Some cases result in the entire feature being unusable, while other cases just remove specific resamples for that feature while using the remaining resamples where possible. Understanding these edge cases is important for interpreting your results.</p>
+<section class="level2"><h3 id="no-time-zero-data">No time zero data<a class="anchor" aria-label="anchor" href="#no-time-zero-data"></a>
 </h3>
-<p>There are a few cases where growth cannot be calculated or the results can be non-sensical. Some cases result in the entire feature being unusable, while other cases just remove specific resamples for that feature while using the remaining features where possible.</p>
-<section class="level3"><h4 id="no-time-zero-data">No time zero data<a class="anchor" aria-label="anchor" href="#no-time-zero-data"></a>
-</h4>
-<p>As noted above, taxon_194 has zero abundance at time zero. Therefore, the growth rate cannot be calculated because any change in abundance would be considered infinite growth. The intermediate values for these features can be found in the <code><a href="../reference/get_growth_data.html">get_growth_data()</a></code> function, but the feature will be omitted entirely from the <code><a href="../reference/summarize_growth_values.html">summarize_growth_values()</a></code> data.</p>
-</section><section class="level3"><h4 id="negative-eaf-values">Negative EAF values<a class="anchor" aria-label="anchor" href="#negative-eaf-values"></a>
-</h4>
-<p>This is related to the warning we received above stating there were 31862 resamplings that have “negative EAF values”. While negative EAF values can be common due to noise, it doesn’t make sense when calculating <span class="math inline">\(N_{LIGHTit}\)</span> and <span class="math inline">\(N_{HEAVYit}\)</span> values. This happens because <span class="math inline">\(N_{LIGHTit}\)</span> gets calculated to actually have more copies than <span class="math inline">\(N_{TOTALit}\)</span>, which is impossible, and therefore <span class="math inline">\(N_{HEAVYit}\)</span> will be a negative number of copies, which is also impossible. Below is from the <code>q@growth$negative_labeled</code> dataframe for taxon_1 explaining the reasoning. Z (equation 4 from Hungate, 2015<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;https://journals.asm.org/doi/10.1128/aem.02280-15&lt;/p&gt;"><sup>4</sup></a>) is the difference between the labeled and unlabeled WAD value, so when Z is negative, it indicates the WAD values were lower for the labeled fractions, likely due to noise in the SIP process.</p>
+<p>As noted in the warning when we ran <code><a href="../reference/get_N_total_it.html">get_N_total_it()</a></code> above, taxon_194 has zero abundance at time zero. Therefore, the growth rate cannot be calculated because any change in abundance would be considered infinite growth. The intermediate values for these features can be found in the <code><a href="../reference/get_growth_data.html">get_growth_data()</a></code> function, but the feature will be omitted entirely from the <code><a href="../reference/summarize_growth_values.html">summarize_growth_values()</a></code> data.</p>
+</section><section class="level2"><h3 id="negative-eaf-values">Negative EAF values<a class="anchor" aria-label="anchor" href="#negative-eaf-values"></a>
+</h3>
+<p>This is related to the warning we received when running <code><a href="../reference/run_growth_calculations.html">run_growth_calculations()</a></code> stating there were 31862 resamplings that have “negative EAF values”. While negative EAF values can be common due to noise, it doesn’t make sense when calculating <span class="math inline">\(N_{LIGHTit}\)</span> and <span class="math inline">\(N_{HEAVYit}\)</span> values. This happens because <span class="math inline">\(N_{LIGHTit}\)</span> gets calculated to actually have more copies than <span class="math inline">\(N_{TOTALit}\)</span>, which is impossible, and therefore <span class="math inline">\(N_{HEAVYit}\)</span> will be a negative number of copies, which is also impossible. <a href="#tbl-negative-labeled" class="quarto-xref">Table 6</a> shows examples from the <code>q@growth$negative_labeled</code> dataframe for taxon_1 explaining the reasoning. Z (equation 4 from Hungate et al. 2015<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Hungate et al. 2015, &lt;em&gt;Applied and Environmental Microbiology&lt;/em&gt;. &lt;a href="https://journals.asm.org/doi/10.1128/aem.02280-15" class="external-link uri"&gt;https://journals.asm.org/doi/10.1128/aem.02280-15&lt;/a&gt;&lt;/p&gt;'><sup>4</sup></a>) is the difference between the labeled and unlabeled WAD value, so when Z is negative, it indicates the WAD values were lower for the labeled fractions, likely due to noise in the SIP process.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q</span><span class="op">@</span><span class="va">growth</span><span class="op">$</span><span class="va">negative_labeled</span> <span class="op">|&gt;</span> </span>
@@ -624,9 +662,12 @@
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">feature_id</span>, <span class="va">N_total_it</span>, <span class="va">resample</span>, <span class="va">Z</span>, <span class="va">EAF</span>, <span class="va">N_light_it</span>, <span class="va">N_heavy_it</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
+<div id="tbl-negative-labeled" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-negative-labeled-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 6: First few rows for taxon_1 showing negative EAF values and resulting negative N_heavy_it values.
+</figcaption><div aria-describedby="tbl-negative-labeled-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table caption-top" style="width:100%;">
-<caption>First few rows for taxon_1</caption>
+<table class="table cell caption-top" style="width:100%;">
 <colgroup>
 <col style="width: 14%">
 <col style="width: 14%">
@@ -704,10 +745,13 @@
 </table>
 </div>
 </div>
+</figure>
+</div>
+</div>
 <p>taxon_1 had a total of 28 resamplings fall into this category, but the remaining 972 were successful. This number is reflected in the <code>successes</code> column of <code><a href="../reference/summarize_growth_values.html">summarize_growth_values()</a></code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/summarize_growth_values.html">summarize_growth_values</a></span><span class="op">(</span><span class="va">q</span>, confidence <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/summarize_growth_values.html">summarize_growth_values</a></span><span class="op">(</span><span class="va">q</span>, confidence <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">feature_id</span> <span class="op">==</span> <span class="st">"taxon_1"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">feature_id</span>, <span class="va">successes</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Confidence level = 0.9</span></span>
@@ -716,7 +760,21 @@
 <span><span class="co">#&gt;   &lt;chr&gt;          &lt;int&gt;</span></span>
 <span><span class="co">#&gt; 1 taxon_1          972</span></span></code></pre></div>
 </div>
-</section></section></section><script id="quarto-html-after-body" type="application/javascript">
+<p>As long as a reasonable proportion of resamplings are successful (e.g., &gt; 90%), the growth estimates are generally reliable. Features with very low success rates should be inspected more carefully or excluded from downstream analysis.</p>
+</section></section><section class="section level2"><h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h2>
+<p>The growth workflow in <code>qSIP2</code> extends the standard EAF calculations to estimate birth and death rates of individual features over time. By combining EAF values with quantitative abundance data at multiple timepoints, we can partition net community changes into their component processes — revealing whether features are actively growing, dying, or both.</p>
+<p>Key points to remember:</p>
+<ul>
+<li>Growth analysis requires three additional columns in the source data: <code>timepoint</code>, <code>total_abundance</code>, and <code>volume</code>
+</li>
+<li>The workflow follows the same pattern as the standard qSIP workflow: filter, resample, calculate EAF, then add growth calculations</li>
+<li>Time zero abundances must be calculated using <code><a href="../reference/get_N_total_it.html">get_N_total_it()</a></code> on the original unfiltered object</li>
+<li>Negative EAF values and missing time zero data can cause resampling failures, but as long as most resamples succeed the estimates remain robust</li>
+<li>The <code>successes</code> column in <code><a href="../reference/summarize_growth_values.html">summarize_growth_values()</a></code> indicates reliability of each feature’s growth estimate</li>
+</ul>
+<p>Once you have growth results, you can use them to identify which features are responding to your experimental treatments by comparing birth and death rates across conditions.</p>
+</section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
