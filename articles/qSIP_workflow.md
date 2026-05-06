@@ -1,11 +1,12 @@
 # Standard qSIP EAF Workflow
 
 ``` r
+
 library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.8'
+#> [1] '0.23.9'
 ```
 
 ## Background
@@ -23,7 +24,7 @@ of any analysis. Our goal with the rigid (and opinionated) requirements
 imposed by `qSIP2` will hopefully streamline the creation of these
 files, and automated validation checks can remove many of the common
 sources of error or confusion. Where appropriate, `qSIP2` and this
-documentation uses MISIP terminology[¹](#fn1).
+documentation uses MISIP terminology[^1].
 
 ### Source data
 
@@ -62,6 +63,7 @@ column in the dataframe is assigned to the `isotope` parameter in the
 `qsip_source_data` object.
 
 ``` r
+
 source_object <- qsip_source_data(example_source_df,
   isotope = "Isotope",
   isotopolog = "isotopolog",
@@ -93,6 +95,7 @@ A dataframe with the original headers can be recovered using the
 method with the `original_headers = TRUE` option.
 
 ``` r
+
 df <- get_dataframe(source_object, original_headers = TRUE)
 ```
 
@@ -145,18 +148,19 @@ But there is no need to do this if you already have the relative amounts
 calculated in your dataframe.
 
 ``` r
+
 sample_df <- example_sample_df |>
   add_gradient_pos_rel_amt(source_mat_id = "source", amt = "avg_16S_g_soil")
 ```
 
-| sample | source | Fraction | density_g_ml |  dna_conc | avg_16S_g_soil | gradient_pos_rel_amt |
-|:-------|:-------|---------:|-------------:|----------:|---------------:|---------------------:|
-| 149_F1 | S149   |        1 |     1.778855 | 0.0000000 |      4473.7081 |            0.0001284 |
-| 149_F2 | S149   |        2 |     1.773391 | 0.0000000 |       986.6581 |            0.0000283 |
-| 149_F3 | S149   |        3 |     1.765742 | 0.0000000 |      4002.7026 |            0.0001149 |
-| 149_F4 | S149   |        4 |     1.759185 | 0.0000000 |      3959.7283 |            0.0001137 |
-| 149_F5 | S149   |        5 |     1.752629 | 0.0012413 |      5725.7319 |            0.0001643 |
-| 149_F6 | S149   |        6 |     1.746072 | 0.0128156 |      7566.2722 |            0.0002172 |
+| sample | source | Fraction | density_g_ml | dna_conc | avg_16S_g_soil | gradient_pos_rel_amt |
+|:---|:---|---:|---:|---:|---:|---:|
+| 149_F1 | S149 | 1 | 1.778855 | 0.0000000 | 4473.7081 | 0.0001284 |
+| 149_F2 | S149 | 2 | 1.773391 | 0.0000000 | 986.6581 | 0.0000283 |
+| 149_F3 | S149 | 3 | 1.765742 | 0.0000000 | 4002.7026 | 0.0001149 |
+| 149_F4 | S149 | 4 | 1.759185 | 0.0000000 | 3959.7283 | 0.0001137 |
+| 149_F5 | S149 | 5 | 1.752629 | 0.0012413 | 5725.7319 | 0.0001643 |
+| 149_F6 | S149 | 6 | 1.746072 | 0.0128156 | 7566.2722 | 0.0002172 |
 
 Table 3: Additional `gradient_pos_rel_amt` column added
 
@@ -168,6 +172,7 @@ parameter name will automatically be identified. Similar to the
 modified from the original names to the standardized names.
 
 ``` r
+
 sample_object <- qsip_sample_data(sample_df,
   sample_id = "sample",
   source_mat_id = "source",
@@ -213,6 +218,7 @@ or another method that determines the correct abundance in each sample.
 Table 4: First bit of `example_feature_df`
 
 ``` r
+
 feature_object <- qsip_feature_data(example_feature_df,
   feature_id = "ASV"
 )
@@ -233,6 +239,7 @@ objects, and is meant to be a self-contained object with all of the
 necessary information for analysis.
 
 ``` r
+
 qsip_object <- qsip_data(
   source_data = source_object,
   sample_data = sample_object,
@@ -260,6 +267,7 @@ each feature. With these, certain visualizations can be made with
 built-in functions.
 
 ``` r
+
 plot_source_wads(qsip_object, 
                  group = "Moisture")
 ```
@@ -272,6 +280,7 @@ greater than the ¹²C, but it is generally not a concern if the ¹²C and
 ¹³C values are intermingled.
 
 ``` r
+
 plot_sample_curves(qsip_object,
                    facet_by = "isotope",
                    show_wad = FALSE)
@@ -289,6 +298,7 @@ gradient are often flagged as outliers, although this may not
 necessarily be the case.
 
 ``` r
+
 plot_density_outliers(qsip_object)
 ```
 
@@ -311,6 +321,7 @@ returns the same information as a tibble, which is useful for
 programmatic access or working with multiple objects at once.
 
 ``` r
+
 print(qsip_object)
 #> <qsip_data>
 #> group: none 
@@ -341,6 +352,7 @@ function attempts to identify and suggest the sources you may want to
 compare.
 
 ``` r
+
 get_comparison_groups(qsip_object,
   group = "Moisture",
   isotope = "isotope",
@@ -362,6 +374,7 @@ complicated groupings that involve multiple columns of metadata, you can
 instead run a `paste` call inside `mutate` to create combined column:
 
 ``` r
+
 qsip_object |>
   mutate(new_column = paste(column1, column2, sep = "_")) |>
   get_comparison_groups(
@@ -387,6 +400,7 @@ package has a convenient way to get those by using the
 function.
 
 ``` r
+
 get_all_by_isotope(qsip_object, "12C")
 #> [1] "S149" "S150" "S151" "S152" "S161" "S162" "S163" "S164"
 ```
@@ -417,6 +431,7 @@ allowing you to precisely tailor your filtering results. The more strict
 the filtering, the fewer features that will pass the filter.
 
 ``` r
+
 qsip_normal <- run_feature_filter(qsip_object,
   unlabeled_source_mat_ids = get_all_by_isotope(qsip_object, "12C"),
   labeled_source_mat_ids = c("S178", "S179", "S180"),
@@ -438,17 +453,18 @@ Of the 1,705 features found in the “Normal” data, we can see our rather
 strict filtering removed all but 64 features from the dataset.
 
 ``` r
+
 df = get_filter_results(qsip_normal)
 ```
 
-| filter_step       | features_unlabeled | features_labeled | union | intersect | unlabeled_only | labeled_only | mean_abundance_unlabeled | mean_abundance_labeled |
-|:------------------|-------------------:|-----------------:|------:|----------:|---------------:|-------------:|-------------------------:|-----------------------:|
-| Zero Fractions    |               1519 |             1417 |  1560 |      1376 |            143 |           41 |                0.0000000 |              0.0000000 |
-| Fraction Filtered |               1440 |              830 |  1646 |       624 |            816 |          206 |                0.1579295 |              0.2053189 |
-| Fraction Passed   |                299 |              209 |   346 |       162 |            137 |           47 |                0.8420705 |              0.7946811 |
-| Zero Sources      |                 47 |              137 |   184 |         0 |             47 |          137 |                0.0000000 |              0.0000000 |
-| Source Filtered   |                196 |              127 |   265 |        58 |            138 |           69 |                0.3167506 |              0.2163507 |
-| Source Passed     |                103 |               82 |   121 |        64 |             39 |           18 |                0.7631509 |              0.6849542 |
+| filter_step | features_unlabeled | features_labeled | union | intersect | unlabeled_only | labeled_only | mean_abundance_unlabeled | mean_abundance_labeled |
+|:---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Zero Fractions | 1519 | 1417 | 1560 | 1376 | 143 | 41 | 0.0000000 | 0.0000000 |
+| Fraction Filtered | 1440 | 830 | 1646 | 624 | 816 | 206 | 0.1579295 | 0.2053189 |
+| Fraction Passed | 299 | 209 | 346 | 162 | 137 | 47 | 0.8420705 | 0.7946811 |
+| Zero Sources | 47 | 137 | 184 | 0 | 47 | 137 | 0.0000000 | 0.0000000 |
+| Source Filtered | 196 | 127 | 265 | 58 | 138 | 69 | 0.3167506 | 0.2163507 |
+| Source Passed | 103 | 82 | 121 | 64 | 39 | 18 | 0.7631509 | 0.6849542 |
 
 Table 6: Detailed results of the filtering.
 
@@ -457,6 +473,7 @@ We can visualize these results on a per-source basis with the
 function.
 
 ``` r
+
 plot_filter_results(qsip_normal)
 ```
 
@@ -482,6 +499,7 @@ retained, leaving only 64 total.
 Let’s do the same comparison with the drought samples.
 
 ``` r
+
 qsip_drought <- run_feature_filter(qsip_object,
   unlabeled_source_mat_ids = get_all_by_isotope(qsip_object, "12C"),
   labeled_source_mat_ids = c("S200", "S201", "S202", "S203"),
@@ -496,6 +514,7 @@ qsip_drought <- run_feature_filter(qsip_object,
 And only 89 features were retained in the Drought dataset.
 
 ``` r
+
 plot_filter_results(qsip_drought)
 ```
 
@@ -533,6 +552,7 @@ a feature found in 6 unlabeled sources will have 6 WAD values, and these
 values.
 
 ``` r
+
 qsip_normal <- run_resampling(qsip_normal,
   resamples = 1000,
   with_seed = 17,
@@ -557,6 +577,7 @@ overwriting the original `qsip_drought` with the results of
 rather than creating new objects.
 
 ``` r
+
 qsip_drought <- run_resampling(qsip_drought,
   resamples = 1000,
   with_seed = 17,
@@ -596,6 +617,7 @@ them. Note, there is a better way to run and get results with multiple
 `qSIP2` objects — more details below.
 
 ``` r
+
 qsip_normal <- run_EAF_calculations(qsip_normal)
 qsip_drought <- run_EAF_calculations(qsip_drought)
 
@@ -613,6 +635,7 @@ eaf <- rbind(normal, drought)
 We can plot the top 50 by each moisture condition.
 
 ``` r
+
 plot_EAF_values(qsip_normal, 
                 top = 50, 
                 confidence = 0.95, 
@@ -631,6 +654,7 @@ feature IDs. Let’s look at two with high EAF values, and two with low
 values.
 
 ``` r
+
 plot_feature_curves(qsip_normal,
   feature_ids = c("ASV_55", "ASV_84", "ASV_41", "ASV_44")
 )
@@ -651,6 +675,7 @@ The trick is to make a [`list()`](https://rdrr.io/r/base/list.html) of
 multiple objects with a name that reflects their grouping.
 
 ``` r
+
 qsip_list = list("Normal" = qsip_normal,
                  "Drought" = qsip_drought)
 ```
@@ -662,20 +687,21 @@ case) and will assign which is the control and which is the treatment.
 See the vignette for more control over these decisions.
 
 ``` r
+
 df = run_delta_EAF_contrasts(qsip_list, confidence = 0.95)
 #> ℹ `contrasts` not given so running all-by-all
 #> ℹ Confidence level = 0.95
 #> ! there were 0 contrast and 1 bs_pval result messages
 ```
 
-| feature_id | contrast          |      delta |      lower |     upper |        sd | bs_pval | bs_pval_message |      pval | contrast_message |
-|:-----------|:------------------|-----------:|-----------:|----------:|----------:|--------:|:----------------|----------:|:-----------------|
-| ASV_1      | Drought vs Normal |  0.0180749 | -0.0546814 | 0.0969191 | 0.0381461 |   0.668 | NA              | 0.6356180 | NA               |
-| ASV_10     | Drought vs Normal |  0.0583124 |  0.0136634 | 0.1004436 | 0.0224994 |   0.006 | NA              | 0.0095494 | NA               |
-| ASV_11     | Drought vs Normal |  0.1119790 |  0.0375634 | 0.1885486 | 0.0385194 |   0.000 | NA              | 0.0036482 | NA               |
-| ASV_114    | Drought vs Normal | -0.0234184 | -0.1607945 | 0.1180637 | 0.0699282 |   0.702 | NA              | 0.7377065 | NA               |
-| ASV_12     | Drought vs Normal |  0.0482223 |  0.0031208 | 0.0895461 | 0.0225526 |   0.036 | NA              | 0.0324997 | NA               |
-| ASV_13     | Drought vs Normal |  0.0482378 |  0.0001856 | 0.0936535 | 0.0235292 |   0.048 | NA              | 0.0403524 | NA               |
+| feature_id | contrast | delta | lower | upper | sd | bs_pval | bs_pval_message | pval | contrast_message |
+|:---|:---|---:|---:|---:|---:|---:|:---|---:|:---|
+| ASV_1 | Drought vs Normal | 0.0180749 | -0.0546814 | 0.0969191 | 0.0381461 | 0.668 | NA | 0.6356180 | NA |
+| ASV_10 | Drought vs Normal | 0.0583124 | 0.0136634 | 0.1004436 | 0.0224994 | 0.006 | NA | 0.0095494 | NA |
+| ASV_11 | Drought vs Normal | 0.1119790 | 0.0375634 | 0.1885486 | 0.0385194 | 0.000 | NA | 0.0036482 | NA |
+| ASV_114 | Drought vs Normal | -0.0234184 | -0.1607945 | 0.1180637 | 0.0699282 | 0.702 | NA | 0.7377065 | NA |
+| ASV_12 | Drought vs Normal | 0.0482223 | 0.0031208 | 0.0895461 | 0.0225526 | 0.036 | NA | 0.0324997 | NA |
+| ASV_13 | Drought vs Normal | 0.0482378 | 0.0001856 | 0.0936535 | 0.0235292 | 0.048 | NA | 0.0403524 | NA |
 
 Table 7: First few rows of delta EAF contrast results.
 
@@ -702,26 +728,28 @@ Like above in the delta EAF section, this also involves using a list of
 `qsip_data` objects.
 
 ``` r
+
 df = summarize_EAF_values(qsip_list)
 #> ℹ Confidence level = 0.9
 ```
 
-| group   | feature_id | observed_EAF | mean_resampled_EAF |      lower |      upper |  pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
-|:--------|:-----------|-------------:|-------------------:|-----------:|-----------:|------:|------------------:|--------------------:|----------------:|------------------:|
-| Normal  | ASV_1      |   -0.0153107 |         -0.0157044 | -0.0516543 |  0.0236518 | 0.470 |              1000 |                1000 |               3 |                 8 |
-| Drought | ASV_1      |   -0.0333856 |         -0.0330890 | -0.0808509 |  0.0161212 | 0.284 |              1000 |                1000 |               4 |                 8 |
-| Normal  | ASV_10     |    0.1126260 |          0.1121874 |  0.0848992 |  0.1400368 | 0.000 |              1000 |                1000 |               3 |                 8 |
-| Drought | ASV_10     |    0.0543136 |          0.0541364 |  0.0303215 |  0.0776436 | 0.000 |              1000 |                1000 |               4 |                 8 |
-| Drought | ASV_100    |   -0.0892684 |         -0.0895131 | -0.1488307 | -0.0349891 | 0.016 |              1000 |                1000 |               3 |                 7 |
-| Drought | ASV_102    |   -0.0407091 |         -0.0407609 | -0.0907747 |  0.0088904 | 0.168 |              1000 |                1000 |               4 |                 8 |
-| Normal  | ASV_11     |    0.3749260 |          0.3743849 |  0.3392976 |  0.4094196 | 0.000 |              1000 |                1000 |               3 |                 8 |
-| Drought | ASV_11     |    0.2629470 |          0.2622983 |  0.2041474 |  0.3099201 | 0.000 |              1000 |                1000 |               4 |                 8 |
-| Normal  | ASV_114    |    0.1926455 |          0.1918100 |  0.1234247 |  0.2683575 | 0.000 |              1000 |                1000 |               3 |                 7 |
-| Drought | ASV_114    |    0.2160639 |          0.2167657 |  0.1304984 |  0.2998898 | 0.000 |              1000 |                1000 |               3 |                 7 |
+| group | feature_id | observed_EAF | mean_resampled_EAF | lower | upper | pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
+|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Normal | ASV_1 | -0.0153107 | -0.0157044 | -0.0516543 | 0.0236518 | 0.470 | 1000 | 1000 | 3 | 8 |
+| Drought | ASV_1 | -0.0333856 | -0.0330890 | -0.0808509 | 0.0161212 | 0.284 | 1000 | 1000 | 4 | 8 |
+| Normal | ASV_10 | 0.1126260 | 0.1121874 | 0.0848992 | 0.1400368 | 0.000 | 1000 | 1000 | 3 | 8 |
+| Drought | ASV_10 | 0.0543136 | 0.0541364 | 0.0303215 | 0.0776436 | 0.000 | 1000 | 1000 | 4 | 8 |
+| Drought | ASV_100 | -0.0892684 | -0.0895131 | -0.1488307 | -0.0349891 | 0.016 | 1000 | 1000 | 3 | 7 |
+| Drought | ASV_102 | -0.0407091 | -0.0407609 | -0.0907747 | 0.0088904 | 0.168 | 1000 | 1000 | 4 | 8 |
+| Normal | ASV_11 | 0.3749260 | 0.3743849 | 0.3392976 | 0.4094196 | 0.000 | 1000 | 1000 | 3 | 8 |
+| Drought | ASV_11 | 0.2629470 | 0.2622983 | 0.2041474 | 0.3099201 | 0.000 | 1000 | 1000 | 4 | 8 |
+| Normal | ASV_114 | 0.1926455 | 0.1918100 | 0.1234247 | 0.2683575 | 0.000 | 1000 | 1000 | 3 | 7 |
+| Drought | ASV_114 | 0.2160639 | 0.2167657 | 0.1304984 | 0.2998898 | 0.000 | 1000 | 1000 | 3 | 7 |
 
 Table 8: First 10 rows of EAF results across both moisture comparisons.
 
 ``` r
+
 plot_EAF_values(qsip_list, 
                 confidence = 0.9, 
                 shared_y = TRUE,
@@ -751,6 +779,7 @@ For example, the normal moisture data could be filtered, resampled and
 have EAF values calculated in a single pipe.
 
 ``` r
+
 # example code, not executed. Default values are not shown.
 
 qsip_normal <- run_feature_filter(qsip_object,
@@ -765,7 +794,5 @@ qsip_normal <- run_feature_filter(qsip_object,
   run_EAF_calculations()
 ```
 
-------------------------------------------------------------------------
-
-1.  [Simpson, et al,
+[^1]: [Simpson, et al,
     2024](https://academic.oup.com/gigascience/article/doi/10.1093/gigascience/giae071/7817747)

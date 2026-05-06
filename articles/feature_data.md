@@ -1,12 +1,13 @@
 # Feature Data
 
 ``` r
+
 library(dplyr)
 library(tibble)
 library(tidyr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.8'
+#> [1] '0.23.9'
 ```
 
 ## Feature Counts and Metadata
@@ -26,6 +27,7 @@ dataframe with `rownames` you can convert that to a column using the
 function.
 
 ``` r
+
 df_with_rownames <- data.frame(
   row.names = c("feature1", "feature2", "feature3"),
   sample1 = c(1, 2, 3),
@@ -82,6 +84,7 @@ piping directly into the function. There is an example dataframe in the
 `qSIP2` package called `example_feature_data`.
 
 ``` r
+
 feature_data = qsip_feature_data(example_feature_df, 
                                  feature_id = "ASV",
                                  type = "counts")
@@ -101,6 +104,7 @@ You can return the original dataframe with the
 method.
 
 ``` r
+
 # not run
 get_dataframe(feature_data)
 ```
@@ -113,6 +117,7 @@ error. For example, fractional values are not allowed when the type is
 the default `counts`.
 
 ``` r
+
 tibble(
   feature_id = c("feature1", "feature2", "feature3"),
   sample1 = c(0.1, 0.2, 0.3),
@@ -126,6 +131,7 @@ tibble(
 But it is allowed with `type = "coverage"`.
 
 ``` r
+
 tibble(
   feature_id = c("feature1", "feature2", "feature3"),
   sample1 = c(0.1, 0.2, 0.3),
@@ -143,6 +149,7 @@ In theory, the slots can be overwritten, but this is not recommended. If
 you do, they will undergo the same validations and may fail.
 
 ``` r
+
 feature_data@type <- "relative"
 #> Error:
 #> ! Some columns have a total relative abundance sum greater than 1
@@ -159,6 +166,7 @@ prior to creating the object with a `mutate` call and the `across`
 function from the `tidyr` package.
 
 ``` r
+
 tibble(
   feature_id = c("feature1", "feature2", "feature3"),
   sample1 = c(1, 2, NA),
@@ -181,6 +189,7 @@ table, you can add it with the
 function and it will live in the `@taxonomy` slot.
 
 ``` r
+
 taxonomy <- tibble(
   feature_id = c("feature1", "feature2", "feature3"),
   genus = c("Marinobacter", "Devosia", "Pseudomonas"),

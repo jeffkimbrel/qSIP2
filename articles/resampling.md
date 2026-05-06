@@ -1,6 +1,7 @@
 # Resampling
 
 ``` r
+
 library(dplyr)
 library(purrr)
 library(tidyr)
@@ -8,7 +9,7 @@ library(ggplot2)
 library(patchwork)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.8'
+#> [1] '0.23.9'
 ```
 
 ## Background
@@ -24,6 +25,7 @@ each `feature_id` are repeatedly sampled with replacement \\n\\ times.
 Let’s assume a WAD dataset of 4 sources labeled *A*–*D*.
 
 ``` r
+
 WADs <- c(A = 1.679, B = 1.691, C = 1.692, D = 1.703)
 ```
 
@@ -95,6 +97,7 @@ function, and we’ll come back to how this filtering affects the
 resampling in a bit.
 
 ``` r
+
 q <- run_feature_filter(example_qsip_object,
   unlabeled_source_mat_ids = get_all_by_isotope(example_qsip_object, "12C"),
   labeled_source_mat_ids = c("S178", "S179", "S180"),
@@ -129,6 +132,7 @@ After resampling,
 confirms the updated state of the object.
 
 ``` r
+
 get_object_summary(q)
 #> # A tibble: 6 × 2
 #>   metric           none      
@@ -153,6 +157,7 @@ that will return the number of resamples that were performed and the
 seed that was used, respectively.
 
 ``` r
+
 n_resamples(q)
 #> [1] 1000
 resample_seed(q)
@@ -166,17 +171,18 @@ Note, if you set `pivot = TRUE` the dataframe can be quite large and
 take a while to assemble/display.
 
 ``` r
+
 resamples = get_resample_data(q, type = "unlabeled")
 ```
 
 | feature_id | resample | unlabeled_1 | unlabeled_2 | unlabeled_3 | unlabeled_4 | unlabeled_5 | unlabeled_6 | unlabeled_7 | unlabeled_8 |
-|:-----------|---------:|------------:|------------:|------------:|------------:|------------:|------------:|------------:|------------:|
-| ASV_1      |        1 |    1.704913 |    1.703887 |    1.708744 |    1.702578 |    1.708744 |    1.704913 |    1.701500 |    1.702578 |
-| ASV_10     |        1 |    1.714360 |    1.711404 |    1.713880 |    1.715351 |    1.713880 |    1.714360 |    1.712782 |    1.715351 |
-| ASV_104    |        1 |    1.714244 |    1.711037 |    1.711665 |    1.714251 |    1.711665 |    1.714244 |    1.712884 |    1.714251 |
-| ASV_108    |        1 |    1.715645 |    1.710424 |    1.722659 |    1.715585 |    1.722659 |    1.715645 |    1.707078 |    1.715585 |
-| ASV_11     |        1 |    1.717086 |    1.713310 |    1.714547 |    1.717568 |    1.714547 |    1.717086 |    1.714165 |    1.717568 |
-| ASV_112    |        1 |    1.712588 |    1.709385 |    1.710770 |    1.712681 |    1.710770 |    1.712588 |    1.707287 |    1.712681 |
+|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| ASV_1 | 1 | 1.704913 | 1.703887 | 1.708744 | 1.702578 | 1.708744 | 1.704913 | 1.701500 | 1.702578 |
+| ASV_10 | 1 | 1.714360 | 1.711404 | 1.713880 | 1.715351 | 1.713880 | 1.714360 | 1.712782 | 1.715351 |
+| ASV_104 | 1 | 1.714244 | 1.711037 | 1.711665 | 1.714251 | 1.711665 | 1.714244 | 1.712884 | 1.714251 |
+| ASV_108 | 1 | 1.715645 | 1.710424 | 1.722659 | 1.715585 | 1.722659 | 1.715645 | 1.707078 | 1.715585 |
+| ASV_11 | 1 | 1.717086 | 1.713310 | 1.714547 | 1.717568 | 1.714547 | 1.717086 | 1.714165 | 1.717568 |
+| ASV_112 | 1 | 1.712588 | 1.709385 | 1.710770 | 1.712681 | 1.710770 | 1.712588 | 1.707287 | 1.712681 |
 
 Table 4: The first few lines of the unlabeled resampling results. There
 were 8 draws because there were 8 unlabeled sources used in the
@@ -191,6 +197,7 @@ the features, or you can specify a single feature or a vector of
 features. Here, I will select 3 random feature_ids to show.
 
 ``` r
+
 set.seed(52)
 random_features <- sample(get_feature_ids(q, filtered = TRUE), 3)
 plot_feature_resamplings(q,
@@ -251,6 +258,7 @@ rather than smoothly. Each point is mean WAD value for one of the 1000
 successful resamplings.
 
 ``` r
+
 plot_feature_resamplings(q,
                          feature_id = random_features,
                          intervals = "bar",
@@ -305,6 +313,7 @@ before (e.g. by setting `min_labeled_sources = 1`), then this feature
 could make it through the filtering.
 
 ``` r
+
 q2 <- run_feature_filter(example_qsip_object,
   unlabeled_source_mat_ids = get_all_by_isotope(example_qsip_object, "12C"),
   labeled_source_mat_ids = c("S178", "S179", "S180"),
@@ -334,6 +343,7 @@ But we now get an error when running the resampling step suggesting we
 increase our filtering stringency.
 
 ``` r
+
 run_resampling(q2,
   resamples = 1000,
   with_seed = 19,
@@ -398,6 +408,7 @@ return a warning message that the resampling failed for some iterations
 of some features.
 
 ``` r
+
 q2 <- run_resampling(q2,
   resamples = 1000,
   with_seed = 19,
@@ -418,6 +429,7 @@ in `q2`. We can see which specific features had failures using
 filtering for values of \\n\\ less than 1000 (our number of resamples).
 
 ``` r
+
 get_resample_counts(q2) |>
   filter(labeled_resamples < 1000 | unlabeled_resamples < 1000) |>
   knitr::kable()
@@ -454,6 +466,7 @@ features shows something strange with ASV_72 and we may still choose to
 remove it from our analysis.
 
 ``` r
+
 plot_feature_resamplings(q2,
                          feature_id = c("ASV_72", "ASV_155", "ASV_161"),
                          intervals = "bar",
@@ -473,6 +486,7 @@ function, and this histogram shows that most features do have 1000
 successful resamplings.
 
 ``` r
+
 plot_successful_resamples(q2)
 ```
 
@@ -494,6 +508,7 @@ highly enriched and with a confidence interval clear of 0. But, the red
 dot further flags it as suspect and warrants a deeper look.
 
 ``` r
+
 EAF = run_EAF_calculations(q2)
 
 plot_EAF_values(EAF,

@@ -1,10 +1,11 @@
 # Source Data
 
 ``` r
+
 library(dplyr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.8'
+#> [1] '0.23.9'
 ```
 
 ## Source Material and Metadata
@@ -54,7 +55,7 @@ isotopolog.
 | S161   |           41744046 |  67.62552 | 12C     | Drought  | glucose    |
 | S162   |           49402713 |  94.21217 | 12C     | Drought  | glucose    |
 
-The first few rows of `example_source_df`
+The first few rows of `example_source_df` {.table .caption-top}
 
 ## qSIP2 Source Data Object
 
@@ -64,6 +65,7 @@ convert it to a `qsip_source_data` object. This is one of the main
 `qSIP2` objects to hold and validate the data.
 
 ``` r
+
 source_object <- qsip_source_data(example_source_df,
   isotope = "Isotope",
   isotopolog = "isotopolog",
@@ -90,6 +92,7 @@ is already title “isotopolog”, so if it is omitted from the object
 creation then the column will still be identified and used.
 
 ``` r
+
 # this will still work even though the isotopolog parameter is not assigned
 qsip_source_data(example_source_df,
   isotope = "Isotope",
@@ -105,6 +108,7 @@ While this object is not meant to be inspected or worked with outside of
 the structure of it.
 
 ``` r
+
 glimpse(source_object)
 #> <qSIP2::qsip_source_data>
 #>  @ data           : tibble [15 × 6] (S3: tbl_df/tbl/data.frame)
@@ -132,7 +136,7 @@ record of the original names in the corresponding slots.
 | Isotope        | isotope       | @isotope           |
 | substrate      | isotopolog    | @isotopolog        |
 
-Column name differences
+Column name differences {.table .caption-top}
 
 To get the dataframe back out of the `qsip_source_data` object you can
 use the
@@ -142,6 +146,7 @@ your needs. But, note that the columns may be in a different order than
 the dataframe you started with.
 
 ``` r
+
 get_dataframe(source_object, original_headers = T)
 ```
 
@@ -179,6 +184,7 @@ and are added as exceptions in the
 helper function.
 
 ``` r
+
 # artificially doubling the rows will give an error from duplicate source_mat_ids
 example_source_df |>
   rbind(example_source_df) |>
@@ -197,6 +203,7 @@ modified. This makes it impossible to modify the data later to an
 invalid object, e.g. changing an isotope to an invalid choice.
 
 ``` r
+
 source_object@data$isotope <- "13G"
 #> Error in `validate_isotopes()`:
 #> ! Invalid isotope found: "13G"
@@ -206,12 +213,11 @@ source_object@data$isotope <- "13G"
 
 ## MISIP
 
-While qSIP standards are part of the MISIP[¹](#fn1) standards, the
-`qSIP2` package is a little less stringent. This means your valid
-`qSIP2` object might not be valid for a MISIP submission. At the source
-data level this is primarily through the difference between how the
-`isotope` data is coded, plus the addition of another `isotopolog_label`
-column.
+While qSIP standards are part of the MISIP[^1] standards, the `qSIP2`
+package is a little less stringent. This means your valid `qSIP2` object
+might not be valid for a MISIP submission. At the source data level this
+is primarily through the difference between how the `isotope` data is
+coded, plus the addition of another `isotopolog_label` column.
 
 `qSIP2` has functions to convert between these two types.
 `add_isotoplog_label()` makes a MISIP version of the source data, and
@@ -229,20 +235,21 @@ Note, these functions are run on the source dataframe rather than on the
 ### Adding the `isotopolog_label` column
 
 ``` r
+
 example_source_df |>
   add_isotopolog_label(isotope = "Isotope")
 ```
 
-| source | total_copies_per_g | total_dna | isotope | isotopolog_label     | Moisture | isotopolog |
-|:-------|-------------------:|----------:|:--------|:---------------------|:---------|:-----------|
-| S151   |           95774992 | 182.16852 | 13C     | natural abundance    | Normal   | glucose    |
-| S178   |           62964478 |  73.89526 | 13C     | isotopically labeled | Normal   | glucose    |
-| S200   |           59426155 |  71.19377 | 13C     | isotopically labeled | Drought  | glucose    |
-| S201   |           56379702 |  73.78225 | 13C     | isotopically labeled | Drought  | glucose    |
-| S150   |           53528072 | 109.01522 | 13C     | natural abundance    | Normal   | glucose    |
-| S180   |           51720787 |  81.36874 | 13C     | isotopically labeled | Normal   | glucose    |
+| source | total_copies_per_g | total_dna | isotope | isotopolog_label | Moisture | isotopolog |
+|:---|---:|---:|:---|:---|:---|:---|
+| S151 | 95774992 | 182.16852 | 13C | natural abundance | Normal | glucose |
+| S178 | 62964478 | 73.89526 | 13C | isotopically labeled | Normal | glucose |
+| S200 | 59426155 | 71.19377 | 13C | isotopically labeled | Drought | glucose |
+| S201 | 56379702 | 73.78225 | 13C | isotopically labeled | Drought | glucose |
+| S150 | 53528072 | 109.01522 | 13C | natural abundance | Normal | glucose |
+| S180 | 51720787 | 81.36874 | 13C | isotopically labeled | Normal | glucose |
 
-A ’MISIPified version of `example_source_df`
+A ’MISIPified version of `example_source_df` {.table .caption-top}
 
 Now, the `Isotope` column has been renamed to `isotope` to satisfy MISIP
 standards, and all values have been replaced with the heavy isotope.
@@ -251,7 +258,8 @@ standards, and all values have been replaced with the heavy isotope.
 |:--------|----:|
 | 13C     |  15 |
 
-Count of `isotope` types in `example_source_df_MISIP`
+Count of `isotope` types in `example_source_df_MISIP` {.table
+.caption-top}
 
 And the designation for whether the source material was the “light” or
 “heavy” version of the isotope has now been transferred to the
@@ -262,7 +270,8 @@ And the designation for whether the source material was the “light” or
 | isotopically labeled |   7 |
 | natural abundance    |   8 |
 
-Count of `isotopolog_label` types in `example_source_df_MISIP`
+Count of `isotopolog_label` types in `example_source_df_MISIP` {.table
+.caption-top}
 
 ### Removing the `isotopolog_label` column
 
@@ -271,6 +280,7 @@ This change can be reverted with the
 function.
 
 ``` r
+
 example_source_df |>
   add_isotopolog_label(isotope = "Isotope") |>
   remove_isotopolog_label()
@@ -294,11 +304,9 @@ example_source_df |>
 | S202   |           42562198 | 108.11436 | 13C     | Drought  | glucose    |
 | S203   |           49914369 |  80.48608 | 13C     | Drought  | glucose    |
 
-`example_source_df_MISIP` converted back
+`example_source_df_MISIP` converted back {.table .caption-top}
 
 Note, the original is not *exactly* preserved as the original `Isotope`
 column has the MISIP standard `isotope` name retained.
 
-------------------------------------------------------------------------
-
-1.  https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1
+[^1]: https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1

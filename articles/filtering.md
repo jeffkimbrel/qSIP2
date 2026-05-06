@@ -1,13 +1,14 @@
 # Filtering Features
 
 ``` r
+
 library(dplyr)
 library(ggplot2)
 library(patchwork)
 library(stringr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.8'
+#> [1] '0.23.9'
 ```
 
 ## Background
@@ -109,6 +110,7 @@ and see how the text result changes to allow less through as we get more
 restrictive.
 
 ``` r
+
 df = get_comparison_groups(example_qsip_object, 
                            group = "Moisture")
 ```
@@ -125,6 +127,7 @@ sources is shown below using two stringencies, “loose” and
 “restrictive”.
 
 ``` r
+
 loose <- run_feature_filter(example_qsip_object,
   unlabeled_source_mat_ids = get_all_by_isotope(example_qsip_object, "12C"),
   labeled_source_mat_ids = c("S178", "S179", "S180"),
@@ -180,18 +183,18 @@ numbers shown in the
 output include the union of “Fraction Passed”, and the intersection of
 “Source Passed” is the final feature count after filtering.
 
-| filter_step     | features_unlabeled | features_labeled | union | intersect | unlabeled_only | labeled_only |
-|:----------------|-------------------:|-----------------:|------:|----------:|---------------:|-------------:|
-| Fraction Passed |                780 |              497 |   870 |       407 |            373 |           90 |
-| Source Passed   |                535 |              308 |   586 |       257 |            278 |           51 |
+| filter_step | features_unlabeled | features_labeled | union | intersect | unlabeled_only | labeled_only |
+|:---|---:|---:|---:|---:|---:|---:|
+| Fraction Passed | 780 | 497 | 870 | 407 | 373 | 90 |
+| Source Passed | 535 | 308 | 586 | 257 | 278 | 51 |
 
 Table 2: Results of get_filter_results(loose), subsetting for some
 columns and rows
 
-| filter_step     | features_unlabeled | features_labeled | union | intersect | unlabeled_only | labeled_only |
-|:----------------|-------------------:|-----------------:|------:|----------:|---------------:|-------------:|
-| Fraction Passed |                299 |              209 |   346 |       162 |            137 |           47 |
-| Source Passed   |                103 |               82 |   121 |        64 |             39 |           18 |
+| filter_step | features_unlabeled | features_labeled | union | intersect | unlabeled_only | labeled_only |
+|:---|---:|---:|---:|---:|---:|---:|
+| Fraction Passed | 299 | 209 | 346 | 162 | 137 | 47 |
+| Source Passed | 103 | 82 | 121 | 64 | 39 | 18 |
 
 Table 3: Results of get_filter_results(restrictive), subsetting for some
 columns and rows
@@ -208,6 +211,7 @@ gives a quick structured view of the object state, confirming the
 feature count and that the filtering step has been completed.
 
 ``` r
+
 get_object_summary(restrictive)
 #> # A tibble: 6 × 2
 #>   metric           none      
@@ -227,6 +231,7 @@ included in the resulting object. First, we can get a few feature_ids
 that had different fates between the different filtering conditions.
 
 ``` r
+
 diff_features = setdiff(get_feature_ids(loose, filtered = TRUE), get_feature_ids(restrictive, filtered = TRUE))
 ```
 
@@ -237,6 +242,7 @@ function to look at the filtering parameters affected the fate of
 `ASV_100`.
 
 ``` r
+
 ASV_100_restrictive = get_filtered_feature_summary(restrictive, feature_id = "ASV_100")
 ASV_100_loose = get_filtered_feature_summary(loose, feature_id = "ASV_100")
 ```
@@ -256,6 +262,7 @@ filtering), the `retained` slot is `FALSE` for the restrictive filtering
 and `TRUE` for the loose filtering.
 
 ``` r
+
 ASV_100_loose$retained
 #> [1] TRUE
 ASV_100_restrictive$retained
@@ -267,19 +274,19 @@ filtering conditions in the `$fraction_filter_summary` slot. This code
 combines the two sets of results, but just the last two columns are of
 importance.
 
-| source_mat_id | type      | n_fractions | fraction_call_restrictive | fraction_call_loose |
-|:--------------|:----------|------------:|:--------------------------|:--------------------|
-| S149          | unlabeled |           3 | Fraction Filtered         | Fraction Passed     |
-| S150          | unlabeled |          10 | Fraction Passed           | Fraction Passed     |
-| S151          | unlabeled |           7 | Fraction Passed           | Fraction Passed     |
-| S152          | unlabeled |           6 | Fraction Passed           | Fraction Passed     |
-| S161          | unlabeled |           7 | Fraction Passed           | Fraction Passed     |
-| S162          | unlabeled |          13 | Fraction Passed           | Fraction Passed     |
-| S163          | unlabeled |           6 | Fraction Passed           | Fraction Passed     |
-| S164          | unlabeled |           9 | Fraction Passed           | Fraction Passed     |
-| S178          | labeled   |           4 | Fraction Filtered         | Fraction Passed     |
-| S179          | labeled   |           5 | Fraction Filtered         | Fraction Passed     |
-| S180          | labeled   |           7 | Fraction Passed           | Fraction Passed     |
+| source_mat_id | type | n_fractions | fraction_call_restrictive | fraction_call_loose |
+|:---|:---|---:|:---|:---|
+| S149 | unlabeled | 3 | Fraction Filtered | Fraction Passed |
+| S150 | unlabeled | 10 | Fraction Passed | Fraction Passed |
+| S151 | unlabeled | 7 | Fraction Passed | Fraction Passed |
+| S152 | unlabeled | 6 | Fraction Passed | Fraction Passed |
+| S161 | unlabeled | 7 | Fraction Passed | Fraction Passed |
+| S162 | unlabeled | 13 | Fraction Passed | Fraction Passed |
+| S163 | unlabeled | 6 | Fraction Passed | Fraction Passed |
+| S164 | unlabeled | 9 | Fraction Passed | Fraction Passed |
+| S178 | labeled | 4 | Fraction Filtered | Fraction Passed |
+| S179 | labeled | 5 | Fraction Filtered | Fraction Passed |
+| S180 | labeled | 7 | Fraction Passed | Fraction Passed |
 
 Table 4: Fraction-level filter results for ASV_100 under loose and
 restrictive filtering.
@@ -291,10 +298,10 @@ had differences and showed as “Fraction Filtered”.
 Therefore, the sample (fraction) count filtering came to different
 conclusions…
 
-| feature_id | type      | n_sources_restrictive | source_call_restrictive | n_sources_loose | source_call_loose |
-|:-----------|:----------|----------------------:|:------------------------|----------------:|:------------------|
-| ASV_100    | labeled   |                     1 | Source Filtered         |               3 | Source Passed     |
-| ASV_100    | unlabeled |                     7 | Source Passed           |               8 | Source Passed     |
+| feature_id | type | n_sources_restrictive | source_call_restrictive | n_sources_loose | source_call_loose |
+|:---|:---|---:|:---|---:|:---|
+| ASV_100 | labeled | 1 | Source Filtered | 3 | Source Passed |
+| ASV_100 | unlabeled | 7 | Source Passed | 8 | Source Passed |
 
 Table 5: Source-level filter results for ASV_100 under loose and
 restrictive filtering.
@@ -307,6 +314,7 @@ features that are different are by plotting the fraction count
 distributions.
 
 ``` r
+
 a = plot_filter_results(loose) + ggtitle("Loose")
 b = plot_filter_results(restrictive) + ggtitle("Restrictive")
 a / b

@@ -1,11 +1,12 @@
 # Growth Workflow
 
 ``` r
+
 library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.8'
+#> [1] '0.23.9'
 ```
 
 ## Background
@@ -35,10 +36,10 @@ using quantitative abundance values in both time zero and time point
 samples, we can estimate the death rate (\\d_i\\) of individual features
 by calculating the decrease in unlabeled features. Together, we get at
 the growth rate using the equation \\r_i = b_i + d_i\\ for each feature
-\\i\\[¹](#fn1). This is one of the main advantages of qSIP: if \\b\\
-equals \\d\\ then traditional community analysis would detect no change
-in the community, whereas qSIP would detect growth and death of
-individual features.
+\\i\\[^1]. This is one of the main advantages of qSIP: if \\b\\ equals
+\\d\\ then traditional community analysis would detect no change in the
+community, whereas qSIP would detect growth and death of individual
+features.
 
 For growth, three additional arguments are required for the
 `qsip_source_data` creation:
@@ -69,6 +70,7 @@ columns are structured. We can pull out a table with the relevant
 columns to verify the data is formatted correctly.
 
 ``` r
+
 get_dataframe(example_qsip_growth_object, type = "source") |> 
   select(source_mat_id, isotope, timepoint, total_abundance, volume) |>
   arrange(timepoint, isotope)
@@ -108,6 +110,7 @@ tell from the name that it is a copy number standardized to a consistent
 amount of soil (16S copies per gram of soil).
 
 ``` r
+
 example_qsip_growth_object@source_data@total_abundance
 #> [1] "qPCR.16S.copies.g.soil"
 ```
@@ -123,6 +126,7 @@ are running with `allow_failures = TRUE`, but still with a minimum of 4
 labeled and 4 unlabeled fractions.
 
 ``` r
+
 q <- run_feature_filter(example_qsip_growth_object,
   group = "Day 10",
   unlabeled_source_mat_ids = c("source_11", "source_14", "source_2", "source_5", "source_8"),
@@ -168,6 +172,7 @@ having less than 99% success in the labeled sources
 ([Table 2](#tbl-resample-counts-eaf)).
 
 ``` r
+
 get_resample_counts(q) |>
   filter(labeled_resamples < 1000 | unlabeled_resamples < 1000)
 #> # A tibble: 11 × 3
@@ -190,6 +195,7 @@ Table 2: Features with fewer than 1000 successful resamples during EAF
 calculation.
 
 ``` r
+
 plot_EAF_values(q,
   confidence = 0.9,
   error = "ribbon",
@@ -214,7 +220,7 @@ In addition to the EAF values stored in the `qsip_data` object, we also
 need a table with the \\N\_{TOTALi0}\\ values for each feature \\i\\ at
 timepoint \\t\\, in this case time 0. This value is the *total*
 abundance of each feature and is the sum of both the labeled and
-unlabeled features (equation 2 from Koch et al. 2018[²](#fn2)). Note you
+unlabeled features (equation 2 from Koch et al. 2018[^2]). Note you
 don’t have to always compare against time zero. If you have a 7-day and
 14-day timepoint you can set day 7 as the initial timepoint here.
 
@@ -230,6 +236,7 @@ timepoint of interest.
 > zero sources will not be present in the filtered data.
 
 ``` r
+
 N_total_i0 <- get_N_total_it(example_qsip_growth_object, t = 0)
 #> Warning: 1 feature_id have zero abundance at time 0: "taxon_194"
 ```
@@ -263,6 +270,7 @@ and the growth model to use. The growth model can be either
 “exponential” or “linear”.
 
 ``` r
+
 q <- run_growth_calculations(q,
                                N_total_it = example_qsip_growth_t0,
                                growth_model = "exponential")
@@ -283,18 +291,19 @@ function. Here, we will filter to just the data for the first resample
 to see the structure of the output.
 
 ``` r
+
 get_growth_data(q) |>
   filter(resample == 1)
 ```
 
-| feature_id | timepoint1 | timepoint2 | resample | N_total_i0 |   N_total_it |   N_light_it |  N_heavy_it |       EAF |       r_net |        bi |         di |         ri |
-|:-----------|-----------:|-----------:|:---------|-----------:|-------------:|-------------:|------------:|----------:|------------:|----------:|-----------:|-----------:|
-| taxon_1    |          0 |         10 | 1        | 1595472105 | 148586025\.4 | 136810605\.5 | 11775419.83 | 0.0790913 | -1446886080 | 0.0082567 | -0.2456327 | -0.2373761 |
-| taxon_2    |          0 |         10 | 1        |   64576684 |   10029559.5 |    9050990.0 |   978569.49 | 0.0973733 |   -54547125 | 0.0102663 | -0.1964979 | -0.1862317 |
-| taxon_3    |          0 |         10 | 1        |    4488930 |     461034.7 |     400320.0 |    60714.77 | 0.1314289 |    -4027895 | 0.0141209 | -0.2417106 | -0.2275896 |
-| taxon_4    |          0 |         10 | 1        |    2494463 |     379679.5 |     353589.2 |    26090.33 | 0.0685792 |    -2114784 | 0.0071192 | -0.1953693 | -0.1882501 |
-| taxon_5    |          0 |         10 | 1        |    9849881 |    3875688.9 |    2817314.3 |  1058374.58 | 0.2725340 |    -5974192 | 0.0318939 | -0.1251675 | -0.0932736 |
-| taxon_6    |          0 |         10 | 1        |  697760597 | 184676166\.7 | 146843360\.6 | 37832806.09 | 0.2044504 |  -513084430 | 0.0229237 | -0.1558510 | -0.1329272 |
+| feature_id | timepoint1 | timepoint2 | resample | N_total_i0 | N_total_it | N_light_it | N_heavy_it | EAF | r_net | bi | di | ri |
+|:---|---:|---:|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| taxon_1 | 0 | 10 | 1 | 1595472105 | 148586025\.4 | 136810605\.5 | 11775419.83 | 0.0790913 | -1446886080 | 0.0082567 | -0.2456327 | -0.2373761 |
+| taxon_2 | 0 | 10 | 1 | 64576684 | 10029559.5 | 9050990.0 | 978569.49 | 0.0973733 | -54547125 | 0.0102663 | -0.1964979 | -0.1862317 |
+| taxon_3 | 0 | 10 | 1 | 4488930 | 461034.7 | 400320.0 | 60714.77 | 0.1314289 | -4027895 | 0.0141209 | -0.2417106 | -0.2275896 |
+| taxon_4 | 0 | 10 | 1 | 2494463 | 379679.5 | 353589.2 | 26090.33 | 0.0685792 | -2114784 | 0.0071192 | -0.1953693 | -0.1882501 |
+| taxon_5 | 0 | 10 | 1 | 9849881 | 3875688.9 | 2817314.3 | 1058374.58 | 0.2725340 | -5974192 | 0.0318939 | -0.1251675 | -0.0932736 |
+| taxon_6 | 0 | 10 | 1 | 697760597 | 184676166\.7 | 146843360\.6 | 37832806.09 | 0.2044504 | -513084430 | 0.0229237 | -0.1558510 | -0.1329272 |
 
 Table 4: The first few rows of get_growth_data(q) for resample 1,
 showing birth and death rate calculations.
@@ -318,8 +327,8 @@ The remaining columns use the resampled EAF data to determine which
 portion of the `N_total_it` copies correspond to those taking up the
 substrate and those that remain unlabeled:
 
-- `N_light_it` comes from equation 3 of Koch et al. 2018[³](#fn3), and
-  is the proportion of `N_total_it` that isn’t labeled.
+- `N_light_it` comes from equation 3 of Koch et al. 2018[^3], and is the
+  proportion of `N_total_it` that isn’t labeled.
 - `N_heavy_it` is the proportion of `N_total_it` that is labeled, and is
   roughly \\N\_{TOTALit} \times EAF\\
 - `bi` is the per-unit-of-time birth rate, `di` is the death rate
@@ -332,6 +341,7 @@ function. This function will calculate the mean, sd and confidence
 intervals for the birth and death rates, as well as EAF.
 
 ``` r
+
 summarize_growth_values(q, confidence = 0.9) |> arrange(feature_id)
 #> Confidence level = 0.9
 #> # A tibble: 351 × 29
@@ -371,6 +381,7 @@ We can visualize the birth and death rates using
 net growth rate.
 
 ``` r
+
 plot_growth_values(q,
                    confidence = 0.9,
                    top = 100,
@@ -419,12 +430,13 @@ more copies than \\N\_{TOTALit}\\, which is impossible, and therefore
 \\N\_{HEAVYit}\\ will be a negative number of copies, which is also
 impossible. [Table 6](#tbl-negative-labeled) shows examples from the
 `q@growth$negative_labeled` dataframe for taxon_1 explaining the
-reasoning. Z (equation 4 from Hungate et al. 2015[⁴](#fn4)) is the
-difference between the labeled and unlabeled WAD value, so when Z is
-negative, it indicates the WAD values were lower for the labeled
-fractions, likely due to noise in the SIP process.
+reasoning. Z (equation 4 from Hungate et al. 2015[^4]) is the difference
+between the labeled and unlabeled WAD value, so when Z is negative, it
+indicates the WAD values were lower for the labeled fractions, likely
+due to noise in the SIP process.
 
 ``` r
+
 q@growth$negative_labeled |> 
   filter(feature_id == "taxon_1") |>
   select(feature_id, N_total_it, resample, Z, EAF, N_light_it, N_heavy_it)
@@ -448,6 +460,7 @@ remaining 972 were successful. This number is reflected in the
 [`summarize_growth_values()`](https://jeffkimbrel.github.io/qSIP2/reference/summarize_growth_values.md).
 
 ``` r
+
 summarize_growth_values(q, confidence = 0.9) |>
   filter(feature_id == "taxon_1") |>
   select(feature_id, successes)
@@ -492,16 +505,14 @@ Once you have growth results, you can use them to identify which
 features are responding to your experimental treatments by comparing
 birth and death rates across conditions.
 
-------------------------------------------------------------------------
-
-1.  Koch et al. 2018, *Ecosphere*.
+[^1]: Koch et al. 2018, *Ecosphere*.
     <https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090>
 
-2.  Koch et al. 2018, *Ecosphere*.
+[^2]: Koch et al. 2018, *Ecosphere*.
     <https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090>
 
-3.  Koch et al. 2018, *Ecosphere*.
+[^3]: Koch et al. 2018, *Ecosphere*.
     <https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2090>
 
-4.  Hungate et al. 2015, *Applied and Environmental Microbiology*.
+[^4]: Hungate et al. 2015, *Applied and Environmental Microbiology*.
     <https://journals.asm.org/doi/10.1128/aem.02280-15>

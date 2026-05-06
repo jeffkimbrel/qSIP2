@@ -1,6 +1,7 @@
 # Delta EAF Workflow
 
 ``` r
+
 library(dplyr)
 library(ggplot2)
 library(ggupset)
@@ -8,7 +9,7 @@ library(tidyr)
 library(tibble)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.8'
+#> [1] '0.23.9'
 ```
 
 ## Background
@@ -46,6 +47,7 @@ paired against their matched ¹²C sources, and both again paired against
 *all* ¹²C sources.
 
 ``` r
+
 q <- tribble(
   ~group,        ~unlabeled,               ~labeled,                 ~min_unlabeled_sources,
   "Normal",      "S149, S150, S151, S152", "S178, S179, S180",       3,
@@ -73,6 +75,7 @@ counts how many features are shared across groups
 of the overlaps ([Figure 1](#fig-upset_plot)).
 
 ``` r
+
 overlaps = get_overlap_sizes(q)
 ```
 
@@ -89,6 +92,7 @@ Table 1: Number of features with EAF values shared across each
 combination of comparison groups.
 
 ``` r
+
 lapply(q, get_EAF_data) |>
   bind_rows(.id = "group") |>
   filter(is.na(resample)) |>
@@ -128,6 +132,7 @@ again in an *all-by-all* format and with treatment/control pairings that
 may or may not be what you want ([Table 2](#tbl-default_contrasts)).
 
 ``` r
+
 contrasts = make_delta_EAF_contrasts(q)
 ```
 
@@ -156,6 +161,7 @@ the contrasts exactly how you want it
 ([Table 3](#tbl-better_contrasts)).
 
 ``` r
+
 contrasts = make_delta_EAF_contrasts(q) |>
   dplyr::filter(!contrast %in% c("Drought vs Normal_all", "Drought_all vs Normal")) |>
   mutate(contrast = paste(treatment, control, sep = " minus "))
@@ -184,12 +190,12 @@ we left it empty, then it would generate the same contrasts as the base
 function. We also give it the confidence level of 95%.
 
 ``` r
+
 delta_EAF = run_delta_EAF_contrasts(q, 
                                     contrasts = contrasts,
                                     confidence = 0.95) 
 #> ℹ Confidence level = 0.95
-#> step 1/2: calculating deltas... ■■■■■■■■■■■■■                     40% |  ETA:  …
-#> step 2/2: summarizing delta statistics ■■■■■■■■                          23% | …
+#> step 2/2: summarizing delta statistics ■■■■■■■■■■■■■■■■■■■■■■            69% | …
 #> ! there were 74 contrast and 127 bs_pval result messages
 ```
 
@@ -214,10 +220,10 @@ two failed contrasts, the same message appears twice. This is
 intentional: when viewing either successful row for that feature, the
 message makes clear that not all contrasts succeeded.
 
-| feature_id | contrast_message                                                             |
-|:-----------|:-----------------------------------------------------------------------------|
-| ASV_167    | skipped 2 missing contrast(s): Normal minus Drought, Normal_all minus Normal |
-| ASV_167    | skipped 2 missing contrast(s): Normal minus Drought, Normal_all minus Normal |
+| feature_id | contrast_message |
+|:---|:---|
+| ASV_167 | skipped 2 missing contrast(s): Normal minus Drought, Normal_all minus Normal |
+| ASV_167 | skipped 2 missing contrast(s): Normal minus Drought, Normal_all minus Normal |
 
 > **Note:** Warnings are only generated for features that appear in at
 > least one contrast. A feature present in only one group — and
@@ -233,16 +239,17 @@ significance in some contrasts but not others.
 ### Example feature: ASV_10
 
 ``` r
+
 ASV_10 = delta_EAF |>
   filter(feature_id == "ASV_10")
 ```
 
-| feature_id | contrast                     |      delta |      lower |     upper |        sd | bs_pval | bs_pval_message |      pval | contrast_message |
-|:-----------|:-----------------------------|-----------:|-----------:|----------:|----------:|--------:|:----------------|----------:|:-----------------|
-| ASV_10     | Drought_all minus Drought    | -0.0004450 | -0.0265342 | 0.0265701 | 0.0139587 |   0.940 | NA              | 0.9745663 | NA               |
-| ASV_10     | Normal minus Drought         |  0.0574224 |  0.0025274 | 0.1122189 | 0.0277423 |   0.040 | NA              | 0.0384665 | NA               |
-| ASV_10     | Normal_all minus Drought_all |  0.0583124 |  0.0144726 | 0.1051709 | 0.0226059 |   0.004 | NA              | 0.0098938 | NA               |
-| ASV_10     | Normal_all minus Normal      |  0.0004449 | -0.0438587 | 0.0455810 | 0.0231538 |   0.956 | NA              | 0.9846679 | NA               |
+| feature_id | contrast | delta | lower | upper | sd | bs_pval | bs_pval_message | pval | contrast_message |
+|:---|:---|---:|---:|---:|---:|---:|:---|---:|:---|
+| ASV_10 | Drought_all minus Drought | -0.0004450 | -0.0265342 | 0.0265701 | 0.0139587 | 0.940 | NA | 0.9745663 | NA |
+| ASV_10 | Normal minus Drought | 0.0574224 | 0.0025274 | 0.1122189 | 0.0277423 | 0.040 | NA | 0.0384665 | NA |
+| ASV_10 | Normal_all minus Drought_all | 0.0583124 | 0.0144726 | 0.1051709 | 0.0226059 | 0.004 | NA | 0.0098938 | NA |
+| ASV_10 | Normal_all minus Normal | 0.0004449 | -0.0438587 | 0.0455810 | 0.0231538 | 0.956 | NA | 0.9846679 | NA |
 
 Table 4: Delta EAF results for ASV_10 across all four contrasts.
 
@@ -297,6 +304,7 @@ y-axis displays the “significance”, here as the negative log10 of
 `bs_pval`.
 
 ``` r
+
 sig_pval = 0.05
 eaf_diff = 0.05
 
@@ -341,11 +349,11 @@ vignette](https://jeffkimbrel.github.io/qSIP2/articles/resampling.md)).
 Here, although there may be 1000 resamples in both groups, there may be
 sporadic `NA` values filled in when the resampling failed.
 
-| feature_id | contrast                  |   bs_pval | bs_pval_message                                       |
-|:-----------|:--------------------------|----------:|:------------------------------------------------------|
-| ASV_34     | Normal minus Drought      | 0.0129450 | Removed 691 NA bootstrap replicate(s) of 1000 (69.1%) |
-| ASV_117    | Drought_all minus Drought | 0.6761364 | Removed 648 NA bootstrap replicate(s) of 1000 (64.8%) |
-| ASV_55     | Normal minus Drought      | 0.2392027 | Removed 699 NA bootstrap replicate(s) of 1000 (69.9%) |
+| feature_id | contrast | bs_pval | bs_pval_message |
+|:---|:---|---:|:---|
+| ASV_34 | Normal minus Drought | 0.0129450 | Removed 691 NA bootstrap replicate(s) of 1000 (69.1%) |
+| ASV_117 | Drought_all minus Drought | 0.6761364 | Removed 648 NA bootstrap replicate(s) of 1000 (64.8%) |
+| ASV_55 | Normal minus Drought | 0.2392027 | Removed 699 NA bootstrap replicate(s) of 1000 (69.9%) |
 
 Table 5: Three randomly sampled rows with a bs_pval_message, showing how
 many resamples were skipped for each.
@@ -368,21 +376,22 @@ retrieved across all four comparison groups.
 ### Resampled EAF distributions
 
 ``` r
+
 ASV_10_EAF = get_EAF_data(q) |>
   filter(feature_id == "ASV_10") |>
   filter(!is.na(resample))
 ```
 
-| group       | feature_id | resample | W_lab_mean | W_unlab_mean | observed |         Z |         G |        M | atom_count | M_labeledmax | M_labeled |       EAF |
-|:------------|:-----------|:---------|-----------:|-------------:|:---------|----------:|----------:|---------:|-----------:|-------------:|----------:|----------:|
-| Drought     | ASV_10     | 1        |   1.715289 |     1.711749 | FALSE    | 0.0035398 | 0.7866661 | 308.0812 |   9.606667 |     317.6634 |  308.7183 | 0.0657490 |
-| Drought_all | ASV_10     | 1        |   1.715289 |     1.713751 | FALSE    | 0.0015377 | 0.8106425 | 308.0931 |   9.594679 |     317.6634 |  308.3695 | 0.0285640 |
-| Normal      | ASV_10     | 1        |   1.718697 |     1.712044 | FALSE    | 0.0066530 | 0.7902033 | 308.0829 |   9.604898 |     317.6634 |  309.2802 | 0.1235757 |
-| Normal_all  | ASV_10     | 1        |   1.718697 |     1.712218 | FALSE    | 0.0064790 | 0.7922873 | 308.0840 |   9.603856 |     317.6634 |  309.2498 | 0.1203445 |
-| Drought     | ASV_10     | 10       |   1.715232 |     1.712508 | FALSE    | 0.0027240 | 0.7957565 | 308.0857 |   9.602122 |     317.6634 |  308.5757 | 0.0505972 |
-| Drought_all | ASV_10     | 10       |   1.715232 |     1.711489 | FALSE    | 0.0037433 | 0.7835503 | 308.0796 |   9.608225 |     317.6634 |  308.7535 | 0.0695262 |
-| Normal      | ASV_10     | 10       |   1.718697 |     1.711796 | FALSE    | 0.0069010 | 0.7872345 | 308.0815 |   9.606383 |     317.6634 |  309.3235 | 0.1281786 |
-| Normal_all  | ASV_10     | 10       |   1.718697 |     1.713259 | FALSE    | 0.0054378 | 0.8047561 | 308.0902 |   9.597622 |     317.6634 |  309.0680 | 0.1010105 |
+| group | feature_id | resample | W_lab_mean | W_unlab_mean | observed | Z | G | M | atom_count | M_labeledmax | M_labeled | EAF |
+|:---|:---|:---|---:|---:|:---|---:|---:|---:|---:|---:|---:|---:|
+| Drought | ASV_10 | 1 | 1.715289 | 1.711749 | FALSE | 0.0035398 | 0.7866661 | 308.0812 | 9.606667 | 317.6634 | 308.7183 | 0.0657490 |
+| Drought_all | ASV_10 | 1 | 1.715289 | 1.713751 | FALSE | 0.0015377 | 0.8106425 | 308.0931 | 9.594679 | 317.6634 | 308.3695 | 0.0285640 |
+| Normal | ASV_10 | 1 | 1.718697 | 1.712044 | FALSE | 0.0066530 | 0.7902033 | 308.0829 | 9.604898 | 317.6634 | 309.2802 | 0.1235757 |
+| Normal_all | ASV_10 | 1 | 1.718697 | 1.712218 | FALSE | 0.0064790 | 0.7922873 | 308.0840 | 9.603856 | 317.6634 | 309.2498 | 0.1203445 |
+| Drought | ASV_10 | 10 | 1.715232 | 1.712508 | FALSE | 0.0027240 | 0.7957565 | 308.0857 | 9.602122 | 317.6634 | 308.5757 | 0.0505972 |
+| Drought_all | ASV_10 | 10 | 1.715232 | 1.711489 | FALSE | 0.0037433 | 0.7835503 | 308.0796 | 9.608225 | 317.6634 | 308.7535 | 0.0695262 |
+| Normal | ASV_10 | 10 | 1.718697 | 1.711796 | FALSE | 0.0069010 | 0.7872345 | 308.0815 | 9.606383 | 317.6634 | 309.3235 | 0.1281786 |
+| Normal_all | ASV_10 | 10 | 1.718697 | 1.713259 | FALSE | 0.0054378 | 0.8047561 | 308.0902 | 9.597622 | 317.6634 | 309.0680 | 0.1010105 |
 
 Table 6: The first few rows of resampled EAF values for ASV_10 across
 all four comparison groups, ordered by resample number.

@@ -1,10 +1,11 @@
 # Sample Data
 
 ``` r
+
 library(dplyr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.8'
+#> [1] '0.23.9'
 ```
 
 ## Samples and Metadata
@@ -19,9 +20,9 @@ entity the DNA was isolated (aka the **source material**). In qSIP,
 however, because there are multiple sequencing runs per **source**, the
 term **sample** has historically been reserved for sequencing of each
 fraction. In practice, this means you will have many **samples** for
-each single **source**. To keep with the proposed MISIP[¹](#fn1)
-standards, the source material is coded with the `source_mat_id`, and
-each sequencing run/fraction is coded with the `sample_id`.
+each single **source**. To keep with the proposed MISIP[^1] standards,
+the source material is coded with the `source_mat_id`, and each
+sequencing run/fraction is coded with the `sample_id`.
 
 The sample data has the most requirements to pass validation of the
 three `qSIP2` input types. To standardize these requirements the column
@@ -84,6 +85,7 @@ An example sample dataframe is included in the `qSIP2` package to
 demonstrate the possible columns.
 
 ``` r
+
 example_sample_df
 ```
 
@@ -96,7 +98,7 @@ example_sample_df
 | 149_F5 | S149   |        5 |     1.752629 | 0.0012413 |      5725.7319 |
 | 149_F6 | S149   |        6 |     1.746072 | 0.0128156 |      7566.2722 |
 
-First few rows of formatted sample data
+First few rows of formatted sample data {.table .caption-top}
 
 ## qSIP2 Sample Data Object
 
@@ -107,6 +109,7 @@ source data object, the sample data object is built by providing column
 names to the appropriate parameters.
 
 ``` r
+
 sample_object <- qsip_sample_data(example_sample_df,
   sample_id = "sample",
   source_mat_id = "source",
@@ -129,6 +132,7 @@ Like other `qSIP2` objects, the `qsip_sample_data` object is a list with
 a few key components, but not meant to be inspected directly.
 
 ``` r
+
 glimpse(sample_object)
 #> <qSIP2::qsip_sample_data>
 #>  @ data                : tibble [284 × 7] (S3: tbl_df/tbl/data.frame)
@@ -152,19 +156,20 @@ The dataframe can be returned from the object using the
 function.
 
 ``` r
+
 get_dataframe(sample_object)
 ```
 
-| sample_id | source_mat_id | gradient_position | gradient_pos_density | gradient_pos_amt | gradient_pos_rel_amt |  dna_conc |
-|:----------|:--------------|------------------:|---------------------:|-----------------:|---------------------:|----------:|
-| 149_F1    | S149          |                 1 |             1.778855 |        4473.7081 |            0.0001284 | 0.0000000 |
-| 149_F2    | S149          |                 2 |             1.773391 |         986.6581 |            0.0000283 | 0.0000000 |
-| 149_F3    | S149          |                 3 |             1.765742 |        4002.7026 |            0.0001149 | 0.0000000 |
-| 149_F4    | S149          |                 4 |             1.759185 |        3959.7283 |            0.0001137 | 0.0000000 |
-| 149_F5    | S149          |                 5 |             1.752629 |        5725.7319 |            0.0001643 | 0.0012413 |
-| 149_F6    | S149          |                 6 |             1.746072 |        7566.2722 |            0.0002172 | 0.0128156 |
+| sample_id | source_mat_id | gradient_position | gradient_pos_density | gradient_pos_amt | gradient_pos_rel_amt | dna_conc |
+|:---|:---|---:|---:|---:|---:|---:|
+| 149_F1 | S149 | 1 | 1.778855 | 4473.7081 | 0.0001284 | 0.0000000 |
+| 149_F2 | S149 | 2 | 1.773391 | 986.6581 | 0.0000283 | 0.0000000 |
+| 149_F3 | S149 | 3 | 1.765742 | 4002.7026 | 0.0001149 | 0.0000000 |
+| 149_F4 | S149 | 4 | 1.759185 | 3959.7283 | 0.0001137 | 0.0000000 |
+| 149_F5 | S149 | 5 | 1.752629 | 5725.7319 | 0.0001643 | 0.0012413 |
+| 149_F6 | S149 | 6 | 1.746072 | 7566.2722 | 0.0002172 | 0.0128156 |
 
-First few rows of formatted sample data
+First few rows of formatted sample data {.table .caption-top}
 
 ### Validation of `qsip_sample_data`
 
@@ -176,6 +181,7 @@ Additionally, the `density_g_ml` values should be in a reasonable range
 (between 1.55 and 1.8)
 
 ``` r
+
 # modifying density_g_ml to be too low will give an error
 example_sample_df |>
   mutate(density_g_ml = density_g_ml / 2) |>
@@ -188,7 +194,7 @@ example_sample_df |>
   )
 #> `gradient_pos_rel_amt` not specified. Calculating using `avg_16S_g_soil` column
 #> Error in `validate_gradient_pos_density()`:
-#> ! some `gradient_pos_density` values are lower than 1.55
+#> ! some `gradient_pos_density` values are lower than 1.5
 ```
 
 ## When to calculate the `gradient_pos_rel_amt` values?
@@ -201,7 +207,7 @@ some other reason to remove a fraction. If those removed fractions were
 5% of the total data in that `source_mat_id`, then you would expect the
 total of all fractions to be 0.95 rather than 1. Another situation would
 be that although you added 25ng to a centrifugation, you only recovered
-20ng and the rest was lost[²](#fn2).
+20ng and the rest was lost[^2].
 
 This matters because if you run the
 [`add_gradient_pos_rel_amt()`](https://jeffkimbrel.github.io/qSIP2/reference/add_gradient_pos_rel_amt.md)
@@ -218,28 +224,30 @@ You can use a total abundance (qPCR or DNA concentrations) to calculate
 the `gradient_pos_rel_amt` column.
 
 ``` r
+
 add_gradient_pos_rel_amt(example_sample_df,
   source_mat_id = "source",
   amt = "avg_16S_g_soil"
 )
 ```
 
-| sample | source | Fraction | density_g_ml |  dna_conc | avg_16S_g_soil | gradient_pos_rel_amt |
-|:-------|:-------|---------:|-------------:|----------:|---------------:|---------------------:|
-| 149_F1 | S149   |        1 |     1.778855 | 0.0000000 |      4473.7081 |            0.0001284 |
-| 149_F2 | S149   |        2 |     1.773391 | 0.0000000 |       986.6581 |            0.0000283 |
-| 149_F3 | S149   |        3 |     1.765742 | 0.0000000 |      4002.7026 |            0.0001149 |
-| 149_F4 | S149   |        4 |     1.759185 | 0.0000000 |      3959.7283 |            0.0001137 |
-| 149_F5 | S149   |        5 |     1.752629 | 0.0012413 |      5725.7319 |            0.0001643 |
-| 149_F6 | S149   |        6 |     1.746072 | 0.0128156 |      7566.2722 |            0.0002172 |
+| sample | source | Fraction | density_g_ml | dna_conc | avg_16S_g_soil | gradient_pos_rel_amt |
+|:---|:---|---:|---:|---:|---:|---:|
+| 149_F1 | S149 | 1 | 1.778855 | 0.0000000 | 4473.7081 | 0.0001284 |
+| 149_F2 | S149 | 2 | 1.773391 | 0.0000000 | 986.6581 | 0.0000283 |
+| 149_F3 | S149 | 3 | 1.765742 | 0.0000000 | 4002.7026 | 0.0001149 |
+| 149_F4 | S149 | 4 | 1.759185 | 0.0000000 | 3959.7283 | 0.0001137 |
+| 149_F5 | S149 | 5 | 1.752629 | 0.0012413 | 5725.7319 | 0.0001643 |
+| 149_F6 | S149 | 6 | 1.746072 | 0.0128156 | 7566.2722 | 0.0002172 |
 
-sample data with `gradient_pos_rel_amt` added
+sample data with `gradient_pos_rel_amt` added {.table .caption-top}
 
 Trying to run this function on a dataframe with an existing
 `gradient_pos_rel_amt` will give an error, but it can be overridden with
 the `overwrite = T` flag.
 
 ``` r
+
 add_gradient_pos_rel_amt(example_sample_df,
   source_mat_id = "source",
   amt = "avg_16S_g_soil"
@@ -253,6 +261,7 @@ add_gradient_pos_rel_amt(example_sample_df,
 ```
 
 ``` r
+
 # set overwrite = TRUE to override the error, although this is a silly example here
 add_gradient_pos_rel_amt(example_sample_df,
   source_mat_id = "source",
@@ -265,9 +274,7 @@ add_gradient_pos_rel_amt(example_sample_df,
   )
 ```
 
-------------------------------------------------------------------------
+[^1]: https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1
 
-1.  https://www.biorxiv.org/content/10.1101/2023.07.13.548835v1
-
-2.  [The angel’s share and devil’s
+[^2]: [The angel’s share and devil’s
     cut](https://www.visitlex.com/guides/post/common-geeky-bourbon-terms-explained/#:~:text=Angel's%20Share)

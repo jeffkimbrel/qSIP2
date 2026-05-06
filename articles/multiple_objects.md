@@ -1,11 +1,12 @@
 # Multiple qSIP Objects
 
 ``` r
+
 library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.8'
+#> [1] '0.23.9'
 ```
 
 ## Background
@@ -38,6 +39,7 @@ simultaneously. We can run a validation function that will return `TRUE`
 if the list is correct.
 
 ``` r
+
 qsip_normal <- run_feature_filter(example_qsip_object,
   unlabeled_source_mat_ids = get_all_by_isotope(example_qsip_object, "12C"),
   labeled_source_mat_ids = c("S178", "S179", "S180"),
@@ -74,27 +76,30 @@ and
 [`plot_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_EAF_values.md).
 
 ``` r
+
 summarize_EAF_values(qsip_list_1)
 ```
 
     #> ℹ Confidence level = 0.9
 
-| group   | feature_id | observed_EAF | mean_resampled_EAF |      lower |      upper |  pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
-|:--------|:-----------|-------------:|-------------------:|-----------:|-----------:|------:|------------------:|--------------------:|----------------:|------------------:|
-| Normal  | ASV_1      |   -0.0153107 |         -0.0162090 | -0.0524399 |  0.0239385 | 0.472 |              1000 |                1000 |               3 |                 8 |
-| Drought | ASV_1      |   -0.0333856 |         -0.0322146 | -0.0792106 |  0.0219181 | 0.320 |              1000 |                1000 |               4 |                 8 |
-| Normal  | ASV_10     |    0.1126260 |          0.1116218 |  0.0823812 |  0.1405383 | 0.000 |              1000 |                1000 |               3 |                 8 |
-| Drought | ASV_10     |    0.0543136 |          0.0542462 |  0.0305884 |  0.0788885 | 0.000 |              1000 |                1000 |               4 |                 8 |
-| Drought | ASV_100    |   -0.0892684 |         -0.0885048 | -0.1485629 | -0.0283228 | 0.020 |              1000 |                1000 |               3 |                 7 |
-| Normal  | ASV_102    |   -0.0080214 |         -0.0090271 | -0.0746514 |  0.0546485 | 0.782 |              1000 |                1000 |               3 |                 8 |
+| group | feature_id | observed_EAF | mean_resampled_EAF | lower | upper | pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
+|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Normal | ASV_1 | -0.0153107 | -0.0162090 | -0.0524399 | 0.0239385 | 0.472 | 1000 | 1000 | 3 | 8 |
+| Drought | ASV_1 | -0.0333856 | -0.0322146 | -0.0792106 | 0.0219181 | 0.320 | 1000 | 1000 | 4 | 8 |
+| Normal | ASV_10 | 0.1126260 | 0.1116218 | 0.0823812 | 0.1405383 | 0.000 | 1000 | 1000 | 3 | 8 |
+| Drought | ASV_10 | 0.0543136 | 0.0542462 | 0.0305884 | 0.0788885 | 0.000 | 1000 | 1000 | 4 | 8 |
+| Drought | ASV_100 | -0.0892684 | -0.0885048 | -0.1485629 | -0.0283228 | 0.020 | 1000 | 1000 | 3 | 7 |
+| Normal | ASV_102 | -0.0080214 | -0.0090271 | -0.0746514 | 0.0546485 | 0.782 | 1000 | 1000 | 3 | 8 |
 
 First few rows from
 [`summarize_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.md)
+{.table .caption-top}
 
 In the table above, you can see that the `feature_id` column is repeated
 for each group.
 
 ``` r
+
 plot_EAF_values(qsip_list_1,
                 top = 50,
                 error = "ribbon")
@@ -106,6 +111,7 @@ plot_EAF_values(qsip_list_1,
 Other helper functions can be used on the list as well.
 
 ``` r
+
 n_resamples(qsip_list_1)
 #> # A tibble: 2 × 2
 #>   group   n_resamples
@@ -144,6 +150,7 @@ attempts to guess the relevant comparison groups using the metadata. For
 the example qsip object, when grouping by “Moisture” we get
 
 ``` r
+
 get_comparison_groups(example_qsip_object, group = "Moisture")
 #> # A tibble: 2 × 3
 #>   Moisture `12C`                  `13C`                 
@@ -159,6 +166,7 @@ some slight tweaking of the column names using
 [`dplyr::rename()`](https://dplyr.tidyverse.org/reference/rename.html)).
 
 ``` r
+
 get_comparison_groups(example_qsip_object, group = "Moisture") |> 
   dplyr::select("group" = Moisture, "unlabeled" = "12C", "labeled" = "13C")
 #> # A tibble: 2 × 3
@@ -178,6 +186,7 @@ apply to all comparisons: `allow_failures` (*boolean*), `seed`
 (*integer*), and `resamples` (*integer*).
 
 ``` r
+
 qsip_list_2 = get_comparison_groups(example_qsip_object, group = "Moisture") |> 
   dplyr::select("group" = Moisture, "unlabeled" = "12C", "labeled" = "13C") |>
   run_comparison_groups(example_qsip_object, 
@@ -196,6 +205,7 @@ sampling error) to the previous plot, but this time we have enabled the
 `allow_failures` option so we get resampling success as well.
 
 ``` r
+
 plot_EAF_values(qsip_list_2,
                 top = 50,
                 success_ratio = 0.99,
@@ -218,25 +228,27 @@ columns temporarily removed for brevity (those columns will be discussed
 later).
 
 ``` r
+
 example_group_dataframe
 ```
 
-| group               | unlabeled              | labeled                | allow_failures | resamples | seed |
-|:--------------------|:-----------------------|:-----------------------|:---------------|----------:|-----:|
-| Normal              | S149, S150, S151, S152 | S178, S179, S180       | T              |       500 |  100 |
-| Drought             | S161, S162, S163, S164 | S200, S201, S202, S203 | T              |      1000 |  101 |
-| Drought against all | 12C                    | S200, S201, S202, S203 | T              |      1000 |  102 |
-| Normal_S178         | S149, S150, S151, S152 | S178                   | T              |      1000 |  103 |
-| Normal_S179         | S149, S150, S151, S152 | S179                   | T              |      1000 |  104 |
-| Normal_S180         | S149, S150, S151, S152 | S180                   | T              |      1000 |  105 |
+| group | unlabeled | labeled | allow_failures | resamples | seed |
+|:---|:---|:---|:---|---:|---:|
+| Normal | S149, S150, S151, S152 | S178, S179, S180 | T | 500 | 100 |
+| Drought | S161, S162, S163, S164 | S200, S201, S202, S203 | T | 1000 | 101 |
+| Drought against all | 12C | S200, S201, S202, S203 | T | 1000 | 102 |
+| Normal_S178 | S149, S150, S151, S152 | S178 | T | 1000 | 103 |
+| Normal_S179 | S149, S150, S151, S152 | S179 | T | 1000 | 104 |
+| Normal_S180 | S149, S150, S151, S152 | S180 | T | 1000 | 105 |
 
-Example dataframe with some columns removed
+Example dataframe with some columns removed {.table .caption-top}
 
 This dataframe shows the customizability of the format, including
 retaining the ability to use isotope terms like “12C” to grab all source
 material IDs with that isotope.
 
 ``` r
+
 qsip_list_3 = example_group_dataframe |>
   run_comparison_groups(example_qsip_object)
 #> Finished groups ■■■■■■                            17%
@@ -264,6 +276,7 @@ If you use the additional arguments in
 then they will override the values in the dataframe.
 
 ``` r
+
 qsip_list_4 = example_group_dataframe |>
   run_comparison_groups(example_qsip_object,
                         seed = 42)
@@ -295,6 +308,7 @@ each comparison. The full example dataframe does additionally contain
 these columns.
 
 ``` r
+
 summarize_EAF_values(qsip_list_3) |>
   filter(feature_id == "ASV_1")
 #> ℹ Confidence level = 0.9
@@ -317,6 +331,7 @@ certain comparisons. For example, ASV_311 only appears in the two
 “Drought” comparisons.
 
 ``` r
+
 summarize_EAF_values(qsip_list_3) |>
   filter(feature_id == "ASV_311")
 #> ℹ Confidence level = 0.9
@@ -336,6 +351,7 @@ operator (e.g. `qsip_list_3$Drought`) or `[]` brackets
 (e.g. `qsip_list_3[c("Drought", "Normal")]`).
 
 ``` r
+
 plot_EAF_values(qsip_list_3[c("Drought", "Normal")],
                 error = "ribbon",
                 top = 50)

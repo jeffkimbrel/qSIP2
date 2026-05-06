@@ -1,12 +1,13 @@
 # EAF Calculations
 
 ``` r
+
 library(dplyr)
 library(ggplot2)
 library(patchwork)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.8'
+#> [1] '0.23.9'
 ```
 
 ## Background
@@ -18,8 +19,7 @@ level of individual features (e.g. ASVs, MAGs). It represents the
 proportion of a feature’s biomass that was synthesized from the labeled
 substrate during the incubation period. EAF values are calculated from
 the shift in weighted average density (WAD) between unlabeled and
-labeled samples, following the equations in Hungate et
-al. 2015[¹](#fn1).
+labeled samples, following the equations in Hungate et al. 2015[^1].
 
 EAF values range from 0 to 1, where 0 indicates no incorporation of the
 label and 1 indicates that all biomass was derived from the labeled
@@ -57,6 +57,7 @@ which internally calls
 on each.
 
 ``` r
+
 qsip_list = get_comparison_groups(example_qsip_object, group = "Moisture") |> 
   select("group" = Moisture, "unlabeled" = "12C", "labeled" = "13C") |>
   run_comparison_groups(example_qsip_object, 
@@ -73,6 +74,7 @@ Plotting the results shows a wide range of EAF values between the two
 comparisons ([Figure 1](#fig-eaf-default)).
 
 ``` r
+
 plot_EAF_values(qsip_list)
 #> ℹ Confidence level = 0.9
 ```
@@ -90,6 +92,7 @@ meaningful if `allow_failures = TRUE` was set during resampling. The
 `confidence` and `error` arguments control the interval style.
 
 ``` r
+
 plot_EAF_values(qsip_list,
                 confidence = 0.95,
                 error = "ribbon",
@@ -107,6 +110,7 @@ The number of features can be filtered to include the *n* with the
 highest EAF.
 
 ``` r
+
 plot_EAF_values(qsip_list,
                 top = 50,
                 error = "bar")
@@ -126,6 +130,7 @@ so you may end up with more than *n* features in the plot if there isn’t
 much overlap between the two comparisons.
 
 ``` r
+
 plot_EAF_values(qsip_list,
                 top = 50,
                 shared_y = TRUE,
@@ -153,19 +158,20 @@ You can also return the results as a dataframe using
 and a desired confidence (default is 90%).
 
 ``` r
+
 summarize_EAF_values(qsip_list)
 ```
 
     #> ℹ Confidence level = 0.9
 
-| group   | feature_id | observed_EAF | mean_resampled_EAF |      lower |      upper |  pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
-|:--------|:-----------|-------------:|-------------------:|-----------:|-----------:|------:|------------------:|--------------------:|----------------:|------------------:|
-| Drought | ASV_1      |   -0.0491540 |         -0.0483554 | -0.1082032 |  0.0087336 | 0.178 |              1000 |                1000 |               4 |                 4 |
-| Normal  | ASV_1      |    0.0004555 |          0.0000135 | -0.0325729 |  0.0356580 | 0.986 |              1000 |                1000 |               3 |                 4 |
-| Drought | ASV_10     |    0.0547586 |          0.0550897 |  0.0344674 |  0.0747572 | 0.000 |              1000 |                1000 |               4 |                 4 |
-| Normal  | ASV_10     |    0.1121811 |          0.1116458 |  0.0713690 |  0.1506676 | 0.000 |              1000 |                1000 |               3 |                 4 |
-| Drought | ASV_100    |   -0.1116096 |         -0.1110421 | -0.1681262 | -0.0503753 | 0.000 |              1000 |                1000 |               4 |                 4 |
-| Normal  | ASV_100    |    0.0090370 |          0.0088377 | -0.0523892 |  0.0703022 | 0.798 |              1000 |                1000 |               3 |                 4 |
+| group | feature_id | observed_EAF | mean_resampled_EAF | lower | upper | pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
+|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Drought | ASV_1 | -0.0491540 | -0.0483554 | -0.1082032 | 0.0087336 | 0.178 | 1000 | 1000 | 4 | 4 |
+| Normal | ASV_1 | 0.0004555 | 0.0000135 | -0.0325729 | 0.0356580 | 0.986 | 1000 | 1000 | 3 | 4 |
+| Drought | ASV_10 | 0.0547586 | 0.0550897 | 0.0344674 | 0.0747572 | 0.000 | 1000 | 1000 | 4 | 4 |
+| Normal | ASV_10 | 0.1121811 | 0.1116458 | 0.0713690 | 0.1506676 | 0.000 | 1000 | 1000 | 3 | 4 |
+| Drought | ASV_100 | -0.1116096 | -0.1110421 | -0.1681262 | -0.0503753 | 0.000 | 1000 | 1000 | 4 | 4 |
+| Normal | ASV_100 | 0.0090370 | 0.0088377 | -0.0523892 | 0.0703022 | 0.798 | 1000 | 1000 | 3 | 4 |
 
 Table 1: The first few rows of EAF results across all comparisons.
 
@@ -190,6 +196,7 @@ and
 to understand what’s driving each result.
 
 ``` r
+
 features = c("ASV_72", "ASV_7", "ASV_180", "ASV_100")
 
 summarize_EAF_values(qsip_list$Drought) |>
@@ -198,12 +205,12 @@ summarize_EAF_values(qsip_list$Drought) |>
 
     #> ℹ Confidence level = 0.9
 
-| feature_id | observed_EAF | mean_resampled_EAF |      lower |      upper |  pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
-|:-----------|-------------:|-------------------:|-----------:|-----------:|------:|------------------:|--------------------:|----------------:|------------------:|
-| ASV_72     |    0.5271129 |          0.5246305 |  0.3529541 |  0.7072885 | 0.000 |              1000 |                1000 |               4 |                 4 |
-| ASV_7      |    0.2305506 |          0.2307068 |  0.1799998 |  0.2823904 | 0.000 |              1000 |                1000 |               4 |                 4 |
-| ASV_180    |    0.0308346 |          0.0318743 | -0.0425104 |  0.0994295 | 0.448 |              1000 |                1000 |               4 |                 4 |
-| ASV_100    |   -0.1116096 |         -0.1110421 | -0.1681262 | -0.0503753 | 0.000 |              1000 |                1000 |               4 |                 4 |
+| feature_id | observed_EAF | mean_resampled_EAF | lower | upper | pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
+|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| ASV_72 | 0.5271129 | 0.5246305 | 0.3529541 | 0.7072885 | 0.000 | 1000 | 1000 | 4 | 4 |
+| ASV_7 | 0.2305506 | 0.2307068 | 0.1799998 | 0.2823904 | 0.000 | 1000 | 1000 | 4 | 4 |
+| ASV_180 | 0.0308346 | 0.0318743 | -0.0425104 | 0.0994295 | 0.448 | 1000 | 1000 | 4 | 4 |
+| ASV_100 | -0.1116096 | -0.1110421 | -0.1681262 | -0.0503753 | 0.000 | 1000 | 1000 | 4 | 4 |
 
 Table 2: EAF results for 4 chosen features from the Drought comparison,
 ordered by decreasing mean EAF.
@@ -216,6 +223,7 @@ we can plot these 4 features (with some help from the `patchwork`
 library).
 
 ``` r
+
 a = plot_feature_curves(qsip_list$Drought, features) + facet_wrap(~feature_id, nrow = 1, scales = "free")
 b = plot_feature_resamplings(qsip_list$Drought, features, intervals = "bar", confidence = 0.95) + facet_wrap(~feature_id, nrow = 1, scales = "free")
 (a / b) +
@@ -252,6 +260,7 @@ found in fractions close or far from one another, and how the calculated
 WAD value is affected by these occurrences.
 
 ``` r
+
 plot_feature_occurrence(qsip_list$Drought, features)
 ```
 
@@ -272,6 +281,7 @@ seem to affect the WAD value for ASV_100, assuming the peak of the
 values are in that most abundant fraction.
 
 ``` r
+
 plot_feature_occurrence(qsip_list$Drought,
                         features,
                         show_wad = TRUE,
@@ -305,7 +315,5 @@ EAF](https://jeffkimbrel.github.io/qSIP2/articles/delta_EAF.md), which
 extends this framework to compare EAF values between experimental
 groups.
 
-------------------------------------------------------------------------
-
-1.  Hungate et al. 2015, *Applied and Environmental Microbiology*.
+[^1]: Hungate et al. 2015, *Applied and Environmental Microbiology*.
     <https://journals.asm.org/doi/10.1128/aem.02280-15>
