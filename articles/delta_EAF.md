@@ -195,7 +195,8 @@ delta_EAF = run_delta_EAF_contrasts(q,
                                     contrasts = contrasts,
                                     confidence = 0.95) 
 #> ℹ Confidence level = 0.95
-#> step 2/2: summarizing delta statistics ■■■■■■■■■■■■■■■■■■■■■■            69% | …
+#> step 2/2: summarizing delta statistics ■■■■■■■■                          22% | …
+#> step 2/2: summarizing delta statistics ■■■■■■■■■■■■■■■■■■■■■■■■■■■■      91% | …
 #> ! there were 74 contrast and 127 bs_pval result messages
 ```
 

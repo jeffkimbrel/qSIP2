@@ -5,7 +5,7 @@ Check the validity of density values (internal)
 ## Usage
 
 ``` r
-validate_gradient_pos_density(df, low = 1.55, high = 1.8)
+validate_gradient_pos_density(df, low = 1.5, high = 1.9)
 ```
 
 ## Arguments
