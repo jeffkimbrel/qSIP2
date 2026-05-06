@@ -236,7 +236,7 @@ validate_abundances <- function(data,
 #'
 #' @keywords internal
 
-validate_gradient_pos_density <- function(df, low = 1.55, high = 1.8) {
+validate_gradient_pos_density <- function(df, low = 1.5, high = 1.9) {
 
   stopifnot("data should be class <data.frame>" = "data.frame" %in% class(df))
 
