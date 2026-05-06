@@ -4,7 +4,7 @@
 \alias{validate_gradient_pos_density}
 \title{Check the validity of density values (internal)}
 \usage{
-validate_gradient_pos_density(df, low = 1.55, high = 1.8)
+validate_gradient_pos_density(df, low = 1.5, high = 1.9)
 }
 \arguments{
 \item{df}{(\emph{dataframe}) A two-column dataframe with density positions and density values}
