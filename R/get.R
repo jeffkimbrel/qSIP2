@@ -1214,19 +1214,40 @@ summarize_EAF_values_internal <- function(qsip_data_object,
 #' Summarize a qSIP S7 object or named list of qSIP S7 objects
 #'
 #' @param x A qSIP S7 object, or a named list of qSIP S7 objects of the same type.
+#' @param source_format (*string, default: count*) Format for source material IDs.
+#'   Either "count" to show the count of source IDs, or "ids" to show the actual
+#'   vector of source IDs as list columns.
 #'
-#' @return For a single object, a tibble with `name` and `value` columns. For a
-#'   named list, a tibble with a `name` column and one column per list element,
-#'   named after the list elements.
+#' @return A tibble with a `group` column and columns for each metric. For single
+#'   objects, there is one row. For named lists, there is one row per list element
+#'   with the group name (or list element name) in the `group` column. Metrics include
+#'   `feature_count_original`, `feature_count_filtered`, `unlabeled_source_count`/
+#'   `unlabeled_source_ids`, `labeled_source_count`/`labeled_source_ids` (depending
+#'   on `source_format`), `filtered`, `resampled`, `eaf`, and `growth`.
 #'
 #' @export
 
-get_object_summary <- function(x) {
+get_object_summary <- function(x, source_format = c("count", "ids")) {
+  source_format <- match.arg(source_format)
+
   if (inherits(x, "S7_object")) {
-    vec <- .get_object_summary_vec(x)
-    col_name <- if ("group" %in% names(vec)) vec[["group"]] else "value"
+    vec <- .get_object_summary_vec(x, source_format = source_format)
+    group_val <- if ("group" %in% names(vec)) vec[["group"]] else NA_character_
     vec <- vec[names(vec) != "group"]
-    tibble::enframe(vec, name = "metric", value = col_name)
+    result <- tibble::tibble(group = group_val)
+    for (i in seq_along(vec)) {
+      result[[names(vec)[i]]] <- vec[[i]]
+    }
+    # Set feature_count_filtered to NA if not filtered
+    if ("filtered" %in% names(result) && "feature_count_filtered" %in% names(result)) {
+      result <- result |>
+        dplyr::mutate(feature_count_filtered = ifelse(filtered == "FALSE", NA_character_, feature_count_filtered))
+    }
+    # Reorder columns
+    priority_cols <- c("group", "feature_count_original", "filtered", "feature_count_filtered")
+    other_cols <- setdiff(names(result), priority_cols)
+    result <- result |> dplyr::select(dplyr::any_of(priority_cols), dplyr::everything())
+    result
   } else if (is.list(x)) {
     if (is.null(names(x))) {
       cli::cli_abort("{.arg x} must be a named list.")
@@ -1235,18 +1256,43 @@ get_object_summary <- function(x) {
     if (length(unique(types)) > 1) {
       cli::cli_abort("All list elements must be the same S7 object type, not {.val {unique(types)}}.")
     }
-    vecs <- lapply(x, .get_object_summary_vec)
-    col_names <- vapply(names(vecs), function(nm) {
+    vecs <- lapply(x, .get_object_summary_vec, source_format = source_format)
+
+    # Build wide format data with group column
+    result_list <- lapply(names(vecs), function(nm) {
       vec <- vecs[[nm]]
-      if ("group" %in% names(vec)) vec[["group"]] else nm
-    }, character(1))
-    col_names <- make.unique(col_names, sep = "_")
-    vecs <- lapply(vecs, function(vec) vec[names(vec) != "group"])
-    df <- tibble::tibble(metric = names(vecs[[1]]))
-    for (i in seq_along(vecs)) {
-      df[[col_names[[i]]]] <- unname(vecs[[i]])
+      group_val <- if ("group" %in% names(vec)) vec[["group"]] else nm
+      vec <- vec[names(vec) != "group"]
+      row <- tibble::tibble(group = group_val)
+      for (i in seq_along(vec)) {
+        row[[names(vec)[i]]] <- vec[[i]]
+      }
+      row
+    })
+
+    result <- dplyr::bind_rows(result_list)
+
+    # Warn if duplicate group names
+    if (anyDuplicated(result$group)) {
+      dup_groups <- unique(result$group[duplicated(result$group)])
+      cli::cli_warn(c(
+        "Duplicate group names detected: {.val {dup_groups}}",
+        "i" = "Multiple list elements have the same internal group name.",
+        ">" = "Check which rows correspond to which list elements."
+      ))
     }
-    df
+
+    # Set feature_count_filtered to NA if not filtered
+    if ("filtered" %in% names(result) && "feature_count_filtered" %in% names(result)) {
+      result <- result |>
+        dplyr::mutate(feature_count_filtered = ifelse(filtered == "FALSE", NA_character_, feature_count_filtered))
+    }
+
+    # Reorder columns
+    priority_cols <- c("group", "feature_count_original", "filtered", "feature_count_filtered")
+    result <- result |> dplyr::select(dplyr::any_of(priority_cols), dplyr::everything())
+
+    result
   } else {
     cli::cli_abort("{.arg x} must be a qSIP S7 object or a named list of qSIP S7 objects.")
   }

@@ -17,9 +17,15 @@ plot_sample_curves(
 
 \item{title}{(\emph{character}) An optional title for the plot}
 
-\item{facet_by}{(\emph{character}) Facet the plots by "source" or by "isotope"}
+\item{facet_by}{(\emph{character}) Facet the plots by "source" (one panel per source_mat_id),
+"isotope" (one panel per isotope), or by any column name(s) from the source metadata.
+For a single column or vector of columns, creates a facet_grid with isotope as rows
+and the specified column(s) as columns. Multiple columns are combined with "_" separator
+(e.g., \code{facet_by = c("Moisture", "Isotopolog")} creates "Drought_glucose", "Normal_glucose").
+For custom faceting, replicates within each isotope × facet group are assigned
+numbers and colored accordingly.}
 
-\item{show_wad}{(\emph{logical}) A logical value}
+\item{show_wad}{(\emph{logical}) A logical value indicating whether to show WAD lines}
 
 \item{colors}{deprecated}
 }

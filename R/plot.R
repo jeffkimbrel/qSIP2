@@ -111,8 +111,14 @@ plot_growth_values <- function(qsip_data_object,
 #'
 #' @param qsip_data_object (*qsip_data*) qSIP object
 #' @param title (*character*) An optional title for the plot
-#' @param facet_by (*character*) Facet the plots by "source" or by "isotope"
-#' @param show_wad (*logical*) A logical value
+#' @param facet_by (*character*) Facet the plots by "source" (one panel per source_mat_id),
+#'   "isotope" (one panel per isotope), or by any column name(s) from the source metadata.
+#'   For a single column or vector of columns, creates a facet_grid with isotope as rows
+#'   and the specified column(s) as columns. Multiple columns are combined with "_" separator
+#'   (e.g., `facet_by = c("Moisture", "Isotopolog")` creates "Drought_glucose", "Normal_glucose").
+#'   For custom faceting, replicates within each isotope × facet group are assigned
+#'   numbers and colored accordingly.
+#' @param show_wad (*logical*) A logical value indicating whether to show WAD lines
 #' @param colors deprecated
 #'
 #' @export
@@ -133,11 +139,6 @@ plot_sample_curves <- function(qsip_data_object,
     stop("title must be a character string", call. = FALSE)
   }
 
-  # facet_by must be either "source" or "isotope"
-  if (!facet_by %in% c("source", "isotope")) {
-    stop("facet_by must be either 'source' or 'isotope'", call. = FALSE)
-  }
-
   # show_wad must be boolean
   if (!is.logical(show_wad)) {
     stop("show_wad must be TRUE/FALSE", call. = F)
@@ -148,7 +149,29 @@ plot_sample_curves <- function(qsip_data_object,
   }
 
   # bind variables
-  sample_id <- gradient_position <- source_mat_id <- isotope <- WAD <- gradient_pos_density <- gradient_pos_rel_amt <- NULL
+  sample_id <- gradient_position <- source_mat_id <- isotope <- WAD <- gradient_pos_density <- gradient_pos_rel_amt <- replicate <- facet_combined <- NULL
+
+  # Get source metadata for joining
+  source_metadata <- get_dataframe(qsip_data_object, "source")
+
+  # Handle multiple facet columns by combining them
+  if (length(facet_by) > 1) {
+    missing_cols <- facet_by[!facet_by %in% names(source_metadata)]
+    if (length(missing_cols) > 0) {
+      cli::cli_abort("{.arg facet_by} columns {.val {missing_cols}} not found in source metadata.")
+    }
+    facet_col <- "facet_combined"
+    source_metadata[[facet_col]] <- do.call(paste, c(source_metadata[facet_by], sep = "_"))
+  } else if (!facet_by %in% c("source", "isotope")) {
+    # Single custom column - validate it exists
+    if (!facet_by %in% names(source_metadata)) {
+      cli::cli_abort("{.arg facet_by} column {.val {facet_by}} not found in source metadata.")
+    }
+    facet_col <- facet_by
+  } else {
+    # "source" or "isotope" - use as is
+    facet_col <- facet_by
+  }
 
   df <- qsip_data_object@tube_rel_abundance |>
     dplyr::left_join(
@@ -157,8 +180,7 @@ plot_sample_curves <- function(qsip_data_object,
       by = "sample_id"
     ) |>
     dplyr::left_join(
-      qsip_data_object@source_data@data |>
-        dplyr::select(source_mat_id, isotope),
+      source_metadata,
       by = "source_mat_id"
     )
 
@@ -166,9 +188,15 @@ plot_sample_curves <- function(qsip_data_object,
     message("some unfractionated samples have been filtered from this plot")
   }
 
+  # Build grouping columns - include facet_col if it's a custom column
+  group_cols <- c("sample_id", "source_mat_id", "gradient_position", "gradient_pos_density", "isotope")
+  if (!facet_col %in% c("source", "isotope") && facet_col %in% names(df)) {
+    group_cols <- c(group_cols, facet_col)
+  }
+
   df <- df |>
     dplyr::filter(gradient_position > 0) |>
-    dplyr::summarize(tube_rel_abundance = sum(tube_rel_abundance), .by = c(sample_id, source_mat_id, gradient_position, gradient_pos_density, isotope))
+    dplyr::summarize(tube_rel_abundance = sum(tube_rel_abundance), .by = dplyr::all_of(group_cols))
 
   source_wads <- source_wads(qsip_data_object) |>
     dplyr::filter(!is.na(WAD)) |>
@@ -183,7 +211,7 @@ plot_sample_curves <- function(qsip_data_object,
       y = tube_rel_abundance
     ))
 
-  if (facet_by == "source") {
+  if (facet_col == "source") {
     p <- p +
       ggplot2::geom_point(ggplot2::aes(color = isotope)) +
       ggplot2::geom_line(linewidth = 1, ggplot2::aes(color = isotope)) +
@@ -195,14 +223,14 @@ plot_sample_curves <- function(qsip_data_object,
       p <- p +
         ggplot2::geom_vline(
           data = source_wads,
-          size = 1,
+          linewidth = 1,
           linetype = 2, ggplot2::aes(
             xintercept = WAD,
             color = isotope
           )
         )
     }
-  } else if (facet_by == "isotope") {
+  } else if (facet_col == "isotope") {
     p <- p +
       ggplot2::geom_point(ggplot2::aes(color = source_mat_id)) +
       ggplot2::geom_line(linewidth = 1, ggplot2::aes(group = source_mat_id, color = source_mat_id)) +
@@ -213,11 +241,49 @@ plot_sample_curves <- function(qsip_data_object,
       p <- p +
         ggplot2::geom_vline(
           data = source_wads,
-          size = 1,
+          linewidth = 1,
           linetype = 2, ggplot2::aes(
             xintercept = WAD,
             color = source_mat_id
           )
+        )
+    }
+  } else {
+    # Custom faceting by a source metadata column
+    # Assign replicate numbers within each isotope and facet group
+    df <- df |>
+      dplyr::group_by(isotope, .data[[facet_col]]) |>
+      dplyr::mutate(replicate = factor(dplyr::dense_rank(source_mat_id))) |>
+      dplyr::ungroup()
+
+    # Determine number of colors needed (max replicates in any group)
+    n_colors <- length(unique(df$replicate))
+
+    p <- df |>
+      ggplot2::ggplot(ggplot2::aes(
+        x = gradient_pos_density,
+        y = tube_rel_abundance
+      )) +
+      ggplot2::geom_point(ggplot2::aes(color = replicate)) +
+      ggplot2::geom_line(linewidth = 1, ggplot2::aes(group = source_mat_id, color = replicate)) +
+      ggplot2::facet_grid(rows = ggplot2::vars(isotope), cols = ggplot2::vars(.data[[facet_col]])) +
+      ggplot2::scale_color_manual(values = source_palette(n_colors)) +
+      ggplot2::guides(color = "none")
+
+    if (isTRUE(show_wad)) {
+      # Add replicate numbers to source_wads to match coloring
+      source_wads_with_replicate <- source_wads |>
+        dplyr::left_join(
+          df |> dplyr::select(source_mat_id, isotope, .data[[facet_col]], replicate) |> dplyr::distinct(),
+          by = c("source_mat_id", "isotope")
+        )
+
+      p <- p +
+        ggplot2::geom_vline(
+          data = source_wads_with_replicate,
+          linewidth = 1,
+          linetype = 2,
+          ggplot2::aes(xintercept = WAD, color = replicate)
         )
     }
   }
@@ -234,7 +300,10 @@ plot_sample_curves <- function(qsip_data_object,
 #' Plot the source WADs by isotope
 #'
 #' @param qsip_data (*qsip_data*) qSIP object
-#' @param group (*character*) An optional grouping parameter to facet the y or x,y axes
+#' @param group (*character*) An optional grouping parameter to facet the y or x,y axes.
+#'   Can be a single column name or vector of column names from source metadata.
+#'   Multiple columns are combined with "_" separator
+#'   (e.g., `group = c("Moisture", "isotopolog")` creates "Drought_glucose", "Normal_glucose").
 #' @param title (*character*) An optional title for the plot
 #'
 #' @export
@@ -249,22 +318,43 @@ plot_source_wads <- function(qsip_data,
   is_qsip_data(qsip_data, error = TRUE)
 
   # bind variables
-  WAD <- isotope <- NULL
+  WAD <- isotope <- group_combined <- NULL
 
   source_data <- qsip_data@source_data
   sample_data <- qsip_data@sample_data
 
-  # error if group is not a column name in source_data
-  if (!is.null(group) && !group %in% colnames(source_data@data)) {
-    stop("group must be a column name in source_data", call. = FALSE)
+  # Handle multiple group columns by combining them
+  if (!is.null(group)) {
+    if (length(group) > 1) {
+      missing_cols <- group[!group %in% colnames(source_data@data)]
+      if (length(missing_cols) > 0) {
+        cli::cli_abort("{.arg group} columns {.val {missing_cols}} not found in source metadata.")
+      }
+      group_col <- "group_combined"
+    } else {
+      # Single column - validate it exists
+      if (!group %in% colnames(source_data@data)) {
+        cli::cli_abort("{.arg group} column {.val {group}} not found in source metadata.")
+      }
+      group_col <- group
+    }
+  } else {
+    group_col <- NULL
   }
 
-  p <- source_wads(qsip_data) |>
+  wad_data <- source_wads(qsip_data) |>
     dplyr::filter(!is.na(WAD)) |> # filter unfractionated
-    dplyr::left_join(source_data@data, by = "source_mat_id") |>
+    dplyr::left_join(source_data@data, by = "source_mat_id")
+
+  # Create combined column if multiple groups
+  if (!is.null(group) && length(group) > 1) {
+    wad_data[[group_col]] <- do.call(paste, c(wad_data[group], sep = "_"))
+  }
+
+  p <- wad_data |>
     ggplot2::ggplot(ggplot2::aes(color = isotope)) +
     ggplot2::geom_segment(y = 0, yend = 1, ggplot2::aes(x = WAD, xend = WAD), linewidth = 1) +
-    ggplot2::facet_grid(paste(group, " ~ .", sep = "")) +
+    ggplot2::facet_grid(paste(group_col, " ~ .", sep = "")) +
     ggplot2::scale_color_manual(values = isotope_palette) +
     ggplot2::labs(x = "Weighted Average Density")
 

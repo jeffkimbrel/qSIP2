@@ -680,20 +680,32 @@ S7::method(.get_object_summary_vec, qsip_feature_data) <- function(x, ...) {
   )
 }
 
-S7::method(.get_object_summary_vec, qsip_data) <- function(x, ...) {
-  c(
-    group = ifelse(is.null(x@filter_results$group), "none", x@filter_results$group),
-    feature_id_count = paste(
-      length(get_feature_ids(x, filtered = is_qsip_filtered(x))),
-      "of",
-      dim(x@feature_data@data)[1]
-    ),
-    sample_id_count = as.character(length(unique(x@sample_data@data$sample_id))),
-    filtered = as.character(is_qsip_filtered(x)),
-    resampled = as.character(is_qsip_resampled(x)),
-    eaf = as.character(is_qsip_EAF(x)),
-    growth = as.character(is_qsip_growth(x))
-  )
+S7::method(.get_object_summary_vec, qsip_data) <- function(x, source_format = "count", ...) {
+  if (source_format == "count") {
+    c(
+      group = ifelse(is.null(x@filter_results$group), "none", x@filter_results$group),
+      feature_count_filtered = as.character(length(get_feature_ids(x, filtered = is_qsip_filtered(x)))),
+      feature_count_original = as.character(dim(x@feature_data@data)[1]),
+      unlabeled_source_count = as.character(length(x@filter_results$unlabeled_source_mat_ids)),
+      labeled_source_count = as.character(length(x@filter_results$labeled_source_mat_ids)),
+      filtered = as.character(is_qsip_filtered(x)),
+      resampled = as.character(is_qsip_resampled(x)),
+      eaf = as.character(is_qsip_EAF(x)),
+      growth = as.character(is_qsip_growth(x))
+    )
+  } else {
+    list(
+      group = ifelse(is.null(x@filter_results$group), "none", x@filter_results$group),
+      feature_count_filtered = as.character(length(get_feature_ids(x, filtered = is_qsip_filtered(x)))),
+      feature_count_original = as.character(dim(x@feature_data@data)[1]),
+      unlabeled_source_ids = list(x@filter_results$unlabeled_source_mat_ids),
+      labeled_source_ids = list(x@filter_results$labeled_source_mat_ids),
+      filtered = as.character(is_qsip_filtered(x)),
+      resampled = as.character(is_qsip_resampled(x)),
+      eaf = as.character(is_qsip_EAF(x)),
+      growth = as.character(is_qsip_growth(x))
+    )
+  }
 }
 
 

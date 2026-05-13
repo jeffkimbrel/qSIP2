@@ -13,9 +13,19 @@ test_that("data with unfractionated samples produce message", {
 })
 
 test_that("facet_by works as expected", {
-  expect_error(plot_sample_curves(example_qsip_growth_object, facet_by = "not_an_option"), "facet_by must be either 'source' or 'isotope'")
+  expect_error(plot_sample_curves(example_qsip_growth_object, facet_by = "not_an_option"), "not found in source metadata")
   expect_true(inherits(plot_sample_curves(example_qsip_growth_object, facet_by = "source"), "ggplot"))
   expect_true(inherits(plot_sample_curves(example_qsip_growth_object, facet_by = "isotope"), "ggplot"))
+})
+
+test_that("facet_by works with metadata columns", {
+  expect_true(inherits(plot_sample_curves(example_qsip_object, facet_by = "Moisture"), "ggplot"))
+  expect_true(inherits(plot_sample_curves(example_qsip_object, facet_by = c("Moisture", "isotopolog")), "ggplot"))
+})
+
+test_that("facet_by with multiple columns combines them", {
+  p <- plot_sample_curves(example_qsip_object, facet_by = c("Moisture", "isotopolog"))
+  expect_true(inherits(p, "ggplot"))
 })
 
 test_that("show_wad should be a boolean", {

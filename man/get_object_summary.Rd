@@ -4,15 +4,22 @@
 \alias{get_object_summary}
 \title{Summarize a qSIP S7 object or named list of qSIP S7 objects}
 \usage{
-get_object_summary(x)
+get_object_summary(x, source_format = c("count", "ids"))
 }
 \arguments{
 \item{x}{A qSIP S7 object, or a named list of qSIP S7 objects of the same type.}
+
+\item{source_format}{(\emph{string, default: count}) Format for source material IDs.
+Either "count" to show the count of source IDs, or "ids" to show the actual
+vector of source IDs as list columns.}
 }
 \value{
-For a single object, a tibble with \code{name} and \code{value} columns. For a
-named list, a tibble with a \code{name} column and one column per list element,
-named after the list elements.
+A tibble with a \code{group} column and columns for each metric. For single
+objects, there is one row. For named lists, there is one row per list element
+with the group name (or list element name) in the \code{group} column. Metrics include
+\code{feature_count_original}, \code{feature_count_filtered}, \code{unlabeled_source_count}/
+\code{unlabeled_source_ids}, \code{labeled_source_count}/\code{labeled_source_ids} (depending
+on \code{source_format}), \code{filtered}, \code{resampled}, \code{eaf}, and \code{growth}.
 }
 \description{
 Summarize a qSIP S7 object or named list of qSIP S7 objects

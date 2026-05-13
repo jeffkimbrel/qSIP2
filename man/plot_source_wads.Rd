@@ -9,7 +9,10 @@ plot_source_wads(qsip_data, group = NULL, title = NULL)
 \arguments{
 \item{qsip_data}{(\emph{qsip_data}) qSIP object}
 
-\item{group}{(\emph{character}) An optional grouping parameter to facet the y or x,y axes}
+\item{group}{(\emph{character}) An optional grouping parameter to facet the y or x,y axes.
+Can be a single column name or vector of column names from source metadata.
+Multiple columns are combined with "_" separator
+(e.g., \code{group = c("Moisture", "isotopolog")} creates "Drought_glucose", "Normal_glucose").}
 
 \item{title}{(\emph{character}) An optional title for the plot}
 }

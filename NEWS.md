@@ -1,3 +1,23 @@
+# qSIP2 0.24
+
+* New helper function `calculate_na_probabilities()` for calculating probabilities of successful mean calculation with different NA counts in resampling scenarios
+* Major updates to `get_object_summary()`
+  * Changed output format to wide tibble with `group` column and metrics as columns
+  * Split feature counts into separate columns: `feature_count_original` and `feature_count_filtered`
+  * Replaced `sample_id_count` with `unlabeled_source_count` and `labeled_source_count` from filter results
+  * Added `source_format` parameter to return either counts (`"count"`) or IDs as list columns (`"ids"`)
+  * Added warning when duplicate group names are detected in list inputs
+  * Updated column ordering for better readability
+* Enhanced `plot_sample_curves()`
+  * `facet_by` now accepts any source metadata column(s) for custom faceting
+  * Supports multiple columns via vector (e.g., `facet_by = c("Moisture", "isotopolog")`) which are combined with "_" separator
+  * Custom faceting creates `facet_grid` with isotope as rows and specified column(s) as columns
+  * Replicates within each isotope × facet group are numbered and colored consistently using `source_palette`
+  * Fixed deprecated `size` parameter to `linewidth` in `geom_vline()`
+* Enhanced `plot_source_wads()`
+  * `group` parameter now accepts multiple columns via vector (e.g., `group = c("Moisture", "isotopolog")`)
+  * Multiple columns are combined with "_" separator for faceting
+
 # qSIP2 0.23
 
 * Updating vignettes

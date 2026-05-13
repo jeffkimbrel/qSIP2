@@ -637,7 +637,7 @@ calculate_bi <- function(N_total_it,
       class = "qsip_invalid_growth_model"
     )
   }
-  
+
   if (growth_model == "exponential") {
     bi <- log(N_total_it / N_light_it) * (1 / (timepoint - timepoint1))
   } else if (growth_model == "linear") {
@@ -645,4 +645,35 @@ calculate_bi <- function(N_total_it,
   }
 
   return(bi)
+}
+
+
+
+
+#' Calculate NA probabilities for resampling scenarios
+#'
+#' Calculates the probability of successful mean calculation and the probability
+#' of all values being NA for different counts of non-NA values in a sample of
+#' size n. Useful for understanding the impact of missing data on resampling.
+#'
+#' @param n (*integer*) The total sample size
+#'
+#' @returns A tibble with columns: non_na (count of non-NA values), na_count
+#'   (count of NA values), p_mean_success (probability of successfully calculating
+#'   a mean), and p_all_na (probability that all resampled values are NA)
+#'
+#' @keywords internal
+#' @export
+
+calculate_na_probabilities <- function(n) {
+  k <- n:0
+  prob_success <- (k / n)^n
+  prob_all_na <- ((n - k) / n)^n
+
+  tibble::tibble(
+    non_na = k,
+    na_count = n - k,
+    p_mean_success = prob_success,
+    p_all_na = prob_all_na
+  )
 }

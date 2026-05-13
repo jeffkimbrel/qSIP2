@@ -25,16 +25,21 @@ test_that("works with a named list of qsip_data objects", {
   expect_snapshot(get_object_summary(li))
 })
 
-test_that("uses group values as column names in list", {
+test_that("uses group values in group column", {
   li <- list("A" = qsip_normal_strict_filtered, "B" = qsip_normal_strict_filtered)
-  result <- get_object_summary(li)
-  expect_true(any(names(result) != c("metric", "A", "B")))
+  suppressWarnings({
+    result <- get_object_summary(li)
+  })
+  expect_true("group" %in% names(result))
+  expect_true(nrow(result) == 2)
 })
 
-test_that("deduplicates column names with _1 suffix", {
+test_that("warns when duplicate group names are detected", {
   li <- list("A" = example_qsip_object, "B" = example_qsip_object)
-  result <- get_object_summary(li)
-  expect_true(ncol(result) == 3)
+  expect_warning(
+    get_object_summary(li),
+    "Duplicate group names detected"
+  )
 })
 
 test_that("errors on unnamed list", {
@@ -49,4 +54,31 @@ test_that("errors on mixed S7 types in list", {
 
 test_that("errors on non-qsip input", {
   expect_error(get_object_summary(example_source_df))
+})
+
+test_that("works with source_format = 'ids' for single qsip_data object", {
+  result <- get_object_summary(qsip_normal_strict_filtered, source_format = "ids")
+  expect_snapshot(result)
+  expect_true("unlabeled_source_ids" %in% names(result))
+  expect_true("labeled_source_ids" %in% names(result))
+  expect_true(is.list(result$unlabeled_source_ids))
+  expect_true(is.list(result$labeled_source_ids))
+})
+
+test_that("works with source_format = 'ids' for list of qsip_data objects", {
+  li <- list("A" = qsip_normal_strict_filtered, "B" = qsip_normal_strict_filtered)
+  suppressWarnings({
+    result <- get_object_summary(li, source_format = "ids")
+  })
+  expect_snapshot(result)
+  expect_true("unlabeled_source_ids" %in% names(result))
+  expect_true("labeled_source_ids" %in% names(result))
+})
+
+test_that("source_format = 'count' returns count columns (default)", {
+  result <- get_object_summary(qsip_normal_strict_filtered, source_format = "count")
+  expect_true("unlabeled_source_count" %in% names(result))
+  expect_true("labeled_source_count" %in% names(result))
+  expect_false("unlabeled_source_ids" %in% names(result))
+  expect_false("labeled_source_ids" %in% names(result))
 })

@@ -34,6 +34,7 @@ reference:
 
 - title: Helper Functions
   contents:
+  - calculate_na_probabilities
   - infer_source_data
   - infer_source_feature_table
   - add_isotopolog_label
