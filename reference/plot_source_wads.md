@@ -17,7 +17,10 @@ plot_source_wads(qsip_data, group = NULL, title = NULL)
 - group:
 
   (*character*) An optional grouping parameter to facet the y or x,y
-  axes
+  axes. Can be a single column name or vector of column names from
+  source metadata. Multiple columns are combined with "\_" separator
+  (e.g., `group = c("Moisture", "isotopolog")` creates
+  "Drought_glucose", "Normal_glucose").
 
 - title:
 

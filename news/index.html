@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.24.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,6 +54,34 @@
       <small>Source: <a href="https://github.com/jeffkimbrel/qSIP2/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.24" id="qsip2-024">qSIP2 0.24<a class="anchor" aria-label="anchor" href="#qsip2-024"></a></h2>
+<ul><li>New helper function <code><a href="../reference/calculate_na_probabilities.html">calculate_na_probabilities()</a></code> for calculating probabilities of successful mean calculation with different NA counts in resampling scenarios</li>
+<li>Major updates to <code><a href="../reference/get_object_summary.html">get_object_summary()</a></code>
+<ul><li>Changed output format to wide tibble with <code>group</code> column and metrics as columns</li>
+<li>Split feature counts into separate columns: <code>feature_count_original</code> and <code>feature_count_filtered</code>
+</li>
+<li>Replaced <code>sample_id_count</code> with <code>unlabeled_source_count</code> and <code>labeled_source_count</code> from filter results</li>
+<li>Added <code>source_format</code> parameter to return either counts (<code>"count"</code>) or IDs as list columns (<code>"ids"</code>)</li>
+<li>Added warning when duplicate group names are detected in list inputs</li>
+<li>Updated column ordering for better readability</li>
+</ul></li>
+<li>Enhanced <code><a href="../reference/plot_sample_curves.html">plot_sample_curves()</a></code>
+<ul><li>
+<code>facet_by</code> now accepts any source metadata column(s) for custom faceting</li>
+<li>Supports multiple columns via vector (e.g., <code>facet_by = c("Moisture", "isotopolog")</code>) which are combined with “_” separator</li>
+<li>Custom faceting creates <code>facet_grid</code> with isotope as rows and specified column(s) as columns</li>
+<li>Replicates within each isotope × facet group are numbered and colored consistently using <code>source_palette</code>
+</li>
+<li>Fixed deprecated <code>size</code> parameter to <code>linewidth</code> in <code><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline()</a></code>
+</li>
+</ul></li>
+<li>Enhanced <code><a href="../reference/plot_source_wads.html">plot_source_wads()</a></code>
+<ul><li>
+<code>group</code> parameter now accepts multiple columns via vector (e.g., <code>group = c("Moisture", "isotopolog")</code>)</li>
+<li>Multiple columns are combined with “_” separator for faceting</li>
+</ul></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.23" id="qsip2-023">qSIP2 0.23<a class="anchor" aria-label="anchor" href="#qsip2-023"></a></h2>
 <ul><li>Updating vignettes

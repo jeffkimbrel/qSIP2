@@ -9,7 +9,7 @@ library(ggplot2)
 library(patchwork)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.9'
+#> [1] '0.24.0'
 ```
 
 ## Background
@@ -134,15 +134,12 @@ confirms the updated state of the object.
 ``` r
 
 get_object_summary(q)
-#> # A tibble: 6 × 2
-#>   metric           none      
-#>   <chr>            <chr>     
-#> 1 feature_id_count 74 of 2030
-#> 2 sample_id_count  284       
-#> 3 filtered         TRUE      
-#> 4 resampled        TRUE      
-#> 5 eaf              FALSE     
-#> 6 growth           FALSE
+#> # A tibble: 1 × 9
+#>   group feature_count_original filtered feature_count_filtered
+#>   <chr> <chr>                  <chr>    <chr>                 
+#> 1 none  2030                   TRUE     74                    
+#> # ℹ 5 more variables: unlabeled_source_count <chr>, labeled_source_count <chr>,
+#> #   resampled <chr>, eaf <chr>, growth <chr>
 ```
 
 ## Inspect resample results

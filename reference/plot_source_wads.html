@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.24.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +73,10 @@
 
 
 <dt id="arg-group">group<a class="anchor" aria-label="anchor" href="#arg-group"></a></dt>
-<dd><p>(<em>character</em>) An optional grouping parameter to facet the y or x,y axes</p></dd>
+<dd><p>(<em>character</em>) An optional grouping parameter to facet the y or x,y axes.
+Can be a single column name or vector of column names from source metadata.
+Multiple columns are combined with "_" separator
+(e.g., <code>group = c("Moisture", "isotopolog")</code> creates "Drought_glucose", "Normal_glucose").</p></dd>
 
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>

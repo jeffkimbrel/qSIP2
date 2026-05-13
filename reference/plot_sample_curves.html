@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.24.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,11 +83,17 @@
 
 
 <dt id="arg-facet-by">facet_by<a class="anchor" aria-label="anchor" href="#arg-facet-by"></a></dt>
-<dd><p>(<em>character</em>) Facet the plots by "source" or by "isotope"</p></dd>
+<dd><p>(<em>character</em>) Facet the plots by "source" (one panel per source_mat_id),
+"isotope" (one panel per isotope), or by any column name(s) from the source metadata.
+For a single column or vector of columns, creates a facet_grid with isotope as rows
+and the specified column(s) as columns. Multiple columns are combined with "_" separator
+(e.g., <code>facet_by = c("Moisture", "Isotopolog")</code> creates "Drought_glucose", "Normal_glucose").
+For custom faceting, replicates within each isotope × facet group are assigned
+numbers and colored accordingly.</p></dd>
 
 
 <dt id="arg-show-wad">show_wad<a class="anchor" aria-label="anchor" href="#arg-show-wad"></a></dt>
-<dd><p>(<em>logical</em>) A logical value</p></dd>
+<dd><p>(<em>logical</em>) A logical value indicating whether to show WAD lines</p></dd>
 
 
 <dt id="arg-colors">colors<a class="anchor" aria-label="anchor" href="#arg-colors"></a></dt>

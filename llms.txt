@@ -63,6 +63,8 @@ devtools::install_github("jeffkimbrel/qSIP2")
 
 ## Helper Functions
 
+- [`calculate_na_probabilities()`](https://jeffkimbrel.github.io/qSIP2/reference/calculate_na_probabilities.md)
+  : Calculate NA probabilities for resampling scenarios
 - [`infer_source_data()`](https://jeffkimbrel.github.io/qSIP2/reference/infer_source_data.md)
   : Generate a source data frame from a sample data frame
 - [`infer_source_feature_table()`](https://jeffkimbrel.github.io/qSIP2/reference/infer_source_feature_table.md)

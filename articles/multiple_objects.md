@@ -6,7 +6,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.23.9'
+#> [1] '0.24.0'
 ```
 
 ## Background
