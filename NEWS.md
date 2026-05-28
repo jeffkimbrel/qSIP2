@@ -1,5 +1,11 @@
 # qSIP2 0.24
 
+* Changes in v0.23 affected how the delta EAF calculations were run, and this has been fixed here.
+  * Features with zero successful resamples (due to a large number of source_mat_ids) now gracefully fail with an new `$resampling_message` in the `run_delta_EAF_contrasts()` output
+  * Resamplings are renumbered so they pair nicer for `run_delta_EAF_contrasts()`. 
+    * Previously resample "1" was only compared against resample "1", 
+    * But, if there were few successes in both the unlabeled and labeled, it could lead to situations where very few actual resampling numbers were shared between contrasting groups
+    * Now, each resampling is temporarily renumber from 1 to n, ensuring proper pairing and as many tests are run as possible
 * New helper function `calculate_na_probabilities()` for calculating probabilities of successful mean calculation with different NA counts in resampling scenarios
 * Major updates to `get_object_summary()`
   * Changed output format to wide tibble with `group` column and metrics as columns

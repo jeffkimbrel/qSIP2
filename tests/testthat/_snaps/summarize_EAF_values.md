@@ -5,7 +5,7 @@
     Message
       i Confidence level = 0.9
     Output
-      # A tibble: 74 x 10
+      # A tibble: 74 x 11
          feature_id observed_EAF mean_resampled_EAF   lower  upper  pval
          <chr>             <dbl>              <dbl>   <dbl>  <dbl> <dbl>
        1 ASV_1          -0.0153            -0.0150  -0.0513 0.0239 0.488
@@ -19,8 +19,8 @@
        9 ASV_12          0.376              0.376    0.341  0.407  0    
       10 ASV_13          0.0670             0.0669   0.0427 0.0912 0    
       # i 64 more rows
-      # i 4 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
-      #   labeled_sources <int>, unlabeled_sources <int>
+      # i 5 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
+      #   labeled_sources <int>, unlabeled_sources <int>, messages <lgl>
 
 ---
 
@@ -29,7 +29,7 @@
     Message
       i Confidence level = 0.95
     Output
-      # A tibble: 74 x 10
+      # A tibble: 74 x 11
          feature_id observed_EAF mean_resampled_EAF   lower  upper  pval
          <chr>             <dbl>              <dbl>   <dbl>  <dbl> <dbl>
        1 ASV_1          -0.0153            -0.0150  -0.0560 0.0307 0.488
@@ -43,8 +43,8 @@
        9 ASV_12          0.376              0.376    0.334  0.411  0    
       10 ASV_13          0.0670             0.0669   0.0361 0.0947 0    
       # i 64 more rows
-      # i 4 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
-      #   labeled_sources <int>, unlabeled_sources <int>
+      # i 5 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
+      #   labeled_sources <int>, unlabeled_sources <int>, messages <lgl>
 
 # works on lists of qsip objects
 
@@ -53,7 +53,7 @@
     Message
       i Confidence level = 0.9
     Output
-      # A tibble: 155 x 11
+      # A tibble: 155 x 12
          group  feature_id observed_EAF mean_resampled_EAF   lower  upper  pval
          <chr>  <chr>             <dbl>              <dbl>   <dbl>  <dbl> <dbl>
        1 normal ASV_1          -0.0153            -0.0150  -0.0513 0.0239 0.488
@@ -67,6 +67,6 @@
        9 normal ASV_12          0.376              0.376    0.341  0.407  0    
       10 normal ASV_13          0.0670             0.0669   0.0427 0.0912 0    
       # i 145 more rows
-      # i 4 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
-      #   labeled_sources <int>, unlabeled_sources <int>
+      # i 5 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
+      #   labeled_sources <int>, unlabeled_sources <int>, messages <lgl>
 

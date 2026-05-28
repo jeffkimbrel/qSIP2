@@ -175,6 +175,11 @@ get_delta_distributions = function(resampled_EAF, contrasts) {
   # Importantly, leaves an NA value for features with no NA, and these will be
   # dropped later with the contrasts
   data = resampled_EAF |>
+
+    # If there are few resamples, and they are random numbers between 1 and
+    # 1000, they likely won't be paired. this renumbers the resamples so that
+    # they pair better
+    dplyr::mutate(resample = dplyr::if_else(is.na(resample), NA_integer_, dplyr::row_number() - 1L), .by = group) |>
     tidyr::pivot_wider(names_from = group,
                        values_from = EAF)
 
@@ -220,6 +225,9 @@ get_delta_distributions = function(resampled_EAF, contrasts) {
     })
   }
 
+  delta_distributions <- delta_distributions |>
+    dplyr::filter_out(is.na(delta))
+
   # return both the result and the status as a list, and that will be unpacked
   # and mapped to two columns back in the main function
   list(delta_distributions = delta_distributions, status = status)
@@ -245,13 +253,21 @@ get_delta_stats = function(delta_distributions, confidence = 0.95) {
       bs_pval = numeric(),
       pval = numeric(),
     )
+
   } else {
 
+    # bad contrast is one which only has the observed value... no actual resamples were successful
+    bad_contrasts = delta_distributions |>
+      dplyr::filter(all(is.na(resample)), .by = contrast) |>
+      dplyr::pull(contrast)
+
     delta = delta_distributions |>
+      dplyr::filter_out(contrast %in% bad_contrasts) |>
       dplyr::filter(is.na(resample)) |>
       dplyr::select(-resample)
 
-    delta_dist = delta_distributions |>
+    delta_dist_stats = delta_distributions |>
+      dplyr::filter_out(contrast %in% bad_contrasts) |>
       dplyr::filter(!is.na(resample)) |>
       dplyr::summarize(lower = quantile(delta, (1 - confidence) / 2, na.rm = T),
                        upper = quantile(delta, 1 - (1 - confidence) / 2, na.rm = T),
@@ -261,17 +277,34 @@ get_delta_stats = function(delta_distributions, confidence = 0.95) {
     if (nrow(delta_distributions) == 0) {
       bs_pval = NULL
     } else {
-      bs_pval = delta_distributions |>
+
+      delta_distributions_filtered = delta_distributions |>
         dplyr::filter(!is.na(resample)) |>
-        dplyr::summarize(result = list(calculate_bootstrap_pvalue(delta, 0)), # !!! unpacks a list into their names
-                  .by = contrast) |>
-        tidyr::unnest_wider(result)
+        dplyr::filter_out(contrast %in% bad_contrasts)
+
+      bs_pval = if (nrow(delta_distributions_filtered) > 0) {
+        delta_distributions_filtered |>
+          dplyr::summarize(result = list(calculate_bootstrap_pvalue(delta, 0)), # !!! unpacks a list into their names
+                    .by = contrast) |>
+          tidyr::unnest_wider(result)
+      } else {
+        bs_pval = tibble::tibble(
+          "contrast" = NA,
+          "bs_pval" = NA,
+          "bs_pval_message" = "resampling failures"
+        )
+      }
     }
 
+    #!#!#
+
+
     delta |>
-      dplyr::left_join(delta_dist, by = dplyr::join_by(contrast)) |>
+      tidyr::complete(contrast = bad_contrasts) |>
+      dplyr::left_join(delta_dist_stats, by = dplyr::join_by(contrast)) |>
       dplyr::left_join(bs_pval, by = dplyr::join_by(contrast)) |>
-      dplyr::mutate(pval = 2 * stats::pnorm(-abs(delta / sd)))
+      dplyr::mutate(pval = 2 * stats::pnorm(-abs(delta / sd))) |>
+      dplyr::mutate(bs_pval_message = ifelse(contrast %in% bad_contrasts, "Resampling failures", bs_pval_message))
   }
 
   return(delta_stats)

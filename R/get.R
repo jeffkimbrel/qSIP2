@@ -326,7 +326,7 @@ get_all_by_isotope <- function(qsip_data_object,
     if (nrow(source_mat_ids) == 0) {
       cli::cli_abort("No source_mat_ids found with isotope{?s} {.val {isotopes}}.", class = "qsip_isotope_not_found_in_source_mat_ids")
     }
-  
+
     for (isotope in isotopes) {
       if (!isotope %in% source_mat_ids$isotope) {
         cli::cli_warn("Isotope {.val {isotope}} not found in data.", class = "qsip_isotope_not_found")
@@ -1141,19 +1141,28 @@ summarize_EAF_values <- function(qsip_data_object,
 
   # confirm qsip_data_object class is either qsip_data or list
   if (is_qsip_data_list(qsip_data_object, error = FALSE)) {
-    lapply(qsip_data_object,
+    results = lapply(qsip_data_object,
            summarize_EAF_values_internal,
            taxonomy = taxonomy,
            confidence = confidence
     ) |>
       dplyr::bind_rows(.id = "group")
   } else if (is_qsip_data(qsip_data_object, error = FALSE)) {
-    summarize_EAF_values_internal(qsip_data_object,
+    results = summarize_EAF_values_internal(qsip_data_object,
                                   taxonomy = taxonomy,
                                   confidence = confidence)
   } else {
     stop("ERROR: qsip_data_object must be of class <qsip_data> or <list> of qsip_data objects")
   }
+
+  results = results |>
+    dplyr::mutate(messages = ifelse(is.na(labeled_resamples) | is.na(unlabeled_resamples), "Resampling failed - not enough successes", NA))
+
+  if (any(!is.na(results$messages))) {
+    cli::cli_alert_warning("Some features had resampling failures. Check the $messages column for more information")
+  }
+
+  return(results)
 }
 
 
