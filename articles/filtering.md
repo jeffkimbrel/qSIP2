@@ -8,7 +8,7 @@ library(patchwork)
 library(stringr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.24.0'
+#> [1] '0.24.1'
 ```
 
 ## Background

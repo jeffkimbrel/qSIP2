@@ -7,7 +7,7 @@ library(ggplot2)
 library(patchwork)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.24.0'
+#> [1] '0.24.1'
 ```
 
 ## Background
@@ -164,14 +164,14 @@ summarize_EAF_values(qsip_list)
 
     #> ℹ Confidence level = 0.9
 
-| group | feature_id | observed_EAF | mean_resampled_EAF | lower | upper | pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
-|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Drought | ASV_1 | -0.0491540 | -0.0483554 | -0.1082032 | 0.0087336 | 0.178 | 1000 | 1000 | 4 | 4 |
-| Normal | ASV_1 | 0.0004555 | 0.0000135 | -0.0325729 | 0.0356580 | 0.986 | 1000 | 1000 | 3 | 4 |
-| Drought | ASV_10 | 0.0547586 | 0.0550897 | 0.0344674 | 0.0747572 | 0.000 | 1000 | 1000 | 4 | 4 |
-| Normal | ASV_10 | 0.1121811 | 0.1116458 | 0.0713690 | 0.1506676 | 0.000 | 1000 | 1000 | 3 | 4 |
-| Drought | ASV_100 | -0.1116096 | -0.1110421 | -0.1681262 | -0.0503753 | 0.000 | 1000 | 1000 | 4 | 4 |
-| Normal | ASV_100 | 0.0090370 | 0.0088377 | -0.0523892 | 0.0703022 | 0.798 | 1000 | 1000 | 3 | 4 |
+| group | feature_id | observed_EAF | mean_resampled_EAF | lower | upper | pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources | messages |
+|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---|
+| Drought | ASV_1 | -0.0491540 | -0.0483554 | -0.1082032 | 0.0087336 | 0.178 | 1000 | 1000 | 4 | 4 | NA |
+| Normal | ASV_1 | 0.0004555 | 0.0000135 | -0.0325729 | 0.0356580 | 0.986 | 1000 | 1000 | 3 | 4 | NA |
+| Drought | ASV_10 | 0.0547586 | 0.0550897 | 0.0344674 | 0.0747572 | 0.000 | 1000 | 1000 | 4 | 4 | NA |
+| Normal | ASV_10 | 0.1121811 | 0.1116458 | 0.0713690 | 0.1506676 | 0.000 | 1000 | 1000 | 3 | 4 | NA |
+| Drought | ASV_100 | -0.1116096 | -0.1110421 | -0.1681262 | -0.0503753 | 0.000 | 1000 | 1000 | 4 | 4 | NA |
+| Normal | ASV_100 | 0.0090370 | 0.0088377 | -0.0523892 | 0.0703022 | 0.798 | 1000 | 1000 | 3 | 4 | NA |
 
 Table 1: The first few rows of EAF results across all comparisons.
 
@@ -205,12 +205,12 @@ summarize_EAF_values(qsip_list$Drought) |>
 
     #> ℹ Confidence level = 0.9
 
-| feature_id | observed_EAF | mean_resampled_EAF | lower | upper | pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
-|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| ASV_72 | 0.5271129 | 0.5246305 | 0.3529541 | 0.7072885 | 0.000 | 1000 | 1000 | 4 | 4 |
-| ASV_7 | 0.2305506 | 0.2307068 | 0.1799998 | 0.2823904 | 0.000 | 1000 | 1000 | 4 | 4 |
-| ASV_180 | 0.0308346 | 0.0318743 | -0.0425104 | 0.0994295 | 0.448 | 1000 | 1000 | 4 | 4 |
-| ASV_100 | -0.1116096 | -0.1110421 | -0.1681262 | -0.0503753 | 0.000 | 1000 | 1000 | 4 | 4 |
+| feature_id | observed_EAF | mean_resampled_EAF | lower | upper | pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources | messages |
+|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---|
+| ASV_72 | 0.5271129 | 0.5246305 | 0.3529541 | 0.7072885 | 0.000 | 1000 | 1000 | 4 | 4 | NA |
+| ASV_7 | 0.2305506 | 0.2307068 | 0.1799998 | 0.2823904 | 0.000 | 1000 | 1000 | 4 | 4 | NA |
+| ASV_180 | 0.0308346 | 0.0318743 | -0.0425104 | 0.0994295 | 0.448 | 1000 | 1000 | 4 | 4 | NA |
+| ASV_100 | -0.1116096 | -0.1110421 | -0.1681262 | -0.0503753 | 0.000 | 1000 | 1000 | 4 | 4 | NA |
 
 Table 2: EAF results for 4 chosen features from the Drought comparison,
 ordered by decreasing mean EAF.

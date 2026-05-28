@@ -6,7 +6,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.24.0'
+#> [1] '0.24.1'
 ```
 
 ## Background
@@ -691,7 +691,7 @@ See the vignette for more control over these decisions.
 df = run_delta_EAF_contrasts(qsip_list, confidence = 0.95)
 #> ℹ `contrasts` not given so running all-by-all
 #> ℹ Confidence level = 0.95
-#> ! there were 0 contrast and 1 bs_pval result messages
+#> ! there were 0 contrast and 0 bs_pval result messages
 ```
 
 | feature_id | contrast | delta | lower | upper | sd | bs_pval | bs_pval_message | pval | contrast_message |
@@ -733,18 +733,18 @@ df = summarize_EAF_values(qsip_list)
 #> ℹ Confidence level = 0.9
 ```
 
-| group | feature_id | observed_EAF | mean_resampled_EAF | lower | upper | pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
-|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Normal | ASV_1 | -0.0153107 | -0.0157044 | -0.0516543 | 0.0236518 | 0.470 | 1000 | 1000 | 3 | 8 |
-| Drought | ASV_1 | -0.0333856 | -0.0330890 | -0.0808509 | 0.0161212 | 0.284 | 1000 | 1000 | 4 | 8 |
-| Normal | ASV_10 | 0.1126260 | 0.1121874 | 0.0848992 | 0.1400368 | 0.000 | 1000 | 1000 | 3 | 8 |
-| Drought | ASV_10 | 0.0543136 | 0.0541364 | 0.0303215 | 0.0776436 | 0.000 | 1000 | 1000 | 4 | 8 |
-| Drought | ASV_100 | -0.0892684 | -0.0895131 | -0.1488307 | -0.0349891 | 0.016 | 1000 | 1000 | 3 | 7 |
-| Drought | ASV_102 | -0.0407091 | -0.0407609 | -0.0907747 | 0.0088904 | 0.168 | 1000 | 1000 | 4 | 8 |
-| Normal | ASV_11 | 0.3749260 | 0.3743849 | 0.3392976 | 0.4094196 | 0.000 | 1000 | 1000 | 3 | 8 |
-| Drought | ASV_11 | 0.2629470 | 0.2622983 | 0.2041474 | 0.3099201 | 0.000 | 1000 | 1000 | 4 | 8 |
-| Normal | ASV_114 | 0.1926455 | 0.1918100 | 0.1234247 | 0.2683575 | 0.000 | 1000 | 1000 | 3 | 7 |
-| Drought | ASV_114 | 0.2160639 | 0.2167657 | 0.1304984 | 0.2998898 | 0.000 | 1000 | 1000 | 3 | 7 |
+| group | feature_id | observed_EAF | mean_resampled_EAF | lower | upper | pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources | messages |
+|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---|
+| Normal | ASV_1 | -0.0153107 | -0.0157044 | -0.0516543 | 0.0236518 | 0.470 | 1000 | 1000 | 3 | 8 | NA |
+| Drought | ASV_1 | -0.0333856 | -0.0330890 | -0.0808509 | 0.0161212 | 0.284 | 1000 | 1000 | 4 | 8 | NA |
+| Normal | ASV_10 | 0.1126260 | 0.1121874 | 0.0848992 | 0.1400368 | 0.000 | 1000 | 1000 | 3 | 8 | NA |
+| Drought | ASV_10 | 0.0543136 | 0.0541364 | 0.0303215 | 0.0776436 | 0.000 | 1000 | 1000 | 4 | 8 | NA |
+| Drought | ASV_100 | -0.0892684 | -0.0895131 | -0.1488307 | -0.0349891 | 0.016 | 1000 | 1000 | 3 | 7 | NA |
+| Drought | ASV_102 | -0.0407091 | -0.0407609 | -0.0907747 | 0.0088904 | 0.168 | 1000 | 1000 | 4 | 8 | NA |
+| Normal | ASV_11 | 0.3749260 | 0.3743849 | 0.3392976 | 0.4094196 | 0.000 | 1000 | 1000 | 3 | 8 | NA |
+| Drought | ASV_11 | 0.2629470 | 0.2622983 | 0.2041474 | 0.3099201 | 0.000 | 1000 | 1000 | 4 | 8 | NA |
+| Normal | ASV_114 | 0.1926455 | 0.1918100 | 0.1234247 | 0.2683575 | 0.000 | 1000 | 1000 | 3 | 7 | NA |
+| Drought | ASV_114 | 0.2160639 | 0.2167657 | 0.1304984 | 0.2998898 | 0.000 | 1000 | 1000 | 3 | 7 | NA |
 
 Table 8: First 10 rows of EAF results across both moisture comparisons.
 

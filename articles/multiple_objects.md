@@ -6,7 +6,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.24.0'
+#> [1] '0.24.1'
 ```
 
 ## Background
@@ -82,14 +82,14 @@ summarize_EAF_values(qsip_list_1)
 
     #> ℹ Confidence level = 0.9
 
-| group | feature_id | observed_EAF | mean_resampled_EAF | lower | upper | pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources |
-|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Normal | ASV_1 | -0.0153107 | -0.0162090 | -0.0524399 | 0.0239385 | 0.472 | 1000 | 1000 | 3 | 8 |
-| Drought | ASV_1 | -0.0333856 | -0.0322146 | -0.0792106 | 0.0219181 | 0.320 | 1000 | 1000 | 4 | 8 |
-| Normal | ASV_10 | 0.1126260 | 0.1116218 | 0.0823812 | 0.1405383 | 0.000 | 1000 | 1000 | 3 | 8 |
-| Drought | ASV_10 | 0.0543136 | 0.0542462 | 0.0305884 | 0.0788885 | 0.000 | 1000 | 1000 | 4 | 8 |
-| Drought | ASV_100 | -0.0892684 | -0.0885048 | -0.1485629 | -0.0283228 | 0.020 | 1000 | 1000 | 3 | 7 |
-| Normal | ASV_102 | -0.0080214 | -0.0090271 | -0.0746514 | 0.0546485 | 0.782 | 1000 | 1000 | 3 | 8 |
+| group | feature_id | observed_EAF | mean_resampled_EAF | lower | upper | pval | labeled_resamples | unlabeled_resamples | labeled_sources | unlabeled_sources | messages |
+|:---|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---|
+| Normal | ASV_1 | -0.0153107 | -0.0162090 | -0.0524399 | 0.0239385 | 0.472 | 1000 | 1000 | 3 | 8 | NA |
+| Drought | ASV_1 | -0.0333856 | -0.0322146 | -0.0792106 | 0.0219181 | 0.320 | 1000 | 1000 | 4 | 8 | NA |
+| Normal | ASV_10 | 0.1126260 | 0.1116218 | 0.0823812 | 0.1405383 | 0.000 | 1000 | 1000 | 3 | 8 | NA |
+| Drought | ASV_10 | 0.0543136 | 0.0542462 | 0.0305884 | 0.0788885 | 0.000 | 1000 | 1000 | 4 | 8 | NA |
+| Drought | ASV_100 | -0.0892684 | -0.0885048 | -0.1485629 | -0.0283228 | 0.020 | 1000 | 1000 | 3 | 7 | NA |
+| Normal | ASV_102 | -0.0080214 | -0.0090271 | -0.0746514 | 0.0546485 | 0.782 | 1000 | 1000 | 3 | 8 | NA |
 
 First few rows from
 [`summarize_EAF_values()`](https://jeffkimbrel.github.io/qSIP2/reference/summarize_EAF_values.md)
@@ -312,7 +312,8 @@ these columns.
 summarize_EAF_values(qsip_list_3) |>
   filter(feature_id == "ASV_1")
 #> ℹ Confidence level = 0.9
-#> # A tibble: 6 × 11
+#> ! Some features had resampling failures. Check the $messages column for more information
+#> # A tibble: 6 × 12
 #>   group        feature_id observed_EAF mean_resampled_EAF   lower    upper  pval
 #>   <chr>        <chr>             <dbl>              <dbl>   <dbl>    <dbl> <dbl>
 #> 1 Drought      ASV_1         -0.0492             -0.0489  -0.108   0.0113  0.186
@@ -321,8 +322,8 @@ summarize_EAF_values(qsip_list_3) |>
 #> 4 Normal_S178  ASV_1          0.0410              0.0421   0.0214  0.0606  0.006
 #> 5 Normal_S179  ASV_1         -0.0256             -0.0251  -0.0454 -0.00603 0.008
 #> 6 Normal_S180  ASV_1         -0.0140             -0.0141  -0.0378  0.00564 0.276
-#> # ℹ 4 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
-#> #   labeled_sources <int>, unlabeled_sources <int>
+#> # ℹ 5 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
+#> #   labeled_sources <int>, unlabeled_sources <int>, messages <chr>
 ```
 
 But, keep in mind that each row of the dataframe will be filtered
@@ -335,13 +336,14 @@ certain comparisons. For example, ASV_311 only appears in the two
 summarize_EAF_values(qsip_list_3) |>
   filter(feature_id == "ASV_311")
 #> ℹ Confidence level = 0.9
-#> # A tibble: 2 × 11
+#> ! Some features had resampling failures. Check the $messages column for more information
+#> # A tibble: 2 × 12
 #>   group             feature_id observed_EAF mean_resampled_EAF lower upper  pval
 #>   <chr>             <chr>             <dbl>              <dbl> <dbl> <dbl> <dbl>
 #> 1 Drought           ASV_311           0.906              0.903 0.706 1.10      0
 #> 2 Drought against … ASV_311           0.693              0.693 0.543 0.850     0
-#> # ℹ 4 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
-#> #   labeled_sources <int>, unlabeled_sources <int>
+#> # ℹ 5 more variables: labeled_resamples <int>, unlabeled_resamples <int>,
+#> #   labeled_sources <int>, unlabeled_sources <int>, messages <chr>
 ```
 
 And although you can plot all together, more than a few objects might

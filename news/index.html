@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Changelog"><meta property="og:image" content="https://jeffkimbrel.github.io/qSIP2/logo.png"></head><body>
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Changelog"><meta property="og:image" content="https://jeffkimbrel.github.io/qSIP2/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.24.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.24.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,15 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.24" id="qsip2-024">qSIP2 0.24<a class="anchor" aria-label="anchor" href="#qsip2-024"></a></h2>
-<ul><li>New helper function <code><a href="../reference/calculate_na_probabilities.html">calculate_na_probabilities()</a></code> for calculating probabilities of successful mean calculation with different NA counts in resampling scenarios</li>
+<ul><li>Changes in v0.23 affected how the delta EAF calculations were run, and this has been fixed here.
+<ul><li>Features with zero successful resamples (due to a large number of source_mat_ids) now gracefully fail with an new <code>$resampling_message</code> in the <code><a href="../reference/run_delta_EAF_contrasts.html">run_delta_EAF_contrasts()</a></code> output</li>
+<li>Resamplings are renumbered so they pair nicer for <code><a href="../reference/run_delta_EAF_contrasts.html">run_delta_EAF_contrasts()</a></code>.
+<ul><li>Previously resample “1” was only compared against resample “1”,</li>
+<li>But, if there were few successes in both the unlabeled and labeled, it could lead to situations where very few actual resampling numbers were shared between contrasting groups</li>
+<li>Now, each resampling is temporarily renumber from 1 to n, ensuring proper pairing and as many tests are run as possible</li>
+</ul></li>
+</ul></li>
+<li>New helper function <code><a href="../reference/calculate_na_probabilities.html">calculate_na_probabilities()</a></code> for calculating probabilities of successful mean calculation with different NA counts in resampling scenarios</li>
 <li>Major updates to <code><a href="../reference/get_object_summary.html">get_object_summary()</a></code>
 <ul><li>Changed output format to wide tibble with <code>group</code> column and metrics as columns</li>
 <li>Split feature counts into separate columns: <code>feature_count_original</code> and <code>feature_count_filtered</code>

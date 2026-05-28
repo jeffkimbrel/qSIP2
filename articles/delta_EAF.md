@@ -9,7 +9,7 @@ library(tidyr)
 library(tibble)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.24.0'
+#> [1] '0.24.1'
 ```
 
 ## Background
@@ -195,9 +195,9 @@ delta_EAF = run_delta_EAF_contrasts(q,
                                     contrasts = contrasts,
                                     confidence = 0.95) 
 #> ℹ Confidence level = 0.95
-#> step 1/2: calculating deltas... ■■■■■■■■■■■■■■■■■■■■■■■■          77% |  ETA:  …
-#> step 2/2: summarizing delta statistics ■■■■■■■■■■■■■■■■                  50% | …
-#> ! there were 74 contrast and 127 bs_pval result messages
+#> step 1/2: calculating deltas... ■■■■■■■■■■■■■■■■■■■■■■■■■■        84% |  ETA:  …
+#> step 2/2: summarizing delta statistics ■■■■■■■■■■■■■                     41% | …
+#> ! there were 74 contrast and 0 bs_pval result messages
 ```
 
 The output includes two warnings — “74 contrast” and “66 `bs_pval`” —
@@ -351,10 +351,7 @@ Here, although there may be 1000 resamples in both groups, there may be
 sporadic `NA` values filled in when the resampling failed.
 
 | feature_id | contrast | bs_pval | bs_pval_message |
-|:---|:---|---:|:---|
-| ASV_34 | Normal minus Drought | 0.0129450 | Removed 691 NA bootstrap replicate(s) of 1000 (69.1%) |
-| ASV_117 | Drought_all minus Drought | 0.6761364 | Removed 648 NA bootstrap replicate(s) of 1000 (64.8%) |
-| ASV_55 | Normal minus Drought | 0.2392027 | Removed 699 NA bootstrap replicate(s) of 1000 (69.9%) |
+|------------|----------|---------|-----------------|
 
 Table 5: Three randomly sampled rows with a bs_pval_message, showing how
 many resamples were skipped for each.

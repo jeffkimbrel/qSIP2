@@ -18,8 +18,8 @@
     }
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="qSIP_workflow_files/libs/quarto-html/popper.min.js"></script><script src="qSIP_workflow_files/libs/quarto-html/tippy.umd.min.js"></script><link href="qSIP_workflow_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="qSIP_workflow_files/libs/quarto-html/light-border.css" rel="stylesheet">
@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">qSIP2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.24.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.24.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,7 +100,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeffkimbrel/qSIP2" class="external-link">qSIP2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"qSIP2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] '0.24.0'</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] '0.24.1'</span></span></code></pre></div>
 </div>
 <section class="section level2"><h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
@@ -966,7 +966,7 @@ Figure 7: Density curves of selected features
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="../reference/run_delta_EAF_contrasts.html">run_delta_EAF_contrasts</a></span><span class="op">(</span><span class="va">qsip_list</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ `contrasts` not given so running all-by-all</span></span>
 <span><span class="co">#&gt; ℹ Confidence level = 0.95</span></span>
-<span><span class="co">#&gt; ! there were 0 contrast and 1 bs_pval result messages</span></span></code></pre></div>
+<span><span class="co">#&gt; ! there were 0 contrast and 0 bs_pval result messages</span></span></code></pre></div>
 <div id="tbl-delta-eaf" class="cell quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-delta-eaf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table 7: First few rows of delta EAF contrast results.
@@ -1094,16 +1094,17 @@ Table 8: First 10 rows of EAF results across both moisture comparisons.
 <table class="table cell caption-top">
 <colgroup>
 <col style="width: 5%">
-<col style="width: 7%">
+<col style="width: 6%">
 <col style="width: 8%">
-<col style="width: 12%">
-<col style="width: 7%">
-<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 6%">
+<col style="width: 6%">
 <col style="width: 3%">
 <col style="width: 11%">
-<col style="width: 13%">
+<col style="width: 12%">
 <col style="width: 10%">
 <col style="width: 11%">
+<col style="width: 5%">
 </colgroup>
 <thead><tr class="header">
 <th style="text-align: left;">group</th>
@@ -1117,6 +1118,7 @@ Table 8: First 10 rows of EAF results across both moisture comparisons.
 <th style="text-align: right;">unlabeled_resamples</th>
 <th style="text-align: right;">labeled_sources</th>
 <th style="text-align: right;">unlabeled_sources</th>
+<th style="text-align: left;">messages</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -1131,6 +1133,7 @@ Table 8: First 10 rows of EAF results across both moisture comparisons.
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">8</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Drought</td>
@@ -1144,6 +1147,7 @@ Table 8: First 10 rows of EAF results across both moisture comparisons.
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">8</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Normal</td>
@@ -1157,6 +1161,7 @@ Table 8: First 10 rows of EAF results across both moisture comparisons.
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">8</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Drought</td>
@@ -1170,6 +1175,7 @@ Table 8: First 10 rows of EAF results across both moisture comparisons.
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">8</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Drought</td>
@@ -1183,6 +1189,7 @@ Table 8: First 10 rows of EAF results across both moisture comparisons.
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">7</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Drought</td>
@@ -1196,6 +1203,7 @@ Table 8: First 10 rows of EAF results across both moisture comparisons.
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">8</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Normal</td>
@@ -1209,6 +1217,7 @@ Table 8: First 10 rows of EAF results across both moisture comparisons.
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">8</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Drought</td>
@@ -1222,6 +1231,7 @@ Table 8: First 10 rows of EAF results across both moisture comparisons.
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">8</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Normal</td>
@@ -1235,6 +1245,7 @@ Table 8: First 10 rows of EAF results across both moisture comparisons.
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">7</td>
+<td style="text-align: left;">NA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Drought</td>
@@ -1248,6 +1259,7 @@ Table 8: First 10 rows of EAF results across both moisture comparisons.
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">7</td>
+<td style="text-align: left;">NA</td>
 </tr>
 </tbody>
 </table>
