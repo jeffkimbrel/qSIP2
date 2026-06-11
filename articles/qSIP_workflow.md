@@ -6,7 +6,7 @@ library(dplyr)
 library(ggplot2)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.24.1'
+#> [1] '0.24.2'
 ```
 
 ## Background
@@ -696,12 +696,12 @@ df = run_delta_EAF_contrasts(qsip_list, confidence = 0.95)
 
 | feature_id | contrast | delta | lower | upper | sd | bs_pval | bs_pval_message | pval | contrast_message |
 |:---|:---|---:|---:|---:|---:|---:|:---|---:|:---|
-| ASV_1 | Drought vs Normal | 0.0180749 | -0.0546814 | 0.0969191 | 0.0381461 | 0.668 | NA | 0.6356180 | NA |
-| ASV_10 | Drought vs Normal | 0.0583124 | 0.0136634 | 0.1004436 | 0.0224994 | 0.006 | NA | 0.0095494 | NA |
-| ASV_11 | Drought vs Normal | 0.1119790 | 0.0375634 | 0.1885486 | 0.0385194 | 0.000 | NA | 0.0036482 | NA |
-| ASV_114 | Drought vs Normal | -0.0234184 | -0.1607945 | 0.1180637 | 0.0699282 | 0.702 | NA | 0.7377065 | NA |
-| ASV_12 | Drought vs Normal | 0.0482223 | 0.0031208 | 0.0895461 | 0.0225526 | 0.036 | NA | 0.0324997 | NA |
-| ASV_13 | Drought vs Normal | 0.0482378 | 0.0001856 | 0.0936535 | 0.0235292 | 0.048 | NA | 0.0403524 | NA |
+| ASV_1 | Normal *minus* Drought | 0.0180749 | -0.0546814 | 0.0969191 | 0.0381461 | 0.668 | NA | 0.6356180 | NA |
+| ASV_10 | Normal *minus* Drought | 0.0583124 | 0.0136634 | 0.1004436 | 0.0224994 | 0.006 | NA | 0.0095494 | NA |
+| ASV_11 | Normal *minus* Drought | 0.1119790 | 0.0375634 | 0.1885486 | 0.0385194 | 0.000 | NA | 0.0036482 | NA |
+| ASV_114 | Normal *minus* Drought | -0.0234184 | -0.1607945 | 0.1180637 | 0.0699282 | 0.702 | NA | 0.7377065 | NA |
+| ASV_12 | Normal *minus* Drought | 0.0482223 | 0.0031208 | 0.0895461 | 0.0225526 | 0.036 | NA | 0.0324997 | NA |
+| ASV_13 | Normal *minus* Drought | 0.0482378 | 0.0001856 | 0.0936535 | 0.0235292 | 0.048 | NA | 0.0403524 | NA |
 
 Table 7: First few rows of delta EAF contrast results.
 

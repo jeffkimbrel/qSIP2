@@ -9,7 +9,7 @@ library(ggplot2)
 library(patchwork)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.24.1'
+#> [1] '0.24.2'
 ```
 
 ## Background
