@@ -101,7 +101,7 @@ make_delta_EAF_contrasts = function(q) {
   tibble::tibble(control = names(q)) |>
     tidyr::crossing(treatment = names(q)) |>
     dplyr::filter(control < treatment) |>
-    dplyr::mutate(contrast = paste(treatment, "_minus_", control)) |>
+    dplyr::mutate(contrast = paste(treatment, "minus", control, sep = "_")) |>
     validate_delta_EAF_contrasts(q = q, contrasts = _)
 }
 
