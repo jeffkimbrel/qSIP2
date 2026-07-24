@@ -567,9 +567,12 @@ plot_EAF_values <- function(qsip_data_object,
 
   # add resample number, if color by is success
   if (object_type == "multiple") {
+    # Preserve group factor levels through the join
+    group_levels <- levels(EAF$group)
     EAF <- EAF |>
       dplyr::left_join(n_resamples(qsip_data_object),
-                       by = dplyr::join_by(group))
+                       by = dplyr::join_by(group)) |>
+      dplyr::mutate(group = factor(group, levels = group_levels))
   } else {
     EAF <- EAF |>
       dplyr::mutate(n_resamples = n_resamples(qsip_data_object))
@@ -590,10 +593,10 @@ plot_EAF_values <- function(qsip_data_object,
     if (isFALSE(shared_y)) {
       p <- p +
         tidytext::scale_y_reordered() +
-        ggplot2::facet_wrap(~group, scales = "free_y")
+        ggplot2::facet_wrap(~group, scales = "free_y", drop = FALSE)
     } else {
       p <- p +
-        ggplot2::facet_wrap(~group)
+        ggplot2::facet_wrap(~group, drop = FALSE)
     }
   }
 
