@@ -20,7 +20,7 @@ To convert from an isotope only dataframe to one with both isotope and
 isotopolog_label to satisfy MISIP requirements
 }
 \seealso{
-Other "MISIP": 
-\code{\link{remove_isotopolog_label}()}
+Other "MISIP":
+\code{\link[=remove_isotopolog_label]{remove_isotopolog_label()}}
 }
 \concept{"MISIP"}

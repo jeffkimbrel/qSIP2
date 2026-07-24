@@ -41,9 +41,9 @@ of "source", "sample" or "feature". The optional \code{original_headers}
 argument can be set to \code{TRUE} to return the original column names.
 }
 \seealso{
-Other "qSIP Objects": 
-\code{\link{qsip_feature_data}()},
-\code{\link{qsip_sample_data}()},
-\code{\link{qsip_source_data}()}
+Other "qSIP Objects":
+\code{\link[=qsip_feature_data]{qsip_feature_data()}},
+\code{\link[=qsip_sample_data]{qsip_sample_data()}},
+\code{\link[=qsip_source_data]{qsip_source_data()}}
 }
 \concept{"qSIP Objects"}

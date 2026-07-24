@@ -17,8 +17,8 @@ isotope_palette
 Used by default in the plots
 }
 \seealso{
-Other "palettes": 
-\code{\link{source_palette}()}
+Other "palettes":
+\code{\link{source_palette}}
 }
 \concept{"palettes"}
 \keyword{datasets}

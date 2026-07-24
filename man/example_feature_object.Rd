@@ -17,7 +17,7 @@ example_feature_object
 An example qsip_feature_data object
 }
 \seealso{
-Other "example datasets": 
+Other "example datasets":
 \code{\link{example_feature_df}},
 \code{\link{example_group_dataframe}},
 \code{\link{example_qsip_growth_object}},

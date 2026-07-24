@@ -23,10 +23,10 @@ A ggplot object
 Plot the source WADs by isotope
 }
 \seealso{
-Other "visualizations": 
-\code{\link{plot_density_outliers}()},
-\code{\link{plot_feature_curves}()},
-\code{\link{plot_filter_results}()},
-\code{\link{plot_sample_curves}()}
+Other "visualizations":
+\code{\link[=plot_density_outliers]{plot_density_outliers()}},
+\code{\link[=plot_feature_curves]{plot_feature_curves()}},
+\code{\link[=plot_filter_results]{plot_filter_results()}},
+\code{\link[=plot_sample_curves]{plot_sample_curves()}}
 }
 \concept{"visualizations"}

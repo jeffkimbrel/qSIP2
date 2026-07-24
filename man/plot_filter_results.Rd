@@ -30,10 +30,10 @@ and are thus not going to be retained no matter what the \code{run_filter_featur
 parameters are.
 }
 \seealso{
-Other "visualizations": 
-\code{\link{plot_density_outliers}()},
-\code{\link{plot_feature_curves}()},
-\code{\link{plot_sample_curves}()},
-\code{\link{plot_source_wads}()}
+Other "visualizations":
+\code{\link[=plot_density_outliers]{plot_density_outliers()}},
+\code{\link[=plot_feature_curves]{plot_feature_curves()}},
+\code{\link[=plot_sample_curves]{plot_sample_curves()}},
+\code{\link[=plot_source_wads]{plot_source_wads()}}
 }
 \concept{"visualizations"}

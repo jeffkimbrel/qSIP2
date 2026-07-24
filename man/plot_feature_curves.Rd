@@ -33,10 +33,10 @@ A ggplot object
 Plot qSIP feature data density curves
 }
 \seealso{
-Other "visualizations": 
-\code{\link{plot_density_outliers}()},
-\code{\link{plot_filter_results}()},
-\code{\link{plot_sample_curves}()},
-\code{\link{plot_source_wads}()}
+Other "visualizations":
+\code{\link[=plot_density_outliers]{plot_density_outliers()}},
+\code{\link[=plot_filter_results]{plot_filter_results()}},
+\code{\link[=plot_sample_curves]{plot_sample_curves()}},
+\code{\link[=plot_source_wads]{plot_source_wads()}}
 }
 \concept{"visualizations"}

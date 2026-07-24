@@ -68,9 +68,9 @@ isotopologs this column can be used to generate correct comparison groups using
 the \code{get_comparison_groups()} function.
 }
 \seealso{
-Other "qSIP Objects": 
-\code{\link{qsip_data}()},
-\code{\link{qsip_feature_data}()},
-\code{\link{qsip_sample_data}()}
+Other "qSIP Objects":
+\code{\link[=qsip_data]{qsip_data()}},
+\code{\link[=qsip_feature_data]{qsip_feature_data()}},
+\code{\link[=qsip_sample_data]{qsip_sample_data()}}
 }
 \concept{"qSIP Objects"}

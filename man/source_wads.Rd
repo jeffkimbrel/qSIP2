@@ -3,6 +3,10 @@
 \name{source_wads}
 \alias{source_wads}
 \title{Create a method for source_wads}
+\usage{
+## S7 method for class <qSIP2::qsip_data>
+source_wads(x)
+}
 \value{
 A dataframe with two columns, 1) the source_mat_id and 2) the global
 WAD value for that source_mat_id

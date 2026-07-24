@@ -18,12 +18,12 @@ A dataframe suitable for \code{qSIP2} workflows
 Make a source dataframe from JGI proposal file
 }
 \seealso{
-Other "spike-ins": 
-\code{\link{fit_regression_model}()},
-\code{\link{get_normalized_controls}()},
-\code{\link{get_normalized_features}()},
-\code{\link{jgi_feature_df}()},
-\code{\link{jgi_normalize_features}()},
-\code{\link{jgi_sample_df}()}
+Other "spike-ins":
+\code{\link[=fit_regression_model]{fit_regression_model()}},
+\code{\link[=get_normalized_controls]{get_normalized_controls()}},
+\code{\link[=get_normalized_features]{get_normalized_features()}},
+\code{\link[=jgi_feature_df]{jgi_feature_df()}},
+\code{\link[=jgi_normalize_features]{jgi_normalize_features()}},
+\code{\link[=jgi_sample_df]{jgi_sample_df()}}
 }
 \concept{"spike-ins"}

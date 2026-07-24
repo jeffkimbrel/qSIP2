@@ -22,5 +22,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Jeff Kimbrel \email{kimbrel1@llnl.gov} (\href{https://orcid.org/0000-0001-7213-9392}{ORCID})
 
+Authors:
+\itemize{
+  \item Jeff Kimbrel \email{kimbrel1@llnl.gov} (\href{https://orcid.org/0000-0001-7213-9392}{ORCID})
+}
+
 }
 \keyword{internal}

@@ -548,7 +548,10 @@ plot_EAF_values <- function(qsip_data_object,
 
   # select top_n, if set
   if (object_type == "multiple") {
+    # Preserve the order of groups from the input list
+    group_order <- names(qsip_data_object)
     EAF <- EAF |>
+      dplyr::mutate(group = factor(group, levels = group_order)) |>
       dplyr::slice_max(observed_EAF, n = top, by = group)
 
     if (isFALSE(shared_y)) {

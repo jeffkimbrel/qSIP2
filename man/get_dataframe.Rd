@@ -3,6 +3,10 @@
 \name{get_dataframe}
 \alias{get_dataframe}
 \title{Return the original dataframe from a qsip_feature_data object}
+\usage{
+## S7 method for class <qSIP2::qsip_feature_data>
+get_dataframe(x, original_headers = FALSE)
+}
 \arguments{
 \item{x}{(\emph{qsip_feature_data}) A qSIP feature data object}
 

@@ -17,7 +17,7 @@ source_palette
 Used in some plots
 }
 \seealso{
-Other "palettes": 
+Other "palettes":
 \code{\link{isotope_palette}}
 }
 \concept{"palettes"}

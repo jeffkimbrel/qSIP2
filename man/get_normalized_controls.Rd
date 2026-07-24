@@ -16,12 +16,12 @@ A dataframe
 Get normalized controls from jgi_normalize_features
 }
 \seealso{
-Other "spike-ins": 
-\code{\link{fit_regression_model}()},
-\code{\link{get_normalized_features}()},
-\code{\link{jgi_feature_df}()},
-\code{\link{jgi_normalize_features}()},
-\code{\link{jgi_sample_df}()},
-\code{\link{jgi_source_df}()}
+Other "spike-ins":
+\code{\link[=fit_regression_model]{fit_regression_model()}},
+\code{\link[=get_normalized_features]{get_normalized_features()}},
+\code{\link[=jgi_feature_df]{jgi_feature_df()}},
+\code{\link[=jgi_normalize_features]{jgi_normalize_features()}},
+\code{\link[=jgi_sample_df]{jgi_sample_df()}},
+\code{\link[=jgi_source_df]{jgi_source_df()}}
 }
 \concept{"spike-ins"}

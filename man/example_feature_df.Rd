@@ -21,7 +21,7 @@ example_feature_df
 An example feature table with abundances
 }
 \seealso{
-Other "example datasets": 
+Other "example datasets":
 \code{\link{example_feature_object}},
 \code{\link{example_group_dataframe}},
 \code{\link{example_qsip_growth_object}},

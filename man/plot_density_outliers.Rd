@@ -20,10 +20,10 @@ this function will plot any potential outliers using Cook's distance and a defin
 sensitivity. The lower the sensitivity, the more likely outliers will be flagged.
 }
 \seealso{
-Other "visualizations": 
-\code{\link{plot_feature_curves}()},
-\code{\link{plot_filter_results}()},
-\code{\link{plot_sample_curves}()},
-\code{\link{plot_source_wads}()}
+Other "visualizations":
+\code{\link[=plot_feature_curves]{plot_feature_curves()}},
+\code{\link[=plot_filter_results]{plot_filter_results()}},
+\code{\link[=plot_sample_curves]{plot_sample_curves()}},
+\code{\link[=plot_source_wads]{plot_source_wads()}}
 }
 \concept{"visualizations"}

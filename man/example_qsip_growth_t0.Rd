@@ -17,7 +17,7 @@ example_qsip_growth_t0
 An example dataframe with time zero abundances for growth calculations
 }
 \seealso{
-Other "example datasets": 
+Other "example datasets":
 \code{\link{example_feature_df}},
 \code{\link{example_feature_object}},
 \code{\link{example_group_dataframe}},

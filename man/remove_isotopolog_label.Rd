@@ -18,7 +18,7 @@ To convert from data with both isotope and isotopolog_label to one with
 isotope only.
 }
 \seealso{
-Other "MISIP": 
-\code{\link{add_isotopolog_label}()}
+Other "MISIP":
+\code{\link[=add_isotopolog_label]{add_isotopolog_label()}}
 }
 \concept{"MISIP"}

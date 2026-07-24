@@ -1,6 +1,6 @@
 Package: qSIP2
 Title: qSIP Analysis
-Version: 0.24.3
+Version: 0.24.4
 Authors@R: 
     person("Jeff", "Kimbrel", , "kimbrel1@llnl.gov", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7213-9392"))
@@ -8,7 +8,6 @@ Description: Package for analyzing quantitative stable isotope probing data.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Suggests: 
     knitr,
     rmarkdown,
@@ -52,3 +51,4 @@ VignetteBuilder: quarto
 Depends: 
     R (>= 4.2)
 LazyData: true
+Config/roxygen2/version: 8.0.0

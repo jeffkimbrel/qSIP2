@@ -23,7 +23,7 @@ column are the same.If they are, then that column is kept in the source data fra
 If not, then that column is dropped.
 }
 \seealso{
-Other "Sample Data": 
-\code{\link{add_gradient_pos_rel_amt}()}
+Other "Sample Data":
+\code{\link[=add_gradient_pos_rel_amt]{add_gradient_pos_rel_amt()}}
 }
 \concept{"Sample Data"}

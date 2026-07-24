@@ -64,9 +64,9 @@ transformations will not be done.
 }
 }
 \seealso{
-Other "qSIP Objects": 
-\code{\link{qsip_data}()},
-\code{\link{qsip_sample_data}()},
-\code{\link{qsip_source_data}()}
+Other "qSIP Objects":
+\code{\link[=qsip_data]{qsip_data()}},
+\code{\link[=qsip_sample_data]{qsip_sample_data()}},
+\code{\link[=qsip_source_data]{qsip_source_data()}}
 }
 \concept{"qSIP Objects"}

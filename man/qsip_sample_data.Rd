@@ -74,9 +74,9 @@ designate the sample as "bulk" or unfractionated
 }
 }
 \seealso{
-Other "qSIP Objects": 
-\code{\link{qsip_data}()},
-\code{\link{qsip_feature_data}()},
-\code{\link{qsip_source_data}()}
+Other "qSIP Objects":
+\code{\link[=qsip_data]{qsip_data()}},
+\code{\link[=qsip_feature_data]{qsip_feature_data()}},
+\code{\link[=qsip_source_data]{qsip_source_data()}}
 }
 \concept{"qSIP Objects"}

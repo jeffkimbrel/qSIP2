@@ -36,7 +36,7 @@ There may be times that you would want to provide values that do not sum to
 sequence well, then your total could be less than 100\%.
 }
 \seealso{
-Other "Sample Data": 
-\code{\link{infer_source_data}()}
+Other "Sample Data":
+\code{\link[=infer_source_data]{infer_source_data()}}
 }
 \concept{"Sample Data"}

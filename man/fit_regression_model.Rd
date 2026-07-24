@@ -24,13 +24,13 @@ The output is a workflow object that can be used for fitting with
 \code{broom::augment(parsnip::extract_fit_engine(x))}.
 }
 \seealso{
-Other "spike-ins": 
-\code{\link{get_normalized_controls}()},
-\code{\link{get_normalized_features}()},
-\code{\link{jgi_feature_df}()},
-\code{\link{jgi_normalize_features}()},
-\code{\link{jgi_sample_df}()},
-\code{\link{jgi_source_df}()}
+Other "spike-ins":
+\code{\link[=get_normalized_controls]{get_normalized_controls()}},
+\code{\link[=get_normalized_features]{get_normalized_features()}},
+\code{\link[=jgi_feature_df]{jgi_feature_df()}},
+\code{\link[=jgi_normalize_features]{jgi_normalize_features()}},
+\code{\link[=jgi_sample_df]{jgi_sample_df()}},
+\code{\link[=jgi_source_df]{jgi_source_df()}}
 }
 \concept{"spike-ins"}
 \keyword{internal}
