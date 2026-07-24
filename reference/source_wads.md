@@ -4,6 +4,13 @@ Calculate global weighted average density (WAD) value for all
 source_mat_id (internal) accounts for data that is not filtered or
 already filtered
 
+## Usage
+
+``` r
+## S7 method for class <qSIP2::qsip_data>
+source_wads(x)
+```
+
 ## Value
 
 A dataframe with two columns, 1) the source_mat_id and 2) the global WAD

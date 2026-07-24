@@ -16,3 +16,8 @@ Useful links:
 
 **Maintainer**: Jeff Kimbrel <kimbrel1@llnl.gov>
 ([ORCID](https://orcid.org/0000-0001-7213-9392))
+
+Authors:
+
+- Jeff Kimbrel <kimbrel1@llnl.gov>
+  ([ORCID](https://orcid.org/0000-0001-7213-9392))

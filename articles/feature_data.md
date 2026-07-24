@@ -7,7 +7,7 @@ library(tibble)
 library(tidyr)
 library(qSIP2)
 packageVersion("qSIP2")
-#> [1] '0.24.3'
+#> [1] '0.24.6'
 ```
 
 ## Feature Counts and Metadata

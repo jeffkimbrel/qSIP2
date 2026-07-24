@@ -17,4 +17,4 @@ A named vector with length 6
 ## See also
 
 Other "palettes":
-[`source_palette()`](https://jeffkimbrel.github.io/qSIP2/reference/source_palette.md)
+[`source_palette`](https://jeffkimbrel.github.io/qSIP2/reference/source_palette.md)

@@ -2,6 +2,13 @@
 
 Return the original dataframe from a qsip_feature_data object
 
+## Usage
+
+``` r
+## S7 method for class <qSIP2::qsip_feature_data>
+get_dataframe(x, original_headers = FALSE)
+```
+
 ## Arguments
 
 - x:

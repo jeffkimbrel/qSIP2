@@ -77,7 +77,7 @@ devtools::install_github("jeffkimbrel/qSIP2")
   : Summarize a qSIP S7 object or named list of qSIP S7 objects
 - [`get_all_by_isotope()`](https://jeffkimbrel.github.io/qSIP2/reference/get_all_by_isotope.md)
   : Get source_mat_ids meeting certain isotope conditions
-- [`get_dataframe`](https://jeffkimbrel.github.io/qSIP2/reference/get_dataframe.md)
+- [`get_dataframe()`](https://jeffkimbrel.github.io/qSIP2/reference/get_dataframe.md)
   : Return the original dataframe from a qsip_feature_data object
 - [`get_resample_counts()`](https://jeffkimbrel.github.io/qSIP2/reference/get_resample_counts.md)
   : Get counts of successful resampling
