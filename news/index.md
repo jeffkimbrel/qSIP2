@@ -1,5 +1,7 @@
 # Changelog
 
+## qSIP2 0.24.8
+
 ## qSIP2 0.24
 
 - Changes in v0.23 affected how the delta EAF calculations were run, and
