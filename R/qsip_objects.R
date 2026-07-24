@@ -529,6 +529,8 @@ qsip_data <- S7::new_class(
 
 
 # methods
+
+#' @export
 get_dataframe <- S7::new_generic("get_dataframe", "x")
 
 ## source data
