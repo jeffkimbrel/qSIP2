@@ -1158,7 +1158,7 @@ summarize_EAF_values <- function(qsip_data_object,
   results = results |>
     dplyr::mutate(messages = ifelse(is.na(labeled_resamples) | is.na(unlabeled_resamples), "Resampling failed - not enough successes", NA))
 
-  if (any(!is.na(results$messages))) {
+  if (isFALSE(quiet) && any(!is.na(results$messages))) {
     cli::cli_alert_warning("Some features had resampling failures. Check the $messages column for more information")
   }
 

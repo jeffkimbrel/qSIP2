@@ -6,7 +6,6 @@ test_that("fails if wrong object given", {
   expect_error(plot_EAF_values(example_feature_df), class = "qsip_bad_object")
 })
 
-
 test_that("plot and layers look as expected", {
   p <- plot_EAF_values(normal_qsip)
   expect_equal(ggplot2::ggplot_build(p)$plot$labels$x, "observed_EAF")

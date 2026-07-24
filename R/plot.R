@@ -532,14 +532,19 @@ plot_EAF_values <- function(qsip_data_object,
   # bind variables
   group <- observed_EAF <- feature_id <- labeled_resamples <- unlabeled_resamples <- resamples <- lower <- upper <- NULL
 
+  # Show confidence level message
+  cli::cli_alert_info("Confidence level = {confidence}")
+
   if (is.null(taxonomy)) {
     EAF <- summarize_EAF_values(qsip_data_object,
-                                confidence = confidence
+                                confidence = confidence,
+                                quiet = TRUE
     )
   } else {
     EAF <- summarize_EAF_values(qsip_data_object,
                                 taxonomy = TRUE,
-                                confidence = confidence)
+                                confidence = confidence,
+                                quiet = TRUE)
 
     EAF = EAF |>
       dplyr::select(-feature_id) |>
