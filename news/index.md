@@ -1,6 +1,9 @@
 # Changelog
 
-## qSIP2 0.24.8
+## qSIP2 0.25
+
+- Introducing cumulative enrichment (CE) functions
+  - [`calculate_ce()`](https://jeffkimbrel.github.io/qSIP2/reference/calculate_ce.md)
 
 ## qSIP2 0.24
 
