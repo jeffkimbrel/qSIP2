@@ -677,3 +677,173 @@ calculate_na_probabilities <- function(n) {
     p_all_na = prob_all_na
   )
 }
+
+
+
+
+
+#' Calculate CE inside map
+#'
+#' Internal utility used by calculate_ce() function.
+#'
+#' @param df a dataframe
+#' @noRd
+
+iq_calc_ce = function(df) {
+
+  # Collect messages instead of printing immediately
+  messages = character()
+
+  # Filter to complete cases (remove missing abundance or missing EAF values)
+  df = df |> dplyr::filter(!is.na(tube_rel_abundance), !is.na(observed_EAF))
+
+  # Check for negative EAF values
+  if (any(df$observed_EAF < 0, na.rm = TRUE)) {
+    messages = c(messages, "Negative EAF values detected and set to 0")
+  }
+
+  # Set negative EAF to 0
+  df = df |> dplyr::mutate(EAF_for_calc = pmax(observed_EAF, 0))
+
+  # Check for EAF > 1
+  if (any(df$EAF_for_calc > 1.0, na.rm = TRUE)) {
+    messages = c(messages, "Some EAF values > 1.0 detected (should be bounded 0-1)")
+  }
+
+  # Determine significance: lower CI bound > 0 ensures both significance and positive enrichment
+  # This excludes features that are significantly negative (upper < 0)
+  df = df |>
+    dplyr::mutate(significant = (lower > 0))
+
+  # Calculate CE per sample (group is already separated by nesting, so only group by source_mat_id)
+  ce_results = df |>
+    dplyr::summarize(
+      n_features_total = dplyr::n(),
+      n_features_significant = sum(significant),
+      total_proportion = sum(tube_rel_abundance),
+      significant_proportion = sum(tube_rel_abundance[significant]),
+      ce = sum(EAF_for_calc[significant] * tube_rel_abundance[significant]),
+      label_type = dplyr::first(label_type),
+      isotope = dplyr::first(isotope),
+      isotopolog = dplyr::first(isotopolog),
+      .by = source_mat_id
+    )
+
+  # Validation: proportions should not exceed 1.0
+  if (any(ce_results$total_proportion > 1.0)) {
+    cli::cli_abort("Proportions sum to > 1.0 in some samples. tube_rel_abundance cannot exceed 100% of community.")
+  }
+
+  # Check for heavy filtering
+  heavy_filtered = ce_results$source_mat_id[ce_results$total_proportion < 0.5]
+  if (length(heavy_filtered) > 0) {
+    messages = c(messages, sprintf("Heavy filtering (>50%%) in %d sample(s)", length(heavy_filtered)))
+  }
+
+  # Add summary message
+  messages = c(messages, sprintf("CE range: %.4f - %.4f across %d samples",
+                                 min(ce_results$ce), max(ce_results$ce), nrow(ce_results)))
+
+  # Add messages as a list column
+  ce_results$messages = list(if(length(messages) > 0) messages else character(0))
+
+  return(ce_results)
+}
+
+
+
+#' Calculate Cumulative Enrichment (CE) from qSIP object(s)
+#'
+#' @param qsip_data_object A single qSIP object or list of qSIP objects
+#' @param confidence Confidence level for EAF intervals (default 0.95)
+#' @param isotope_label Which samples to calculate CE for: "labeled", "unlabeled", or "both" (default "labeled")
+#'
+#' @return Data frame with CE calculations per sample
+#'
+#' @export
+
+calculate_ce = function(qsip_data_object,
+                        confidence = 0.95,
+                        isotope_label = c("labeled", "unlabeled", "both")) {
+
+  isotope_label = match.arg(isotope_label)
+
+  # Simplify things by making single objects into list objects, respecting the group name if defined
+  qsip_list = if (is_qsip_data_list(qsip_data_object, error = FALSE)) {
+    qsip_data_object
+  } else {
+
+    # fail with error if not a qsip object
+    is_qsip_data(qsip_data_object, error = TRUE)
+
+    group_name = if (!is.null(qsip_data_object@filter_results$group)) {
+      qsip_data_object@filter_results$group
+    } else {
+      "data"
+    }
+    stats::setNames(list(qsip_data_object), group_name)
+  }
+
+  # verify that all qSIP2 objects
+  eaf_checks = purrr::map_lgl(qsip_list, is_qsip_EAF, error = FALSE)
+  if (!all(eaf_checks)) {
+    cli::cli_abort("Not all objects have EAF data calculated. Run {.fn run_EAF_calculations} first.")
+  }
+
+  # Extract EAF values
+  eaf_df = summarize_EAF_values(qsip_list, confidence = confidence) |>
+    dplyr::select(group, feature_id, observed_EAF, pval, lower, upper)
+
+  # Get source_mat_id mappings for both labeled and unlabeled
+  source_mat_ids = purrr::map_dfr(qsip_list, function(obj) {
+    # Get isotope info from source_data
+    source_df = obj@source_data@data |>
+      dplyr::select(source_mat_id, isotope, isotopolog)
+
+    dplyr::bind_rows(
+      tibble::tibble(
+        group = obj@filter_results$group,
+        source_mat_id = obj@filter_results$labeled_source_mat_ids,
+        label_type = "labeled"
+      ),
+      tibble::tibble(
+        group = obj@filter_results$group,
+        source_mat_id = obj@filter_results$unlabeled_source_mat_ids,
+        label_type = "unlabeled"
+      )
+    ) |>
+      dplyr::left_join(source_df, by = "source_mat_id")
+  }) |> unique()
+
+  # Filter based on isotope_label parameter
+  if (isotope_label == "labeled") {
+    source_mat_ids = source_mat_ids |> dplyr::filter(label_type == "labeled")
+  } else if (isotope_label == "unlabeled") {
+    source_mat_ids = source_mat_ids |> dplyr::filter(label_type == "unlabeled")
+  }
+
+  # Extract abundance data
+  abundance_df = purrr::map_dfr(qsip_list, ~.x@tube_rel_abundance) |>
+    unique() |>
+    dplyr::summarize(tube_rel_abundance = sum(tube_rel_abundance),
+                     .by = c("feature_id", "source_mat_id")) |>
+    dplyr::filter(source_mat_id %in% source_mat_ids$source_mat_id)
+
+  # Join everything together
+  df = eaf_df |>
+    dplyr::left_join(source_mat_ids, relationship = "many-to-many", by = dplyr::join_by(group)) |>
+    dplyr::left_join(abundance_df, by = c("feature_id", "source_mat_id"))
+
+  # Nest by group and calculate CE for each group
+  results = df |>
+    tidyr::nest(.by = group) |>
+    dplyr::mutate(ce_results = purrr::map(data, function(x) {
+      # Debug: check what columns are present
+      # print(colnames(x))
+      iq_calc_ce(x)
+    })) |>
+    dplyr::select(group, ce_results) |>
+    tidyr::unnest(ce_results)
+
+  return(results)
+}

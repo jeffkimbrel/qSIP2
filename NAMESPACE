@@ -3,6 +3,7 @@
 export(add_gradient_pos_rel_amt)
 export(add_isotopolog_label)
 export(add_taxonomy)
+export(calculate_ce)
 export(calculate_gc_from_density)
 export(calculate_gc_from_sequence)
 export(calculate_na_probabilities)

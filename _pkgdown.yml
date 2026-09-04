@@ -25,6 +25,7 @@ reference:
   - run_delta_EAF_contrasts
   - make_delta_EAF_contrasts
   - validate_delta_EAF_contrasts
+  - calculate_ce
 
 - title: qSIP2 Growth Workflow
   contents:

@@ -1,4 +1,7 @@
-# qSIP2 0.24.8
+# qSIP2 0.25
+
+* Introducing cumulative enrichment (CE) functions
+  * `calculate_ce()`
 
 # qSIP2 0.24
 
