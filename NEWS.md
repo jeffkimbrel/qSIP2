@@ -2,6 +2,10 @@
 
 * Introducing cumulative enrichment (CE) functions
   * `calculate_ce()`
+* Better functions to inspect filtering results
+ * `plot_filter_means()`
+ * `plot_filter_efficiency()`
+ * `plot_filter_threshold()`
 
 # qSIP2 0.24
 

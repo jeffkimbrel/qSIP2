@@ -82,7 +82,9 @@ export(summarize_growth_values)
 export(validate_abundances)
 export(validate_delta_EAF_contrasts)
 importFrom(rlang,":=")
-importFrom(stats,density)
-importFrom(stats,quantile)
-importFrom(stats,sd)
-importFrom(stats,weighted.mean)
+importFrom(stats,
+  density,
+  quantile,
+  sd,
+  weighted.mean
+)

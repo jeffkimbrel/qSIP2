@@ -1278,3 +1278,363 @@ plot_successful_resamples <- function(qsip_data_object,
 
   return(p)
 }
+
+
+
+#' Plot features vs abundance with labeled/unlabeled/retained categories
+#'
+#' @param qsip_data_object A filtered qsip_data object (or list)
+#'
+#' @return A ggplot2 object
+
+plot_filter_means <- function(qsip_data_object) {
+
+  # Convert single object to named list
+  if (!is.list(qsip_data_object) || inherits(qsip_data_object, "qsip_data")) {
+    qsip_data_object <- list("Filtered" = qsip_data_object)
+  }
+
+  # Process all objects in list
+  df <- purrr::map_dfr(names(qsip_data_object), function(name) {
+    obj <- qsip_data_object[[name]]
+    is_qsip_filtered(obj, error = TRUE)
+
+    # Get the filter results which includes intersection info
+    filter_results <- get_filter_results(obj, type = "feature_ids")
+
+    # Get the intersect features (those that pass BOTH labeled and unlabeled)
+    retained_features <- filter_results |>
+      dplyr::filter(filter_step == "Source Passed") |>
+      dplyr::pull(intersect) |>
+      unlist()
+
+    # Get passed features by type
+    passed_by_type <- obj@filter_results$fraction_filtered |>
+      dplyr::filter(fraction_call == "Fraction Passed") |>
+      dplyr::group_by(source_mat_id, type) |>
+      dplyr::summarize(
+        features = list(unique(feature_id)),
+        abundance = sum(tube_rel_abundance),
+        .groups = "drop"
+      )
+
+    # Calculate totals for each type
+    totals_by_type <- obj@filter_results$fraction_filtered |>
+      dplyr::group_by(source_mat_id, type) |>
+      dplyr::summarize(
+        total_features = dplyr::n_distinct(feature_id),
+        total_abundance = sum(tube_rel_abundance),
+        .groups = "drop"
+      )
+
+    # Join and calculate percentages
+    type_data <- passed_by_type |>
+      dplyr::left_join(totals_by_type, by = c("source_mat_id", "type")) |>
+      dplyr::mutate(
+        n_features = sapply(features, length),
+        pct_features = n_features / total_features,
+        pct_abundance = abundance / total_abundance,
+        comparison = name,
+        category = type
+      ) |>
+      dplyr::select(source_mat_id, comparison, category, pct_features, pct_abundance)
+
+    # Now add the retained (intersection) data
+    retained_data <- obj@filter_results$fraction_filtered |>
+      dplyr::filter(feature_id %in% retained_features, fraction_call == "Fraction Passed") |>
+      dplyr::group_by(source_mat_id, type) |>
+      dplyr::summarize(
+        retained_features_count = dplyr::n_distinct(feature_id),
+        retained_abundance = sum(tube_rel_abundance),
+        .groups = "drop"
+      ) |>
+      dplyr::left_join(totals_by_type, by = c("source_mat_id", "type")) |>
+      dplyr::mutate(
+        pct_features = retained_features_count / total_features,
+        pct_abundance = retained_abundance / total_abundance,
+        comparison = name,
+        category = "retained"
+      ) |>
+      dplyr::select(source_mat_id, comparison, category, pct_features, pct_abundance)
+
+    # Combine
+    dplyr::bind_rows(type_data, retained_data)
+  })
+
+  # Pivot longer for plotting
+  df_summary <- df |>
+    tidyr::pivot_longer(cols = c(pct_features, pct_abundance),
+                 names_to = "metric",
+                 values_to = "percent") |>
+    dplyr::mutate(
+      metric = factor(metric,
+                     levels = c("pct_features", "pct_abundance"),
+                     labels = c("Features", "Abundance")),
+      category = factor(category, levels = c("unlabeled", "labeled", "retained"))
+    ) |>
+    dplyr::summarize(
+      percent_mean = mean(percent, na.rm = TRUE),
+      percent_sd = sd(percent, na.rm = TRUE),
+      .by = c(category, comparison, metric)
+    )
+
+  ggplot2::ggplot(df_summary, ggplot2::aes(x = comparison, y = percent_mean, fill = category)) +
+    ggplot2::geom_col(position = ggplot2::position_dodge(width = 0.8), width = 0.7, alpha = 0.8) +
+    ggplot2::geom_errorbar(ggplot2::aes(ymin = percent_mean - percent_sd, ymax = percent_mean + percent_sd),
+                  position = ggplot2::position_dodge(width = 0.8), width = 0.3) +
+    ggplot2::scale_fill_manual(
+      values = c(
+        "unlabeled" = unname(isotope_palette["12C"]),
+        "labeled" = unname(isotope_palette["13C"]),
+        "retained" = "#9467bd"  # purple for intersection
+      ),
+      labels = c("Unlabeled", "Labeled", "Retained")
+    ) +
+    ggplot2::scale_y_continuous(labels = scales::percent) +
+    ggplot2::labs(
+      x = NULL,
+      y = "Percent passing threshold",
+      fill = NULL
+    ) +
+    ggplot2::facet_wrap(~ metric, ncol = 1, scales = "free_y") +
+    ggplot2::theme(legend.position = "right")
+}
+
+
+
+#' Plot features with stacked bars showing zero/below threshold/passed
+#'
+#' Shows the composition of filtering results:
+#' - Dark colors: Missing/Zero (will never pass)
+#' - Medium colors: Below Threshold (tunable with filtering parameters)
+#' - Full colors: Passed threshold
+#'
+#' For retained: Light purple = "One Away" (passed one but not both), Dark purple = "Retained" (passed both)
+#'
+#' @param qsip_data_object A filtered qsip_data object (or list)
+#'
+#' @return A ggplot2 object
+plot_filter_threshold <- function(qsip_data_object) {
+
+  # Convert single object to named list
+  if (!is.list(qsip_data_object) || inherits(qsip_data_object, "qsip_data")) {
+    qsip_data_object <- list("Filtered" = qsip_data_object)
+  }
+
+  # Process all objects in list
+  df <- purrr::map_dfr(names(qsip_data_object), function(name) {
+    obj <- qsip_data_object[[name]]
+    is_qsip_filtered(obj, error = TRUE)
+
+    # Get all data with fraction_call status for unlabeled/labeled
+    all_data <- obj@filter_results$fraction_filtered |>
+      dplyr::group_by(source_mat_id, type, fraction_call) |>
+      dplyr::summarize(
+        features = list(unique(feature_id)),
+        abundance = sum(tube_rel_abundance),
+        .groups = "drop"
+      ) |>
+      dplyr::mutate(
+        n_features = sapply(features, length),
+        comparison = name
+      )
+
+    # Calculate totals per source/type
+    totals <- all_data |>
+      dplyr::group_by(source_mat_id, type) |>
+      dplyr::summarize(
+        total_features = sum(n_features),
+        total_abundance = sum(abundance),
+        .groups = "drop"
+      )
+
+    # Join and calculate percentages for unlabeled/labeled with status
+    all_data |>
+      dplyr::left_join(totals, by = c("source_mat_id", "type")) |>
+      dplyr::mutate(
+        pct_features = n_features / total_features,
+        pct_abundance = abundance / total_abundance,
+        category = type,
+        status = dplyr::case_when(
+          fraction_call == "Zero Fractions" ~ "Missing",
+          fraction_call == "Fraction Filtered" ~ "Below Threshold",
+          fraction_call == "Fraction Passed" ~ "Passed"
+        )
+      ) |>
+      dplyr::select(source_mat_id, comparison, category, status, pct_features, pct_abundance)
+  })
+
+  # Pivot longer for plotting
+  df_summary <- df |>
+    tidyr::pivot_longer(cols = c(pct_features, pct_abundance),
+                 names_to = "metric",
+                 values_to = "percent") |>
+    dplyr::mutate(
+      metric = factor(metric,
+                     levels = c("pct_features", "pct_abundance"),
+                     labels = c("Features", "Abundance")),
+      category = factor(category, levels = c("unlabeled", "labeled")),
+      status = factor(status, levels = c("Passed", "Below Threshold", "Missing"))
+    ) |>
+    dplyr::summarize(
+      percent_mean = mean(percent, na.rm = TRUE),
+      percent_sd = sd(percent, na.rm = TRUE),
+      .by = c(category, comparison, metric, status)
+    )
+
+  # Remove Missing status from Abundance (always 0)
+  df_summary <- df_summary |>
+    dplyr::filter(!(metric == "Abundance" & status == "Missing"))
+
+  # Assign colors (same green scheme as horizontal plot)
+  df_summary <- df_summary |>
+    dplyr::mutate(
+      fill_color = dplyr::case_when(
+        status == "Missing" ~ "gray80",
+        status == "Below Threshold" ~ "#74c476",
+        status == "Passed" ~ "#006d2c"
+      ),
+      interaction_var = interaction(category, status, sep = "_", drop = TRUE)
+    )
+
+  # Create color vector for scale_fill_manual
+  color_vec <- df_summary |>
+    dplyr::select(interaction_var, fill_color) |>
+    dplyr::distinct() |>
+    tibble::deframe()
+
+  ggplot2::ggplot(df_summary, ggplot2::aes(x = comparison, y = percent_mean, fill = interaction_var)) +
+    ggplot2::geom_col(position = ggplot2::position_dodge(width = 0.8), width = 0.7) +
+    ggplot2::geom_errorbar(ggplot2::aes(ymin = percent_mean - percent_sd,
+                      ymax = percent_mean + percent_sd),
+                  position = ggplot2::position_dodge(width = 0.8),
+                  width = 0.3) +
+    ggplot2::scale_fill_manual(
+      values = color_vec,
+      breaks = c("unlabeled_Missing", "unlabeled_Below Threshold", "unlabeled_Passed"),
+      labels = c("Missing (n=0)", "< min threshold", "Passed"),
+      name = NULL
+    ) +
+    ggplot2::scale_y_continuous(labels = scales::percent) +
+    ggplot2::labs(
+      x = NULL,
+      y = "Percent of total features"
+    ) +
+    ggplot2::facet_grid(metric ~ category, scales = "free_y", space = "free_x",
+               labeller = ggplot2::labeller(category = c("unlabeled" = "Unlabeled",
+                                                "labeled" = "Labeled")))
+}
+
+
+
+
+
+#' Efficiency scatter plot with labeled/unlabeled/retained categories
+#'
+#' @param qsip_data_object A filtered qsip_data object (or list)
+#' @param add_diagonal Add reference diagonal line
+#'
+#' @return A ggplot2 object
+
+plot_filter_efficiency <- function(qsip_data_object, ncol = NULL, nrow = NULL) {
+
+  # Convert single object to named list
+  if (!is.list(qsip_data_object) || inherits(qsip_data_object, "qsip_data")) {
+    qsip_data_object <- list("Filtered" = qsip_data_object)
+  }
+
+  # Process all objects in list
+  df <- purrr::map_dfr(names(qsip_data_object), function(name) {
+    obj <- qsip_data_object[[name]]
+    is_qsip_filtered(obj, error = TRUE)
+
+    # Get the filter results
+    filter_results <- get_filter_results(obj, type = "feature_ids")
+
+    # Get retained features (intersection)
+    retained_features <- filter_results |>
+      dplyr::filter(filter_step == "Source Passed") |>
+      dplyr::pull(intersect) |>
+      unlist()
+
+    # Get passed by source_mat_id and type
+    passed_by_source <- obj@filter_results$fraction_filtered |>
+      dplyr::filter(fraction_call == "Fraction Passed") |>
+      dplyr::group_by(source_mat_id, type) |>
+      dplyr::summarize(
+        features_retained = dplyr::n_distinct(feature_id),
+        abundance_retained = sum(tube_rel_abundance),
+        .groups = "drop"
+      )
+
+    # Get totals by source_mat_id and type
+    totals_by_source <- obj@filter_results$fraction_filtered |>
+      dplyr::group_by(source_mat_id, type) |>
+      dplyr::summarize(
+        total_features = dplyr::n_distinct(feature_id),
+        total_abundance = sum(tube_rel_abundance),
+        .groups = "drop"
+      )
+
+    # Calculate percentages for unlabeled/labeled per source
+    type_data <- passed_by_source |>
+      dplyr::left_join(totals_by_source, by = c("source_mat_id", "type")) |>
+      dplyr::mutate(
+        pct_features = features_retained / total_features,
+        pct_abundance = abundance_retained / total_abundance,
+        comparison = name,
+        category = type
+      ) |>
+      dplyr::select(source_mat_id, comparison, category, pct_features, pct_abundance)
+
+    # Calculate retained (intersection) percentages per source
+    retained_data <- obj@filter_results$fraction_filtered |>
+      dplyr::filter(feature_id %in% retained_features, fraction_call == "Fraction Passed") |>
+      dplyr::group_by(source_mat_id, type) |>
+      dplyr::summarize(
+        retained_features_count = dplyr::n_distinct(feature_id),
+        retained_abundance = sum(tube_rel_abundance),
+        .groups = "drop"
+      ) |>
+      dplyr::left_join(totals_by_source, by = c("source_mat_id", "type")) |>
+      dplyr::mutate(
+        pct_features = retained_features_count / total_features,
+        pct_abundance = retained_abundance / total_abundance,
+        comparison = name,
+        category = "retained"
+      ) |>
+      dplyr::select(source_mat_id, comparison, category, pct_features, pct_abundance)
+
+    # Combine
+    dplyr::bind_rows(type_data, retained_data)
+  })
+
+  df |>
+    # mutate(category = factor(category, levels = c("unlabeled", "labeled", "retained"),
+    #                         labels = c("Unlabeled", "Labeled", "Retained"))) |>
+    ggplot2::ggplot(ggplot2::aes(x = pct_features, y = pct_abundance, fill = category)) +
+      ggplot2::geom_point(size = 3, alpha = 0.7, pch = 21) +
+      ggplot2::scale_x_continuous(labels = scales::percent, limits = c(min(df$pct_features), max(df$pct_features))) +
+      ggplot2::scale_y_continuous(labels = scales::percent, limits = c(min(df$pct_abundance), max(df$pct_abundance))) +
+      ggplot2::scale_fill_manual(
+          values = c(
+            "unlabeled" = unname(isotope_palette["12C"]),
+            "labeled" = unname(isotope_palette["13C"]),
+            "retained" = "#9467bd"  # purple for intersection
+          ),
+          labels = c("Unlabeled", "Labeled", "Retained")
+        ) +
+      ggplot2::labs(
+        x = "% Features Retained",
+        y = "% Abundance Retained"
+      ) +
+      #geom_abline(slope = 1, linetype = "dotted", color = "gray30") +
+      ggplot2::facet_wrap(~comparison, ncol = ncol, nrow = nrow)
+  }
+
+
+
+
+
+
+

@@ -88,6 +88,9 @@ reference:
   - plot_feature_resamplings
   - plot_EAF_values
   - plot_growth_values
+  - plot_filter_means
+  - plot_filter_efficiency
+  - plot_filter_threshold
 
 - title: Spike-In Controls
   contents:
