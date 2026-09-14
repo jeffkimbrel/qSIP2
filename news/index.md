@@ -4,6 +4,10 @@
 
 - Introducing cumulative enrichment (CE) functions
   - [`calculate_ce()`](https://jeffkimbrel.github.io/qSIP2/reference/calculate_ce.md)
+- Better functions to inspect filtering results
+- [`plot_filter_means()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_filter_means.md)
+- [`plot_filter_efficiency()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_filter_efficiency.md)
+- [`plot_filter_threshold()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_filter_threshold.md)
 
 ## qSIP2 0.24
 

@@ -149,6 +149,13 @@
   : Plot EAF and confidence intervals
 - [`plot_growth_values()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_growth_values.md)
   : Plot growth values
+- [`plot_filter_means()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_filter_means.md)
+  : Plot features vs abundance with labeled/unlabeled/retained
+  categories
+- [`plot_filter_efficiency()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_filter_efficiency.md)
+  : Efficiency scatter plot with labeled/unlabeled/retained categories
+- [`plot_filter_threshold()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_filter_threshold.md)
+  : Plot features with stacked bars showing zero/below threshold/passed
 
 ## Spike-In Controls
 
