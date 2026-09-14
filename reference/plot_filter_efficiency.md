@@ -5,7 +5,12 @@ Efficiency scatter plot with labeled/unlabeled/retained categories
 ## Usage
 
 ``` r
-plot_filter_efficiency(qsip_data_object, ncol = NULL, nrow = NULL)
+plot_filter_efficiency(
+  qsip_data_object,
+  ncol = NULL,
+  nrow = NULL,
+  use_counts = FALSE
+)
 ```
 
 ## Arguments

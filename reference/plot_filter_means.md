@@ -5,7 +5,7 @@ Plot features vs abundance with labeled/unlabeled/retained categories
 ## Usage
 
 ``` r
-plot_filter_means(qsip_data_object)
+plot_filter_means(qsip_data_object, use_counts = FALSE)
 ```
 
 ## Arguments

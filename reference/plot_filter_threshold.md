@@ -11,7 +11,7 @@ Shows the composition of filtering results:
 ## Usage
 
 ``` r
-plot_filter_threshold(qsip_data_object)
+plot_filter_threshold(qsip_data_object, use_counts = FALSE)
 ```
 
 ## Arguments
