@@ -1288,7 +1288,7 @@ plot_successful_resamples <- function(qsip_data_object,
 #' @return A ggplot2 object
 #' @export
 
-plot_filter_means <- function(qsip_data_object) {
+plot_filter_means <- function(qsip_data_object, use_counts = FALSE) {
 
   # Convert single object to named list
   if (!is.list(qsip_data_object) || inherits(qsip_data_object, "qsip_data")) {
@@ -1338,7 +1338,7 @@ plot_filter_means <- function(qsip_data_object) {
         comparison = name,
         category = type
       ) |>
-      dplyr::select(source_mat_id, comparison, category, pct_features, pct_abundance)
+      dplyr::select(source_mat_id, comparison, category, n_features, pct_features, total_abundance, pct_abundance)
 
     # Now add the retained (intersection) data
     retained_data <- obj@filter_results$fraction_filtered |>
@@ -1351,37 +1351,63 @@ plot_filter_means <- function(qsip_data_object) {
       ) |>
       dplyr::left_join(totals_by_type, by = c("source_mat_id", "type")) |>
       dplyr::mutate(
+        n_features = retained_features_count,
         pct_features = retained_features_count / total_features,
         pct_abundance = retained_abundance / total_abundance,
         comparison = name,
         category = "retained"
       ) |>
-      dplyr::select(source_mat_id, comparison, category, pct_features, pct_abundance)
+      dplyr::select(source_mat_id, comparison, category, n_features, pct_features, total_abundance, pct_abundance)
 
     # Combine
     dplyr::bind_rows(type_data, retained_data)
   })
 
-  # Pivot longer for plotting
-  df_summary <- df |>
-    tidyr::pivot_longer(cols = c(pct_features, pct_abundance),
-                 names_to = "metric",
-                 values_to = "percent") |>
-    dplyr::mutate(
-      metric = factor(metric,
-                     levels = c("pct_features", "pct_abundance"),
-                     labels = c("Features", "Abundance")),
-      category = factor(category, levels = c("unlabeled", "labeled", "retained"))
-    ) |>
-    dplyr::summarize(
-      percent_mean = mean(percent, na.rm = TRUE),
-      percent_sd = sd(percent, na.rm = TRUE),
-      .by = c(category, comparison, metric)
-    )
+  # Pivot longer for plotting - mix counts for features, percentages for abundance
+  if (use_counts) {
+    df_features <- df |>
+      tidyr::pivot_longer(cols = c(n_features),
+                   names_to = "metric",
+                   values_to = "value") |>
+      dplyr::mutate(metric = "Features")
 
-  ggplot2::ggplot(df_summary, ggplot2::aes(x = comparison, y = percent_mean, fill = category)) +
+    df_abundance <- df |>
+      tidyr::pivot_longer(cols = c(pct_abundance),
+                   names_to = "metric",
+                   values_to = "value") |>
+      dplyr::mutate(metric = "Abundance")
+
+    df_summary <- dplyr::bind_rows(df_features, df_abundance) |>
+      dplyr::mutate(
+        category = factor(category, levels = c("unlabeled", "labeled", "retained")),
+        metric = factor(metric, levels = c("Features", "Abundance"))
+      ) |>
+      dplyr::summarize(
+        value_mean = mean(value, na.rm = TRUE),
+        value_sd = sd(value, na.rm = TRUE),
+        .by = c(category, comparison, metric)
+      )
+  } else {
+    df_summary <- df |>
+      tidyr::pivot_longer(cols = c(pct_features, pct_abundance),
+                   names_to = "metric",
+                   values_to = "value") |>
+      dplyr::mutate(
+        metric = factor(metric,
+                       levels = c("pct_features", "pct_abundance"),
+                       labels = c("Features", "Abundance")),
+        category = factor(category, levels = c("unlabeled", "labeled", "retained"))
+      ) |>
+      dplyr::summarize(
+        value_mean = mean(value, na.rm = TRUE),
+        value_sd = sd(value, na.rm = TRUE),
+        .by = c(category, comparison, metric)
+      )
+  }
+
+  ggplot2::ggplot(df_summary, ggplot2::aes(x = comparison, y = value_mean, fill = category)) +
     ggplot2::geom_col(position = ggplot2::position_dodge(width = 0.8), width = 0.7, alpha = 0.8) +
-    ggplot2::geom_errorbar(ggplot2::aes(ymin = percent_mean - percent_sd, ymax = percent_mean + percent_sd),
+    ggplot2::geom_errorbar(ggplot2::aes(ymin = value_mean - value_sd, ymax = value_mean + value_sd),
                   position = ggplot2::position_dodge(width = 0.8), width = 0.3) +
     ggplot2::scale_fill_manual(
       values = c(
@@ -1391,10 +1417,18 @@ plot_filter_means <- function(qsip_data_object) {
       ),
       labels = c("Unlabeled", "Labeled", "Retained")
     ) +
-    ggplot2::scale_y_continuous(labels = scales::percent) +
+    ggplot2::scale_y_continuous(labels = function(x) {
+      if (use_counts) {
+        # For Features facet, show as integers; for Abundance, show as percent
+        # But we can't distinguish here, so we need a different approach
+        scales::comma(x)
+      } else {
+        scales::percent(x)
+      }
+    }) +
     ggplot2::labs(
       x = NULL,
-      y = "Percent passing threshold",
+      y = if (use_counts) "Value" else "Percent passing threshold",
       fill = NULL
     ) +
     ggplot2::facet_wrap(~ metric, ncol = 1, scales = "free_y") +
@@ -1417,7 +1451,7 @@ plot_filter_means <- function(qsip_data_object) {
 #' @return A ggplot2 object
 #' @export
 
-plot_filter_threshold <- function(qsip_data_object) {
+plot_filter_threshold <- function(qsip_data_object, use_counts = FALSE) {
 
   # Convert single object to named list
   if (!is.list(qsip_data_object) || inherits(qsip_data_object, "qsip_data")) {
@@ -1464,30 +1498,60 @@ plot_filter_threshold <- function(qsip_data_object) {
           fraction_call == "Fraction Passed" ~ "Passed"
         )
       ) |>
-      dplyr::select(source_mat_id, comparison, category, status, pct_features, pct_abundance)
+      dplyr::select(source_mat_id, comparison, category, status, n_features, pct_features, pct_abundance)
   })
 
-  # Pivot longer for plotting
-  df_summary <- df |>
-    tidyr::pivot_longer(cols = c(pct_features, pct_abundance),
-                 names_to = "metric",
-                 values_to = "percent") |>
-    dplyr::mutate(
-      metric = factor(metric,
-                     levels = c("pct_features", "pct_abundance"),
-                     labels = c("Features", "Abundance")),
-      category = factor(category, levels = c("unlabeled", "labeled")),
-      status = factor(status, levels = c("Passed", "Below Threshold", "Missing"))
-    ) |>
-    dplyr::summarize(
-      percent_mean = mean(percent, na.rm = TRUE),
-      percent_sd = sd(percent, na.rm = TRUE),
-      .by = c(category, comparison, metric, status)
-    )
+  # Pivot longer for plotting - mix counts for features, percentages for abundance
+  if (use_counts) {
+    df_features <- df |>
+      tidyr::pivot_longer(cols = c(n_features),
+                   names_to = "metric",
+                   values_to = "value") |>
+      dplyr::mutate(metric = "Features")
 
-  # Remove Missing status from Abundance (always 0)
-  df_summary <- df_summary |>
-    dplyr::filter(!(metric == "Abundance" & status == "Missing"))
+    df_abundance <- df |>
+      tidyr::pivot_longer(cols = c(pct_abundance),
+                   names_to = "metric",
+                   values_to = "value") |>
+      dplyr::mutate(metric = "Abundance")
+
+    df_summary <- dplyr::bind_rows(df_features, df_abundance) |>
+      dplyr::mutate(
+        category = factor(category, levels = c("unlabeled", "labeled")),
+        metric = factor(metric, levels = c("Features", "Abundance")),
+        status = factor(status, levels = c("Passed", "Below Threshold", "Missing"))
+      ) |>
+      dplyr::summarize(
+        value_mean = mean(value, na.rm = TRUE),
+        value_sd = sd(value, na.rm = TRUE),
+        .by = c(category, comparison, metric, status)
+      )
+
+    # Remove Missing status from Abundance (always 0)
+    df_summary <- df_summary |>
+      dplyr::filter(!(metric == "Abundance" & status == "Missing"))
+  } else {
+    df_summary <- df |>
+      tidyr::pivot_longer(cols = c(pct_features, pct_abundance),
+                   names_to = "metric",
+                   values_to = "value") |>
+      dplyr::mutate(
+        metric = factor(metric,
+                       levels = c("pct_features", "pct_abundance"),
+                       labels = c("Features", "Abundance")),
+        category = factor(category, levels = c("unlabeled", "labeled")),
+        status = factor(status, levels = c("Passed", "Below Threshold", "Missing"))
+      ) |>
+      dplyr::summarize(
+        value_mean = mean(value, na.rm = TRUE),
+        value_sd = sd(value, na.rm = TRUE),
+        .by = c(category, comparison, metric, status)
+      )
+
+    # Remove Missing status from Abundance (always 0)
+    df_summary <- df_summary |>
+      dplyr::filter(!(metric == "Abundance" & status == "Missing"))
+  }
 
   # Assign colors (same green scheme as horizontal plot)
   df_summary <- df_summary |>
@@ -1506,10 +1570,10 @@ plot_filter_threshold <- function(qsip_data_object) {
     dplyr::distinct() |>
     tibble::deframe()
 
-  ggplot2::ggplot(df_summary, ggplot2::aes(x = comparison, y = percent_mean, fill = interaction_var)) +
+  ggplot2::ggplot(df_summary, ggplot2::aes(x = comparison, y = value_mean, fill = interaction_var)) +
     ggplot2::geom_col(position = ggplot2::position_dodge(width = 0.8), width = 0.7) +
-    ggplot2::geom_errorbar(ggplot2::aes(ymin = percent_mean - percent_sd,
-                      ymax = percent_mean + percent_sd),
+    ggplot2::geom_errorbar(ggplot2::aes(ymin = value_mean - value_sd,
+                      ymax = value_mean + value_sd),
                   position = ggplot2::position_dodge(width = 0.8),
                   width = 0.3) +
     ggplot2::scale_fill_manual(
@@ -1518,10 +1582,16 @@ plot_filter_threshold <- function(qsip_data_object) {
       labels = c("Missing (n=0)", "< min threshold", "Passed"),
       name = NULL
     ) +
-    ggplot2::scale_y_continuous(labels = scales::percent) +
+    ggplot2::scale_y_continuous(labels = function(x) {
+      if (use_counts) {
+        scales::comma(x)
+      } else {
+        scales::percent(x)
+      }
+    }) +
     ggplot2::labs(
       x = NULL,
-      y = "Percent of total features"
+      y = if (use_counts) "Value" else "Percent of total features"
     ) +
     ggplot2::facet_grid(metric ~ category, scales = "free_y", space = "free_x",
                labeller = ggplot2::labeller(category = c("unlabeled" = "Unlabeled",
@@ -1540,7 +1610,7 @@ plot_filter_threshold <- function(qsip_data_object) {
 #' @return A ggplot2 object
 #' @export
 
-plot_filter_efficiency <- function(qsip_data_object, ncol = NULL, nrow = NULL) {
+plot_filter_efficiency <- function(qsip_data_object, ncol = NULL, nrow = NULL, use_counts = FALSE) {
 
   # Convert single object to named list
   if (!is.list(qsip_data_object) || inherits(qsip_data_object, "qsip_data")) {
@@ -1584,12 +1654,13 @@ plot_filter_efficiency <- function(qsip_data_object, ncol = NULL, nrow = NULL) {
     type_data <- passed_by_source |>
       dplyr::left_join(totals_by_source, by = c("source_mat_id", "type")) |>
       dplyr::mutate(
+        n_features = features_retained,
         pct_features = features_retained / total_features,
         pct_abundance = abundance_retained / total_abundance,
         comparison = name,
         category = type
       ) |>
-      dplyr::select(source_mat_id, comparison, category, pct_features, pct_abundance)
+      dplyr::select(source_mat_id, comparison, category, n_features, pct_features, pct_abundance)
 
     # Calculate retained (intersection) percentages per source
     retained_data <- obj@filter_results$fraction_filtered |>
@@ -1602,23 +1673,36 @@ plot_filter_efficiency <- function(qsip_data_object, ncol = NULL, nrow = NULL) {
       ) |>
       dplyr::left_join(totals_by_source, by = c("source_mat_id", "type")) |>
       dplyr::mutate(
+        n_features = retained_features_count,
         pct_features = retained_features_count / total_features,
         pct_abundance = retained_abundance / total_abundance,
         comparison = name,
         category = "retained"
       ) |>
-      dplyr::select(source_mat_id, comparison, category, pct_features, pct_abundance)
+      dplyr::select(source_mat_id, comparison, category, n_features, pct_features, pct_abundance)
 
     # Combine
     dplyr::bind_rows(type_data, retained_data)
   })
 
+  if (use_counts) {
+    x_var <- "n_features"
+    x_label <- "Number of features"
+    x_limits <- c(0, max(df$n_features))
+    x_scale <- ggplot2::scale_x_continuous(limits = x_limits)
+  } else {
+    x_var <- "pct_features"
+    x_label <- "% Features Retained"
+    x_limits <- c(min(df$pct_features), max(df$pct_features))
+    x_scale <- ggplot2::scale_x_continuous(labels = scales::percent, limits = x_limits)
+  }
+
   df |>
     # mutate(category = factor(category, levels = c("unlabeled", "labeled", "retained"),
     #                         labels = c("Unlabeled", "Labeled", "Retained"))) |>
-    ggplot2::ggplot(ggplot2::aes(x = pct_features, y = pct_abundance, fill = category)) +
+    ggplot2::ggplot(ggplot2::aes(x = .data[[x_var]], y = pct_abundance, fill = category)) +
       ggplot2::geom_point(size = 3, alpha = 0.7, pch = 21) +
-      ggplot2::scale_x_continuous(labels = scales::percent, limits = c(min(df$pct_features), max(df$pct_features))) +
+      x_scale +
       ggplot2::scale_y_continuous(labels = scales::percent, limits = c(min(df$pct_abundance), max(df$pct_abundance))) +
       ggplot2::scale_fill_manual(
           values = c(
@@ -1629,7 +1713,7 @@ plot_filter_efficiency <- function(qsip_data_object, ncol = NULL, nrow = NULL) {
           labels = c("Unlabeled", "Labeled", "Retained")
         ) +
       ggplot2::labs(
-        x = "% Features Retained",
+        x = x_label,
         y = "% Abundance Retained"
       ) +
       #geom_abline(slope = 1, linetype = "dotted", color = "gray30") +

@@ -4,7 +4,7 @@
 \alias{plot_filter_means}
 \title{Plot features vs abundance with labeled/unlabeled/retained categories}
 \usage{
-plot_filter_means(qsip_data_object)
+plot_filter_means(qsip_data_object, use_counts = FALSE)
 }
 \arguments{
 \item{qsip_data_object}{A filtered qsip_data object (or list)}

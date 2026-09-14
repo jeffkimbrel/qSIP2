@@ -4,7 +4,7 @@
 \alias{plot_filter_threshold}
 \title{Plot features with stacked bars showing zero/below threshold/passed}
 \usage{
-plot_filter_threshold(qsip_data_object)
+plot_filter_threshold(qsip_data_object, use_counts = FALSE)
 }
 \arguments{
 \item{qsip_data_object}{A filtered qsip_data object (or list)}

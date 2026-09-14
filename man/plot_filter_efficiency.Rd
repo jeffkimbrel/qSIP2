@@ -4,7 +4,12 @@
 \alias{plot_filter_efficiency}
 \title{Efficiency scatter plot with labeled/unlabeled/retained categories}
 \usage{
-plot_filter_efficiency(qsip_data_object, ncol = NULL, nrow = NULL)
+plot_filter_efficiency(
+  qsip_data_object,
+  ncol = NULL,
+  nrow = NULL,
+  use_counts = FALSE
+)
 }
 \arguments{
 \item{qsip_data_object}{A filtered qsip_data object (or list)}
