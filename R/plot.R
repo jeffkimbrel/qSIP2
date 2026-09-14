@@ -1286,6 +1286,7 @@ plot_successful_resamples <- function(qsip_data_object,
 #' @param qsip_data_object A filtered qsip_data object (or list)
 #'
 #' @return A ggplot2 object
+#' @export
 
 plot_filter_means <- function(qsip_data_object) {
 
@@ -1414,6 +1415,8 @@ plot_filter_means <- function(qsip_data_object) {
 #' @param qsip_data_object A filtered qsip_data object (or list)
 #'
 #' @return A ggplot2 object
+#' @export
+
 plot_filter_threshold <- function(qsip_data_object) {
 
   # Convert single object to named list
@@ -1535,6 +1538,7 @@ plot_filter_threshold <- function(qsip_data_object) {
 #' @param add_diagonal Add reference diagonal line
 #'
 #' @return A ggplot2 object
+#' @export
 
 plot_filter_efficiency <- function(qsip_data_object, ncol = NULL, nrow = NULL) {
 
