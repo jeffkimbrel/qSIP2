@@ -1,6 +1,8 @@
+# qSIP2 0.25.3
+
 # qSIP2 0.25
 
-* Introducing cumulative enrichment (CE) functions
+* Introducing community enrichment (CE) functions
   * `calculate_ce()`
 * Better functions to inspect filtering results
  * `plot_filter_means()`

@@ -687,9 +687,10 @@ calculate_na_probabilities <- function(n) {
 #' Internal utility used by calculate_ce() function.
 #'
 #' @param df a dataframe
+#' @param enrichment_threshold Threshold for enrichment: "significant" (lower > 0), "positive_eaf" (EAF ≥ 0), or "all" (no threshold)
 #' @noRd
 
-iq_calc_ce = function(df) {
+iq_calc_ce = function(df, enrichment_threshold = "positive_eaf") {
 
   # Collect messages instead of printing immediately
   messages = character()
@@ -697,23 +698,50 @@ iq_calc_ce = function(df) {
   # Filter to complete cases (remove missing abundance or missing EAF values)
   df = df |> dplyr::filter(!is.na(tube_rel_abundance), !is.na(observed_EAF))
 
-  # Check for negative EAF values
-  if (any(df$observed_EAF < 0, na.rm = TRUE)) {
-    messages = c(messages, "Negative EAF values detected and set to 0")
-  }
+  # Apply enrichment threshold
+  if (enrichment_threshold == "significant") {
+    # Check for negative EAF values
+    if (any(df$observed_EAF < 0, na.rm = TRUE)) {
+      messages = c(messages, "Negative EAF values detected and set to 0")
+    }
 
-  # Set negative EAF to 0
-  df = df |> dplyr::mutate(EAF_for_calc = pmax(observed_EAF, 0))
+    # Set negative EAF to 0
+    df = df |> dplyr::mutate(EAF_for_calc = pmax(observed_EAF, 0))
+
+    # Determine significance: lower CI bound > 0 ensures both significance and positive enrichment
+    df = df |>
+      dplyr::mutate(significant = (lower > 0))
+
+  } else if (enrichment_threshold == "positive_eaf") {
+    # Check for negative EAF values
+    if (any(df$observed_EAF < 0, na.rm = TRUE)) {
+      messages = c(messages, "Negative EAF values detected and set to 0")
+    }
+
+    # Set negative EAF to 0 but include all features
+    df = df |>
+      dplyr::mutate(
+        EAF_for_calc = pmax(observed_EAF, 0),
+        significant = TRUE  # All features included
+      )
+
+  } else {  # "all"
+    # Use raw observed_EAF values including negatives
+    df = df |>
+      dplyr::mutate(
+        EAF_for_calc = observed_EAF,
+        significant = TRUE  # All features included
+      )
+
+    if (any(df$observed_EAF < 0, na.rm = TRUE)) {
+      messages = c(messages, "Negative EAF values included in calculation (enrichment_threshold='all')")
+    }
+  }
 
   # Check for EAF > 1
   if (any(df$EAF_for_calc > 1.0, na.rm = TRUE)) {
     messages = c(messages, "Some EAF values > 1.0 detected (should be bounded 0-1)")
   }
-
-  # Determine significance: lower CI bound > 0 ensures both significance and positive enrichment
-  # This excludes features that are significantly negative (upper < 0)
-  df = df |>
-    dplyr::mutate(significant = (lower > 0))
 
   # Calculate CE per sample (group is already separated by nesting, so only group by source_mat_id)
   ce_results = df |>
@@ -727,7 +755,8 @@ iq_calc_ce = function(df) {
       isotope = dplyr::first(isotope),
       isotopolog = dplyr::first(isotopolog),
       .by = source_mat_id
-    )
+    ) |>
+    dplyr::mutate(ce_norm = ce / total_proportion)
 
   # Validation: proportions should not exceed 1.0
   if (any(ce_results$total_proportion > 1.0)) {
@@ -752,21 +781,80 @@ iq_calc_ce = function(df) {
 
 
 
-#' Calculate Cumulative Enrichment (CE) from qSIP object(s)
+#' Calculate Community Enrichment (CE) from qSIP object(s)
 #'
 #' @param qsip_data_object A single qSIP object or list of qSIP objects
 #' @param confidence Confidence level for EAF intervals (default 0.95)
 #' @param isotope_label Which samples to calculate CE for: "labeled", "unlabeled", or "both" (default "labeled")
+#' @param enrichment_threshold Threshold for determining which features are enriched (default "positive_eaf"):
+#'   \itemize{
+#'     \item \code{"positive_eaf"} (recommended): Enrichment threshold at EAF ≥ 0. All features included, but
+#'           negative EAF values are set to 0. This is the most defensible approach as it uses all available
+#'           data while respecting the biological constraint that features cannot be depleted below natural
+#'           abundance. Negative EAF values represent measurement noise and should not reduce community enrichment.
+#'     \item \code{"significant"}: Enrichment threshold at lower CI > 0. Most conservative approach that only
+#'           counts features with statistically significant positive enrichment. May underestimate community
+#'           enrichment by excluding features with real but uncertain low enrichment.
+#'     \item \code{"all"}: No enrichment threshold. All features with raw observed_EAF values, including negatives.
+#'           Matches the original per-capita calculation but allows biologically impossible negative enrichment
+#'           to reduce CE estimates. Useful for backwards compatibility but not recommended for new analyses.
+#'   }
 #'
-#' @return Data frame with CE calculations per sample
+#' @return Data frame with CE calculations per sample containing:
+#'   \itemize{
+#'     \item \code{group}: Group identifier from qSIP object
+#'     \item \code{source_mat_id}: Sample identifier
+#'     \item \code{n_features_total}: Total number of features in calculation
+#'     \item \code{n_features_significant}: Number of features with lower CI > 0
+#'     \item \code{total_proportion}: Sum of tube_rel_abundance for all features (relative to whole community)
+#'     \item \code{significant_proportion}: Sum of tube_rel_abundance for significant features only
+#'     \item \code{ce}: Community enrichment - proportion of whole community biomass that is labeled (0 to total_proportion)
+#'     \item \code{ce_norm}: Normalized community enrichment - CE renormalized to tested features (0 to 1).
+#'           Calculated as ce/total_proportion. Treats tested features as 100% of the reference frame.
+#'     \item \code{label_type}: "labeled" or "unlabeled"
+#'     \item \code{isotope}: Isotope used (e.g., "18O", "13C")
+#'     \item \code{isotopolog}: Isotopolog used (e.g., "water", "glucose")
+#'     \item \code{messages}: List of warning/info messages from calculation
+#'   }
+#'
+#' @details
+#' \strong{Understanding CE vs CE_norm:}
+#'
+#' \code{ce} (Community Enrichment) represents the proportion of the \emph{entire original community} (including
+#' features removed by upstream quality filters) that has labeled biomass. When total_proportion < 1.0 (e.g., 0.8
+#' means 20% of community abundance was removed by upstream quality filters), CE is relative to the original 100%.
+#' CE values range from 0 to total_proportion.
+#'
+#' \code{ce_norm} (Normalized Community Enrichment) represents the same enrichment as CE but renormalized to
+#' treat the \emph{tested features only} as 100% of the community. ce_norm = ce / total_proportion. ce_norm values
+#' range from 0 to 1.
+#'
+#' When no upstream quality filtering occurs (total_proportion = 1.0), CE and CE_norm are identical. When upstream
+#' filtering occurs, ce_norm > ce because ce_norm excludes those filtered features from the denominator.
+#'
+#' \strong{Example:} If CE = 0.048 and total_proportion = 0.8:
+#' \itemize{
+#'   \item CE interpretation: "4.8% of the whole community (including the 20% removed by upstream quality filters) has labeled biomass"
+#'   \item CE_norm = 0.048 / 0.8 = 0.06: "6% of the tested features (80% of community) have labeled biomass on average"
+#' }
+#'
+#' \strong{Important assumption:} CE and CE_norm calculations weight features by their relative sequence abundance
+#' (tube_rel_abundance), which assumes equal biomass per sequence read. In reality, features may differ in:
+#' (1) cell/organism size and biomass, (2) marker gene copy number (e.g., 16S rRNA gene copies per genome
+#' can range 1-15+), and (3) DNA extraction efficiency. These factors cause relative abundance to diverge
+#' from relative biomass, meaning two features with equal abundance may contribute different amounts of labeled
+#' biomass. This is an inherent limitation of amplicon-based qSIP that cannot be computationally corrected.
+#' CE and CE_norm should be interpreted as abundance-weighted metrics, not true biomass-weighted metrics.
 #'
 #' @export
 
 calculate_ce = function(qsip_data_object,
                         confidence = 0.95,
-                        isotope_label = c("labeled", "unlabeled", "both")) {
+                        isotope_label = c("labeled", "unlabeled", "both"),
+                        enrichment_threshold = c("positive_eaf", "significant", "all")) {
 
   isotope_label = match.arg(isotope_label)
+  enrichment_threshold = match.arg(enrichment_threshold)
 
   # Simplify things by making single objects into list objects, respecting the group name if defined
   qsip_list = if (is_qsip_data_list(qsip_data_object, error = FALSE)) {
@@ -840,7 +928,7 @@ calculate_ce = function(qsip_data_object,
     dplyr::mutate(ce_results = purrr::map(data, function(x) {
       # Debug: check what columns are present
       # print(colnames(x))
-      iq_calc_ce(x)
+      iq_calc_ce(x, enrichment_threshold = enrichment_threshold)
     })) |>
     dplyr::select(group, ce_results) |>
     tidyr::unnest(ce_results)
