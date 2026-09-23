@@ -34,7 +34,7 @@
 - [`validate_delta_EAF_contrasts()`](https://jeffkimbrel.github.io/qSIP2/reference/validate_delta_EAF_contrasts.md)
   : Validate a delta EAF contrasts table
 - [`calculate_ce()`](https://jeffkimbrel.github.io/qSIP2/reference/calculate_ce.md)
-  : Calculate Cumulative Enrichment (CE) from qSIP object(s)
+  : Calculate Community Enrichment (CE) from qSIP object(s)
 
 ## qSIP2 Growth Workflow
 

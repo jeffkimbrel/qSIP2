@@ -1,8 +1,10 @@
 # Changelog
 
+## qSIP2 0.25.3
+
 ## qSIP2 0.25
 
-- Introducing cumulative enrichment (CE) functions
+- Introducing community enrichment (CE) functions
   - [`calculate_ce()`](https://jeffkimbrel.github.io/qSIP2/reference/calculate_ce.md)
 - Better functions to inspect filtering results
 - [`plot_filter_means()`](https://jeffkimbrel.github.io/qSIP2/reference/plot_filter_means.md)
