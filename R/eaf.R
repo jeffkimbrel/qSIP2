@@ -369,14 +369,21 @@ calculate_bootstrap_pvalue <- function(bs_distribution, null_value = 0) {
   )
 }
 
-#' Return the count of features present between different groups
-#'
-#' @param q a qSIP2 list object
-#'
-#' @export
-#' @returns a tibble
+#’ Return the count or feature IDs of features present between different groups
+#’
+#’ @param q a qSIP2 list object
+#’ @param type Return format: "counts" (default) returns feature counts,
+#’   "feature_ids" returns list-column with actual feature IDs
+#’
+#’ @export
+#’ @returns a tibble
 
-get_overlap_sizes = function(q) {
+get_overlap_sizes = function(q, type = "counts") {
+
+  # Validate type parameter
+  if (type != "counts" & type != "feature_ids") {
+    stop("<type> must be either ‘counts’ or ‘feature_ids’", call. = FALSE)
+  }
 
   df = lapply(q, get_EAF_data) |>
     dplyr::bind_rows(.id = "group") |>
@@ -385,11 +392,19 @@ get_overlap_sizes = function(q) {
     dplyr::distinct(group, feature_id) # don’t double-count
 
   # cant pass two underscores, so have to save as df and pass twice like this
-  dplyr::inner_join(x = df, # all group pairs per feature
+  result <- dplyr::inner_join(x = df, # all group pairs per feature
                     y = df,
                     by = "feature_id",
                     relationship = "many-to-many") |>
-    dplyr::filter(group.x < group.y) |> # keep each pair once; drop self-pairs
-    dplyr::count(group1 = group.x, group2 = group.y, name = "overlapping_features")
+    dplyr::filter(group.x < group.y) # keep each pair once; drop self-pairs
+
+  if (type == "counts") {
+    result |>
+      dplyr::count(group1 = group.x, group2 = group.y, name = "overlapping_features")
+  } else if (type == "feature_ids") {
+    result |>
+      dplyr::group_by(group1 = group.x, group2 = group.y) |>
+      dplyr::summarize(overlapping_features = list(unique(feature_id)), .groups = "drop")
+  }
 
 }
