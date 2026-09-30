@@ -1,5 +1,3 @@
-# qSIP2 0.25.3
-
 # qSIP2 0.25
 
 * Introducing community enrichment (CE) functions
