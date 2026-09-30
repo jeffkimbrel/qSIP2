@@ -688,9 +688,10 @@ calculate_na_probabilities <- function(n) {
 #'
 #' @param df a dataframe
 #' @param enrichment_threshold Threshold for enrichment: "significant" (lower > 0), "positive_eaf" (EAF ≥ 0), or "all" (no threshold)
+#' @param by Aggregation level: "source", "feature", or taxonomy column name
 #' @noRd
 
-iq_calc_ce = function(df, enrichment_threshold = "positive_eaf") {
+iq_calc_ce = function(df, enrichment_threshold = "positive_eaf", by = "source") {
 
   # Collect messages instead of printing immediately
   messages = character()
@@ -698,31 +699,48 @@ iq_calc_ce = function(df, enrichment_threshold = "positive_eaf") {
   # Filter to complete cases (remove missing abundance or missing EAF values)
   df = df |> dplyr::filter(!is.na(tube_rel_abundance), !is.na(observed_EAF))
 
+  # Determine grouping column
+  if (by == "source") {
+    group_col = "source_mat_id"
+    by_col_name = "source_mat_id"
+  } else if (by == "feature") {
+    group_col = c("source_mat_id", "feature_id")
+    by_col_name = "feature_id"
+  } else {
+    # Taxonomy column
+    group_col = c("source_mat_id", by)
+    by_col_name = by
+  }
+
   # Apply enrichment threshold
   if (enrichment_threshold == "significant") {
-    # Check for negative EAF values
-    if (any(df$observed_EAF < 0, na.rm = TRUE)) {
+    # Check for negative EAF values (only report for source-level)
+    if (by == "source" && any(df$observed_EAF < 0, na.rm = TRUE)) {
       messages = c(messages, "Negative EAF values detected and set to 0")
     }
 
-    # Set negative EAF to 0
-    df = df |> dplyr::mutate(EAF_for_calc = pmax(observed_EAF, 0))
+    # Set negative EAF to 0 and mark which features had negatives (for feature/taxonomy messages)
+    df = df |> dplyr::mutate(
+      EAF_for_calc = pmax(observed_EAF, 0),
+      had_negative = observed_EAF < 0
+    )
 
     # Determine significance: lower CI bound > 0 ensures both significance and positive enrichment
     df = df |>
       dplyr::mutate(significant = (lower > 0))
 
   } else if (enrichment_threshold == "positive_eaf") {
-    # Check for negative EAF values
-    if (any(df$observed_EAF < 0, na.rm = TRUE)) {
+    # Check for negative EAF values (only report for source-level)
+    if (by == "source" && any(df$observed_EAF < 0, na.rm = TRUE)) {
       messages = c(messages, "Negative EAF values detected and set to 0")
     }
 
-    # Set negative EAF to 0 but include all features
+    # Set negative EAF to 0 but include all features, mark which had negatives
     df = df |>
       dplyr::mutate(
         EAF_for_calc = pmax(observed_EAF, 0),
-        significant = TRUE  # All features included
+        significant = TRUE,  # All features included
+        had_negative = observed_EAF < 0
       )
 
   } else {  # "all"
@@ -730,51 +748,101 @@ iq_calc_ce = function(df, enrichment_threshold = "positive_eaf") {
     df = df |>
       dplyr::mutate(
         EAF_for_calc = observed_EAF,
-        significant = TRUE  # All features included
+        significant = TRUE,  # All features included
+        had_negative = FALSE  # Not setting to 0, so no adjustment
       )
 
-    if (any(df$observed_EAF < 0, na.rm = TRUE)) {
+    if (by == "source" && any(df$observed_EAF < 0, na.rm = TRUE)) {
       messages = c(messages, "Negative EAF values included in calculation (enrichment_threshold='all')")
     }
   }
 
-  # Check for EAF > 1
-  if (any(df$EAF_for_calc > 1.0, na.rm = TRUE)) {
+  # Check for EAF > 1 (only report for source-level)
+  if (by == "source" && any(df$EAF_for_calc > 1.0, na.rm = TRUE)) {
     messages = c(messages, "Some EAF values > 1.0 detected (should be bounded 0-1)")
   }
 
-  # Calculate CE per sample (group is already separated by nesting, so only group by source_mat_id)
+  # Store source-level proportion_total for ce_norm calculation
+  source_totals = df |>
+    dplyr::summarize(source_proportion_total = sum(tube_rel_abundance),
+                     .by = source_mat_id)
+
+  # Calculate CE per group
+  # For "significant" threshold, only use features marked as significant
+  # For "positive_eaf" and "all", use all features (significant = TRUE for all)
   ce_results = df |>
     dplyr::summarize(
       n_features_total = dplyr::n(),
-      n_features_significant = sum(significant),
-      total_proportion = sum(tube_rel_abundance),
-      significant_proportion = sum(tube_rel_abundance[significant]),
+      n_features_ce = sum(EAF_for_calc > 0 & significant),
+      proportion_total = sum(tube_rel_abundance),
+      proportion_ce = sum(tube_rel_abundance[EAF_for_calc > 0 & significant]),
       ce = sum(EAF_for_calc[significant] * tube_rel_abundance[significant]),
+      n_negative_eaf = sum(had_negative),  # Track negatives per group
       label_type = dplyr::first(label_type),
       isotope = dplyr::first(isotope),
       isotopolog = dplyr::first(isotopolog),
-      .by = source_mat_id
-    ) |>
-    dplyr::mutate(ce_norm = ce / total_proportion)
+      .by = dplyr::all_of(group_col)
+    )
+
+  # Add the "by" column with appropriate values and remove redundant grouping column
+  if (by == "source") {
+    ce_results = ce_results |>
+      dplyr::mutate(by = source_mat_id) |>
+      dplyr::relocate(by, .after = source_mat_id)
+  } else if (by == "feature") {
+    ce_results = ce_results |>
+      dplyr::mutate(by = feature_id) |>
+      dplyr::select(-feature_id) |>
+      dplyr::relocate(by, .after = source_mat_id)
+  } else {
+    # Taxonomy column
+    ce_results = ce_results |>
+      dplyr::mutate(by = .data[[by]]) |>
+      dplyr::select(-dplyr::all_of(by)) |>
+      dplyr::relocate(by, .after = source_mat_id)
+  }
+
+  # Join source totals and calculate ce_norm using source-level proportion
+  ce_results = ce_results |>
+    dplyr::left_join(source_totals, by = "source_mat_id") |>
+    dplyr::mutate(ce_norm = ce / source_proportion_total) |>
+    dplyr::select(-source_proportion_total) |>
+    # Reorder columns to put ce_norm right after ce
+    dplyr::relocate(ce_norm, .after = ce) |>
+    # Create group-specific messages for feature/taxonomy level
+    dplyr::mutate(group_messages = dplyr::case_when(
+      by != "source" & n_negative_eaf > 0 & enrichment_threshold != "all" ~
+        sprintf("%d feature(s) had negative EAF set to 0", n_negative_eaf),
+      TRUE ~ ""
+    )) |>
+    dplyr::select(-n_negative_eaf)  # Remove temporary column
 
   # Validation: proportions should not exceed 1.0
-  if (any(ce_results$total_proportion > 1.0)) {
+  if (any(ce_results$proportion_total > 1.0)) {
     cli::cli_abort("Proportions sum to > 1.0 in some samples. tube_rel_abundance cannot exceed 100% of community.")
   }
 
-  # Check for heavy filtering
-  heavy_filtered = ce_results$source_mat_id[ce_results$total_proportion < 0.5]
-  if (length(heavy_filtered) > 0) {
-    messages = c(messages, sprintf("Heavy filtering (>50%%) in %d sample(s)", length(heavy_filtered)))
+  # Add messages
+  if (by == "source") {
+    # Source-level: dataset-wide messages
+    # Check for heavy filtering
+    heavy_filtered = ce_results$source_mat_id[ce_results$proportion_total < 0.5]
+    if (length(heavy_filtered) > 0) {
+      messages = c(messages, sprintf("Heavy filtering (>50%%) in %d sample(s)", length(heavy_filtered)))
+    }
+
+    # Add summary message
+    messages = c(messages, sprintf("CE range: %.4f - %.4f across %d samples",
+                                   min(ce_results$ce), max(ce_results$ce), nrow(ce_results)))
+
+    # Add as list column (same for all rows)
+    ce_results$messages = list(if(length(messages) > 0) messages else character(0))
+  } else {
+    # Feature/taxonomy level: group-specific messages
+    ce_results = ce_results |>
+      dplyr::mutate(messages = purrr::map(group_messages, ~if(nchar(.x) > 0) .x else character(0))) |>
+      dplyr::select(-group_messages)
   }
-
-  # Add summary message
-  messages = c(messages, sprintf("CE range: %.4f - %.4f across %d samples",
-                                 min(ce_results$ce), max(ce_results$ce), nrow(ce_results)))
-
-  # Add messages as a list column
-  ce_results$messages = list(if(length(messages) > 0) messages else character(0))
 
   return(ce_results)
 }
@@ -799,18 +867,29 @@ iq_calc_ce = function(df, enrichment_threshold = "positive_eaf") {
 #'           Matches the original per-capita calculation but allows biologically impossible negative enrichment
 #'           to reduce CE estimates. Useful for backwards compatibility but not recommended for new analyses.
 #'   }
+#' @param by Aggregation level for CE calculation (default "source"):
+#'   \itemize{
+#'     \item \code{"source"}: Calculate CE at the sample level (one value per source_mat_id). This is the
+#'           whole-community enrichment for each sample.
+#'     \item \code{"feature"}: Calculate CE at the feature level (one value per feature per source_mat_id).
+#'           Useful for comparing individual ASV/OTU enrichment across samples.
+#'     \item Taxonomy column name (e.g., \code{"phylum"}, \code{"class"}): Calculate CE at the specified
+#'           taxonomic level. Column name must exist in the feature_data@taxonomy slot of the qSIP objects.
+#'           Useful for comparing enrichment across taxonomic groups (e.g., "Deltaproteobacteria vs Gammaproteobacteria").
+#'   }
 #'
-#' @return Data frame with CE calculations per sample containing:
+#' @return Data frame with CE calculations containing:
 #'   \itemize{
 #'     \item \code{group}: Group identifier from qSIP object
 #'     \item \code{source_mat_id}: Sample identifier
-#'     \item \code{n_features_total}: Total number of features in calculation
-#'     \item \code{n_features_significant}: Number of features with lower CI > 0
-#'     \item \code{total_proportion}: Sum of tube_rel_abundance for all features (relative to whole community)
-#'     \item \code{significant_proportion}: Sum of tube_rel_abundance for significant features only
-#'     \item \code{ce}: Community enrichment - proportion of whole community biomass that is labeled (0 to total_proportion)
-#'     \item \code{ce_norm}: Normalized community enrichment - CE renormalized to tested features (0 to 1).
-#'           Calculated as ce/total_proportion. Treats tested features as 100% of the reference frame.
+#'     \item \code{by}: Aggregation level value (source_mat_id, feature_id, or taxonomy value)
+#'     \item \code{n_features_total}: Total number of features in this aggregation group
+#'     \item \code{n_features_ce}: Number of features with EAF > 0 actually contributing to CE
+#'     \item \code{proportion_total}: Sum of tube_rel_abundance for all features in this group (relative to whole community)
+#'     \item \code{proportion_ce}: Sum of tube_rel_abundance for features with EAF > 0 in this group
+#'     \item \code{ce}: Community enrichment - proportion of whole community biomass that is labeled in this group
+#'     \item \code{ce_norm}: Normalized community enrichment - CE renormalized using source-level proportion_total (0 to 1).
+#'           Always calculated as ce / source_proportion_total, even when aggregating by feature or taxonomy.
 #'     \item \code{label_type}: "labeled" or "unlabeled"
 #'     \item \code{isotope}: Isotope used (e.g., "18O", "13C")
 #'     \item \code{isotopolog}: Isotopolog used (e.g., "water", "glucose")
@@ -821,18 +900,18 @@ iq_calc_ce = function(df, enrichment_threshold = "positive_eaf") {
 #' \strong{Understanding CE vs CE_norm:}
 #'
 #' \code{ce} (Community Enrichment) represents the proportion of the \emph{entire original community} (including
-#' features removed by upstream quality filters) that has labeled biomass. When total_proportion < 1.0 (e.g., 0.8
+#' features removed by upstream quality filters) that has labeled biomass. When proportion_total < 1.0 (e.g., 0.8
 #' means 20% of community abundance was removed by upstream quality filters), CE is relative to the original 100%.
-#' CE values range from 0 to total_proportion.
+#' CE values range from 0 to proportion_total.
 #'
 #' \code{ce_norm} (Normalized Community Enrichment) represents the same enrichment as CE but renormalized to
-#' treat the \emph{tested features only} as 100% of the community. ce_norm = ce / total_proportion. ce_norm values
+#' treat the \emph{tested features only} as 100% of the community. ce_norm = ce / proportion_total. ce_norm values
 #' range from 0 to 1.
 #'
-#' When no upstream quality filtering occurs (total_proportion = 1.0), CE and CE_norm are identical. When upstream
+#' When no upstream quality filtering occurs (proportion_total = 1.0), CE and CE_norm are identical. When upstream
 #' filtering occurs, ce_norm > ce because ce_norm excludes those filtered features from the denominator.
 #'
-#' \strong{Example:} If CE = 0.048 and total_proportion = 0.8:
+#' \strong{Example:} If CE = 0.048 and proportion_total = 0.8:
 #' \itemize{
 #'   \item CE interpretation: "4.8% of the whole community (including the 20% removed by upstream quality filters) has labeled biomass"
 #'   \item CE_norm = 0.048 / 0.8 = 0.06: "6% of the tested features (80% of community) have labeled biomass on average"
@@ -846,15 +925,45 @@ iq_calc_ce = function(df, enrichment_threshold = "positive_eaf") {
 #' biomass. This is an inherent limitation of amplicon-based qSIP that cannot be computationally corrected.
 #' CE and CE_norm should be interpreted as abundance-weighted metrics, not true biomass-weighted metrics.
 #'
+#' \strong{Aggregation with the by parameter:}
+#'
+#' When \code{by = "source"} (default), one row is returned per sample with whole-community CE values.
+#'
+#' When \code{by = "feature"} or a taxonomy level, multiple rows are returned per sample. Within a sample,
+#' the CE values across all aggregation groups sum to the whole-community CE. For example, if whole-community
+#' CE = 0.048, then the sum of CE across all phyla in that sample will equal 0.048. The \code{ce_norm} values
+#' are always calculated using the source-level proportion_total, maintaining comparability across aggregation
+#' levels.
+#'
+#' \strong{Deriving additional metrics from feature/taxonomy-level output:}
+#'
+#' At the feature or taxonomy level, all proportions are relative to the whole community:
+#' \itemize{
+#'   \item \code{ce}: Proportion of whole community that is labeled feature/taxon
+#'   \item \code{proportion_total}: Proportion of whole community that is this feature/taxon (labeled + unlabeled)
+#'   \item \code{proportion_total - ce}: Proportion of whole community that is unlabeled feature/taxon
+#' }
+#'
+#' To calculate feature/taxon-relative metrics:
+#' \itemize{
+#'   \item \strong{EAF} (fraction of feature/taxon that is labeled): \code{ce / proportion_total}
+#'   \item \strong{Unlabeled fraction} of feature/taxon: \code{(proportion_total - ce) / proportion_total} or equivalently \code{1 - EAF}
+#' }
+#'
 #' @export
 
 calculate_ce = function(qsip_data_object,
                         confidence = 0.95,
                         isotope_label = c("labeled", "unlabeled", "both"),
-                        enrichment_threshold = c("positive_eaf", "significant", "all")) {
+                        enrichment_threshold = c("positive_eaf", "significant", "all"),
+                        by = "source") {
 
   isotope_label = match.arg(isotope_label)
   enrichment_threshold = match.arg(enrichment_threshold)
+
+  # Normalize 'by' parameter to lowercase for case-insensitive matching
+  by_original = by
+  by = tolower(by)
 
   # Simplify things by making single objects into list objects, respecting the group name if defined
   qsip_list = if (is_qsip_data_list(qsip_data_object, error = FALSE)) {
@@ -876,6 +985,27 @@ calculate_ce = function(qsip_data_object,
   eaf_checks = purrr::map_lgl(qsip_list, is_qsip_EAF, error = FALSE)
   if (!all(eaf_checks)) {
     cli::cli_abort("Not all objects have EAF data calculated. Run {.fn run_EAF_calculations} first.")
+  }
+
+  # Validate 'by' parameter early if using taxonomy - check ALL objects
+  if (!(by %in% c("source", "feature"))) {
+    for (i in seq_along(qsip_list)) {
+      obj = qsip_list[[i]]
+      obj_name = names(qsip_list)[i]
+
+      if (nrow(obj@feature_data@taxonomy) == 0) {
+        cli::cli_abort("No taxonomy data present in qSIP object '{obj_name}'. Cannot aggregate by '{by_original}'.")
+      }
+
+      # Check if the by column exists in taxonomy (case-insensitive)
+      tax_cols_lower = tolower(colnames(obj@feature_data@taxonomy))
+      if (!(by %in% tax_cols_lower)) {
+        available_cols = colnames(obj@feature_data@taxonomy)
+        available_cols = available_cols[available_cols != "feature_id"]  # Remove feature_id
+        available_cols_str = paste(available_cols, collapse = ", ")
+        cli::cli_abort("Column '{by_original}' not found in taxonomy for qSIP object '{obj_name}'. Available columns: {available_cols_str}")
+      }
+    }
   }
 
   # Extract EAF values
@@ -922,13 +1052,32 @@ calculate_ce = function(qsip_data_object,
     dplyr::left_join(source_mat_ids, relationship = "many-to-many", by = dplyr::join_by(group)) |>
     dplyr::left_join(abundance_df, by = c("feature_id", "source_mat_id"))
 
+  # Handle taxonomy if needed for by parameter
+  if (!(by %in% c("source", "feature"))) {
+    # Extract taxonomy from feature_data (validation already done above)
+    taxonomy_df = purrr::map_dfr(qsip_list, function(obj) {
+      tax = obj@feature_data@taxonomy
+
+      # Find the actual column name (case-insensitive match)
+      tax_cols_lower = tolower(colnames(tax))
+      actual_col = colnames(tax)[tax_cols_lower == by]
+
+      # Rename to lowercase for consistency
+      tax |>
+        dplyr::select(feature_id, !!by := dplyr::all_of(actual_col))
+    }) |> unique()
+
+    # Join taxonomy to df
+    df = df |> dplyr::left_join(taxonomy_df, by = "feature_id")
+  }
+
   # Nest by group and calculate CE for each group
   results = df |>
     tidyr::nest(.by = group) |>
     dplyr::mutate(ce_results = purrr::map(data, function(x) {
       # Debug: check what columns are present
       # print(colnames(x))
-      iq_calc_ce(x, enrichment_threshold = enrichment_threshold)
+      iq_calc_ce(x, enrichment_threshold = enrichment_threshold, by = by)
     })) |>
     dplyr::select(group, ce_results) |>
     tidyr::unnest(ce_results)

@@ -8,7 +8,8 @@ calculate_ce(
   qsip_data_object,
   confidence = 0.95,
   isotope_label = c("labeled", "unlabeled", "both"),
-  enrichment_threshold = c("positive_eaf", "significant", "all")
+  enrichment_threshold = c("positive_eaf", "significant", "all"),
+  by = "source"
 )
 }
 \arguments{
@@ -31,19 +32,31 @@ enrichment by excluding features with real but uncertain low enrichment.
 Matches the original per-capita calculation but allows biologically impossible negative enrichment
 to reduce CE estimates. Useful for backwards compatibility but not recommended for new analyses.
 }}
+
+\item{by}{Aggregation level for CE calculation (default "source"):
+\itemize{
+\item \code{"source"}: Calculate CE at the sample level (one value per source_mat_id). This is the
+whole-community enrichment for each sample.
+\item \code{"feature"}: Calculate CE at the feature level (one value per feature per source_mat_id).
+Useful for comparing individual ASV/OTU enrichment across samples.
+\item Taxonomy column name (e.g., \code{"phylum"}, \code{"class"}): Calculate CE at the specified
+taxonomic level. Column name must exist in the feature_data@taxonomy slot of the qSIP objects.
+Useful for comparing enrichment across taxonomic groups (e.g., "Deltaproteobacteria vs Gammaproteobacteria").
+}}
 }
 \value{
-Data frame with CE calculations per sample containing:
+Data frame with CE calculations containing:
 \itemize{
 \item \code{group}: Group identifier from qSIP object
 \item \code{source_mat_id}: Sample identifier
-\item \code{n_features_total}: Total number of features in calculation
-\item \code{n_features_significant}: Number of features with lower CI > 0
-\item \code{total_proportion}: Sum of tube_rel_abundance for all features (relative to whole community)
-\item \code{significant_proportion}: Sum of tube_rel_abundance for significant features only
-\item \code{ce}: Community enrichment - proportion of whole community biomass that is labeled (0 to total_proportion)
-\item \code{ce_norm}: Normalized community enrichment - CE renormalized to tested features (0 to 1).
-Calculated as ce/total_proportion. Treats tested features as 100\% of the reference frame.
+\item \code{by}: Aggregation level value (source_mat_id, feature_id, or taxonomy value)
+\item \code{n_features_total}: Total number of features in this aggregation group
+\item \code{n_features_ce}: Number of features with EAF > 0 actually contributing to CE
+\item \code{proportion_total}: Sum of tube_rel_abundance for all features in this group (relative to whole community)
+\item \code{proportion_ce}: Sum of tube_rel_abundance for features with EAF > 0 in this group
+\item \code{ce}: Community enrichment - proportion of whole community biomass that is labeled in this group
+\item \code{ce_norm}: Normalized community enrichment - CE renormalized using source-level proportion_total (0 to 1).
+Always calculated as ce / source_proportion_total, even when aggregating by feature or taxonomy.
 \item \code{label_type}: "labeled" or "unlabeled"
 \item \code{isotope}: Isotope used (e.g., "18O", "13C")
 \item \code{isotopolog}: Isotopolog used (e.g., "water", "glucose")
@@ -57,18 +70,18 @@ Calculate Community Enrichment (CE) from qSIP object(s)
 \strong{Understanding CE vs CE_norm:}
 
 \code{ce} (Community Enrichment) represents the proportion of the \emph{entire original community} (including
-features removed by upstream quality filters) that has labeled biomass. When total_proportion < 1.0 (e.g., 0.8
+features removed by upstream quality filters) that has labeled biomass. When proportion_total < 1.0 (e.g., 0.8
 means 20\% of community abundance was removed by upstream quality filters), CE is relative to the original 100\%.
-CE values range from 0 to total_proportion.
+CE values range from 0 to proportion_total.
 
 \code{ce_norm} (Normalized Community Enrichment) represents the same enrichment as CE but renormalized to
-treat the \emph{tested features only} as 100\% of the community. ce_norm = ce / total_proportion. ce_norm values
+treat the \emph{tested features only} as 100\% of the community. ce_norm = ce / proportion_total. ce_norm values
 range from 0 to 1.
 
-When no upstream quality filtering occurs (total_proportion = 1.0), CE and CE_norm are identical. When upstream
+When no upstream quality filtering occurs (proportion_total = 1.0), CE and CE_norm are identical. When upstream
 filtering occurs, ce_norm > ce because ce_norm excludes those filtered features from the denominator.
 
-\strong{Example:} If CE = 0.048 and total_proportion = 0.8:
+\strong{Example:} If CE = 0.048 and proportion_total = 0.8:
 \itemize{
 \item CE interpretation: "4.8\% of the whole community (including the 20\% removed by upstream quality filters) has labeled biomass"
 \item CE_norm = 0.048 / 0.8 = 0.06: "6\% of the tested features (80\% of community) have labeled biomass on average"
@@ -81,4 +94,29 @@ can range 1-15+), and (3) DNA extraction efficiency. These factors cause relativ
 from relative biomass, meaning two features with equal abundance may contribute different amounts of labeled
 biomass. This is an inherent limitation of amplicon-based qSIP that cannot be computationally corrected.
 CE and CE_norm should be interpreted as abundance-weighted metrics, not true biomass-weighted metrics.
+
+\strong{Aggregation with the by parameter:}
+
+When \code{by = "source"} (default), one row is returned per sample with whole-community CE values.
+
+When \code{by = "feature"} or a taxonomy level, multiple rows are returned per sample. Within a sample,
+the CE values across all aggregation groups sum to the whole-community CE. For example, if whole-community
+CE = 0.048, then the sum of CE across all phyla in that sample will equal 0.048. The \code{ce_norm} values
+are always calculated using the source-level proportion_total, maintaining comparability across aggregation
+levels.
+
+\strong{Deriving additional metrics from feature/taxonomy-level output:}
+
+At the feature or taxonomy level, all proportions are relative to the whole community:
+\itemize{
+\item \code{ce}: Proportion of whole community that is labeled feature/taxon
+\item \code{proportion_total}: Proportion of whole community that is this feature/taxon (labeled + unlabeled)
+\item \code{proportion_total - ce}: Proportion of whole community that is unlabeled feature/taxon
+}
+
+To calculate feature/taxon-relative metrics:
+\itemize{
+\item \strong{EAF} (fraction of feature/taxon that is labeled): \code{ce / proportion_total}
+\item \strong{Unlabeled fraction} of feature/taxon: \code{(proportion_total - ce) / proportion_total} or equivalently \code{1 - EAF}
+}
 }

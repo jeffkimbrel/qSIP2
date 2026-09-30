@@ -1288,80 +1288,126 @@ plot_successful_resamples <- function(qsip_data_object,
 #' @return A ggplot2 object
 #' @export
 
-plot_filter_means <- function(qsip_data_object, use_counts = FALSE) {
-
+# Helper function to calculate filter efficiency data
+# Not exported - internal use only
+calculate_filter_efficiency <- function(qsip_data_object) {
   # Convert single object to named list
   if (!is.list(qsip_data_object) || inherits(qsip_data_object, "qsip_data")) {
     qsip_data_object <- list("Filtered" = qsip_data_object)
   }
 
   # Process all objects in list
-  df <- purrr::map_dfr(names(qsip_data_object), function(name) {
+  purrr::map_dfr(names(qsip_data_object), function(name) {
     obj <- qsip_data_object[[name]]
     is_qsip_filtered(obj, error = TRUE)
 
-    # Get the filter results which includes intersection info
+    # Get the filter results
     filter_results <- get_filter_results(obj, type = "feature_ids")
 
-    # Get the intersect features (those that pass BOTH labeled and unlabeled)
+    # Get retained features (intersection)
     retained_features <- filter_results |>
       dplyr::filter(filter_step == "Source Passed") |>
       dplyr::pull(intersect) |>
       unlist()
 
-    # Get passed features by type
-    passed_by_type <- obj@filter_results$fraction_filtered |>
+    # Get passed by source_mat_id and type
+    passed_by_source <- obj@filter_results$fraction_filtered |>
       dplyr::filter(fraction_call == "Fraction Passed") |>
       dplyr::group_by(source_mat_id, type) |>
       dplyr::summarize(
-        features = list(unique(feature_id)),
-        abundance = sum(tube_rel_abundance),
+        features_retained = dplyr::n_distinct(feature_id),
+        abundance_retained = sum(tube_rel_abundance),
         .groups = "drop"
       )
 
-    # Calculate totals for each type
-    totals_by_type <- obj@filter_results$fraction_filtered |>
-      dplyr::group_by(source_mat_id, type) |>
-      dplyr::summarize(
-        total_features = dplyr::n_distinct(feature_id),
-        total_abundance = sum(tube_rel_abundance),
-        .groups = "drop"
-      )
+    # Get ORIGINAL totals (before filtering) - all sources start with the same features
+    total_features_original <- nrow(obj@feature_data@data)
 
-    # Join and calculate percentages
-    type_data <- passed_by_type |>
-      dplyr::left_join(totals_by_type, by = c("source_mat_id", "type")) |>
+    # Get unique source_mat_id and type combinations from the actual filtered data
+    # (type is "labeled"/"unlabeled", not isotope)
+    totals_by_source <- obj@filter_results$fraction_filtered |>
+      dplyr::select(source_mat_id, type) |>
+      dplyr::distinct() |>
       dplyr::mutate(
-        n_features = sapply(features, length),
-        pct_features = n_features / total_features,
-        pct_abundance = abundance / total_abundance,
+        total_features = total_features_original,
+        total_abundance = 1.0  # Original is always 100% = 1.0
+      )
+
+    # Calculate percentages for unlabeled/labeled per source
+    type_data <- passed_by_source |>
+      dplyr::left_join(totals_by_source, by = c("source_mat_id", "type")) |>
+      dplyr::mutate(
+        n_features = features_retained,
+        pct_features = features_retained / total_features,
+        pct_abundance = abundance_retained / total_abundance,
         comparison = name,
         category = type
       ) |>
-      dplyr::select(source_mat_id, comparison, category, n_features, pct_features, total_abundance, pct_abundance)
+      dplyr::select(source_mat_id, comparison, category, n_features, pct_features, pct_abundance)
 
-    # Now add the retained (intersection) data
+    # Calculate retained (intersection) percentages per source
+    # Note: Intersection is the same for both labeled/unlabeled, so we calculate per source only
     retained_data <- obj@filter_results$fraction_filtered |>
       dplyr::filter(feature_id %in% retained_features, fraction_call == "Fraction Passed") |>
-      dplyr::group_by(source_mat_id, type) |>
+      dplyr::group_by(source_mat_id) |>
       dplyr::summarize(
         retained_features_count = dplyr::n_distinct(feature_id),
         retained_abundance = sum(tube_rel_abundance),
         .groups = "drop"
       ) |>
-      dplyr::left_join(totals_by_type, by = c("source_mat_id", "type")) |>
       dplyr::mutate(
         n_features = retained_features_count,
-        pct_features = retained_features_count / total_features,
-        pct_abundance = retained_abundance / total_abundance,
+        pct_features = retained_features_count / nrow(obj@feature_data@data),
+        pct_abundance = retained_abundance / 1.0,  # Original abundance is always 1.0
         comparison = name,
         category = "retained"
       ) |>
-      dplyr::select(source_mat_id, comparison, category, n_features, pct_features, total_abundance, pct_abundance)
+      dplyr::select(source_mat_id, comparison, category, n_features, pct_features, pct_abundance)
 
     # Combine
     dplyr::bind_rows(type_data, retained_data)
   })
+}
+
+#' Bar plot showing mean filtering efficiency by treatment group
+#'
+#' Visualizes filtering efficiency as bar plots showing mean feature and abundance retention
+#' across sources within each treatment group. Shows three categories:
+#' \itemize{
+#'   \item \strong{Unlabeled} (blue): Features that passed filters in unlabeled samples
+#'   \item \strong{Labeled} (red): Features that passed filters in labeled samples
+#'   \item \strong{Retained} (purple): Features in the intersection (passed BOTH labeled and unlabeled)
+#' }
+#'
+#' @param qsip_data_object A filtered qsip_data object (or list)
+#' @param use_counts If TRUE, plot absolute feature counts; if FALSE (default), plot percentages
+#'
+#' @details
+#' \strong{Interpreting the bars:}
+#'
+#' \itemize{
+#'   \item \strong{Taller bars} = Higher retention (more features/abundance retained)
+#'   \item \strong{Retained (purple)} bars are always at or below both labeled and unlabeled bars
+#'         because the intersection cannot exceed either individual set
+#'   \item \strong{Error bars} show standard deviation across sources within the treatment group
+#'   \item \strong{Large gap} between labeled/unlabeled and retained = Poor filtering consistency
+#'         (many features unique to one isotope)
+#'   \item \strong{Small gap} = Good filtering consistency (most features that passed one isotope
+#'         also passed the other)
+#'   \item \strong{Asymmetric bars}: If unlabeled bar is much taller than labeled (or vice versa),
+#'         one isotope had less stringent filtering and passed more features
+#' }
+#'
+#' See \code{\link{plot_filter_efficiency}} for per-source detail and arrow-based visualization
+#' of filtering consistency.
+#'
+#' @return A ggplot2 object
+#' @export
+#'
+plot_filter_means <- function(qsip_data_object, use_counts = FALSE) {
+
+  # Use shared helper function
+  df <- calculate_filter_efficiency(qsip_data_object)
 
   # Pivot longer for plotting - mix counts for features, percentages for abundance
   if (use_counts) {
@@ -1604,86 +1650,76 @@ plot_filter_threshold <- function(qsip_data_object, use_counts = FALSE) {
 
 #' Efficiency scatter plot with labeled/unlabeled/retained categories
 #'
+#' Visualizes filtering efficiency by plotting feature retention (x-axis) versus abundance
+#' retention (y-axis) for each source. Shows three categories per source:
+#' \itemize{
+#'   \item \strong{Unlabeled} (blue): Features that passed filters in unlabeled samples
+#'   \item \strong{Labeled} (red): Features that passed filters in labeled samples
+#'   \item \strong{Retained} (purple): Features in the intersection (passed BOTH labeled and unlabeled)
+#' }
+#'
 #' @param qsip_data_object A filtered qsip_data object (or list)
-#' @param add_diagonal Add reference diagonal line
+#' @param ncol Number of columns for faceting
+#' @param nrow Number of rows for faceting
+#' @param use_counts If TRUE, plot absolute feature counts; if FALSE (default), plot percentages
+#' @param show_arrows If TRUE, draw arrows from labeled/unlabeled points to their corresponding
+#'   retained point, color-coded to match the source point. Default FALSE.
+#'
+#' @details
+#' \strong{Interpreting the plot:}
+#'
+#' \strong{Point positions:}
+#' \itemize{
+#'   \item Points toward the \strong{top-right} = high retention (most features/abundance retained)
+#'   \item Points toward the \strong{bottom-left} = low retention (many features/abundance lost)
+#'   \item \strong{Retained (purple)} points are always at or below both labeled and unlabeled points
+#'         because the intersection cannot exceed either individual set
+#' }
+#'
+#' \strong{Arrow interpretation (when show_arrows = TRUE):}
+#'
+#' Arrows connect each labeled/unlabeled point to its corresponding retained point for the same
+#' source, showing the "cost" of requiring features to pass filters in BOTH isotopes.
+#'
+#' \itemize{
+#'   \item \strong{Arrow direction}: Always points toward bottom-left (southwest) because
+#'         retained ≤ min(labeled, unlabeled) for both features and abundance
+#'   \item \strong{Arrow length}: Indicates filtering consistency
+#'     \itemize{
+#'       \item \emph{Short arrows} = Good consistency. Most features that passed one isotope also passed the other
+#'       \item \emph{Long arrows} = Poor consistency. Many features unique to one isotope
+#'     }
+#'   \item \strong{Arrow slope}: Shows where the loss occurs
+#'     \itemize{
+#'       \item \emph{Steep (vertical)} = Lost features were abundant (big abundance impact)
+#'       \item \emph{Shallow (horizontal)} = Lost features were rare (small abundance impact)
+#'       \item \emph{45° diagonal} = Feature and abundance losses are proportional
+#'     }
+#'   \item \strong{Arrow color}: Matches the source point (blue for unlabeled, red for labeled)
+#'   \item \strong{Asymmetric arrows}: If red arrows are shorter than blue arrows (or vice versa),
+#'         it indicates one isotope's passed features had better overlap with the other. Longer
+#'         arrows suggest that isotope passed more marginal features that didn't consistently
+#'         pass in the other isotope.
+#' }
+#'
+#' \strong{Within-group variation:}
+#'
+#' Purple (retained) points within a treatment group often have \emph{different} x-axis values
+#' (% features retained). This occurs because the intersection is calculated at the group level
+#' (features passing in ANY labeled AND ANY unlabeled source), but each individual source may
+#' have a different subset of those intersection features actually present in its fractions.
+#'
+#' If filtering required features to pass in \emph{every single source}, all retained points
+#' within a group would have the same x-coordinate (vertically aligned), but the intersection
+#' would be much smaller.
 #'
 #' @return A ggplot2 object
 #' @export
 
-plot_filter_efficiency <- function(qsip_data_object, ncol = NULL, nrow = NULL, use_counts = FALSE) {
+plot_filter_efficiency <- function(qsip_data_object, ncol = NULL, nrow = NULL, use_counts = FALSE, show_arrows = FALSE) {
 
-  # Convert single object to named list
-  if (!is.list(qsip_data_object) || inherits(qsip_data_object, "qsip_data")) {
-    qsip_data_object <- list("Filtered" = qsip_data_object)
-  }
-
-  # Process all objects in list
-  df <- purrr::map_dfr(names(qsip_data_object), function(name) {
-    obj <- qsip_data_object[[name]]
-    is_qsip_filtered(obj, error = TRUE)
-
-    # Get the filter results
-    filter_results <- get_filter_results(obj, type = "feature_ids")
-
-    # Get retained features (intersection)
-    retained_features <- filter_results |>
-      dplyr::filter(filter_step == "Source Passed") |>
-      dplyr::pull(intersect) |>
-      unlist()
-
-    # Get passed by source_mat_id and type
-    passed_by_source <- obj@filter_results$fraction_filtered |>
-      dplyr::filter(fraction_call == "Fraction Passed") |>
-      dplyr::group_by(source_mat_id, type) |>
-      dplyr::summarize(
-        features_retained = dplyr::n_distinct(feature_id),
-        abundance_retained = sum(tube_rel_abundance),
-        .groups = "drop"
-      )
-
-    # Get totals by source_mat_id and type
-    totals_by_source <- obj@filter_results$fraction_filtered |>
-      dplyr::group_by(source_mat_id, type) |>
-      dplyr::summarize(
-        total_features = dplyr::n_distinct(feature_id),
-        total_abundance = sum(tube_rel_abundance),
-        .groups = "drop"
-      )
-
-    # Calculate percentages for unlabeled/labeled per source
-    type_data <- passed_by_source |>
-      dplyr::left_join(totals_by_source, by = c("source_mat_id", "type")) |>
-      dplyr::mutate(
-        n_features = features_retained,
-        pct_features = features_retained / total_features,
-        pct_abundance = abundance_retained / total_abundance,
-        comparison = name,
-        category = type
-      ) |>
-      dplyr::select(source_mat_id, comparison, category, n_features, pct_features, pct_abundance)
-
-    # Calculate retained (intersection) percentages per source
-    retained_data <- obj@filter_results$fraction_filtered |>
-      dplyr::filter(feature_id %in% retained_features, fraction_call == "Fraction Passed") |>
-      dplyr::group_by(source_mat_id, type) |>
-      dplyr::summarize(
-        retained_features_count = dplyr::n_distinct(feature_id),
-        retained_abundance = sum(tube_rel_abundance),
-        .groups = "drop"
-      ) |>
-      dplyr::left_join(totals_by_source, by = c("source_mat_id", "type")) |>
-      dplyr::mutate(
-        n_features = retained_features_count,
-        pct_features = retained_features_count / total_features,
-        pct_abundance = retained_abundance / total_abundance,
-        comparison = name,
-        category = "retained"
-      ) |>
-      dplyr::select(source_mat_id, comparison, category, n_features, pct_features, pct_abundance)
-
-    # Combine
-    dplyr::bind_rows(type_data, retained_data)
-  })
+  # Use shared helper function
+  df <- calculate_filter_efficiency(qsip_data_object)
 
   if (use_counts) {
     x_var <- "n_features"
@@ -1697,9 +1733,28 @@ plot_filter_efficiency <- function(qsip_data_object, ncol = NULL, nrow = NULL, u
     x_scale <- ggplot2::scale_x_continuous(labels = scales::percent, limits = x_limits)
   }
 
-  df |>
-    # mutate(category = factor(category, levels = c("unlabeled", "labeled", "retained"),
-    #                         labels = c("Unlabeled", "Labeled", "Retained"))) |>
+  # Prepare arrow data if requested
+  if (show_arrows) {
+    # Get retained points
+    retained_points <- df |>
+      dplyr::filter(category == "retained") |>
+      dplyr::select(source_mat_id, comparison,
+                    x_retained = dplyr::all_of(x_var),
+                    y_retained = pct_abundance)
+
+    # Get labeled/unlabeled points
+    type_points <- df |>
+      dplyr::filter(category != "retained") |>
+      dplyr::select(source_mat_id, comparison, category,
+                    x_start = dplyr::all_of(x_var),
+                    y_start = pct_abundance)
+
+    # Join to create arrows
+    arrows <- type_points |>
+      dplyr::left_join(retained_points, by = c("source_mat_id", "comparison"))
+  }
+
+  p <- df |>
     ggplot2::ggplot(ggplot2::aes(x = .data[[x_var]], y = pct_abundance, fill = category)) +
       ggplot2::geom_point(size = 3, alpha = 0.7, pch = 21) +
       x_scale +
@@ -1710,14 +1765,38 @@ plot_filter_efficiency <- function(qsip_data_object, ncol = NULL, nrow = NULL, u
             "labeled" = unname(isotope_palette["13C"]),
             "retained" = "#9467bd"  # purple for intersection
           ),
-          labels = c("Unlabeled", "Labeled", "Retained")
+          labels = c(
+            "unlabeled" = "Unlabeled",
+            "labeled" = "Labeled",
+            "retained" = "Retained"
+          )
         ) +
       ggplot2::labs(
         x = x_label,
         y = "% Abundance Retained"
       ) +
-      #geom_abline(slope = 1, linetype = "dotted", color = "gray30") +
       ggplot2::facet_wrap(~comparison, ncol = ncol, nrow = nrow)
+
+  # Add arrows if requested
+  if (show_arrows) {
+    p <- p + ggplot2::geom_segment(
+      data = arrows,
+      ggplot2::aes(x = x_start, y = y_start, xend = x_retained, yend = y_retained, color = category),
+      arrow = ggplot2::arrow(length = ggplot2::unit(0.15, "cm"), type = "closed"),
+      alpha = 0.5,
+      linewidth = 0.3,
+      inherit.aes = FALSE
+    ) +
+    ggplot2::scale_color_manual(
+      values = c(
+        "unlabeled" = unname(isotope_palette["12C"]),
+        "labeled" = unname(isotope_palette["13C"])
+      ),
+      guide = "none"  # Don't show in legend (already shown as fill)
+    )
+  }
+
+  p
   }
 
 

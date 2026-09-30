@@ -2,16 +2,43 @@
 % Please edit documentation in R/plot.R
 \name{plot_filter_means}
 \alias{plot_filter_means}
-\title{Plot features vs abundance with labeled/unlabeled/retained categories}
+\title{Bar plot showing mean filtering efficiency by treatment group}
 \usage{
 plot_filter_means(qsip_data_object, use_counts = FALSE)
 }
 \arguments{
 \item{qsip_data_object}{A filtered qsip_data object (or list)}
+
+\item{use_counts}{If TRUE, plot absolute feature counts; if FALSE (default), plot percentages}
 }
 \value{
 A ggplot2 object
 }
 \description{
-Plot features vs abundance with labeled/unlabeled/retained categories
+Visualizes filtering efficiency as bar plots showing mean feature and abundance retention
+across sources within each treatment group. Shows three categories:
+\itemize{
+\item \strong{Unlabeled} (blue): Features that passed filters in unlabeled samples
+\item \strong{Labeled} (red): Features that passed filters in labeled samples
+\item \strong{Retained} (purple): Features in the intersection (passed BOTH labeled and unlabeled)
+}
+}
+\details{
+\strong{Interpreting the bars:}
+
+\itemize{
+\item \strong{Taller bars} = Higher retention (more features/abundance retained)
+\item \strong{Retained (purple)} bars are always at or below both labeled and unlabeled bars
+because the intersection cannot exceed either individual set
+\item \strong{Error bars} show standard deviation across sources within the treatment group
+\item \strong{Large gap} between labeled/unlabeled and retained = Poor filtering consistency
+(many features unique to one isotope)
+\item \strong{Small gap} = Good filtering consistency (most features that passed one isotope
+also passed the other)
+\item \strong{Asymmetric bars}: If unlabeled bar is much taller than labeled (or vice versa),
+one isotope had less stringent filtering and passed more features
+}
+
+See \code{\link{plot_filter_efficiency}} for per-source detail and arrow-based visualization
+of filtering consistency.
 }
