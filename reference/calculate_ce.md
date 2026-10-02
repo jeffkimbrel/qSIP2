@@ -9,7 +9,8 @@ calculate_ce(
   qsip_data_object,
   confidence = 0.95,
   isotope_label = c("labeled", "unlabeled", "both"),
-  enrichment_threshold = c("positive_eaf", "significant", "all")
+  enrichment_threshold = c("positive_eaf", "significant", "all"),
+  by = "source"
 )
 ```
 
@@ -52,30 +53,52 @@ calculate_ce(
     to reduce CE estimates. Useful for backwards compatibility but not
     recommended for new analyses.
 
+- by:
+
+  Aggregation level for CE calculation (default "source"):
+
+  - `"source"`: Calculate CE at the sample level (one value per
+    source_mat_id). This is the whole-community enrichment for each
+    sample.
+
+  - `"feature"`: Calculate CE at the feature level (one value per
+    feature per source_mat_id). Useful for comparing individual ASV/OTU
+    enrichment across samples.
+
+  - Taxonomy column name (e.g., `"phylum"`, `"class"`): Calculate CE at
+    the specified taxonomic level. Column name must exist in the
+    feature_data@taxonomy slot of the qSIP objects. Useful for comparing
+    enrichment across taxonomic groups (e.g., "Deltaproteobacteria vs
+    Gammaproteobacteria").
+
 ## Value
 
-Data frame with CE calculations per sample containing:
+Data frame with CE calculations containing:
 
 - `group`: Group identifier from qSIP object
 
 - `source_mat_id`: Sample identifier
 
-- `n_features_total`: Total number of features in calculation
+- `by`: Aggregation level value (source_mat_id, feature_id, or taxonomy
+  value)
 
-- `n_features_significant`: Number of features with lower CI \> 0
+- `n_features_total`: Total number of features in this aggregation group
 
-- `total_proportion`: Sum of tube_rel_abundance for all features
-  (relative to whole community)
+- `n_features_ce`: Number of features with EAF \> 0 actually
+  contributing to CE
 
-- `significant_proportion`: Sum of tube_rel_abundance for significant
-  features only
+- `proportion_total`: Sum of tube_rel_abundance for all features in this
+  group (relative to whole community)
+
+- `proportion_ce`: Sum of tube_rel_abundance for features with EAF \> 0
+  in this group
 
 - `ce`: Community enrichment - proportion of whole community biomass
-  that is labeled (0 to total_proportion)
+  that is labeled in this group
 
-- `ce_norm`: Normalized community enrichment - CE renormalized to tested
-  features (0 to 1). Calculated as ce/total_proportion. Treats tested
-  features as 100% of the reference frame.
+- `ce_norm`: Normalized community enrichment - CE renormalized using
+  source-level proportion_total (0 to 1). Always calculated as ce /
+  source_proportion_total, even when aggregating by feature or taxonomy.
 
 - `label_type`: "labeled" or "unlabeled"
 
@@ -91,21 +114,21 @@ Data frame with CE calculations per sample containing:
 
 `ce` (Community Enrichment) represents the proportion of the *entire
 original community* (including features removed by upstream quality
-filters) that has labeled biomass. When total_proportion \< 1.0 (e.g.,
+filters) that has labeled biomass. When proportion_total \< 1.0 (e.g.,
 0.8 means 20% of community abundance was removed by upstream quality
 filters), CE is relative to the original 100%. CE values range from 0 to
-total_proportion.
+proportion_total.
 
 `ce_norm` (Normalized Community Enrichment) represents the same
 enrichment as CE but renormalized to treat the *tested features only* as
-100% of the community. ce_norm = ce / total_proportion. ce_norm values
+100% of the community. ce_norm = ce / proportion_total. ce_norm values
 range from 0 to 1.
 
-When no upstream quality filtering occurs (total_proportion = 1.0), CE
+When no upstream quality filtering occurs (proportion_total = 1.0), CE
 and CE_norm are identical. When upstream filtering occurs, ce_norm \> ce
 because ce_norm excludes those filtered features from the denominator.
 
-**Example:** If CE = 0.048 and total_proportion = 0.8:
+**Example:** If CE = 0.048 and proportion_total = 0.8:
 
 - CE interpretation: "4.8% of the whole community (including the 20%
   removed by upstream quality filters) has labeled biomass"
@@ -124,3 +147,36 @@ contribute different amounts of labeled biomass. This is an inherent
 limitation of amplicon-based qSIP that cannot be computationally
 corrected. CE and CE_norm should be interpreted as abundance-weighted
 metrics, not true biomass-weighted metrics.
+
+**Aggregation with the by parameter:**
+
+When `by = "source"` (default), one row is returned per sample with
+whole-community CE values.
+
+When `by = "feature"` or a taxonomy level, multiple rows are returned
+per sample. Within a sample, the CE values across all aggregation groups
+sum to the whole-community CE. For example, if whole-community CE =
+0.048, then the sum of CE across all phyla in that sample will equal
+0.048. The `ce_norm` values are always calculated using the source-level
+proportion_total, maintaining comparability across aggregation levels.
+
+**Deriving additional metrics from feature/taxonomy-level output:**
+
+At the feature or taxonomy level, all proportions are relative to the
+whole community:
+
+- `ce`: Proportion of whole community that is labeled feature/taxon
+
+- `proportion_total`: Proportion of whole community that is this
+  feature/taxon (labeled + unlabeled)
+
+- `proportion_total - ce`: Proportion of whole community that is
+  unlabeled feature/taxon
+
+To calculate feature/taxon-relative metrics:
+
+- **EAF** (fraction of feature/taxon that is labeled):
+  `ce / proportion_total`
+
+- **Unlabeled fraction** of feature/taxon:
+  `(proportion_total - ce) / proportion_total` or equivalently `1 - EAF`
