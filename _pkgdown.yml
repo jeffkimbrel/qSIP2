@@ -161,6 +161,7 @@ reference:
   - get_delta_distributions
   - get_delta_stats
   - calculate_bootstrap_pvalue
+  - calculate_filter_efficiency
 
 articles:
 - title: Learn qSIP
